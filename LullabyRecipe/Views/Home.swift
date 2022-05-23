@@ -41,7 +41,7 @@ struct Home: View {
                 .resizable()
                 .frame(width: 30, height: 30)
             
-            Text("Hi, Monica")
+            Text("Hi, User")
                 .font(.body)
             
             Spacer()
