@@ -98,7 +98,7 @@ struct Home: View {
     @ViewBuilder
     func CategorySectionTitle() -> some View {
         HStack {
-            Text("Categories").font(.title)
+            Text("Theme").font(.title)
             
             Spacer()
             
