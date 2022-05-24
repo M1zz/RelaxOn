@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		58DE101C283CA87F002CDB9F /* SoundCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE101B283CA87F002CDB9F /* SoundCard.swift */; };
 		58DE61832839C13900F25769 /* LullabyRecipeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61822839C13900F25769 /* LullabyRecipeApp.swift */; };
 		58DE61852839C13900F25769 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61842839C13900F25769 /* ContentView.swift */; };
 		58DE61872839C13A00F25769 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58DE61862839C13A00F25769 /* Assets.xcassets */; };
@@ -41,6 +42,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		58DE101B283CA87F002CDB9F /* SoundCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundCard.swift; sourceTree = "<group>"; };
 		58DE617F2839C13900F25769 /* LullabyRecipe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LullabyRecipe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		58DE61822839C13900F25769 /* LullabyRecipeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LullabyRecipeApp.swift; sourceTree = "<group>"; };
 		58DE61842839C13900F25769 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -160,6 +162,7 @@
 				58DE61B8283A937000F25769 /* Home.swift */,
 				58DE61AE283A8C8B00F25769 /* Kitchen.swift */,
 				58DE61B6283A932E00F25769 /* Music.swift */,
+				58DE101B283CA87F002CDB9F /* SoundCard.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -301,6 +304,7 @@
 				58DE61B2283A8E1700F25769 /* Fresh.swift in Sources */,
 				58DE61832839C13900F25769 /* LullabyRecipeApp.swift in Sources */,
 				58DE61B4283A8E4500F25769 /* Recipe.swift in Sources */,
+				58DE101C283CA87F002CDB9F /* SoundCard.swift in Sources */,
 				58DE61B7283A932E00F25769 /* Music.swift in Sources */,
 				58DE61B9283A937000F25769 /* Home.swift in Sources */,
 			);
