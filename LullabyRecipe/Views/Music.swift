@@ -9,7 +9,7 @@ import SwiftUI
 import AVKit
 
 struct MusicView: View {
-    var data: fresh
+    var data: Sound
     @State var audioPlayer = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: url!))
     
     // Timer TO Find Current Time of audio...
@@ -220,9 +220,9 @@ class album_Data : ObservableObject{
 
 struct Music_Previews: PreviewProvider {
     static var previews: some View {
-        MusicView(data: fresh(id: 0,
+        MusicView(data: Sound(id: 0,
                               name: "Chinese_Gong",
-                              price: "chinese gong sound",
-                              image: "f1"))
+                              description: "chinese gong sound",
+                              imageName: "gong"))
     }
 }
