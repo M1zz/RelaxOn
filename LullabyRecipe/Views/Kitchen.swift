@@ -13,7 +13,7 @@ var categories = ["Natural",
                   "Deep Sleep",
                   "Lullaby"]
 
-var mixedAudio: [String] = []
+var mixedAudios: [Sound] = []
 
 enum SoundType: String {
     case base
@@ -24,9 +24,9 @@ enum SoundType: String {
 struct Kitchen : View {
  
     @State private var showingAlert = false
-    @State private var selectedBaseSound: String = ""
-    @State private var selectedMelodySound: String  = ""
-    @State private var selectedNaturalSound: String  = ""
+    @State private var selectedBaseSound: Sound = Sound(id: 0, name: "", description: "", imageName: "")
+    @State private var selectedMelodySound: Sound = Sound(id: 0, name: "", description: "", imageName: "")
+    @State private var selectedNaturalSound: Sound = Sound(id: 0, name: "", description: "", imageName: "")
     
     var body : some View {
         
@@ -77,7 +77,7 @@ struct Kitchen : View {
     func MixedAudioCreateButton() -> some View {
         Button {
             showingAlert = true
-            mixedAudio.append(contentsOf: [selectedBaseSound, selectedMelodySound, selectedNaturalSound])
+            mixedAudios = [selectedBaseSound, selectedMelodySound, selectedNaturalSound]
         } label: {
             Text("Create")
                 .frame(minWidth: 0, maxWidth: .infinity)
@@ -85,7 +85,7 @@ struct Kitchen : View {
         }
         .alert(isPresented: $showingAlert) {
             Alert(title: Text("제목을 넣자"),
-                  message: Text("선택된 음악은 \(selectedBaseSound), \(selectedMelodySound), \(selectedNaturalSound) 입니다"),
+                  message: Text("선택된 음악은 \(selectedBaseSound.name), \(selectedMelodySound.name), \(selectedNaturalSound.name) 입니다"),
                   dismissButton: .default(Text("닫기")))
         }
     }
@@ -117,30 +117,24 @@ struct Kitchen : View {
                     
                     switch soundType {
                     case .base:
-                        RadioButtonGroup(items: baseSounds,
-                                         selectedId: soundType.rawValue) { baseSelected in
+                        RadioButtonGroup(selectedId: soundType.rawValue,
+                                         items: baseSounds) { baseSelected in
                             print("baseSelected is: \(baseSelected)")
                             selectedBaseSound = baseSelected
                         }
                     case .natural:
-                        RadioButtonGroup(items: naturalSounds,
-                                         selectedId: soundType.rawValue) { naturalSounds in
+                        RadioButtonGroup(selectedId: soundType.rawValue,
+                                         items: naturalSounds) { naturalSounds in
                             print("naturalSounds is: \(naturalSounds)")
                             selectedNaturalSound = naturalSounds
                         }
                     case .melody:
-                        RadioButtonGroup(items: melodySounds,
-                                         selectedId: soundType.rawValue) { melodySounds in
+                        RadioButtonGroup(selectedId: soundType.rawValue,
+                                         items: melodySounds) { melodySounds in
                             print("melodySounds is: \(melodySounds)")
                             selectedMelodySound = melodySounds
                         }
                     }
-                    
-                    
-                    
-//                    SoundCard(data: freshitems[0])
-//                    SoundCard(data: freshitems[1])
-//                    SoundCard(data: freshitems[2])
                 }
             }
         }
