@@ -23,7 +23,7 @@ struct ContentView: View {
                 
                 switch selected {
                 case .home:
-                    Home()
+                    Home(selected: $selected)
                 case .kitchen:
                     Kitchen()
                 }

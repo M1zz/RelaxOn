@@ -14,14 +14,42 @@ var categories = ["Natural",
                   "Lullaby"]
 
 var mixedAudioSources: [Sound] = []
-var userRepositories: [MixedSound] = [MixedSound(id: 0,
-                                                 name: "test",
-                                                 sounds: [Sound(id: 0, name: BaseAudioName.chineseGong.fileName, description: "chineseGong",imageName: "gong"),
-                                                          Sound(id: 2, name: MelodyAudioName.lynx.fileName, description: "lynx",imageName: "r1"),
-                                                          Sound(id: 6, name: NaturalAudioName.creekBabbling.fileName, description: "creekBabbling",imageName: "r3")
-],
-                                                 description: "test1",
-                                                 imageName: "r1")]
+var userRepositories: [MixedSound] = []
+//[MixedSound(id: 0,
+//                                                 name: "test",
+//                                                 sounds: [Sound(id: 0, name: BaseAudioName.chineseGong.fileName, description: "chineseGong",imageName: "gong"),
+//                                                          Sound(id: 2, name: MelodyAudioName.lynx.fileName, description: "lynx",imageName: "r1"),
+//                                                          Sound(id: 6, name: NaturalAudioName.creekBabbling.fileName, description: "creekBabbling",imageName: "r3")
+//                                                         ],
+//                                                 description: "test1",
+//                                                 imageName: "r1"),
+//
+//                                      MixedSound(id: 1,
+//                                                                      name: "test2",
+//                                                                      sounds: [Sound(id: 0, name: BaseAudioName.chineseGong.fileName, description: "chineseGong",imageName: "gong"),
+//                                                                               Sound(id: 2, name: MelodyAudioName.lynx.fileName, description: "lynx",imageName: "r1"),
+//                                                                               Sound(id: 6, name: NaturalAudioName.creekBabbling.fileName, description: "creekBabbling",imageName: "r3")
+//                                                                              ],
+//                                                                      description: "test1",
+//                                                                      imageName: "r1"),
+//
+//                                      MixedSound(id: 2,
+//                                                                      name: "test3",
+//                                                                      sounds: [Sound(id: 0, name: BaseAudioName.chineseGong.fileName, description: "chineseGong",imageName: "gong"),
+//                                                                               Sound(id: 2, name: MelodyAudioName.lynx.fileName, description: "lynx",imageName: "r1"),
+//                                                                               Sound(id: 6, name: NaturalAudioName.creekBabbling.fileName, description: "creekBabbling",imageName: "r3")
+//                                                                              ],
+//                                                                      description: "test1",
+//                                                                      imageName: "r1"),
+//
+//                                      MixedSound(id: 3,
+//                                                                      name: "test4",
+//                                                                      sounds: [Sound(id: 0, name: BaseAudioName.chineseGong.fileName, description: "chineseGong",imageName: "gong"),
+//                                                                               Sound(id: 2, name: MelodyAudioName.lynx.fileName, description: "lynx",imageName: "r1"),
+//                                                                               Sound(id: 6, name: NaturalAudioName.creekBabbling.fileName, description: "creekBabbling",imageName: "r3")
+//                                                                              ],
+//                                                                      description: "test1",
+//                                                                      imageName: "r1")]
 
 enum SoundType: String {
     case base
@@ -35,6 +63,7 @@ struct Kitchen : View {
     @State private var selectedBaseSound: Sound = Sound(id: 0, name: "", description: "", imageName: "")
     @State private var selectedMelodySound: Sound = Sound(id: 0, name: "", description: "", imageName: "")
     @State private var selectedNaturalSound: Sound = Sound(id: 0, name: "", description: "", imageName: "")
+    @State var userName: String = ""
     
     var body : some View {
         
@@ -68,18 +97,16 @@ struct Kitchen : View {
                 .resizable()
                 .frame(width: 30, height: 30)
             
-            Text("Hi, Monica")
+            Text("Hi, \(userName)")
                 .font(.body)
             
             Spacer()
-            
-            Button(action: {
-                
-            }) {
-                Image("filter").renderingMode(.original)
-            }
+        }
+        .onAppear() {
+            userName = UserDefaults.standard.string(forKey: "userName") ?? "Guest"
         }
     }
+
     
     @ViewBuilder
     func MixedAudioCreateButton() -> some View {

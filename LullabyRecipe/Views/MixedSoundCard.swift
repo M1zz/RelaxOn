@@ -31,9 +31,10 @@ struct MixedSoundCard : View {
             VStack(spacing: 10) {
                 Image(data.imageName)
                     .resizable()
-                    .frame(width: 180,
-                           height: 180,
-                           alignment: .center)
+                    .aspectRatio(contentMode: .fit)
+//                    .frame(width: 180,
+//                           height: 180,
+//                           alignment: .center)
                     .cornerRadius(10)
                    
                 Text(data.name)

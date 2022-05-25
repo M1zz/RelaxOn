@@ -11,7 +11,8 @@ struct Home: View {
     
     @State var txt = ""
     @State var userName: String = ""
-    
+    @Binding var selected: SelectedType
+
     var body : some View {
         
         VStack(spacing: 15) {
@@ -49,11 +50,11 @@ struct Home: View {
             
             Spacer()
             
-            Button(action: {
-                
-            }) {
-                Image("filter").renderingMode(.original)
-            }
+//            Button(action: {
+//
+//            }) {
+//                Image("filter").renderingMode(.original)
+//            }
         }
         .onAppear() {
             userName = UserDefaults.standard.string(forKey: "userName") ?? "Guest"
@@ -138,37 +139,58 @@ struct Home: View {
     
     @ViewBuilder
     func HomeBottomView() -> some View {
+        
         VStack(spacing: 15) {
             
-            HStack{
+            HStack {
                 Text("My Recipe")
                     .font(.title)
                     .bold()
                 
                 Spacer()
                 
-                Button(action: {
-                    
-                }) {
-                    Text("More")
-                }
-                .foregroundColor(Color("Pink"))
-                
+//                Button(action: {
+//
+//                }) {
+//                    Text("More")
+//                }
+//                .foregroundColor(Color("Pink"))
+//
             }.padding(.vertical, 15)
             
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 15) {
+            if userRepositories.isEmpty {
+                VStack {
+                    Text("Your first recipe has not been made yet.")
+                    Button {
+                        // TODO : Go to kitchen
+                        selected = .kitchen
+                    } label: {
+                        Text("Go to create lullaby")
+                    }
+
+                }
+            } else {
+                LazyVGrid(columns: Array(repeating: GridItem(.flexible(),spacing: 15), count: 2),spacing: 20) {
                     ForEach(userRepositories){ item in
                         MixedSoundCard(data: item)
                     }
+                    
                 }
             }
+            
+//            ScrollView(.horizontal, showsIndicators: false) {
+//                HStack(spacing: 15) {
+//                    ForEach(userRepositories){ item in
+//                        MixedSoundCard(data: item)
+//                    }
+//                }
+//            }
         }
     }
 }
 
 struct Home_Previews: PreviewProvider {
     static var previews: some View {
-        Home()
+        Home(selected: .constant(.home))
     }
 }
