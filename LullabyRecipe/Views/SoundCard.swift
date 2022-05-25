@@ -25,17 +25,6 @@ struct SoundCard : View {
         self.selectedID = selectedID
     }
 
-//    init(
-//        id: String,
-//        data: Sound,
-//        callback: @escaping (String)->(),
-//        selectedID: String
-//    ) {
-//        self.id = id
-//        self.data = data
-//        self.callback = callback
-//        self.selectedID = selectedID
-//    }
     var body : some View {
         
         ZStack {

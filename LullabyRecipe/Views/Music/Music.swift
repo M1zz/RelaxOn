@@ -11,12 +11,14 @@ import AVKit
 
 let url = Bundle.main.path(forResource: NaturalAudioName.ocean4.fileName, ofType: "mp3")
 let url2 = Bundle.main.path(forResource: NaturalAudioName.ocean4.fileName, ofType: "mp3")
+let url3 = Bundle.main.path(forResource: MelodyAudioName.lynx.fileName, ofType: "mp3")
 
 struct MusicView: View {
     @StateObject var viewModel = MusicViewModel()
     var data: Sound
     
     @State var audioPlayer2 = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: url2!))
+    @State var audioPlayer3 = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: url3!))
     @State var timer = Timer.publish(every: 0.01, on: .main, in: .common).autoconnect()
     
     @State var animatedValue : CGFloat = 55
@@ -142,6 +144,7 @@ struct MusicView: View {
             viewModel.audioPlayer.play()
             
             audioPlayer2.play()
+            audioPlayer3.play()
         }
     }
     
