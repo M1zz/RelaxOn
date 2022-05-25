@@ -33,6 +33,7 @@ struct Home: View {
         }
         .padding(.horizontal)
     }
+    
     @ViewBuilder
     func Profile() -> some View {
         HStack(spacing: 12) {
@@ -64,7 +65,7 @@ struct Home: View {
                 TextField("Search Groceries", text: $txt)
             }
             .padding(10)
-            .background(Color("Color1"))
+            .background(Color("Beige"))
             .cornerRadius(20)
             
             Button(action: {
@@ -107,7 +108,7 @@ struct Home: View {
             }) {
                 Text("More")
             }
-            .foregroundColor(Color("Color"))
+            .foregroundColor(Color("Pink"))
         }
         .padding(.vertical, 15)
     }
@@ -145,15 +146,14 @@ struct Home: View {
                 }) {
                     Text("More")
                 }
-                .foregroundColor(Color("Color"))
+                .foregroundColor(Color("Pink"))
                 
             }.padding(.vertical, 15)
             
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 15) {
-                    ForEach(mixedAudios){ item in
-                        SoundCard(soundFileName : item.name,
-                                  data: item)
+                    ForEach(userRepositories){ item in
+                        MixedSoundCard(data: item)
                     }
                 }
             }

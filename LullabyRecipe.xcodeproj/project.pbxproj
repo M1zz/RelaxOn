@@ -30,6 +30,7 @@
 		58DE61B7283A932E00F25769 /* Music.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61B6283A932E00F25769 /* Music.swift */; };
 		58DE61B9283A937000F25769 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61B8283A937000F25769 /* Home.swift */; };
 		58DE61BB283A9EE800F25769 /* chinese_gong.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 58DE61BA283A9EE800F25769 /* chinese_gong.mp3 */; };
+		58DE61BD283E542400F25769 /* MixedSoundCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61BC283E542400F25769 /* MixedSoundCard.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +77,7 @@
 		58DE61B6283A932E00F25769 /* Music.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Music.swift; sourceTree = "<group>"; };
 		58DE61B8283A937000F25769 /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
 		58DE61BA283A9EE800F25769 /* chinese_gong.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = chinese_gong.mp3; sourceTree = "<group>"; };
+		58DE61BC283E542400F25769 /* MixedSoundCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixedSoundCard.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -235,6 +237,7 @@
 				58DE61AE283A8C8B00F25769 /* Kitchen.swift */,
 				58DE101D283DC913002CDB9F /* AudioManager.swift */,
 				58DE101B283CA87F002CDB9F /* SoundCard.swift */,
+				58DE61BC283E542400F25769 /* MixedSoundCard.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -381,6 +384,7 @@
 				58DE1032283DF6E7002CDB9F /* Static.swift in Sources */,
 				58DE61AF283A8C8B00F25769 /* Kitchen.swift in Sources */,
 				58DE61B2283A8E1700F25769 /* Sound.swift in Sources */,
+				58DE61BD283E542400F25769 /* MixedSoundCard.swift in Sources */,
 				58DE61832839C13900F25769 /* LullabyRecipeApp.swift in Sources */,
 				58DE61B4283A8E4500F25769 /* Recipe.swift in Sources */,
 				58DE101C283CA87F002CDB9F /* SoundCard.swift in Sources */,

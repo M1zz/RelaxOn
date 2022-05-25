@@ -8,30 +8,35 @@
 import Foundation
 
 struct Sound: Identifiable {
-    let id: Int
+    let id: Int // = UUID()
     let name: String
     let description: String
     let imageName: String
 }
 
+struct MixedSound: Identifiable {
+    let id: Int
+    let name: String
+    let sounds: [Sound]
+    let description: String
+    let imageName: String
+}
+
 var baseSounds = [
-    Sound(id: 0, name: "chinese_gong", description: "chinese gong sound",imageName: "gong"),
-    Sound(id: 1, name: "ocean_4", description: "ocean sound",imageName: "f2"),
-    Sound(id: 2, name: "Test", description: "this is test",imageName: "f3")
+    Sound(id: 0, name: BaseAudioName.chineseGong.fileName, description: "chineseGong",imageName: "gong"),
+    Sound(id: 1, name: BaseAudioName.gongNoHit.fileName, description: "gongNoHit",imageName: "p1"),
 ]
 
 var melodySounds = [
-    Sound(id: 3, name: "chinese_gong", description: "chinese gong sound",imageName: "gong"),
-    Sound(id: 4, name: "ocean_4", description: "ocean sound",imageName: "f2"),
-    Sound(id: 5, name: "Test", description: "this is test",imageName: "f3")
+    Sound(id: 2, name: MelodyAudioName.lynx.fileName, description: "lynx",imageName: "r1"),
+    Sound(id: 3, name: MelodyAudioName.perlBird.fileName, description: "perlBird",imageName: "r2"),
 ]
 
 var naturalSounds = [
-    Sound(id: 6, name: "chinese_gong", description: "chinese gong sound",imageName: "gong"),
-    Sound(id: 7, name: "ocean_4", description: "ocean sound",imageName: "f2"),
-    Sound(id: 8, name: "Test", description: "this is test",imageName: "f3")
+    Sound(id: 6, name: NaturalAudioName.creekBabbling.fileName, description: "creekBabbling",imageName: "r3"),
+    Sound(id: 7, name: NaturalAudioName.ocean4.fileName,description: "ocean4", imageName: "f1"),
+    Sound(id: 8, name: NaturalAudioName.waterDrip.fileName, description: "waterDrip",imageName: "f3")
 ]
-
 
 #warning("name need changed")
 struct fresh : Identifiable {

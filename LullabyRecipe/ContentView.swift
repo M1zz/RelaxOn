@@ -59,7 +59,7 @@ struct CustomTabView : View {
                         .frame(height: 5)
                         .overlay(
                             Capsule()
-                                .fill(self.selected == selectedTab ? Color("Color") : Color.clear)
+                                .fill(self.selected == selectedTab ? Color("Pink") : Color.clear)
                                 .frame(width: 55, height: 5)
                          )
                     Button(action: {

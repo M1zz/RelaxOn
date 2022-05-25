@@ -7,18 +7,6 @@
 
 import SwiftUI
 
-//struct SoundCard: View {
-//    var body: some View {
-//        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-//    }
-//}
-//
-//struct SoundCard_Previews: PreviewProvider {
-//    static var previews: some View {
-//        SoundCard()
-//    }
-//}
-
 
 struct SoundCard : View {
     let soundFileName: String

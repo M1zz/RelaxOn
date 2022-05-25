@@ -27,7 +27,7 @@ enum MelodyAudioName {
     case perlBird
     case lynx
     
-    var filename: String {
+    var fileName: String {
         get {
             switch self {
             case .perlBird:

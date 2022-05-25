@@ -13,7 +13,15 @@ var categories = ["Natural",
                   "Deep Sleep",
                   "Lullaby"]
 
-var mixedAudios: [Sound] = []
+var mixedAudioSources: [Sound] = []
+var userRepositories: [MixedSound] = [MixedSound(id: 0,
+                                                 name: "test",
+                                                 sounds: [Sound(id: 0, name: BaseAudioName.chineseGong.fileName, description: "chineseGong",imageName: "gong"),
+                                                          Sound(id: 2, name: MelodyAudioName.lynx.fileName, description: "lynx",imageName: "r1"),
+                                                          Sound(id: 6, name: NaturalAudioName.creekBabbling.fileName, description: "creekBabbling",imageName: "r3")
+],
+                                                 description: "test1",
+                                                 imageName: "r1")]
 
 enum SoundType: String {
     case base
@@ -77,7 +85,13 @@ struct Kitchen : View {
     func MixedAudioCreateButton() -> some View {
         Button {
             showingAlert = true
-            mixedAudios = [selectedBaseSound, selectedMelodySound, selectedNaturalSound]
+            mixedAudioSources = [selectedBaseSound, selectedMelodySound, selectedNaturalSound]
+            let newSound = MixedSound(id: 8,
+                                      name: "text",
+                                      sounds: mixedAudioSources,
+                                      description: "설명을 적어주세요",
+                                      imageName: "music")
+            userRepositories = [newSound]//.append(contentsOf: newSound)
         } label: {
             Text("Create")
                 .frame(minWidth: 0, maxWidth: .infinity)
@@ -101,13 +115,6 @@ struct Kitchen : View {
                     .font(.title)
                 
                 Spacer()
-                
-//                Button(action: {
-//
-//                }) {
-//                    Text("More")
-//                }
-//                .foregroundColor(Color("Color"))
                 
             }.padding(.vertical, 15)
             
