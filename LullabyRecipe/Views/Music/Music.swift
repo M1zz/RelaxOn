@@ -9,8 +9,8 @@ import SwiftUI
 import AVKit
 
 
-let url = Bundle.main.path(forResource: "ocean_4", ofType: "mp3")
-let url2 = Bundle.main.path(forResource: "ocean_4", ofType: "mp3")
+let url = Bundle.main.path(forResource: NaturalAudioName.ocean4.fileName, ofType: "mp3")
+let url2 = Bundle.main.path(forResource: NaturalAudioName.ocean4.fileName, ofType: "mp3")
 
 struct MusicView: View {
     @StateObject var viewModel = MusicViewModel()
