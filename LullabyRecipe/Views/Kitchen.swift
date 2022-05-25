@@ -16,6 +16,7 @@ var categories = ["Natural",
 
 struct Kitchen : View {
  
+    @State private var showingAlert = false
     var body : some View {
         
         VStack(spacing: 15) {
@@ -24,19 +25,27 @@ struct Kitchen : View {
             ScrollView(.vertical, showsIndicators: false) {
                 
                 VStack(spacing: 15) {
-                    HomeBottomView(sectionTitle: "Base Sound")
+                    HomeBottomView(sectionTitle: "Base Sound",
+                                   soundType: "Base")
                     
-                    //HomeBottomView(sectionTitle: "Melody")
+                    HomeBottomView(sectionTitle: "Melody",
+                                   soundType: "Melody")
                     
-                    //HomeBottomView(sectionTitle: "Natural Sound")
+                    HomeBottomView(sectionTitle: "Natural Sound",
+                                   soundType: "Natural")
                     
                     Button {
-                        
+                        showingAlert = true
                     } label: {
                         Text("Create")
                             .frame(minWidth: 0, maxWidth: .infinity)
                             .background(.green)
                     }
+                    .alert(isPresented: $showingAlert) {
+                                Alert(title: Text("제목을 넣자"),
+                                      message: Text("자장가가 완성되었습니다"),
+                                      dismissButton: .default(Text("닫기")))
+                            }
                 }
             }
         }
@@ -87,7 +96,8 @@ struct Kitchen : View {
 //    }
 
     @ViewBuilder
-    func HomeBottomView(sectionTitle: String) -> some View {
+    func HomeBottomView(sectionTitle: String,
+                        soundType: String) -> some View {
         VStack(spacing: 15) {
             
             HStack {
@@ -113,7 +123,7 @@ struct Kitchen : View {
                     //                    }
                     
                     RadioButtonGroup(items: baseSounds,
-                                     selectedId: "Base") { baseSelected in
+                                     selectedId: soundType) { baseSelected in
                         print("baseSelected is: \(baseSelected)")
                     }
                     
