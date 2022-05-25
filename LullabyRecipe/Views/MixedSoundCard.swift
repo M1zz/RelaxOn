@@ -22,6 +22,12 @@ struct MixedSoundCard : View {
     var body : some View {
         
         ZStack {
+            
+            NavigationLink(destination: MusicView(data: baseSounds[0]),
+                           isActive: $show) {
+                Text("")
+            }
+            
             VStack(spacing: 10) {
                 Image(data.imageName)
                     .resizable()
@@ -37,7 +43,7 @@ struct MixedSoundCard : View {
                     .fontWeight(.semibold)
             }
             .onTapGesture {
-                
+                show.toggle()
             }
         }
     }

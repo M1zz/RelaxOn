@@ -93,9 +93,14 @@ struct Kitchen : View {
                                       imageName: "music")
             userRepositories = [newSound]//.append(contentsOf: newSound)
         } label: {
-            Text("Create")
-                .frame(minWidth: 0, maxWidth: .infinity)
-                .background(.green)
+            Text("Mix")
+                .bold()
+                .frame(minWidth: 0,
+                       maxWidth: .infinity,
+                       maxHeight: 50)
+                .background(.gray)
+                .foregroundColor(.black)
+                .cornerRadius(25)
         }
         .alert(isPresented: $showingAlert) {
             Alert(title: Text("제목을 넣자"),
