@@ -23,9 +23,19 @@ import SwiftUI
 struct SoundCard : View {
     let soundFileName: String
     var data: Sound
-    let callback: (String, Sound)->()
-    let selectedID: String
+    let callback: ((String, Sound)->())?
+    let selectedID: String?
     @State var show = false
+    
+    init(soundFileName: String,
+         data: Sound,
+         callback: ((String, Sound)->())? = nil,
+         selectedID: String? = nil) {
+        self.soundFileName = soundFileName
+        self.data = data
+        self.callback = callback
+        self.selectedID = selectedID
+    }
 
 //    init(
 //        id: String,
@@ -57,6 +67,9 @@ struct SoundCard : View {
                     .fontWeight(.semibold)
             }
             .onTapGesture {
+                guard let callback = callback else {
+                    return
+                }
                 callback(soundFileName, data)
             }
         }
@@ -81,6 +94,7 @@ struct RadioButtonGroup: View {
     var body: some View {
         HStack {
             ForEach(items) { item in
+                
                 SoundCard(soundFileName : item.name,
                           data: item,
                           callback: radioGroupCallback,

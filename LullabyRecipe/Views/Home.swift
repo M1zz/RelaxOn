@@ -151,8 +151,9 @@ struct Home: View {
             
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 15) {
-                    ForEach(freshitems){ item in
-                        FreshCellView(data: item)
+                    ForEach(mixedAudios){ item in
+                        SoundCard(soundFileName : item.name,
+                                  data: item)
                     }
                 }
             }
