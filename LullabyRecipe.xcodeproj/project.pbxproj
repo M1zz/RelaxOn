@@ -58,7 +58,7 @@
 		58DE1028283DF62B002CDB9F /* perl_bird.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = perl_bird.mp3; sourceTree = "<group>"; };
 		58DE1029283DF62B002CDB9F /* gong_nohit.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = gong_nohit.mp3; sourceTree = "<group>"; };
 		58DE102A283DF62B002CDB9F /* creek_babbling.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = creek_babbling.mp3; sourceTree = "<group>"; };
-		58DE1031283DF6E7002CDB9F /* Static.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Static.swift; path = ../../../../../../../../Desktop/Static.swift; sourceTree = "<group>"; };
+		58DE1031283DF6E7002CDB9F /* Static.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Static.swift; sourceTree = "<group>"; };
 		58DE617F2839C13900F25769 /* LullabyRecipe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LullabyRecipe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		58DE61822839C13900F25769 /* LullabyRecipeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LullabyRecipeApp.swift; sourceTree = "<group>"; };
 		58DE61842839C13900F25769 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
