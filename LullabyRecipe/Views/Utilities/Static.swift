@@ -24,11 +24,36 @@ enum BaseAudioName {
 }
 
 enum MelodyAudioName {
+    case perlBird
+    case lynx
     
-    
+    var filename: String {
+        get {
+            switch self {
+            case .perlBird:
+                return "perl_bird"
+            case .lynx:
+                return "lynx"
+            }
+        }
+    }
 }
 
 enum NaturalAudioName {
+    case creekBabbling
+    case ocean4
+    case waterDrip
     
-    
+    var fileName: String {
+        get {
+            switch self {
+            case .creekBabbling:
+                return "creek_babbling"
+            case .ocean4:
+                return "ocean_4"
+            case .waterDrip:
+                return "water_drip"
+            }
+        }
+    }
 }
