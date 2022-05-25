@@ -13,9 +13,21 @@ var categories = ["Natural",
                   "Deep Sleep",
                   "Lullaby"]
 
+var mixedAudio: [String] = []
+
+enum SoundType: String {
+    case base
+    case melody
+    case natural
+}
+
 struct Kitchen : View {
  
     @State private var showingAlert = false
+    @State private var selectedBaseSound: String = ""
+    @State private var selectedMelodySound: String  = ""
+    @State private var selectedNaturalSound: String  = ""
+    
     var body : some View {
         
         VStack(spacing: 15) {
@@ -25,13 +37,13 @@ struct Kitchen : View {
                 
                 VStack(spacing: 15) {
                     SoundSelectView(sectionTitle: "Base Sound",
-                                   soundType: "Base")
+                                    soundType: .base)
                     
                     SoundSelectView(sectionTitle: "Melody",
-                                   soundType: "Melody")
+                                    soundType: .melody)
                     
                     SoundSelectView(sectionTitle: "Natural Sound",
-                                   soundType: "Natural")
+                                    soundType: .natural)
                 }
             }
             
@@ -65,6 +77,7 @@ struct Kitchen : View {
     func MixedAudioCreateButton() -> some View {
         Button {
             showingAlert = true
+            mixedAudio.append(contentsOf: [selectedBaseSound, selectedMelodySound, selectedNaturalSound])
         } label: {
             Text("Create")
                 .frame(minWidth: 0, maxWidth: .infinity)
@@ -72,14 +85,15 @@ struct Kitchen : View {
         }
         .alert(isPresented: $showingAlert) {
             Alert(title: Text("제목을 넣자"),
-                  message: Text("자장가가 완성되었습니다"),
+                  message: Text("선택된 음악은 \(selectedBaseSound), \(selectedMelodySound), \(selectedNaturalSound) 입니다"),
                   dismissButton: .default(Text("닫기")))
         }
     }
 
     @ViewBuilder
     func SoundSelectView(sectionTitle: String,
-                        soundType: String) -> some View {
+                        soundType: SoundType) -> some View {
+        
         VStack(spacing: 15) {
             
             HStack {
@@ -101,10 +115,28 @@ struct Kitchen : View {
                        showsIndicators: false) {
                 HStack(spacing: 15) {
                     
-                    RadioButtonGroup(items: baseSounds,
-                                     selectedId: soundType) { baseSelected in
-                        print("baseSelected is: \(baseSelected)")
+                    switch soundType {
+                    case .base:
+                        RadioButtonGroup(items: baseSounds,
+                                         selectedId: soundType.rawValue) { baseSelected in
+                            print("baseSelected is: \(baseSelected)")
+                            selectedBaseSound = baseSelected
+                        }
+                    case .natural:
+                        RadioButtonGroup(items: naturalSounds,
+                                         selectedId: soundType.rawValue) { naturalSounds in
+                            print("naturalSounds is: \(naturalSounds)")
+                            selectedNaturalSound = naturalSounds
+                        }
+                    case .melody:
+                        RadioButtonGroup(items: melodySounds,
+                                         selectedId: soundType.rawValue) { melodySounds in
+                            print("melodySounds is: \(melodySounds)")
+                            selectedMelodySound = melodySounds
+                        }
                     }
+                    
+                    
                     
 //                    SoundCard(data: freshitems[0])
 //                    SoundCard(data: freshitems[1])
@@ -120,17 +152,6 @@ struct Kitchen_Previews: PreviewProvider {
         Kitchen()
     }
 }
-
-
-
-//enum SoundType {
-//    case base
-//    case melody
-//    case natural
-//}
-
-
-
 
 #warning("리팩토링으로 날려야함")
 struct FreshCellView : View {

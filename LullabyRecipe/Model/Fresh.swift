@@ -34,13 +34,13 @@ var baseSounds = [
     Sound(id: 2, name: "Test", description: "this is test",imageName: "f3")
 ]
 
-var MelodySounds = [
+var melodySounds = [
     Sound(id: 0, name: "chinese_gong", description: "chinese gong sound",imageName: "gong"),
     Sound(id: 1, name: "ocean_4", description: "ocean sound",imageName: "f2"),
     Sound(id: 2, name: "Test", description: "this is test",imageName: "f3")
 ]
 
-var NaturalSounds = [
+var naturalSounds = [
     Sound(id: 0, name: "chinese_gong", description: "chinese gong sound",imageName: "gong"),
     Sound(id: 1, name: "ocean_4", description: "ocean sound",imageName: "f2"),
     Sound(id: 2, name: "Test", description: "this is test",imageName: "f3")
