@@ -10,6 +10,7 @@ import SwiftUI
 struct Home: View {
     
     @State var txt = ""
+    @State var userName: String = ""
     
     var body : some View {
         
@@ -23,9 +24,9 @@ struct Home: View {
                     
                     MainBanner()
                     
-                    CategorySectionTitle()
+                    //CategorySectionTitle()
                     
-                    CategoryScroll()
+                    //CategoryScroll()
 
                     HomeBottomView()
                 }
@@ -36,13 +37,14 @@ struct Home: View {
     
     @ViewBuilder
     func Profile() -> some View {
+        
         HStack(spacing: 12) {
             Image("logo")
                 .renderingMode(.original)
                 .resizable()
                 .frame(width: 30, height: 30)
             
-            Text("Hi, User")
+            Text("Hi, \(userName)")
                 .font(.body)
             
             Spacer()
@@ -53,29 +55,32 @@ struct Home: View {
                 Image("filter").renderingMode(.original)
             }
         }
-    }
-    
-    @ViewBuilder
-    func SearchBar() -> some View {
-        HStack(spacing: 15) {
-            HStack {
-                Image(systemName: "magnifyingglass")
-                    .font(.body)
-                
-                TextField("Search Groceries", text: $txt)
-            }
-            .padding(10)
-            .background(Color("Beige"))
-            .cornerRadius(20)
-            
-            Button(action: {
-                
-            }) {
-                
-                Image("mic").renderingMode(.original)
-            }
+        .onAppear() {
+            userName = UserDefaults.standard.string(forKey: "userName") ?? "Guest"
         }
     }
+    
+//    @ViewBuilder
+//    func SearchBar() -> some View {
+//        HStack(spacing: 15) {
+//            HStack {
+//                Image(systemName: "magnifyingglass")
+//                    .font(.body)
+//
+//                TextField("Search Groceries", text: $txt)
+//            }
+//            .padding(10)
+//            .background(Color("Beige"))
+//            .cornerRadius(20)
+//
+//            Button(action: {
+//
+//            }) {
+//
+//                Image("mic").renderingMode(.original)
+//            }
+//        }
+//    }
     
     @ViewBuilder
     func MainBanner() -> some View {
@@ -96,48 +101,49 @@ struct Home: View {
             )
     }
     
-    @ViewBuilder
-    func CategorySectionTitle() -> some View {
-        HStack {
-            Text("Theme").font(.title)
-            
-            Spacer()
-            
-            Button(action: {
-                
-            }) {
-                Text("More")
-            }
-            .foregroundColor(Color("Pink"))
-        }
-        .padding(.vertical, 15)
-    }
+//    @ViewBuilder
+//    func CategorySectionTitle() -> some View {
+//        HStack {
+//            Text("Theme").font(.title)
+//
+//            Spacer()
+//
+//            Button(action: {
+//
+//            }) {
+//                Text("More")
+//            }
+//            .foregroundColor(Color("Pink"))
+//        }
+//        .padding(.vertical, 15)
+//    }
     
-    @ViewBuilder
-    func CategoryScroll() -> some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            
-            HStack(spacing: 15){
-                
-                ForEach(categories,id: \.self){i in
-                    
-                    VStack{
-                        Image(i)
-                            .renderingMode(.original)
-                        Text(i)
-                    }
-                }
-            }
-        }
-    }
+//    @ViewBuilder
+//    func CategoryScroll() -> some View {
+//        ScrollView(.horizontal, showsIndicators: false) {
+//
+//            HStack(spacing: 15){
+//
+//                ForEach(categories,id: \.self){i in
+//
+//                    VStack{
+//                        Image(i)
+//                            .renderingMode(.original)
+//                        Text(i)
+//                    }
+//                }
+//            }
+//        }
+//    }
     
     @ViewBuilder
     func HomeBottomView() -> some View {
         VStack(spacing: 15) {
             
             HStack{
-                Text("Original Sound")
+                Text("My Recipe")
                     .font(.title)
+                    .bold()
                 
                 Spacer()
                 
