@@ -7,15 +7,64 @@
 
 import SwiftUI
 
-
 var categories = ["Natural",
                   "Mind Peace",
                   "Focus",
                   "Deep Sleep",
                   "Lullaby"]
 
+var mixedAudioSources: [Sound] = []
+var userRepositories: [MixedSound] = []
+//[MixedSound(id: 0,
+//                                                 name: "test",
+//                                                 sounds: [Sound(id: 0, name: BaseAudioName.chineseGong.fileName, description: "chineseGong",imageName: "gong"),
+//                                                          Sound(id: 2, name: MelodyAudioName.lynx.fileName, description: "lynx",imageName: "r1"),
+//                                                          Sound(id: 6, name: NaturalAudioName.creekBabbling.fileName, description: "creekBabbling",imageName: "r3")
+//                                                         ],
+//                                                 description: "test1",
+//                                                 imageName: "r1"),
+//
+//                                      MixedSound(id: 1,
+//                                                                      name: "test2",
+//                                                                      sounds: [Sound(id: 0, name: BaseAudioName.chineseGong.fileName, description: "chineseGong",imageName: "gong"),
+//                                                                               Sound(id: 2, name: MelodyAudioName.lynx.fileName, description: "lynx",imageName: "r1"),
+//                                                                               Sound(id: 6, name: NaturalAudioName.creekBabbling.fileName, description: "creekBabbling",imageName: "r3")
+//                                                                              ],
+//                                                                      description: "test1",
+//                                                                      imageName: "r1"),
+//
+//                                      MixedSound(id: 2,
+//                                                                      name: "test3",
+//                                                                      sounds: [Sound(id: 0, name: BaseAudioName.chineseGong.fileName, description: "chineseGong",imageName: "gong"),
+//                                                                               Sound(id: 2, name: MelodyAudioName.lynx.fileName, description: "lynx",imageName: "r1"),
+//                                                                               Sound(id: 6, name: NaturalAudioName.creekBabbling.fileName, description: "creekBabbling",imageName: "r3")
+//                                                                              ],
+//                                                                      description: "test1",
+//                                                                      imageName: "r1"),
+//
+//                                      MixedSound(id: 3,
+//                                                                      name: "test4",
+//                                                                      sounds: [Sound(id: 0, name: BaseAudioName.chineseGong.fileName, description: "chineseGong",imageName: "gong"),
+//                                                                               Sound(id: 2, name: MelodyAudioName.lynx.fileName, description: "lynx",imageName: "r1"),
+//                                                                               Sound(id: 6, name: NaturalAudioName.creekBabbling.fileName, description: "creekBabbling",imageName: "r3")
+//                                                                              ],
+//                                                                      description: "test1",
+//                                                                      imageName: "r1")]
+
+enum SoundType: String {
+    case base
+    case melody
+    case natural
+}
+
 struct Kitchen : View {
  
+    @State private var showingAlert = false
+    @State private var selectedBaseSound: Sound = Sound(id: 0, name: "", description: "", imageName: "")
+    @State private var selectedMelodySound: Sound = Sound(id: 0, name: "", description: "", imageName: "")
+    @State private var selectedNaturalSound: Sound = Sound(id: 0, name: "", description: "", imageName: "")
+    @State var userName: String = ""
+    
     var body : some View {
         
         VStack(spacing: 15) {
@@ -24,21 +73,18 @@ struct Kitchen : View {
             ScrollView(.vertical, showsIndicators: false) {
                 
                 VStack(spacing: 15) {
-                    HomeBottomView(sectionTitle: "Base Sound")
+                    SoundSelectView(sectionTitle: "Base Sound",
+                                    soundType: .base)
                     
-                    //HomeBottomView(sectionTitle: "Melody")
+                    SoundSelectView(sectionTitle: "Melody",
+                                    soundType: .melody)
                     
-                    //HomeBottomView(sectionTitle: "Natural Sound")
-                    
-                    Button {
-                        
-                    } label: {
-                        Text("Create")
-                            .frame(minWidth: 0, maxWidth: .infinity)
-                            .background(.green)
-                    }
+                    SoundSelectView(sectionTitle: "Natural Sound",
+                                    soundType: .natural)
                 }
             }
+            
+            MixedAudioCreateButton()
         }
         .padding(.horizontal)
     }
@@ -51,43 +97,49 @@ struct Kitchen : View {
                 .resizable()
                 .frame(width: 30, height: 30)
             
-            Text("Hi, Monica")
+            Text("Hi, \(userName)")
                 .font(.body)
             
             Spacer()
-            
-            Button(action: {
-                
-            }) {
-                Image("filter").renderingMode(.original)
-            }
+        }
+        .onAppear() {
+            userName = UserDefaults.standard.string(forKey: "userName") ?? "Guest"
         }
     }
+
     
-//    @ViewBuilder
-//    func SearchBar() -> some View {
-//        HStack(spacing: 15) {
-//            HStack {
-//                Image(systemName: "magnifyingglass")
-//                    .font(.body)
-//                
-//                TextField("Search Groceries", text: $txt)
-//            }
-//            .padding(10)
-//            .background(Color("Color1"))
-//            .cornerRadius(20)
-//            
-//            Button(action: {
-//                
-//            }) {
-//                
-//                Image("mic").renderingMode(.original)
-//            }
-//        }
-//    }
+    @ViewBuilder
+    func MixedAudioCreateButton() -> some View {
+        Button {
+            showingAlert = true
+            mixedAudioSources = [selectedBaseSound, selectedMelodySound, selectedNaturalSound]
+            let newSound = MixedSound(id: 8,
+                                      name: "text",
+                                      sounds: mixedAudioSources,
+                                      description: "설명을 적어주세요",
+                                      imageName: "music")
+            userRepositories = [newSound]//.append(contentsOf: newSound)
+        } label: {
+            Text("Mix")
+                .bold()
+                .frame(minWidth: 0,
+                       maxWidth: .infinity,
+                       maxHeight: 50)
+                .background(.gray)
+                .foregroundColor(.black)
+                .cornerRadius(25)
+        }
+        .alert(isPresented: $showingAlert) {
+            Alert(title: Text("제목을 넣자"),
+                  message: Text("선택된 음악은 \(selectedBaseSound.name), \(selectedMelodySound.name), \(selectedNaturalSound.name) 입니다"),
+                  dismissButton: .default(Text("닫기")))
+        }
+    }
 
     @ViewBuilder
-    func HomeBottomView(sectionTitle: String) -> some View {
+    func SoundSelectView(sectionTitle: String,
+                        soundType: SoundType) -> some View {
+        
         VStack(spacing: 15) {
             
             HStack {
@@ -96,30 +148,32 @@ struct Kitchen : View {
                 
                 Spacer()
                 
-                Button(action: {
-                    
-                }) {
-                    Text("More")
-                }
-                .foregroundColor(Color("Color"))
-                
             }.padding(.vertical, 15)
             
             ScrollView(.horizontal,
                        showsIndicators: false) {
                 HStack(spacing: 15) {
-                    //                    ForEach(freshitems){ item in
-                    //                        FreshCellView2(data: item)
-                    //                    }
                     
-                    RadioButtonGroup(items: baseSounds,
-                                     selectedId: "Base") { baseSelected in
-                        print("baseSelected is: \(baseSelected)")
+                    switch soundType {
+                    case .base:
+                        RadioButtonGroup(selectedId: soundType.rawValue,
+                                         items: baseSounds) { baseSelected in
+                            print("baseSelected is: \(baseSelected)")
+                            selectedBaseSound = baseSelected
+                        }
+                    case .natural:
+                        RadioButtonGroup(selectedId: soundType.rawValue,
+                                         items: naturalSounds) { naturalSounds in
+                            print("naturalSounds is: \(naturalSounds)")
+                            selectedNaturalSound = naturalSounds
+                        }
+                    case .melody:
+                        RadioButtonGroup(selectedId: soundType.rawValue,
+                                         items: melodySounds) { melodySounds in
+                            print("melodySounds is: \(melodySounds)")
+                            selectedMelodySound = melodySounds
+                        }
                     }
-                    
-//                    SoundCard(data: freshitems[0])
-//                    SoundCard(data: freshitems[1])
-//                    SoundCard(data: freshitems[2])
                 }
             }
         }
@@ -132,7 +186,7 @@ struct Kitchen_Previews: PreviewProvider {
     }
 }
 
-
+#warning("리팩토링으로 날려야함")
 struct FreshCellView : View {
     
     var data : fresh
@@ -166,48 +220,27 @@ struct FreshCellView : View {
     }
 }
 
-struct RoundedEdge: ViewModifier {
-    let width: CGFloat
-    let color: Color
-    let cornerRadius: CGFloat
-    
-    func body(content: Content) -> some View {
-        content.cornerRadius(cornerRadius - width)
-            .padding(width)
-            .background(color)
-            .cornerRadius(cornerRadius)
-    }
-}
 
 
 
-struct RecipeCellView : View {
-    
-    var data : recipe
-    
-    var body : some View {
-        
-        VStack(spacing: 10) {
-            Image(data.image)
-            
-            HStack(spacing: 10) {
-                Image(data.authorpic)
-                
-                VStack(alignment: .leading, spacing: 6){
-                    Text(data.name)
-                        .fontWeight(.semibold)
-                    Text(data.author)
-                        .foregroundColor(.green)
-                        .fontWeight(.semibold)
-                }
-            }
-        }
-    }
-}
-
-
-//enum SoundType {
-//    case base
-//    case melody
-//    case natural
-//}
+//    @ViewBuilder
+//    func SearchBar() -> some View {
+//        HStack(spacing: 15) {
+//            HStack {
+//                Image(systemName: "magnifyingglass")
+//                    .font(.body)
+//
+//                TextField("Search Groceries", text: $txt)
+//            }
+//            .padding(10)
+//            .background(Color("Color1"))
+//            .cornerRadius(20)
+//
+//            Button(action: {
+//
+//            }) {
+//
+//                Image("mic").renderingMode(.original)
+//            }
+//        }
+//    }

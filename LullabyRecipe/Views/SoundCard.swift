@@ -7,40 +7,24 @@
 
 import SwiftUI
 
-//struct SoundCard: View {
-//    var body: some View {
-//        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-//    }
-//}
-//
-//struct SoundCard_Previews: PreviewProvider {
-//    static var previews: some View {
-//        SoundCard()
-//    }
-//}
-
 
 struct SoundCard : View {
-    var data : Sound
-    let callback: (String)->()
-    let selectedID : String
+    let soundFileName: String
+    var data: Sound
+    let callback: ((String, Sound)->())?
+    let selectedID: String?
     @State var show = false
     
-    let id: String
-
-    init(
-        id: String,
-        data data: Sound,
-        callback: @escaping (String)->(),
-        selectedID: String
-    ) {
-        self.id = id
-        self.selectedID = selectedID
-        self.callback = callback
+    init(soundFileName: String,
+         data: Sound,
+         callback: ((String, Sound)->())? = nil,
+         selectedID: String? = nil) {
+        self.soundFileName = soundFileName
         self.data = data
+        self.callback = callback
+        self.selectedID = selectedID
     }
-    
-    
+
     var body : some View {
         
         ZStack {
@@ -51,7 +35,7 @@ struct SoundCard : View {
                            height: 180,
                            alignment: .center)
                     .cornerRadius(10)
-                    .border(selectedID == id ? .red : .clear, width: 3)
+                    .border(selectedID == soundFileName ? .red : .clear, width: 3)
 
                 Text(data.name)
                     .fontWeight(.semibold)
@@ -59,10 +43,11 @@ struct SoundCard : View {
                     .foregroundColor(.green)
                     .fontWeight(.semibold)
             }
-            
             .onTapGesture {
-                //self.show.toggle()
-                self.callback(self.id)
+                guard let callback = callback else {
+                    return
+                }
+                callback(soundFileName, data)
             }
         }
     }
@@ -70,34 +55,34 @@ struct SoundCard : View {
 
 struct SoundCard_Previews: PreviewProvider {
     static var previews: some View {
-        SoundCard(id : "asdf",
+        SoundCard(soundFileName : "chinese_gong",
                        data: baseSounds[0],
-                       callback: {_ in },
+                  callback: {_,_  in },
                        selectedID: "")
     }
 }
 
 
 struct RadioButtonGroup: View {
-    
-    let items : [Sound] // sound 를 받아야 함
     @State var selectedId: String = ""
-    let callback: (String) -> ()
+    let items : [Sound] // sound 를 받아야 함
+    let callback: (Sound) -> ()
     
     var body: some View {
         HStack {
             ForEach(items) { item in
-                SoundCard(id : item.name,
-                               data: item,
-                               callback: self.radioGroupCallback,
-                               selectedID: self.selectedId)
+                
+                SoundCard(soundFileName : item.name,
+                          data: item,
+                          callback: radioGroupCallback,
+                          selectedID: selectedId)
             }
         }
     }
     
-    func radioGroupCallback(id: String) {
+    func radioGroupCallback(id: String, audio: Sound) {
         selectedId = id
-        callback(id)
+        callback(audio)
     }
 }
 
