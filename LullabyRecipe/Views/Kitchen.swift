@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-
 var categories = ["Natural",
                   "Mind Peace",
                   "Focus",
@@ -25,29 +24,18 @@ struct Kitchen : View {
             ScrollView(.vertical, showsIndicators: false) {
                 
                 VStack(spacing: 15) {
-                    HomeBottomView(sectionTitle: "Base Sound",
+                    SoundSelectView(sectionTitle: "Base Sound",
                                    soundType: "Base")
                     
-                    HomeBottomView(sectionTitle: "Melody",
+                    SoundSelectView(sectionTitle: "Melody",
                                    soundType: "Melody")
                     
-                    HomeBottomView(sectionTitle: "Natural Sound",
+                    SoundSelectView(sectionTitle: "Natural Sound",
                                    soundType: "Natural")
-                    
-                    Button {
-                        showingAlert = true
-                    } label: {
-                        Text("Create")
-                            .frame(minWidth: 0, maxWidth: .infinity)
-                            .background(.green)
-                    }
-                    .alert(isPresented: $showingAlert) {
-                                Alert(title: Text("제목을 넣자"),
-                                      message: Text("자장가가 완성되었습니다"),
-                                      dismissButton: .default(Text("닫기")))
-                            }
                 }
             }
+            
+            MixedAudioCreateButton()
         }
         .padding(.horizontal)
     }
@@ -73,30 +61,24 @@ struct Kitchen : View {
         }
     }
     
-//    @ViewBuilder
-//    func SearchBar() -> some View {
-//        HStack(spacing: 15) {
-//            HStack {
-//                Image(systemName: "magnifyingglass")
-//                    .font(.body)
-//                
-//                TextField("Search Groceries", text: $txt)
-//            }
-//            .padding(10)
-//            .background(Color("Color1"))
-//            .cornerRadius(20)
-//            
-//            Button(action: {
-//                
-//            }) {
-//                
-//                Image("mic").renderingMode(.original)
-//            }
-//        }
-//    }
+    @ViewBuilder
+    func MixedAudioCreateButton() -> some View {
+        Button {
+            showingAlert = true
+        } label: {
+            Text("Create")
+                .frame(minWidth: 0, maxWidth: .infinity)
+                .background(.green)
+        }
+        .alert(isPresented: $showingAlert) {
+            Alert(title: Text("제목을 넣자"),
+                  message: Text("자장가가 완성되었습니다"),
+                  dismissButton: .default(Text("닫기")))
+        }
+    }
 
     @ViewBuilder
-    func HomeBottomView(sectionTitle: String,
+    func SoundSelectView(sectionTitle: String,
                         soundType: String) -> some View {
         VStack(spacing: 15) {
             
@@ -106,21 +88,18 @@ struct Kitchen : View {
                 
                 Spacer()
                 
-                Button(action: {
-                    
-                }) {
-                    Text("More")
-                }
-                .foregroundColor(Color("Color"))
+//                Button(action: {
+//
+//                }) {
+//                    Text("More")
+//                }
+//                .foregroundColor(Color("Color"))
                 
             }.padding(.vertical, 15)
             
             ScrollView(.horizontal,
                        showsIndicators: false) {
                 HStack(spacing: 15) {
-                    //                    ForEach(freshitems){ item in
-                    //                        FreshCellView2(data: item)
-                    //                    }
                     
                     RadioButtonGroup(items: baseSounds,
                                      selectedId: soundType) { baseSelected in
@@ -143,6 +122,17 @@ struct Kitchen_Previews: PreviewProvider {
 }
 
 
+
+//enum SoundType {
+//    case base
+//    case melody
+//    case natural
+//}
+
+
+
+
+#warning("리팩토링으로 날려야함")
 struct FreshCellView : View {
     
     var data : fresh
@@ -176,48 +166,27 @@ struct FreshCellView : View {
     }
 }
 
-struct RoundedEdge: ViewModifier {
-    let width: CGFloat
-    let color: Color
-    let cornerRadius: CGFloat
-    
-    func body(content: Content) -> some View {
-        content.cornerRadius(cornerRadius - width)
-            .padding(width)
-            .background(color)
-            .cornerRadius(cornerRadius)
-    }
-}
 
 
 
-struct RecipeCellView : View {
-    
-    var data : recipe
-    
-    var body : some View {
-        
-        VStack(spacing: 10) {
-            Image(data.image)
-            
-            HStack(spacing: 10) {
-                Image(data.authorpic)
-                
-                VStack(alignment: .leading, spacing: 6){
-                    Text(data.name)
-                        .fontWeight(.semibold)
-                    Text(data.author)
-                        .foregroundColor(.green)
-                        .fontWeight(.semibold)
-                }
-            }
-        }
-    }
-}
-
-
-//enum SoundType {
-//    case base
-//    case melody
-//    case natural
-//}
+//    @ViewBuilder
+//    func SearchBar() -> some View {
+//        HStack(spacing: 15) {
+//            HStack {
+//                Image(systemName: "magnifyingglass")
+//                    .font(.body)
+//
+//                TextField("Search Groceries", text: $txt)
+//            }
+//            .padding(10)
+//            .background(Color("Color1"))
+//            .cornerRadius(20)
+//
+//            Button(action: {
+//
+//            }) {
+//
+//                Image("mic").renderingMode(.original)
+//            }
+//        }
+//    }

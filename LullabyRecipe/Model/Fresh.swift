@@ -16,9 +16,9 @@ struct fresh : Identifiable {
 }
 
 var freshitems = [
-fresh(id: 0, name: "Chinese_Gong", price: "chinese gong sound",image: "gong"),
-fresh(id: 1, name: "Ocean_4", price: "ocean sound",image: "f2"),
-fresh(id: 2, name: "Test", price: "this is test",image: "f3")
+    fresh(id: 0, name: BaseAudioName.chineseGong.fileName, price: "chinese gong sound",image: "gong"),
+    fresh(id: 1, name: "ocean_4", price: "ocean sound",image: "f2"),
+    fresh(id: 2, name: "Test", price: "this is test",image: "f3")
 ]
 
 struct Sound: Identifiable {
@@ -29,7 +29,19 @@ struct Sound: Identifiable {
 }
 
 var baseSounds = [
-    Sound(id: 0, name: "Chinese_Gong", description: "chinese gong sound",imageName: "gong"),
-    Sound(id: 1, name: "Ocean_4", description: "ocean sound",imageName: "f2"),
+    Sound(id: 0, name: "chinese_gong", description: "chinese gong sound",imageName: "gong"),
+    Sound(id: 1, name: "ocean_4", description: "ocean sound",imageName: "f2"),
+    Sound(id: 2, name: "Test", description: "this is test",imageName: "f3")
+]
+
+var MelodySounds = [
+    Sound(id: 0, name: "chinese_gong", description: "chinese gong sound",imageName: "gong"),
+    Sound(id: 1, name: "ocean_4", description: "ocean sound",imageName: "f2"),
+    Sound(id: 2, name: "Test", description: "this is test",imageName: "f3")
+]
+
+var NaturalSounds = [
+    Sound(id: 0, name: "chinese_gong", description: "chinese gong sound",imageName: "gong"),
+    Sound(id: 1, name: "ocean_4", description: "ocean sound",imageName: "f2"),
     Sound(id: 2, name: "Test", description: "this is test",imageName: "f3")
 ]
