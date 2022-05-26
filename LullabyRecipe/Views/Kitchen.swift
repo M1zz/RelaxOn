@@ -65,28 +65,34 @@ struct Kitchen : View {
     @State private var selectedNaturalSound: Sound = Sound(id: 0, name: "", description: "", imageName: "")
     @State var userName: String = ""
     
+    @State private var textEntered = ""
+    
     var body : some View {
-        
-        VStack(spacing: 15) {
-            Profile()
-            
-            ScrollView(.vertical, showsIndicators: false) {
+        ZStack {
+            VStack(spacing: 15) {
+                Profile()
                 
-                VStack(spacing: 15) {
-                    SoundSelectView(sectionTitle: "Base Sound",
-                                    soundType: .base)
+                ScrollView(.vertical, showsIndicators: false) {
                     
-                    SoundSelectView(sectionTitle: "Melody",
-                                    soundType: .melody)
-                    
-                    SoundSelectView(sectionTitle: "Natural Sound",
-                                    soundType: .natural)
+                    VStack(spacing: 15) {
+                        SoundSelectView(sectionTitle: "Base Sound",
+                                        soundType: .base)
+                        
+                        SoundSelectView(sectionTitle: "Melody",
+                                        soundType: .melody)
+                        
+                        SoundSelectView(sectionTitle: "Natural Sound",
+                                        soundType: .natural)
+                    }
                 }
+                
+                MixedAudioCreateButton()
             }
-            
-            MixedAudioCreateButton()
+            .padding(.horizontal)
+            CustomAlert(textEntered: $textEntered,
+                        showingAlert: $showingAlert)
+            .opacity(showingAlert ? 1 : 0)
         }
-        .padding(.horizontal)
     }
     
     @ViewBuilder
@@ -119,6 +125,8 @@ struct Kitchen : View {
                                       description: "설명을 적어주세요",
                                       imageName: "music")
             userRepositories = [newSound]//.append(contentsOf: newSound)
+
+            self.textEntered = ""
         } label: {
             Text("Mix")
                 .bold()
@@ -129,11 +137,11 @@ struct Kitchen : View {
                 .foregroundColor(.black)
                 .cornerRadius(25)
         }
-        .alert(isPresented: $showingAlert) {
-            Alert(title: Text("제목을 넣자"),
-                  message: Text("선택된 음악은 \(selectedBaseSound.name), \(selectedMelodySound.name), \(selectedNaturalSound.name) 입니다"),
-                  dismissButton: .default(Text("닫기")))
-        }
+//        .alert(isPresented: $showingAlert) {
+//            Alert(title: Text("제목을 넣자"),
+//                  message: Text("선택된 음악은 \(selectedBaseSound.name), \(selectedMelodySound.name), \(selectedNaturalSound.name) 입니다"),
+//                  dismissButton: .default(Text("닫기")))
+//        }
     }
 
     @ViewBuilder

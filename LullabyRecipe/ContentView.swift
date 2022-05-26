@@ -77,7 +77,7 @@ struct Onboarding: View {
                        alignment: .center)
                 .overlay(
                         RoundedRectangle(cornerRadius: 14)
-                            .stroke(.foreground, lineWidth: 2)
+                            .stroke(Color(UIColor.label), lineWidth: 2)
                     )
                 
                 .multilineTextAlignment(.center)
