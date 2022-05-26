@@ -75,7 +75,10 @@ struct Kitchen : View {
     @State private var textEntered = ""
     
     var body : some View {
+        
         ZStack {
+            ColorPalette.background.color.ignoresSafeArea()
+            
             VStack(spacing: 15) {
                 Profile()
                 
@@ -100,6 +103,7 @@ struct Kitchen : View {
                         showingAlert: $showingAlert)
             .opacity(showingAlert ? 1 : 0)
         }
+        
     }
     
     @ViewBuilder
@@ -153,8 +157,7 @@ struct Kitchen : View {
         VStack(spacing: 15) {
             
             HStack {
-                Text(sectionTitle)
-                    .font(.title)
+                WhiteTitleText(title: sectionTitle)
                 
                 Spacer()
                 

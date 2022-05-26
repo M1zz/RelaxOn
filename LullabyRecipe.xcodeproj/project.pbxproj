@@ -17,6 +17,7 @@
 		58DE102F283DF62B002CDB9F /* creek_babbling.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 58DE102A283DF62B002CDB9F /* creek_babbling.mp3 */; };
 		58DE1032283DF6E7002CDB9F /* Static.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE1031283DF6E7002CDB9F /* Static.swift */; };
 		58DE1034283F1A0A002CDB9F /* CustomAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE1033283F1A0A002CDB9F /* CustomAlert.swift */; };
+		58DE1037283F65D9002CDB9F /* WhiteTitleText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE1036283F65D9002CDB9F /* WhiteTitleText.swift */; };
 		58DE61832839C13900F25769 /* LullabyRecipeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61822839C13900F25769 /* LullabyRecipeApp.swift */; };
 		58DE61852839C13900F25769 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61842839C13900F25769 /* ContentView.swift */; };
 		58DE61872839C13A00F25769 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58DE61862839C13A00F25769 /* Assets.xcassets */; };
@@ -62,6 +63,7 @@
 		58DE102A283DF62B002CDB9F /* creek_babbling.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = creek_babbling.mp3; sourceTree = "<group>"; };
 		58DE1031283DF6E7002CDB9F /* Static.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Static.swift; sourceTree = "<group>"; };
 		58DE1033283F1A0A002CDB9F /* CustomAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlert.swift; sourceTree = "<group>"; };
+		58DE1036283F65D9002CDB9F /* WhiteTitleText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteTitleText.swift; sourceTree = "<group>"; };
 		58DE617F2839C13900F25769 /* LullabyRecipe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LullabyRecipe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		58DE61822839C13900F25769 /* LullabyRecipeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LullabyRecipeApp.swift; sourceTree = "<group>"; };
 		58DE61842839C13900F25769 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -163,6 +165,14 @@
 			path = Utilities;
 			sourceTree = "<group>";
 		};
+		58DE1035283F5193002CDB9F /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				58DE101D283DC913002CDB9F /* AudioManager.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
 		58DE61762839C13900F25769 = {
 			isa = PBXGroup;
 			children = (
@@ -189,6 +199,7 @@
 				58DE61BE283E77E700F25769 /* Info.plist */,
 				58DE1022283DF536002CDB9F /* Resource */,
 				58DE61842839C13900F25769 /* ContentView.swift */,
+				58DE1035283F5193002CDB9F /* Manager */,
 				58DE61B5283A8F4500F25769 /* Views */,
 				58DE61B0283A8E0700F25769 /* Model */,
 				58DE61822839C13900F25769 /* LullabyRecipeApp.swift */,
@@ -239,10 +250,10 @@
 				58DE101F283DD9CA002CDB9F /* Music */,
 				58DE61B8283A937000F25769 /* Home.swift */,
 				58DE61AE283A8C8B00F25769 /* Kitchen.swift */,
-				58DE101D283DC913002CDB9F /* AudioManager.swift */,
 				58DE101B283CA87F002CDB9F /* SoundCard.swift */,
 				58DE61BC283E542400F25769 /* MixedSoundCard.swift */,
 				58DE1033283F1A0A002CDB9F /* CustomAlert.swift */,
+				58DE1036283F65D9002CDB9F /* WhiteTitleText.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -393,6 +404,7 @@
 				58DE61832839C13900F25769 /* LullabyRecipeApp.swift in Sources */,
 				58DE61B4283A8E4500F25769 /* Recipe.swift in Sources */,
 				58DE101C283CA87F002CDB9F /* SoundCard.swift in Sources */,
+				58DE1037283F65D9002CDB9F /* WhiteTitleText.swift in Sources */,
 				58DE101E283DC913002CDB9F /* AudioManager.swift in Sources */,
 				58DE1034283F1A0A002CDB9F /* CustomAlert.swift in Sources */,
 				58DE61B7283A932E00F25769 /* Music.swift in Sources */,

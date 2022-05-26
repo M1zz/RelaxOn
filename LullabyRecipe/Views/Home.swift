@@ -14,36 +14,40 @@ struct Home: View {
     @Binding var selected: SelectedType
     
     var body : some View {
-        
-        VStack(spacing: 15) {
-            Profile()
+        ZStack {
+            ColorPalette.background.color.ignoresSafeArea()
             
-            ScrollView(.vertical, showsIndicators: false) {
+            VStack(spacing: 15) {
+                Profile()
                 
-                VStack(spacing: 15) {
-                    MainBanner()
+                ScrollView(.vertical, showsIndicators: false) {
                     
-                    HomeBottomView()
+                    VStack(spacing: 15) {
+                        MainBanner()
+                        
+                        HomeBottomView()
+                    }
                 }
             }
+            .padding(.horizontal)
+                
         }
-        .padding(.horizontal)
     }
     
     @ViewBuilder
     func Profile() -> some View {
         
         HStack(spacing: 12) {
-            Image("logo")
-                .renderingMode(.original)
-                .resizable()
-                .frame(width: 30, height: 30)
-            
-            Text("Hi, \(userName)")
-                .font(.body)
+//            Image("logo")
+//                .renderingMode(.original)
+//                .resizable()
+//                .frame(width: 30, height: 30)
+//
+            WhiteTitleText(title: "Hi, \(userName)")
             
             Spacer()
         }
+        .padding(.vertical, 20)
         .onAppear() {
             userName = UserDefaults.standard.string(forKey: "userName") ?? "Guest"
         }
@@ -57,9 +61,7 @@ struct Home: View {
                 VStack {
                     Spacer()
                     HStack {
-                        Text("New Sound Track")
-                            .font(.title)
-                            .foregroundColor(.white)
+                        WhiteTitleText(title: "New Sound Track")
                         Spacer()
                     }
                     .padding()
@@ -74,9 +76,7 @@ struct Home: View {
         VStack(spacing: 15) {
             
             HStack {
-                Text("My Recipe")
-                    .font(.title)
-                    .bold()
+                WhiteTitleText(title: "My Recipe")
                 
                 Spacer()
             }.padding(.vertical, 15)

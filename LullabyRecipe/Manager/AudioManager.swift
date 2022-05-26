@@ -22,6 +22,7 @@ final class AudioManager {
         do {
             player = try AVAudioPlayer(contentsOf: url)
             player?.volume = volume!
+            player?.numberOfLoops = -1
             player?.play()
         } catch {
             print("fail to initialize player")
