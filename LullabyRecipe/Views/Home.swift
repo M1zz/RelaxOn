@@ -12,7 +12,7 @@ struct Home: View {
     @State var txt = ""
     @State var userName: String = ""
     @Binding var selected: SelectedType
-
+    
     var body : some View {
         
         VStack(spacing: 15) {
@@ -21,14 +21,8 @@ struct Home: View {
             ScrollView(.vertical, showsIndicators: false) {
                 
                 VStack(spacing: 15) {
-                    //SearchBar()
-                    
                     MainBanner()
                     
-                    //CategorySectionTitle()
-                    
-                    //CategoryScroll()
-
                     HomeBottomView()
                 }
             }
@@ -49,39 +43,11 @@ struct Home: View {
                 .font(.body)
             
             Spacer()
-            
-//            Button(action: {
-//
-//            }) {
-//                Image("filter").renderingMode(.original)
-//            }
         }
         .onAppear() {
             userName = UserDefaults.standard.string(forKey: "userName") ?? "Guest"
         }
     }
-    
-//    @ViewBuilder
-//    func SearchBar() -> some View {
-//        HStack(spacing: 15) {
-//            HStack {
-//                Image(systemName: "magnifyingglass")
-//                    .font(.body)
-//
-//                TextField("Search Groceries", text: $txt)
-//            }
-//            .padding(10)
-//            .background(Color("Beige"))
-//            .cornerRadius(20)
-//
-//            Button(action: {
-//
-//            }) {
-//
-//                Image("mic").renderingMode(.original)
-//            }
-//        }
-//    }
     
     @ViewBuilder
     func MainBanner() -> some View {
@@ -102,41 +68,6 @@ struct Home: View {
             )
     }
     
-//    @ViewBuilder
-//    func CategorySectionTitle() -> some View {
-//        HStack {
-//            Text("Theme").font(.title)
-//
-//            Spacer()
-//
-//            Button(action: {
-//
-//            }) {
-//                Text("More")
-//            }
-//            .foregroundColor(Color("Pink"))
-//        }
-//        .padding(.vertical, 15)
-//    }
-    
-//    @ViewBuilder
-//    func CategoryScroll() -> some View {
-//        ScrollView(.horizontal, showsIndicators: false) {
-//
-//            HStack(spacing: 15){
-//
-//                ForEach(categories,id: \.self){i in
-//
-//                    VStack{
-//                        Image(i)
-//                            .renderingMode(.original)
-//                        Text(i)
-//                    }
-//                }
-//            }
-//        }
-//    }
-    
     @ViewBuilder
     func HomeBottomView() -> some View {
         
@@ -148,43 +79,26 @@ struct Home: View {
                     .bold()
                 
                 Spacer()
-                
-//                Button(action: {
-//
-//                }) {
-//                    Text("More")
-//                }
-//                .foregroundColor(Color("Pink"))
-//
             }.padding(.vertical, 15)
             
             if userRepositories.isEmpty {
                 VStack {
                     Text("Your first recipe has not been made yet.")
                     Button {
-                        // TODO : Go to kitchen
                         selected = .kitchen
                     } label: {
                         Text("Go to create lullaby")
                     }
-
                 }
             } else {
-                LazyVGrid(columns: Array(repeating: GridItem(.flexible(),spacing: 15), count: 2),spacing: 20) {
+                LazyVGrid(columns: Array(repeating: GridItem(.flexible(),spacing: 15), count: 2),
+                          spacing: 20) {
                     ForEach(userRepositories){ item in
                         MixedSoundCard(data: item)
                     }
                     
                 }
             }
-            
-//            ScrollView(.horizontal, showsIndicators: false) {
-//                HStack(spacing: 15) {
-//                    ForEach(userRepositories){ item in
-//                        MixedSoundCard(data: item)
-//                    }
-//                }
-//            }
         }
     }
 }

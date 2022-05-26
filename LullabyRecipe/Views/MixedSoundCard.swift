@@ -20,10 +20,8 @@ struct MixedSoundCard : View {
     }
 
     var body : some View {
-        
         ZStack {
-            
-            NavigationLink(destination: MusicView(data: baseSounds[0]),
+            NavigationLink(destination: MusicView(data: data),
                            isActive: $show) {
                 Text("")
             }
@@ -32,11 +30,7 @@ struct MixedSoundCard : View {
                 Image(data.imageName)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-//                    .frame(width: 180,
-//                           height: 180,
-//                           alignment: .center)
                     .cornerRadius(10)
-                   
                 Text(data.name)
                     .fontWeight(.semibold)
                 Text(data.description)
@@ -52,8 +46,7 @@ struct MixedSoundCard : View {
 
 struct MixedSoundCard_Previews: PreviewProvider {
     static var previews: some View {
-        MixedSoundCard(
-                       data: userRepositories[0],
+        MixedSoundCard(data: userRepositories[0],
                        selectedID: "")
     }
 }

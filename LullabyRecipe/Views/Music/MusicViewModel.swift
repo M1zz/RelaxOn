@@ -9,72 +9,27 @@ import SwiftUI
 import AVFoundation
 
 final class MusicViewModel: NSObject, ObservableObject {
-    @Published var audioPlayer = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: url!))
-    @Published var album = album_Data()
+    @Published var baseAudioManager = AudioManager()
+    @Published var melodyAudioManager = AudioManager()
+    @Published var naturalAudioManager = AudioManager()
+    @Published var isPlaying: Bool = false
     
-    func getAudioData(from data: Sound) {
-        audioPlayer = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: Bundle.main.path(forResource: data.name,
-                       ofType: "mp3")!))
-        audioPlayer.isMeteringEnabled = true
-        // 리팩토링 필요한 지점
-        audioPlayer.numberOfLoops = -1
-        
-        
-        let asset = AVAsset(url: audioPlayer.url!)
-        
-        asset.metadata.forEach { (meta) in
-            
-            switch(meta.commonKey?.rawValue) {
-                
-            case "artwork": album.artwork = meta.value == nil ? UIImage(named: "music")!.pngData()! : meta.value as! Data
-                
-            case "artist": album.artist = meta.value == nil ? "" : meta.value as! String
-                
-            case "type": album.type = meta.value == nil ? "" : meta.value as! String
-                
-            case "title": album.title = meta.value == nil ? "" : meta.value as! String
-                
-            default : ()
-            }
-        }
-        
-        if album.artwork.isEmpty {
-            album.artwork = UIImage(named: "music")!.pngData()!
-        }
+    @Published var mixedSound: MixedSound?
+    
+    func fetchData(data: MixedSound) {
+        mixedSound = mixedSound
     }
     
+    func play() {
+        if isPlaying {
+            baseAudioManager.playPause()
+            melodyAudioManager.playPause()
+            naturalAudioManager.playPause()
+        } else {
+            baseAudioManager.startPlayer(track: BaseAudioName.chineseGong.fileName, volume: 0.8)
+            melodyAudioManager.startPlayer(track: MelodyAudioName.lynx.fileName)
+            naturalAudioManager.startPlayer(track: NaturalAudioName.creekBabbling.fileName, volume: 0.5)
+        }
+        
+    }
 }
-//    private var avPlayer: AVAudioPlayer!
-//    private var arrayOfAllTracks = [Track]()
-//
-//    // call play track from view
-//    func playTrack() {
-//        play(track: arrayOfAllTracks[0])
-//    }
-//
-//    private func play(track: Track) {
-//        self.avPlayer = try! AVAudioPlayer(contentsOf: track.url,
-//                                           fileTypeHint: AVFileType.mp3.rawValue)
-//
-//        self.avPlayer?.delegate = self
-//
-//        avPlayer.play()
-//    }
-//
-//    private func playNext() {
-//        let track = self.arrayOfAllTracks[1]
-//        self.play(track: track)
-//    }
-//}
-//
-//extension MusicViewModel: AVAudioPlayerDelegate {
-//    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
-//        guard flag else { return }
-//
-//        self.playNext()
-//    }
-//}
-//
-//struct Track {
-//    let url: URL!
-//}

@@ -54,6 +54,12 @@ struct CustomAlert: View {
                         
                         Button {
                             // Todo : 입력받은 이름 저장
+                            let newSound = MixedSound(id: 8,
+                                                      name: textEntered,
+                                                      sounds: mixedAudioSources,
+                                                      description: "설명을 적어주세요",
+                                                      imageName: "music")
+                            userRepositories = [newSound]//.append(contentsOf: newSound)
                             showingAlert.toggle()
                         } label: {
                             Text("Save")
