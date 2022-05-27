@@ -30,6 +30,13 @@ final class MusicViewModel: NSObject, ObservableObject {
             melodyAudioManager.startPlayer(track: mixedSound?.sounds[1].name ?? "chinese_gong")
             naturalAudioManager.startPlayer(track: mixedSound?.sounds[2].name ?? "chinese_gong", volume: 0.5)
         }
-        
+    }
+    
+    func stop() {
+        if isPlaying {
+            baseAudioManager.stop()
+            melodyAudioManager.stop()
+            naturalAudioManager.stop()
+        }
     }
 }

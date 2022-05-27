@@ -41,6 +41,9 @@ struct MusicView: View {
         .onAppear {
             viewModel.fetchData(data: data)
         }
+        .onDisappear {
+            viewModel.stop()
+        }
     }
     
     @ViewBuilder
