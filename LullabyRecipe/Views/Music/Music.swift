@@ -8,176 +8,155 @@
 import SwiftUI
 import AVKit
 
-
-let url = Bundle.main.path(forResource: NaturalAudioName.ocean4.fileName, ofType: "mp3")
-let url2 = Bundle.main.path(forResource: NaturalAudioName.ocean4.fileName, ofType: "mp3")
-let url3 = Bundle.main.path(forResource: MelodyAudioName.lynx.fileName, ofType: "mp3")
-
 struct MusicView: View {
+    
     @StateObject var viewModel = MusicViewModel()
-    var data: Sound
-    
-    @State var audioPlayer2 = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: url2!))
-    @State var audioPlayer3 = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: url3!))
-    @State var timer = Timer.publish(every: 0.01, on: .main, in: .common).autoconnect()
-    
     @State var animatedValue : CGFloat = 55
     @State var maxWidth = UIScreen.main.bounds.width / 2.2
-    @State var time : Float = 0
+
+    var data: MixedSound
     
     var body: some View {
         
         VStack {
-            MusicTitle()
-            
-            Spacer(minLength: 0)
-            
-            if !viewModel.album.artwork.isEmpty {
-                Image(uiImage: UIImage(data: viewModel.album.artwork)!)
-                    .resizable()
-                    .frame(width: 250,
-                           height: 250)
-                    .cornerRadius(15)
-            }
-            
-            ZStack {
-                ZStack {
-                    Circle()
-                        .fill(Color.white.opacity(0.05))
-                    
-                    Circle()
-                        .fill(Color.white.opacity(0.08))
-                        .frame(width: animatedValue / 2,
-                               height: animatedValue / 2)
-                }
-                .frame(width: animatedValue, height: animatedValue)
-                
-                Button(action: play) {
-                    Image(systemName: viewModel.album.isPlaying ? "pause.fill" : "play.fill")
-                        .foregroundColor(.black)
-                        .frame(width: 55,
-                               height: 55)
-                        .background(Color.white)
-                        .clipShape(Circle())
+            MusicInfo()
+            Divider()
+            ForEach(data.sounds) { singleSound in
+                VStack {
+                    SingleSong(song: singleSound)
+                    Divider()
                 }
             }
-            .frame(width: maxWidth,
-                   height: maxWidth)
-            .padding(.top,30)
             
-            MusicSlider()
+            MusicControlButton()
             
-            Spacer(minLength: 0)
+            Spacer()
+            
+            VolumeControlButton()
+            
+            Spacer()
         }
-        .onReceive(timer) { (_) in
-            if viewModel.audioPlayer.isPlaying {
-                viewModel.audioPlayer.updateMeters()
-                viewModel.album.isPlaying = true
-                time = Float(viewModel.audioPlayer.currentTime / viewModel.audioPlayer.duration)
-                startAnimation()
-            } else {
-                viewModel.album.isPlaying = false
-            }
-        }
+        .navigationBarTitle(Text(""),
+                            displayMode: .inline)
         .onAppear {
-            viewModel.getAudioData(from: data)
+            viewModel.fetchData(data: data)
         }
+        .onDisappear {
+            viewModel.stop()
+        }
+    }
+    
+    @ViewBuilder
+    func MusicInfo() -> some View {
+        HStack(alignment: .top) {
+            if let thumbNailImage = UIImage(named: data.imageName) {
+                Image(uiImage: thumbNailImage)
+                    .resizable()
+                    .frame(width: 180,
+                           height: 180)
+                    .cornerRadius(15)
+            } else {
+                // 문제시 기본이미지 영역
+            }
+            
+            VStack(alignment: .leading) {
+                Text(data.name)
+                    .font(.title)
+                    .bold()
+                    .padding(.vertical)
+                
+                Text(data.description)
+            }.padding()
+            
+            Spacer()
+        }
+        .padding(20)
     }
     
     @ViewBuilder
     func MusicTitle() -> some View {
         HStack {
-            VStack(alignment: .leading, spacing: 8) {
-                
-                Text(viewModel.album.title)
-                    .fontWeight(.semibold)
-                
-                HStack(spacing: 10){
-                    
-                    Text(viewModel.album.artist)
-                        .font(.caption)
-                    
-                    Text(viewModel.album.type)
-                        .font(.caption)
-                }
-            }
+            Text(data.name)
+                .font(.title)
+                .bold()
             
-            Spacer(minLength: 0)
-            
-            Button(action: {}) {
-                
-                Image(systemName: "suit.heart.fill")
-                    .foregroundColor(.red)
-                    .frame(width: 45, height: 45)
-                    .background(Color.white)
-                    .clipShape(Circle())
-            }
-            
-            Button(action: {}) {
-                
-                Image(systemName: "bookmark.fill")
-                    .foregroundColor(.black)
-                    .frame(width: 45, height: 45)
-                    .background(Color.white)
-                    .clipShape(Circle())
-            }
-            .padding(.leading,10)
+            Spacer()
         }
         .padding()
     }
     
     @ViewBuilder
-    func MusicSlider() -> some View {
-        Slider(value: Binding(get: {time}, set: { (newValue) in
-            time = newValue
+    func MusicControlButton() -> some View {
+        ZStack {
+            ZStack {
+                Circle()
+                    .fill(Color.white.opacity(0.05))
+                
+                Circle()
+                    .fill(Color.white.opacity(0.08))
+                    .frame(width: animatedValue / 2,
+                           height: animatedValue / 2)
+            }
+            .frame(width: animatedValue, height: animatedValue)
             
-            viewModel.audioPlayer.currentTime = Double(time) * viewModel.audioPlayer.duration
-            viewModel.audioPlayer.play()
-        }))
-        .padding()
+            Button(action: {
+                viewModel.play()
+                viewModel.isPlaying.toggle()
+            }, label: {
+                Image(systemName: viewModel.isPlaying ? "pause.fill" : "play.fill")
+                    .foregroundColor(.black)
+                    .frame(width: 55,
+                           height: 55)
+                    .background(Color.white)
+                    .clipShape(Circle())
+            })
+        }
+        .frame(width: maxWidth,
+               height: maxWidth)
+        .padding(.top,30)
     }
     
-    private func play() {
-        if viewModel.audioPlayer.isPlaying {
-            viewModel.audioPlayer.pause()
-        } else {
-            viewModel.audioPlayer.play()
-            
-            audioPlayer2.play()
-            audioPlayer3.play()
+    @ViewBuilder
+    func SingleSong(song: Sound) -> some View {
+        HStack {
+            Image(song.imageName)
+                .resizable()
+                .frame(width: 40,
+                       height: 40)
+            Text(song.name)
+            Spacer()
         }
+        .padding(.horizontal, 20)
     }
     
-    func startAnimation() {
-        var power : Float = 0
-        
-        for i in 0 ..< viewModel.audioPlayer.numberOfChannels {
-            power += viewModel.audioPlayer.averagePower(forChannel: i)
+    @ViewBuilder
+    func VolumeControlButton() -> some View {
+        Button {
+           
+        } label: {
+            Text("Volume Control")
+                .bold()
+                .frame(minWidth: 0,
+                       maxWidth: .infinity,
+                       maxHeight: 50)
+                .background(.gray)
+                .foregroundColor(.black)
+                .cornerRadius(25)
         }
-        let value = max(0, power + 55)
-        let animated = CGFloat(value) * (maxWidth / 55)
-        
-        withAnimation(Animation.linear(duration: 0.01)) {
-            self.animatedValue = animated + 55
-        }
+        .padding(.horizontal, 20)
     }
-}
-
-class album_Data : ObservableObject {
-    
-    @Published var isPlaying = false
-    @Published var title = ""
-    @Published var artist = ""
-    @Published var artwork = Data(count: 0)
-    @Published var type = ""
 }
 
 struct Music_Previews: PreviewProvider {
     static var previews: some View {
-        MusicView(data: Sound(id: 0,
-                              name: "chinese_gong",
-                              description: "chinese gong sound",
-                              imageName: "gong"))
+        MusicView(data: MixedSound(id: 3,
+                                   name: "test4",
+                                   sounds: [Sound(id: 0, name: BaseAudioName.chineseGong.fileName, description: "chineseGong",imageName: "gong"),
+                                            Sound(id: 2, name: MelodyAudioName.lynx.fileName, description: "lynx",imageName: "r1"),
+                                            Sound(id: 6, name: NaturalAudioName.creekBabbling.fileName, description: "creekBabbling",imageName: "r3")
+                                                                                      ],
+                                   description: "test1",
+                                   imageName: "r1"))
     }
 }
 

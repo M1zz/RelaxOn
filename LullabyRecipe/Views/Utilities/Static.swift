@@ -5,7 +5,7 @@
 //  Created by hyunho lee on 5/25/22.
 //
 
-import Foundation
+import SwiftUI
 
 enum BaseAudioName {
     case chineseGong
@@ -53,6 +53,28 @@ enum NaturalAudioName {
                 return "ocean_4"
             case .waterDrip:
                 return "water_drip"
+            }
+        }
+    }
+}
+
+enum ColorPalette {
+    case background
+    case forground
+    case tabBackground
+    case buttonBackground
+    
+    var color: Color {
+        get {
+            switch self {
+            case .background:
+                return Color("Background")
+            case .forground:
+                return Color("Forground")
+            case .tabBackground:
+                return Color("TabBackground")
+            case .buttonBackground:
+                return Color("ButtonBackground")
             }
         }
     }

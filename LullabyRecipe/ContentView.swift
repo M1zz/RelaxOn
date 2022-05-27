@@ -25,7 +25,7 @@ struct ContentView: View {
                 case .home:
                     Home(selected: $selected)
                 case .kitchen:
-                    Kitchen()
+                    Kitchen(selected: $selected)
                 }
                 Spacer()
                 CustomTabView(selected: $selected)
@@ -33,7 +33,7 @@ struct ContentView: View {
             .navigationBarTitle("")
             .navigationBarHidden(true)
             .navigationBarBackButtonHidden(true)
-
+            .background(ColorPalette.tabBackground.color)
         }
         .onAppear() {
             let notFirstVisit = UserDefaults.standard.bool(forKey: "notFirstVisit")
@@ -58,6 +58,8 @@ struct ContentView_Previews: PreviewProvider {
     }
 }
 
+
+
 struct Onboarding: View {
     
     @State var userName: String = ""
@@ -65,19 +67,17 @@ struct Onboarding: View {
     
     var body: some View {
         VStack(alignment:.center) {
-            Text("Nice to meet you.")
-                .font(.title)
-                .bold()
-            Text("What's your name?")
-                .font(.title)
-                .bold()
+            WhiteTitleText(title: "Nice to meet you.")
+            
+            WhiteTitleText(title: "What's your name?")
+
             TextField("Username", text: $userName)
                 .frame(width: 220,
                        height: 50,
                        alignment: .center)
                 .overlay(
                         RoundedRectangle(cornerRadius: 14)
-                            .stroke(.foreground, lineWidth: 2)
+                            .stroke(Color(UIColor.label), lineWidth: 2)
                     )
                 
                 .multilineTextAlignment(.center)
@@ -91,7 +91,7 @@ struct Onboarding: View {
                 Text("start")
                     .frame(width: 60, height: 30)
                     .background(Color(UIColor.label))
-                    .foregroundColor(Color(UIColor.systemBackground))
+                    .foregroundColor(ColorPalette.forground.color)
                     .cornerRadius(8)
                     
             }
@@ -110,6 +110,7 @@ struct CustomTabView : View {
     @Binding var selected: SelectedType
     
     var body : some View {
+
         HStack {
             ForEach(tabs, id: \.self) { selectedTab in
                 VStack(spacing: 10) {
@@ -127,13 +128,15 @@ struct CustomTabView : View {
                         VStack {
                             Image(selectedTab.rawValue)
                                 .renderingMode(.original)
+                                .background(.yellow)
                             Text(selectedTab.rawValue)
-                                .foregroundColor(.black)
+                                .foregroundColor(.white)
                         }
                     }
                 }
             }
         }
+//        .background(ColorPalette.background).ignoresSafeArea()
         .padding(.horizontal)
     }
 }
