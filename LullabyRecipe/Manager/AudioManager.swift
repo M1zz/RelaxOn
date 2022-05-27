@@ -41,4 +41,14 @@ final class AudioManager {
         }
     }
     
+    func stop() {
+        guard let player = player else {
+            print("Instance of player not found")
+            return
+        }
+        if player.isPlaying {
+            player.stop()
+        }
+    }
+    
 }

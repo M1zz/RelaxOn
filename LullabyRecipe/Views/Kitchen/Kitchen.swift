@@ -90,6 +90,11 @@ struct Kitchen : View {
         Button {
             showingAlert = true
             mixedAudioSources = [selectedBaseSound, selectedMelodySound, selectedNaturalSound]
+            
+            baseAudioManager.stop()
+            melodyAudioManager.stop()
+            naturalAudioManager.stop()
+            
             self.textEntered = ""
         } label: {
             Text("Mix")
