@@ -74,6 +74,10 @@ struct Kitchen : View {
     
     @State private var textEntered = ""
     
+    let baseAudioManager = AudioManager()
+    let melodyAudioManager = AudioManager()
+    let naturalAudioManager = AudioManager()
+    
     var body : some View {
         
         ZStack {
@@ -173,18 +177,23 @@ struct Kitchen : View {
                                          items: baseSounds) { baseSelected in
                             print("baseSelected is: \(baseSelected)")
                             selectedBaseSound = baseSelected
+                            // play music
+                            baseAudioManager.startPlayer(track: baseSelected.name)
+                            
                         }
                     case .natural:
                         RadioButtonGroup(selectedId: soundType.rawValue,
                                          items: naturalSounds) { naturalSounds in
                             print("naturalSounds is: \(naturalSounds)")
                             selectedNaturalSound = naturalSounds
+                            naturalAudioManager.startPlayer(track: naturalSounds.name)
                         }
                     case .melody:
                         RadioButtonGroup(selectedId: soundType.rawValue,
                                          items: melodySounds) { melodySounds in
                             print("melodySounds is: \(melodySounds)")
                             selectedMelodySound = melodySounds
+                            melodyAudioManager.startPlayer(track: melodySounds.name)
                         }
                     }
                 }
