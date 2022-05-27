@@ -38,13 +38,7 @@ struct Home: View {
     func Profile() -> some View {
         
         HStack(spacing: 12) {
-//            Image("logo")
-//                .renderingMode(.original)
-//                .resizable()
-//                .frame(width: 30, height: 30)
-//
             WhiteTitleText(title: "Hi, \(userName)")
-            
             Spacer()
         }
         .padding(.vertical, 20)
@@ -83,7 +77,7 @@ struct Home: View {
             
             if userRepositories.isEmpty {
                 VStack {
-                    Text("Your first recipe has not been made yet.")
+                    WhiteTitleText(title: "Your first recipe has not been made yet.")
                     Button {
                         selected = .kitchen
                     } label: {

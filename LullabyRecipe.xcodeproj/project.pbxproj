@@ -173,6 +173,25 @@
 			path = Manager;
 			sourceTree = "<group>";
 		};
+		58DE103828405C6C002CDB9F /* Kitchen */ = {
+			isa = PBXGroup;
+			children = (
+				58DE61AE283A8C8B00F25769 /* Kitchen.swift */,
+				58DE101B283CA87F002CDB9F /* SoundCard.swift */,
+				58DE1033283F1A0A002CDB9F /* CustomAlert.swift */,
+			);
+			path = Kitchen;
+			sourceTree = "<group>";
+		};
+		58DE103928405C7F002CDB9F /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				58DE61B8283A937000F25769 /* Home.swift */,
+				58DE61BC283E542400F25769 /* MixedSoundCard.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
 		58DE61762839C13900F25769 = {
 			isa = PBXGroup;
 			children = (
@@ -246,13 +265,10 @@
 		58DE61B5283A8F4500F25769 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				58DE103928405C7F002CDB9F /* Home */,
+				58DE103828405C6C002CDB9F /* Kitchen */,
 				58DE1030283DF6DA002CDB9F /* Utilities */,
 				58DE101F283DD9CA002CDB9F /* Music */,
-				58DE61B8283A937000F25769 /* Home.swift */,
-				58DE61AE283A8C8B00F25769 /* Kitchen.swift */,
-				58DE101B283CA87F002CDB9F /* SoundCard.swift */,
-				58DE61BC283E542400F25769 /* MixedSoundCard.swift */,
-				58DE1033283F1A0A002CDB9F /* CustomAlert.swift */,
 				58DE1036283F65D9002CDB9F /* WhiteTitleText.swift */,
 			);
 			path = Views;

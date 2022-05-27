@@ -16,6 +16,7 @@ struct Background: View {
 struct CustomAlert: View {
     @Binding var textEntered: String
     @Binding var showingAlert: Bool
+    @Binding var selected: SelectedType
     
     var body: some View {
         ZStack {
@@ -54,13 +55,14 @@ struct CustomAlert: View {
                         
                         Button {
                             // Todo : 입력받은 이름 저장
-                            let newSound = MixedSound(id: 8,
+                            let newSound = MixedSound(id: userRepositories.count,
                                                       name: textEntered,
                                                       sounds: mixedAudioSources,
                                                       description: "설명을 적어주세요",
-                                                      imageName: "music")
-                            userRepositories = [newSound]//.append(contentsOf: newSound)
+                                                      imageName: "r1")
+                            userRepositories.append(newSound)
                             showingAlert.toggle()
+                            selected = .home
                         } label: {
                             Text("Save")
                                 .padding()
@@ -92,6 +94,7 @@ struct CustomAlert: View {
 struct CustomAlert_Previews: PreviewProvider {
     static var previews: some View {
         CustomAlert(textEntered: .constant("text"),
-                    showingAlert: .constant(true))
+                    showingAlert: .constant(true),
+                    selected: .constant(.kitchen))
     }
 }

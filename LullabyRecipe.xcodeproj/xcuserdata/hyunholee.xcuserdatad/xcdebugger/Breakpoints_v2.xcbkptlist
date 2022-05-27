@@ -7,16 +7,32 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "20E1C612-B224-4928-B9D7-26002B7AF0A9"
+            uuid = "EC949DF9-64B7-425D-B8FC-FE8AF0C6CF5B"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "LullabyRecipe/Views/Music/MusicViewModel.swift"
+            filePath = "LullabyRecipe/Views/Music/Music.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "30"
-            endingLineNumber = "30"
-            landmarkName = "play()"
+            startingLineNumber = "26"
+            endingLineNumber = "26"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "EC9C291C-BC67-4489-88A8-7D2865A9B2CD"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "LullabyRecipe/Views/Music/Music.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "119"
+            endingLineNumber = "119"
+            landmarkName = "SingleSong(song:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -25,7 +25,7 @@ struct ContentView: View {
                 case .home:
                     Home(selected: $selected)
                 case .kitchen:
-                    Kitchen()
+                    Kitchen(selected: $selected)
                 }
                 Spacer()
                 CustomTabView(selected: $selected)
