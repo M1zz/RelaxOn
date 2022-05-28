@@ -8,51 +8,87 @@
 import SwiftUI
 
 enum BaseAudioName {
-    case chineseGong
-    case gongNoHit
+    case ChineseGong
+    case GongNoHit
+    case GongSmall
     
     var fileName: String {
         get {
             switch self {
-            case .chineseGong:
-                return "chinese_gong"
-            case .gongNoHit:
-                return "gong_nohit"
+            case .ChineseGong:
+                return "ChineseGong"
+            case .GongNoHit:
+                return "GongNoHit"
+            case .GongSmall:
+                return "GongSmall"
             }
         }
     }
 }
 
 enum MelodyAudioName {
-    case perlBird
-    case lynx
+    case PrelBedCrystal
+    case Lynx
+    case DroneCrystal
+    case LittleBee
+    case LullabyForCharlie
+    case RakingLeaves
+    case SeemsLikeYesterday
+    case WindChimes
     
     var fileName: String {
         get {
             switch self {
-            case .perlBird:
-                return "perl_bird"
-            case .lynx:
-                return "lynx"
+            case .PrelBedCrystal:
+                return "PrelBedCrystal"
+            case .Lynx:
+                return "Lynx"
+            case .DroneCrystal:
+                return "DroneCrystal"
+            case .LittleBee:
+                return "LittleBee"
+            case .LullabyForCharlie:
+                return "LullabyForCharlie"
+            case .RakingLeaves:
+                return "RakingLeaves"
+            case .SeemsLikeYesterday:
+                return "SeemsLikeYesterday"
+            case .WindChimes:
+                return "WindChimes"
             }
         }
     }
 }
 
 enum NaturalAudioName {
-    case creekBabbling
-    case ocean4
-    case waterDrip
+    case CreekBabbling
+    case WaterOceanSurf4
+    case BaseWaterDrip
+    case CornField
+    case CreekSmall
+    case NatureForestSwamp
+    case RainLight4
+    case RainUmbrella
     
     var fileName: String {
         get {
             switch self {
-            case .creekBabbling:
-                return "creek_babbling"
-            case .ocean4:
-                return "ocean_4"
-            case .waterDrip:
-                return "water_drip"
+            case .CreekBabbling:
+                return "CreekBabbling"
+            case .WaterOceanSurf4:
+                return "WaterOceanSurf4"
+            case .BaseWaterDrip:
+                return "BaseWaterDrip"
+            case .CornField:
+                return "CornField"
+            case .CreekSmall:
+                return "CreekSmall"
+            case .NatureForestSwamp:
+                return "NatureForestSwamp"
+            case .RainLight4:
+                return "RainLight4"
+            case .RainUmbrella:
+                return "RainUmbrella"
             }
         }
     }
