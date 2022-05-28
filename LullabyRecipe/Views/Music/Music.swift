@@ -64,8 +64,6 @@ struct MusicView: View {
                     .font(.title)
                     .bold()
                     .padding(.vertical)
-                
-                Text(data.description)
             }.padding()
             
             Spacer()
@@ -151,11 +149,12 @@ struct Music_Previews: PreviewProvider {
     static var previews: some View {
         MusicView(data: MixedSound(id: 3,
                                    name: "test4",
-                                   sounds: [Sound(id: 0, name: BaseAudioName.chineseGong.fileName, description: "chineseGong",imageName: "gong"),
-                                            Sound(id: 2, name: MelodyAudioName.lynx.fileName, description: "lynx",imageName: "r1"),
-                                            Sound(id: 6, name: NaturalAudioName.creekBabbling.fileName, description: "creekBabbling",imageName: "r3")
+                                   sounds: [Sound(id: 0, name: BaseAudioName.chineseGong.fileName, imageName: "gong"),
+                                            Sound(id: 2, name: MelodyAudioName.lynx.fileName, imageName: "r1"),
+                                            Sound(id: 6,
+                                                  name: NaturalAudioName.creekBabbling.fileName,
+                                                  imageName: "r3")
                                                                                       ],
-                                   description: "test1",
                                    imageName: "r1"))
     }
 }

@@ -13,8 +13,6 @@ var categories = ["Natural",
                   "Deep Sleep",
                   "Lullaby"]
 
-var mixedAudioSources: [Sound] = []
-var userRepositories: [MixedSound] = []
 
 
 enum SoundType: String {
@@ -26,9 +24,9 @@ enum SoundType: String {
 struct Kitchen : View {
  
     @State private var showingAlert = false
-    @State private var selectedBaseSound: Sound = Sound(id: 0, name: "", description: "", imageName: "")
-    @State private var selectedMelodySound: Sound = Sound(id: 0, name: "", description: "", imageName: "")
-    @State private var selectedNaturalSound: Sound = Sound(id: 0, name: "", description: "", imageName: "")
+    @State private var selectedBaseSound: Sound = Sound(id: 0, name: "", imageName: "")
+    @State private var selectedMelodySound: Sound = Sound(id: 0, name: "", imageName: "")
+    @State private var selectedNaturalSound: Sound = Sound(id: 0, name: "", imageName: "")
     @State var userName: String = ""
     @Binding var selected: SelectedType
     
@@ -44,7 +42,7 @@ struct Kitchen : View {
             ColorPalette.background.color.ignoresSafeArea()
             
             VStack(spacing: 15) {
-                Profile()
+                //Profile()
                 
                 ScrollView(.vertical, showsIndicators: false) {
                     

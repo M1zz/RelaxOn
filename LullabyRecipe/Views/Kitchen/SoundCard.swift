@@ -28,7 +28,7 @@ struct SoundCard : View {
     var body : some View {
         
         ZStack {
-            VStack(alignment: .leading, spacing: 10) {
+            VStack(alignment: .center, spacing: 10) {
                 Image(data.imageName)
                     .resizable()
                     .frame(width: 180,
@@ -41,10 +41,10 @@ struct SoundCard : View {
                     .fontWeight(.semibold)
                     .font(Font.system(size: 17))
                     .foregroundColor(Color.white)
-                Text(data.description)
-                    .fontWeight(.semibold)
-                    .font(Font.system(size: 16))
-                    .foregroundColor(Color.gray)
+//                Text(data.description)
+//                    .fontWeight(.semibold)
+//                    .font(Font.system(size: 16))
+//                    .foregroundColor(Color.gray)
             }
             .onTapGesture {
                 guard let callback = callback else {

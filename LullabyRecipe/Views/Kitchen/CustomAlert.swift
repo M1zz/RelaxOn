@@ -58,8 +58,7 @@ struct CustomAlert: View {
                             let newSound = MixedSound(id: userRepositories.count,
                                                       name: textEntered,
                                                       sounds: mixedAudioSources,
-                                                      description: "설명을 적어주세요",
-                                                      imageName: "r1")
+                                                      imageName: recipeRandomName.randomElement()!)
                             userRepositories.append(newSound)
                             showingAlert.toggle()
                             selected = .home

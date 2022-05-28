@@ -10,7 +10,7 @@ import SwiftUI
 struct Home: View {
     
     @State var txt = ""
-    @State var userName: String = ""
+    @Binding var userName: String?
     @Binding var selected: SelectedType
     
     var body : some View {
@@ -32,24 +32,24 @@ struct Home: View {
             .padding(.horizontal)
                 
         }
+        .onAppear {
+            userName = UserDefaults.standard.string(forKey: "userName") ?? "Guest"
+        }
     }
     
     @ViewBuilder
     func Profile() -> some View {
         
         HStack(spacing: 12) {
-            WhiteTitleText(title: "Hi, \(userName)")
+            WhiteTitleText(title: "Hi, \(userName ?? "guest")")
             Spacer()
         }
         .padding(.vertical, 20)
-        .onAppear() {
-            userName = UserDefaults.standard.string(forKey: "userName") ?? "Guest"
-        }
     }
     
     @ViewBuilder
     func MainBanner() -> some View {
-        Image("top")
+        Image("NewSoundtrack")
             .resizable()
             .overlay(
                 VStack {
@@ -77,11 +77,26 @@ struct Home: View {
             
             if userRepositories.isEmpty {
                 VStack {
-                    WhiteTitleText(title: "Your first recipe has not been made yet.")
+                    //WhiteTitleText(title: "Your first recipe has not been made yet.")
                     Button {
                         selected = .kitchen
                     } label: {
-                        Text("Go to create lullaby")
+                        //Text("Go to create lullaby")
+                        HStack {
+                            ZStack {
+                                Rectangle()
+                                    // TODO: - 화면의 절반
+                                    .frame(width: 150,
+                                           height: 150)
+                                    .modifier(RoundedEdge(width: 1, color: ColorPalette.buttonBackground.color, cornerRadius: 20))
+                                    .foregroundColor(ColorPalette.background.color)
+                                Image(systemName: "plus.circle.fill")
+                                    .frame(width: 30,
+                                           height: 30)
+                                    .foregroundColor(ColorPalette.buttonBackground.color)
+                            }
+                            Spacer()
+                        }
                     }
                 }
             } else {
@@ -96,9 +111,21 @@ struct Home: View {
         }
     }
 }
+struct RoundedEdge: ViewModifier {
+    let width: CGFloat
+    let color: Color
+    let cornerRadius: CGFloat
+
+    func body(content: Content) -> some View {
+        content.cornerRadius(cornerRadius - width)
+            .padding(width)
+            .background(color)
+            .cornerRadius(cornerRadius)
+    }
+}
 
 struct Home_Previews: PreviewProvider {
     static var previews: some View {
-        Home(selected: .constant(.home))
+        Home(userName: .constant("guest"), selected: .constant(.home))
     }
 }

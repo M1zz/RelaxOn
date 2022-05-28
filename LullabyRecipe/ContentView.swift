@@ -16,6 +16,7 @@ struct ContentView: View {
     
     @State var selected: SelectedType = .home
     @State var showOnboarding: Bool = false
+    @State var userName: String?
     
     var body: some View {
         NavigationView {
@@ -23,7 +24,8 @@ struct ContentView: View {
                 
                 switch selected {
                 case .home:
-                    Home(selected: $selected)
+                    Home(userName: $userName,
+                         selected: $selected)
                 case .kitchen:
                     Kitchen(selected: $selected)
                 }
@@ -44,7 +46,10 @@ struct ContentView: View {
             }
         }
         .fullScreenCover(isPresented: $showOnboarding, content: {
-            Onboarding(showOnboarding: $showOnboarding)
+            OnBoarding(showOnboarding: $showOnboarding)
+                .onDisappear {
+                    userName = UserDefaults.standard.string(forKey: "userName") ?? "Guest"
+                }
         })
                      
 //            UserDefaults.standard.set(true, forKey: "firstVisit")
@@ -60,45 +65,7 @@ struct ContentView_Previews: PreviewProvider {
 
 
 
-struct Onboarding: View {
-    
-    @State var userName: String = ""
-    @Binding var showOnboarding: Bool
-    
-    var body: some View {
-        VStack(alignment:.center) {
-            WhiteTitleText(title: "Nice to meet you.")
-            
-            WhiteTitleText(title: "What's your name?")
 
-            TextField("Username", text: $userName)
-                .frame(width: 220,
-                       height: 50,
-                       alignment: .center)
-                .overlay(
-                        RoundedRectangle(cornerRadius: 14)
-                            .stroke(Color(UIColor.label), lineWidth: 2)
-                    )
-                
-                .multilineTextAlignment(.center)
-                .padding(.bottom, 10)
-            
-            Button {
-                UserDefaults.standard.set(true, forKey: "notFirstVisit")
-                UserDefaults.standard.set(userName, forKey: "userName")
-                showOnboarding = false
-            } label: {
-                Text("start")
-                    .frame(width: 60, height: 30)
-                    .background(Color(UIColor.label))
-                    .foregroundColor(ColorPalette.forground.color)
-                    .cornerRadius(8)
-                    
-            }
-
-        }
-    }
-}
 
 
 
@@ -119,7 +86,7 @@ struct CustomTabView : View {
                         .frame(height: 5)
                         .overlay(
                             Capsule()
-                                .fill(self.selected == selectedTab ? Color("Pink") : Color.clear)
+                                .fill(self.selected == selectedTab ? Color("Forground") : Color.clear)
                                 .frame(width: 55, height: 5)
                          )
                     Button(action: {
