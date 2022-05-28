@@ -24,8 +24,9 @@ struct MixedSoundCard : View {
             NavigationLink(destination: MusicView(data: data),
                            isActive: $show) {
                 Text("")
+                
             }
-            
+
             VStack(alignment: .leading, spacing: 10) {
                 Image(data.imageName)
                     .resizable()
@@ -35,10 +36,6 @@ struct MixedSoundCard : View {
                     .fontWeight(.semibold)
                     .font(Font.system(size: 17))
                     .foregroundColor(Color.white)
-//                Text(data.description)
-//                    .fontWeight(.semibold)
-//                    .font(Font.system(size: 16))
-//                    .foregroundColor(Color.gray)
             }
             .onTapGesture {
                 show.toggle()
@@ -49,7 +46,16 @@ struct MixedSoundCard : View {
 
 struct MixedSoundCard_Previews: PreviewProvider {
     static var previews: some View {
-        MixedSoundCard(data: userRepositories[0],
+        let dummyMixedSound = MixedSound(id: 3,
+                                        name: "test4",
+                                        sounds: [Sound(id: 0, name: BaseAudioName.chineseGong.fileName, imageName: "gong1"),
+                                                 Sound(id: 2, name: MelodyAudioName.lynx.fileName, imageName: "r1"),
+                                                 Sound(id: 6,
+                                                       name: NaturalAudioName.creekBabbling.fileName,
+                                                       imageName: "r3")
+                                                ],
+                                        imageName: "r1")
+        MixedSoundCard(data: dummyMixedSound,
                        selectedID: "")
         .background(ColorPalette.background.color)
     }

@@ -102,7 +102,7 @@ struct Kitchen : View {
                        maxHeight: 50)
                 .background(ColorPalette.buttonBackground.color)
                 .foregroundColor(.white)
-                .cornerRadius(10)
+                .cornerRadius(12)
         }
     }
 

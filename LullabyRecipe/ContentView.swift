@@ -51,9 +51,6 @@ struct ContentView: View {
                     userName = UserDefaults.standard.string(forKey: "userName") ?? "Guest"
                 }
         })
-                     
-//            UserDefaults.standard.set(true, forKey: "firstVisit")
-       
     }
 }
 
@@ -92,12 +89,23 @@ struct CustomTabView : View {
                     Button(action: {
                         self.selected = selectedTab
                     }) {
-                        VStack {
-                            Image(selectedTab.rawValue)
-                                .renderingMode(.original)
-                                .background(.yellow)
-                            Text(selectedTab.rawValue)
-                                .foregroundColor(.white)
+                        switch selectedTab {
+                        case .home :
+                            VStack {
+                                Image(systemName: "house.fill")
+                                    .tint(self.selected == selectedTab ? ColorPalette.forground.color : .white)
+                                Text(selectedTab.rawValue)
+                                    .foregroundColor(.white)
+                                    .padding(.top, 5)
+                            }
+                        case .kitchen:
+                            VStack {
+                                Image(systemName: "sparkles")
+                                    .tint(self.selected == selectedTab ? ColorPalette.forground.color : .white)
+                                Text(selectedTab.rawValue)
+                                    .foregroundColor(.white)
+                                    .padding(.top, 5)
+                            }
                         }
                     }
                 }

@@ -19,72 +19,67 @@ struct CustomAlert: View {
     @Binding var selected: SelectedType
     
     var body: some View {
+        
+        //            Color.clear
+        //                .background(.ultraThinMaterial)
+        
+        
         ZStack {
-            Color.clear
-                .background(.ultraThinMaterial)
+            RoundedRectangle(cornerRadius: 4)
+                .fill(ColorPalette.tabBackground.color)
             
-            ZStack {
-                RoundedRectangle(cornerRadius: 4)
-                    .fill(Color.white)
-                VStack {
-                    Text("What is your name of recipe?")
-                        .font(.title3)
-                        .foregroundColor(.black)
-                    
-                    
-                    TextField("Enter text", text: $textEntered)
-                        .padding(5)
-                        .background(Color.gray.opacity(0.2))
-                        .foregroundColor(.black)
-                        .padding(.horizontal, 20)
-                    
-                    HStack {
-                        Spacer()
-                        
-                        Button {
-                            showingAlert.toggle()
-                        } label: {
-                            Text("Cancel")
-                                .padding()
-                                .frame(height: 35)
-                                .background(Color(UIColor.label))
-                                .foregroundColor(Color(UIColor.systemBackground))
-                                .cornerRadius(4)
-                            
-                        }
-                        
-                        Button {
-                            // Todo : 입력받은 이름 저장
-                            let newSound = MixedSound(id: userRepositories.count,
-                                                      name: textEntered,
-                                                      sounds: mixedAudioSources,
-                                                      imageName: recipeRandomName.randomElement()!)
-                            userRepositories.append(newSound)
-                            showingAlert.toggle()
-                            selected = .home
-                        } label: {
-                            Text("Save")
-                                .padding()
-                                .frame(height: 35)
-                                .background(Color(UIColor.systemBackground))
-                                .foregroundColor(Color(UIColor.label))
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 4)
-                                        .stroke(Color(UIColor.label), lineWidth: 2)
-                                )
-                                .cornerRadius(4)
-                        }
-                        
+            VStack {
+                HStack {
+                    Spacer()
+                    Button {
+                        showingAlert.toggle()
+                    } label: {
+                        Image(systemName: "xmark")
+                            .tint(.white)
                     }
+                }
+                .padding()
+                
+                Text("Title for this mix?")
+                    .font(.title3)
+                    .bold()
+                    .foregroundColor(.white)
+                
+                
+                TextField("Enter title", text: $textEntered)
+                    .padding(5)
+                    .background(ColorPalette.tabBackground.color)
+                    .foregroundColor(.white)
                     .padding(.horizontal, 20)
+                Rectangle()
+                    .frame(height: 2)
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 20)
+                
+                Button {
+                    let newSound = MixedSound(id: userRepositories.count,
+                                              name: textEntered,
+                                              sounds: mixedAudioSources,
+                                              imageName: recipeRandomName.randomElement()!)
+                    userRepositories.append(newSound)
+                    showingAlert.toggle()
+                    selected = .home
+                } label: {
+                    Text("Save")
+                        .padding()
+                        .frame(height: 35)
+                        .background(ColorPalette.tabBackground.color)
+                        .foregroundColor(ColorPalette.forground.color)
                 }
             }
-            .frame(width: 300, height: 150)
-            .overlay(
-                RoundedRectangle(cornerRadius: 4)
-                    .stroke(Color(UIColor.label), lineWidth: 2)
-            )
         }
+        .frame(width: 300, height: 200)
+//        .overlay(
+//            RoundedRectangle(cornerRadius: 4)
+//                .stroke(Color(UIColor.label), lineWidth: 2)
+//        )
+        
+        
     }
 }
 

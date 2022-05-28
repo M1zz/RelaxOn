@@ -55,12 +55,19 @@ var freshitems = [
 
 var mixedAudioSources: [Sound] = []
 var userRepositories: [MixedSound] = [
-//    MixedSound(id: 0,
-//                                                     name: "test",
-//                                                     sounds: [Sound(id: 0, name: BaseAudioName.chineseGong.fileName, description: "chineseGong",imageName: "gong"),
-//                                                              Sound(id: 2, name: MelodyAudioName.lynx.fileName, description: "lynx",imageName: "r1"),
-//                                                              Sound(id: 6, name: NaturalAudioName.creekBabbling.fileName, description: "creekBabbling",imageName: "r3")
-//                                                             ],
-//                                                     description: "test1",
-//                                                     imageName: "Recipe1")
+    MixedSound(id: 0,
+               name: "test",
+               sounds: [Sound(id: 0,
+                              name: BaseAudioName.chineseGong.fileName,
+                              imageName: "gong1"),
+                        
+                        Sound(id: 2,
+                              name: MelodyAudioName.lynx.fileName,
+                              imageName: "Melody1"),
+                        
+                        Sound(id: 6,
+                              name: NaturalAudioName.creekBabbling.fileName,
+                              imageName: "r3")
+               ],
+               imageName: "Recipe1")
 ]

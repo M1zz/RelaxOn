@@ -21,7 +21,6 @@ struct Home: View {
                 Profile()
                 
                 ScrollView(.vertical, showsIndicators: false) {
-                    
                     VStack(spacing: 15) {
                         MainBanner()
                         
@@ -30,7 +29,6 @@ struct Home: View {
                 }
             }
             .padding(.horizontal)
-                
         }
         .onAppear {
             userName = UserDefaults.standard.string(forKey: "userName") ?? "Guest"
@@ -76,37 +74,37 @@ struct Home: View {
             }.padding(.vertical, 15)
             
             if userRepositories.isEmpty {
-                VStack {
-                    //WhiteTitleText(title: "Your first recipe has not been made yet.")
-                    Button {
-                        selected = .kitchen
-                    } label: {
-                        //Text("Go to create lullaby")
-                        HStack {
-                            ZStack {
-                                Rectangle()
-                                    // TODO: - 화면의 절반
-                                    .frame(width: 150,
-                                           height: 150)
-                                    .modifier(RoundedEdge(width: 1, color: ColorPalette.buttonBackground.color, cornerRadius: 20))
-                                    .foregroundColor(ColorPalette.background.color)
-                                Image(systemName: "plus.circle.fill")
-                                    .frame(width: 30,
-                                           height: 30)
-                                    .foregroundColor(ColorPalette.buttonBackground.color)
-                            }
-                            Spacer()
-                        }
-                    }
-                }
+                emptySoundButton()
             } else {
                 LazyVGrid(columns: Array(repeating: GridItem(.flexible(),spacing: 15), count: 2),
                           spacing: 20) {
                     ForEach(userRepositories){ item in
                         MixedSoundCard(data: item)
                     }
-                    
                 }
+            }
+        }
+    }
+    
+    @ViewBuilder
+    func emptySoundButton() -> some View {
+        Button {
+            selected = .kitchen
+        } label: {
+            HStack {
+                ZStack {
+                    Rectangle()
+                    // TODO: - 화면의 절반
+                        .frame(width: 150,
+                               height: 150)
+                        .modifier(RoundedEdge(width: 1, color: ColorPalette.buttonBackground.color, cornerRadius: 20))
+                        .foregroundColor(ColorPalette.background.color)
+                    Image(systemName: "plus.circle.fill")
+                        .frame(width: 30,
+                               height: 30)
+                        .foregroundColor(ColorPalette.buttonBackground.color)
+                }
+                Spacer()
             }
         }
     }

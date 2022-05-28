@@ -192,6 +192,7 @@
 			children = (
 				58DE61B8283A937000F25769 /* Home.swift */,
 				58DE61BC283E542400F25769 /* MixedSoundCard.swift */,
+				58DE101F283DD9CA002CDB9F /* Music */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -274,7 +275,6 @@
 				58DE61C32841C53A00F25769 /* Onboarding */,
 				58DE103928405C7F002CDB9F /* Home */,
 				58DE103828405C6C002CDB9F /* Kitchen */,
-				58DE101F283DD9CA002CDB9F /* Music */,
 				58DE1036283F65D9002CDB9F /* WhiteTitleText.swift */,
 			);
 			path = Views;
