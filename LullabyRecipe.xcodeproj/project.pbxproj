@@ -33,6 +33,18 @@
 		58DE61B9283A937000F25769 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61B8283A937000F25769 /* Home.swift */; };
 		58DE61BB283A9EE800F25769 /* chinese_gong.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 58DE61BA283A9EE800F25769 /* chinese_gong.mp3 */; };
 		58DE61BD283E542400F25769 /* MixedSoundCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61BC283E542400F25769 /* MixedSoundCard.swift */; };
+		DD0AD6502841B584001BC2FE /* CornField.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD0AD64F2841B584001BC2FE /* CornField.mp3 */; };
+		DD0AD6552841B593001BC2FE /* CreekSmall.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD0AD6512841B593001BC2FE /* CreekSmall.mp3 */; };
+		DD0AD6562841B593001BC2FE /* NatureForestSwamp.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD0AD6522841B593001BC2FE /* NatureForestSwamp.mp3 */; };
+		DD0AD6572841B593001BC2FE /* RainUmbrella.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD0AD6532841B593001BC2FE /* RainUmbrella.mp3 */; };
+		DD0AD6582841B593001BC2FE /* RainLight4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD0AD6542841B593001BC2FE /* RainLight4.mp3 */; };
+		DD0AD65F2841B5A7001BC2FE /* WindChimes.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD0AD6592841B5A7001BC2FE /* WindChimes.mp3 */; };
+		DD0AD6602841B5A7001BC2FE /* DroneCrystal.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD0AD65A2841B5A7001BC2FE /* DroneCrystal.mp3 */; };
+		DD0AD6612841B5A7001BC2FE /* LittleBee.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD0AD65B2841B5A7001BC2FE /* LittleBee.mp3 */; };
+		DD0AD6622841B5A7001BC2FE /* RakingLeaves.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD0AD65C2841B5A7001BC2FE /* RakingLeaves.mp3 */; };
+		DD0AD6632841B5A7001BC2FE /* SeemsLikeYesterday.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD0AD65D2841B5A7001BC2FE /* SeemsLikeYesterday.mp3 */; };
+		DD0AD6642841B5A7001BC2FE /* LullabyForCharlie.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD0AD65E2841B5A7001BC2FE /* LullabyForCharlie.mp3 */; };
+		DD0AD6662841B5B5001BC2FE /* GongSmall.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD0AD6652841B5B5001BC2FE /* GongSmall.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +95,18 @@
 		58DE61BA283A9EE800F25769 /* chinese_gong.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = chinese_gong.mp3; sourceTree = "<group>"; };
 		58DE61BC283E542400F25769 /* MixedSoundCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixedSoundCard.swift; sourceTree = "<group>"; };
 		58DE61BE283E77E700F25769 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		DD0AD64F2841B584001BC2FE /* CornField.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = CornField.mp3; path = "../../../../Sound resource/Natural/CornField.mp3"; sourceTree = "<group>"; };
+		DD0AD6512841B593001BC2FE /* CreekSmall.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = CreekSmall.mp3; path = "../../../../Sound resource/Natural/CreekSmall.mp3"; sourceTree = "<group>"; };
+		DD0AD6522841B593001BC2FE /* NatureForestSwamp.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = NatureForestSwamp.mp3; path = "../../../../Sound resource/Natural/NatureForestSwamp.mp3"; sourceTree = "<group>"; };
+		DD0AD6532841B593001BC2FE /* RainUmbrella.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = RainUmbrella.mp3; path = "../../../../Sound resource/Natural/RainUmbrella.mp3"; sourceTree = "<group>"; };
+		DD0AD6542841B593001BC2FE /* RainLight4.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = RainLight4.mp3; path = "../../../../Sound resource/Natural/RainLight4.mp3"; sourceTree = "<group>"; };
+		DD0AD6592841B5A7001BC2FE /* WindChimes.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = WindChimes.mp3; path = "../../../../Sound resource/Melody/WindChimes.mp3"; sourceTree = "<group>"; };
+		DD0AD65A2841B5A7001BC2FE /* DroneCrystal.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = DroneCrystal.mp3; path = "../../../../Sound resource/Melody/DroneCrystal.mp3"; sourceTree = "<group>"; };
+		DD0AD65B2841B5A7001BC2FE /* LittleBee.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = LittleBee.mp3; path = "../../../../Sound resource/Melody/LittleBee.mp3"; sourceTree = "<group>"; };
+		DD0AD65C2841B5A7001BC2FE /* RakingLeaves.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = RakingLeaves.mp3; path = "../../../../Sound resource/Melody/RakingLeaves.mp3"; sourceTree = "<group>"; };
+		DD0AD65D2841B5A7001BC2FE /* SeemsLikeYesterday.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = SeemsLikeYesterday.mp3; path = "../../../../Sound resource/Melody/SeemsLikeYesterday.mp3"; sourceTree = "<group>"; };
+		DD0AD65E2841B5A7001BC2FE /* LullabyForCharlie.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = LullabyForCharlie.mp3; path = "../../../../Sound resource/Melody/LullabyForCharlie.mp3"; sourceTree = "<group>"; };
+		DD0AD6652841B5B5001BC2FE /* GongSmall.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = GongSmall.mp3; path = "../../../../Sound resource/Base/GongSmall.mp3"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +158,7 @@
 			children = (
 				58DE1029283DF62B002CDB9F /* gong_nohit.mp3 */,
 				58DE61BA283A9EE800F25769 /* chinese_gong.mp3 */,
+				DD0AD6652841B5B5001BC2FE /* GongSmall.mp3 */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -143,6 +168,12 @@
 			children = (
 				58DE1028283DF62B002CDB9F /* perl_bird.mp3 */,
 				58DE1027283DF62B002CDB9F /* lynx.mp3 */,
+				DD0AD65A2841B5A7001BC2FE /* DroneCrystal.mp3 */,
+				DD0AD65B2841B5A7001BC2FE /* LittleBee.mp3 */,
+				DD0AD65E2841B5A7001BC2FE /* LullabyForCharlie.mp3 */,
+				DD0AD65C2841B5A7001BC2FE /* RakingLeaves.mp3 */,
+				DD0AD65D2841B5A7001BC2FE /* SeemsLikeYesterday.mp3 */,
+				DD0AD6592841B5A7001BC2FE /* WindChimes.mp3 */,
 			);
 			path = Melody;
 			sourceTree = "<group>";
@@ -153,6 +184,11 @@
 				58DE102A283DF62B002CDB9F /* creek_babbling.mp3 */,
 				58DE61AC283A892000F25769 /* ocean_4.mp3 */,
 				58DE1026283DF62B002CDB9F /* water_drip.mp3 */,
+				DD0AD64F2841B584001BC2FE /* CornField.mp3 */,
+				DD0AD6512841B593001BC2FE /* CreekSmall.mp3 */,
+				DD0AD6522841B593001BC2FE /* NatureForestSwamp.mp3 */,
+				DD0AD6542841B593001BC2FE /* RainLight4.mp3 */,
+				DD0AD6532841B593001BC2FE /* RainUmbrella.mp3 */,
 			);
 			path = Natural;
 			sourceTree = "<group>";
@@ -381,9 +417,21 @@
 				58DE102E283DF62B002CDB9F /* gong_nohit.mp3 in Resources */,
 				58DE61AD283A892000F25769 /* ocean_4.mp3 in Resources */,
 				58DE618A2839C13A00F25769 /* Preview Assets.xcassets in Resources */,
+				DD0AD6502841B584001BC2FE /* CornField.mp3 in Resources */,
+				DD0AD65F2841B5A7001BC2FE /* WindChimes.mp3 in Resources */,
+				DD0AD6632841B5A7001BC2FE /* SeemsLikeYesterday.mp3 in Resources */,
 				58DE102F283DF62B002CDB9F /* creek_babbling.mp3 in Resources */,
+				DD0AD6662841B5B5001BC2FE /* GongSmall.mp3 in Resources */,
+				DD0AD6572841B593001BC2FE /* RainUmbrella.mp3 in Resources */,
+				DD0AD6562841B593001BC2FE /* NatureForestSwamp.mp3 in Resources */,
+				DD0AD6622841B5A7001BC2FE /* RakingLeaves.mp3 in Resources */,
+				DD0AD6602841B5A7001BC2FE /* DroneCrystal.mp3 in Resources */,
+				DD0AD6612841B5A7001BC2FE /* LittleBee.mp3 in Resources */,
+				DD0AD6552841B593001BC2FE /* CreekSmall.mp3 in Resources */,
 				58DE61872839C13A00F25769 /* Assets.xcassets in Resources */,
 				58DE61BB283A9EE800F25769 /* chinese_gong.mp3 in Resources */,
+				DD0AD6642841B5A7001BC2FE /* LullabyForCharlie.mp3 in Resources */,
+				DD0AD6582841B593001BC2FE /* RainLight4.mp3 in Resources */,
 				58DE102B283DF62B002CDB9F /* water_drip.mp3 in Resources */,
 				58DE102C283DF62B002CDB9F /* lynx.mp3 in Resources */,
 				58DE102D283DF62B002CDB9F /* perl_bird.mp3 in Resources */,
@@ -583,7 +631,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"LullabyRecipe/Preview Content\"";
-				DEVELOPMENT_TEAM = QGAQ3AY3R3;
+				DEVELOPMENT_TEAM = UYX7L34WG8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LullabyRecipe/Info.plist;
@@ -612,7 +660,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"LullabyRecipe/Preview Content\"";
-				DEVELOPMENT_TEAM = QGAQ3AY3R3;
+				DEVELOPMENT_TEAM = UYX7L34WG8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LullabyRecipe/Info.plist;
