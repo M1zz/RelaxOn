@@ -17,7 +17,8 @@ struct MusicView: View {
     var data: MixedSound
     
     var body: some View {
-        ZStack {
+        
+        ZStack(alignment: .top) {
             
             ColorPalette.background.color.ignoresSafeArea()
             
@@ -36,16 +37,10 @@ struct MusicView: View {
                     }
                 }
                 
-                MusicControlButton()
+                Spacer()
                 
                 VolumeControlButton()
             }
-            //            .navigationBarTitle(Text(""),
-            //                                displayMode: .inline)
-            .navigationBarTitle(Text(""),
-                // Todo :- edit 버튼 동작 .toolbar(content: { Button("Edit") { }}) }}
-                                displayMode: .inline)
-            
             .onAppear {
                 viewModel.fetchData(data: data)
             }
@@ -53,6 +48,9 @@ struct MusicView: View {
                 viewModel.stop()
             }
         }
+        .navigationBarTitle(Text(""),
+                            // Todo :- edit 버튼 동작 .toolbar(content: { Button("Edit") { }}) }}
+                            displayMode: .inline)
     }
     
     @ViewBuilder
@@ -61,8 +59,8 @@ struct MusicView: View {
             if let thumbNailImage = UIImage(named: data.imageName) {
                 Image(uiImage: thumbNailImage)
                     .resizable()
-                    .frame(width: 180,
-                           height: 180)
+                    .frame(width: 156,
+                           height: 156)
                     .cornerRadius(15)
             } else {
                 // 문제시 기본이미지 영역
@@ -73,7 +71,11 @@ struct MusicView: View {
                 Rectangle()
                     .frame(height: 2)
                     .foregroundColor(.white)
-            }.padding()
+                Spacer()
+                MusicControlButton()
+            }
+            .padding(.horizontal)
+            .frame(height: 156)
             
             Spacer()
         }
@@ -94,33 +96,29 @@ struct MusicView: View {
     
     @ViewBuilder
     func MusicControlButton() -> some View {
-//        ZStack {
-//            ZStack {
-//                Circle()
-//                    .fill(Color.white.opacity(0.05))
-//
-//                Circle()
-//                    .fill(Color.white.opacity(0.08))
-//                    .frame(width: animatedValue / 2,
-//                           height: animatedValue / 2)
-//            }
-//            .frame(width: animatedValue, height: animatedValue)
+        Button(action: {
+            viewModel.play()
+            viewModel.isPlaying.toggle()
+        }, label: {
+            Image(systemName: viewModel.isPlaying ? "pause.fill" : "play.fill")
+                .frame(minWidth: 0,
+                       maxWidth: .infinity,
+                       maxHeight: 50)
+                .background(ColorPalette.buttonBackground.color)
+                .foregroundColor(.white)
+                .cornerRadius(12)
             
-            Button(action: {
-                viewModel.play()
-                viewModel.isPlaying.toggle()
-            }, label: {
-                Image(systemName: viewModel.isPlaying ? "pause.fill" : "play.fill")
-                    .foregroundColor(.black)
-                    .frame(width: 55,
-                           height: 55)
-                    .background(Color.white)
-                    .clipShape(Circle())
-            })
-//        }
-//        .frame(width: maxWidth,
-//               height: maxWidth)
-//        .padding(.top,30)
+//            Image(systemName: viewModel.isPlaying ? "pause.fill" : "play.fill")
+//                .foregroundColor(.black)
+//                .frame(width: 55,
+//                       height: 55)
+//                .background(Color.white)
+//                .clipShape(Circle())
+        })
+        //        }
+        //        .frame(width: maxWidth,
+        //               height: maxWidth)
+        //        .padding(.top,30)
     }
     
     @ViewBuilder
@@ -159,20 +157,21 @@ struct MusicView: View {
                 .cornerRadius(12)
         }
         .padding(.horizontal, 20)
+        .padding(.bottom, 37)
     }
 }
 
 struct Music_Previews: PreviewProvider {
     static var previews: some View {
         let dummyMixedSound = MixedSound(id: 3,
-                                        name: "test4",
-                                        sounds: [Sound(id: 0, name: BaseAudioName.chineseGong.fileName, imageName: "gong1"),
-                                                 Sound(id: 2, name: MelodyAudioName.lynx.fileName, imageName: "r1"),
-                                                 Sound(id: 6,
-                                                       name: NaturalAudioName.creekBabbling.fileName,
-                                                       imageName: "r3")
-                                                ],
-                                        imageName: "r1")
+                                         name: "test4",
+                                         sounds: [Sound(id: 0, name: BaseAudioName.chineseGong.fileName, imageName: "gong1"),
+                                                  Sound(id: 2, name: MelodyAudioName.lynx.fileName, imageName: "r1"),
+                                                  Sound(id: 6,
+                                                        name: NaturalAudioName.creekBabbling.fileName,
+                                                        imageName: "r3")
+                                                 ],
+                                         imageName: "r1")
         MusicView(data: dummyMixedSound)
     }
 }

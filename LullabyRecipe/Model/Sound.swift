@@ -10,6 +10,7 @@ import Foundation
 struct Sound: Identifiable {
     let id: Int // = UUID()
     let name: String
+    var audioVolume: Float? = 0.5
     let imageName: String
 }
 

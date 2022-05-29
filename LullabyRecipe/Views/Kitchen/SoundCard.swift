@@ -31,8 +31,8 @@ struct SoundCard : View {
             VStack(alignment: .center, spacing: 10) {
                 Image(data.imageName)
                     .resizable()
-                    .frame(width: 180,
-                           height: 180,
+                    .frame(width: 156,
+                           height: 156,
                            alignment: .center)
                     .cornerRadius(10)
                     .border(selectedID == soundFileName ? .red : .clear, width: 3)
