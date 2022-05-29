@@ -7,14 +7,14 @@
 
 import Foundation
 
-struct Sound: Identifiable {
+struct Sound: Identifiable, Codable {
     let id: Int // = UUID()
     let name: String
     var audioVolume: Float? = 0.5
     let imageName: String
 }
 
-struct MixedSound: Identifiable {
+struct MixedSound: Identifiable, Codable {
     let id: Int
     let name: String
     let sounds: [Sound]

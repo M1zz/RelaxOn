@@ -62,6 +62,10 @@ struct CustomAlert: View {
                                               sounds: mixedAudioSources,
                                               imageName: recipeRandomName.randomElement()!)
                     userRepositories.append(newSound)
+                    
+                    let data = getEncodedData(data: userRepositories)
+                    UserDefaults.standard.set(data, forKey: "recipes")
+                    
                     showingAlert.toggle()
                     selected = .home
                 } label: {
@@ -80,6 +84,17 @@ struct CustomAlert: View {
 //        )
         
         
+    }
+    
+    private func getEncodedData(data: [MixedSound]) -> Data? {
+        do {
+            let encoder = JSONEncoder()
+            let encodedData = try encoder.encode(data)
+            return encodedData
+        } catch {
+            print("Unable to Encode Note (\(error))")
+        }
+        return nil
     }
 }
 

@@ -32,6 +32,19 @@ struct Home: View {
         }
         .onAppear {
             userName = UserDefaults.standard.string(forKey: "userName") ?? "Guest"
+            
+            if let data = UserDefaults.standard.data(forKey: "recipes") {
+                do {
+                    // Create JSON Decoder
+                    let decoder = JSONDecoder()
+
+                    // Decode Note
+                    userRepositories = try decoder.decode([MixedSound].self, from: data)
+
+                } catch {
+                    print("Unable to Decode Note (\(error))")
+                }
+            }
         }
     }
     
