@@ -28,15 +28,23 @@ struct MusicView: View {
                 
                 Divider()
                 
-                ForEach(data.sounds) { singleSound in
-                    VStack(spacing: 20) {
-                        Divider()
-                            .background(.white)
-                            .padding(.horizontal, 20)
-                        SingleSong(song: singleSound)
-                        
-                    }
+                VStack(spacing: 20) {
+                    Divider()
+                        .background(.white)
+                        .padding(.horizontal, 20)
+                    SingleSong(song: data.baseSound!)
+                    
+                    Divider()
+                        .background(.white)
+                        .padding(.horizontal, 20)
+                    SingleSong(song: data.melodySound!)
+                    
+                    Divider()
+                        .background(.white)
+                        .padding(.horizontal, 20)
+                    SingleSong(song: data.naturalSound!)
                 }
+                
                 
                 Spacer()
                 
@@ -52,9 +60,10 @@ struct MusicView: View {
         .sheet(isPresented: $showVolumeControl,
                content: {
             VolumeControl(showVolumeControl: $showVolumeControl,
-                          baseVolume: 0.5,
-                          melodyVolume: 0.5,
-                          naturalVolume: 0.5)
+                          baseVolume: (data.baseSound?.audioVolume)!,
+                          melodyVolume: (data.melodySound?.audioVolume)!,
+                          naturalVolume: (data.naturalSound?.audioVolume)!,
+                          data: data)
         })
         .navigationBarTitle(Text(""),
                             // Todo :- edit 버튼 동작 .toolbar(content: { Button("Edit") { }}) }}
@@ -175,7 +184,9 @@ struct Music_Previews: PreviewProvider {
     static var previews: some View {
         let dummyMixedSound = MixedSound(id: 3,
                                          name: "test4",
-                                         sounds: dummySounds,
+                                         baseSound: dummyBaseSound,
+                                         melodySound: dummyMelodySound,
+                                         naturalSound: dummyNaturalSound,
                                          imageName: "r1")
         MusicView(data: dummyMixedSound)
     }

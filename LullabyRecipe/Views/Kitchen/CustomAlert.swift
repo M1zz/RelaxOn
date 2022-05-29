@@ -57,9 +57,12 @@ struct CustomAlert: View {
                     .padding(.horizontal, 20)
                 
                 Button {
+                    // TODO: - id 문제 해결
                     let newSound = MixedSound(id: userRepositories.count,
                                               name: textEntered,
-                                              sounds: mixedAudioSources,
+                                              baseSound: baseSound,
+                                              melodySound: melodySound,
+                                              naturalSound: naturalSound,
                                               imageName: recipeRandomName.randomElement()!)
                     userRepositories.append(newSound)
                     
