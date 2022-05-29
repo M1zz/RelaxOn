@@ -23,16 +23,16 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LullabyRecipe" textAlignment="center" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="GJd-Yh-RWb">
-                                <rect key="frame" x="141" y="506.5" width="132.5" height="26.5"/>
+                                <rect key="frame" x="141" y="513" width="132.5" height="26.5"/>
                                 <fontDescription key="fontDescription" type="italicSystem" pointSize="22"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="iln-q3-rs2">
-                                <rect key="frame" x="167" y="408" width="80" height="80"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="iln-q3-rs2">
+                                <rect key="frame" x="167" y="413" width="80" height="80"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="207" id="8zm-bj-TGU"/>
-                                    <constraint firstAttribute="width" constant="207" id="kMY-9i-rI2"/>
+                                    <constraint firstAttribute="height" constant="80" id="8zm-bj-TGU"/>
+                                    <constraint firstAttribute="width" constant="80" id="kMY-9i-rI2"/>
                                 </constraints>
                             </imageView>
                         </subviews>
@@ -42,7 +42,7 @@
                             <constraint firstItem="Bcu-3y-fUS" firstAttribute="centerX" secondItem="obG-Y5-kRd" secondAttribute="centerX" id="5cz-MP-9tL"/>
                             <constraint firstItem="GJd-Yh-RWb" firstAttribute="centerX" secondItem="Bcu-3y-fUS" secondAttribute="centerX" id="E7h-02-oQ2"/>
                             <constraint firstItem="iln-q3-rs2" firstAttribute="centerY" secondItem="Bcu-3y-fUS" secondAttribute="centerY" id="Gpg-4t-AfU"/>
-                            <constraint firstItem="GJd-Yh-RWb" firstAttribute="top" secondItem="iln-q3-rs2" secondAttribute="bottom" constant="-50" id="Mwz-Vm-h8h"/>
+                            <constraint firstItem="GJd-Yh-RWb" firstAttribute="top" secondItem="iln-q3-rs2" secondAttribute="bottom" constant="20" id="Mwz-Vm-h8h"/>
                             <constraint firstItem="obG-Y5-kRd" firstAttribute="leading" secondItem="Bcu-3y-fUS" secondAttribute="leading" symbolic="YES" id="SfN-ll-jLj"/>
                             <constraint firstAttribute="bottom" secondItem="obG-Y5-kRd" secondAttribute="bottom" constant="20" id="Y44-ml-fuU"/>
                             <constraint firstItem="iln-q3-rs2" firstAttribute="centerX" secondItem="Bcu-3y-fUS" secondAttribute="centerX" id="y8h-6H-zBq"/>
