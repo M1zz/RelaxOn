@@ -26,9 +26,9 @@ final class MusicViewModel: NSObject, ObservableObject {
             melodyAudioManager.playPause()
             naturalAudioManager.playPause()
         } else {
-            baseAudioManager.startPlayer(track: mixedSound?.sounds[0].name ?? "chinese_gong", volume: 0.8)
-            melodyAudioManager.startPlayer(track: mixedSound?.sounds[1].name ?? "chinese_gong")
-            naturalAudioManager.startPlayer(track: mixedSound?.sounds[2].name ?? "chinese_gong", volume: 0.5)
+            baseAudioManager.startPlayer(track: mixedSound?.baseSound?.name ?? "chinese_gong", volume: 0.8)
+            melodyAudioManager.startPlayer(track: mixedSound?.melodySound?.name ?? "chinese_gong")
+            naturalAudioManager.startPlayer(track: mixedSound?.naturalSound?.name ?? "chinese_gong", volume: 0.5)
         }
     }
     

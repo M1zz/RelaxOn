@@ -27,14 +27,17 @@ struct Kitchen : View {
     @State private var selectedBaseSound: Sound = Sound(id: 0,
                                                         name: "",
                                                         soundType: .base,
+                                                        audioVolume: 0.8,
                                                         imageName: "")
     @State private var selectedMelodySound: Sound = Sound(id: 0,
                                                           name: "",
                                                           soundType: .melody,
+                                                          audioVolume: 1.0,
                                                           imageName: "")
     @State private var selectedNaturalSound: Sound = Sound(id: 0,
                                                            name: "",
                                                            soundType: .natural,
+                                                           audioVolume: 0.4,
                                                            imageName: "")
     @State var userName: String = ""
     @Binding var selected: SelectedType
@@ -96,7 +99,10 @@ struct Kitchen : View {
     func MixedAudioCreateButton() -> some View {
         Button {
             showingAlert = true
-            mixedAudioSources = [selectedBaseSound, selectedMelodySound, selectedNaturalSound]
+            
+            baseSound = selectedBaseSound
+            melodySound = selectedMelodySound
+            naturalSound = selectedNaturalSound
             
             baseAudioManager.stop()
             melodyAudioManager.stop()

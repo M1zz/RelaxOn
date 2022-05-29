@@ -40,6 +40,7 @@ struct Home: View {
 
                     // Decode Note
                     userRepositories = try decoder.decode([MixedSound].self, from: data)
+                    print("help : \(userRepositories)")
 
                 } catch {
                     print("Unable to Decode Note (\(error))")
@@ -89,7 +90,8 @@ struct Home: View {
             if userRepositories.isEmpty {
                 emptySoundButton()
             } else {
-                LazyVGrid(columns: Array(repeating: GridItem(.flexible(),spacing: 15), count: 2),
+                LazyVGrid(columns: Array(repeating: GridItem(.flexible(),spacing: 15),
+                                         count: 2),
                           spacing: 20) {
                     ForEach(userRepositories){ item in
                         MixedSoundCard(data: item)
