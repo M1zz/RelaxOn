@@ -15,7 +15,7 @@ var categories = ["Natural",
 
 
 
-enum SoundType: String {
+enum SoundType: String, Codable {
     case base
     case melody
     case natural
@@ -24,9 +24,18 @@ enum SoundType: String {
 struct Kitchen : View {
  
     @State private var showingAlert = false
-    @State private var selectedBaseSound: Sound = Sound(id: 0, name: "", imageName: "")
-    @State private var selectedMelodySound: Sound = Sound(id: 0, name: "", imageName: "")
-    @State private var selectedNaturalSound: Sound = Sound(id: 0, name: "", imageName: "")
+    @State private var selectedBaseSound: Sound = Sound(id: 0,
+                                                        name: "",
+                                                        soundType: .base,
+                                                        imageName: "")
+    @State private var selectedMelodySound: Sound = Sound(id: 0,
+                                                          name: "",
+                                                          soundType: .melody,
+                                                          imageName: "")
+    @State private var selectedNaturalSound: Sound = Sound(id: 0,
+                                                           name: "",
+                                                           soundType: .natural,
+                                                           imageName: "")
     @State var userName: String = ""
     @Binding var selected: SelectedType
     

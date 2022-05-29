@@ -46,15 +46,7 @@ struct MixedSoundCard : View {
 
 struct MixedSoundCard_Previews: PreviewProvider {
     static var previews: some View {
-        let dummyMixedSound = MixedSound(id: 3,
-                                        name: "test4",
-                                        sounds: [Sound(id: 0, name: BaseAudioName.chineseGong.fileName, imageName: "gong1"),
-                                                 Sound(id: 2, name: MelodyAudioName.lynx.fileName, imageName: "r1"),
-                                                 Sound(id: 6,
-                                                       name: NaturalAudioName.creekBabbling.fileName,
-                                                       imageName: "r3")
-                                                ],
-                                        imageName: "r1")
+        let dummyMixedSound = dummyMixedSound
         MixedSoundCard(data: dummyMixedSound,
                        selectedID: "")
         .background(ColorPalette.background.color)

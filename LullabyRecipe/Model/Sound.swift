@@ -10,6 +10,7 @@ import Foundation
 struct Sound: Identifiable, Codable {
     let id: Int // = UUID()
     let name: String
+    var soundType: SoundType
     var audioVolume: Float? = 0.5
     let imageName: String
 }
@@ -22,22 +23,52 @@ struct MixedSound: Identifiable, Codable {
 }
 
 var baseSounds = [
-    Sound(id: 0, name: "선택하지 않음", imageName: "music"),
-    Sound(id: 1, name: BaseAudioName.chineseGong.fileName,imageName: "gong1"),
-    Sound(id: 2, name: BaseAudioName.gongNoHit.fileName,imageName: "gong2"),
+    Sound(id: 0,
+          name: "선택하지 않음",
+          soundType: .base,
+          imageName: "music"),
+    Sound(id: 1,
+          name: BaseAudioName.chineseGong.fileName,
+          soundType: .base,
+          imageName: "gong1"),
+    Sound(id: 2,
+          name: BaseAudioName.gongNoHit.fileName,
+          soundType: .base,
+          imageName: "gong2"),
 ]
 
 var melodySounds = [
-    Sound(id: 3, name: "선택하지 않음", imageName: "music"),
-    Sound(id: 4, name: MelodyAudioName.lynx.fileName, imageName: "Melody1"),
-    Sound(id: 5, name: MelodyAudioName.perlBird.fileName, imageName: "Melody2"),
+    Sound(id: 3,
+          name: "선택하지 않음",
+          soundType: .melody,
+          imageName: "music"),
+    Sound(id: 4,
+          name: MelodyAudioName.lynx.fileName,
+          soundType: .melody,
+          imageName: "Melody1"),
+    Sound(id: 5,
+          name: MelodyAudioName.perlBird.fileName,
+          soundType: .melody,
+          imageName: "Melody2"),
 ]
 
 var naturalSounds = [
-    Sound(id: 6, name: "선택하지 않음", imageName: "music"),
-    Sound(id: 7, name: NaturalAudioName.creekBabbling.fileName, imageName: "creek"),
-    Sound(id: 8, name: NaturalAudioName.ocean4.fileName, imageName: "ocean"),
-    Sound(id: 9, name: NaturalAudioName.waterDrip.fileName, imageName: "waterdrip")
+    Sound(id: 6,
+          name: "선택하지 않음",
+          soundType: .natural,
+          imageName: "music"),
+    Sound(id: 7,
+          name: NaturalAudioName.creekBabbling.fileName,
+          soundType: .natural,
+          imageName: "creek"),
+    Sound(id: 8,
+          name: NaturalAudioName.ocean4.fileName,
+          soundType: .natural,
+          imageName: "ocean"),
+    Sound(id: 9,
+          name: NaturalAudioName.waterDrip.fileName,
+          soundType: .natural,
+          imageName: "waterdrip")
 ]
 
 #warning("name need changed")
@@ -55,20 +86,27 @@ var freshitems = [
 ]
 
 var mixedAudioSources: [Sound] = []
-var userRepositories: [MixedSound] = [
-    MixedSound(id: 0,
+var userRepositories: [MixedSound] = [dummyMixedSound]
+
+let dummyMixedSound = MixedSound(id: 0,
                name: "test",
-               sounds: [Sound(id: 0,
-                              name: BaseAudioName.chineseGong.fileName,
-                              imageName: "gong1"),
-                        
-                        Sound(id: 2,
-                              name: MelodyAudioName.lynx.fileName,
-                              imageName: "Melody1"),
-                        
-                        Sound(id: 6,
-                              name: NaturalAudioName.creekBabbling.fileName,
-                              imageName: "r3")
-               ],
+               sounds: dummySounds,
                imageName: "Recipe1")
+
+
+let dummySounds = [
+    Sound(id: 0,
+          name: BaseAudioName.chineseGong.fileName,
+          soundType: .base,
+          imageName: "gong1"),
+    
+    Sound(id: 2,
+          name: MelodyAudioName.lynx.fileName,
+          soundType: .melody,
+          imageName: "Melody1"),
+    
+    Sound(id: 6,
+          name: NaturalAudioName.creekBabbling.fileName,
+          soundType: .natural,
+          imageName: "r3")
 ]

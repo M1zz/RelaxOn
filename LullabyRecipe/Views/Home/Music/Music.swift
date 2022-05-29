@@ -13,6 +13,7 @@ struct MusicView: View {
     @StateObject var viewModel = MusicViewModel()
     @State var animatedValue : CGFloat = 55
     @State var maxWidth = UIScreen.main.bounds.width / 2.2
+    @State var showVolumeControl: Bool = false
     
     var data: MixedSound
     
@@ -48,9 +49,17 @@ struct MusicView: View {
                 viewModel.stop()
             }
         }
+        .sheet(isPresented: $showVolumeControl,
+               content: {
+            VolumeControl(showVolumeControl: $showVolumeControl,
+                          baseVolume: 0.5,
+                          melodyVolume: 0.5,
+                          naturalVolume: 0.5)
+        })
         .navigationBarTitle(Text(""),
                             // Todo :- edit 버튼 동작 .toolbar(content: { Button("Edit") { }}) }}
                             displayMode: .inline)
+        
     }
     
     @ViewBuilder
@@ -145,7 +154,7 @@ struct MusicView: View {
     @ViewBuilder
     func VolumeControlButton() -> some View {
         Button {
-            
+            showVolumeControl = true
         } label: {
             Text("Volume Control")
                 .bold()
@@ -165,12 +174,7 @@ struct Music_Previews: PreviewProvider {
     static var previews: some View {
         let dummyMixedSound = MixedSound(id: 3,
                                          name: "test4",
-                                         sounds: [Sound(id: 0, name: BaseAudioName.chineseGong.fileName, imageName: "gong1"),
-                                                  Sound(id: 2, name: MelodyAudioName.lynx.fileName, imageName: "r1"),
-                                                  Sound(id: 6,
-                                                        name: NaturalAudioName.creekBabbling.fileName,
-                                                        imageName: "r3")
-                                                 ],
+                                         sounds: dummySounds,
                                          imageName: "r1")
         MusicView(data: dummyMixedSound)
     }
