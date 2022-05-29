@@ -51,4 +51,27 @@ final class AudioManager {
         }
     }
     
+    func chanegeVolume(track: String, volume: Float) {
+        
+        guard let url = Bundle.main.url(forResource: track,
+                                        withExtension: "mp3") else {
+            print("resource not found \(track)")
+            return
+        }
+        
+        if ((player?.isPlaying) != nil) {
+            player?.volume = volume
+        } else {
+            do {
+                player = try AVAudioPlayer(contentsOf: url)
+                player?.volume = volume
+                player?.numberOfLoops = -1
+                player?.play()
+            } catch {
+                print("fail to initialize player")
+            }
+        }
+        
+    }
+    
 }

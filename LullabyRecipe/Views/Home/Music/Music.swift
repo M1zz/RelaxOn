@@ -155,6 +155,7 @@ struct MusicView: View {
     func VolumeControlButton() -> some View {
         Button {
             showVolumeControl = true
+            viewModel.stop()
         } label: {
             Text("Volume Control")
                 .bold()

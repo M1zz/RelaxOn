@@ -15,6 +15,10 @@ struct VolumeControl: View {
     @State var melodyVolume: Float
     @State var naturalVolume: Float
     
+    let baseAudioManager = AudioManager()
+    let melodyAudioManager = AudioManager()
+    let naturalAudioManager = AudioManager()
+    
     var body: some View {
         ZStack {
             ColorPalette.tabBackground.color.ignoresSafeArea()
@@ -33,6 +37,8 @@ struct VolumeControl: View {
                     Spacer()
                     Button {
                         showVolumeControl.toggle()
+                        
+                        // TODO: - 볼륨 저장
                     } label: {
                         Text("Save")
                             .foregroundColor(ColorPalette.forground.color)
@@ -69,18 +75,33 @@ struct VolumeControl: View {
                                     .cornerRadius(4)
                                     .accentColor(.white)
                                     .padding(.horizontal, 20)
+                                    .onChange(of: baseVolume) { newValue in
+                                        print(newValue)
+                                        baseAudioManager.chanegeVolume(track: item.name,
+                                                                       volume: newValue)
+                                    }
                             case .melody:
                                 Slider(value: $melodyVolume, in: 0...1)
                                     .background(.black)
                                     .cornerRadius(4)
                                     .accentColor(.white)
                                     .padding(.horizontal, 20)
+                                    .onChange(of: melodyVolume) { newValue in
+                                        print(newValue)
+                                        melodyAudioManager.chanegeVolume(track: item.name,
+                                                                       volume: newValue)
+                                    }
                             case .natural:
                                 Slider(value: $naturalVolume, in: 0...1)
                                     .background(.black)
                                     .cornerRadius(4)
                                     .accentColor(.white)
                                     .padding(.horizontal, 20)
+                                    .onChange(of: naturalVolume) { newValue in
+                                        print(newValue)
+                                        naturalAudioManager.chanegeVolume(track: item.name,
+                                                                       volume: newValue)
+                                    }
                             }
                             
                         }
