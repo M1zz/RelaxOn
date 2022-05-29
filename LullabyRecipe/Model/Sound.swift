@@ -86,7 +86,7 @@ var freshitems = [
 ]
 
 var mixedAudioSources: [Sound] = []
-var userRepositories: [MixedSound] = [dummyMixedSound]
+var userRepositories: [MixedSound] = []
 
 let dummyMixedSound = MixedSound(id: 0,
                name: "test",

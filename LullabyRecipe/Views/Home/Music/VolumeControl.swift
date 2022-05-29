@@ -26,6 +26,9 @@ struct VolumeControl: View {
                 HStack {
                     Button {
                         showVolumeControl.toggle()
+                        baseAudioManager.stop()
+                        melodyAudioManager.stop()
+                        naturalAudioManager.stop()
                     } label: {
                         Image(systemName: "xmark")
                             .resizable()
@@ -37,7 +40,9 @@ struct VolumeControl: View {
                     Spacer()
                     Button {
                         showVolumeControl.toggle()
-                        
+                        baseAudioManager.stop()
+                        melodyAudioManager.stop()
+                        naturalAudioManager.stop()
                         // TODO: - 볼륨 저장
                     } label: {
                         Text("Save")
