@@ -14,21 +14,23 @@ struct OnBoarding: View {
     
     var body: some View {
         ZStack {
-            ColorPalette.background.color.ignoresSafeArea()
+            ColorPalette.launchbackground.color.ignoresSafeArea()
             
             Image("BackPattern")
                 .resizable()
                 .ignoresSafeArea()
             
-            VStack(alignment:.center) {
+            VStack(alignment:.leading) {
                 WhiteTitleText(title: "Nice to meet you.")
+                    .padding(.leading)
                 
                 WhiteTitleText(title: "What's your name?")
+                    .padding(.leading)
                 
-                TextField("Username", text: $userName)
+                TextField("", text: $userName)
                     .frame(minWidth: 0,
                            maxWidth: .infinity,
-                           maxHeight: 50)
+                           maxHeight: 70)
                     .background(ColorPalette.background.color)
                     .cornerRadius(14)
                     .foregroundColor(.white)
@@ -44,14 +46,14 @@ struct OnBoarding: View {
                         showOnboarding = false
                     }
                 } label: {
-                    Text("start")
+                    Text("Start")
                         .bold()
                         .frame(minWidth: 0,
                                maxWidth: .infinity,
                                maxHeight: 50)
                         .font(Font.system(size: 22))
                         .foregroundColor(ColorPalette.forground.color)
-                        .padding(.top, 20)
+                        .padding(.top, 10)
                 }
             }
         }
