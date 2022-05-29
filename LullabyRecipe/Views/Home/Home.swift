@@ -67,7 +67,7 @@ struct Home: View {
                 VStack {
                     Spacer()
                     HStack {
-                        WhiteTitleText(title: "New Sound Track")
+                        WhiteTitleText(title: "New Soundtrack")
                         Spacer()
                     }
                     .padding()
