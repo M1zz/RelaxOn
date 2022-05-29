@@ -22,22 +22,22 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="iln-q3-rs2">
-                                <rect key="frame" x="103.5" y="349.5" width="207" height="207"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="207" id="8zm-bj-TGU"/>
-                                    <constraint firstAttribute="width" constant="207" id="kMY-9i-rI2"/>
-                                </constraints>
-                            </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LullabyRecipe" textAlignment="center" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="GJd-Yh-RWb">
                                 <rect key="frame" x="141" y="506.5" width="132.5" height="26.5"/>
                                 <fontDescription key="fontDescription" type="italicSystem" pointSize="22"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="iln-q3-rs2">
+                                <rect key="frame" x="167" y="408" width="80" height="80"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="207" id="8zm-bj-TGU"/>
+                                    <constraint firstAttribute="width" constant="207" id="kMY-9i-rI2"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Bcu-3y-fUS"/>
-                        <color key="backgroundColor" name="Background"/>
+                        <color key="backgroundColor" name="LaunchBackground"/>
                         <constraints>
                             <constraint firstItem="Bcu-3y-fUS" firstAttribute="centerX" secondItem="obG-Y5-kRd" secondAttribute="centerX" id="5cz-MP-9tL"/>
                             <constraint firstItem="GJd-Yh-RWb" firstAttribute="centerX" secondItem="Bcu-3y-fUS" secondAttribute="centerX" id="E7h-02-oQ2"/>
@@ -55,9 +55,9 @@
         </scene>
     </scenes>
     <resources>
-        <image name="logo" width="341.33334350585938" height="341.33334350585938"/>
-        <namedColor name="Background">
-            <color red="0.14117647707462311" green="0.074509806931018829" blue="0.39215683937072754" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <image name="logo" width="338" height="391"/>
+        <namedColor name="LaunchBackground">
+            <color red="0.14100000262260437" green="0.075000002980232239" blue="0.3919999897480011" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
     </resources>
 </document>
