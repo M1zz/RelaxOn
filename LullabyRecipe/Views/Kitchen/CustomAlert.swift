@@ -40,7 +40,7 @@ struct CustomAlert: View {
                 }
                 .padding()
                 
-                Text("Title for this mix?")
+                Text("Title for this recipe?")
                     .font(.title3)
                     .bold()
                     .foregroundColor(.white)

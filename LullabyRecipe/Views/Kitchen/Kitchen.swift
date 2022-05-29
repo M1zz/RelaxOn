@@ -95,7 +95,7 @@ struct Kitchen : View {
             
             self.textEntered = ""
         } label: {
-            Text("Mix")
+            Text("Blend")
                 .bold()
                 .frame(minWidth: 0,
                        maxWidth: .infinity,
