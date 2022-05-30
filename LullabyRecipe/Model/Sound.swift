@@ -26,7 +26,7 @@ struct MixedSound: Identifiable, Codable {
 
 var baseSounds = [
     Sound(id: 0,
-          name: "선택하지 않음",
+          name: "Empty",
           soundType: .base,
           audioVolume: 0.8,
           imageName: "music"),
@@ -44,7 +44,7 @@ var baseSounds = [
 
 var melodySounds = [
     Sound(id: 3,
-          name: "선택하지 않음",
+          name: "Empty",
           soundType: .melody,
           audioVolume: 1.0,
           imageName: "music"),
@@ -62,7 +62,7 @@ var melodySounds = [
 
 var naturalSounds = [
     Sound(id: 6,
-          name: "선택하지 않음",
+          name: "Empty",
           soundType: .natural,
           audioVolume: 0.4,
           imageName: "music"),
@@ -98,17 +98,17 @@ var freshitems = [
 ]
 
 var baseSound: Sound = Sound(id: 0,
-                             name: "선택하지 않음",
+                             name: "Empty",
                              soundType: .base,
                              audioVolume: 0.0,
                              imageName: "music")
 var melodySound: Sound = Sound(id: 3,
-                               name: "선택하지 않음",
+                               name: "Empty",
                                soundType: .base,
                                audioVolume: 0.0,
                                imageName: "music")
 var naturalSound: Sound = Sound(id: 6,
-                                name: "선택하지 않음",
+                                name: "Empty",
                                 soundType: .base,
                                 audioVolume: 0.0,
                                 imageName: "music")

@@ -11,6 +11,7 @@ enum SelectedType: String {
     case home = "Home"
     case kitchen = "Kitchen"
 }
+var tabs:[SelectedType] = [.home, .kitchen]
 
 struct ContentView: View {
     
@@ -21,7 +22,6 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             VStack {
-                
                 switch selected {
                 case .home:
                     Home(userName: $userName,
@@ -31,19 +31,19 @@ struct ContentView: View {
                 }
                 Spacer()
                 CustomTabView(selected: $selected)
+                    
             }
             .navigationBarTitle("")
             .navigationBarHidden(true)
             .navigationBarBackButtonHidden(true)
-            .background(ColorPalette.tabBackground.color)
+            .padding(.horizontal, viewHorizontalPadding)
+            .background(ColorPalette.background.color,
+                        ignoresSafeAreaEdges: .all)
+            .ignoresSafeArea()
         }
         .onAppear() {
             let notFirstVisit = UserDefaults.standard.bool(forKey: "notFirstVisit")
-            if notFirstVisit {
-                showOnboarding = false
-            } else {
-                showOnboarding = true
-            }
+            showOnboarding = notFirstVisit ? false : true
         }
         .fullScreenCover(isPresented: $showOnboarding, content: {
             OnBoarding(showOnboarding: $showOnboarding)
@@ -59,15 +59,6 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
-
-
-
-
-
-
-
-
-var tabs:[SelectedType] = [.home, .kitchen]
 
 struct CustomTabView : View {
     
@@ -85,7 +76,7 @@ struct CustomTabView : View {
                             Capsule()
                                 .fill(self.selected == selectedTab ? Color("Forground") : Color.clear)
                                 .frame(width: 55, height: 5)
-                         )
+                        )
                     Button(action: {
                         self.selected = selectedTab
                     }) {
@@ -111,7 +102,25 @@ struct CustomTabView : View {
                 }
             }
         }
-//        .background(ColorPalette.background).ignoresSafeArea()
-        .padding(.horizontal)
+        .frame(width: UIScreen.main.bounds.width, height: 110)
+        .background(ColorPalette.tabBackground.color)
+        .cornerRadius(12, corners: [.topLeft, .topRight])
+    }
+}
+
+extension View {
+    func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
+        clipShape( RoundedCorner(radius: radius, corners: corners) )
+    }
+}
+
+struct RoundedCorner: Shape {
+
+    var radius: CGFloat = .infinity
+    var corners: UIRectCorner = .allCorners
+
+    func path(in rect: CGRect) -> Path {
+        let path = UIBezierPath(roundedRect: rect, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+        return Path(path.cgPath)
     }
 }

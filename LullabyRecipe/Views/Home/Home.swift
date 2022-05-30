@@ -71,18 +71,18 @@ struct Home: View {
                         Spacer()
                     }
                     .padding()
-                }
-                
-            )
+                })
     }
     
     @ViewBuilder
     func HomeBottomView() -> some View {
         
         VStack(spacing: 15) {
-            
             HStack {
-                WhiteTitleText(title: "My Recipe")
+                Text("My Recipe")
+                    .fontWeight(.semibold)
+                    .foregroundColor(ColorPalette.textGray.color)
+                    .font(Font.system(size: 22))
                 
                 Spacer()
             }.padding(.vertical, 15)
@@ -115,6 +115,7 @@ struct Home: View {
                         .modifier(RoundedEdge(width: 1, color: ColorPalette.buttonBackground.color, cornerRadius: 20))
                         .foregroundColor(ColorPalette.background.color)
                     Image(systemName: "plus.circle.fill")
+                        .resizable()
                         .frame(width: 30,
                                height: 30)
                         .foregroundColor(ColorPalette.buttonBackground.color)
