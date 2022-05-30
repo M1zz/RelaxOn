@@ -71,7 +71,8 @@ struct Kitchen : View {
                 }
                 
                 MixedAudioCreateButton()
-                    .padding(.bottom, 15)
+                    .padding(.bottom, 20)
+                    .padding(.top, 20)
             }
             .padding(.horizontal)
             CustomAlert(textEntered: $textEntered,
