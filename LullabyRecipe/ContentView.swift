@@ -39,7 +39,7 @@ struct ContentView: View {
             .padding(.horizontal, viewHorizontalPadding)
             .background(ColorPalette.background.color,
                         ignoresSafeAreaEdges: .all)
-            .ignoresSafeArea()
+            .edgesIgnoringSafeArea(.bottom)
         }
         .onAppear() {
             let notFirstVisit = UserDefaults.standard.bool(forKey: "notFirstVisit")

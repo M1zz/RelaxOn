@@ -37,13 +37,14 @@ struct SoundCard : View {
                             .frame(width: 156,
                                    height: 156,
                                    alignment: .center)
+                            .border(selectedID == soundFileName ? .red : .clear, width: 3)
                             .cornerRadius(10)
                         Image(systemName: "moon.zzz.fill")
                             .resizable()
                             .frame(width: 60,
                                    height: 60)
                             .foregroundColor(.white)
-                            .border(selectedID == soundFileName ? .red : .clear, width: 3)
+                            
                     }
                 } else {
                     Image(data.imageName)
