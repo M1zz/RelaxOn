@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AVFoundation
 
 
 struct SoundCard : View {
@@ -29,13 +30,30 @@ struct SoundCard : View {
         
         ZStack {
             VStack(alignment: .center, spacing: 10) {
-                Image(data.imageName)
-                    .resizable()
-                    .frame(width: 156,
-                           height: 156,
-                           alignment: .center)
-                    .cornerRadius(10)
-                    .border(selectedID == soundFileName ? .red : .clear, width: 3)
+                if data.name == "Empty" {
+                    ZStack {
+                        Rectangle()
+                            .background(.black)
+                            .frame(width: 156,
+                                   height: 156,
+                                   alignment: .center)
+                            .cornerRadius(10)
+                        Image(systemName: "moon.zzz.fill")
+                            .resizable()
+                            .frame(width: 60,
+                                   height: 60)
+                            .foregroundColor(.white)
+                            .border(selectedID == soundFileName ? .red : .clear, width: 3)
+                    }
+                } else {
+                    Image(data.imageName)
+                        .resizable()
+                        .frame(width: 156,
+                               height: 156,
+                               alignment: .center)
+                        .cornerRadius(10)
+                        .border(selectedID == soundFileName ? .red : .clear, width: 3)
+                }
 
                 Text(data.name)
                     .fontWeight(.semibold)
