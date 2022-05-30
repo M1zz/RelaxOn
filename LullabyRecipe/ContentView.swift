@@ -21,7 +21,6 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             VStack {
-                
                 switch selected {
                 case .home:
                     Home(userName: $userName,
@@ -35,15 +34,13 @@ struct ContentView: View {
             .navigationBarTitle("")
             .navigationBarHidden(true)
             .navigationBarBackButtonHidden(true)
-            .background(ColorPalette.tabBackground.color)
+            .padding(.horizontal, viewHorizontalPadding)
+            .background(ColorPalette.background.color,
+                        ignoresSafeAreaEdges: .all)
         }
         .onAppear() {
             let notFirstVisit = UserDefaults.standard.bool(forKey: "notFirstVisit")
-            if notFirstVisit {
-                showOnboarding = false
-            } else {
-                showOnboarding = true
-            }
+            showOnboarding = notFirstVisit ? false : true
         }
         .fullScreenCover(isPresented: $showOnboarding, content: {
             OnBoarding(showOnboarding: $showOnboarding)
@@ -74,7 +71,7 @@ struct CustomTabView : View {
     @Binding var selected: SelectedType
     
     var body : some View {
-
+        
         HStack {
             ForEach(tabs, id: \.self) { selectedTab in
                 VStack(spacing: 10) {
@@ -85,7 +82,7 @@ struct CustomTabView : View {
                             Capsule()
                                 .fill(self.selected == selectedTab ? Color("Forground") : Color.clear)
                                 .frame(width: 55, height: 5)
-                         )
+                        )
                     Button(action: {
                         self.selected = selectedTab
                     }) {
@@ -111,7 +108,7 @@ struct CustomTabView : View {
                 }
             }
         }
-//        .background(ColorPalette.background).ignoresSafeArea()
+        //        .background(ColorPalette.background).ignoresSafeArea()
         .padding(.horizontal)
     }
 }

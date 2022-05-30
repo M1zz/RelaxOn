@@ -71,16 +71,13 @@ struct Home: View {
                         Spacer()
                     }
                     .padding()
-                }
-                
-            )
+                })
     }
     
     @ViewBuilder
     func HomeBottomView() -> some View {
         
         VStack(spacing: 15) {
-            
             HStack {
                 WhiteTitleText(title: "My Recipe")
                 

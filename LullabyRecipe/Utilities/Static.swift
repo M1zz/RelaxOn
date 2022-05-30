@@ -84,3 +84,6 @@ enum ColorPalette {
 }
 
 let recipeRandomName = ["Recipe1","Recipe2","Recipe3","Recipe4","Recipe5","Recipe6","Recipe7","Recipe8","Recipe9","Recipe10"]
+
+
+let viewHorizontalPadding: CGFloat = 10
