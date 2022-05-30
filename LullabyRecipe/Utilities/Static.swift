@@ -64,6 +64,7 @@ enum ColorPalette {
     case tabBackground
     case buttonBackground
     case launchbackground
+    case textGray
     
     var color: Color {
         get {
@@ -78,6 +79,8 @@ enum ColorPalette {
                 return Color("ButtonBackground")
             case .launchbackground:
                 return Color("LaunchBackground")
+            case .textGray:
+                return Color("TextGray")
             }
         }
     }

@@ -11,6 +11,7 @@ enum SelectedType: String {
     case home = "Home"
     case kitchen = "Kitchen"
 }
+var tabs:[SelectedType] = [.home, .kitchen]
 
 struct ContentView: View {
     
@@ -30,6 +31,7 @@ struct ContentView: View {
                 }
                 Spacer()
                 CustomTabView(selected: $selected)
+                    
             }
             .navigationBarTitle("")
             .navigationBarHidden(true)
@@ -37,6 +39,7 @@ struct ContentView: View {
             .padding(.horizontal, viewHorizontalPadding)
             .background(ColorPalette.background.color,
                         ignoresSafeAreaEdges: .all)
+            .ignoresSafeArea()
         }
         .onAppear() {
             let notFirstVisit = UserDefaults.standard.bool(forKey: "notFirstVisit")
@@ -57,21 +60,12 @@ struct ContentView_Previews: PreviewProvider {
     }
 }
 
-
-
-
-
-
-
-
-var tabs:[SelectedType] = [.home, .kitchen]
-
 struct CustomTabView : View {
     
     @Binding var selected: SelectedType
     
     var body : some View {
-        
+
         HStack {
             ForEach(tabs, id: \.self) { selectedTab in
                 VStack(spacing: 10) {
@@ -108,7 +102,25 @@ struct CustomTabView : View {
                 }
             }
         }
-        //        .background(ColorPalette.background).ignoresSafeArea()
-        .padding(.horizontal)
+        .frame(width: UIScreen.main.bounds.width, height: 110)
+        .background(ColorPalette.tabBackground.color)
+        .cornerRadius(12, corners: [.topLeft, .topRight])
+    }
+}
+
+extension View {
+    func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
+        clipShape( RoundedCorner(radius: radius, corners: corners) )
+    }
+}
+
+struct RoundedCorner: Shape {
+
+    var radius: CGFloat = .infinity
+    var corners: UIRectCorner = .allCorners
+
+    func path(in rect: CGRect) -> Path {
+        let path = UIBezierPath(roundedRect: rect, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+        return Path(path.cgPath)
     }
 }
