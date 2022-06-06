@@ -87,7 +87,7 @@
 		58DE61BC283E542400F25769 /* MixedSoundCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixedSoundCard.swift; sourceTree = "<group>"; };
 		58DE61BE283E77E700F25769 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		58DE61C12841C20A00F25769 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
-		58DE61C42841C54700F25769 /* OnBoarding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OnBoarding.swift; path = LullabyRecipe/OnBoarding.swift; sourceTree = SOURCE_ROOT; };
+		58DE61C42841C54700F25769 /* OnBoarding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OnBoarding.swift; path = LullabyRecipe/Views/Onboarding/OnBoarding.swift; sourceTree = SOURCE_ROOT; };
 		58DE61C62843100100F25769 /* VolumeControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeControl.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -116,6 +116,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		583AA0EF284E0344005A0677 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				58DE61C42841C54700F25769 /* OnBoarding.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
 		58DE101F283DD9CA002CDB9F /* Music */ = {
 			isa = PBXGroup;
 			children = (
@@ -275,20 +283,12 @@
 		58DE61B5283A8F4500F25769 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				58DE61C32841C53A00F25769 /* Onboarding */,
+				583AA0EF284E0344005A0677 /* Onboarding */,
 				58DE103928405C7F002CDB9F /* Home */,
 				58DE103828405C6C002CDB9F /* Kitchen */,
 				58DE1036283F65D9002CDB9F /* WhiteTitleText.swift */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		58DE61C32841C53A00F25769 /* Onboarding */ = {
-			isa = PBXGroup;
-			children = (
-				58DE61C42841C54700F25769 /* OnBoarding.swift */,
-			);
-			path = Onboarding;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

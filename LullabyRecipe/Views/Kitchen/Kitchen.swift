@@ -146,7 +146,13 @@ struct Kitchen : View {
                             print("baseSelected is: \(baseSelected)")
                             selectedBaseSound = baseSelected
                             // play music
-                            baseAudioManager.startPlayer(track: baseSelected.name)
+                            
+                            if selectedBaseSound.name == "Empty" {
+                                baseAudioManager.stop()
+                            } else {
+                                baseAudioManager.startPlayer(track: baseSelected.name)
+                            }
+                            
                             
                         }
                     case .natural:
@@ -154,14 +160,25 @@ struct Kitchen : View {
                                          items: naturalSounds) { naturalSounds in
                             print("naturalSounds is: \(naturalSounds)")
                             selectedNaturalSound = naturalSounds
-                            naturalAudioManager.startPlayer(track: naturalSounds.name)
+                            
+                            
+                            if selectedNaturalSound.name == "Empty" {
+                                naturalAudioManager.stop()
+                            } else {
+                                naturalAudioManager.startPlayer(track: naturalSounds.name)
+                            }
                         }
                     case .melody:
                         RadioButtonGroup(selectedId: soundType.rawValue,
                                          items: melodySounds) { melodySounds in
                             print("melodySounds is: \(melodySounds)")
                             selectedMelodySound = melodySounds
-                            melodyAudioManager.startPlayer(track: melodySounds.name)
+                            
+                            if selectedMelodySound.name == "Empty" {
+                                melodyAudioManager.stop()
+                            } else {
+                                melodyAudioManager.startPlayer(track: melodySounds.name)
+                            }
                         }
                     }
                 }
