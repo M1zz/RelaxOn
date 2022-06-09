@@ -86,18 +86,17 @@ struct MusicView: View {
             
             VStack(alignment: .leading) {
                 WhiteTitleText(title: data.name)
-                Rectangle()
-                    .frame(height: 2)
-                    .foregroundColor(.white)
-                Spacer()
                 MusicControlButton()
+                Spacer()
             }
-            .padding(.horizontal)
+            .padding(.horizontal,1)
+            .padding(.leading,20)
             .frame(height: 156)
             
             Spacer()
         }
         .padding(20)
+        .padding(.leading,5)
     }
     
     @ViewBuilder
@@ -123,10 +122,11 @@ struct MusicView: View {
                 (Text("\(viewModel.isPlaying ? "Pause " : "Play ")").bold() + Text(Image(systemName: viewModel.isPlaying ? "pause.fill" : "play.fill")))
                     .frame(minWidth: 0,
                            maxWidth: .infinity,
-                           maxHeight: 50)
+                           maxHeight: 35)
                     .background(ColorPalette.buttonBackground.color)
                     .foregroundColor(.white)
-                    .cornerRadius(12)
+                    .cornerRadius(17)
+                    .font(.system(size: 16))
             }
         })
         
