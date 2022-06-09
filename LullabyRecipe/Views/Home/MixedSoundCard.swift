@@ -12,19 +12,14 @@ struct MixedSoundCard : View {
     var data: MixedSound
     let selectedID: String?
     @State var show = false
-    
-    init(data: MixedSound,
-         selectedID: String? = nil) {
-        self.data = data
-        self.selectedID = selectedID
-    }
+    @Binding var hasEdited: Bool
+    @State var showingActionSheet: Bool = false
 
     var body : some View {
         ZStack {
             NavigationLink(destination: MusicView(data: data),
                            isActive: $show) {
                 Text("")
-                
             }
 
             VStack(alignment: .leading, spacing: 10) {
@@ -32,6 +27,7 @@ struct MixedSoundCard : View {
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .cornerRadius(10)
+
                 Text(data.name)
                     .fontWeight(.semibold)
                     .font(Font.system(size: 17))
@@ -40,7 +36,49 @@ struct MixedSoundCard : View {
             .onTapGesture {
                 show.toggle()
             }
+            
+            if hasEdited {
+                Button(action: {
+                    showingActionSheet = true
+                }){
+                    Image(systemName: "trash.circle")
+                        .resizable()
+                        .frame(width: 40, height: 40)
+                        .foregroundColor(.white)
+                }
+                .frame(width: UIScreen.main.bounds.width / 2.4,
+                       height: UIScreen.main.bounds.width / 2.4)
+                .background(.gray.opacity(0.7))
+                .cornerRadius(24)
+                .offset(y: -14)
+            }
         }
+        .confirmationDialog("Are you sure?",
+          isPresented: $showingActionSheet) {
+            Button("Delete items", role: .destructive) {
+                hasEdited.toggle()
+                userRepositories.remove(at: data.id)
+                print(userRepositories)
+                let data = getEncodedData(data: userRepositories)
+                UserDefaults.standard.set(data, forKey: "recipes")
+            }
+            Button("Cancel", role: .cancel) {
+                hasEdited.toggle()
+            }
+        } message: {
+          Text("This item will be deleted. This action cannot be undone.")
+        }
+    }
+    
+    private func getEncodedData(data: [MixedSound]) -> Data? {
+        do {
+            let encoder = JSONEncoder()
+            let encodedData = try encoder.encode(data)
+            return encodedData
+        } catch {
+            print("Unable to Encode Note (\(error))")
+        }
+        return nil
     }
 }
 
@@ -48,7 +86,7 @@ struct MixedSoundCard_Previews: PreviewProvider {
     static var previews: some View {
         let dummyMixedSound = dummyMixedSound
         MixedSoundCard(data: dummyMixedSound,
-                       selectedID: "")
+                       selectedID: "", hasEdited: .constant(false))
         .background(ColorPalette.background.color)
     }
 }

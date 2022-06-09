@@ -15,7 +15,11 @@ struct Sound: Identifiable, Codable {
     let imageName: String
 }
 
-struct MixedSound: Identifiable, Codable {
+struct MixedSound: Identifiable, Codable, Equatable {
+    static func == (lhs: MixedSound, rhs: MixedSound) -> Bool {
+        return true
+    }
+    
     let id: Int
     let name: String
     let baseSound: Sound?

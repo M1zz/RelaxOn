@@ -60,10 +60,6 @@ struct SoundCard : View {
                     .fontWeight(.semibold)
                     .font(Font.system(size: 17))
                     .foregroundColor(Color.white)
-//                Text(data.description)
-//                    .fontWeight(.semibold)
-//                    .font(Font.system(size: 16))
-//                    .foregroundColor(Color.gray)
             }
             .onTapGesture {
                 guard let callback = callback else {

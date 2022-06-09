@@ -12,6 +12,7 @@ struct Home: View {
     @State var txt = ""
     @Binding var userName: String?
     @Binding var selected: SelectedType
+    @State var hasEdited: Bool = false
     
     var body : some View {
         ZStack {
@@ -32,13 +33,23 @@ struct Home: View {
         }
         .onAppear {
             userName = UserDefaults.standard.string(forKey: "userName") ?? "Guest"
+            if let data = UserDefaults.standard.data(forKey: "recipes") {
+                do {
+                    let decoder = JSONDecoder()
+                    userRepositories = try decoder.decode([MixedSound].self, from: data)
+                    print("help : \(userRepositories)")
+                } catch {
+                    print("Unable to Decode Note (\(error))")
+                }
+            }
+        }
+        .onChange(of: userRepositories) { newValue in
+            userName = UserDefaults.standard.string(forKey: "userName") ?? "Guest"
             
             if let data = UserDefaults.standard.data(forKey: "recipes") {
                 do {
-                    // Create JSON Decoder
                     let decoder = JSONDecoder()
 
-                    // Decode Note
                     userRepositories = try decoder.decode([MixedSound].self, from: data)
                     print("help : \(userRepositories)")
 
@@ -94,9 +105,15 @@ struct Home: View {
                                          count: 2),
                           spacing: 20) {
                     ForEach(userRepositories){ item in
-                        MixedSoundCard(data: item)
+                        MixedSoundCard(data: item,
+                                       selectedID: String(item.id),
+                                       hasEdited: $hasEdited)
                     }
                 }
+                          .onLongPressGesture {
+                              print("길게눌림")
+                              hasEdited = true
+                          }
             }
         }
     }
