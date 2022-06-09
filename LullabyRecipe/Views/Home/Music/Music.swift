@@ -118,21 +118,18 @@ struct MusicView: View {
             viewModel.play()
             viewModel.isPlaying.toggle()
         }, label: {
-            Image(systemName: viewModel.isPlaying ? "pause.fill" : "play.fill")
-                .frame(minWidth: 0,
-                       maxWidth: .infinity,
-                       maxHeight: 50)
-                .background(ColorPalette.buttonBackground.color)
-                .foregroundColor(.white)
-                .cornerRadius(12)
             
-//            Image(systemName: viewModel.isPlaying ? "pause.fill" : "play.fill")
-//                .foregroundColor(.black)
-//                .frame(width: 55,
-//                       height: 55)
-//                .background(Color.white)
-//                .clipShape(Circle())
+            HStack {
+                (Text("\(viewModel.isPlaying ? "Pause " : "Play ")").bold() + Text(Image(systemName: viewModel.isPlaying ? "pause.fill" : "play.fill")))
+                    .frame(minWidth: 0,
+                           maxWidth: .infinity,
+                           maxHeight: 50)
+                    .background(ColorPalette.buttonBackground.color)
+                    .foregroundColor(.white)
+                    .cornerRadius(12)
+            }
         })
+        
         //        }
         //        .frame(width: maxWidth,
         //               height: maxWidth)
