@@ -58,7 +58,6 @@ struct MixedSoundCard : View {
             Button("Delete items", role: .destructive) {
                 hasEdited.toggle()
                 userRepositories.remove(at: data.id)
-                print(userRepositories)
                 let data = getEncodedData(data: userRepositories)
                 UserDefaults.standard.set(data, forKey: "recipes")
             }

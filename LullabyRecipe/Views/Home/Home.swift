@@ -66,6 +66,22 @@ struct Home: View {
         HStack(spacing: 12) {
             WhiteTitleText(title: "Hi, \(userName ?? "guest")")
             Spacer()
+            
+            if hasEdited {
+                Button {
+                    hasEdited = false
+                } label: {
+                    Text("Cancel")
+                        .foregroundColor(ColorPalette.forground.color)
+                }
+            } else {
+                Button {
+                    hasEdited = true
+                } label: {
+                    Text("Select")
+                        .foregroundColor(ColorPalette.forground.color)
+                }
+            }
         }
         .padding(.vertical, 20)
     }
@@ -110,10 +126,10 @@ struct Home: View {
                                        hasEdited: $hasEdited)
                     }
                 }
-                          .onLongPressGesture {
-                              print("길게눌림")
-                              hasEdited = true
-                          }
+//                          .onLongPressGesture {
+//                              print("길게눌림")
+//                              hasEdited = true
+//                          }
             }
         }
     }
