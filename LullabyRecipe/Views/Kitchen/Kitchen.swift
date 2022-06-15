@@ -13,11 +13,9 @@ var categories = ["Natural",
                   "Deep Sleep",
                   "Lullaby"]
 
-var mixedAudioSources: [Sound] = []
-var userRepositories: [MixedSound] = []
 
 
-enum SoundType: String {
+enum SoundType: String, Codable {
     case base
     case melody
     case natural
@@ -26,9 +24,21 @@ enum SoundType: String {
 struct Kitchen : View {
  
     @State private var showingAlert = false
-    @State private var selectedBaseSound: Sound = Sound(id: 0, name: "", description: "", imageName: "")
-    @State private var selectedMelodySound: Sound = Sound(id: 0, name: "", description: "", imageName: "")
-    @State private var selectedNaturalSound: Sound = Sound(id: 0, name: "", description: "", imageName: "")
+    @State private var selectedBaseSound: Sound = Sound(id: 0,
+                                                        name: "",
+                                                        soundType: .base,
+                                                        audioVolume: 0.8,
+                                                        imageName: "")
+    @State private var selectedMelodySound: Sound = Sound(id: 0,
+                                                          name: "",
+                                                          soundType: .melody,
+                                                          audioVolume: 1.0,
+                                                          imageName: "")
+    @State private var selectedNaturalSound: Sound = Sound(id: 0,
+                                                           name: "",
+                                                           soundType: .natural,
+                                                           audioVolume: 0.4,
+                                                           imageName: "")
     @State var userName: String = ""
     @Binding var selected: SelectedType
     
@@ -44,7 +54,7 @@ struct Kitchen : View {
             ColorPalette.background.color.ignoresSafeArea()
             
             VStack(spacing: 15) {
-                Profile()
+                //Profile()
                 
                 ScrollView(.vertical, showsIndicators: false) {
                     
@@ -61,7 +71,8 @@ struct Kitchen : View {
                 }
                 
                 MixedAudioCreateButton()
-                    .padding(.bottom, 15)
+                    .padding(.bottom, 20)
+                    .padding(.top, 20)
             }
             .padding(.horizontal)
             CustomAlert(textEntered: $textEntered,
@@ -89,7 +100,10 @@ struct Kitchen : View {
     func MixedAudioCreateButton() -> some View {
         Button {
             showingAlert = true
-            mixedAudioSources = [selectedBaseSound, selectedMelodySound, selectedNaturalSound]
+            
+            baseSound = selectedBaseSound
+            melodySound = selectedMelodySound
+            naturalSound = selectedNaturalSound
             
             baseAudioManager.stop()
             melodyAudioManager.stop()
@@ -97,14 +111,14 @@ struct Kitchen : View {
             
             self.textEntered = ""
         } label: {
-            Text("Mix")
+            Text("Blend")
                 .bold()
                 .frame(minWidth: 0,
                        maxWidth: .infinity,
                        maxHeight: 50)
                 .background(ColorPalette.buttonBackground.color)
                 .foregroundColor(.white)
-                .cornerRadius(10)
+                .cornerRadius(12)
         }
     }
 
@@ -132,7 +146,13 @@ struct Kitchen : View {
                             print("baseSelected is: \(baseSelected)")
                             selectedBaseSound = baseSelected
                             // play music
-                            baseAudioManager.startPlayer(track: baseSelected.name)
+                            
+                            if selectedBaseSound.name == "Empty" {
+                                baseAudioManager.stop()
+                            } else {
+                                baseAudioManager.startPlayer(track: baseSelected.name)
+                            }
+                            
                             
                         }
                     case .natural:
@@ -140,14 +160,25 @@ struct Kitchen : View {
                                          items: naturalSounds) { naturalSounds in
                             print("naturalSounds is: \(naturalSounds)")
                             selectedNaturalSound = naturalSounds
-                            naturalAudioManager.startPlayer(track: naturalSounds.name)
+                            
+                            
+                            if selectedNaturalSound.name == "Empty" {
+                                naturalAudioManager.stop()
+                            } else {
+                                naturalAudioManager.startPlayer(track: naturalSounds.name)
+                            }
                         }
                     case .melody:
                         RadioButtonGroup(selectedId: soundType.rawValue,
                                          items: melodySounds) { melodySounds in
                             print("melodySounds is: \(melodySounds)")
                             selectedMelodySound = melodySounds
-                            melodyAudioManager.startPlayer(track: melodySounds.name)
+                            
+                            if selectedMelodySound.name == "Empty" {
+                                melodyAudioManager.stop()
+                            } else {
+                                melodyAudioManager.startPlayer(track: melodySounds.name)
+                            }
                         }
                     }
                 }

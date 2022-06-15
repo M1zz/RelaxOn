@@ -11,44 +11,46 @@ enum SelectedType: String {
     case home = "Home"
     case kitchen = "Kitchen"
 }
+var tabs:[SelectedType] = [.home, .kitchen]
 
 struct ContentView: View {
     
     @State var selected: SelectedType = .home
     @State var showOnboarding: Bool = false
+    @State var userName: String?
     
     var body: some View {
         NavigationView {
             VStack {
-                
                 switch selected {
                 case .home:
-                    Home(selected: $selected)
+                    Home(userName: $userName,
+                         selected: $selected)
                 case .kitchen:
                     Kitchen(selected: $selected)
                 }
                 Spacer()
                 CustomTabView(selected: $selected)
+                    
             }
             .navigationBarTitle("")
             .navigationBarHidden(true)
             .navigationBarBackButtonHidden(true)
-            .background(ColorPalette.tabBackground.color)
+            .padding(.horizontal, viewHorizontalPadding)
+            .background(ColorPalette.background.color,
+                        ignoresSafeAreaEdges: .all)
+            .edgesIgnoringSafeArea(.bottom)
         }
         .onAppear() {
             let notFirstVisit = UserDefaults.standard.bool(forKey: "notFirstVisit")
-            if notFirstVisit {
-                showOnboarding = false
-            } else {
-                showOnboarding = true
-            }
+            showOnboarding = notFirstVisit ? false : true
         }
         .fullScreenCover(isPresented: $showOnboarding, content: {
-            Onboarding(showOnboarding: $showOnboarding)
+            OnBoarding(showOnboarding: $showOnboarding)
+                .onDisappear {
+                    userName = UserDefaults.standard.string(forKey: "userName") ?? "Guest"
+                }
         })
-                     
-//            UserDefaults.standard.set(true, forKey: "firstVisit")
-       
     }
 }
 
@@ -57,53 +59,6 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
-
-
-
-struct Onboarding: View {
-    
-    @State var userName: String = ""
-    @Binding var showOnboarding: Bool
-    
-    var body: some View {
-        VStack(alignment:.center) {
-            WhiteTitleText(title: "Nice to meet you.")
-            
-            WhiteTitleText(title: "What's your name?")
-
-            TextField("Username", text: $userName)
-                .frame(width: 220,
-                       height: 50,
-                       alignment: .center)
-                .overlay(
-                        RoundedRectangle(cornerRadius: 14)
-                            .stroke(Color(UIColor.label), lineWidth: 2)
-                    )
-                
-                .multilineTextAlignment(.center)
-                .padding(.bottom, 10)
-            
-            Button {
-                UserDefaults.standard.set(true, forKey: "notFirstVisit")
-                UserDefaults.standard.set(userName, forKey: "userName")
-                showOnboarding = false
-            } label: {
-                Text("start")
-                    .frame(width: 60, height: 30)
-                    .background(Color(UIColor.label))
-                    .foregroundColor(ColorPalette.forground.color)
-                    .cornerRadius(8)
-                    
-            }
-
-        }
-    }
-}
-
-
-
-
-var tabs:[SelectedType] = [.home, .kitchen]
 
 struct CustomTabView : View {
     
@@ -119,24 +74,53 @@ struct CustomTabView : View {
                         .frame(height: 5)
                         .overlay(
                             Capsule()
-                                .fill(self.selected == selectedTab ? Color("Pink") : Color.clear)
+                                .fill(self.selected == selectedTab ? Color("Forground") : Color.clear)
                                 .frame(width: 55, height: 5)
-                         )
+                        )
                     Button(action: {
                         self.selected = selectedTab
                     }) {
-                        VStack {
-                            Image(selectedTab.rawValue)
-                                .renderingMode(.original)
-                                .background(.yellow)
-                            Text(selectedTab.rawValue)
-                                .foregroundColor(.white)
+                        switch selectedTab {
+                        case .home :
+                            VStack {
+                                Image(systemName: "house.fill")
+                                    .tint(self.selected == selectedTab ? ColorPalette.forground.color : .white)
+                                Text(selectedTab.rawValue)
+                                    .foregroundColor(.white)
+                                    .padding(.top, 5)
+                            }
+                        case .kitchen:
+                            VStack {
+                                Image(systemName: "sparkles")
+                                    .tint(self.selected == selectedTab ? ColorPalette.forground.color : .white)
+                                Text(selectedTab.rawValue)
+                                    .foregroundColor(.white)
+                                    .padding(.top, 5)
+                            }
                         }
                     }
                 }
             }
         }
-//        .background(ColorPalette.background).ignoresSafeArea()
-        .padding(.horizontal)
+        .frame(width: UIScreen.main.bounds.width, height: 110)
+        .background(ColorPalette.tabBackground.color)
+        .cornerRadius(12, corners: [.topLeft, .topRight])
+    }
+}
+
+extension View {
+    func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
+        clipShape( RoundedCorner(radius: radius, corners: corners) )
+    }
+}
+
+struct RoundedCorner: Shape {
+
+    var radius: CGFloat = .infinity
+    var corners: UIRectCorner = .allCorners
+
+    func path(in rect: CGRect) -> Path {
+        let path = UIBezierPath(roundedRect: rect, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+        return Path(path.cgPath)
     }
 }

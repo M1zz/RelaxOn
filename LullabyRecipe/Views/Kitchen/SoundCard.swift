@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AVFoundation
 
 
 struct SoundCard : View {
@@ -28,23 +29,37 @@ struct SoundCard : View {
     var body : some View {
         
         ZStack {
-            VStack(alignment: .leading, spacing: 10) {
-                Image(data.imageName)
-                    .resizable()
-                    .frame(width: 180,
-                           height: 180,
-                           alignment: .center)
-                    .cornerRadius(10)
-                    .border(selectedID == soundFileName ? .red : .clear, width: 3)
+            VStack(alignment: .center, spacing: 10) {
+                if data.name == "Empty" {
+                    ZStack {
+                        Rectangle()
+                            .background(.black)
+                            .frame(width: 156,
+                                   height: 156,
+                                   alignment: .center)
+                            .border(selectedID == soundFileName ? .red : .clear, width: 3)
+                            .cornerRadius(10)
+                        Image(systemName: "moon.zzz.fill")
+                            .resizable()
+                            .frame(width: 60,
+                                   height: 60)
+                            .foregroundColor(.white)
+                            
+                    }
+                } else {
+                    Image(data.imageName)
+                        .resizable()
+                        .frame(width: 156,
+                               height: 156,
+                               alignment: .center)
+                        .cornerRadius(10)
+                        .border(selectedID == soundFileName ? .red : .clear, width: 3)
+                }
 
                 Text(data.name)
                     .fontWeight(.semibold)
                     .font(Font.system(size: 17))
                     .foregroundColor(Color.white)
-                Text(data.description)
-                    .fontWeight(.semibold)
-                    .font(Font.system(size: 16))
-                    .foregroundColor(Color.gray)
             }
             .onTapGesture {
                 guard let callback = callback else {
