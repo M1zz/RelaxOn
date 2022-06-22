@@ -15,7 +15,10 @@ struct MusicView: View {
     @State var maxWidth = UIScreen.main.bounds.width / 2.2
     @State var showVolumeControl: Bool = false
     
+    // 코드 변경
     var data: MixedSound
+    // VolumeControl과 연결?되는 @State 변수 추가
+    @State var newData: MixedSound
     
     var body: some View {
         
@@ -59,11 +62,19 @@ struct MusicView: View {
         }
         .sheet(isPresented: $showVolumeControl,
                content: {
+            // 코드 수정
+            // newData 전달
             VolumeControl(showVolumeControl: $showVolumeControl,
-                          baseVolume: (data.baseSound?.audioVolume)!,
-                          melodyVolume: (data.melodySound?.audioVolume)!,
-                          naturalVolume: (data.naturalSound?.audioVolume)!,
-                          data: data)
+                          baseVolume: (newData.baseSound?.audioVolume)!,
+                          melodyVolume: (newData.melodySound?.audioVolume)!,
+                          naturalVolume: (newData.naturalSound?.audioVolume)!,
+                          data: data, newData: $newData)
+            .onDisappear {
+                // 코드 추가
+                print("모달 닫음")
+                print(newData)
+                viewModel.fetchData(data: newData)
+            }
         })
         .navigationBarTitle(Text(""),
                             // Todo :- edit 버튼 동작 .toolbar(content: { Button("Edit") { }}) }}
@@ -185,7 +196,8 @@ struct Music_Previews: PreviewProvider {
                                          melodySound: dummyMelodySound,
                                          naturalSound: dummyNaturalSound,
                                          imageName: "r1")
-        MusicView(data: dummyMixedSound)
+        // 코드 수정
+        MusicView(data: dummyMixedSound, newData: dummyMixedSound)
     }
 }
 

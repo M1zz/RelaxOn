@@ -20,6 +20,10 @@ struct VolumeControl: View {
     let naturalAudioManager = AudioManager()
     @State var hasShowAlert: Bool = false
     
+    // 코드 추가
+    // MusicView와 연결
+    @Binding var newData: MixedSound
+    
     var body: some View {
         ZStack {
             ColorPalette.tabBackground.color.ignoresSafeArea()
@@ -45,9 +49,15 @@ struct VolumeControl: View {
                         melodyAudioManager.stop()
                         naturalAudioManager.stop()
                         // TODO: - 볼륨 저장
-                        let localBaseSound = data.baseSound
-                        let localMelodySound = data.melodySound
-                        let localNaturalSound = data.naturalSound
+                        // 코드 수정
+                        // newData로 변경
+                        let localBaseSound = newData.baseSound
+                        let localMelodySound = newData.melodySound
+                        let localNaturalSound = newData.naturalSound
+                        
+                        // Slider에 따라 볼륨이 잘 변경됐는지 확인
+                        print("볼륨 확인")
+                        print(baseVolume, melodyVolume, naturalVolume)
                         
                         let newBaseSound = Sound(id: localBaseSound!.id,
                                                  name: localBaseSound!.name,
@@ -66,12 +76,25 @@ struct VolumeControl: View {
                                                     audioVolume: naturalVolume,
                                                     imageName: localNaturalSound!.imageName)
                         
-                        let newMixedSound = MixedSound(id: data.id,
-                                                       name: data.name,
+                        // 코드 수정
+                        // newData로 변경
+                        let newMixedSound = MixedSound(id: newData.id,
+                                                       name: newData.name,
                                                        baseSound: newBaseSound,
                                                        melodySound: newMelodySound,
                                                        naturalSound: newNaturalSound,
-                                                       imageName: data.imageName)
+                                                       imageName: newData.imageName)
+                        // 코드 추가
+                        // newData에 바뀐 볼륨 적용
+                        newData.changeVolume(newMixedSound: newMixedSound)
+                        
+                        // 근데 여기엔 바뀌지 않음
+                        print(newData)
+                        
+                        print("save 버튼 누를 때 newData")
+                        // newMixedSound는 잘 변경됨
+                        print(newMixedSound)
+                        
                         userRepositories.remove(at: data.id)
                         userRepositories.insert(newMixedSound, at: data.id)
                         let data = getEncodedData(data: userRepositories)
@@ -100,15 +123,17 @@ struct VolumeControl: View {
                 
                 .padding()
                 
-                if let baseSound = data.baseSound {
+                // 코드 수정
+                // newData로 변경
+                if let baseSound = newData.baseSound {
                     SoundControlSlider(item: baseSound)
                 }
                 
-                if let melodySound = data.melodySound {
+                if let melodySound = newData.melodySound {
                     SoundControlSlider(item: melodySound)
                 }
                 
-                if let naturalSound = data.naturalSound {
+                if let naturalSound = newData.naturalSound {
                     SoundControlSlider(item: naturalSound)
                 }
                 
@@ -190,12 +215,13 @@ struct VolumeControl: View {
     }
 }
 
-struct VolumeControl_Previews: PreviewProvider {
-    static var previews: some View {
-        VolumeControl(showVolumeControl: .constant(true),
-                      baseVolume: 0.3,
-                      melodyVolume: 0.8,
-                      naturalVolume: 1.0,
-                      data: dummyMixedSound)
-    }
-}
+// 오류 때문에 주석처리
+//struct VolumeControl_Previews: PreviewProvider {
+//    static var previews: some View {
+//        VolumeControl(showVolumeControl: .constant(true),
+//                      baseVolume: 0.3,
+//                      melodyVolume: 0.8,
+//                      naturalVolume: 1.0,
+//                      data: dummyMixedSound, newData: <#Binding<MixedSound>#>)
+//    }
+//}

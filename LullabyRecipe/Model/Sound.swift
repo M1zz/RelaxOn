@@ -22,10 +22,21 @@ struct MixedSound: Identifiable, Codable, Equatable {
     
     let id: Int
     let name: String
-    let baseSound: Sound?
-    let melodySound: Sound?
-    let naturalSound: Sound?
+    // var로 변경
+    var baseSound: Sound?
+    var melodySound: Sound?
+    var naturalSound: Sound?
     let imageName: String
+    
+    // 코드 추가
+    // baseSound 업데이트
+    mutating func changeVolume(newMixedSound: MixedSound) {
+        self.baseSound = newMixedSound.baseSound
+        self.melodySound = newMixedSound.melodySound
+        self.naturalSound = newMixedSound.naturalSound
+        print("changeVolume")
+        print(self)
+    }
 }
 
 var baseSounds = [
