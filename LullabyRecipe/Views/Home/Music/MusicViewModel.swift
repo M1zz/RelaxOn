@@ -17,7 +17,6 @@ final class MusicViewModel: NSObject, ObservableObject {
     
     @Published var mixedSound: MixedSound?
     
-    @Published var player: AVAudioPlayer?
     func fetchData(data: MixedSound) {
         mixedSound = data
         
