@@ -86,6 +86,22 @@ enum ColorPalette {
     }
 }
 
+enum ImageName {
+    case BackPattern
+    case NewSoundtrack
+    
+    var imageName: String {
+        get {
+            switch self {
+            case .BackPattern:
+                return "BackPattern"
+            case .NewSoundtrack:
+                return "NewSoundtrack"
+            }
+        }
+    }
+}
+
 let recipeRandomName = ["Recipe1","Recipe2","Recipe3","Recipe4","Recipe5","Recipe6","Recipe7","Recipe8","Recipe9","Recipe10"]
 
 
