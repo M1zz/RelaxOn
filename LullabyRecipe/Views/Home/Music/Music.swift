@@ -15,8 +15,9 @@ struct MusicView: View {
     @State var maxWidth = UIScreen.main.bounds.width / 2.2
     @State var showVolumeControl: Bool = false
     
-    // 코드 변경
     var data: MixedSound
+    
+    // 코드 변경
     // VolumeControl과 연결?되는 @State 변수 추가
     @State var newData: MixedSound
     
@@ -69,12 +70,6 @@ struct MusicView: View {
                           melodyVolume: (newData.melodySound?.audioVolume)!,
                           naturalVolume: (newData.naturalSound?.audioVolume)!,
                           data: data, newData: $newData)
-            .onDisappear {
-                // 코드 추가
-                print("모달 닫음")
-                print(newData)
-                viewModel.fetchData(data: newData)
-            }
         })
         .navigationBarTitle(Text(""),
                             // Todo :- edit 버튼 동작 .toolbar(content: { Button("Edit") { }}) }}

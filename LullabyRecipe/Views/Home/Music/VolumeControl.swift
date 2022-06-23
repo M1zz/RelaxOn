@@ -21,7 +21,7 @@ struct VolumeControl: View {
     @State var hasShowAlert: Bool = false
     
     // 코드 추가
-    // MusicView와 연결
+    // MusicView와 연결된 MixedSound
     @Binding var newData: MixedSound
     
     var body: some View {
@@ -84,16 +84,11 @@ struct VolumeControl: View {
                                                        melodySound: newMelodySound,
                                                        naturalSound: newNaturalSound,
                                                        imageName: newData.imageName)
+                        
                         // 코드 추가
-                        // newData에 바뀐 볼륨 적용
-                        newData.changeVolume(newMixedSound: newMixedSound)
-                        
-                        // 근데 여기엔 바뀌지 않음
-                        print(newData)
-                        
-                        print("save 버튼 누를 때 newData")
-                        // newMixedSound는 잘 변경됨
-                        print(newMixedSound)
+                        newData.baseSound = newMixedSound.baseSound
+                        newData.melodySound = newMixedSound.melodySound
+                        newData.naturalSound = newMixedSound.naturalSound
                         
                         userRepositories.remove(at: data.id)
                         userRepositories.insert(newMixedSound, at: data.id)

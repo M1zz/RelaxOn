@@ -18,7 +18,6 @@ final class MusicViewModel: NSObject, ObservableObject {
     
     func fetchData(data: MixedSound) {
         mixedSound = data
-        print("fetchData")
     }
     
     func play() {
