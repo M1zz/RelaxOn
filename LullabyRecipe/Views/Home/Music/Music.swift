@@ -52,6 +52,9 @@ struct MusicView: View {
             }
             .onAppear {
                 viewModel.fetchData(data: data)
+                // lockscreen controller
+//                viewModel.setupRemoteTransportControls()
+//                viewModel.setupNowPlaying(music: data)
             }
             .onDisappear {
                 viewModel.stop()

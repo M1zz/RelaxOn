@@ -7,6 +7,7 @@
 
 import Foundation
 import AVKit
+import MediaPlayer
 
 final class AudioManager {
     static let shared = AudioManager()
@@ -73,5 +74,4 @@ final class AudioManager {
         }
         
     }
-    
 }

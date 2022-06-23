@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AVFAudio
 
 @main
 struct LullabyRecipeApp: App {
