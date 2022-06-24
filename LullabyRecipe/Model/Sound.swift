@@ -74,21 +74,36 @@ var baseSounds = [
 ]
 
 var melodySounds = [
-    Sound(id: 3,
+    Sound(id: 10,
           name: "Empty",
           soundType: .melody,
           audioVolume: 1.0,
           imageName: "music"),
-    Sound(id: 4,
-          name: MelodyAudioName.lynx.fileName,
+    Sound(id: 11,
+          name: MelodyAudioName.ambient.fileName,
           soundType: .melody,
           audioVolume: 1.0,
-          imageName: "Melody1"),
-    Sound(id: 5,
-          name: MelodyAudioName.perlBird.fileName,
+          imageName: MelodyAudioName.ambient.fileName),
+    Sound(id: 12,
+          name: MelodyAudioName.garden.fileName,
           soundType: .melody,
           audioVolume: 1.0,
-          imageName: "Melody2"),
+          imageName: MelodyAudioName.garden.fileName),
+    Sound(id: 13,
+          name: MelodyAudioName.gymnopedia.fileName,
+          soundType: .melody,
+          audioVolume: 1.0,
+          imageName: MelodyAudioName.gymnopedia.fileName),
+    Sound(id: 14,
+          name: MelodyAudioName.relaxing.fileName,
+          soundType: .melody,
+          audioVolume: 1.0,
+          imageName: MelodyAudioName.relaxing.fileName),
+    Sound(id: 15,
+          name: MelodyAudioName.wisdom.fileName,
+          soundType: .melody,
+          audioVolume: 1.0,
+          imageName: MelodyAudioName.wisdom.fileName)
 ]
 
 var naturalSounds = [
@@ -158,13 +173,13 @@ let dummyBaseSound = Sound(id: 0,
                            name: BaseAudioName.longSun.fileName,
                            soundType: .base,
                            audioVolume: 0.8,
-                           imageName: "gong1")
+                           imageName: BaseAudioName.longSun.fileName)
 
 let dummyMelodySound = Sound(id: 2,
-                             name: MelodyAudioName.lynx.fileName,
+                             name: MelodyAudioName.ambient.fileName,
                              soundType: .melody,
                              audioVolume: 1.0,
-                             imageName: "Melody1")
+                             imageName: MelodyAudioName.ambient.fileName)
 
 let dummyNaturalSound = Sound(id: 6,
                               name: NaturalAudioName.creekBabbling.fileName,

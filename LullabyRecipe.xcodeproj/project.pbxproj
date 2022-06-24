@@ -12,12 +12,15 @@
 		580CADB028659CF50091946C /* SpaceLow.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 580CADAD28659CF50091946C /* SpaceLow.mp3 */; };
 		580CADB128659CF50091946C /* SpaceHigh.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 580CADAE28659CF50091946C /* SpaceHigh.mp3 */; };
 		580CADB228659CF50091946C /* Oxygen.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 580CADAF28659CF50091946C /* Oxygen.mp3 */; };
+		580CADB828659FAF0091946C /* Relaxing.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 580CADB328659FAE0091946C /* Relaxing.mp3 */; };
+		580CADB928659FAF0091946C /* Wisdom.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 580CADB428659FAE0091946C /* Wisdom.mp3 */; };
+		580CADBA28659FAF0091946C /* Ambient.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 580CADB528659FAE0091946C /* Ambient.mp3 */; };
+		580CADBB28659FAF0091946C /* Garden.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 580CADB628659FAE0091946C /* Garden.mp3 */; };
+		580CADBC28659FAF0091946C /* Gymnopedia.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 580CADB728659FAF0091946C /* Gymnopedia.mp3 */; };
 		58DE101C283CA87F002CDB9F /* SoundCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE101B283CA87F002CDB9F /* SoundCard.swift */; };
 		58DE101E283DC913002CDB9F /* AudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE101D283DC913002CDB9F /* AudioManager.swift */; };
 		58DE1021283DD9DD002CDB9F /* MusicViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE1020283DD9DD002CDB9F /* MusicViewModel.swift */; };
 		58DE102B283DF62B002CDB9F /* water_drip.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 58DE1026283DF62B002CDB9F /* water_drip.mp3 */; };
-		58DE102C283DF62B002CDB9F /* lynx.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 58DE1027283DF62B002CDB9F /* lynx.mp3 */; };
-		58DE102D283DF62B002CDB9F /* perl_bird.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 58DE1028283DF62B002CDB9F /* perl_bird.mp3 */; };
 		58DE102F283DF62B002CDB9F /* creek_babbling.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 58DE102A283DF62B002CDB9F /* creek_babbling.mp3 */; };
 		58DE1032283DF6E7002CDB9F /* Static.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE1031283DF6E7002CDB9F /* Static.swift */; };
 		58DE1034283F1A0A002CDB9F /* CustomAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE1033283F1A0A002CDB9F /* CustomAlert.swift */; };
@@ -64,12 +67,15 @@
 		580CADAD28659CF50091946C /* SpaceLow.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = SpaceLow.mp3; sourceTree = "<group>"; };
 		580CADAE28659CF50091946C /* SpaceHigh.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = SpaceHigh.mp3; sourceTree = "<group>"; };
 		580CADAF28659CF50091946C /* Oxygen.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Oxygen.mp3; sourceTree = "<group>"; };
+		580CADB328659FAE0091946C /* Relaxing.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Relaxing.mp3; sourceTree = "<group>"; };
+		580CADB428659FAE0091946C /* Wisdom.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Wisdom.mp3; sourceTree = "<group>"; };
+		580CADB528659FAE0091946C /* Ambient.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Ambient.mp3; sourceTree = "<group>"; };
+		580CADB628659FAE0091946C /* Garden.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Garden.mp3; sourceTree = "<group>"; };
+		580CADB728659FAF0091946C /* Gymnopedia.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Gymnopedia.mp3; sourceTree = "<group>"; };
 		58DE101B283CA87F002CDB9F /* SoundCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundCard.swift; sourceTree = "<group>"; };
 		58DE101D283DC913002CDB9F /* AudioManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
 		58DE1020283DD9DD002CDB9F /* MusicViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicViewModel.swift; sourceTree = "<group>"; };
 		58DE1026283DF62B002CDB9F /* water_drip.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = water_drip.mp3; sourceTree = "<group>"; };
-		58DE1027283DF62B002CDB9F /* lynx.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = lynx.mp3; sourceTree = "<group>"; };
-		58DE1028283DF62B002CDB9F /* perl_bird.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = perl_bird.mp3; sourceTree = "<group>"; };
 		58DE102A283DF62B002CDB9F /* creek_babbling.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = creek_babbling.mp3; sourceTree = "<group>"; };
 		58DE1031283DF6E7002CDB9F /* Static.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Static.swift; sourceTree = "<group>"; };
 		58DE1033283F1A0A002CDB9F /* CustomAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlert.swift; sourceTree = "<group>"; };
@@ -165,8 +171,11 @@
 		58DE1024283DF54A002CDB9F /* Melody */ = {
 			isa = PBXGroup;
 			children = (
-				58DE1028283DF62B002CDB9F /* perl_bird.mp3 */,
-				58DE1027283DF62B002CDB9F /* lynx.mp3 */,
+				580CADB528659FAE0091946C /* Ambient.mp3 */,
+				580CADB628659FAE0091946C /* Garden.mp3 */,
+				580CADB728659FAF0091946C /* Gymnopedia.mp3 */,
+				580CADB328659FAE0091946C /* Relaxing.mp3 */,
+				580CADB428659FAE0091946C /* Wisdom.mp3 */,
 			);
 			path = Melody;
 			sourceTree = "<group>";
@@ -404,16 +413,19 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				580CADB828659FAF0091946C /* Relaxing.mp3 in Resources */,
 				580CADAC28659C990091946C /* SpaceMid.mp3 in Resources */,
 				58DE61AD283A892000F25769 /* ocean_4.mp3 in Resources */,
 				58DE618A2839C13A00F25769 /* Preview Assets.xcassets in Resources */,
 				58DE102F283DF62B002CDB9F /* creek_babbling.mp3 in Resources */,
 				58DE61872839C13A00F25769 /* Assets.xcassets in Resources */,
 				58DE102B283DF62B002CDB9F /* water_drip.mp3 in Resources */,
+				580CADBB28659FAF0091946C /* Garden.mp3 in Resources */,
 				580CADAA28659BEF0091946C /* LongSun.mp3 in Resources */,
-				58DE102C283DF62B002CDB9F /* lynx.mp3 in Resources */,
+				580CADBA28659FAF0091946C /* Ambient.mp3 in Resources */,
+				580CADBC28659FAF0091946C /* Gymnopedia.mp3 in Resources */,
 				58DE61C22841C20A00F25769 /* Launch Screen.storyboard in Resources */,
-				58DE102D283DF62B002CDB9F /* perl_bird.mp3 in Resources */,
+				580CADB928659FAF0091946C /* Wisdom.mp3 in Resources */,
 				580CADB228659CF50091946C /* Oxygen.mp3 in Resources */,
 				580CADB028659CF50091946C /* SpaceLow.mp3 in Resources */,
 				580CADB128659CF50091946C /* SpaceHigh.mp3 in Resources */,

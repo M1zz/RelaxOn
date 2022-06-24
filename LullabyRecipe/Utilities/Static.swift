@@ -50,16 +50,42 @@ enum BaseAudioName {
 }
 
 enum MelodyAudioName {
-    case perlBird
-    case lynx
+    case ambient
+    case garden
+    case gymnopedia
+    case relaxing
+    case wisdom
     
     var fileName: String {
         get {
             switch self {
-            case .perlBird:
-                return "perl_bird"
-            case .lynx:
-                return "lynx"
+            case .ambient:
+                return "Ambient"
+            case .garden:
+                return "Garden"
+            case .gymnopedia:
+                return "Gymnopedia"
+            case .relaxing:
+                return "Relaxing"
+            case .wisdom:
+                return "Wisdom"
+            }
+        }
+    }
+    
+    var displayName: String {
+        get {
+            switch self {
+            case .ambient:
+                return "Ambient"
+            case .garden:
+                return "Garden"
+            case .gymnopedia:
+                return "Gymnopedia"
+            case .relaxing:
+                return "Relaxing"
+            case .wisdom:
+                return "Wisdom"
             }
         }
     }
