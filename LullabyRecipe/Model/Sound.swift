@@ -47,15 +47,30 @@ var baseSounds = [
           audioVolume: 0.8,
           imageName: "music"),
     Sound(id: 1,
-          name: BaseAudioName.chineseGong.fileName,
+          name: BaseAudioName.longSun.fileName,
           soundType: .base,
           audioVolume: 0.8,
-          imageName: "gong1"),
+          imageName: BaseAudioName.longSun.fileName),
     Sound(id: 2,
-          name: BaseAudioName.gongNoHit.fileName,
+          name: BaseAudioName.spaceMid.fileName,
           soundType: .base,
           audioVolume: 0.8,
-          imageName: "gong2"),
+          imageName: BaseAudioName.spaceMid.fileName),
+    Sound(id: 3,
+          name: BaseAudioName.spaceMid.fileName,
+          soundType: .base,
+          audioVolume: 0.8,
+          imageName: BaseAudioName.spaceMid.fileName),
+    Sound(id: 4,
+          name: BaseAudioName.spaceMid.fileName,
+          soundType: .base,
+          audioVolume: 0.8,
+          imageName: BaseAudioName.spaceMid.fileName),
+    Sound(id: 5,
+          name: BaseAudioName.spaceMid.fileName,
+          soundType: .base,
+          audioVolume: 0.8,
+          imageName: BaseAudioName.spaceMid.fileName),
 ]
 
 var melodySounds = [
@@ -108,7 +123,7 @@ struct fresh : Identifiable {
 }
 
 var freshitems = [
-    fresh(id: 0, name: BaseAudioName.chineseGong.fileName, price: "chinese gong sound",image: "gong"),
+    fresh(id: 0, name: BaseAudioName.longSun.fileName, price: "chinese gong sound",image: "gong"),
     fresh(id: 1, name: "ocean_4", price: "ocean sound",image: "f2"),
     fresh(id: 2, name: "Test", price: "this is test",image: "f3")
 ]
@@ -140,7 +155,7 @@ let dummyMixedSound = MixedSound(id: 0,
                                  imageName: "Recipe1")
 
 let dummyBaseSound = Sound(id: 0,
-                           name: BaseAudioName.chineseGong.fileName,
+                           name: BaseAudioName.longSun.fileName,
                            soundType: .base,
                            audioVolume: 0.8,
                            imageName: "gong1")

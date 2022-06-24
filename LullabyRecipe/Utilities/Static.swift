@@ -8,16 +8,42 @@
 import SwiftUI
 
 enum BaseAudioName {
-    case chineseGong
-    case gongNoHit
+    case longSun
+    case spaceMid
+    case spaceLow
+    case spaceHigh
+    case oxygen
     
     var fileName: String {
         get {
             switch self {
-            case .chineseGong:
-                return "chinese_gong"
-            case .gongNoHit:
-                return "gong_nohit"
+            case .longSun:
+                return "LongSun"
+            case .spaceMid:
+                return "SpaceMid"
+            case .spaceLow:
+                return "SpaceLow"
+            case .spaceHigh:
+                return "SpaceHigh"
+            case .oxygen:
+                return "Oxygen"
+            }
+        }
+    }
+    
+    var displayName: String {
+        get {
+            switch self {
+            case .longSun:
+                return "Long Sun"
+            case .spaceMid:
+                return "Space Mid"
+            case .spaceLow:
+                return "Space Low"
+            case .spaceHigh:
+                return "Space High"
+            case .oxygen:
+                return "Oxygen"
             }
         }
     }
