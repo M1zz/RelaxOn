@@ -8,51 +8,126 @@
 import SwiftUI
 
 enum BaseAudioName {
-    case chineseGong
-    case gongNoHit
+    case longSun
+    case spaceMid
+    case spaceLow
+    case spaceHigh
+    case oxygen
     
     var fileName: String {
         get {
             switch self {
-            case .chineseGong:
-                return "chinese_gong"
-            case .gongNoHit:
-                return "gong_nohit"
+            case .longSun:
+                return "LongSun"
+            case .spaceMid:
+                return "SpaceMid"
+            case .spaceLow:
+                return "SpaceLow"
+            case .spaceHigh:
+                return "SpaceHigh"
+            case .oxygen:
+                return "Oxygen"
+            }
+        }
+    }
+    
+    var displayName: String {
+        get {
+            switch self {
+            case .longSun:
+                return "Long Sun"
+            case .spaceMid:
+                return "Space Mid"
+            case .spaceLow:
+                return "Space Low"
+            case .spaceHigh:
+                return "Space High"
+            case .oxygen:
+                return "Oxygen"
             }
         }
     }
 }
 
 enum MelodyAudioName {
-    case perlBird
-    case lynx
+    case ambient
+    case garden
+    case gymnopedia
+    case relaxing
+    case wisdom
     
     var fileName: String {
         get {
             switch self {
-            case .perlBird:
-                return "perl_bird"
-            case .lynx:
-                return "lynx"
+            case .ambient:
+                return "Ambient"
+            case .garden:
+                return "Garden"
+            case .gymnopedia:
+                return "Gymnopedia"
+            case .relaxing:
+                return "Relaxing"
+            case .wisdom:
+                return "Wisdom"
+            }
+        }
+    }
+    
+    var displayName: String {
+        get {
+            switch self {
+            case .ambient:
+                return "Ambient"
+            case .garden:
+                return "Garden"
+            case .gymnopedia:
+                return "Gymnopedia"
+            case .relaxing:
+                return "Relaxing"
+            case .wisdom:
+                return "Wisdom"
             }
         }
     }
 }
 
 enum NaturalAudioName {
-    case creekBabbling
-    case ocean4
-    case waterDrip
+    case dryGrass
+    case stream
+    case summerField
+    case umbrellaRain
+    case wave
     
     var fileName: String {
         get {
             switch self {
-            case .creekBabbling:
-                return "creek_babbling"
-            case .ocean4:
-                return "ocean_4"
-            case .waterDrip:
-                return "water_drip"
+            case .dryGrass:
+                return "DryGrass"
+            case .stream:
+                return "Stream"
+            case .summerField:
+                return "SummerField"
+            case .umbrellaRain:
+                return "UmbrellaRain"
+            case .wave:
+                return "Wave"
+            }
+        }
+    }
+    
+    var displayName: String {
+        get {
+            switch self {
+            case .dryGrass:
+                return "DryGrass"
+            case .stream:
+                return "Stream"
+            case .summerField:
+                return "SummerField"
+            case .umbrellaRain:
+                return "UmbrellaRain"
+            case .wave:
+                return "Wave"
             }
         }
     }
