@@ -92,19 +92,42 @@ enum MelodyAudioName {
 }
 
 enum NaturalAudioName {
-    case creekBabbling
-    case ocean4
-    case waterDrip
+    case dryGrass
+    case stream
+    case summerField
+    case umbrellaRain
+    case wave
     
     var fileName: String {
         get {
             switch self {
-            case .creekBabbling:
-                return "creek_babbling"
-            case .ocean4:
-                return "ocean_4"
-            case .waterDrip:
-                return "water_drip"
+            case .dryGrass:
+                return "DryGrass"
+            case .stream:
+                return "Stream"
+            case .summerField:
+                return "SummerField"
+            case .umbrellaRain:
+                return "UmbrellaRain"
+            case .wave:
+                return "Wave"
+            }
+        }
+    }
+    
+    var displayName: String {
+        get {
+            switch self {
+            case .dryGrass:
+                return "DryGrass"
+            case .stream:
+                return "Stream"
+            case .summerField:
+                return "SummerField"
+            case .umbrellaRain:
+                return "UmbrellaRain"
+            case .wave:
+                return "Wave"
             }
         }
     }

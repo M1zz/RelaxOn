@@ -107,26 +107,36 @@ var melodySounds = [
 ]
 
 var naturalSounds = [
-    Sound(id: 6,
+    Sound(id: 20,
           name: "Empty",
           soundType: .natural,
           audioVolume: 0.4,
           imageName: "music"),
-    Sound(id: 7,
-          name: NaturalAudioName.creekBabbling.fileName,
+    Sound(id: 21,
+          name: NaturalAudioName.dryGrass.fileName,
           soundType: .natural,
           audioVolume: 0.4,
-          imageName: "creek"),
-    Sound(id: 8,
-          name: NaturalAudioName.ocean4.fileName,
+          imageName: NaturalAudioName.dryGrass.fileName),
+    Sound(id: 22,
+          name: NaturalAudioName.stream.fileName,
           soundType: .natural,
           audioVolume: 0.4,
-          imageName: "ocean"),
-    Sound(id: 9,
-          name: NaturalAudioName.waterDrip.fileName,
+          imageName: NaturalAudioName.stream.fileName),
+    Sound(id: 23,
+          name: NaturalAudioName.summerField.fileName,
           soundType: .natural,
           audioVolume: 0.4,
-          imageName: "waterdrip")
+          imageName: NaturalAudioName.summerField.fileName),
+    Sound(id: 24,
+          name: NaturalAudioName.umbrellaRain.fileName,
+          soundType: .natural,
+          audioVolume: 0.4,
+          imageName: NaturalAudioName.umbrellaRain.fileName),
+    Sound(id: 25,
+          name: NaturalAudioName.wave.fileName,
+          soundType: .natural,
+          audioVolume: 0.4,
+          imageName: NaturalAudioName.wave.fileName)
 ]
 
 #warning("name need changed")
@@ -182,8 +192,8 @@ let dummyMelodySound = Sound(id: 2,
                              imageName: MelodyAudioName.ambient.fileName)
 
 let dummyNaturalSound = Sound(id: 6,
-                              name: NaturalAudioName.creekBabbling.fileName,
+                              name: NaturalAudioName.dryGrass.fileName,
                               soundType: .natural,
                               audioVolume: 0.4,
-                              imageName: "field")
+                              imageName: NaturalAudioName.dryGrass.fileName)
 
