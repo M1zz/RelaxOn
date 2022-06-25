@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4A5769AC2866F20A007CCAE9 /* MixedSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5769AB2866F20A007CCAE9 /* MixedSound.swift */; };
 		4A5769AE2866F44E007CCAE9 /* DummyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5769AD2866F44E007CCAE9 /* DummyData.swift */; };
+		4A5769B02866F6B5007CCAE9 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5769AF2866F6B5007CCAE9 /* UserDefaultsManager.swift */; };
 		58DE101C283CA87F002CDB9F /* SoundCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE101B283CA87F002CDB9F /* SoundCard.swift */; };
 		58DE101E283DC913002CDB9F /* AudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE101D283DC913002CDB9F /* AudioManager.swift */; };
 		58DE1021283DD9DD002CDB9F /* MusicViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE1020283DD9DD002CDB9F /* MusicViewModel.swift */; };
@@ -60,6 +61,7 @@
 /* Begin PBXFileReference section */
 		4A5769AB2866F20A007CCAE9 /* MixedSound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixedSound.swift; sourceTree = "<group>"; };
 		4A5769AD2866F44E007CCAE9 /* DummyData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyData.swift; sourceTree = "<group>"; };
+		4A5769AF2866F6B5007CCAE9 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		58DE101B283CA87F002CDB9F /* SoundCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundCard.swift; sourceTree = "<group>"; };
 		58DE101D283DC913002CDB9F /* AudioManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
 		58DE1020283DD9DD002CDB9F /* MusicViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicViewModel.swift; sourceTree = "<group>"; };
@@ -188,6 +190,7 @@
 			isa = PBXGroup;
 			children = (
 				58DE101D283DC913002CDB9F /* AudioManager.swift */,
+				4A5769AF2866F6B5007CCAE9 /* UserDefaultsManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -440,6 +443,7 @@
 				58DE1032283DF6E7002CDB9F /* Static.swift in Sources */,
 				58DE61AF283A8C8B00F25769 /* Kitchen.swift in Sources */,
 				58DE61C52841C54700F25769 /* OnBoarding.swift in Sources */,
+				4A5769B02866F6B5007CCAE9 /* UserDefaultsManager.swift in Sources */,
 				58DE61B2283A8E1700F25769 /* Sound.swift in Sources */,
 				58DE61BD283E542400F25769 /* MixedSoundCard.swift in Sources */,
 				58DE61C72843100100F25769 /* VolumeControl.swift in Sources */,
