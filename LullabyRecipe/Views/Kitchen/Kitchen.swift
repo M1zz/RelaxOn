@@ -91,7 +91,7 @@ struct Kitchen : View {
         }
         .padding(.vertical, 20)
         .onAppear() {
-            userName = UserDefaults.standard.string(forKey: "userName") ?? "Guest"
+            userName = UserDefaultsManager.shared.standard.string(forKey: UserDefaultsManager.shared.userName) ?? UserDefaultsManager.shared.guest
         }
     }
 

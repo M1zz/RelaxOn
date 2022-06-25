@@ -32,8 +32,8 @@ struct Home: View {
             .padding(.horizontal)
         }
         .onAppear {
-            userName = UserDefaults.standard.string(forKey: "userName") ?? "Guest"
-            if let data = UserDefaults.standard.data(forKey: "recipes") {
+            userName = UserDefaultsManager.shared.standard.string(forKey: UserDefaultsManager.shared.userName) ?? UserDefaultsManager.shared.guest
+            if let data = UserDefaultsManager.shared.standard.data(forKey: UserDefaultsManager.shared.recipes) {
                 do {
                     let decoder = JSONDecoder()
                     userRepositories = try decoder.decode([MixedSound].self, from: data)
@@ -44,9 +44,9 @@ struct Home: View {
             }
         }
         .onChange(of: userRepositories) { newValue in
-            userName = UserDefaults.standard.string(forKey: "userName") ?? "Guest"
+            userName = UserDefaultsManager.shared.standard.string(forKey: UserDefaultsManager.shared.userName) ?? UserDefaultsManager.shared.guest
             
-            if let data = UserDefaults.standard.data(forKey: "recipes") {
+            if let data = UserDefaultsManager.shared.standard.data(forKey: UserDefaultsManager.shared.recipes) {
                 do {
                     let decoder = JSONDecoder()
 
