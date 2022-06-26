@@ -17,7 +17,7 @@ struct MixedSoundCard : View {
 
     var body : some View {
         ZStack {
-            NavigationLink(destination: MusicView(data: data),
+            NavigationLink(destination: MusicView(data: data, newData: data),   // newData 전달
                            isActive: $show) {
                 Text("")
             }

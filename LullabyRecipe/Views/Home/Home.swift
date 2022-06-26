@@ -88,7 +88,7 @@ struct Home: View {
     
     @ViewBuilder
     func MainBanner() -> some View {
-        Image("NewSoundtrack")
+        Image(ImageName.NewSoundtrack.imageName)
             .resizable()
             .overlay(
                 VStack {
