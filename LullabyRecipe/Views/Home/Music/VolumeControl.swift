@@ -10,19 +10,15 @@ import SwiftUI
 struct VolumeControl: View {
     
     @Binding var showVolumeControl: Bool
-    @State var baseVolume: Float
-    @State var melodyVolume: Float
-    @State var naturalVolume: Float
+    @Binding var baseVolume: Float
+    @Binding var melodyVolume: Float
+    @Binding var naturalVolume: Float
     
     let data: MixedSound
     let baseAudioManager = AudioManager()
     let melodyAudioManager = AudioManager()
     let naturalAudioManager = AudioManager()
     @State var hasShowAlert: Bool = false
-    
-    // 코드 추가
-    // MusicView와 연결된 MixedSound
-    @Binding var newData: MixedSound
     
     var body: some View {
         ZStack {
@@ -49,15 +45,9 @@ struct VolumeControl: View {
                         melodyAudioManager.stop()
                         naturalAudioManager.stop()
                         // TODO: - 볼륨 저장
-                        // 코드 수정
-                        // newData로 변경
-                        let localBaseSound = newData.baseSound
-                        let localMelodySound = newData.melodySound
-                        let localNaturalSound = newData.naturalSound
-                        
-                        // Slider에 따라 볼륨이 잘 변경됐는지 확인
-                        print("볼륨 확인")
-                        print(baseVolume, melodyVolume, naturalVolume)
+                        let localBaseSound = data.baseSound
+                        let localMelodySound = data.melodySound
+                        let localNaturalSound = data.naturalSound
                         
                         let newBaseSound = Sound(id: localBaseSound!.id,
                                                  name: localBaseSound!.name,
@@ -76,19 +66,12 @@ struct VolumeControl: View {
                                                     audioVolume: naturalVolume,
                                                     imageName: localNaturalSound!.imageName)
                         
-                        // 코드 수정
-                        // newData로 변경
-                        let newMixedSound = MixedSound(id: newData.id,
-                                                       name: newData.name,
+                        let newMixedSound = MixedSound(id: data.id,
+                                                       name: data.name,
                                                        baseSound: newBaseSound,
                                                        melodySound: newMelodySound,
                                                        naturalSound: newNaturalSound,
-                                                       imageName: newData.imageName)
-                        
-                        // 코드 추가
-                        newData.baseSound = newMixedSound.baseSound
-                        newData.melodySound = newMixedSound.melodySound
-                        newData.naturalSound = newMixedSound.naturalSound
+                                                       imageName: data.imageName)
                         
                         userRepositories.remove(at: data.id)
                         userRepositories.insert(newMixedSound, at: data.id)
@@ -118,17 +101,15 @@ struct VolumeControl: View {
                 
                 .padding()
                 
-                // 코드 수정
-                // newData로 변경
-                if let baseSound = newData.baseSound {
+                if let baseSound = data.baseSound {
                     SoundControlSlider(item: baseSound)
                 }
                 
-                if let melodySound = newData.melodySound {
+                if let melodySound = data.melodySound {
                     SoundControlSlider(item: melodySound)
                 }
                 
-                if let naturalSound = newData.naturalSound {
+                if let naturalSound = data.naturalSound {
                     SoundControlSlider(item: naturalSound)
                 }
                 
@@ -136,6 +117,7 @@ struct VolumeControl: View {
             }
         }
     }
+
     
     @ViewBuilder
     func SoundControlSlider(item: Sound) -> some View {

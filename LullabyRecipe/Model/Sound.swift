@@ -15,29 +15,17 @@ struct Sound: Identifiable, Codable {
     let imageName: String
 }
 
-// struct -> class
-class MixedSound: Identifiable, Codable, Equatable {
+struct MixedSound: Identifiable, Codable, Equatable {
     static func == (lhs: MixedSound, rhs: MixedSound) -> Bool {
         return true
     }
     
     let id: Int
     let name: String
-    // var로 변경
     var baseSound: Sound?
     var melodySound: Sound?
     var naturalSound: Sound?
     let imageName: String
-    
-    // 코드 추가
-    init(id: Int, name: String, baseSound: Sound?, melodySound: Sound?, naturalSound: Sound?, imageName: String) {
-        self.id = id
-        self.name = name
-        self.baseSound = baseSound
-        self.melodySound = melodySound
-        self.naturalSound = naturalSound
-        self.imageName = imageName
-    }
 }
 
 var baseSounds = [

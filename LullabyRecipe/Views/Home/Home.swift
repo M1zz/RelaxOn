@@ -14,6 +14,8 @@ struct Home: View {
     @Binding var selected: SelectedType
     @State var hasEdited: Bool = false
     
+    @State var stateUserRepositories: [MixedSound] = userRepositories
+    
     var body : some View {
         ZStack {
             ColorPalette.background.color.ignoresSafeArea()
@@ -38,6 +40,7 @@ struct Home: View {
                     let decoder = JSONDecoder()
                     userRepositories = try decoder.decode([MixedSound].self, from: data)
                     print("help : \(userRepositories)")
+                    stateUserRepositories = userRepositories
                 } catch {
                     print("Unable to Decode Note (\(error))")
                 }
@@ -51,6 +54,7 @@ struct Home: View {
                     let decoder = JSONDecoder()
 
                     userRepositories = try decoder.decode([MixedSound].self, from: data)
+                    stateUserRepositories = userRepositories
                     print("help : \(userRepositories)")
 
                 } catch {
@@ -120,10 +124,18 @@ struct Home: View {
                 LazyVGrid(columns: Array(repeating: GridItem(.flexible(),spacing: 15),
                                          count: 2),
                           spacing: 20) {
-                    ForEach(userRepositories){ item in
+                    ForEach(stateUserRepositories){ item in
                         MixedSoundCard(data: item,
                                        selectedID: String(item.id),
-                                       hasEdited: $hasEdited)
+                                       hasEdited: $hasEdited, baseVolume: item.baseSound?.audioVolume ?? 1.0, melodyVolume: item.melodySound?.audioVolume ?? 1.0, naturalVolume: item.naturalSound?.audioVolume ?? 1.0)
+                        .onAppear {
+                            print("mixedsoundcard appear")
+                            print(userRepositories)
+                            stateUserRepositories = []
+                            stateUserRepositories = userRepositories
+                            print(stateUserRepositories)
+                            print(item)
+                        }
                     }
                 }
 //                          .onLongPressGesture {

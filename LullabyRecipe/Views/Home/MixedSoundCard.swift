@@ -14,10 +14,14 @@ struct MixedSoundCard : View {
     @State var show = false
     @Binding var hasEdited: Bool
     @State var showingActionSheet: Bool = false
+    
+    @State var baseVolume: Float
+    @State var melodyVolume: Float
+    @State var naturalVolume: Float
 
     var body : some View {
         ZStack {
-            NavigationLink(destination: MusicView(data: data, newData: data),   // newData 전달
+            NavigationLink(destination: MusicView(data: data, baseVolume: $baseVolume, melodyVolume: $melodyVolume, naturalVolume: $naturalVolume),
                            isActive: $show) {
                 Text("")
             }
@@ -67,6 +71,10 @@ struct MixedSoundCard : View {
         } message: {
           Text("This item will be deleted. This action cannot be undone.")
         }
+        .onAppear {
+            print(baseVolume, melodyVolume, naturalVolume)
+            print(data)
+        }
     }
     
     private func getEncodedData(data: [MixedSound]) -> Data? {
@@ -84,8 +92,8 @@ struct MixedSoundCard : View {
 struct MixedSoundCard_Previews: PreviewProvider {
     static var previews: some View {
         let dummyMixedSound = dummyMixedSound
-        MixedSoundCard(data: dummyMixedSound,
-                       selectedID: "", hasEdited: .constant(false))
-        .background(ColorPalette.background.color)
+//        MixedSoundCard(data: dummyMixedSound,
+//                       selectedID: "", hasEdited: .constant(false))
+//        .background(ColorPalette.background.color)
     }
 }
