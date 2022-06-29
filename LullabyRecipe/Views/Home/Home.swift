@@ -129,12 +129,8 @@ struct Home: View {
                                        selectedID: String(item.id),
                                        hasEdited: $hasEdited, baseVolume: item.baseSound?.audioVolume ?? 1.0, melodyVolume: item.melodySound?.audioVolume ?? 1.0, naturalVolume: item.naturalSound?.audioVolume ?? 1.0)
                         .onAppear {
-                            print("mixedsoundcard appear")
-                            print(userRepositories)
                             stateUserRepositories = []
                             stateUserRepositories = userRepositories
-                            print(stateUserRepositories)
-                            print(item)
                         }
                     }
                 }
