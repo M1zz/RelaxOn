@@ -14,7 +14,7 @@ struct Home: View {
     @Binding var selected: SelectedType
     @State var hasEdited: Bool = false
     
-    @State var stateUserRepositories: [MixedSound] = userRepositories
+    @State var userRepositoriesState: [MixedSound] = userRepositories
     
     var body : some View {
         ZStack {
@@ -40,7 +40,7 @@ struct Home: View {
                     let decoder = JSONDecoder()
                     userRepositories = try decoder.decode([MixedSound].self, from: data)
                     print("help : \(userRepositories)")
-                    stateUserRepositories = userRepositories
+                    userRepositoriesState = userRepositories
                 } catch {
                     print("Unable to Decode Note (\(error))")
                 }
@@ -54,7 +54,7 @@ struct Home: View {
                     let decoder = JSONDecoder()
 
                     userRepositories = try decoder.decode([MixedSound].self, from: data)
-                    stateUserRepositories = userRepositories
+                    userRepositoriesState = userRepositories
                     print("help : \(userRepositories)")
 
                 } catch {
@@ -124,13 +124,14 @@ struct Home: View {
                 LazyVGrid(columns: Array(repeating: GridItem(.flexible(),spacing: 15),
                                          count: 2),
                           spacing: 20) {
-                    ForEach(stateUserRepositories){ item in
+                    ForEach(userRepositoriesState){ item in
                         MixedSoundCard(data: item,
                                        selectedID: String(item.id),
-                                       hasEdited: $hasEdited, baseVolume: item.baseSound?.audioVolume ?? 1.0, melodyVolume: item.melodySound?.audioVolume ?? 1.0, naturalVolume: item.naturalSound?.audioVolume ?? 1.0)
+                                       hasEdited: $hasEdited,
+                                       audioVolumes: (baseVolume: item.baseSound?.audioVolume ?? 1.0, melodyVolume: item.melodySound?.audioVolume ?? 1.0, naturalVolume: item.naturalSound?.audioVolume ?? 1.0))
                         .onAppear {
-                            stateUserRepositories = []
-                            stateUserRepositories = userRepositories
+                            userRepositoriesState = []
+                            userRepositoriesState = userRepositories
                         }
                     }
                 }

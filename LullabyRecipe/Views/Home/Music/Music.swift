@@ -17,9 +17,7 @@ struct MusicView: View {
     
     var data: MixedSound
     
-    @Binding var baseVolume: Float
-    @Binding var melodyVolume: Float
-    @Binding var naturalVolume: Float
+    @Binding var audioVolumes: (baseVolume: Float, melodyVolume: Float, naturalVolume: Float)
     
     var body: some View {
         
@@ -64,12 +62,10 @@ struct MusicView: View {
         .sheet(isPresented: $showVolumeControl,
                content: {
             VolumeControl(showVolumeControl: $showVolumeControl,
-                          baseVolume: $baseVolume,
-                          melodyVolume: $melodyVolume,
-                          naturalVolume: $naturalVolume,
+                          audioVolumes: $audioVolumes,
                           data: data)
             .onDisappear {
-                viewModel.updateVolume(baseVolume: baseVolume, melodyVolume: melodyVolume, naturalVolume: naturalVolume)
+                viewModel.updateVolume(audioVolumes: audioVolumes)
             }
         })
         .navigationBarTitle(Text(""),

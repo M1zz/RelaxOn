@@ -16,10 +16,10 @@ final class MusicViewModel: NSObject, ObservableObject {
     
     @Published var mixedSound: MixedSound?
     
-    func updateVolume(baseVolume: Float, melodyVolume: Float, naturalVolume: Float) {
-        self.mixedSound?.baseSound?.audioVolume = baseVolume
-        self.mixedSound?.melodySound?.audioVolume = melodyVolume
-        self.mixedSound?.naturalSound?.audioVolume = naturalVolume
+    func updateVolume(audioVolumes: (baseVolume: Float, melodyVolume: Float, naturalVolume: Float)) {
+        self.mixedSound?.baseSound?.audioVolume = audioVolumes.baseVolume
+        self.mixedSound?.melodySound?.audioVolume = audioVolumes.melodyVolume
+        self.mixedSound?.naturalSound?.audioVolume = audioVolumes.naturalVolume
     }
     
     func fetchData(data: MixedSound) {

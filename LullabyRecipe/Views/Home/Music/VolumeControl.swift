@@ -10,9 +10,7 @@ import SwiftUI
 struct VolumeControl: View {
     
     @Binding var showVolumeControl: Bool
-    @Binding var baseVolume: Float
-    @Binding var melodyVolume: Float
-    @Binding var naturalVolume: Float
+    @Binding var audioVolumes: (baseVolume: Float, melodyVolume: Float, naturalVolume: Float)
     
     let data: MixedSound
     let baseAudioManager = AudioManager()
@@ -52,18 +50,18 @@ struct VolumeControl: View {
                         let newBaseSound = Sound(id: localBaseSound!.id,
                                                  name: localBaseSound!.name,
                                                  soundType: localBaseSound!.soundType,
-                                                 audioVolume: baseVolume,
+                                                 audioVolume: audioVolumes.baseVolume,
                                                  imageName: localBaseSound!.imageName)
                         let newMelodySound = Sound(id: localMelodySound!.id,
                                                    name: localMelodySound!.name,
                                                    soundType: localMelodySound!.soundType,
-                                                   audioVolume: melodyVolume,
+                                                   audioVolume: audioVolumes.melodyVolume,
                                                    imageName: localMelodySound!.imageName)
                         
                         let newNaturalSound = Sound(id: localNaturalSound!.id,
                                                     name: localNaturalSound!.name,
                                                     soundType: localNaturalSound!.soundType,
-                                                    audioVolume: naturalVolume,
+                                                    audioVolume: audioVolumes.naturalVolume,
                                                     imageName: localNaturalSound!.imageName)
                         
                         let newMixedSound = MixedSound(id: data.id,
@@ -141,34 +139,34 @@ struct VolumeControl: View {
                     .cornerRadius(12)
                 switch item.soundType {
                 case .base:
-                    Slider(value: $baseVolume, in: 0...1)
+                    Slider(value: $audioVolumes.baseVolume, in: 0...1)
                         .background(.black)
                         .cornerRadius(4)
                         .accentColor(.white)
                         .padding(.horizontal, 20)
-                        .onChange(of: baseVolume) { newValue in
+                        .onChange(of: audioVolumes.baseVolume) { newValue in
                             print(newValue)
                             baseAudioManager.chanegeVolume(track: item.name,
                                                            volume: newValue)
                         }
                 case .melody:
-                    Slider(value: $melodyVolume, in: 0...1)
+                    Slider(value: $audioVolumes.melodyVolume, in: 0...1)
                         .background(.black)
                         .cornerRadius(4)
                         .accentColor(.white)
                         .padding(.horizontal, 20)
-                        .onChange(of: melodyVolume) { newValue in
+                        .onChange(of: audioVolumes.melodyVolume) { newValue in
                             print(newValue)
                             melodyAudioManager.chanegeVolume(track: item.name,
                                                              volume: newValue)
                         }
                 case .natural:
-                    Slider(value: $naturalVolume, in: 0...1)
+                    Slider(value: $audioVolumes.naturalVolume, in: 0...1)
                         .background(.black)
                         .cornerRadius(4)
                         .accentColor(.white)
                         .padding(.horizontal, 20)
-                        .onChange(of: naturalVolume) { newValue in
+                        .onChange(of: audioVolumes.naturalVolume) { newValue in
                             print(newValue)
                             naturalAudioManager.chanegeVolume(track: item.name,
                                                               volume: newValue)
