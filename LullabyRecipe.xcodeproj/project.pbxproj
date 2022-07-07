@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2150BD0F2876CB89006C8312 /* CustomTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2150BD0E2876CB89006C8312 /* CustomTabView.swift */; };
 		580CADAA28659BEF0091946C /* LongSun.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 580CADA928659BEF0091946C /* LongSun.mp3 */; };
 		580CADAC28659C990091946C /* SpaceMid.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 580CADAB28659C990091946C /* SpaceMid.mp3 */; };
 		580CADB028659CF50091946C /* SpaceLow.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 580CADAD28659CF50091946C /* SpaceLow.mp3 */; };
@@ -64,6 +65,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2150BD0E2876CB89006C8312 /* CustomTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabView.swift; sourceTree = "<group>"; };
 		580CADA928659BEF0091946C /* LongSun.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = LongSun.mp3; sourceTree = "<group>"; };
 		580CADAB28659C990091946C /* SpaceMid.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = SpaceMid.mp3; sourceTree = "<group>"; };
 		580CADAD28659CF50091946C /* SpaceLow.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = SpaceLow.mp3; sourceTree = "<group>"; };
@@ -311,6 +313,7 @@
 				58DE103928405C7F002CDB9F /* Home */,
 				58DE103828405C6C002CDB9F /* Kitchen */,
 				58DE1036283F65D9002CDB9F /* WhiteTitleText.swift */,
+				2150BD0E2876CB89006C8312 /* CustomTabView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -464,6 +467,7 @@
 				58DE1021283DD9DD002CDB9F /* MusicViewModel.swift in Sources */,
 				58DE61852839C13900F25769 /* ContentView.swift in Sources */,
 				58DE1032283DF6E7002CDB9F /* Static.swift in Sources */,
+				2150BD0F2876CB89006C8312 /* CustomTabView.swift in Sources */,
 				58DE61AF283A8C8B00F25769 /* Kitchen.swift in Sources */,
 				58DE61C52841C54700F25769 /* OnBoarding.swift in Sources */,
 				58DE61B2283A8E1700F25769 /* Sound.swift in Sources */,
