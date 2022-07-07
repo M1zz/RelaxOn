@@ -73,7 +73,7 @@ struct SoundCard : View {
 
 struct SoundCard_Previews: PreviewProvider {
     static var previews: some View {
-        SoundCard(soundFileName : "chinese_gong",
+        SoundCard(soundFileName : "base_default",
                        data: baseSounds[0],
                   callback: {_,_  in },
                        selectedID: "")

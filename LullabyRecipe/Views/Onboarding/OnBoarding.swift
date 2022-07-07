@@ -16,7 +16,7 @@ struct OnBoarding: View {
         ZStack {
             ColorPalette.launchbackground.color.ignoresSafeArea()
             
-            Image("BackPattern")
+            Image(ImageName.BackPattern.imageName)
                 .resizable()
                 .ignoresSafeArea()
             

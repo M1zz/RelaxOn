@@ -35,56 +35,96 @@ var baseSounds = [
           audioVolume: 0.8,
           imageName: "music"),
     Sound(id: 1,
-          name: BaseAudioName.chineseGong.fileName,
+          name: BaseAudioName.longSun.fileName,
           soundType: .base,
           audioVolume: 0.8,
-          imageName: "gong1"),
+          imageName: BaseAudioName.longSun.fileName),
     Sound(id: 2,
-          name: BaseAudioName.gongNoHit.fileName,
+          name: BaseAudioName.spaceMid.fileName,
           soundType: .base,
           audioVolume: 0.8,
-          imageName: "gong2"),
+          imageName: BaseAudioName.spaceMid.fileName),
+    Sound(id: 3,
+          name: BaseAudioName.spaceLow.fileName,
+          soundType: .base,
+          audioVolume: 0.8,
+          imageName: BaseAudioName.spaceLow.fileName),
+    Sound(id: 4,
+          name: BaseAudioName.spaceHigh.fileName,
+          soundType: .base,
+          audioVolume: 0.8,
+          imageName: BaseAudioName.spaceHigh.fileName),
+    Sound(id: 5,
+          name: BaseAudioName.oxygen.fileName,
+          soundType: .base,
+          audioVolume: 0.8,
+          imageName: BaseAudioName.oxygen.fileName),
 ]
 
 var melodySounds = [
-    Sound(id: 3,
+    Sound(id: 10,
           name: "Empty",
           soundType: .melody,
           audioVolume: 1.0,
           imageName: "music"),
-    Sound(id: 4,
-          name: MelodyAudioName.lynx.fileName,
+    Sound(id: 11,
+          name: MelodyAudioName.ambient.fileName,
           soundType: .melody,
           audioVolume: 1.0,
-          imageName: "Melody1"),
-    Sound(id: 5,
-          name: MelodyAudioName.perlBird.fileName,
+          imageName: MelodyAudioName.ambient.fileName),
+    Sound(id: 12,
+          name: MelodyAudioName.garden.fileName,
           soundType: .melody,
           audioVolume: 1.0,
-          imageName: "Melody2"),
+          imageName: MelodyAudioName.garden.fileName),
+    Sound(id: 13,
+          name: MelodyAudioName.gymnopedia.fileName,
+          soundType: .melody,
+          audioVolume: 1.0,
+          imageName: MelodyAudioName.gymnopedia.fileName),
+    Sound(id: 14,
+          name: MelodyAudioName.relaxing.fileName,
+          soundType: .melody,
+          audioVolume: 1.0,
+          imageName: MelodyAudioName.relaxing.fileName),
+    Sound(id: 15,
+          name: MelodyAudioName.wisdom.fileName,
+          soundType: .melody,
+          audioVolume: 1.0,
+          imageName: MelodyAudioName.wisdom.fileName)
 ]
 
 var naturalSounds = [
-    Sound(id: 6,
+    Sound(id: 20,
           name: "Empty",
           soundType: .natural,
           audioVolume: 0.4,
           imageName: "music"),
-    Sound(id: 7,
-          name: NaturalAudioName.creekBabbling.fileName,
+    Sound(id: 21,
+          name: NaturalAudioName.dryGrass.fileName,
           soundType: .natural,
           audioVolume: 0.4,
-          imageName: "creek"),
-    Sound(id: 8,
-          name: NaturalAudioName.ocean4.fileName,
+          imageName: NaturalAudioName.dryGrass.fileName),
+    Sound(id: 22,
+          name: NaturalAudioName.stream.fileName,
           soundType: .natural,
           audioVolume: 0.4,
-          imageName: "ocean"),
-    Sound(id: 9,
-          name: NaturalAudioName.waterDrip.fileName,
+          imageName: NaturalAudioName.stream.fileName),
+    Sound(id: 23,
+          name: NaturalAudioName.summerField.fileName,
           soundType: .natural,
           audioVolume: 0.4,
-          imageName: "waterdrip")
+          imageName: NaturalAudioName.summerField.fileName),
+    Sound(id: 24,
+          name: NaturalAudioName.umbrellaRain.fileName,
+          soundType: .natural,
+          audioVolume: 0.4,
+          imageName: NaturalAudioName.umbrellaRain.fileName),
+    Sound(id: 25,
+          name: NaturalAudioName.wave.fileName,
+          soundType: .natural,
+          audioVolume: 0.4,
+          imageName: NaturalAudioName.wave.fileName)
 ]
 
 #warning("name need changed")
@@ -96,7 +136,7 @@ struct fresh : Identifiable {
 }
 
 var freshitems = [
-    fresh(id: 0, name: BaseAudioName.chineseGong.fileName, price: "chinese gong sound",image: "gong"),
+    fresh(id: 0, name: BaseAudioName.longSun.fileName, price: "chinese gong sound",image: "gong"),
     fresh(id: 1, name: "ocean_4", price: "ocean sound",image: "f2"),
     fresh(id: 2, name: "Test", price: "this is test",image: "f3")
 ]
@@ -128,20 +168,20 @@ let dummyMixedSound = MixedSound(id: 0,
                                  imageName: "Recipe1")
 
 let dummyBaseSound = Sound(id: 0,
-                           name: BaseAudioName.chineseGong.fileName,
+                           name: BaseAudioName.longSun.fileName,
                            soundType: .base,
                            audioVolume: 0.8,
-                           imageName: "gong1")
+                           imageName: BaseAudioName.longSun.fileName)
 
 let dummyMelodySound = Sound(id: 2,
-                             name: MelodyAudioName.lynx.fileName,
+                             name: MelodyAudioName.ambient.fileName,
                              soundType: .melody,
                              audioVolume: 1.0,
-                             imageName: "Melody1")
+                             imageName: MelodyAudioName.ambient.fileName)
 
 let dummyNaturalSound = Sound(id: 6,
-                              name: NaturalAudioName.creekBabbling.fileName,
+                              name: NaturalAudioName.dryGrass.fileName,
                               soundType: .natural,
                               audioVolume: 0.4,
-                              imageName: "field")
+                              imageName: NaturalAudioName.dryGrass.fileName)
 
