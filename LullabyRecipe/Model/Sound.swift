@@ -15,31 +15,6 @@ struct Sound: Identifiable, Codable {
     let imageName: String
 }
 
-// struct -> class
-class MixedSound: Identifiable, Codable, Equatable {
-    static func == (lhs: MixedSound, rhs: MixedSound) -> Bool {
-        return true
-    }
-    
-    let id: Int
-    let name: String
-    // var로 변경
-    var baseSound: Sound?
-    var melodySound: Sound?
-    var naturalSound: Sound?
-    let imageName: String
-    
-    // 코드 추가
-    init(id: Int, name: String, baseSound: Sound?, melodySound: Sound?, naturalSound: Sound?, imageName: String) {
-        self.id = id
-        self.name = name
-        self.baseSound = baseSound
-        self.melodySound = melodySound
-        self.naturalSound = naturalSound
-        self.imageName = imageName
-    }
-}
-
 var baseSounds = [
     Sound(id: 0,
           name: "Empty",
@@ -171,29 +146,3 @@ var naturalSound: Sound = Sound(id: 6,
 
 var mixedAudioSources: [Sound] = []
 var userRepositories: [MixedSound] = []
-
-let dummyMixedSound = MixedSound(id: 0,
-                                 name: "test",
-                                 baseSound: dummyBaseSound,
-                                 melodySound: dummyMelodySound,
-                                 naturalSound: dummyNaturalSound,
-                                 imageName: "Recipe1")
-
-let dummyBaseSound = Sound(id: 0,
-                           name: BaseAudioName.longSun.fileName,
-                           soundType: .base,
-                           audioVolume: 0.8,
-                           imageName: BaseAudioName.longSun.fileName)
-
-let dummyMelodySound = Sound(id: 2,
-                             name: MelodyAudioName.ambient.fileName,
-                             soundType: .melody,
-                             audioVolume: 1.0,
-                             imageName: MelodyAudioName.ambient.fileName)
-
-let dummyNaturalSound = Sound(id: 6,
-                              name: NaturalAudioName.dryGrass.fileName,
-                              soundType: .natural,
-                              audioVolume: 0.4,
-                              imageName: NaturalAudioName.dryGrass.fileName)
-

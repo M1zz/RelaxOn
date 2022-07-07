@@ -59,7 +59,7 @@ struct MixedSoundCard : View {
                 hasEdited.toggle()
                 userRepositories.remove(at: data.id)
                 let data = getEncodedData(data: userRepositories)
-                UserDefaults.standard.set(data, forKey: "recipes")
+                UserDefaultsManager.shared.standard.set(data, forKey: UserDefaultsManager.shared.recipes)
             }
             Button("Cancel", role: .cancel) {
                 hasEdited.toggle()

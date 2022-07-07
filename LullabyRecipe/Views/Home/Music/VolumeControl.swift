@@ -93,7 +93,7 @@ struct VolumeControl: View {
                         userRepositories.remove(at: data.id)
                         userRepositories.insert(newMixedSound, at: data.id)
                         let data = getEncodedData(data: userRepositories)
-                        UserDefaults.standard.set(data, forKey: "recipes")
+                        UserDefaultsManager.shared.standard.set(data, forKey: UserDefaultsManager.shared.recipes)
                         
                         hasShowAlert = true
                     } label: {
