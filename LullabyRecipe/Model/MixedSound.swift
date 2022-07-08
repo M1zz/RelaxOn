@@ -14,8 +14,8 @@ struct MixedSound: Identifiable, Codable, Equatable {
     
     let id: Int
     let name: String
-    let baseSound: Sound?
-    let melodySound: Sound?
-    let naturalSound: Sound?
+    var baseSound: Sound?
+    var melodySound: Sound?
+    var naturalSound: Sound?
     let imageName: String
 }

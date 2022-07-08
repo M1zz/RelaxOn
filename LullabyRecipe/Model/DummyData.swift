@@ -15,19 +15,19 @@ let dummyMixedSound = MixedSound(id: 0,
                                  imageName: "Recipe1")
 
 let dummyBaseSound = Sound(id: 0,
-                           name: BaseAudioName.chineseGong.fileName,
+                           name: BaseAudioName.longSun.fileName,
                            soundType: .base,
                            audioVolume: 0.8,
                            imageName: "gong1")
 
 let dummyMelodySound = Sound(id: 2,
-                             name: MelodyAudioName.lynx.fileName,
+                             name: MelodyAudioName.ambient.fileName,
                              soundType: .melody,
                              audioVolume: 1.0,
                              imageName: "Melody1")
 
 let dummyNaturalSound = Sound(id: 6,
-                              name: NaturalAudioName.creekBabbling.fileName,
+                              name: NaturalAudioName.dryGrass.fileName,
                               soundType: .natural,
                               audioVolume: 0.4,
                               imageName: "field")
