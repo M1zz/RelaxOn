@@ -42,13 +42,13 @@ struct ContentView: View {
             .edgesIgnoringSafeArea(.bottom)
         }
         .onAppear() {
-            let notFirstVisit = UserDefaults.standard.bool(forKey: "notFirstVisit")
+            let notFirstVisit = UserDefaultsManager.shared.standard.bool(forKey: UserDefaultsManager.shared.notFirstVisit)
             showOnboarding = notFirstVisit ? false : true
         }
         .fullScreenCover(isPresented: $showOnboarding, content: {
             OnBoarding(showOnboarding: $showOnboarding)
                 .onDisappear {
-                    userName = UserDefaults.standard.string(forKey: "userName") ?? "Guest"
+                    userName = UserDefaultsManager.shared.standard.string(forKey: UserDefaultsManager.shared.userName) ?? UserDefaultsManager.shared.guest
                 }
         })
     }
