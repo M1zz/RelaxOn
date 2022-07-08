@@ -41,8 +41,8 @@ struct OnBoarding: View {
                     if userName.isEmpty {
                         // todo : 이름을 입력해주세요
                     } else {
-                        UserDefaults.standard.set(true, forKey: "notFirstVisit")
-                        UserDefaults.standard.set(userName, forKey: "userName")
+                        UserDefaultsManager.shared.standard.set(true, forKey: UserDefaultsManager.shared.notFirstVisit)
+                        UserDefaultsManager.shared.standard.set(userName, forKey: UserDefaultsManager.shared.userName)
                         showOnboarding = false
                     }
                 } label: {
