@@ -64,7 +64,8 @@ struct Home: View {
     func Profile() -> some View {
         
         HStack(spacing: 12) {
-            WhiteTitleText(title: "Hi, \(userName ?? "guest")")
+            Text("Hi, \(userName ?? "guest")")
+                .WhiteTitleText()
             Spacer()
             
             if hasEdited {
@@ -94,7 +95,8 @@ struct Home: View {
                 VStack {
                     Spacer()
                     HStack {
-                        WhiteTitleText(title: "New Soundtrack")
+                        Text("New Soundtrack")
+                            .WhiteTitleText()
                         Spacer()
                     }
                     .padding()

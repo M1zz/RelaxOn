@@ -86,7 +86,8 @@ struct Kitchen : View {
     @ViewBuilder
     func Profile() -> some View {
         HStack(spacing: 12) {
-            WhiteTitleText(title: "Hi, \(userName)")
+            Text("Hi, \(userName)")
+                .WhiteTitleText()
             Spacer()
         }
         .padding(.vertical, 20)
@@ -129,7 +130,8 @@ struct Kitchen : View {
         VStack(spacing: 15) {
             
             HStack {
-                WhiteTitleText(title: sectionTitle)
+                Text(sectionTitle)
+                    .WhiteTitleText()
                 
                 Spacer()
                 

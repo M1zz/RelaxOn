@@ -7,19 +7,16 @@
 
 import SwiftUI
 
-struct WhiteTitleText: View {
-    var title: String
-    
-    var body: some View {
-        Text(title)
-            .font(.title)
-            .bold()
+struct WhiteTitleModifier: ViewModifier{
+    func body(content: Content) -> some View {
+        content
+            .font(Font.title.weight(.bold))
             .foregroundColor(Color.white)
     }
 }
 
-struct TitleText_Previews: PreviewProvider {
-    static var previews: some View {
-        WhiteTitleText(title: "Test")
+extension View {
+    func WhiteTitleText(backgroundColor : Color = .green, foregroundColor : Color = .white) -> ModifiedContent<Self, WhiteTitleModifier> {
+        return modifier(WhiteTitleModifier())
     }
 }

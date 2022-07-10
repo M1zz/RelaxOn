@@ -21,10 +21,12 @@ struct OnBoarding: View {
                 .ignoresSafeArea()
             
             VStack(alignment:.leading) {
-                WhiteTitleText(title: "Nice to meet you.")
+                Text("Nice to meet you.")
+                    .WhiteTitleText()
                     .padding(.leading)
                 
-                WhiteTitleText(title: "What's your name?")
+                Text("What's your name?")
+                    .WhiteTitleText()
                     .padding(.leading)
                 
                 TextField("", text: $userName)
@@ -36,7 +38,7 @@ struct OnBoarding: View {
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
                     .padding(10)
-
+                
                 Button {
                     if userName.isEmpty {
                         // todo : 이름을 입력해주세요
