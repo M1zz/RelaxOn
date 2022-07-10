@@ -1,10 +1,7 @@
----
 name: Pull Request Tamplate
 about: PR 템플릿
 title: "[Label] PR Title"
 labels: ['feature']
-
----
 
 ## Close Issues
 Close #이슈넘버
