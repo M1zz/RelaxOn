@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct DummyTimerView: View {
-//    @ObservedObject var musicViewModel: MusicViewModel
     @ObservedObject var timer = TimerManager.shared
     @State var second: Double = 0
 
@@ -34,8 +33,12 @@ struct DummyTimerView: View {
     
     var editTimerView: some View {
         VStack {
-//            Text("\(musicViewModel.isPlaying ? "true":"false")")
             Text("\(timer.getRemainedSecond())")
+            Button {
+                timer.musicTimer.isTimerOn = false
+            } label : {
+                Text("cancel")
+            }
         }
     }
 }
@@ -43,6 +46,5 @@ struct DummyTimerView: View {
 struct DummyTimerView_Previews: PreviewProvider {
     static var previews: some View {
         DummyTimerView()
-//            .onReceive(Publisher, perform: <#T##(Publisher.Output) -> Void#>)
     }
 }
