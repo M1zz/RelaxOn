@@ -48,6 +48,9 @@
 		58DE61C22841C20A00F25769 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 58DE61C12841C20A00F25769 /* Launch Screen.storyboard */; };
 		58DE61C52841C54700F25769 /* OnBoarding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61C42841C54700F25769 /* OnBoarding.swift */; };
 		58DE61C72843100100F25769 /* VolumeControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61C62843100100F25769 /* VolumeControl.swift */; };
+		E28DCEA0287A95D200AEA4D5 /* MusicTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28DCE9F287A95D200AEA4D5 /* MusicTimer.swift */; };
+		E28DCEA2287A98C600AEA4D5 /* TimerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28DCEA1287A98C600AEA4D5 /* TimerManager.swift */; };
+		E28DCEA4287AFC0D00AEA4D5 /* DummyTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28DCEA3287AFC0D00AEA4D5 /* DummyTimerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -113,6 +116,9 @@
 		58DE61C12841C20A00F25769 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		58DE61C42841C54700F25769 /* OnBoarding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OnBoarding.swift; path = LullabyRecipe/Views/Onboarding/OnBoarding.swift; sourceTree = SOURCE_ROOT; };
 		58DE61C62843100100F25769 /* VolumeControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeControl.swift; sourceTree = "<group>"; };
+		E28DCE9F287A95D200AEA4D5 /* MusicTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicTimer.swift; sourceTree = "<group>"; };
+		E28DCEA1287A98C600AEA4D5 /* TimerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerManager.swift; sourceTree = "<group>"; };
+		E28DCEA3287AFC0D00AEA4D5 /* DummyTimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyTimerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,6 +160,7 @@
 				58DE61B6283A932E00F25769 /* Music.swift */,
 				58DE1020283DD9DD002CDB9F /* MusicViewModel.swift */,
 				58DE61C62843100100F25769 /* VolumeControl.swift */,
+				E28DCEA3287AFC0D00AEA4D5 /* DummyTimerView.swift */,
 			);
 			path = Music;
 			sourceTree = "<group>";
@@ -217,6 +224,7 @@
 			children = (
 				58DE101D283DC913002CDB9F /* AudioManager.swift */,
 				4A5769AF2866F6B5007CCAE9 /* UserDefaultsManager.swift */,
+				E28DCEA1287A98C600AEA4D5 /* TimerManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -311,6 +319,7 @@
 				58DE61B3283A8E4500F25769 /* Recipe.swift */,
 				4A5769AB2866F20A007CCAE9 /* MixedSound.swift */,
 				4A5769AD2866F44E007CCAE9 /* DummyData.swift */,
+				E28DCE9F287A95D200AEA4D5 /* MusicTimer.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -482,9 +491,12 @@
 				4A5769B02866F6B5007CCAE9 /* UserDefaultsManager.swift in Sources */,
 				58DE61B2283A8E1700F25769 /* Sound.swift in Sources */,
 				58DE61BD283E542400F25769 /* MixedSoundCard.swift in Sources */,
+				E28DCEA0287A95D200AEA4D5 /* MusicTimer.swift in Sources */,
 				58DE61C72843100100F25769 /* VolumeControl.swift in Sources */,
 				58DE61832839C13900F25769 /* LullabyRecipeApp.swift in Sources */,
 				4A5769AC2866F20A007CCAE9 /* MixedSound.swift in Sources */,
+				E28DCEA4287AFC0D00AEA4D5 /* DummyTimerView.swift in Sources */,
+				E28DCEA2287A98C600AEA4D5 /* TimerManager.swift in Sources */,
 				58DE61B4283A8E4500F25769 /* Recipe.swift in Sources */,
 				58DE101C283CA87F002CDB9F /* SoundCard.swift in Sources */,
 				4A5769AE2866F44E007CCAE9 /* DummyData.swift in Sources */,
