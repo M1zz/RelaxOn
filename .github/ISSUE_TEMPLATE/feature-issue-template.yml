@@ -1,6 +1,6 @@
 name: Feature Tamplate
 description: 기능 추가할 때 쓰는 템플릿
-title: "[feature]: Feature Title"
+title: "[Feature]: Feature Title"
 labels: ["feature"]
 
 body:
