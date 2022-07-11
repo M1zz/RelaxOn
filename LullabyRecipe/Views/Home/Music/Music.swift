@@ -120,7 +120,6 @@ struct MusicView: View {
             viewModel.play()
             viewModel.isPlaying.toggle()
         }, label: {
-            
             HStack {
                 (Text("\(viewModel.isPlaying ? "Pause " : "Play ")").bold() + Text(Image(systemName: viewModel.isPlaying ? "pause.fill" : "play.fill")))
                     .frame(minWidth: 0,
@@ -130,13 +129,18 @@ struct MusicView: View {
                     .foregroundColor(.white)
                     .cornerRadius(17)
                     .font(.system(size: 16))
+                dummyTimerButton
             }
         })
-        
-        //        }
-        //        .frame(width: maxWidth,
-        //               height: maxWidth)
-        //        .padding(.top,30)
+    }
+    
+    var dummyTimerButton: some View {
+        HStack {
+            NavigationLink(destination: DummyTimerView()) {
+                Image(systemName: "timer")
+            }
+            Text("\(timer.getRemainedSecond())")
+        }
     }
     
     @ViewBuilder
