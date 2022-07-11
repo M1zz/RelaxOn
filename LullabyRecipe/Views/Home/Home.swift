@@ -167,6 +167,7 @@ struct Home: View {
         }
     }
 }
+
 struct RoundedEdge: ViewModifier {
     let width: CGFloat
     let color: Color
@@ -182,6 +183,8 @@ struct RoundedEdge: ViewModifier {
 
 struct Home_Previews: PreviewProvider {
     static var previews: some View {
-        Home(userName: .constant("guest"), selected: .constant(.home))
+        NavigationView {
+            Home(userName: .constant("guest"), selected: .constant(.home))
+        }
     }
 }

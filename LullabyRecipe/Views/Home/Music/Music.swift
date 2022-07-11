@@ -180,16 +180,25 @@ struct MusicView: View {
     }
 }
 
+struct MusicViewForBinding: View {
+    @State var audioVolumes = (baseVolume: Float(1.0), melodyVolume: Float(1.0), naturalVolume: Float(1.0))
+
+    let dummyMixedSound = MixedSound(id: 3,
+                                     name: "test4",
+                                     baseSound: dummyBaseSound,
+                                     melodySound: dummyMelodySound,
+                                     naturalSound: dummyNaturalSound,
+                                     imageName: "r1")
+    var body: some View {
+        MusicView(data: dummyMixedSound, audioVolumes: $audioVolumes)
+    }
+}
+
 struct Music_Previews: PreviewProvider {
     static var previews: some View {
-        let dummyMixedSound = MixedSound(id: 3,
-                                         name: "test4",
-                                         baseSound: dummyBaseSound,
-                                         melodySound: dummyMelodySound,
-                                         naturalSound: dummyNaturalSound,
-                                         imageName: "r1")
-    
-//        MusicView(data: dummyMixedSound)
+        NavigationView {
+            MusicViewForBinding()
+        }
     }
 }
 

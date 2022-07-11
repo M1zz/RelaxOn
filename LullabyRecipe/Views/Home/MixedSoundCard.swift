@@ -86,8 +86,8 @@ struct MixedSoundCard : View {
 struct MixedSoundCard_Previews: PreviewProvider {
     static var previews: some View {
         let dummyMixedSound = dummyMixedSound
-//        MixedSoundCard(data: dummyMixedSound,
-//                       selectedID: "", hasEdited: .constant(false))
-//        .background(ColorPalette.background.color)
+        MixedSoundCard(data: dummyMixedSound,
+                       selectedID: "", hasEdited: .constant(false), audioVolumes: (baseVolume: Float(1.0), melodyVolume: Float(1.0), naturalVolume: Float(1.0)))
+        .background(ColorPalette.background.color)
     }
 }
