@@ -13,7 +13,7 @@ struct DummyTimerView: View {
     @State var second: Double = 0
 
     var body: some View {
-        if timer.timerOn {
+        if timer.isTimerOn {
             editTimerView
         } else {
             setTimerView

@@ -14,7 +14,9 @@ class TimerManager: ObservableObject {
     @Published var musicTimer = MusicTimer()
     var musicViewModel = MusicViewModel.shared
 
-    var timerOn: Bool {musicTimer.timerOn}
+    var isTimerOn: Bool {musicTimer.isTimerOn}
+    var isTimerStop: Bool {musicTimer.isTimerStop}
+
     
     /// 남은 시간 0이 될 경우
     func isShutDown() -> Bool {
@@ -38,16 +40,16 @@ class TimerManager: ObservableObject {
     
     func start(time: Int) {
         musicTimer.setTime(second: time)
-        musicTimer.timerOn = true
+        musicTimer.isTimerOn = true
     }
     
     func endMusicAndTimer() {
-        musicTimer.timerOn = false
+        musicTimer.isTimerOn = false
         musicViewModel.stop()
         musicViewModel.isPlaying = false
     }
     
     func toggleTimerStop() {
-        musicTimer.timerStop.toggle()
+        musicTimer.isTimerStop.toggle()
     }
 }

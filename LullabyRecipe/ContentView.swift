@@ -44,10 +44,12 @@ struct ContentView: View {
             .edgesIgnoringSafeArea(.bottom)
         }
         .onReceive(timer.musicTimer.timer) { _ in
-            if timer.isShutDown() && timer.timerOn {
+            if timer.isShutDown() && timer.isTimerOn {
                 timer.endMusicAndTimer()
             }
-            timer.countDown()
+            if timer.isTimerOn && !timer.isTimerStop {
+                timer.countDown()
+            }
         }
         .onAppear() {
             let notFirstVisit = UserDefaultsManager.shared.standard.bool(forKey: UserDefaultsManager.shared.notFirstVisit)
