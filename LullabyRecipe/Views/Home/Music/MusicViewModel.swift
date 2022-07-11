@@ -9,6 +9,9 @@ import SwiftUI
 import AVFoundation
 
 final class MusicViewModel: NSObject, ObservableObject {
+    
+    static let shared = MusicViewModel()
+    
     @Published var baseAudioManager = AudioManager()
     @Published var melodyAudioManager = AudioManager()
     @Published var naturalAudioManager = AudioManager()

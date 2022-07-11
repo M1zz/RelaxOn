@@ -12,6 +12,8 @@ class TimerManager: ObservableObject {
     static let shared = TimerManager()
     
     @Published var musicTimer = MusicTimer()
+    var musicViewModel = MusicViewModel.shared
+
     var timerOn: Bool {musicTimer.timerOn}
     
     /// 남은 시간 0이 될 경우
@@ -39,6 +41,11 @@ class TimerManager: ObservableObject {
         musicTimer.timerOn = true
     }
     
+    func endMusicAndTimer() {
+        musicTimer.timerOn = false
+        musicViewModel.stop()
+        musicViewModel.isPlaying = false
+    }
     
     func toggleTimerStop() {
         musicTimer.timerStop.toggle()

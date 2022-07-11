@@ -9,18 +9,19 @@ import SwiftUI
 import AVKit
 
 struct MusicView: View {
+    @StateObject var viewModel = MusicViewModel.shared
     
-    @StateObject var viewModel = MusicViewModel()
     @State var animatedValue : CGFloat = 55
     @State var maxWidth = UIScreen.main.bounds.width / 2.2
     @State var showVolumeControl: Bool = false
     
+    @ObservedObject var timer = TimerManager.shared
+
     var data: MixedSound
     
     @Binding var audioVolumes: (baseVolume: Float, melodyVolume: Float, naturalVolume: Float)
     
     var body: some View {
-        
         ZStack(alignment: .top) {
             
             ColorPalette.background.color.ignoresSafeArea()
@@ -55,9 +56,9 @@ struct MusicView: View {
             .onAppear {
                 viewModel.fetchData(data: data)
             }
-            .onDisappear {
-                viewModel.stop()
-            }
+//            .onDisappear {
+//                viewModel.stop()
+//            }
         }
         .sheet(isPresented: $showVolumeControl,
                content: {
@@ -205,5 +206,3 @@ struct Music_Previews: PreviewProvider {
         }
     }
 }
-
-

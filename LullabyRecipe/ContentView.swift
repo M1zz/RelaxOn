@@ -19,6 +19,8 @@ struct ContentView: View {
     @State var showOnboarding: Bool = false
     @State var userName: String?
     
+    @ObservedObject var timer = TimerManager.shared
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -40,6 +42,12 @@ struct ContentView: View {
             .background(ColorPalette.background.color,
                         ignoresSafeAreaEdges: .all)
             .edgesIgnoringSafeArea(.bottom)
+        }
+        .onReceive(timer.musicTimer.timer) { _ in
+            if timer.isShutDown() && timer.timerOn {
+                timer.endMusicAndTimer()
+            }
+            timer.countDown()
         }
         .onAppear() {
             let notFirstVisit = UserDefaultsManager.shared.standard.bool(forKey: UserDefaultsManager.shared.notFirstVisit)
