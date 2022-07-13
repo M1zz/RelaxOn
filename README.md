@@ -1,13 +1,13 @@
 # LullabyRecipe
 
 <p>
-  <img width="240" alt="스크린샷1" src="https://user-images.githubusercontent.com/81131715/178465919-b73defbb-498c-4efe-af6e-be09a382250d.png">
+  <img width="200" alt="스크린샷1" src="https://user-images.githubusercontent.com/81131715/178465919-b73defbb-498c-4efe-af6e-be09a382250d.png">
   &nbsp;&nbsp;
-  <img width="240" alt="스크린샷1" src="https://user-images.githubusercontent.com/81131715/178465975-a78ffae7-b9a9-40e0-b092-396cef6cf29d.png">
+  <img width="200" alt="스크린샷1" src="https://user-images.githubusercontent.com/81131715/178465975-a78ffae7-b9a9-40e0-b092-396cef6cf29d.png">
   &nbsp;&nbsp;
-  <img width="240" alt="스크린샷1" src="https://user-images.githubusercontent.com/81131715/178466053-677e976a-c613-4858-b1d0-a1b1ab1312ee.png">
+  <img width="200" alt="스크린샷1" src="https://user-images.githubusercontent.com/81131715/178466053-677e976a-c613-4858-b1d0-a1b1ab1312ee.png">
   &nbsp;&nbsp;
-  <img width="240" alt="스크린샷1" src="https://user-images.githubusercontent.com/81131715/178466061-c4dec397-b179-49e4-82ac-152b925379da.png">
+  <img width="200" alt="스크린샷1" src="https://user-images.githubusercontent.com/81131715/178466061-c4dec397-b179-49e4-82ac-152b925379da.png">
 </p>
 
 ## App Description
