@@ -6,6 +6,7 @@
 
 ## Close Issues
 - Pull Request와 관련된 Issue가 있다면 나열합니다.
+
 Close #이슈넘버
 
 ## 관련 사진(Optional)
