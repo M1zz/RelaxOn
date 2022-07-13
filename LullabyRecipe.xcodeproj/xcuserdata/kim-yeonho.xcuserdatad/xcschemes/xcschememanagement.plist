@@ -2,14 +2,13 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>UIBackgroundModes</key>
-	<array/>
-	<key>UILaunchScreen</key>
+	<key>SchemeUserState</key>
 	<dict>
-		<key>UIColorName</key>
-		<string>Background</string>
-		<key>UILaunchScreen</key>
-		<dict/>
+		<key>LullabyRecipe.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>0</integer>
+		</dict>
 	</dict>
 </dict>
 </plist>
