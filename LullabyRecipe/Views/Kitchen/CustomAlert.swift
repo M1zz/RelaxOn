@@ -67,7 +67,7 @@ struct CustomAlert: View {
                     userRepositories.append(newSound)
                     
                     let data = getEncodedData(data: userRepositories)
-                    UserDefaults.standard.set(data, forKey: "recipes")
+                    UserDefaultsManager.shared.standard.set(data, forKey: UserDefaultsManager.shared.recipes)
                     
                     showingAlert.toggle()
                     selected = .home

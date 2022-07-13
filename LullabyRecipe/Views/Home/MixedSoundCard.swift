@@ -14,10 +14,12 @@ struct MixedSoundCard : View {
     @State var show = false
     @Binding var hasEdited: Bool
     @State var showingActionSheet: Bool = false
+    
+    @State var audioVolumes: (baseVolume: Float, melodyVolume: Float, naturalVolume: Float)
 
     var body : some View {
         ZStack {
-            NavigationLink(destination: MusicView(data: data, newData: data),   // newData 전달
+            NavigationLink(destination: MusicView(data: data, audioVolumes: $audioVolumes),
                            isActive: $show) {
                 Text("")
             }
@@ -59,7 +61,7 @@ struct MixedSoundCard : View {
                 hasEdited.toggle()
                 userRepositories.remove(at: data.id)
                 let data = getEncodedData(data: userRepositories)
-                UserDefaults.standard.set(data, forKey: "recipes")
+                UserDefaultsManager.shared.standard.set(data, forKey: UserDefaultsManager.shared.recipes)
             }
             Button("Cancel", role: .cancel) {
                 hasEdited.toggle()
@@ -84,8 +86,8 @@ struct MixedSoundCard : View {
 struct MixedSoundCard_Previews: PreviewProvider {
     static var previews: some View {
         let dummyMixedSound = dummyMixedSound
-        MixedSoundCard(data: dummyMixedSound,
-                       selectedID: "", hasEdited: .constant(false))
-        .background(ColorPalette.background.color)
+//        MixedSoundCard(data: dummyMixedSound,
+//                       selectedID: "", hasEdited: .constant(false))
+//        .background(ColorPalette.background.color)
     }
 }
