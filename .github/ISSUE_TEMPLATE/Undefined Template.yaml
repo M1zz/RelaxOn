@@ -1,4 +1,4 @@
-name: Undefined Tamplate
+name: Undefined Template
 description: 우선순위가 정의되지 않은 작업을 할떄 쓰는 템플릿
 title: "[undefined]: Feature Title"
 labels: ["undefined"]
@@ -12,6 +12,15 @@ body:
       placeholder: ex. 타이머 화면 그리기
     validations:
       required: true
+      
+  - type: input
+    id: prepare-issue
+    attributes:
+      label: Prepare Issue(Optional)
+      description: 관련된 Prepare가 있다면 적어주세요.
+      placeholder: "ex. #14"
+    validations:
+      required: false
       
   - type: textarea
     id: related-view
