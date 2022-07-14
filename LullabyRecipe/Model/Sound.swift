@@ -7,6 +7,12 @@
 
 import Foundation
 
+enum SoundType: String, Codable {
+    case base
+    case melody
+    case natural
+}
+
 struct Sound: Identifiable, Codable {
     let id: Int // = UUID()
     let name: String

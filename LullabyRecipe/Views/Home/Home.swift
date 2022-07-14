@@ -16,11 +16,22 @@ struct Home: View {
     
     @State var userRepositoriesState: [MixedSound] = userRepositories
     
+    var model = ViewModelPhone()
+
+    // Watch가 현재 Reachable 한지
+    @State var isWatchreachable = "No"
+
+    // 메시지를 보내기 위한 텍스트
+//    @State var messageText = "TestMessage"
+    @State var messageList: [String] = []
+    
+    
     var body : some View {
         ZStack {
             ColorPalette.background.color.ignoresSafeArea()
             
             VStack(spacing: 15) {
+                Text(model.messageFromWatch)
                 Profile()
                 
                 ScrollView(.vertical, showsIndicators: false) {
@@ -41,6 +52,11 @@ struct Home: View {
                     userRepositories = try decoder.decode([MixedSound].self, from: data)
                     print("help : \(userRepositories)")
                     userRepositoriesState = userRepositories
+                    
+                    self.model.session.sendMessage(["message" : userRepositoriesState.map{ [$0.name, $0.imageName] }], replyHandler: nil) { (error) in
+                        print(error.localizedDescription)
+                    }
+                    
                 } catch {
                     print("Unable to Decode Note (\(error))")
                 }
@@ -55,6 +71,11 @@ struct Home: View {
 
                     userRepositories = try decoder.decode([MixedSound].self, from: data)
                     userRepositoriesState = userRepositories
+                
+                    self.model.session.sendMessage(["message" : userRepositoriesState.map{ [$0.name, $0.imageName] }], replyHandler: nil) { (error) in
+                        print(error.localizedDescription)
+                    }
+                    
                     print("help : \(userRepositories)")
 
                 } catch {
