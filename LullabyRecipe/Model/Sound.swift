@@ -7,6 +7,12 @@
 
 import Foundation
 
+enum SoundType: String, Codable {
+    case base
+    case melody
+    case natural
+}
+
 struct Sound: Identifiable, Codable {
     let id: Int // = UUID()
     let name: String
@@ -15,18 +21,18 @@ struct Sound: Identifiable, Codable {
     let imageName: String
 }
 
-struct MixedSound: Identifiable, Codable, Equatable {
-    static func == (lhs: MixedSound, rhs: MixedSound) -> Bool {
-        return true
-    }
-    
-    let id: Int
-    let name: String
-    var baseSound: Sound?
-    var melodySound: Sound?
-    var naturalSound: Sound?
-    let imageName: String
-}
+//struct MixedSound: Identifiable, Codable, Equatable {
+//    static func == (lhs: MixedSound, rhs: MixedSound) -> Bool {
+//        return true
+//    }
+//
+//    let id: Int
+//    let name: String
+//    var baseSound: Sound?
+//    var melodySound: Sound?
+//    var naturalSound: Sound?
+//    let imageName: String
+//}
 
 var baseSounds = [
     Sound(id: 0,
