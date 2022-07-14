@@ -30,7 +30,6 @@
 		58DE1021283DD9DD002CDB9F /* MusicViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE1020283DD9DD002CDB9F /* MusicViewModel.swift */; };
 		58DE1032283DF6E7002CDB9F /* Static.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE1031283DF6E7002CDB9F /* Static.swift */; };
 		58DE1034283F1A0A002CDB9F /* CustomAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE1033283F1A0A002CDB9F /* CustomAlert.swift */; };
-		58DE1037283F65D9002CDB9F /* WhiteTitleText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE1036283F65D9002CDB9F /* WhiteTitleText.swift */; };
 		58DE61832839C13900F25769 /* LullabyRecipeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61822839C13900F25769 /* LullabyRecipeApp.swift */; };
 		58DE61852839C13900F25769 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61842839C13900F25769 /* ContentView.swift */; };
 		58DE61872839C13A00F25769 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58DE61862839C13A00F25769 /* Assets.xcassets */; };
@@ -47,6 +46,7 @@
 		58DE61C22841C20A00F25769 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 58DE61C12841C20A00F25769 /* Launch Screen.storyboard */; };
 		58DE61C52841C54700F25769 /* OnBoarding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61C42841C54700F25769 /* OnBoarding.swift */; };
 		58DE61C72843100100F25769 /* VolumeControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61C62843100100F25769 /* VolumeControl.swift */; };
+		CC2820482880102400587334 /* ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC2820472880102400587334 /* ViewModifiers.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,7 +90,6 @@
 		58DE1020283DD9DD002CDB9F /* MusicViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicViewModel.swift; sourceTree = "<group>"; };
 		58DE1031283DF6E7002CDB9F /* Static.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Static.swift; sourceTree = "<group>"; };
 		58DE1033283F1A0A002CDB9F /* CustomAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlert.swift; sourceTree = "<group>"; };
-		58DE1036283F65D9002CDB9F /* WhiteTitleText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteTitleText.swift; sourceTree = "<group>"; };
 		58DE617F2839C13900F25769 /* LullabyRecipe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LullabyRecipe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		58DE61822839C13900F25769 /* LullabyRecipeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LullabyRecipeApp.swift; sourceTree = "<group>"; };
 		58DE61842839C13900F25769 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -111,6 +110,7 @@
 		58DE61C12841C20A00F25769 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		58DE61C42841C54700F25769 /* OnBoarding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OnBoarding.swift; path = LullabyRecipe/Views/Onboarding/OnBoarding.swift; sourceTree = SOURCE_ROOT; };
 		58DE61C62843100100F25769 /* VolumeControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeControl.swift; sourceTree = "<group>"; };
+		CC2820472880102400587334 /* ViewModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModifiers.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -206,6 +206,7 @@
 			isa = PBXGroup;
 			children = (
 				58DE1031283DF6E7002CDB9F /* Static.swift */,
+				CC2820472880102400587334 /* ViewModifiers.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -319,7 +320,6 @@
 				583AA0EF284E0344005A0677 /* Onboarding */,
 				58DE103928405C7F002CDB9F /* Home */,
 				58DE103828405C6C002CDB9F /* Kitchen */,
-				58DE1036283F65D9002CDB9F /* WhiteTitleText.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -484,7 +484,7 @@
 				58DE61B4283A8E4500F25769 /* Recipe.swift in Sources */,
 				58DE101C283CA87F002CDB9F /* SoundCard.swift in Sources */,
 				4A5769AE2866F44E007CCAE9 /* DummyData.swift in Sources */,
-				58DE1037283F65D9002CDB9F /* WhiteTitleText.swift in Sources */,
+				CC2820482880102400587334 /* ViewModifiers.swift in Sources */,
 				58DE101E283DC913002CDB9F /* AudioManager.swift in Sources */,
 				58DE1034283F1A0A002CDB9F /* CustomAlert.swift in Sources */,
 				58DE61B7283A932E00F25769 /* Music.swift in Sources */,
