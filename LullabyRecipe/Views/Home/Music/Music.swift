@@ -88,7 +88,8 @@ struct MusicView: View {
             }
             
             VStack(alignment: .leading) {
-                WhiteTitleText(title: data.name)
+                Text(data.name)
+                    .WhiteTitleText()
                 MusicControlButton()
                 Spacer()
             }

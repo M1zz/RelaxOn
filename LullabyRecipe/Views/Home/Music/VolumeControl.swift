@@ -35,7 +35,7 @@ struct VolumeControl: View {
                             .foregroundColor(.white)
                     }
                     Spacer()
-                    WhiteTitleText(title: "Volume Control")
+                    Text("Volume Control").WhiteTitleText()
                     Spacer()
                     Button {
                         //showVolumeControl.toggle()
