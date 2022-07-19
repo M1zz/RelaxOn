@@ -1,5 +1,5 @@
 name: Refactoring Tamplate
-description: 리팩토링 작업할 떄 쓰는 템플릿
+description: 리팩토링 작업할 때 쓰는 템플릿
 title: "[refactor]: Feature Title"
 labels: ["refactor"]
 
@@ -27,8 +27,7 @@ body:
     attributes:
       label: Related View(Optional)
       description: 작업하는 사항에 영향을 받는 View(화면)
-      value: |
-        - ex. HomeView
+      placeholder: ex. HomeView
     validations:
       required: false
       
