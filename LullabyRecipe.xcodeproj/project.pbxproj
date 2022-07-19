@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2150BD0F2876CB89006C8312 /* CustomTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2150BD0E2876CB89006C8312 /* CustomTabView.swift */; };
 		4A5769AC2866F20A007CCAE9 /* MixedSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5769AB2866F20A007CCAE9 /* MixedSound.swift */; };
 		4A5769AE2866F44E007CCAE9 /* DummyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5769AD2866F44E007CCAE9 /* DummyData.swift */; };
 		4A5769B02866F6B5007CCAE9 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5769AF2866F6B5007CCAE9 /* UserDefaultsManager.swift */; };
@@ -48,6 +47,7 @@
 		58DE61C52841C54700F25769 /* OnBoarding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61C42841C54700F25769 /* OnBoarding.swift */; };
 		58DE61C72843100100F25769 /* VolumeControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61C62843100100F25769 /* VolumeControl.swift */; };
 		CC2820482880102400587334 /* ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC2820472880102400587334 /* ViewModifiers.swift */; };
+		CCF0D9892887748500F61495 /* CustomTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF0D9882887748500F61495 /* CustomTabView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -113,6 +113,7 @@
 		58DE61C42841C54700F25769 /* OnBoarding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OnBoarding.swift; path = LullabyRecipe/Views/Onboarding/OnBoarding.swift; sourceTree = SOURCE_ROOT; };
 		58DE61C62843100100F25769 /* VolumeControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeControl.swift; sourceTree = "<group>"; };
 		CC2820472880102400587334 /* ViewModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModifiers.swift; sourceTree = "<group>"; };
+		CCF0D9882887748500F61495 /* CustomTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -249,6 +250,7 @@
 				58DE61922839C13B00F25769 /* LullabyRecipeTests */,
 				58DE619C2839C13B00F25769 /* LullabyRecipeUITests */,
 				58DE61802839C13900F25769 /* Products */,
+				CCF0D9872887745E00F61495 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -319,11 +321,20 @@
 		58DE61B5283A8F4500F25769 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				CCF0D9882887748500F61495 /* CustomTabView.swift */,
 				583AA0EF284E0344005A0677 /* Onboarding */,
 				58DE103928405C7F002CDB9F /* Home */,
 				58DE103828405C6C002CDB9F /* Kitchen */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		CCF0D9872887745E00F61495 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				2150BD0E2876CB89006C8312 /* CustomTabView.swift */,
+			);
+			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -475,9 +486,9 @@
 				58DE1021283DD9DD002CDB9F /* MusicViewModel.swift in Sources */,
 				58DE61852839C13900F25769 /* ContentView.swift in Sources */,
 				58DE1032283DF6E7002CDB9F /* Static.swift in Sources */,
-				2150BD0F2876CB89006C8312 /* CustomTabView.swift in Sources */,
 				58DE61AF283A8C8B00F25769 /* Kitchen.swift in Sources */,
 				58DE61C52841C54700F25769 /* OnBoarding.swift in Sources */,
+				CCF0D9892887748500F61495 /* CustomTabView.swift in Sources */,
 				4A5769B02866F6B5007CCAE9 /* UserDefaultsManager.swift in Sources */,
 				58DE61B2283A8E1700F25769 /* Sound.swift in Sources */,
 				58DE61BD283E542400F25769 /* MixedSoundCard.swift in Sources */,
