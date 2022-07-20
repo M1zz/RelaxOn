@@ -74,5 +74,6 @@ LullabyRecipe
     │   └── OnBoarding.swift
     └── WhiteTitleText.swift
 ```
+
 # Release Note
 [Release Note](/release-note.md)
