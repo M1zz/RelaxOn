@@ -10,19 +10,13 @@ import SwiftUI
 struct VolumeControl: View {
     
     @Binding var showVolumeControl: Bool
-    @State var baseVolume: Float
-    @State var melodyVolume: Float
-    @State var naturalVolume: Float
+    @Binding var audioVolumes: (baseVolume: Float, melodyVolume: Float, naturalVolume: Float)
     
     let data: MixedSound
     let baseAudioManager = AudioManager()
     let melodyAudioManager = AudioManager()
     let naturalAudioManager = AudioManager()
     @State var hasShowAlert: Bool = false
-    
-    // 코드 추가
-    // MusicView와 연결된 MixedSound
-    @Binding var newData: MixedSound
     
     var body: some View {
         ZStack {
@@ -41,7 +35,7 @@ struct VolumeControl: View {
                             .foregroundColor(.white)
                     }
                     Spacer()
-                    WhiteTitleText(title: "Volume Control")
+                    Text("Volume Control").WhiteTitleText()
                     Spacer()
                     Button {
                         //showVolumeControl.toggle()
@@ -49,46 +43,33 @@ struct VolumeControl: View {
                         melodyAudioManager.stop()
                         naturalAudioManager.stop()
                         // TODO: - 볼륨 저장
-                        // 코드 수정
-                        // newData로 변경
-                        let localBaseSound = newData.baseSound
-                        let localMelodySound = newData.melodySound
-                        let localNaturalSound = newData.naturalSound
-                        
-                        // Slider에 따라 볼륨이 잘 변경됐는지 확인
-                        print("볼륨 확인")
-                        print(baseVolume, melodyVolume, naturalVolume)
+                        let localBaseSound = data.baseSound
+                        let localMelodySound = data.melodySound
+                        let localNaturalSound = data.naturalSound
                         
                         let newBaseSound = Sound(id: localBaseSound!.id,
                                                  name: localBaseSound!.name,
                                                  soundType: localBaseSound!.soundType,
-                                                 audioVolume: baseVolume,
+                                                 audioVolume: audioVolumes.baseVolume,
                                                  imageName: localBaseSound!.imageName)
                         let newMelodySound = Sound(id: localMelodySound!.id,
                                                    name: localMelodySound!.name,
                                                    soundType: localMelodySound!.soundType,
-                                                   audioVolume: melodyVolume,
+                                                   audioVolume: audioVolumes.melodyVolume,
                                                    imageName: localMelodySound!.imageName)
                         
                         let newNaturalSound = Sound(id: localNaturalSound!.id,
                                                     name: localNaturalSound!.name,
                                                     soundType: localNaturalSound!.soundType,
-                                                    audioVolume: naturalVolume,
+                                                    audioVolume: audioVolumes.naturalVolume,
                                                     imageName: localNaturalSound!.imageName)
                         
-                        // 코드 수정
-                        // newData로 변경
-                        let newMixedSound = MixedSound(id: newData.id,
-                                                       name: newData.name,
+                        let newMixedSound = MixedSound(id: data.id,
+                                                       name: data.name,
                                                        baseSound: newBaseSound,
                                                        melodySound: newMelodySound,
                                                        naturalSound: newNaturalSound,
-                                                       imageName: newData.imageName)
-                        
-                        // 코드 추가
-                        newData.baseSound = newMixedSound.baseSound
-                        newData.melodySound = newMixedSound.melodySound
-                        newData.naturalSound = newMixedSound.naturalSound
+                                                       imageName: data.imageName)
                         
                         userRepositories.remove(at: data.id)
                         userRepositories.insert(newMixedSound, at: data.id)
@@ -118,17 +99,15 @@ struct VolumeControl: View {
                 
                 .padding()
                 
-                // 코드 수정
-                // newData로 변경
-                if let baseSound = newData.baseSound {
+                if let baseSound = data.baseSound {
                     SoundControlSlider(item: baseSound)
                 }
                 
-                if let melodySound = newData.melodySound {
+                if let melodySound = data.melodySound {
                     SoundControlSlider(item: melodySound)
                 }
                 
-                if let naturalSound = newData.naturalSound {
+                if let naturalSound = data.naturalSound {
                     SoundControlSlider(item: naturalSound)
                 }
                 
@@ -136,6 +115,7 @@ struct VolumeControl: View {
             }
         }
     }
+
     
     @ViewBuilder
     func SoundControlSlider(item: Sound) -> some View {
@@ -159,34 +139,34 @@ struct VolumeControl: View {
                     .cornerRadius(12)
                 switch item.soundType {
                 case .base:
-                    Slider(value: $baseVolume, in: 0...1)
+                    Slider(value: $audioVolumes.baseVolume, in: 0...1)
                         .background(.black)
                         .cornerRadius(4)
                         .accentColor(.white)
                         .padding(.horizontal, 20)
-                        .onChange(of: baseVolume) { newValue in
+                        .onChange(of: audioVolumes.baseVolume) { newValue in
                             print(newValue)
                             baseAudioManager.chanegeVolume(track: item.name,
                                                            volume: newValue)
                         }
                 case .melody:
-                    Slider(value: $melodyVolume, in: 0...1)
+                    Slider(value: $audioVolumes.melodyVolume, in: 0...1)
                         .background(.black)
                         .cornerRadius(4)
                         .accentColor(.white)
                         .padding(.horizontal, 20)
-                        .onChange(of: melodyVolume) { newValue in
+                        .onChange(of: audioVolumes.melodyVolume) { newValue in
                             print(newValue)
                             melodyAudioManager.chanegeVolume(track: item.name,
                                                              volume: newValue)
                         }
                 case .natural:
-                    Slider(value: $naturalVolume, in: 0...1)
+                    Slider(value: $audioVolumes.naturalVolume, in: 0...1)
                         .background(.black)
                         .cornerRadius(4)
                         .accentColor(.white)
                         .padding(.horizontal, 20)
-                        .onChange(of: naturalVolume) { newValue in
+                        .onChange(of: audioVolumes.naturalVolume) { newValue in
                             print(newValue)
                             naturalAudioManager.chanegeVolume(track: item.name,
                                                               volume: newValue)

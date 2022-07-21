@@ -14,6 +14,8 @@ struct Home: View {
     @Binding var selected: SelectedType
     @State var hasEdited: Bool = false
     
+    @State var userRepositoriesState: [MixedSound] = userRepositories
+    
     var body : some View {
         ZStack {
             ColorPalette.background.color.ignoresSafeArea()
@@ -38,6 +40,7 @@ struct Home: View {
                     let decoder = JSONDecoder()
                     userRepositories = try decoder.decode([MixedSound].self, from: data)
                     print("help : \(userRepositories)")
+                    userRepositoriesState = userRepositories
                 } catch {
                     print("Unable to Decode Note (\(error))")
                 }
@@ -51,6 +54,7 @@ struct Home: View {
                     let decoder = JSONDecoder()
 
                     userRepositories = try decoder.decode([MixedSound].self, from: data)
+                    userRepositoriesState = userRepositories
                     print("help : \(userRepositories)")
 
                 } catch {
@@ -64,7 +68,8 @@ struct Home: View {
     func Profile() -> some View {
         
         HStack(spacing: 12) {
-            WhiteTitleText(title: "Hi, \(userName ?? "guest")")
+            Text("Hi, \(userName ?? "guest")")
+                .WhiteTitleText()
             Spacer()
             
             if hasEdited {
@@ -94,7 +99,8 @@ struct Home: View {
                 VStack {
                     Spacer()
                     HStack {
-                        WhiteTitleText(title: "New Soundtrack")
+                        Text("New Soundtrack")
+                            .WhiteTitleText()
                         Spacer()
                     }
                     .padding()
@@ -120,10 +126,15 @@ struct Home: View {
                 LazyVGrid(columns: Array(repeating: GridItem(.flexible(),spacing: 15),
                                          count: 2),
                           spacing: 20) {
-                    ForEach(userRepositories){ item in
+                    ForEach(userRepositoriesState){ item in
                         MixedSoundCard(data: item,
                                        selectedID: String(item.id),
-                                       hasEdited: $hasEdited)
+                                       hasEdited: $hasEdited,
+                                       audioVolumes: (baseVolume: item.baseSound?.audioVolume ?? 1.0, melodyVolume: item.melodySound?.audioVolume ?? 1.0, naturalVolume: item.naturalSound?.audioVolume ?? 1.0))
+                        .onAppear {
+                            userRepositoriesState = []
+                            userRepositoriesState = userRepositories
+                        }
                     }
                 }
 //                          .onLongPressGesture {
