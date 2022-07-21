@@ -7,14 +7,6 @@
 
 import SwiftUI
 
-var categories = ["Natural",
-                  "Mind Peace",
-                  "Focus",
-                  "Deep Sleep",
-                  "Lullaby"]
-
-
-
 enum SoundType: String, Codable {
     case base
     case melody

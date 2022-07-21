@@ -7,15 +7,23 @@
 
 import Foundation
 import AVKit
+import OSLog
 
 final class AudioManager {
     static let shared = AudioManager()
     var player: AVAudioPlayer?
     
+    private enum MusicExtension: String {
+        case mp3 = "mp3"
+    }
+    
+    private func getPathUrl(forResource: String, musicExtension: MusicExtension) -> URL? {
+       Bundle.main.url(forResource: forResource, withExtension: musicExtension.rawValue) ?? nil
+    }
+    
     func startPlayer(track: String, volume: Float? = 1.0) {
-        guard let url = Bundle.main.url(forResource: track,
-                                        withExtension: "mp3") else {
-            print("resource not found \(track)")
+        guard let url = getPathUrl(forResource: track, musicExtension: .mp3) else {
+            os_log(.error, log: .default, "startPlayer(), resource not found, track: \(track)")
             return
         }
         
@@ -25,13 +33,13 @@ final class AudioManager {
             player?.numberOfLoops = -1
             player?.play()
         } catch {
-            print("fail to initialize player")
+            os_log(.error, log: .default, "startPlayer(), fail to initialize player")
         }
     }
     
     func playPause() {
         guard let player = player else {
-            print("Instance of player not found")
+            os_log(.error, log: .default, "playPause(), Instance of player not found")
             return
         }
         if player.isPlaying {
@@ -43,7 +51,7 @@ final class AudioManager {
     
     func stop() {
         guard let player = player else {
-            print("Instance of player not found")
+            os_log(.error, log: .default, "stop(), Instance of player not found")
             return
         }
         if player.isPlaying {
@@ -51,11 +59,11 @@ final class AudioManager {
         }
     }
     
+    // TODO : track 변경하기
     func chanegeVolume(track: String, volume: Float) {
         
-        guard let url = Bundle.main.url(forResource: track,
-                                        withExtension: "mp3") else {
-            print("resource not found \(track)")
+        guard let url = getPathUrl(forResource: track, musicExtension: .mp3) else {
+            os_log(.error, log: .default, "chanegeVolume(), resource not found \(track)")
             return
         }
         
@@ -68,7 +76,7 @@ final class AudioManager {
                 player?.numberOfLoops = -1
                 player?.play()
             } catch {
-                print("fail to initialize player")
+                os_log(.error, log: .default, "chanegeVolume(), fail to initialize player")
             }
         }
         

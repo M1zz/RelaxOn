@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import OSLog
 
 struct Home: View {
     
@@ -39,10 +40,10 @@ struct Home: View {
                 do {
                     let decoder = JSONDecoder()
                     userRepositories = try decoder.decode([MixedSound].self, from: data)
-                    print("help : \(userRepositories)")
+                    os_log(.error, log: .default, "help : \(userRepositories)")
                     userRepositoriesState = userRepositories
                 } catch {
-                    print("Unable to Decode Note (\(error))")
+                    os_log(.error, log: .default, "Home, onAppear(), Unable to Decode ")
                 }
             }
         }
@@ -55,10 +56,10 @@ struct Home: View {
 
                     userRepositories = try decoder.decode([MixedSound].self, from: data)
                     userRepositoriesState = userRepositories
-                    print("help : \(userRepositories)")
+                    os_log(.error, log: .default, "help : \(userRepositories)")
 
                 } catch {
-                    print("Unable to Decode Note (\(error))")
+                    os_log(.error, log: .default, "Home, onChange(), Unable to Decode Note ")
                 }
             }
         }

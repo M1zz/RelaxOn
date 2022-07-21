@@ -7,7 +7,12 @@
 
 import SwiftUI
 
-enum BaseAudioName {
+protocol Material {
+    var fileName: String { get }
+    var displayName: String { get }
+}
+
+enum BaseAudioName: Material {
     case longSun
     case spaceMid
     case spaceLow
@@ -49,7 +54,7 @@ enum BaseAudioName {
     }
 }
 
-enum MelodyAudioName {
+enum MelodyAudioName: Material {
     case ambient
     case garden
     case gymnopedia
@@ -91,7 +96,7 @@ enum MelodyAudioName {
     }
 }
 
-enum NaturalAudioName {
+enum NaturalAudioName: Material {
     case dryGrass
     case stream
     case summerField

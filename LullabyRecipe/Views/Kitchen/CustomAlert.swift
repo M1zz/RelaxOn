@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import OSLog
 
 struct Background: View {
     var body: some View {
@@ -95,7 +96,7 @@ struct CustomAlert: View {
             let encodedData = try encoder.encode(data)
             return encodedData
         } catch {
-            print("Unable to Encode Note (\(error))")
+            os_log(.error, log: .default, "CustomAlert, getEncodedData(), Unable to Encode Note")
         }
         return nil
     }

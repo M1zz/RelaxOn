@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+import OSLog
 
 struct MixedSoundCard : View {
     var data: MixedSound
@@ -77,7 +77,7 @@ struct MixedSoundCard : View {
             let encodedData = try encoder.encode(data)
             return encodedData
         } catch {
-            print("Unable to Encode Note (\(error))")
+            os_log(.error, log: .default, "MixedSoundCard, getEncodedData(), Unable to Encode Note")
         }
         return nil
     }
