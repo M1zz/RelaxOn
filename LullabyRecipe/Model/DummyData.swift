@@ -13,7 +13,6 @@ let dummyMixedSound = MixedSound(id: 0,
                                  melodySound: dummyMelodySound,
                                  naturalSound: dummyNaturalSound,
                                  imageName: "Recipe1")
-
 let dummyBaseSound = Sound(id: 0,
                            name: BaseAudioName.longSun.fileName,
                            soundType: .base,
