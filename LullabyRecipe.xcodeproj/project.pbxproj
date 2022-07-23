@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		10EE506E288C464D004C6EAC /* CustomSegmentControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10EE506D288C464D004C6EAC /* CustomSegmentControlView.swift */; };
+		10EE5070288C4659004C6EAC /* RectPreference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10EE506F288C4659004C6EAC /* RectPreference.swift */; };
+		10EE5072288C4667004C6EAC /* StudioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10EE5071288C4667004C6EAC /* StudioView.swift */; };
 		2150BD0F2876CB89006C8312 /* CustomTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2150BD0E2876CB89006C8312 /* CustomTabView.swift */; };
 		4A5769AC2866F20A007CCAE9 /* MixedSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5769AB2866F20A007CCAE9 /* MixedSound.swift */; };
 		4A5769AE2866F44E007CCAE9 /* DummyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5769AD2866F44E007CCAE9 /* DummyData.swift */; };
@@ -68,6 +71,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		10EE506D288C464D004C6EAC /* CustomSegmentControlView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSegmentControlView.swift; sourceTree = "<group>"; };
+		10EE506F288C4659004C6EAC /* RectPreference.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RectPreference.swift; sourceTree = "<group>"; };
+		10EE5071288C4667004C6EAC /* StudioView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudioView.swift; sourceTree = "<group>"; };
 		2150BD0E2876CB89006C8312 /* CustomTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabView.swift; sourceTree = "<group>"; };
 		4A5769AB2866F20A007CCAE9 /* MixedSound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixedSound.swift; sourceTree = "<group>"; };
 		4A5769AD2866F44E007CCAE9 /* DummyData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyData.swift; sourceTree = "<group>"; };
@@ -227,6 +233,9 @@
 				58DE61AE283A8C8B00F25769 /* Kitchen.swift */,
 				58DE101B283CA87F002CDB9F /* SoundCard.swift */,
 				58DE1033283F1A0A002CDB9F /* CustomAlert.swift */,
+				10EE506D288C464D004C6EAC /* CustomSegmentControlView.swift */,
+				10EE5071288C4667004C6EAC /* StudioView.swift */,
+				10EE506F288C4659004C6EAC /* RectPreference.swift */,
 			);
 			path = Kitchen;
 			sourceTree = "<group>";
@@ -482,14 +491,17 @@
 				4A5769B02866F6B5007CCAE9 /* UserDefaultsManager.swift in Sources */,
 				58DE61B2283A8E1700F25769 /* Sound.swift in Sources */,
 				58DE61BD283E542400F25769 /* MixedSoundCard.swift in Sources */,
+				10EE506E288C464D004C6EAC /* CustomSegmentControlView.swift in Sources */,
 				58DE61C72843100100F25769 /* VolumeControl.swift in Sources */,
 				58DE61832839C13900F25769 /* LullabyRecipeApp.swift in Sources */,
+				10EE5072288C4667004C6EAC /* StudioView.swift in Sources */,
 				4A5769AC2866F20A007CCAE9 /* MixedSound.swift in Sources */,
 				58DE61B4283A8E4500F25769 /* Recipe.swift in Sources */,
 				58DE101C283CA87F002CDB9F /* SoundCard.swift in Sources */,
 				4A5769AE2866F44E007CCAE9 /* DummyData.swift in Sources */,
 				58DE1037283F65D9002CDB9F /* WhiteTitleText.swift in Sources */,
 				58DE101E283DC913002CDB9F /* AudioManager.swift in Sources */,
+				10EE5070288C4659004C6EAC /* RectPreference.swift in Sources */,
 				58DE1034283F1A0A002CDB9F /* CustomAlert.swift in Sources */,
 				58DE61B7283A932E00F25769 /* Music.swift in Sources */,
 				58DE61B9283A937000F25769 /* Home.swift in Sources */,

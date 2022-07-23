@@ -11,7 +11,7 @@ import SwiftUI
 struct LullabyRecipeApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            StudioView()
         }
     }
 }

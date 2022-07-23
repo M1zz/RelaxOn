@@ -22,7 +22,7 @@ enum SoundType: String, Codable {
 }
 
 struct Kitchen : View {
- 
+
     @State private var showingAlert = false
     @State private var selectedBaseSound: Sound = Sound(id: 0,
                                                         name: "",
@@ -124,8 +124,7 @@ struct Kitchen : View {
 
     @ViewBuilder
     func SoundSelectView(sectionTitle: String,
-                        soundType: SoundType) -> some View {
-        
+                         soundType: SoundType) -> some View {
         VStack(spacing: 15) {
             
             HStack {
@@ -135,9 +134,9 @@ struct Kitchen : View {
                 
             }.padding(.vertical, 15)
             
-            ScrollView(.horizontal,
+            ScrollView(.vertical,
                        showsIndicators: false) {
-                HStack(spacing: 15) {
+                HStack(spacing: 30) {
                     
                     switch soundType {
                     case .base:

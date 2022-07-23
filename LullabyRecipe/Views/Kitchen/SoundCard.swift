@@ -34,32 +34,33 @@ struct SoundCard : View {
                     ZStack {
                         Rectangle()
                             .background(.black)
-                            .frame(width: 156,
-                                   height: 156,
+                            .frame(width: 120,
+                                   height: 120,
                                    alignment: .center)
-                            .border(selectedID == soundFileName ? .red : .clear, width: 3)
-                            .cornerRadius(10)
+                            .border(selectedID == soundFileName ? .black : .clear, width: 3)
                         Image(systemName: "moon.zzz.fill")
                             .resizable()
                             .frame(width: 60,
                                    height: 60)
                             .foregroundColor(.white)
-                            
+
                     }
                 } else {
                     Image(data.imageName)
                         .resizable()
-                        .frame(width: 156,
-                               height: 156,
+                        .frame(width: 120,
+                               height: 120,
                                alignment: .center)
-                        .cornerRadius(10)
-                        .border(selectedID == soundFileName ? .red : .clear, width: 3)
+                        .border(selectedID == soundFileName ? .black : .clear, width: 3)
                 }
 
-                Text(data.name)
-                    .fontWeight(.semibold)
-                    .font(Font.system(size: 17))
-                    .foregroundColor(Color.white)
+                HStack {
+                    Text(data.name)
+                        .fontWeight(.semibold)
+                        .font(Font.system(size: 17))
+                        .foregroundColor(Color.black)
+
+                }
             }
             .onTapGesture {
                 guard let callback = callback else {
@@ -74,9 +75,9 @@ struct SoundCard : View {
 struct SoundCard_Previews: PreviewProvider {
     static var previews: some View {
         SoundCard(soundFileName : "base_default",
-                       data: baseSounds[0],
+                  data: baseSounds[0],
                   callback: {_,_  in },
-                       selectedID: "")
+                  selectedID: "")
         .background(ColorPalette.background.color)
     }
 }
@@ -86,11 +87,13 @@ struct RadioButtonGroup: View {
     @State var selectedId: String = ""
     let items : [Sound] // sound 를 받아야 함
     let callback: (Sound) -> ()
-    
+    let columns = [
+        GridItem(.adaptive(minimum: 100))
+    ]
+
     var body: some View {
-        HStack {
+        LazyVGrid(columns: columns) {
             ForEach(items) { item in
-                
                 SoundCard(soundFileName : item.name,
                           data: item,
                           callback: radioGroupCallback,
