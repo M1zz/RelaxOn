@@ -111,8 +111,7 @@ struct StudioView: View {
 
     @ViewBuilder
     func SelectImage() -> some View {
-        Image("\($selectedBaseSound)")
-            .resizable()
+        Rectangle()
             .frame(width: 350, height: 350, alignment: .center)
     }
 }
