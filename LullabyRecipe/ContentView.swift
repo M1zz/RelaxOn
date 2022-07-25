@@ -24,10 +24,10 @@ struct ContentView: View {
             VStack {
                 switch selected {
                 case .home:
-                    Home(userName: $userName,
+                    HomeView(userName: $userName,
                          selected: $selected)
                 case .kitchen:
-                    Kitchen(selected: $selected)
+                    KitchenView(selected: $selected)
                 }
                 Spacer()
                 CustomTabView(selected: $selected)
@@ -46,7 +46,7 @@ struct ContentView: View {
             showOnboarding = notFirstVisit ? false : true
         }
         .fullScreenCover(isPresented: $showOnboarding, content: {
-            OnBoarding(showOnboarding: $showOnboarding)
+            OnBoardingView(showOnboarding: $showOnboarding)
                 .onDisappear {
                     userName = UserDefaultsManager.shared.standard.string(forKey: UserDefaultsManager.shared.userName) ?? UserDefaultsManager.shared.guest
                 }
