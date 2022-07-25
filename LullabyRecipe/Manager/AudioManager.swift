@@ -9,7 +9,6 @@ import Foundation
 import AVKit
 
 final class AudioManager {
-    static let shared = AudioManager()
     var player: AVAudioPlayer?
     
     func startPlayer(track: String, volume: Float? = 1.0) {
