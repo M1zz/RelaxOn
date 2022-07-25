@@ -34,22 +34,22 @@ struct SoundCard : View {
                     ZStack {
                         Rectangle()
                             .background(.black)
-                            .frame(width: 120,
-                                   height: 120,
+                            .frame(width: (exceptPaddingWidth - 20 ) / 3 ,
+                                   height: (exceptPaddingWidth - 20 ) / 3,
                                    alignment: .center)
                             .border(selectedID == soundFileName ? .black : .clear, width: 3)
                         Image(systemName: "moon.zzz.fill")
                             .resizable()
-                            .frame(width: 60,
-                                   height: 60)
+                            .frame(width: (exceptPaddingWidth - 20 ) / 6,
+                                   height: (exceptPaddingWidth - 20 ) / 6)
                             .foregroundColor(.white)
 
                     }
                 } else {
                     Image(data.imageName)
                         .resizable()
-                        .frame(width: 120,
-                               height: 120,
+                        .frame(width: (exceptPaddingWidth - 20 ) / 3,
+                               height: (exceptPaddingWidth - 20 ) / 3,
                                alignment: .center)
                         .border(selectedID == soundFileName ? .black : .clear, width: 3)
                 }
@@ -88,7 +88,7 @@ struct RadioButtonGroup: View {
     let items : [Sound] // sound 를 받아야 함
     let callback: (Sound) -> ()
     let columns = [
-        GridItem(.adaptive(minimum: 100))
+        GridItem(.adaptive(minimum: (exceptPaddingWidth - 20 ) / 3))
     ]
 
     var body: some View {

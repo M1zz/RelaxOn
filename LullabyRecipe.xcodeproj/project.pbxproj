@@ -227,7 +227,7 @@
 			path = Manager;
 			sourceTree = "<group>";
 		};
-		58DE103828405C6C002CDB9F /* Kitchen */ = {
+		58DE103828405C6C002CDB9F /* Studio */ = {
 			isa = PBXGroup;
 			children = (
 				58DE61AE283A8C8B00F25769 /* Kitchen.swift */,
@@ -237,7 +237,7 @@
 				10EE5071288C4667004C6EAC /* StudioView.swift */,
 				10EE506F288C4659004C6EAC /* RectPreference.swift */,
 			);
-			path = Kitchen;
+			path = Studio;
 			sourceTree = "<group>";
 		};
 		58DE103928405C7F002CDB9F /* Home */ = {
@@ -329,7 +329,7 @@
 			children = (
 				583AA0EF284E0344005A0677 /* Onboarding */,
 				58DE103928405C7F002CDB9F /* Home */,
-				58DE103828405C6C002CDB9F /* Kitchen */,
+				58DE103828405C6C002CDB9F /* Studio */,
 				58DE1036283F65D9002CDB9F /* WhiteTitleText.swift */,
 				2150BD0E2876CB89006C8312 /* CustomTabView.swift */,
 			);

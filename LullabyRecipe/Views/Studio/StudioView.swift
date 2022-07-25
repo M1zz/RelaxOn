@@ -47,7 +47,6 @@ struct StudioView: View {
             default:
                 SoundSelectView(sectionTitle: "Base Sound",
                                 soundType: .base)
-
             }
         }
     }
@@ -64,7 +63,6 @@ struct StudioView: View {
             ScrollView(.vertical,
                        showsIndicators: false) {
                 HStack(spacing: 30) {
-
                     switch soundType {
                     case .base:
                         RadioButtonGroup(selectedId: soundType.rawValue,
@@ -75,7 +73,7 @@ struct StudioView: View {
                             if selectedBaseSound.name == "Empty" {
                                 baseAudioManager.stop()
                             } else {
-                                baseAudioManager.startPlayer(track: baseSelected.name)
+                                baseAudioManager.startPlayer(track: selectedBaseSound.name)
                             }
 
 
@@ -89,7 +87,7 @@ struct StudioView: View {
                             if selectedNaturalSound.name == "Empty" {
                                 naturalAudioManager.stop()
                             } else {
-                                naturalAudioManager.startPlayer(track: naturalSounds.name)
+                                naturalAudioManager.startPlayer(track: selectedNaturalSound.name)
                             }
                         }
                     case .melody:
@@ -100,19 +98,19 @@ struct StudioView: View {
                             if selectedMelodySound.name == "Empty" {
                                 melodyAudioManager.stop()
                             } else {
-                                melodyAudioManager.startPlayer(track: melodySounds.name)
+                                melodyAudioManager.startPlayer(track: selectedMelodySound.name)
                             }
                         }
                     }
                 }
-            }
+            }.padding(.horizontal, 15)
         }
     }
 
     @ViewBuilder
     func SelectImage() -> some View {
         Rectangle()
-            .frame(width: 350, height: 350, alignment: .center)
+            .frame(width: exceptPaddingWidth, height: exceptPaddingWidth, alignment: .center)
     }
 }
 
