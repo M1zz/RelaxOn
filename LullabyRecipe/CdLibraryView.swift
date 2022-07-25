@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  CdLibraryView.swift
 //  LullabyRecipe
 //
 //  Created by hyunho lee on 2022/05/22.
@@ -13,7 +13,7 @@ enum SelectedType: String {
 }
 var tabs:[SelectedType] = [.home, .kitchen]
 
-struct ContentView: View {
+struct CdLibraryView: View {
     
     @State var selected: SelectedType = .home
     @State var showOnboarding: Bool = false
@@ -54,9 +54,9 @@ struct ContentView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct CdLibraryView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        CdLibraryView()
     }
 }
 
