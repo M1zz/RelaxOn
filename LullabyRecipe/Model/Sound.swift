@@ -114,20 +114,6 @@ var naturalSounds = [
           imageName: NaturalAudioName.wave.fileName)
 ]
 
-#warning("name need changed")
-struct fresh : Identifiable {
-    var id : Int
-    var name : String
-    var price : String // description
-    var image : String
-}
-
-var freshitems = [
-    fresh(id: 0, name: BaseAudioName.longSun.fileName, price: "chinese gong sound",image: "gong"),
-    fresh(id: 1, name: "ocean_4", price: "ocean sound",image: "f2"),
-    fresh(id: 2, name: "Test", price: "this is test",image: "f3")
-]
-
 var baseSound: Sound = Sound(id: 0,
                              name: "Empty",
                              soundType: .base,
