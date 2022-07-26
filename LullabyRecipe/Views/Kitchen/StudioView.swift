@@ -110,7 +110,7 @@ struct StudioView: View {
     @ViewBuilder
     func SelectImage() -> some View {
         Rectangle()
-            .frame(width: exceptPaddingWidth, height: exceptPaddingWidth, alignment: .center)
+            .frame(width: deviceFrame().exceptPaddingWidth, height: deviceFrame().exceptPaddingWidth, alignment: .center)
     }
 }
 

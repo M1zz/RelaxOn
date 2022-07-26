@@ -47,7 +47,7 @@ public struct CustomSegmentControlView: View {
                         .foregroundColor(.black)
                         .frame(width: selectedItemWidth, height: 3)
                         .offset(x: selectedItemHorizontalOffset(), y: 0)
-                        .animation(Animation.linear(duration: 0.3))
+                        .animation(Animation.linear(duration: 0.3), value: selectedItemWidth)
                 }
                 .padding(.horizontal, xSpace)
 
@@ -68,14 +68,14 @@ public struct CustomSegmentControlView: View {
 
         return
             Text(items[index])
-            .font(.caption)
-            .foregroundColor(isSelected ? .black : .gray)
-            .background(BackgroundGeometryReader())
-            .onPreferenceChange(SizePreferenceKey.self) {
-                itemTitleSizes[index] = $0
-            }
-            .onTapGesture { onItemTap(index: index) }
-            .eraseToAnyView()
+                .font(.caption)
+                .foregroundColor(isSelected ? .black : .gray)
+                .background(BackgroundGeometryReader())
+                .onPreferenceChange(SizePreferenceKey.self) {
+                    itemTitleSizes[index] = $0
+                }
+                .onTapGesture { onItemTap(index: index) }
+                .eraseToAnyView()
     }
 
     private func onItemTap(index: Int) {

@@ -34,22 +34,22 @@ struct SoundCard : View {
                     ZStack {
                         Rectangle()
                             .background(.black)
-                            .frame(width: (exceptPaddingWidth - 20 ) / 3 ,
-                                   height: (exceptPaddingWidth - 20 ) / 3,
+                            .frame(width: (deviceFrame().exceptPaddingWidth - 20 ) / 3 ,
+                                   height: (deviceFrame().exceptPaddingWidth - 20 ) / 3,
                                    alignment: .center)
                             .border(selectedID == soundFileName ? .black : .clear, width: 3)
                         Image(systemName: "moon.zzz.fill")
                             .resizable()
-                            .frame(width: (exceptPaddingWidth - 20 ) / 6,
-                                   height: (exceptPaddingWidth - 20 ) / 6)
+                            .frame(width: (deviceFrame().exceptPaddingWidth - 20 ) / 6,
+                                   height: (deviceFrame().exceptPaddingWidth - 20 ) / 6)
                             .foregroundColor(.white)
 
                     }
                 } else {
                     Image(data.imageName)
                         .resizable()
-                        .frame(width: (exceptPaddingWidth - 20 ) / 3,
-                               height: (exceptPaddingWidth - 20 ) / 3,
+                        .frame(width: (deviceFrame().exceptPaddingWidth - 20 ) / 3,
+                               height: (deviceFrame().exceptPaddingWidth - 20 ) / 3,
                                alignment: .center)
                         .border(selectedID == soundFileName ? .black : .clear, width: 3)
                 }
@@ -88,7 +88,7 @@ struct RadioButtonGroup: View {
     let items : [Sound] // sound 를 받아야 함
     let callback: (Sound) -> ()
     let columns = [
-        GridItem(.adaptive(minimum: (exceptPaddingWidth - 20 ) / 3))
+        GridItem(.adaptive(minimum: (deviceFrame().exceptPaddingWidth - 20 ) / 3))
     ]
 
     var body: some View {
