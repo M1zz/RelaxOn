@@ -27,6 +27,14 @@ struct StudioView: View {
                                                            imageName: "")
     @State var userName: String = ""
     @State private var textEntered = ""
+    
+    // TODO: Assets 연결 계획
+    // TODO: 배열 말고 더 좋은 방법 찾기
+    // TODO: 일러스트 쌓일 때 효과
+    // TODO: (다음 브랜치에서) 저장 후 홈스크린과 연결
+    
+    // MARK: 코드 추가
+    @State private var selectedImageNames: [String] = ["", "", ""]
 
     let baseAudioManager = AudioManager()
     let melodyAudioManager = AudioManager()
@@ -69,9 +77,14 @@ struct StudioView: View {
                                          items: baseSounds) { baseSelected in
                             selectedBaseSound = baseSelected
                             // play music
+                            
+                            // MARK: 코드 추가
+                            selectedImageNames[0] = selectedBaseSound.imageName
 
                             if selectedBaseSound.name == "Empty" {
                                 baseAudioManager.stop()
+                                
+                                selectedImageNames[0] = ""
                             } else {
                                 baseAudioManager.startPlayer(track: selectedBaseSound.name)
                             }
@@ -82,10 +95,15 @@ struct StudioView: View {
                         RadioButtonGroup(selectedId: soundType.rawValue,
                                          items: naturalSounds) { naturalSounds in
                             selectedNaturalSound = naturalSounds
+                            
+                            // MARK: 코드 추가
+                            selectedImageNames[2] = "Natural_test"
 
 
                             if selectedNaturalSound.name == "Empty" {
                                 naturalAudioManager.stop()
+                                
+                                selectedImageNames[2] = ""
                             } else {
                                 naturalAudioManager.startPlayer(track: selectedNaturalSound.name)
                             }
@@ -94,9 +112,14 @@ struct StudioView: View {
                         RadioButtonGroup(selectedId: soundType.rawValue,
                                          items: melodySounds) { melodySounds in
                             selectedMelodySound = melodySounds
+                            
+                            // MARK: 코드 추가
+                            selectedImageNames[1] = "Melody_test"
 
                             if selectedMelodySound.name == "Empty" {
                                 melodyAudioManager.stop()
+                                
+                                selectedImageNames[1] = ""
                             } else {
                                 melodyAudioManager.startPlayer(track: selectedMelodySound.name)
                             }
@@ -109,8 +132,13 @@ struct StudioView: View {
 
     @ViewBuilder
     func SelectImage() -> some View {
-        Rectangle()
-            .frame(width: deviceFrame().exceptPaddingWidth, height: deviceFrame().exceptPaddingWidth, alignment: .center)
+        ZStack {
+            ForEach(selectedImageNames, id: \.self) { imageName in
+                Image(imageName)
+                    .resizable()
+                    .frame(width: deviceFrame().exceptPaddingWidth, height: deviceFrame().exceptPaddingWidth, alignment: .center)
+            }
+        }
     }
 }
 
