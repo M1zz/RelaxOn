@@ -28,13 +28,11 @@ struct StudioView: View {
     @State var userName: String = ""
     @State private var textEntered = ""
     
-    // TODO: Assets 연결 계획
-    // TODO: 배열 말고 더 좋은 방법 찾기
-    // TODO: 일러스트 바뀔 때 효과
-    // TODO: (다음 브랜치에서) 저장 후 홈스크린과 연결
-    
-    // MARK: 코드 추가
-    @State private var selectedImageNames: [String] = ["", "", ""]
+    @State private var selectedImageNames = (
+        base: "",
+        melody: "",
+        natural: ""
+    )
     @State var animateVars = [0.0, 0.0, 0.0]
 
     let baseAudioManager = AudioManager()
@@ -86,7 +84,7 @@ struct StudioView: View {
                             } else {
                                 baseAudioManager.startPlayer(track: selectedBaseSound.name)
                                 
-                                selectedImageNames[0] =  selectedBaseSound.imageName
+                                selectedImageNames.base = selectedBaseSound.imageName
                                 animateVars[0] = 0.5
                             }
 
@@ -105,7 +103,8 @@ struct StudioView: View {
                             } else {
                                 naturalAudioManager.startPlayer(track: selectedNaturalSound.name)
                                 
-                                selectedImageNames[2] = selectedNaturalSound.imageName
+                                selectedImageNames.natural = selectedNaturalSound.imageName
+                                
                                 animateVars[2] = 0.5
                             }
                         }
@@ -121,7 +120,8 @@ struct StudioView: View {
                             } else {
                                 melodyAudioManager.startPlayer(track: selectedMelodySound.name)
                                 
-                                selectedImageNames[1] = selectedMelodySound.imageName
+                                selectedImageNames.melody = selectedMelodySound.imageName
+                                
                                 animateVars[1] = 0.5
                                 
                             }
@@ -136,17 +136,28 @@ struct StudioView: View {
     func SelectImage() -> some View {
         ZStack {
             Rectangle()
-                .frame(width: deviceFrame().exceptPaddingWidth, height: deviceFrame().exceptPaddingWidth, alignment: .center)
+                .DeviceFrame()
                 .background(.gray)
             
-            ForEach(0...2, id: \.self) { idx in
-                Image(selectedImageNames[idx])
-                    .resizable()
-                    .frame(width: deviceFrame().exceptPaddingWidth, height: deviceFrame().exceptPaddingWidth, alignment: .center)
-                    .opacity(animateVars[idx])
-                    .animation(.linear, value: animateVars[idx])
-            }
+            // Base
+            illustImage(imageName: selectedImageNames.base, animateVar: animateVars[0])
+            
+            // Melody
+            illustImage(imageName: selectedImageNames.melody, animateVar: animateVars[1])
+            
+            // Natural
+            illustImage(imageName: selectedImageNames.natural, animateVar: animateVars[2])
+                
         }
+    }
+    
+    @ViewBuilder
+    func illustImage(imageName: String, animateVar: Double) -> some View {
+        Image(imageName)
+            .resizable()
+            .DeviceFrame()
+            .opacity(animateVar)
+            .animation(.linear, value: animateVar)
     }
 }
 

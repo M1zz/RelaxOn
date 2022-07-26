@@ -14,4 +14,9 @@ extension View {
             .font(Font.title.weight(.bold))
             .foregroundColor(Color.white)
     }
+    
+    func DeviceFrame() -> some View {
+        self
+            .frame(width: deviceFrame().exceptPaddingWidth, height: deviceFrame().exceptPaddingWidth, alignment: .center)
+    }
 }
