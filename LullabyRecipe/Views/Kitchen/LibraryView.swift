@@ -10,44 +10,18 @@ import SwiftUI
 struct LibraryView: View {
     
     var body: some View {
+        
         VStack {
-            HStack {
-                Text("CD Library".uppercased())
-                    .font(.system(size: 24))
-                    
-                Spacer()
-                
-                Button(action: {
-                    
-                }) {
-                    Text("Edit")
-                        .foregroundColor(Color.gray)
-                        .font(.system(size: 17))
-                }
-            }
+            libraryHeader
             
             ScrollView(.vertical, showsIndicators: false) {
-                LazyVGrid(columns: Array(repeating: GridItem(.flexible(),spacing: 10),
-                                         count: 2),
-                          spacing: 20) {
-                    ForEach(0..<10, id: \.self){ idx in
+                LazyVGrid(columns: Array(repeating: GridItem(.flexible(),spacing: 10), count: 2), spacing: 20) {
+                    
+                    ForEach(0..<10){ idx in
                         if idx == 0 {
-                            VStack(alignment: .leading) {
-                                VStack {
-                                    Image(systemName: "plus")
-                                        .font(Font.system(size: 70, weight: .ultraLight))
-                                }
-                                .frame(width: UIScreen.main.bounds.width * 0.43, height: UIScreen.main.bounds.width * 0.43)
-                                .background(.gray)
-                                
-                                Text("Studio")
-                            }
-                        }
-                        VStack(alignment: .leading) {
-                            Image("Ambient")
-                                .resizable()
-                                .frame(width: UIScreen.main.bounds.width * 0.43, height: UIScreen.main.bounds.width * 0.43)
-                            Text("Name")
+                            plusCDImage
+                        } else {
+                            cdImageView
                         }
                     }
                 }
@@ -55,6 +29,45 @@ struct LibraryView: View {
         }
         .padding()
         
+    }
+    
+    var libraryHeader: some View {
+        HStack {
+            Text("CD Library".uppercased())
+                .font(.system(size: 24))
+                
+            Spacer()
+            
+            Button(action: {
+                
+            }) {
+                Text("Edit")
+                    .foregroundColor(Color.gray)
+                    .font(.system(size: 17))
+            }
+        }
+    }
+    
+    var plusCDImage: some View {
+        VStack(alignment: .leading) {
+            VStack {
+                Image(systemName: "plus")
+                    .font(Font.system(size: 70, weight: .ultraLight))
+            }
+            .frame(width: UIScreen.main.bounds.width * 0.43, height: UIScreen.main.bounds.width * 0.43)
+            .background(.gray)
+            
+            Text("Studio")
+        }
+    }
+    
+    var cdImageView: some View {
+        VStack(alignment: .leading) {
+            Image("Ambient")
+                .resizable()
+                .frame(width: UIScreen.main.bounds.width * 0.43, height: UIScreen.main.bounds.width * 0.43)
+            Text("Name")
+        }
     }
 }
 
