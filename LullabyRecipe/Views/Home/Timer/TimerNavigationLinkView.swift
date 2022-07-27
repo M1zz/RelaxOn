@@ -7,8 +7,15 @@
 
 import SwiftUI
 
-struct TimerNavigationView: View {
+struct TimerNavigationLinkView: View {
     var body: some View {
+        NavigationLink(destination : TimerSettingView()) {
+            label
+        }
+        .buttonStyle(.plain)
+    }
+    
+    var label: some View {
         HStack(alignment: .bottom) {
             Text("HOW LONG ..")
                 .font(.system(size: 24, weight: .medium))
@@ -25,17 +32,13 @@ struct TimerNavigationView: View {
                 .opacity(0.6)
                 .padding(.bottom, 3)
         }.padding(.horizontal, 20)
-            .buttonStyle(.plain)
-        
     }
 }
 
 struct TimerNavigationView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            NavigationLink(destination: EmptyView()) {
-                TimerNavigationView()
-            }.buttonStyle(.plain)
+            TimerNavigationLinkView()
         }
     }
 }
