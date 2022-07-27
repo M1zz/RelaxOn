@@ -7,12 +7,6 @@
 
 import SwiftUI
 
-struct BackgroundView: View {
-    var body: some View {
-        Text("")
-    }
-}
-
 struct CustomAlertView: View {
     @Binding var textEntered: String
     @Binding var showingAlert: Bool

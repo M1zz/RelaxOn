@@ -42,7 +42,6 @@
 		58DE61A02839C13B00F25769 /* LullabyRecipeUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE619F2839C13B00F25769 /* LullabyRecipeUITestsLaunchTests.swift */; };
 		58DE61AF283A8C8B00F25769 /* KitchenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61AE283A8C8B00F25769 /* KitchenView.swift */; };
 		58DE61B2283A8E1700F25769 /* Sound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61B1283A8E1700F25769 /* Sound.swift */; };
-		58DE61B4283A8E4500F25769 /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61B3283A8E4500F25769 /* Recipe.swift */; };
 		58DE61B7283A932E00F25769 /* MusicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61B6283A932E00F25769 /* MusicView.swift */; };
 		58DE61B9283A937000F25769 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61B8283A937000F25769 /* HomeView.swift */; };
 		58DE61BD283E542400F25769 /* MixedSoundCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61BC283E542400F25769 /* MixedSoundCardView.swift */; };
@@ -324,7 +323,6 @@
 			isa = PBXGroup;
 			children = (
 				58DE61B1283A8E1700F25769 /* Sound.swift */,
-				58DE61B3283A8E4500F25769 /* Recipe.swift */,
 				4A5769AB2866F20A007CCAE9 /* MixedSound.swift */,
 				4A5769AD2866F44E007CCAE9 /* DummyData.swift */,
 			);
