@@ -8,7 +8,7 @@
 import SwiftUI
 import UIKit
 
-struct TimePickerView: UIViewRepresentable {
+struct TimePicker: UIViewRepresentable {
     @Binding var seconds: Double
 
     func makeUIView(context: Context) -> UIDatePicker {
@@ -21,7 +21,7 @@ struct TimePickerView: UIViewRepresentable {
     func updateUIView(_ datePicker: UIDatePicker, context: Context) {
     }
 
-    func makeCoordinator() -> TimePickerView.Coordinator {
+    func makeCoordinator() -> TimePicker.Coordinator {
         Coordinator(seconds: $seconds)
     }
 
@@ -39,14 +39,14 @@ struct TimePickerView: UIViewRepresentable {
 }
 
 // MARK: - PREVIEW
-struct TimerPickerView_Previews: PreviewProvider {
+struct TimePicker_Previews: PreviewProvider {
     
-    struct TimerPickerViewForPreview: View {
+    struct TimePickerForPreview: View {
         @State var seconds = 0.0
         var body: some View {
             VStack {
                 Text("\(seconds)")
-                TimePickerView(seconds: $seconds)
+                TimePicker(seconds: $seconds)
                     .environment(\.colorScheme, .dark) // 흰새 글씨로 바뀜
                     .background(.black)
             }
@@ -54,6 +54,6 @@ struct TimerPickerView_Previews: PreviewProvider {
     }
     
     static var previews: some View {
-        TimerPickerViewForPreview()
+        TimePickerForPreview()
     }
 }

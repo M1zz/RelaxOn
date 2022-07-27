@@ -359,9 +359,9 @@
 		E2BF1055289172C600408B8C /* Timer */ = {
 			isa = PBXGroup;
 			children = (
+				E2BF105828917B6000408B8C /* TempMainView.swift */,
 				E2BF105328914E9E00408B8C /* TimerNavigationLinkView.swift */,
 				E2BF1056289173F100408B8C /* TimerPickerView.swift */,
-				E2BF105828917B6000408B8C /* TempMainView.swift */,
 				E2BF105A28917CAC00408B8C /* TimerSettingView.swift */,
 			);
 			path = Timer;

@@ -32,7 +32,7 @@ struct TimerSettingView_Previews: PreviewProvider {
 extension TimerSettingView {
     @ViewBuilder
     func timePickerView() -> some View {
-        TimePickerView(seconds: $seconds)
+        TimePicker(seconds: $seconds)
             .environment(\.colorScheme, .dark) // 흰새 글씨로 바뀜
             .background(.black)
     }

@@ -13,7 +13,7 @@ struct TempMainView: View {
             VStack {
                 Spacer()
                 TimerNavigationLinkView()
-                    .navigationBarTitle("HOW LONG..")
+                    .navigationBarTitle("HOW LONG..") // 백버튼 텍스트 내용
                     .navigationBarHidden(true)
                 Spacer()
             }
