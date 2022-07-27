@@ -28,8 +28,8 @@ struct TimerSettingView_Previews: PreviewProvider {
     }
 }
 
+// MARK: - component View
 extension TimerSettingView {
-    
     @ViewBuilder
     func timePickerView() -> some View {
         TimePickerView(seconds: $seconds)

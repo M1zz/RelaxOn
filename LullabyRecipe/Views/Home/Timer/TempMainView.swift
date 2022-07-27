@@ -21,6 +21,7 @@ struct TempMainView: View {
     }
 }
 
+// MARK: - PREVIEW
 struct TempMainView_Previews: PreviewProvider {
     static var previews: some View {
         TempMainView()

@@ -35,6 +35,7 @@ struct TimerNavigationLinkView: View {
     }
 }
 
+// MARK: - PREVIEW
 struct TimerNavigationView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
