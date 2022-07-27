@@ -249,7 +249,7 @@
 		58DE103928405C7F002CDB9F /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				E2BF105228914E7800408B8C /* Timer */,
+				E2BF1055289172C600408B8C /* Timer */,
 				58DE61B8283A937000F25769 /* HomeView.swift */,
 				58DE61BC283E542400F25769 /* MixedSoundCardView.swift */,
 				58DE101F283DD9CA002CDB9F /* Music */,
@@ -350,12 +350,12 @@
 			name = "Recovered References";
 			sourceTree = "<group>";
 		};
-		E2BF105228914E7800408B8C /* Timer */ = {
+		E2BF1055289172C600408B8C /* Timer */ = {
 			isa = PBXGroup;
 			children = (
 				E2BF105328914E9E00408B8C /* TimerNavigationView.swift */,
 			);
-			name = Timer;
+			path = Timer;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
