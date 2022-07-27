@@ -33,7 +33,7 @@ struct StudioView: View {
         melody: "",
         natural: ""
     )
-    @State var animateVars = [0.0, 0.0, 0.0]
+    @State var opacityAnimateVars = [0.0, 0.0, 0.0]
 
     let baseAudioManager = AudioManager()
     let melodyAudioManager = AudioManager()
@@ -80,12 +80,12 @@ struct StudioView: View {
                             if selectedBaseSound.name == "Empty" {
                                 baseAudioManager.stop()
                                 
-                                animateVars[0] = 0.0
+                                opacityAnimateVars[0] = 0.0
                             } else {
                                 baseAudioManager.startPlayer(track: selectedBaseSound.name)
                                 
                                 selectedImageNames.base = selectedBaseSound.imageName
-                                animateVars[0] = 0.5
+                                opacityAnimateVars[0] = 0.5
                             }
 
 
@@ -99,13 +99,13 @@ struct StudioView: View {
                             if selectedNaturalSound.name == "Empty" {
                                 naturalAudioManager.stop()
                                 
-                                animateVars[2] = 0.0
+                                opacityAnimateVars[2] = 0.0
                             } else {
                                 naturalAudioManager.startPlayer(track: selectedNaturalSound.name)
                                 
                                 selectedImageNames.natural = selectedNaturalSound.imageName
                                 
-                                animateVars[2] = 0.5
+                                opacityAnimateVars[2] = 0.5
                             }
                         }
                     case .melody:
@@ -116,13 +116,13 @@ struct StudioView: View {
                             if selectedMelodySound.name == "Empty" {
                                 melodyAudioManager.stop()
                                 
-                                animateVars[1] = 0.0
+                                opacityAnimateVars[1] = 0.0
                             } else {
                                 melodyAudioManager.startPlayer(track: selectedMelodySound.name)
                                 
                                 selectedImageNames.melody = selectedMelodySound.imageName
                                 
-                                animateVars[1] = 0.5
+                                opacityAnimateVars[1] = 0.5
                                 
                             }
                         }
@@ -140,24 +140,49 @@ struct StudioView: View {
                 .background(.gray)
             
             // Base
-            illustImage(imageName: selectedImageNames.base, animateVar: animateVars[0])
+            illustImage(imageName: selectedImageNames.base, animateVar: opacityAnimateVars[0])
             
             // Melody
-            illustImage(imageName: selectedImageNames.melody, animateVar: animateVars[1])
+            illustImage(imageName: selectedImageNames.melody, animateVar: opacityAnimateVars[1])
             
             // Natural
-            illustImage(imageName: selectedImageNames.natural, animateVar: animateVars[2])
+            illustImage(imageName: selectedImageNames.natural, animateVar: opacityAnimateVars[2])
                 
         }
     }
     
     @ViewBuilder
     func illustImage(imageName: String, animateVar: Double) -> some View {
+        
+        
         Image(imageName)
             .resizable()
             .DeviceFrame()
             .opacity(animateVar)
             .animation(.linear, value: animateVar)
+    }
+    
+    // MARK: imageName과 일러스트 이름이 다를 경우
+    func getIllustName(of imageName: String) -> String {
+        // base
+         switch imageName {
+            case "LongSun":
+              return "LongSun"
+            case "SpaceMid":
+              return "SpaceMid"
+            case "SpaceLow":
+              return "SpaceLow"
+            case "SpaceHigh":
+              return "SpaceHigh"
+            case "Oxygen":
+              return "Oxygen"
+            default:
+              return "LongSun"
+        }
+        // melody
+        // ..
+        // natural
+        // ..
     }
 }
 
