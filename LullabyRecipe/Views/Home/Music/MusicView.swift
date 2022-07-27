@@ -20,7 +20,6 @@ struct MusicView: View {
     @Binding var audioVolumes: (baseVolume: Float, melodyVolume: Float, naturalVolume: Float)
     
     var body: some View {
-        
         ZStack(alignment: .top) {
             
             ColorPalette.background.color.ignoresSafeArea()
@@ -34,17 +33,17 @@ struct MusicView: View {
                     Divider()
                         .background(.white)
                         .padding(.horizontal, 20)
-                    SingleSong(song: data.baseSound!)
+                    SingleSong(song: data.baseSound ?? emptySound)
                     
                     Divider()
                         .background(.white)
                         .padding(.horizontal, 20)
-                    SingleSong(song: data.melodySound!)
+                    SingleSong(song: data.melodySound ?? emptySound)
                     
                     Divider()
                         .background(.white)
                         .padding(.horizontal, 20)
-                    SingleSong(song: data.naturalSound!)
+                    SingleSong(song: data.naturalSound ?? emptySound)
                 }
                 
                 
@@ -62,8 +61,8 @@ struct MusicView: View {
         .sheet(isPresented: $showVolumeControl,
                content: {
             VolumeControlView(showVolumeControl: $showVolumeControl,
-                          audioVolumes: $audioVolumes,
-                          data: data)
+                              audioVolumes: $audioVolumes,
+                              data: data)
             .onDisappear {
                 viewModel.updateVolume(audioVolumes: audioVolumes)
             }
@@ -71,7 +70,6 @@ struct MusicView: View {
         .navigationBarTitle(Text(""),
                             // Todo :- edit 버튼 동작 .toolbar(content: { Button("Edit") { }}) }}
                             displayMode: .inline)
-        
     }
     
     @ViewBuilder
@@ -189,8 +187,8 @@ struct MusicView_Previews: PreviewProvider {
                                          melodySound: dummyMelodySound,
                                          naturalSound: dummyNaturalSound,
                                          imageName: "r1")
-    
-//        MusicView(data: dummyMixedSound)
+        
+        //        MusicView(data: dummyMixedSound)
     }
 }
 
