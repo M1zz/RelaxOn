@@ -1,5 +1,5 @@
 //
-//  Music.swift
+//  MusicView.swift
 //  LullabyRecipe
 //
 //  Created by hyunho lee on 2022/05/23.
@@ -61,7 +61,7 @@ struct MusicView: View {
         }
         .sheet(isPresented: $showVolumeControl,
                content: {
-            VolumeControl(showVolumeControl: $showVolumeControl,
+            VolumeControlView(showVolumeControl: $showVolumeControl,
                           audioVolumes: $audioVolumes,
                           data: data)
             .onDisappear {
@@ -88,7 +88,8 @@ struct MusicView: View {
             }
             
             VStack(alignment: .leading) {
-                WhiteTitleText(title: data.name)
+                Text(data.name)
+                    .WhiteTitleText()
                 MusicControlButton()
                 Spacer()
             }
@@ -180,7 +181,7 @@ struct MusicView: View {
     }
 }
 
-struct Music_Previews: PreviewProvider {
+struct MusicView_Previews: PreviewProvider {
     static var previews: some View {
         let dummyMixedSound = MixedSound(id: 3,
                                          name: "test4",

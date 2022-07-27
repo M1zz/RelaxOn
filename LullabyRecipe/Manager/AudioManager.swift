@@ -9,12 +9,18 @@ import Foundation
 import AVKit
 
 final class AudioManager {
-    static let shared = AudioManager()
     var player: AVAudioPlayer?
     
+    private enum MusicExtension: String {
+        case mp3 = "mp3"
+    }
+    
+    private func getPathUrl(forResource: String, musicExtension: MusicExtension) -> URL? {
+        Bundle.main.url(forResource: forResource, withExtension: musicExtension.rawValue) ?? nil
+    }
+    
     func startPlayer(track: String, volume: Float? = 1.0) {
-        guard let url = Bundle.main.url(forResource: track,
-                                        withExtension: "mp3") else {
+        guard let url = getPathUrl(forResource: track, musicExtension: .mp3) else {
             print("resource not found \(track)")
             return
         }
@@ -53,8 +59,7 @@ final class AudioManager {
     
     func chanegeVolume(track: String, volume: Float) {
         
-        guard let url = Bundle.main.url(forResource: track,
-                                        withExtension: "mp3") else {
+        guard let url = getPathUrl(forResource: track, musicExtension: .mp3) else {
             print("resource not found \(track)")
             return
         }

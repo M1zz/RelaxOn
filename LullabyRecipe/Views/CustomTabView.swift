@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CustomTabView : View {
+struct CustomTabView: View {
     
     @Binding var selected: SelectedType
     
@@ -21,7 +21,7 @@ struct CustomTabView : View {
                         .frame(height: 5)
                         .overlay(
                             Capsule()
-                                .fill(self.selected == selectedTab ? Color("Forground") : Color.clear)
+                                .fill(self.selected == selectedTab ? ColorPalette.forground.color : Color.clear)
                                 .frame(width: 55, height: 5)
                         )
                     Button(action: {

@@ -1,5 +1,5 @@
 //
-//  Home.swift
+//  HomeView.swift
 //  LullabyRecipe
 //
 //  Created by hyunho lee on 2022/05/23.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct Home: View {
+struct HomeView: View {
     
     @State var txt = ""
     @Binding var userName: String?
@@ -68,7 +68,8 @@ struct Home: View {
     func Profile() -> some View {
         
         HStack(spacing: 12) {
-            WhiteTitleText(title: "Hi, \(userName ?? "guest")")
+            Text("Hi, \(userName ?? "guest")")
+                .WhiteTitleText()
             Spacer()
             
             if hasEdited {
@@ -98,7 +99,8 @@ struct Home: View {
                 VStack {
                     Spacer()
                     HStack {
-                        WhiteTitleText(title: "New Soundtrack")
+                        Text("New Soundtrack")
+                            .WhiteTitleText()
                         Spacer()
                     }
                     .padding()
@@ -125,7 +127,7 @@ struct Home: View {
                                          count: 2),
                           spacing: 20) {
                     ForEach(userRepositoriesState){ item in
-                        MixedSoundCard(data: item,
+                        MixedSoundCardView(data: item,
                                        selectedID: String(item.id),
                                        hasEdited: $hasEdited,
                                        audioVolumes: (baseVolume: item.baseSound?.audioVolume ?? 1.0, melodyVolume: item.melodySound?.audioVolume ?? 1.0, naturalVolume: item.naturalSound?.audioVolume ?? 1.0))
@@ -180,8 +182,8 @@ struct RoundedEdge: ViewModifier {
     }
 }
 
-struct Home_Previews: PreviewProvider {
+struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        Home(userName: .constant("guest"), selected: .constant(.home))
+        HomeView(userName: .constant("guest"), selected: .constant(.home))
     }
 }

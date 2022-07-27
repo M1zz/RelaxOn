@@ -1,5 +1,5 @@
 //
-//  OnBoarding.swift
+//  OnboardingView.swift
 //  LullabyRecipe
 //
 //  Created by hyunho lee on 2022/05/28.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct OnBoarding: View {
+struct OnboardingView: View {
     
     @State var userName: String = ""
     @Binding var showOnboarding: Bool
@@ -21,10 +21,12 @@ struct OnBoarding: View {
                 .ignoresSafeArea()
             
             VStack(alignment:.leading) {
-                WhiteTitleText(title: "Nice to meet you.")
+                Text("Nice to meet you.")
+                    .WhiteTitleText()
                     .padding(.leading)
                 
-                WhiteTitleText(title: "What's your name?")
+                Text("What's your name?")
+                    .WhiteTitleText()
                     .padding(.leading)
                 
                 TextField("", text: $userName)
@@ -36,7 +38,7 @@ struct OnBoarding: View {
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
                     .padding(10)
-
+                
                 Button {
                     if userName.isEmpty {
                         // todo : 이름을 입력해주세요
@@ -60,8 +62,8 @@ struct OnBoarding: View {
     }
 }
 
-struct OnBoarding_Previews: PreviewProvider {
+struct OnboardingView_Previews: PreviewProvider {
     static var previews: some View {
-        OnBoarding(showOnboarding: .constant(true))
+        OnboardingView(showOnboarding: .constant(true))
     }
 }
