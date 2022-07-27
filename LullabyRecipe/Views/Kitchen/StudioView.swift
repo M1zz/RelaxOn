@@ -15,12 +15,12 @@ struct StudioView: View {
                                                         soundType: .base,
                                                         audioVolume: 0.8,
                                                         imageName: "")
-    @State private var selectedMelodySound: Sound = Sound(id: 0,
+    @State private var selectedMelodySound: Sound = Sound(id: 10,
                                                           name: "",
                                                           soundType: .melody,
                                                           audioVolume: 1.0,
                                                           imageName: "")
-    @State private var selectedNaturalSound: Sound = Sound(id: 0,
+    @State private var selectedNaturalSound: Sound = Sound(id: 20,
                                                            name: "",
                                                            soundType: .natural,
                                                            audioVolume: 0.4,
@@ -58,9 +58,9 @@ struct StudioView: View {
             .navigationBarItems(leading: Text("STUDIO").bold(), trailing: MixButton())
             .navigationBarHidden(false)
         }
-        CustomAlert(textEntered: $textEntered,
-                    showingAlert: $showingAlert,
-                    selected: $selected)
+//        CustomAlert(textEntered: $textEntered,
+//                    showingAlert: $showingAlert,
+//                    selected: $selected)
     }
 
     @ViewBuilder
@@ -141,7 +141,7 @@ struct StudioView: View {
             self.textEntered = ""
         } label: {
             Text("Mix")
-                .foregroundColor( $selectedBaseSound.id == 0 && $selectedMelodySound.id == 0 && $selectedNaturalSound.id == 0 ? Color.gray : Color.black )
+                .foregroundColor( ($selectedBaseSound.id == 0 && $selectedMelodySound.id == 10 && $selectedNaturalSound.id == 20) ? Color.gray : Color.black )
         }
 
     }
