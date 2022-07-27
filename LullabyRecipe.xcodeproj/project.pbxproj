@@ -53,6 +53,7 @@
 		CCF0D9892887748500F61495 /* CustomTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF0D9882887748500F61495 /* CustomTabView.swift */; };
 		E2BF105428914E9E00408B8C /* TimerNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2BF105328914E9E00408B8C /* TimerNavigationView.swift */; };
 		E2BF1057289173F100408B8C /* TimerPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2BF1056289173F100408B8C /* TimerPickerView.swift */; };
+		E2BF105928917B6000408B8C /* TempMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2BF105828917B6000408B8C /* TempMainView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -125,6 +126,7 @@
 		CCF0D9882887748500F61495 /* CustomTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabView.swift; sourceTree = "<group>"; };
 		E2BF105328914E9E00408B8C /* TimerNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerNavigationView.swift; sourceTree = "<group>"; };
 		E2BF1056289173F100408B8C /* TimerPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerPickerView.swift; sourceTree = "<group>"; };
+		E2BF105828917B6000408B8C /* TempMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempMainView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -357,6 +359,7 @@
 			children = (
 				E2BF105328914E9E00408B8C /* TimerNavigationView.swift */,
 				E2BF1056289173F100408B8C /* TimerPickerView.swift */,
+				E2BF105828917B6000408B8C /* TempMainView.swift */,
 			);
 			path = Timer;
 			sourceTree = "<group>";
@@ -531,6 +534,7 @@
 				58DE101E283DC913002CDB9F /* AudioManager.swift in Sources */,
 				10D26714288EF4D20056339A /* RectPreference.swift in Sources */,
 				58DE1034283F1A0A002CDB9F /* CustomAlertView.swift in Sources */,
+				E2BF105928917B6000408B8C /* TempMainView.swift in Sources */,
 				58DE61B7283A932E00F25769 /* MusicView.swift in Sources */,
 				58DE61B9283A937000F25769 /* HomeView.swift in Sources */,
 			);
