@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  CdLibraryView.swift
 //  LullabyRecipe
 //
 //  Created by hyunho lee on 2022/05/22.
@@ -13,7 +13,7 @@ enum SelectedType: String {
 }
 var tabs:[SelectedType] = [.home, .kitchen]
 
-struct ContentView: View {
+struct CdLibraryView: View {
     
     @State var selected: SelectedType = .home
     @State var showOnboarding: Bool = false
@@ -24,10 +24,10 @@ struct ContentView: View {
             VStack {
                 switch selected {
                 case .home:
-                    Home(userName: $userName,
+                    HomeView(userName: $userName,
                          selected: $selected)
                 case .kitchen:
-                    Kitchen(selected: $selected)
+                    KitchenView(selected: $selected)
                 }
                 Spacer()
                 CustomTabView(selected: $selected)
@@ -46,7 +46,7 @@ struct ContentView: View {
             showOnboarding = notFirstVisit ? false : true
         }
         .fullScreenCover(isPresented: $showOnboarding, content: {
-            OnBoarding(showOnboarding: $showOnboarding)
+            OnboardingView(showOnboarding: $showOnboarding)
                 .onDisappear {
                     userName = UserDefaultsManager.shared.standard.string(forKey: UserDefaultsManager.shared.userName) ?? UserDefaultsManager.shared.guest
                 }
@@ -54,9 +54,9 @@ struct ContentView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct CdLibraryView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        CdLibraryView()
     }
 }
 

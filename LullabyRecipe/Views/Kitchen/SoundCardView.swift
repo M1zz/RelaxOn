@@ -1,5 +1,5 @@
 //
-//  SoundCard.swift
+//  SoundCardView.swift
 //  LullabyRecipe
 //
 //  Created by hyunho lee on 5/24/22.
@@ -9,13 +9,13 @@ import SwiftUI
 import AVFoundation
 
 
-struct SoundCard : View {
+struct SoundCardView: View {
     let soundFileName: String
     var data: Sound
     let callback: ((String, Sound)->())?
     let selectedID: String?
     @State var show = false
-    
+
     init(soundFileName: String,
          data: Sound,
          callback: ((String, Sound)->())? = nil,
@@ -27,39 +27,40 @@ struct SoundCard : View {
     }
 
     var body : some View {
-        
+
         ZStack {
             VStack(alignment: .center, spacing: 10) {
                 if data.name == "Empty" {
                     ZStack {
                         Rectangle()
                             .background(.black)
-                            .frame(width: 156,
-                                   height: 156,
+                            .frame(width: (deviceFrame().exceptPaddingWidth - 20 ) / 3 ,
+                                   height: (deviceFrame().exceptPaddingWidth - 20 ) / 3,
                                    alignment: .center)
-                            .border(selectedID == soundFileName ? .red : .clear, width: 3)
-                            .cornerRadius(10)
+                            .border(selectedID == soundFileName ? .black : .clear, width: 3)
                         Image(systemName: "moon.zzz.fill")
                             .resizable()
-                            .frame(width: 60,
-                                   height: 60)
+                            .frame(width: (deviceFrame().exceptPaddingWidth - 20 ) / 6,
+                                   height: (deviceFrame().exceptPaddingWidth - 20 ) / 6)
                             .foregroundColor(.white)
-                            
+
                     }
                 } else {
                     Image(data.imageName)
                         .resizable()
-                        .frame(width: 156,
-                               height: 156,
+                        .frame(width: (deviceFrame().exceptPaddingWidth - 20 ) / 3,
+                               height: (deviceFrame().exceptPaddingWidth - 20 ) / 3,
                                alignment: .center)
-                        .cornerRadius(10)
-                        .border(selectedID == soundFileName ? .red : .clear, width: 3)
+                        .border(selectedID == soundFileName ? .black : .clear, width: 3)
                 }
 
-                Text(data.name)
-                    .fontWeight(.semibold)
-                    .font(Font.system(size: 17))
-                    .foregroundColor(Color.white)
+                HStack {
+                    Text(data.name)
+                        .fontWeight(.semibold)
+                        .font(Font.system(size: 17))
+                        .foregroundColor(Color.black)
+
+                }
             }
             .onTapGesture {
                 guard let callback = callback else {
@@ -73,32 +74,34 @@ struct SoundCard : View {
 
 struct SoundCard_Previews: PreviewProvider {
     static var previews: some View {
-        SoundCard(soundFileName : "base_default",
+        SoundCardView(soundFileName : "base_default",
                        data: baseSounds[0],
                   callback: {_,_  in },
-                       selectedID: "")
+                  selectedID: "")
         .background(ColorPalette.background.color)
     }
 }
 
 
-struct RadioButtonGroup: View {
+struct RadioButtonGroupView: View {
     @State var selectedId: String = ""
     let items : [Sound] // sound 를 받아야 함
     let callback: (Sound) -> ()
-    
+    let columns = [
+        GridItem(.adaptive(minimum: (deviceFrame().exceptPaddingWidth - 20 ) / 3))
+    ]
+
     var body: some View {
-        HStack {
+        LazyVGrid(columns: columns) {
             ForEach(items) { item in
-                
-                SoundCard(soundFileName : item.name,
+                SoundCardView(soundFileName : item.name,
                           data: item,
                           callback: radioGroupCallback,
                           selectedID: selectedId)
             }
         }
     }
-    
+
     func radioGroupCallback(id: String, audio: Sound) {
         selectedId = id
         callback(audio)
@@ -123,7 +126,7 @@ struct RadioButtonGroup: View {
 //    }
 //}
 //
-//struct RadioButton: View {
+//struct RadioButtonView: View {
 //
 //    @Environment(\.colorScheme) var colorScheme
 //
@@ -170,7 +173,7 @@ struct RadioButtonGroup: View {
 //    }
 //}
 //
-//struct RadioButtonGroup: View {
+//struct RadioButtonGroupView: View {
 //
 //    let items : [String]
 //
@@ -192,7 +195,7 @@ struct RadioButtonGroup: View {
 //    }
 //}
 //
-//struct ContentView: View {
+//struct ContentViewView: View {
 //    var body: some View {
 //        HStack {
 //            Text("Example")

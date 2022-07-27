@@ -1,5 +1,5 @@
 //
-//  OnBoarding.swift
+//  OnboardingView.swift
 //  LullabyRecipe
 //
 //  Created by hyunho lee on 2022/05/28.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct OnBoarding: View {
+struct OnboardingView: View {
     
     @State var userName: String = ""
     @Binding var showOnboarding: Bool
@@ -62,8 +62,8 @@ struct OnBoarding: View {
     }
 }
 
-struct OnBoarding_Previews: PreviewProvider {
+struct OnboardingView_Previews: PreviewProvider {
     static var previews: some View {
-        OnBoarding(showOnboarding: .constant(true))
+        OnboardingView(showOnboarding: .constant(true))
     }
 }
