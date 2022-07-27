@@ -1,5 +1,5 @@
 //
-//  MixedSoundCard.swift
+//  MixedSoundCardView.swift
 //  LullabyRecipe
 //
 //  Created by hyunho lee on 2022/05/25.
@@ -8,7 +8,7 @@
 import SwiftUI
 
 
-struct MixedSoundCard : View {
+struct MixedSoundCardView: View {
     var data: MixedSound
     let selectedID: String?
     @State var show = false
@@ -83,7 +83,7 @@ struct MixedSoundCard : View {
     }
 }
 
-struct MixedSoundCard_Previews: PreviewProvider {
+struct MixedSoundCardView_Previews: PreviewProvider {
     static var previews: some View {
         let dummyMixedSound = dummyMixedSound
 //        MixedSoundCard(data: dummyMixedSound,

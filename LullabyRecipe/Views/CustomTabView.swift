@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CustomTabView : View {
+struct CustomTabView: View {
     
     @Binding var selected: SelectedType
     

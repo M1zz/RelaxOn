@@ -65,7 +65,7 @@ struct StudioView: View {
                 HStack(spacing: 30) {
                     switch soundType {
                     case .base:
-                        RadioButtonGroup(selectedId: soundType.rawValue,
+                            RadioButtonGroupView(selectedId: soundType.rawValue,
                                          items: baseSounds) { baseSelected in
                             selectedBaseSound = baseSelected
                             // play music
@@ -79,7 +79,7 @@ struct StudioView: View {
 
                         }
                     case .natural:
-                        RadioButtonGroup(selectedId: soundType.rawValue,
+                            RadioButtonGroupView(selectedId: soundType.rawValue,
                                          items: naturalSounds) { naturalSounds in
                             selectedNaturalSound = naturalSounds
 
@@ -91,7 +91,7 @@ struct StudioView: View {
                             }
                         }
                     case .melody:
-                        RadioButtonGroup(selectedId: soundType.rawValue,
+                            RadioButtonGroupView(selectedId: soundType.rawValue,
                                          items: melodySounds) { melodySounds in
                             selectedMelodySound = melodySounds
 
