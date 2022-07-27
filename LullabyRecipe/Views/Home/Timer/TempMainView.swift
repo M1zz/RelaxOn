@@ -11,9 +11,13 @@ struct TempMainView: View {
     var body: some View {
         NavigationView {
             VStack {
-                NavigationLink(destination: EmptyView()) {
+                Spacer()
+                NavigationLink(destination : TimerSettingView()) {
                     TimerNavigationView()
-                }.buttonStyle(.plain)
+                }
+                .navigationBarTitle("HOW LONG..")
+                .navigationBarHidden(true)
+                .buttonStyle(.plain)
                 Spacer()
             }
         }
