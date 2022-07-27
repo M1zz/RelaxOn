@@ -9,7 +9,7 @@ import SwiftUI
 import UIKit
 
 struct TimePickerView: UIViewRepresentable {
-    @Binding var date: Date
+    @Binding var seconds: Double
 
     func makeUIView(context: Context) -> UIDatePicker {
         let datePicker = UIDatePicker()
@@ -19,22 +19,21 @@ struct TimePickerView: UIViewRepresentable {
     }
 
     func updateUIView(_ datePicker: UIDatePicker, context: Context) {
-        datePicker.date = date
     }
 
     func makeCoordinator() -> TimePickerView.Coordinator {
-        Coordinator(date: $date)
+        Coordinator(seconds: $seconds)
     }
 
     class Coordinator: NSObject {
-        private let date: Binding<Date>
+        private let seconds: Binding<Double>
 
-        init(date: Binding<Date>) {
-            self.date = date
+        init(seconds: Binding<Double>) {
+            self.seconds = seconds
         }
 
         @objc func changed(_ sender: UIDatePicker) {
-            self.date.wrappedValue = sender.date
+            self.seconds.wrappedValue = sender.countDownDuration
         }
     }
 }
@@ -42,11 +41,11 @@ struct TimePickerView: UIViewRepresentable {
 struct TimerPickerView_Previews: PreviewProvider {
     
     struct TimerPickerViewForPreview: View {
-        @State var selectedDate = Date()
+        @State var seconds = 0.0
         var body: some View {
             VStack {
-                Text("\(selectedDate)")
-                TimePickerView(date: $selectedDate)
+                Text("\(seconds)")
+                TimePickerView(seconds: $seconds)
                     .environment(\.colorScheme, .dark) // 흰새 글씨로 바뀜
                     .background(.black)
             }
