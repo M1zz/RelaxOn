@@ -40,7 +40,7 @@ public struct CustomSegmentControlView: View {
                             segmentItemView(for: index)
                         }
                     }
-                    .padding(.bottom, 12)
+                    .padding(.bottom, 5)
 
                     // 선택된 요소 밑줄
                     Rectangle()
