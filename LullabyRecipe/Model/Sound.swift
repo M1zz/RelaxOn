@@ -114,7 +114,7 @@ var naturalSounds = [
           imageName: NaturalAudioName.wave.fileName)
 ]
 
-let emptySound: Sound  = Sound(id: 0,
+let emptySound: Sound = Sound(id: 0,
                                name: "Empty",
                                soundType: .base,
                                audioVolume: 0.0,
