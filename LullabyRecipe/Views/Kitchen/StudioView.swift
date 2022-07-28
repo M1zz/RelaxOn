@@ -10,17 +10,17 @@ import SwiftUI
 struct StudioView: View {
     @State private var select: Int = 0
     @State private var showingAlert = false
-    @State private var selectedBaseSound: Sound = Sound(id: 11,
+    @State private var selectedBaseSound: Sound = Sound(id: 0,
                                                         name: "",
                                                         soundType: .base,
                                                         audioVolume: 0.8,
                                                         imageName: "")
-    @State private var selectedMelodySound: Sound = Sound(id: 12,
+    @State private var selectedMelodySound: Sound = Sound(id: 10,
                                                           name: "",
                                                           soundType: .melody,
                                                           audioVolume: 1.0,
                                                           imageName: "")
-    @State private var selectedNaturalSound: Sound = Sound(id: 13,
+    @State private var selectedNaturalSound: Sound = Sound(id: 20,
                                                            name: "",
                                                            soundType: .natural,
                                                            audioVolume: 0.4,
@@ -33,7 +33,7 @@ struct StudioView: View {
         melody: "",
         natural: ""
     )
-    @State var opacityAnimateVars = [0.0, 0.0, 0.0]
+    @State private var opacityAnimationValues = [0.0, 0.0, 0.0]
 
     let baseAudioManager = AudioManager()
     let melodyAudioManager = AudioManager()
@@ -80,12 +80,12 @@ struct StudioView: View {
                             if selectedBaseSound.name == "Empty" {
                                 baseAudioManager.stop()
                                 
-                                opacityAnimateVars[0] = 0.0
+                                opacityAnimationValues[0] = 0.0
                             } else {
                                 baseAudioManager.startPlayer(track: selectedBaseSound.name)
                                 
                                 selectedImageNames.base = selectedBaseSound.imageName
-                                opacityAnimateVars[0] = 0.5
+                                opacityAnimationValues[0] = 0.5
                             }
 
 
@@ -99,13 +99,13 @@ struct StudioView: View {
                             if selectedNaturalSound.name == "Empty" {
                                 naturalAudioManager.stop()
                                 
-                                opacityAnimateVars[2] = 0.0
+                                opacityAnimationValues[2] = 0.0
                             } else {
                                 naturalAudioManager.startPlayer(track: selectedNaturalSound.name)
                                 
                                 selectedImageNames.natural = selectedNaturalSound.imageName
                                 
-                                opacityAnimateVars[2] = 0.5
+                                opacityAnimationValues[2] = 0.5
                             }
                         }
                     case .melody:
@@ -116,13 +116,13 @@ struct StudioView: View {
                             if selectedMelodySound.name == "Empty" {
                                 melodyAudioManager.stop()
                                 
-                                opacityAnimateVars[1] = 0.0
+                                opacityAnimationValues[1] = 0.0
                             } else {
                                 melodyAudioManager.startPlayer(track: selectedMelodySound.name)
                                 
                                 selectedImageNames.melody = selectedMelodySound.imageName
                                 
-                                opacityAnimateVars[1] = 0.5
+                                opacityAnimationValues[1] = 0.5
                                 
                             }
                         }
@@ -140,49 +140,24 @@ struct StudioView: View {
                 .background(.gray)
             
             // Base
-            illustImage(imageName: selectedImageNames.base, animateVar: opacityAnimateVars[0])
+            illustImage(imageName: selectedImageNames.base, animateVar: opacityAnimationValues[0])
             
             // Melody
-            illustImage(imageName: selectedImageNames.melody, animateVar: opacityAnimateVars[1])
+            illustImage(imageName: selectedImageNames.melody, animateVar: opacityAnimationValues[1])
             
             // Natural
-            illustImage(imageName: selectedImageNames.natural, animateVar: opacityAnimateVars[2])
+            illustImage(imageName: selectedImageNames.natural, animateVar: opacityAnimationValues[2])
                 
         }
     }
     
     @ViewBuilder
     func illustImage(imageName: String, animateVar: Double) -> some View {
-        
-        
         Image(imageName)
             .resizable()
             .DeviceFrame()
             .opacity(animateVar)
             .animation(.linear, value: animateVar)
-    }
-    
-    // MARK: imageName과 일러스트 이름이 다를 경우
-    func getIllustName(of imageName: String) -> String {
-        // base
-         switch imageName {
-            case "LongSun":
-              return "LongSun"
-            case "SpaceMid":
-              return "SpaceMid"
-            case "SpaceLow":
-              return "SpaceLow"
-            case "SpaceHigh":
-              return "SpaceHigh"
-            case "Oxygen":
-              return "Oxygen"
-            default:
-              return "LongSun"
-        }
-        // melody
-        // ..
-        // natural
-        // ..
     }
 }
 
