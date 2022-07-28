@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct LibraryView: View {
+struct CDListView: View {
     
     var body: some View {
         
@@ -50,12 +50,15 @@ struct LibraryView: View {
     
     var plusCDImage: some View {
         VStack(alignment: .leading) {
-            VStack {
-                Image(systemName: "plus")
-                    .font(Font.system(size: 70, weight: .ultraLight))
+            NavigationLink(destination: StudioView()) {
+                VStack {
+                    Image(systemName: "plus")
+                        .font(Font.system(size: 70, weight: .ultraLight))
+                }
+                .frame(width: UIScreen.main.bounds.width * 0.43, height: UIScreen.main.bounds.width * 0.43)
+                .background(.gray)
             }
-            .frame(width: UIScreen.main.bounds.width * 0.43, height: UIScreen.main.bounds.width * 0.43)
-            .background(.gray)
+            .buttonStyle(.plain)
             
             Text("Studio")
         }
@@ -71,8 +74,8 @@ struct LibraryView: View {
     }
 }
 
-struct LibraryView_Previews: PreviewProvider {
+struct CDListView_Previews: PreviewProvider {
     static var previews: some View {
-        LibraryView()
+        CDListView()
     }
 }
