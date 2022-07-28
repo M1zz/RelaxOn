@@ -1,5 +1,5 @@
 //
-//  VolumeControl.swift
+//  VolumeControlView.swift
 //  LullabyRecipe
 //
 //  Created by hyunho lee on 2022/05/29.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct VolumeControl: View {
+struct VolumeControlView: View {
     
     @Binding var showVolumeControl: Bool
     @Binding var audioVolumes: (baseVolume: Float, melodyVolume: Float, naturalVolume: Float)
@@ -191,9 +191,9 @@ struct VolumeControl: View {
 }
 
 // 오류 때문에 주석처리
-//struct VolumeControl_Previews: PreviewProvider {
+//struct VolumeControlView_Previews: PreviewProvider {
 //    static var previews: some View {
-//        VolumeControl(showVolumeControl: .constant(true),
+//        VolumeControlView(showVolumeControl: .constant(true),
 //                      baseVolume: 0.3,
 //                      melodyVolume: 0.8,
 //                      naturalVolume: 1.0,
