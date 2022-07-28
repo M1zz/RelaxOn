@@ -1,5 +1,5 @@
 //
-//  Kitchen.swift
+//  KitchenView.swift
 //  LullabyRecipe
 //
 //  Created by hyunho lee on 2022/05/23.
@@ -21,7 +21,7 @@ enum SoundType: String, Codable {
     case natural
 }
 
-struct Kitchen : View {
+struct KitchenView: View {
  
     @State private var showingAlert = false
     @State private var selectedBaseSound: Sound = Sound(id: 0,
@@ -75,7 +75,7 @@ struct Kitchen : View {
                     .padding(.top, 20)
             }
             .padding(.horizontal)
-            CustomAlert(textEntered: $textEntered,
+            CustomAlertView(textEntered: $textEntered,
                         showingAlert: $showingAlert)
             .opacity(showingAlert ? 1 : 0)
         }
@@ -142,7 +142,7 @@ struct Kitchen : View {
                     
                     switch soundType {
                     case .base:
-                        RadioButtonGroup(selectedId: soundType.rawValue,
+                        RadioButtonGroupView(selectedId: soundType.rawValue,
                                          items: baseSounds) { baseSelected in
                             print("baseSelected is: \(baseSelected)")
                             selectedBaseSound = baseSelected
@@ -157,7 +157,7 @@ struct Kitchen : View {
                             
                         }
                     case .natural:
-                        RadioButtonGroup(selectedId: soundType.rawValue,
+                        RadioButtonGroupView(selectedId: soundType.rawValue,
                                          items: naturalSounds) { naturalSounds in
                             print("naturalSounds is: \(naturalSounds)")
                             selectedNaturalSound = naturalSounds
@@ -170,7 +170,7 @@ struct Kitchen : View {
                             }
                         }
                     case .melody:
-                        RadioButtonGroup(selectedId: soundType.rawValue,
+                        RadioButtonGroupView(selectedId: soundType.rawValue,
                                          items: melodySounds) { melodySounds in
                             print("melodySounds is: \(melodySounds)")
                             selectedMelodySound = melodySounds
@@ -188,9 +188,9 @@ struct Kitchen : View {
     }
 }
 
-struct Kitchen_Previews: PreviewProvider {
+struct KitchenView_Previews: PreviewProvider {
     static var previews: some View {
-        Kitchen(selected: .constant(.kitchen))
+        KitchenView(selected: .constant(.kitchen))
     }
 }
 

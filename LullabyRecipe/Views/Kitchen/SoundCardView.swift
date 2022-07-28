@@ -1,5 +1,5 @@
 //
-//  SoundCard.swift
+//  SoundCardView.swift
 //  LullabyRecipe
 //
 //  Created by hyunho lee on 5/24/22.
@@ -9,7 +9,7 @@ import SwiftUI
 import AVFoundation
 
 
-struct SoundCard : View {
+struct SoundCardView: View {
     let soundFileName: String
     var data: Sound
     let callback: ((String, Sound)->())?
@@ -74,8 +74,8 @@ struct SoundCard : View {
 
 struct SoundCard_Previews: PreviewProvider {
     static var previews: some View {
-        SoundCard(soundFileName : "base_default",
-                  data: baseSounds[0],
+        SoundCardView(soundFileName : "base_default",
+                       data: baseSounds[0],
                   callback: {_,_  in },
                   selectedID: "")
         .background(ColorPalette.background.color)
@@ -83,7 +83,7 @@ struct SoundCard_Previews: PreviewProvider {
 }
 
 
-struct RadioButtonGroup: View {
+struct RadioButtonGroupView: View {
     @State var selectedId: String = ""
     let items : [Sound] // sound 를 받아야 함
     let callback: (Sound) -> ()
@@ -94,7 +94,7 @@ struct RadioButtonGroup: View {
     var body: some View {
         LazyVGrid(columns: columns) {
             ForEach(items) { item in
-                SoundCard(soundFileName : item.name,
+                SoundCardView(soundFileName : item.name,
                           data: item,
                           callback: radioGroupCallback,
                           selectedID: selectedId)
@@ -126,7 +126,7 @@ struct RadioButtonGroup: View {
 //    }
 //}
 //
-//struct RadioButton: View {
+//struct RadioButtonView: View {
 //
 //    @Environment(\.colorScheme) var colorScheme
 //
@@ -173,7 +173,7 @@ struct RadioButtonGroup: View {
 //    }
 //}
 //
-//struct RadioButtonGroup: View {
+//struct RadioButtonGroupView: View {
 //
 //    let items : [String]
 //
@@ -195,7 +195,7 @@ struct RadioButtonGroup: View {
 //    }
 //}
 //
-//struct ContentView: View {
+//struct ContentViewView: View {
 //    var body: some View {
 //        HStack {
 //            Text("Example")

@@ -1,5 +1,5 @@
 //
-//  CustomAlert.swift
+//  CustomAlertView.swift
 //  LullabyRecipe
 //
 //  Created by hyunho lee on 5/26/22.
@@ -7,13 +7,7 @@
 
 import SwiftUI
 
-struct Background: View {
-    var body: some View {
-        Text("")
-    }
-}
-
-struct CustomAlert: View {
+struct CustomAlertView: View {
     @Binding var textEntered: String
     @Binding var showingAlert: Bool
     
@@ -91,9 +85,9 @@ struct CustomAlert: View {
 
 
 
-struct CustomAlert_Previews: PreviewProvider {
+struct CustomAlertView_Previews: PreviewProvider {
     static var previews: some View {
-        CustomAlert(textEntered: .constant("text"),
+        CustomAlertView(textEntered: .constant("text"),
                     showingAlert: .constant(true))
     }
 }
