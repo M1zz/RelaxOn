@@ -76,8 +76,7 @@ struct Kitchen : View {
             }
             .padding(.horizontal)
             CustomAlert(textEntered: $textEntered,
-                        showingAlert: $showingAlert,
-                        selected: $selected)
+                        showingAlert: $showingAlert)
             .opacity(showingAlert ? 1 : 0)
         }
         

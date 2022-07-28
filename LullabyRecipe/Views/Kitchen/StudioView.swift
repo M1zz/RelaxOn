@@ -57,21 +57,21 @@ struct StudioView: View {
             }
             .navigationBarItems(leading: Text("STUDIO").bold(), trailing: MixButton())
             .navigationBarHidden(false)
+            .opacity(showingAlert ? 0.5 : 1)
+            
+            CustomAlert(textEntered: $textEntered,
+                        showingAlert: $showingAlert)
+            .opacity(showingAlert ? 1 : 0)
         }
-//        CustomAlert(textEntered: $textEntered,
-//                    showingAlert: $showingAlert,
-//                    selected: $selected)
     }
 
     @ViewBuilder
     func SoundSelectView(sectionTitle: String,
                          soundType: SoundType) -> some View {
         VStack(spacing: 15) {
-
             HStack {
                 Text("볼륨조절 컴포넌트")
             }
-
             ScrollView(.vertical,
                        showsIndicators: false) {
                 HStack(spacing: 30) {
@@ -87,14 +87,11 @@ struct StudioView: View {
                             } else {
                                 baseAudioManager.startPlayer(track: selectedBaseSound.name)
                             }
-
-
                         }
                     case .natural:
                         RadioButtonGroup(selectedId: soundType.rawValue,
                                          items: naturalSounds) { naturalSounds in
                             selectedNaturalSound = naturalSounds
-
 
                             if selectedNaturalSound.name == "Empty" {
                                 naturalAudioManager.stop()
@@ -142,8 +139,7 @@ struct StudioView: View {
         } label: {
             Text("Mix")
                 .foregroundColor( ($selectedBaseSound.id == 0 && $selectedMelodySound.id == 10 && $selectedNaturalSound.id == 20) ? Color.gray : Color.black )
-        }
-
+        }.disabled( ($selectedBaseSound.id == 0 && $selectedMelodySound.id == 10 && $selectedNaturalSound.id == 20) ? true : false )
     }
 }
 
