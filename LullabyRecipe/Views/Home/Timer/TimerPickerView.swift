@@ -25,7 +25,7 @@ struct TimePicker: UIViewRepresentable {
         Coordinator(seconds: $seconds)
     }
 
-    class Coordinator: NSObject {
+    final class Coordinator: NSObject {
         private let seconds: Binding<Double>
 
         init(seconds: Binding<Double>) {
