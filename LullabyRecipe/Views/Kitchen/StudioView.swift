@@ -9,30 +9,35 @@ import SwiftUI
 
 struct StudioView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    @State var select: Int = 0
-    @State var showingAlert = false
-    @State var selectedBaseSound: Sound = Sound(id: 0,
+    @State private var select: Int = 0
+    @State private var showingAlert = false
+    @State private var selectedBaseSound: Sound = Sound(id: 0,
                                                         name: "",
                                                         soundType: .base,
                                                         audioVolume: 0.8,
                                                         imageName: "")
-    @State var selectedMelodySound: Sound = Sound(id: 10,
+    @State private var selectedMelodySound: Sound = Sound(id: 10,
                                                           name: "",
                                                           soundType: .melody,
                                                           audioVolume: 1.0,
                                                           imageName: "")
-    @State var selectedNaturalSound: Sound = Sound(id: 20,
+    @State private var selectedNaturalSound: Sound = Sound(id: 20,
                                                            name: "",
                                                            soundType: .natural,
                                                            audioVolume: 0.4,
                                                            imageName: "")
-    @State var userName: String = ""
-    @State var textEntered = ""
+    @State private var userName: String = ""
+    @State private var textEntered = ""
     
     @Binding var selectedImageNames: (base: String, melody: String, natural: String)
     
-    @State var opacityAnimationValues = [0.0, 0.0, 0.0]
+    init(selectedImageNames: Binding<(base: String, melody: String, natural: String)>) {
 
+        self._selectedImageNames = selectedImageNames
+    }
+    
+    @State private var opacityAnimationValues = [0.0, 0.0, 0.0]
+    
     let baseAudioManager = AudioManager()
     let melodyAudioManager = AudioManager()
     let naturalAudioManager = AudioManager()

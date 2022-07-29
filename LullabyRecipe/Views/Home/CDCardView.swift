@@ -14,9 +14,20 @@ struct CDCardView: View {
     var body: some View {
         VStack(alignment: .leading) {
             NavigationLink(destination: MusicView(data: data, audioVolumes: $audioVolumes)) {
-                Image(data.imageName)
-                    .resizable()
-                    .frame(width: UIScreen.main.bounds.width * 0.43, height: UIScreen.main.bounds.width * 0.43)
+                ZStack {
+                    Image(data.baseSound?.imageName ?? "")
+                        .resizable()
+                        .opacity(0.5)
+                        .frame(width: UIScreen.main.bounds.width * 0.43, height: UIScreen.main.bounds.width * 0.43)
+                    Image(data.melodySound?.imageName ?? "")
+                        .resizable()
+                        .opacity(0.5)
+                        .frame(width: UIScreen.main.bounds.width * 0.43, height: UIScreen.main.bounds.width * 0.43)
+                    Image(data.naturalSound?.imageName ?? "")
+                        .resizable()
+                        .opacity(0.5)
+                        .frame(width: UIScreen.main.bounds.width * 0.43, height: UIScreen.main.bounds.width * 0.43)
+                }
             }
             Text(data.name)
         }
