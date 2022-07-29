@@ -8,7 +8,7 @@
 import SwiftUI
 
 @main
-struct LullabyRecipeApp: App {
+struct RelaxOnApp: App {
     var body: some Scene {
         WindowGroup {
             CdLibraryView()
