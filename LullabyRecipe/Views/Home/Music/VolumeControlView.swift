@@ -43,26 +43,26 @@ struct VolumeControlView: View {
                         melodyAudioManager.stop()
                         naturalAudioManager.stop()
                         // TODO: - 볼륨 저장
-                        let localBaseSound = data.baseSound
-                        let localMelodySound = data.melodySound
-                        let localNaturalSound = data.naturalSound
+                        guard let localBaseSound = data.baseSound,
+                              let localMelodySound = data.melodySound,
+                              let localNaturalSound = data.naturalSound else { return }
                         
-                        let newBaseSound = Sound(id: localBaseSound!.id,
-                                                 name: localBaseSound!.name,
-                                                 soundType: localBaseSound!.soundType,
+                        let newBaseSound = Sound(id: localBaseSound.id,
+                                                 name: localBaseSound.name,
+                                                 soundType: localBaseSound.soundType,
                                                  audioVolume: audioVolumes.baseVolume,
-                                                 imageName: localBaseSound!.imageName)
-                        let newMelodySound = Sound(id: localMelodySound!.id,
-                                                   name: localMelodySound!.name,
-                                                   soundType: localMelodySound!.soundType,
+                                                 imageName: localBaseSound.imageName)
+                        let newMelodySound = Sound(id: localMelodySound.id,
+                                                   name: localMelodySound.name,
+                                                   soundType: localMelodySound.soundType,
                                                    audioVolume: audioVolumes.melodyVolume,
-                                                   imageName: localMelodySound!.imageName)
+                                                   imageName: localMelodySound.imageName)
                         
-                        let newNaturalSound = Sound(id: localNaturalSound!.id,
-                                                    name: localNaturalSound!.name,
-                                                    soundType: localNaturalSound!.soundType,
+                        let newNaturalSound = Sound(id: localNaturalSound.id,
+                                                    name: localNaturalSound.name,
+                                                    soundType: localNaturalSound.soundType,
                                                     audioVolume: audioVolumes.naturalVolume,
-                                                    imageName: localNaturalSound!.imageName)
+                                                    imageName: localNaturalSound.imageName)
                         
                         let newMixedSound = MixedSound(id: data.id,
                                                        name: data.name,
@@ -146,7 +146,7 @@ struct VolumeControlView: View {
                         .padding(.horizontal, 20)
                         .onChange(of: audioVolumes.baseVolume) { newValue in
                             print(newValue)
-                            baseAudioManager.chanegeVolume(track: item.name,
+                            baseAudioManager.changeVolume(track: item.name,
                                                            volume: newValue)
                         }
                 case .melody:
@@ -157,7 +157,7 @@ struct VolumeControlView: View {
                         .padding(.horizontal, 20)
                         .onChange(of: audioVolumes.melodyVolume) { newValue in
                             print(newValue)
-                            melodyAudioManager.chanegeVolume(track: item.name,
+                            melodyAudioManager.changeVolume(track: item.name,
                                                              volume: newValue)
                         }
                 case .natural:
@@ -168,7 +168,7 @@ struct VolumeControlView: View {
                         .padding(.horizontal, 20)
                         .onChange(of: audioVolumes.naturalVolume) { newValue in
                             print(newValue)
-                            naturalAudioManager.chanegeVolume(track: item.name,
+                            naturalAudioManager.changeVolume(track: item.name,
                                                               volume: newValue)
                         }
                 }

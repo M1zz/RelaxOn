@@ -57,7 +57,7 @@ struct CustomAlertView: View {
                                               baseSound: baseSound,
                                               melodySound: melodySound,
                                               naturalSound: naturalSound,
-                                              imageName: recipeRandomName.randomElement()!)
+                                              imageName: recipeRandomName.randomElement() ?? "")
                     userRepositories.append(newSound)
                     
                     let data = getEncodedData(data: userRepositories)

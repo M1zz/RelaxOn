@@ -15,18 +15,25 @@ struct StudioView: View {
                                                         soundType: .base,
                                                         audioVolume: 0.8,
                                                         imageName: "")
-    @State private var selectedMelodySound: Sound = Sound(id: 0,
+    @State private var selectedMelodySound: Sound = Sound(id: 10,
                                                           name: "",
                                                           soundType: .melody,
                                                           audioVolume: 1.0,
                                                           imageName: "")
-    @State private var selectedNaturalSound: Sound = Sound(id: 0,
+    @State private var selectedNaturalSound: Sound = Sound(id: 20,
                                                            name: "",
                                                            soundType: .natural,
                                                            audioVolume: 0.4,
                                                            imageName: "")
     @State var userName: String = ""
     @State private var textEntered = ""
+    
+    @State private var selectedImageNames = (
+        base: "",
+        melody: "",
+        natural: ""
+    )
+    @State private var opacityAnimationValues = [0.0, 0.0, 0.0]
 
     let baseAudioManager = AudioManager()
     let melodyAudioManager = AudioManager()
@@ -72,8 +79,13 @@ struct StudioView: View {
 
                             if selectedBaseSound.name == "Empty" {
                                 baseAudioManager.stop()
+                                
+                                opacityAnimationValues[0] = 0.0
                             } else {
                                 baseAudioManager.startPlayer(track: selectedBaseSound.name)
+                                
+                                selectedImageNames.base = selectedBaseSound.imageName
+                                opacityAnimationValues[0] = 0.5
                             }
 
 
@@ -86,19 +98,32 @@ struct StudioView: View {
 
                             if selectedNaturalSound.name == "Empty" {
                                 naturalAudioManager.stop()
+                                
+                                opacityAnimationValues[2] = 0.0
                             } else {
                                 naturalAudioManager.startPlayer(track: selectedNaturalSound.name)
+                                
+                                selectedImageNames.natural = selectedNaturalSound.imageName
+                                
+                                opacityAnimationValues[2] = 0.5
                             }
                         }
                     case .melody:
                             RadioButtonGroupView(selectedId: soundType.rawValue,
                                          items: melodySounds) { melodySounds in
                             selectedMelodySound = melodySounds
-
+                            
                             if selectedMelodySound.name == "Empty" {
                                 melodyAudioManager.stop()
+                                
+                                opacityAnimationValues[1] = 0.0
                             } else {
                                 melodyAudioManager.startPlayer(track: selectedMelodySound.name)
+                                
+                                selectedImageNames.melody = selectedMelodySound.imageName
+                                
+                                opacityAnimationValues[1] = 0.5
+                                
                             }
                         }
                     }
@@ -106,11 +131,33 @@ struct StudioView: View {
             }.padding(.horizontal, 15)
         }
     }
-
+    
     @ViewBuilder
     func SelectImage() -> some View {
-        Rectangle()
-            .frame(width: deviceFrame().exceptPaddingWidth, height: deviceFrame().exceptPaddingWidth, alignment: .center)
+        ZStack {
+            Rectangle()
+                .DeviceFrame()
+                .background(.gray)
+            
+            // Base
+            illustImage(imageName: selectedImageNames.base, animateVar: opacityAnimationValues[0])
+            
+            // Melody
+            illustImage(imageName: selectedImageNames.melody, animateVar: opacityAnimationValues[1])
+            
+            // Natural
+            illustImage(imageName: selectedImageNames.natural, animateVar: opacityAnimationValues[2])
+                
+        }
+    }
+    
+    @ViewBuilder
+    func illustImage(imageName: String, animateVar: Double) -> some View {
+        Image(imageName)
+            .resizable()
+            .DeviceFrame()
+            .opacity(animateVar)
+            .animation(.linear, value: animateVar)
     }
 }
 
