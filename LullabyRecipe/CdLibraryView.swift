@@ -22,11 +22,9 @@ struct CdLibraryView: View {
     var body: some View {
         NavigationView {
             
-            // MARK: 탭뷰 전환 -> 없어질 예정
-            
             VStack {
                 // MARK: TimerNavigationView를 위한 자리
-                Text("Place for TimerNavigationView")
+                TimerNavigationLinkView()
                 Divider()
                     .padding(.horizontal)
                 CDListView()
@@ -35,6 +33,8 @@ struct CdLibraryView: View {
             .navigationBarTitle("")
             .navigationBarHidden(true)
             .navigationBarBackButtonHidden(true)
+            
+            // MARK: 탭뷰 전환 주석 코드 -> 없어질 예정
 //            VStack {
 //                switch selected {
 //                case .home:
