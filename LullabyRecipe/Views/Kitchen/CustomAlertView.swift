@@ -10,77 +10,66 @@ import SwiftUI
 struct CustomAlertView: View {
     @Binding var textEntered: String
     @Binding var showingAlert: Bool
-    @Binding var selected: SelectedType
     
     var body: some View {
-        
-        //            Color.clear
-        //                .background(.ultraThinMaterial)
-        
-        
         ZStack {
             RoundedRectangle(cornerRadius: 4)
-                .fill(ColorPalette.tabBackground.color)
-            
+                .fill(.gray)
             VStack {
-                HStack {
-                    Spacer()
-                    Button {
-                        showingAlert.toggle()
-                    } label: {
-                        Image(systemName: "xmark")
-                            .tint(.white)
-                    }
-                }
-                .padding()
-                
                 Text("Title for this recipe?")
                     .font(.title3)
-                    .bold()
-                    .foregroundColor(.white)
-                
-                
+                    .foregroundColor(.black)
                 TextField("Enter title", text: $textEntered)
                     .padding(5)
-                    .background(ColorPalette.tabBackground.color)
+                    .background(.gray)
                     .foregroundColor(.white)
                     .padding(.horizontal, 20)
                 Rectangle()
-                    .frame(height: 2)
+                    .frame(height: 0.7)
                     .foregroundColor(.white)
                     .padding(.horizontal, 20)
-                
-                Button {
-                    // TODO: - id 문제 해결
-                    let newSound = MixedSound(id: userRepositories.count,
-                                              name: textEntered,
-                                              baseSound: baseSound,
-                                              melodySound: melodySound,
-                                              naturalSound: naturalSound,
-                                              imageName: recipeRandomName.randomElement() ?? "")
-                    userRepositories.append(newSound)
-                    
-                    let data = getEncodedData(data: userRepositories)
-                    UserDefaultsManager.shared.standard.set(data, forKey: UserDefaultsManager.shared.recipes)
-                    
-                    showingAlert.toggle()
-                    selected = .home
-                } label: {
-                    Text("Save")
-                        .padding()
-                        .frame(height: 35)
-                        .background(ColorPalette.tabBackground.color)
-                        .foregroundColor(ColorPalette.forground.color)
+
+                HStack{
+                    Button {
+                        showingAlert.toggle()
+                    } label: {
+                        Text("Cancel")
+                            .padding()
+                            .frame(height: 35)
+                            .background(.gray)
+                            .foregroundColor(.black)
+                    }.padding(.horizontal, 10)
+                        .padding(.top, 15)
+
+                    Spacer().frame(width: 50)
+
+                    Button {
+                        // TODO: - id 문제 해결
+                        let newSound = MixedSound(id: userRepositories.count,
+                                                  name: textEntered,
+                                                  baseSound: baseSound,
+                                                  melodySound: melodySound,
+                                                  naturalSound: naturalSound,
+                                                  imageName: recipeRandomName.randomElement()!)
+                        userRepositories.append(newSound)
+
+                        let data = getEncodedData(data: userRepositories)
+                        UserDefaultsManager.shared.standard.set(data, forKey: UserDefaultsManager.shared.recipes)
+
+                        showingAlert.toggle()
+                    } label: {
+                        Text("Save")
+                            .fontWeight(.semibold)
+                            .padding()
+                            .frame(height: 35)
+                            .background(.gray)
+                            .foregroundColor(.black)
+                    }.padding(.horizontal,10)
+                        .padding(.top, 15)
                 }
-            }
+            }.padding(.top, 40)
         }
-        .frame(width: 300, height: 200)
-//        .overlay(
-//            RoundedRectangle(cornerRadius: 4)
-//                .stroke(Color(UIColor.label), lineWidth: 2)
-//        )
-        
-        
+        .frame(width: deviceFrame().screenWidth - 100 , height: deviceFrame().screenHeight - 620)
     }
     
     private func getEncodedData(data: [MixedSound]) -> Data? {
@@ -100,7 +89,6 @@ struct CustomAlertView: View {
 struct CustomAlertView_Previews: PreviewProvider {
     static var previews: some View {
         CustomAlertView(textEntered: .constant("text"),
-                    showingAlert: .constant(true),
-                    selected: .constant(.kitchen))
+                    showingAlert: .constant(true))
     }
 }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		102CCFFA289101AD00B97F8F /* TestNavigateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 102CCFF9289101AD00B97F8F /* TestNavigateView.swift */; };
 		10D26712288EF4C80056339A /* CustomSegmentControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D26711288EF4C80056339A /* CustomSegmentControlView.swift */; };
 		10D26714288EF4D20056339A /* RectPreference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D26713288EF4D20056339A /* RectPreference.swift */; };
 		10D26716288EF4DB0056339A /* StudioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D26715288EF4DB0056339A /* StudioView.swift */; };
@@ -78,6 +79,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		102CCFF9289101AD00B97F8F /* TestNavigateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestNavigateView.swift; sourceTree = "<group>"; };
 		10D26711288EF4C80056339A /* CustomSegmentControlView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSegmentControlView.swift; sourceTree = "<group>"; };
 		10D26713288EF4D20056339A /* RectPreference.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RectPreference.swift; sourceTree = "<group>"; };
 		10D26715288EF4DB0056339A /* StudioView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudioView.swift; sourceTree = "<group>"; };
@@ -253,6 +255,8 @@
 				58DE1033283F1A0A002CDB9F /* CustomAlertView.swift */,
 				58DE61AE283A8C8B00F25769 /* KitchenView.swift */,
 				58DE101B283CA87F002CDB9F /* SoundCardView.swift */,
+				10D26715288EF4DB0056339A /* StudioView.swift */,
+				102CCFF9289101AD00B97F8F /* TestNavigateView.swift */,
 				58DE1033283F1A0A002CDB9F /* CustomAlertView.swift */,
 				219BD67228900A28006FAF55 /* CDListView.swift */,
 			);
@@ -535,6 +539,7 @@
 				58DE61C72843100100F25769 /* VolumeControlView.swift in Sources */,
 				E2BF105428914E9E00408B8C /* TimerNavigationLinkView.swift in Sources */,
 				10D26712288EF4C80056339A /* CustomSegmentControlView.swift in Sources */,
+				102CCFFA289101AD00B97F8F /* TestNavigateView.swift in Sources */,
 				58DE61832839C13900F25769 /* LullabyRecipeApp.swift in Sources */,
 				21D3ED972892781D006E871F /* CustomTabView.swift in Sources */,
 				10D26716288EF4DB0056339A /* StudioView.swift in Sources */,
