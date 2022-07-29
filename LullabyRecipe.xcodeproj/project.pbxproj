@@ -52,6 +52,10 @@
 		CC2820482880102400587334 /* ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC2820472880102400587334 /* ViewModifiers.swift */; };
 		CCA7F51E2877501E00D6A239 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CCA7F5202877501E00D6A239 /* Localizable.strings */; };
 		CCF0D9892887748500F61495 /* CustomTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF0D9882887748500F61495 /* CustomTabView.swift */; };
+		E2BF105428914E9E00408B8C /* TimerNavigationLinkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2BF105328914E9E00408B8C /* TimerNavigationLinkView.swift */; };
+		E2BF1057289173F100408B8C /* TimerPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2BF1056289173F100408B8C /* TimerPickerView.swift */; };
+		E2BF105928917B6000408B8C /* TempMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2BF105828917B6000408B8C /* TempMainView.swift */; };
+		E2BF105B28917CAC00408B8C /* TimerSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2BF105A28917CAC00408B8C /* TimerSettingView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -112,7 +116,6 @@
 		58DE619F2839C13B00F25769 /* LullabyRecipeUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LullabyRecipeUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		58DE61AE283A8C8B00F25769 /* KitchenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KitchenView.swift; sourceTree = "<group>"; };
 		58DE61B1283A8E1700F25769 /* Sound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sound.swift; sourceTree = "<group>"; };
-		58DE61B3283A8E4500F25769 /* Recipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
 		58DE61B6283A932E00F25769 /* MusicView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicView.swift; sourceTree = "<group>"; };
 		58DE61B8283A937000F25769 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		58DE61BC283E542400F25769 /* MixedSoundCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixedSoundCardView.swift; sourceTree = "<group>"; };
@@ -124,6 +127,10 @@
 		CCA7F51F2877501E00D6A239 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CCA7F5212877504200D6A239 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CCF0D9882887748500F61495 /* CustomTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabView.swift; sourceTree = "<group>"; };
+		E2BF105328914E9E00408B8C /* TimerNavigationLinkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerNavigationLinkView.swift; sourceTree = "<group>"; };
+		E2BF1056289173F100408B8C /* TimerPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerPickerView.swift; sourceTree = "<group>"; };
+		E2BF105828917B6000408B8C /* TempMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempMainView.swift; sourceTree = "<group>"; };
+		E2BF105A28917CAC00408B8C /* TimerSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerSettingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -237,9 +244,9 @@
 		58DE103828405C6C002CDB9F /* Kitchen */ = {
 			isa = PBXGroup;
 			children = (
-                10D26713288EF4D20056339A /* RectPreference.swift */,
-                10D26711288EF4C80056339A /* CustomSegmentControlView.swift */,
-                58DE1033283F1A0A002CDB9F /* CustomAlertView.swift */,
+				10D26713288EF4D20056339A /* RectPreference.swift */,
+				10D26711288EF4C80056339A /* CustomSegmentControlView.swift */,
+				58DE1033283F1A0A002CDB9F /* CustomAlertView.swift */,
 				58DE61AE283A8C8B00F25769 /* KitchenView.swift */,
 				58DE101B283CA87F002CDB9F /* SoundCardView.swift */,
 				10D26715288EF4DB0056339A /* StudioView.swift */,
@@ -251,6 +258,7 @@
 		58DE103928405C7F002CDB9F /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				E2BF1055289172C600408B8C /* Timer */,
 				58DE61B8283A937000F25769 /* HomeView.swift */,
 				58DE61BC283E542400F25769 /* MixedSoundCardView.swift */,
 				58DE101F283DD9CA002CDB9F /* Music */,
@@ -349,6 +357,17 @@
 				2150BD0E2876CB89006C8312 /* CustomTabView.swift */,
 			);
 			name = "Recovered References";
+			sourceTree = "<group>";
+		};
+		E2BF1055289172C600408B8C /* Timer */ = {
+			isa = PBXGroup;
+			children = (
+				E2BF105828917B6000408B8C /* TempMainView.swift */,
+				E2BF105328914E9E00408B8C /* TimerNavigationLinkView.swift */,
+				E2BF1056289173F100408B8C /* TimerPickerView.swift */,
+				E2BF105A28917CAC00408B8C /* TimerSettingView.swift */,
+			);
+			path = Timer;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -509,18 +528,21 @@
 				58DE61B2283A8E1700F25769 /* Sound.swift in Sources */,
 				58DE61BD283E542400F25769 /* MixedSoundCardView.swift in Sources */,
 				58DE61C72843100100F25769 /* VolumeControlView.swift in Sources */,
+				E2BF105428914E9E00408B8C /* TimerNavigationLinkView.swift in Sources */,
 				10D26712288EF4C80056339A /* CustomSegmentControlView.swift in Sources */,
 				102CCFFA289101AD00B97F8F /* TestNavigateView.swift in Sources */,
 				58DE61832839C13900F25769 /* LullabyRecipeApp.swift in Sources */,
 				10D26716288EF4DB0056339A /* StudioView.swift in Sources */,
 				4A5769AC2866F20A007CCAE9 /* MixedSound.swift in Sources */,
-				58DE61B4283A8E4500F25769 /* Recipe.swift in Sources */,
 				58DE101C283CA87F002CDB9F /* SoundCardView.swift in Sources */,
 				4A5769AE2866F44E007CCAE9 /* DummyData.swift in Sources */,
 				CC2820482880102400587334 /* ViewModifiers.swift in Sources */,
+				E2BF1057289173F100408B8C /* TimerPickerView.swift in Sources */,
 				58DE101E283DC913002CDB9F /* AudioManager.swift in Sources */,
-                10D26714288EF4D20056339A /* RectPreference.swift in Sources */,
+				10D26714288EF4D20056339A /* RectPreference.swift in Sources */,
+				E2BF105B28917CAC00408B8C /* TimerSettingView.swift in Sources */,
 				58DE1034283F1A0A002CDB9F /* CustomAlertView.swift in Sources */,
+				E2BF105928917B6000408B8C /* TempMainView.swift in Sources */,
 				58DE61B7283A932E00F25769 /* MusicView.swift in Sources */,
 				58DE61B9283A937000F25769 /* HomeView.swift in Sources */,
 			);
@@ -695,7 +717,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"LullabyRecipe/Preview Content\"";
-				DEVELOPMENT_TEAM = QGAQ3AY3R3;
+				DEVELOPMENT_TEAM = JP5BCXZWJP;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LullabyRecipe/Info.plist;
@@ -725,7 +747,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"LullabyRecipe/Preview Content\"";
-				DEVELOPMENT_TEAM = QGAQ3AY3R3;
+				DEVELOPMENT_TEAM = JP5BCXZWJP;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LullabyRecipe/Info.plist;

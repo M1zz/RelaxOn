@@ -28,6 +28,7 @@ struct CustomAlertView: View {
                     .frame(height: 0.7)
                     .foregroundColor(.white)
                     .padding(.horizontal, 20)
+
                 HStack{
                     Button {
                         showingAlert.toggle()
