@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct StudioView: View {
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @State private var select: Int = 0
     @State private var showingAlert = false
     @State private var selectedBaseSound: Sound = Sound(id: 0,
@@ -25,16 +26,17 @@ struct StudioView: View {
                                                            soundType: .natural,
                                                            audioVolume: 0.4,
                                                            imageName: "")
-    @State var userName: String = ""
+    @State private var userName: String = ""
     @State private var textEntered = ""
     
-    @State private var selectedImageNames = (
+    @State private var selectedImageNames: (base: String, melody: String, natural: String) = (
         base: "",
         melody: "",
         natural: ""
     )
+    
     @State private var opacityAnimationValues = [0.0, 0.0, 0.0]
-
+    
     let baseAudioManager = AudioManager()
     let melodyAudioManager = AudioManager()
     let naturalAudioManager = AudioManager()
@@ -72,6 +74,18 @@ struct StudioView: View {
         }
     }
 
+    
+    private func getEncodedData(data: [MixedSound]) -> Data? {
+        do {
+            let encoder = JSONEncoder()
+            let encodedData = try encoder.encode(data)
+            return encodedData
+        } catch {
+            print("Unable to Encode Note (\(error))")
+        }
+        return nil
+    }
+    
     @ViewBuilder
     func SoundSelectView(sectionTitle: String,
                          soundType: SoundType) -> some View {

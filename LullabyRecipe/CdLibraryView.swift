@@ -21,25 +21,18 @@ struct CdLibraryView: View {
     
     var body: some View {
         NavigationView {
+            
             VStack {
-                switch selected {
-                case .home:
-                    HomeView(userName: $userName,
-                         selected: $selected)
-                case .kitchen:
-                    KitchenView(selected: $selected)
-                }
+                // MARK: TimerNavigationView를 위한 자리
+                TimerNavigationLinkView()
+                Divider()
+                    .padding(.horizontal)
+                CDListView()
                 Spacer()
-                CustomTabView(selected: $selected)
-                    
             }
             .navigationBarTitle("")
             .navigationBarHidden(true)
             .navigationBarBackButtonHidden(true)
-            .padding(.horizontal, viewHorizontalPadding)
-            .background(ColorPalette.background.color,
-                        ignoresSafeAreaEdges: .all)
-            .edgesIgnoringSafeArea(.bottom)
         }
         .onAppear() {
             let notFirstVisit = UserDefaultsManager.shared.standard.bool(forKey: UserDefaultsManager.shared.notFirstVisit)
