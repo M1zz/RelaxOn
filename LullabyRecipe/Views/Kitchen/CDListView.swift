@@ -9,6 +9,14 @@ import SwiftUI
 
 struct CDListView: View {
     
+    @State var goToPreviousView: Bool = false
+    @State var userRepositoriesState: [MixedSound] = userRepositories
+    @State var selectedImageNames = (
+        base: "",
+        melody: "",
+        natural: ""
+    )
+    
     var body: some View {
         
         VStack {
@@ -16,18 +24,40 @@ struct CDListView: View {
             
             ScrollView(.vertical, showsIndicators: false) {
                 LazyVGrid(columns: Array(repeating: GridItem(.flexible(),spacing: 10), count: 2), spacing: 20) {
-                    
-                    ForEach(0..<10){ idx in
-                        if idx == 0 {
-                            plusCDImage
-                        } else {
-                            cdImageView
-                        }
+                    plusCDImage
+                    ForEach(userRepositoriesState){ mixedSound in
+                        CDCardView(data: mixedSound, audioVolumes: (baseVolume: mixedSound.baseSound?.audioVolume ?? 1.0, melodyVolume: mixedSound.melodySound?.audioVolume ?? 1.0, naturalVolume: mixedSound.naturalSound?.audioVolume ?? 1.0))
                     }
                 }
             }
         }
         .padding()
+        .onAppear {
+            if let data = UserDefaultsManager.shared.standard.data(forKey: UserDefaultsManager.shared.recipes) {
+                do {
+                    let decoder = JSONDecoder()
+                    userRepositories = try decoder.decode([MixedSound].self, from: data)
+                    print("help : \(userRepositories)")
+                    userRepositoriesState = userRepositories
+                } catch {
+                    print("Unable to Decode Note (\(error))")
+                }
+            }
+        }
+        .onChange(of: userRepositories) { newValue in
+            if let data = UserDefaultsManager.shared.standard.data(forKey: UserDefaultsManager.shared.recipes) {
+                do {
+                    let decoder = JSONDecoder()
+
+                    userRepositories = try decoder.decode([MixedSound].self, from: data)
+                    userRepositoriesState = userRepositories
+                    print("help : \(userRepositories)")
+
+                } catch {
+                    print("Unable to Decode Note (\(error))")
+                }
+            }
+        }
         
     }
     
@@ -50,7 +80,7 @@ struct CDListView: View {
     
     var plusCDImage: some View {
         VStack(alignment: .leading) {
-            NavigationLink(destination: StudioView()) {
+            NavigationLink(destination: StudioView(selectedImageNames: $selectedImageNames)) {
                 VStack {
                     Image(systemName: "plus")
                         .font(Font.system(size: 70, weight: .ultraLight))
@@ -61,15 +91,6 @@ struct CDListView: View {
             .buttonStyle(.plain)
             
             Text("Studio")
-        }
-    }
-    
-    var cdImageView: some View {
-        VStack(alignment: .leading) {
-            Image("Ambient")
-                .resizable()
-                .frame(width: UIScreen.main.bounds.width * 0.43, height: UIScreen.main.bounds.width * 0.43)
-            Text("Name")
         }
     }
 }

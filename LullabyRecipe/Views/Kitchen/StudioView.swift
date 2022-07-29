@@ -8,41 +8,61 @@
 import SwiftUI
 
 struct StudioView: View {
-    @State private var select: Int = 0
-    @State private var showingAlert = false
-    @State private var selectedBaseSound: Sound = Sound(id: 0,
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @State var select: Int = 0
+    @State var showingAlert = false
+    @State var selectedBaseSound: Sound = Sound(id: 0,
                                                         name: "",
                                                         soundType: .base,
                                                         audioVolume: 0.8,
                                                         imageName: "")
-    @State private var selectedMelodySound: Sound = Sound(id: 10,
+    @State var selectedMelodySound: Sound = Sound(id: 10,
                                                           name: "",
                                                           soundType: .melody,
                                                           audioVolume: 1.0,
                                                           imageName: "")
-    @State private var selectedNaturalSound: Sound = Sound(id: 20,
+    @State var selectedNaturalSound: Sound = Sound(id: 20,
                                                            name: "",
                                                            soundType: .natural,
                                                            audioVolume: 0.4,
                                                            imageName: "")
     @State var userName: String = ""
-    @State private var textEntered = ""
+    @State var textEntered = ""
     
-    @State private var selectedImageNames = (
-        base: "",
-        melody: "",
-        natural: ""
-    )
-    @State private var opacityAnimationValues = [0.0, 0.0, 0.0]
+    @Binding var selectedImageNames: (base: String, melody: String, natural: String)
+    
+    @State var opacityAnimationValues = [0.0, 0.0, 0.0]
 
     let baseAudioManager = AudioManager()
     let melodyAudioManager = AudioManager()
     let naturalAudioManager = AudioManager()
 
-    private var items = ["BASE", "MELODY", "NATURAL"]
+    var items = ["BASE", "MELODY", "NATURAL"]
     var body: some View {
         VStack {
             SelectImage()
+            Button {
+                let newSound = MixedSound(id: userRepositories.count,
+                                          name: textEntered,
+                                          baseSound: selectedBaseSound,
+                                          melodySound: selectedMelodySound,
+                                          naturalSound: selectedNaturalSound,
+                                          imageName: recipeRandomName.randomElement()!)
+                userRepositories.append(newSound)
+                
+                let data = getEncodedData(data: userRepositories)
+                UserDefaultsManager.shared.standard.set(data, forKey: UserDefaultsManager.shared.recipes)
+                self.presentationMode.wrappedValue.dismiss()
+            } label: {
+                Text("blend")
+                    .bold()
+                    .frame(minWidth: 0,
+                           maxWidth: .infinity,
+                           maxHeight: 50)
+                    .background(ColorPalette.buttonBackground.color)
+                    .foregroundColor(.white)
+                    .cornerRadius(12)
+            }
             CustomSegmentControlView(items: items, selection: $select)
             switch select {
             case 1:
@@ -58,6 +78,18 @@ struct StudioView: View {
         }
     }
 
+    
+    private func getEncodedData(data: [MixedSound]) -> Data? {
+        do {
+            let encoder = JSONEncoder()
+            let encodedData = try encoder.encode(data)
+            return encodedData
+        } catch {
+            print("Unable to Encode Note (\(error))")
+        }
+        return nil
+    }
+    
     @ViewBuilder
     func SoundSelectView(sectionTitle: String,
                          soundType: SoundType) -> some View {
@@ -163,6 +195,10 @@ struct StudioView: View {
 
 struct StudioView_Previews: PreviewProvider {
     static var previews: some View {
-        StudioView()
+        StudioView(selectedImageNames: .constant((
+                base: "",
+                melody: "",
+                natural: ""
+            )))
     }
 }
