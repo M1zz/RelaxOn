@@ -16,20 +16,20 @@ struct MixedSoundCardView: View {
     @State var showingActionSheet: Bool = false
     
     @State var audioVolumes: (baseVolume: Float, melodyVolume: Float, naturalVolume: Float)
-
+    
     var body : some View {
         ZStack {
             NavigationLink(destination: MusicView(data: data, audioVolumes: $audioVolumes),
                            isActive: $show) {
                 Text("")
             }
-
+            
             VStack(alignment: .leading, spacing: 10) {
                 Image(data.imageName)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .cornerRadius(10)
-
+                
                 Text(data.name)
                     .fontWeight(.semibold)
                     .font(Font.system(size: 17))
@@ -55,8 +55,9 @@ struct MixedSoundCardView: View {
                 .offset(y: -14)
             }
         }
-        .confirmationDialog("Are you sure?",
-          isPresented: $showingActionSheet) {
+        .confirmationDialog(Text("Are you sure?"),
+                            isPresented: $showingActionSheet,
+                            titleVisibility: .visible) {
             Button("Delete items", role: .destructive) {
                 hasEdited.toggle()
                 userRepositories.remove(at: data.id)
@@ -67,7 +68,7 @@ struct MixedSoundCardView: View {
                 hasEdited.toggle()
             }
         } message: {
-          Text("This item will be deleted. This action cannot be undone.")
+            Text("This item will be deleted. This action cannot be undone.")
         }
     }
     
@@ -86,8 +87,8 @@ struct MixedSoundCardView: View {
 struct MixedSoundCardView_Previews: PreviewProvider {
     static var previews: some View {
         let dummyMixedSound = dummyMixedSound
-//        MixedSoundCard(data: dummyMixedSound,
-//                       selectedID: "", hasEdited: .constant(false))
-//        .background(ColorPalette.background.color)
+        //        MixedSoundCard(data: dummyMixedSound,
+        //                       selectedID: "", hasEdited: .constant(false))
+        //        .background(ColorPalette.background.color)
     }
 }
