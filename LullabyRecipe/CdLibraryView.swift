@@ -33,27 +33,6 @@ struct CdLibraryView: View {
             .navigationBarTitle("")
             .navigationBarHidden(true)
             .navigationBarBackButtonHidden(true)
-            
-            // MARK: 탭뷰 전환 주석 코드 -> 없어질 예정
-//            VStack {
-//                switch selected {
-//                case .home:
-//                    HomeView(userName: $userName,
-//                         selected: $selected)
-//                case .kitchen:
-//                    KitchenView(selected: $selected)
-//                }
-//                Spacer()
-//                CustomTabView(selected: $selected)
-//
-//            }
-//            .navigationBarTitle("")
-//            .navigationBarHidden(true)
-//            .navigationBarBackButtonHidden(true)
-//            .padding(.horizontal, viewHorizontalPadding)
-//            .background(ColorPalette.background.color,
-//                        ignoresSafeAreaEdges: .all)
-//            .edgesIgnoringSafeArea(.bottom)
         }
         .onAppear() {
             let notFirstVisit = UserDefaultsManager.shared.standard.bool(forKey: UserDefaultsManager.shared.notFirstVisit)

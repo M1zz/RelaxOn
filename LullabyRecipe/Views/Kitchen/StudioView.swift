@@ -29,12 +29,11 @@ struct StudioView: View {
     @State private var userName: String = ""
     @State private var textEntered = ""
     
-    @Binding var selectedImageNames: (base: String, melody: String, natural: String)
-    
-    init(selectedImageNames: Binding<(base: String, melody: String, natural: String)>) {
-
-        self._selectedImageNames = selectedImageNames
-    }
+    @State private var selectedImageNames: (base: String, melody: String, natural: String) = (
+        base: "",
+        melody: "",
+        natural: ""
+    )
     
     @State private var opacityAnimationValues = [0.0, 0.0, 0.0]
     
@@ -200,10 +199,6 @@ struct StudioView: View {
 
 struct StudioView_Previews: PreviewProvider {
     static var previews: some View {
-        StudioView(selectedImageNames: .constant((
-                base: "",
-                melody: "",
-                natural: ""
-            )))
+        StudioView()
     }
 }
