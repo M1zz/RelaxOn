@@ -49,6 +49,9 @@
 		58DE61C22841C20A00F25769 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 58DE61C12841C20A00F25769 /* Launch Screen.storyboard */; };
 		58DE61C52841C54700F25769 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61C42841C54700F25769 /* OnboardingView.swift */; };
 		58DE61C72843100100F25769 /* VolumeControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61C62843100100F25769 /* VolumeControlView.swift */; };
+		CBC0A88D28967F6E0049BA25 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = CBC0A88C28967F6E0049BA25 /* FirebaseStorage */; };
+		CBC0A88F28967F790049BA25 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CBC0A88E28967F790049BA25 /* GoogleService-Info.plist */; };
+		CBC0A89128967F870049BA25 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC0A89028967F870049BA25 /* FirebaseManager.swift */; };
 		CC2820482880102400587334 /* ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC2820472880102400587334 /* ViewModifiers.swift */; };
 		CCA7F51E2877501E00D6A239 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CCA7F5202877501E00D6A239 /* Localizable.strings */; };
 		E2BF105428914E9E00408B8C /* TimerNavigationLinkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2BF105328914E9E00408B8C /* TimerNavigationLinkView.swift */; };
@@ -102,6 +105,8 @@
 		58DE61C12841C20A00F25769 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		58DE61C42841C54700F25769 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OnboardingView.swift; path = RelaxOn/Views/Onboarding/OnboardingView.swift; sourceTree = SOURCE_ROOT; };
 		58DE61C62843100100F25769 /* VolumeControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeControlView.swift; sourceTree = "<group>"; };
+		CBC0A88E28967F790049BA25 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		CBC0A89028967F870049BA25 /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		CC2820472880102400587334 /* ViewModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModifiers.swift; sourceTree = "<group>"; };
 		CCA7F51F2877501E00D6A239 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CCA7F5212877504200D6A239 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -117,6 +122,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CBC0A88D28967F6E0049BA25 /* FirebaseStorage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -202,6 +208,7 @@
 			children = (
 				58DE101D283DC913002CDB9F /* AudioManager.swift */,
 				4A5769AF2866F6B5007CCAE9 /* UserDefaultsManager.swift */,
+				CBC0A89028967F870049BA25 /* FirebaseManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -254,6 +261,7 @@
 			isa = PBXGroup;
 			children = (
 				58DE61BE283E77E700F25769 /* Info.plist */,
+				CBC0A88E28967F790049BA25 /* GoogleService-Info.plist */,
 				58DE1030283DF6DA002CDB9F /* Utilities */,
 				58DE1022283DF536002CDB9F /* Resource */,
 				58DE61842839C13900F25769 /* CdLibraryView.swift */,
@@ -332,6 +340,9 @@
 			dependencies = (
 			);
 			name = RelaxOn;
+			packageProductDependencies = (
+				CBC0A88C28967F6E0049BA25 /* FirebaseStorage */,
+			);
 			productName = LullabyRecipe;
 			productReference = 58DE617F2839C13900F25769 /* RelaxOn.app */;
 			productType = "com.apple.product-type.application";
@@ -361,6 +372,9 @@
 				ko,
 			);
 			mainGroup = 58DE61762839C13900F25769;
+			packageReferences = (
+				CBC0A88B28967F6E0049BA25 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			productRefGroup = 58DE61802839C13900F25769 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -392,6 +406,7 @@
 				580CADB028659CF50091946C /* SpaceLow.mp3 in Resources */,
 				580CADC32865A3850091946C /* Stream.mp3 in Resources */,
 				CCA7F51E2877501E00D6A239 /* Localizable.strings in Resources */,
+				CBC0A88F28967F790049BA25 /* GoogleService-Info.plist in Resources */,
 				580CADB128659CF50091946C /* SpaceHigh.mp3 in Resources */,
 				580CADC22865A3850091946C /* DryGrass.mp3 in Resources */,
 			);
@@ -416,6 +431,7 @@
 				58DE61C72843100100F25769 /* VolumeControlView.swift in Sources */,
 				E2BF105428914E9E00408B8C /* TimerNavigationLinkView.swift in Sources */,
 				10D26712288EF4C80056339A /* CustomSegmentControlView.swift in Sources */,
+				CBC0A89128967F870049BA25 /* FirebaseManager.swift in Sources */,
 				102CCFFA289101AD00B97F8F /* TestNavigateView.swift in Sources */,
 				58DE61832839C13900F25769 /* RelaxOnApp.swift in Sources */,
 				21D3ED972892781D006E871F /* CustomTabView.swift in Sources */,
@@ -649,6 +665,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		CBC0A88B28967F6E0049BA25 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		CBC0A88C28967F6E0049BA25 /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CBC0A88B28967F6E0049BA25 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 58DE61772839C13900F25769 /* Project object */;
 }
