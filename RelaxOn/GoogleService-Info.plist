@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>592466174965-udcpnf2v19b7kh7m7eqjaqfiphrnrecn.apps.googleusercontent.com</string>
+	<string>592466174965-rp59gi0usufdr2rcs3g9aue39o0oi1ai.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.592466174965-udcpnf2v19b7kh7m7eqjaqfiphrnrecn</string>
+	<string>com.googleusercontent.apps.592466174965-rp59gi0usufdr2rcs3g9aue39o0oi1ai</string>
 	<key>API_KEY</key>
 	<string>AIzaSyB44CrmwtLVYqqBC2imqoSUli1smgNjHAo</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.leeo.LullabyRecipe</string>
+	<string>com.leeo.RelaxOn</string>
 	<key>PROJECT_ID</key>
 	<string>lullabyrecipe-6f8d2</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:592466174965:ios:d1d3489c4d89d88342b6bc</string>
+	<string>1:592466174965:ios:65020bc44d3f3a0942b6bc</string>
 </dict>
 </plist>

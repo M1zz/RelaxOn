@@ -92,6 +92,11 @@ struct StudioView: View {
         VStack(spacing: 15) {
             HStack {
                 Text("볼륨조절 컴포넌트")
+                Button {
+                    getMaterial()
+                } label: {
+                    Text("Show details")
+                }
             }
             ScrollView(.vertical,
                        showsIndicators: false) {
@@ -108,6 +113,8 @@ struct StudioView: View {
                                 
                                 opacityAnimationValues[0] = 0.0
                             } else {
+                                print("Selected material: ", selectedBaseSound)
+                                
                                 baseAudioManager.startPlayer(track: selectedBaseSound.name)
                                 
                                 selectedImageNames.base = selectedBaseSound.imageName
@@ -201,6 +208,11 @@ struct StudioView: View {
             Text("Mix")
                 .foregroundColor( ($selectedBaseSound.id == 0 && $selectedMelodySound.id == 10 && $selectedNaturalSound.id == 20) ? Color.gray : Color.black )
         }.disabled( ($selectedBaseSound.id == 0 && $selectedMelodySound.id == 10 && $selectedNaturalSound.id == 20) ? true : false )
+    }
+    
+    private func getMaterial() {
+        print("get")
+        FirebaseManager.shared.getSound(resource: "Base", name: "Oxygen")
     }
 }
 
