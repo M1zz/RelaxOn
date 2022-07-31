@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct TimerSettingView: View {
-    // TODO: @State var를 타이머 뷰모델로 교체 예정
-    @State var seconds: Double = 0
 
+    @State var seconds: Double = 0
+    var timerManager = TimerManager.shared
+    
     var body: some View {
         VStack {
             Spacer()
@@ -40,7 +41,7 @@ extension TimerSettingView {
     @ViewBuilder
     func timerSettingButton() -> some View {
         Button {
-        // TODO: 타이머 모델에 값 넣는 함수 넣기
+            timerManager.start(countDownDuration: seconds)
         } label: {
             Text("타이머 설정하기")
                 .font(.system(size: 17, weight: .medium))
