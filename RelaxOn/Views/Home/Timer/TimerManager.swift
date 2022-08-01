@@ -14,30 +14,20 @@ class TimerManager: ObservableObject {
     @Published var musicTimer = MusicTimer()
     
     init() {
-        print("timer init")
         Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
             if self.musicTimer.timerOn {
                 if !self.musicTimer.timerStop {
                     self.countDown()
                 }
-                print("남은 시간 \(self.musicTimer.remainedSecond)")
             } else {
+                // TODO: 음악 종료 함수 추가
                 print("음악 종료")
             }
         }
     }
         
     var isOn: Bool {musicTimer.timerOn}
-    
-    /// 남은 시간 0이 될 경우
-    func isShutDown() -> Bool {
-        if getRemainedSecond() == 0 {
-            return true
-        } else {
-            return false
-        }
-    }
-    
+        
     /// 1초씩 감소
     func countDown() {
         if musicTimer.remainedSecond > 0 {
