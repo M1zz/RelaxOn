@@ -29,17 +29,17 @@ class FirebaseManager: NSObject {
             if let error = error {
                 print(error.self)
             } else {
-                self.saveSound(resource: resource, name: name, audioUrl: url!)
+                self.saveSound(name: name, audioUrl: url!)
             }
         }
     }
     
-    func saveSound(resource: String, name: String, audioUrl: URL) {
+    func saveSound(name: String, audioUrl: URL) {
         // then lets create your document folder url
         let documentsDirectoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
 
         // lets create your destination file url
-        let destinationUrl = documentsDirectoryURL.appendingPathComponent("(resource)Sound")
+        let destinationUrl = documentsDirectoryURL.appendingPathComponent(name)
         print(destinationUrl)
 
         // to check if it exists before downloading it
