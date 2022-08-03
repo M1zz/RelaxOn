@@ -16,7 +16,10 @@ final class AudioManager {
     }
     
     private func getPathUrl(forResource: String, musicExtension: MusicExtension) -> URL? {
-        Bundle.main.url(forResource: forResource, withExtension: musicExtension.rawValue) ?? nil
+        let documentsDirectoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let destinationUrl = documentsDirectoryURL.appendingPathComponent(forResource)
+        
+        return destinationUrl
     }
     
     func startPlayer(track: String, volume: Float? = 1.0) {

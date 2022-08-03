@@ -108,6 +108,10 @@ struct StudioView: View {
                                 
                                 opacityAnimationValues[0] = 0.0
                             } else {
+                                print("Selected material: ", selectedBaseSound)
+                                
+                                FirebaseManager.shared.getSound(resource: "Base", name: selectedBaseSound.name)
+                                
                                 baseAudioManager.startPlayer(track: selectedBaseSound.name)
                                 
                                 selectedImageNames.base = selectedBaseSound.imageName
@@ -124,6 +128,8 @@ struct StudioView: View {
                                 
                                 opacityAnimationValues[2] = 0.0
                             } else {
+                                FirebaseManager.shared.getSound(resource: "Natural", name: selectedNaturalSound.name)
+                                
                                 naturalAudioManager.startPlayer(track: selectedNaturalSound.name)
                                 
                                 selectedImageNames.natural = selectedNaturalSound.imageName
@@ -141,6 +147,8 @@ struct StudioView: View {
                                 
                                 opacityAnimationValues[1] = 0.0
                             } else {
+                                FirebaseManager.shared.getSound(resource: "Melody", name: selectedMelodySound.name)
+                                
                                 melodyAudioManager.startPlayer(track: selectedMelodySound.name)
                                 
                                 selectedImageNames.melody = selectedMelodySound.imageName
