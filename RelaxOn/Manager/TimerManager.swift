@@ -7,11 +7,11 @@
 
 import Foundation
 
-final class TimerManager: ObservableObject {
+final class TimerManager {
     
     static let shared = TimerManager()
     
-    @Published var musicTimer = MusicTimer()
+    var musicTimer = MusicTimer()
     
     init() {
         Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
@@ -21,7 +21,6 @@ final class TimerManager: ObservableObject {
                 }
             } else {
                 // TODO: 음악 종료 함수 추가
-                print("음악 종료")
             }
         }
     }
