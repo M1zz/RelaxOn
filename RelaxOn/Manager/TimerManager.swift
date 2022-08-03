@@ -7,7 +7,7 @@
 
 import Foundation
 
-class TimerManager: ObservableObject {
+final class TimerManager: ObservableObject {
     
     static let shared = TimerManager()
     
