@@ -30,6 +30,7 @@ struct CDCardView: View {
                 }
             }
             Text(data.name)
+                .font(.system(size: 17, weight: .regular))
         }
     }
 }
