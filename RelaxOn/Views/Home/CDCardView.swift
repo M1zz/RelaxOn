@@ -28,9 +28,11 @@ struct CDCardView: View {
                         .opacity(0.5)
                         .frame(width: UIScreen.main.bounds.width * 0.43, height: UIScreen.main.bounds.width * 0.43)
                 }
+                .cornerRadius(4)
             }
             Text(data.name)
                 .font(.system(size: 17, weight: .regular))
+                .foregroundColor(.systemGrey1)
         }
     }
 }

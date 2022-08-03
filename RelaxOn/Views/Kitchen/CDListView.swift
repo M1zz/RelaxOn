@@ -21,7 +21,7 @@ struct CDListView: View {
             libraryHeader
             
             ScrollView(.vertical, showsIndicators: false) {
-                LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 10, alignment: .top), count: 2), spacing: 20) {
+                LazyVGrid(columns: Array(repeating: GridItem(.flexible(), alignment: .top), count: 2), spacing: 18) {
                     plusCDImage
                     ForEach(userRepositoriesState.reversed()){ mixedSound in
                         CDCardView(data: mixedSound, audioVolumes: (baseVolume: mixedSound.baseSound?.audioVolume ?? 1.0, melodyVolume: mixedSound.melodySound?.audioVolume ?? 1.0, naturalVolume: mixedSound.naturalSound?.audioVolume ?? 1.0))
@@ -63,6 +63,7 @@ struct CDListView: View {
         HStack {
             Text("CD Library".uppercased())
                 .font(.system(size: 28, weight: .semibold))
+                .foregroundColor(.systemGrey1)
                 
             Spacer()
             
@@ -70,7 +71,7 @@ struct CDListView: View {
                 
             }) {
                 Text("Edit")
-                    .foregroundColor(Color.gray)
+                    .foregroundColor(.relaxDimPurple)
                     .font(.system(size: 16, weight: .regular))
             }
         }
@@ -84,11 +85,12 @@ struct CDListView: View {
                         Image(systemName: "plus")
                             .font(Font.system(size: 54, weight: .ultraLight))
                     }
-                    .frame(width: UIScreen.main.bounds.width * 0.43, height: UIScreen.main.bounds.width * 0.43)
                     
                     RoundedRectangle(cornerRadius: 4)
                         .strokeBorder()
                 }
+                .frame(width: UIScreen.main.bounds.width * 0.43, height: UIScreen.main.bounds.width * 0.43)
+                .foregroundColor(.systemGrey3)
             }
             .buttonStyle(.plain)
         }

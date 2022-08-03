@@ -23,12 +23,11 @@ struct CdLibraryView: View {
         NavigationView {
             VStack {
                 TimerNavigationLinkView()
-                    .padding(.top, 70)
-                Divider()
-                    .padding(.horizontal)
+                    .padding(.top, 56)
                 CDListView()
                 Spacer()
             }
+            .background(Color.relaxBlack)
             .navigationBarTitle("")
             .navigationBarHidden(true)
             .navigationBarBackButtonHidden(true)
