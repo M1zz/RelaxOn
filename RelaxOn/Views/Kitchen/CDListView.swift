@@ -18,6 +18,7 @@ struct CDListView: View {
     )
     @State var isEditMode = false
     @State var selectedMixedSoundIds: [Int] = []
+    @State var showingActionSheet = false
     
     var body: some View {
         
@@ -85,7 +86,34 @@ struct CDListView: View {
                 }
             }
         }
-        
+        .confirmationDialog("Are you sure?",
+                            isPresented: $showingActionSheet) {
+            Button("Delete \(selectedMixedSoundIds.count) CDs", role: .destructive) {
+                selectedMixedSoundIds.forEach { id in
+                    if let index = userRepositories.firstIndex(where: {$0.id == id}) {
+                        userRepositories.remove(at: index)
+                    }
+                }
+                let data = getEncodedData(data: userRepositories)
+                UserDefaults.standard.set(data, forKey: "recipes")
+                selectedMixedSoundIds = []
+                isEditMode = false
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("These CDs will be deleted from your library")
+        }
+    }
+    
+    private func getEncodedData(data: [MixedSound]) -> Data? {
+        do {
+            let encoder = JSONEncoder()
+            let encodedData = try encoder.encode(data)
+            return encodedData
+        } catch {
+            print("Unable to Encode Note (\(error))")
+        }
+        return nil
     }
     
     var libraryHeader: some View {
@@ -99,8 +127,7 @@ struct CDListView: View {
                 if selectedMixedSoundIds.isEmpty {
                     isEditMode.toggle()
                 } else {
-                    print("hello")
-                    print(selectedMixedSoundIds)
+                    showingActionSheet = true
                 }
             }) {
                 if selectedMixedSoundIds.isEmpty {
