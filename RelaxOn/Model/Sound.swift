@@ -138,3 +138,5 @@ var naturalSound: Sound = Sound(id: 6,
 
 var mixedAudioSources: [Sound] = []
 var userRepositories: [MixedSound] = []
+
+var mixedSoundList: [MixedSound] = []
