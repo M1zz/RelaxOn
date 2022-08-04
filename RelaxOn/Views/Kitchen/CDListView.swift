@@ -76,7 +76,6 @@ struct CDListView: View {
             if let data = UserDefaultsManager.shared.standard.data(forKey: UserDefaultsManager.shared.recipes) {
                 do {
                     let decoder = JSONDecoder()
-
                     userRepositories = try decoder.decode([MixedSound].self, from: data)
                     userRepositoriesState = userRepositories
                     print("help : \(userRepositories)")
@@ -170,47 +169,10 @@ extension CDListView {
 }
 
 struct CDListView_Previews: PreviewProvider {
-    struct dummy {
-        static let MixedSound1 = MixedSound(id: 0,
-                                         name: "test",
-                                         baseSound: dummyBaseSound,
-                                         melodySound: dummyMelodySound,
-                                         naturalSound: dummyNaturalSound,
-                                         imageName: "Recipe1")
-        
-        static let MixedSound2 = MixedSound(id: 1,
-                                         name: "test2",
-                                         baseSound: dummyBaseSound,
-                                         melodySound: dummyMelodySound,
-                                         naturalSound: dummyNaturalSound,
-                                         imageName: "Recipe2")
-        
-        static let MixedSound3 = MixedSound(id: 2,
-                                         name: "test3",
-                                         baseSound: dummyBaseSound,
-                                         melodySound: dummyMelodySound,
-                                         naturalSound: dummyNaturalSound,
-                                         imageName: "Recipe3")
-        
-        static let dummyBaseSound = Sound(id: 0,
-                                   name: BaseAudioName.longSun.fileName,
-                                   soundType: .base,
-                                   audioVolume: 0.8,
-                                   imageName: "LongSun")
-
-        static let dummyMelodySound = Sound(id: 2,
-                                     name: MelodyAudioName.ambient.fileName,
-                                     soundType: .melody,
-                                     audioVolume: 1.0,
-                                     imageName: "Melody1")
-
-        static let dummyNaturalSound = Sound(id: 6,
-                                      name: NaturalAudioName.dryGrass.fileName,
-                                      soundType: .natural,
-                                      audioVolume: 0.4,
-                                      imageName: "field")
-    }
     static var previews: some View {
-        CDListView(userRepositoriesState: [dummy.MixedSound1, dummy.MixedSound2, dummy.MixedSound3])
+        NavigationView {
+            CDListView(userRepositoriesState: [dummyMixedSound, dummyMixedSound1, dummyMixedSound2, dummyMixedSound3])
+                .navigationBarHidden(true)
+        }
     }
 }
