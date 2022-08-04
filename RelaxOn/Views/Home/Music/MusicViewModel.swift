@@ -44,6 +44,12 @@ final class MusicViewModel: NSObject, ObservableObject {
             naturalAudioManager.playPause()
     }
     
+    func stop() {
+        baseAudioManager.stop()
+        melodyAudioManager.stop()
+        naturalAudioManager.stop()
+    }
+    
     func startPlayer() {
         baseAudioManager.startPlayer(track: mixedSound?.baseSound?.name ?? "base_default", volume: mixedSound?.baseSound?.audioVolume ?? 0.8)
         melodyAudioManager.startPlayer(track: mixedSound?.melodySound?.name ?? "base_default", volume: mixedSound?.melodySound?.audioVolume ?? 0.8)

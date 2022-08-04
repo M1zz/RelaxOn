@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import MediaPlayer
 
 enum SelectedType: String {
     case home = "Home"
@@ -37,6 +38,14 @@ struct CdLibraryView: View {
         .onAppear() {
             let notFirstVisit = UserDefaultsManager.shared.standard.bool(forKey: UserDefaultsManager.shared.notFirstVisit)
             showOnboarding = notFirstVisit ? false : true
+            
+            let session = AVAudioSession.sharedInstance()
+               do{
+                   try session.setActive(true)
+                   try session.setCategory(.playback, mode: .default,  options: .defaultToSpeaker)
+               } catch{
+                   print(error.localizedDescription)
+               }
         }
         .fullScreenCover(isPresented: $showOnboarding, content: {
             OnboardingView(showOnboarding: $showOnboarding)
