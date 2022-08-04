@@ -13,11 +13,11 @@ final class MusicViewModel: NSObject, ObservableObject {
     @Published var baseAudioManager = AudioManager()
     @Published var melodyAudioManager = AudioManager()
     @Published var naturalAudioManager = AudioManager()
-    @Published var isPlaying: Bool = false
+    @Published var isPlaying: Bool = true
     
     @Published var mixedSound: MixedSound? {
         didSet {
-            play()
+            startPlayer()
         }
     }
     
@@ -35,30 +35,19 @@ final class MusicViewModel: NSObject, ObservableObject {
         mixedSound = data
         guard let mixedSound = mixedSound else { return }
         self.setupremoteCommandCenter()
-        self.setupremoteCommandInfoCenter(mixedSound: mixedSound)
+        self.setupRemoteCommandInfoCenter(mixedSound: mixedSound)
     }
     
-    func play() {
-        if isPlaying {
+    func playPause() {
             baseAudioManager.playPause()
             melodyAudioManager.playPause()
             naturalAudioManager.playPause()
-            //            MPNowPlayingInfoCenter.default().nowPlayingInfo?[MPNowPlayingInfoPropertyPlaybackRate] = 0
-        } else {
-            // play 할 때 mixedSound 볼륨 적용 시도
-            baseAudioManager.startPlayer(track: mixedSound?.baseSound?.name ?? "base_default", volume: mixedSound?.baseSound?.audioVolume ?? 0.8)
-            melodyAudioManager.startPlayer(track: mixedSound?.melodySound?.name ?? "base_default", volume: mixedSound?.melodySound?.audioVolume ?? 0.8)
-            naturalAudioManager.startPlayer(track: mixedSound?.naturalSound?.name ?? "base_default", volume: mixedSound?.naturalSound?.audioVolume ?? 0.8)
-            //            MPNowPlayingInfoCenter.default().nowPlayingInfo?[MPNowPlayingInfoPropertyPlaybackRate] = 1
-        }
     }
     
-    func stop() {
-        if isPlaying {
-            baseAudioManager.stop()
-            melodyAudioManager.stop()
-            naturalAudioManager.stop()
-        }
+    func startPlayer() {
+        baseAudioManager.startPlayer(track: mixedSound?.baseSound?.name ?? "base_default", volume: mixedSound?.baseSound?.audioVolume ?? 0.8)
+        melodyAudioManager.startPlayer(track: mixedSound?.melodySound?.name ?? "base_default", volume: mixedSound?.melodySound?.audioVolume ?? 0.8)
+        naturalAudioManager.startPlayer(track: mixedSound?.naturalSound?.name ?? "base_default", volume: mixedSound?.naturalSound?.audioVolume ?? 0.8)
     }
     
     func setupremoteCommandCenter() {
@@ -69,26 +58,20 @@ final class MusicViewModel: NSObject, ObservableObject {
         center.pauseCommand.removeTarget(nil) // -> 왜 있는 걸까
         center.playCommand.addTarget { commandEvent -> MPRemoteCommandHandlerStatus in
             self.isPlaying = true
-            self.play()
-            MPNowPlayingInfoCenter.default().nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime] = NSNumber(value: self.baseAudioManager.player?.currentTime ?? 0.0)
-            // 재생 할 땐 now playing item의 rate를 1로 설정하여 시간이 흐르도록 합니다.
-            MPNowPlayingInfoCenter.default().nowPlayingInfo?[MPNowPlayingInfoPropertyPlaybackRate] = 1
+            self.playPause()
             return .success
         }
         
         center.pauseCommand.addTarget { commandEvent -> MPRemoteCommandHandlerStatus in
-            self.isPlaying = true
-            self.play()
-            MPNowPlayingInfoCenter.default().nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime] = NSNumber(value: self.baseAudioManager.player?.currentTime ?? 0.0)
-            // 일시정지 할 땐 now playing item의 rate를 0으로 설정하여 시간이 흐르지 않도록 합니다.
-            MPNowPlayingInfoCenter.default().nowPlayingInfo?[MPNowPlayingInfoPropertyPlaybackRate] = 0
+            self.isPlaying = false
+            self.playPause()
             return .success
         }
         center.playCommand.isEnabled = true
         center.pauseCommand.isEnabled = true
     }
     
-    func setupremoteCommandInfoCenter(mixedSound: MixedSound) {
+    func setupRemoteCommandInfoCenter(mixedSound: MixedSound) {
         let center = MPNowPlayingInfoCenter.default()
         let remoteCenter = MPRemoteCommandCenter.shared()
         var nowPlayingInfo = center.nowPlayingInfo ?? [String: Any]()
@@ -100,7 +83,7 @@ final class MusicViewModel: NSObject, ObservableObject {
         }
         
         remoteCenter.previousTrackCommand.addTarget { MPRemoteCommandEvent in
-            self.setupPreveiousTrack(mixedSound: mixedSound)
+            self.setupPreviousTrack(mixedSound: mixedSound)
             return .success
         }
         
@@ -124,24 +107,24 @@ final class MusicViewModel: NSObject, ObservableObject {
         if id == count - 1 {
             guard let firstSong = mixedSoundList.first else { return }
             self.mixedSound = firstSong
-            self.setupremoteCommandInfoCenter(mixedSound: firstSong)
+            self.setupRemoteCommandInfoCenter(mixedSound: firstSong)
         } else {
             let nextSong = mixedSoundList[ mixedSoundList.firstIndex { $0.id == id + 1} ?? 0 ]
             self.mixedSound = nextSong
-            self.setupremoteCommandInfoCenter(mixedSound: nextSong)
+            self.setupRemoteCommandInfoCenter(mixedSound: nextSong)
         }
     }
     
-    func setupPreveiousTrack(mixedSound: MixedSound) {
+    func setupPreviousTrack(mixedSound: MixedSound) {
         let id = mixedSound.id
         if id == 0 {
             guard let lastSong = mixedSoundList.last else { return }
             self.mixedSound = lastSong
-            self.setupremoteCommandInfoCenter(mixedSound: lastSong)
+            self.setupRemoteCommandInfoCenter(mixedSound: lastSong)
         } else {
             let previousSong = mixedSoundList[ mixedSoundList.firstIndex { $0.id == id - 1} ?? 0 ]
             self.mixedSound = previousSong
-            self.setupremoteCommandInfoCenter(mixedSound: previousSong)
+            self.setupRemoteCommandInfoCenter(mixedSound: previousSong)
         }
     }
 }
