@@ -34,7 +34,7 @@ final class MusicViewModel: NSObject, ObservableObject {
     func fetchData(data: MixedSound) {
         mixedSound = data
         guard let mixedSound = mixedSound else { return }
-        self.setupremoteCommandCenter()
+        self.setupRemoteCommandCenter()
         self.setupRemoteCommandInfoCenter(mixedSound: mixedSound)
     }
     
@@ -56,12 +56,14 @@ final class MusicViewModel: NSObject, ObservableObject {
         naturalAudioManager.startPlayer(track: mixedSound?.naturalSound?.name ?? "base_default", volume: mixedSound?.naturalSound?.audioVolume ?? 0.8)
     }
     
-    func setupremoteCommandCenter() {
-        // remote control event 받기 시작
-        UIApplication.shared.beginReceivingRemoteControlEvents()
+    func setupRemoteCommandCenter() {
         let center = MPRemoteCommandCenter.shared()
-        center.playCommand.removeTarget(nil) // -> 왜 있는 걸까
-        center.pauseCommand.removeTarget(nil) // -> 왜 있는 걸까
+        center.playCommand.removeTarget(nil)
+        center.pauseCommand.removeTarget(nil)
+        center.nextTrackCommand.removeTarget(nil)
+        center.previousTrackCommand.removeTarget(nil)
+        guard let mixedSound = self.mixedSound else { return }
+        
         center.playCommand.addTarget { commandEvent -> MPRemoteCommandHandlerStatus in
             self.isPlaying = true
             self.playPause()
@@ -73,25 +75,21 @@ final class MusicViewModel: NSObject, ObservableObject {
             self.playPause()
             return .success
         }
-        center.playCommand.isEnabled = true
-        center.pauseCommand.isEnabled = true
-    }
-    
-    func setupRemoteCommandInfoCenter(mixedSound: MixedSound) {
-        let center = MPNowPlayingInfoCenter.default()
-        let remoteCenter = MPRemoteCommandCenter.shared()
-        var nowPlayingInfo = center.nowPlayingInfo ?? [String: Any]()
-        remoteCenter.nextTrackCommand.removeTarget(nil)
-        remoteCenter.previousTrackCommand.removeTarget(nil)
-        remoteCenter.nextTrackCommand.addTarget { MPRemoteCommandEvent in
+        
+        center.nextTrackCommand.addTarget { MPRemoteCommandEvent in
             self.setupNextTrack(mixedSound: mixedSound)
             return .success
         }
         
-        remoteCenter.previousTrackCommand.addTarget { MPRemoteCommandEvent in
+        center.previousTrackCommand.addTarget { MPRemoteCommandEvent in
             self.setupPreviousTrack(mixedSound: mixedSound)
             return .success
         }
+    }
+    
+    func setupRemoteCommandInfoCenter(mixedSound: MixedSound) {
+        let center = MPNowPlayingInfoCenter.default()
+        var nowPlayingInfo = center.nowPlayingInfo ?? [String: Any]()
         
         nowPlayingInfo[MPMediaItemPropertyTitle] = mixedSound.name
         if let albumCoverPage = UIImage(named: mixedSound.imageName) {
@@ -99,7 +97,7 @@ final class MusicViewModel: NSObject, ObservableObject {
                 return albumCoverPage
             })
         }
-        // 콘텐츠 총 길이
+        // MARK: - 타이머 연동돌 때 건드릴 코드
 //        nowPlayingInfo[MPMediaItemPropertyPlaybackDuration] = self.baseAudioManager.player?.duration
         nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = 1
         nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = NSNumber(value: self.baseAudioManager.player?.currentTime ?? 0.0)
@@ -114,10 +112,12 @@ final class MusicViewModel: NSObject, ObservableObject {
             guard let firstSong = mixedSoundList.first else { return }
             self.mixedSound = firstSong
             self.setupRemoteCommandInfoCenter(mixedSound: firstSong)
+            self.setupRemoteCommandCenter()
         } else {
             let nextSong = mixedSoundList[ mixedSoundList.firstIndex { $0.id == id + 1} ?? 0 ]
             self.mixedSound = nextSong
             self.setupRemoteCommandInfoCenter(mixedSound: nextSong)
+            self.setupRemoteCommandCenter()
         }
     }
     
@@ -127,10 +127,12 @@ final class MusicViewModel: NSObject, ObservableObject {
             guard let lastSong = mixedSoundList.last else { return }
             self.mixedSound = lastSong
             self.setupRemoteCommandInfoCenter(mixedSound: lastSong)
+            self.setupRemoteCommandCenter()
         } else {
             let previousSong = mixedSoundList[ mixedSoundList.firstIndex { $0.id == id - 1} ?? 0 ]
             self.mixedSound = previousSong
             self.setupRemoteCommandInfoCenter(mixedSound: previousSong)
+            self.setupRemoteCommandCenter()
         }
     }
 }
