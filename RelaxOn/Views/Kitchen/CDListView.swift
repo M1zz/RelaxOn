@@ -14,6 +14,8 @@ struct CDListView: View {
         melody: "",
         natural: ""
     )
+    @State var isEditMode = false
+    @State var selectedMixedSoundId: [Int] = []
     
     var body: some View {
         
@@ -25,6 +27,11 @@ struct CDListView: View {
                     plusCDImage
                     ForEach(userRepositoriesState.reversed()){ mixedSound in
                         CDCardView(data: mixedSound, audioVolumes: (baseVolume: mixedSound.baseSound?.audioVolume ?? 1.0, melodyVolume: mixedSound.melodySound?.audioVolume ?? 1.0, naturalVolume: mixedSound.naturalSound?.audioVolume ?? 1.0))
+                            .disabled(isEditMode)
+                            .onTapGesture {
+                                print("\(mixedSound.id)")
+                            }
+    
                     }
                 }
             }
@@ -67,11 +74,17 @@ struct CDListView: View {
             Spacer()
             
             Button(action: {
-                
+                isEditMode.toggle()
             }) {
-                Text("Edit")
-                    .foregroundColor(Color.gray)
-                    .font(.system(size: 17))
+                if selectedMixedSoundId.isEmpty {
+                    Text(isEditMode ? "Done" : "Edit")
+                        .foregroundColor(Color.gray)
+                        .font(.system(size: 17))
+                } else {
+                    Text("Delete")
+                        .foregroundColor(.red)
+                        .font(.system(size: 17))
+                }
             }
         }
     }
