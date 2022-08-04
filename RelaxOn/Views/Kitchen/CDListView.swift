@@ -34,14 +34,14 @@ struct CDListView: View {
                                     if selectedMixedSoundIds.firstIndex(where: {$0 == mixedSound.id}) != nil {
                                         Image(systemName: "checkmark.circle.fill")
                                             .foregroundColor(.white)
-                                            .padding(.bottom, LayoutConstants.pading.bottomOfRadioButton)
-                                            .padding(.trailing, LayoutConstants.pading.trailingOfRadioButton)
+                                            .padding(.bottom, LayoutConstants.padding.bottomOfRadioButton)
+                                            .padding(.trailing, LayoutConstants.padding.trailingOfRadioButton)
                                     } else {
                                         Image(systemName: "circle")
                                             .foregroundColor(.white)
                                             .background(Image(systemName: "circle.fill").foregroundColor(.gray).opacity(0.5))
-                                            .padding(.bottom, LayoutConstants.pading.bottomOfRadioButton)
-                                            .padding(.trailing, LayoutConstants.pading.trailingOfRadioButton)
+                                            .padding(.bottom, LayoutConstants.padding.bottomOfRadioButton)
+                                            .padding(.trailing, LayoutConstants.padding.trailingOfRadioButton)
                                     }
                                 }
                             }
@@ -135,7 +135,7 @@ struct CDListView: View {
 
 extension CDListView {
     private struct LayoutConstants {
-        enum pading {
+        enum padding {
             static let trailingOfRadioButton: CGFloat = 10
             static let bottomOfRadioButton: CGFloat = 40
         }
