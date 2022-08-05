@@ -8,7 +8,6 @@
 import WidgetKit
 import SwiftUI
 import Intents
-// [Swift] Realm 데이터 공유 (Widget과 Main앱 데이터 공유) https://nsios.tistory.com/175
 
 // EntryView: 위젯을 표시하는 View
 struct RelaxOnWidgetEntryView : View {
@@ -17,30 +16,14 @@ struct RelaxOnWidgetEntryView : View {
     
     var body: some View {
         VStack {
-                ZStack {
-                    Image(entry.imageName)
-//                    Image(entry.data.baseSound?.imageName ?? "")
-//                            .resizable()
-//                            .scaledToFit()
-//                            .opacity(0.5)
-//                    Image(entry.data.melodySound?.imageName ?? "")
-//                            .resizable()
-//                            .scaledToFit()
-//                            .opacity(0.5)
-//                    Image(entry.data.naturalSound?.imageName ?? "")
-//                            .resizable()
-//                            .scaledToFit()
-//                            .opacity(0.5)
-            }
+            Image(entry.imageName)
+                .resizable()
+                .scaledToFit()
             Text(entry.name)
-            Image("\(entry.id)")
-//            Text(entry.data.name)
         }
-//        Text(entry.date, style: .time)
         .padding(.vertical, 20)
         .widgetURL(entry.url)
-        #warning("widgetURL 추가")
-        // 이후 추가 될 거임 ..!
+        // // TODO: 이후 큰 사이즈의 위젯이 추가되었을 때
         //        switch family {
         //            case .systemSmall:
         //                Text(entry.date, style: .time)
@@ -77,6 +60,6 @@ struct RelaxOnWidget: Widget {
 struct RelaxOnWidget_Previews: PreviewProvider {
     static var previews: some View {
         RelaxOnWidgetEntryView(entry: CDWidgetEntry(date: Date(), imageName: "Recipe5", id: 1, name: "temp"))
-        .previewContext(WidgetPreviewContext(family: .systemSmall))
+            .previewContext(WidgetPreviewContext(family: .systemSmall))
     }
 }

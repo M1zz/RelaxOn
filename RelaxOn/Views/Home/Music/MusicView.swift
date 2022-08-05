@@ -187,8 +187,6 @@ struct MusicView_Previews: PreviewProvider {
                                          melodySound: dummyMelodySound,
                                          naturalSound: dummyNaturalSound,
                                          imageName: "r1")
-        // 삭제
-        MusicView(data: dummyMixedSound, audioVolumes: .constant((baseVolume: 5, melodyVolume: 5, naturalVolume: 5)))
         //        MusicView(data: dummyMixedSound)
     }
 }

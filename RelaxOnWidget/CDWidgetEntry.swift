@@ -10,15 +10,15 @@ import WidgetKit
 
 struct CDWidgetEntry: TimelineEntry {
     // TimelineEntry 프로토콜은 date라는 프로퍼티를 필수적으로 요구함
-    let date: Date // WidgetKit이 widget을 rendering할 date
-    #warning("title 없애기")
+    let date: Date // WidgetKit이 widget을 rendering하는 date
+    
     let imageName: String
     var id: Int
     var name: String
     var url: URL
     
-    init(date: Date, imageName: String, id: Int, name: String) {
-        self.date = Date()
+    init(date: Date = Date(), imageName: String = "Recipe5", id: Int = 100, name: String = "tempWidget") {
+        self.date = date
         self.imageName = imageName
         self.id = id
         self.name = name
@@ -27,5 +27,5 @@ struct CDWidgetEntry: TimelineEntry {
 }
 
 extension CDWidgetEntry {
-    static var sample = CDWidgetEntry(date: Date(), imageName: "Recipe5", id: 0, name: "firstWidget")
+    static var sample = CDWidgetEntry()
 }

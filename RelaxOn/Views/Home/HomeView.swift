@@ -39,7 +39,7 @@ struct HomeView: View {
                 do {
                     let decoder = JSONDecoder()
                     userRepositories = try decoder.decode([MixedSound].self, from: data)
-//                    print("help : \(userRepositories)")
+                    print("help : \(userRepositories)")
                     userRepositoriesState = userRepositories
                 } catch {
                     print("Unable to Decode Note (\(error))")
@@ -56,7 +56,7 @@ struct HomeView: View {
 
                     userRepositories = try decoder.decode([MixedSound].self, from: data)
                     userRepositoriesState = userRepositories
-//                    print("help : \(userRepositories)")
+                    print("help : \(userRepositories)")
 
                 } catch {
                     print("Unable to Decode Note (\(error))")

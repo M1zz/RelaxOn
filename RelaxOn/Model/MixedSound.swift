@@ -27,8 +27,7 @@ struct MixedSound: Identifiable, Codable, Equatable {
         self.melodySound = melodySound
         self.naturalSound = naturalSound
         self.imageName = imageName
-        #warning("id가 고유한 값 맞겠지..?")
+        // FIXME: id가 고유한 값이 맞는지 물어봐야 합니다(누구 담당인지를 모르겠습니다 아시는 분 알려주세요 !) 의심스러워서 우선은 id + name을 주소값으로 넣었습니다
         url =  URL(string: "RelaxOn:///\(id)+\(name)")!
-        print("url임듕", url)
     }
 }

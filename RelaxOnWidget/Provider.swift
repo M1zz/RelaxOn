@@ -34,38 +34,13 @@ struct Provider: TimelineProvider {
         
         let entry: CDWidgetEntry
         
-        #warning("return 값 고치기")
-        guard let id: Int = UserDefaults(suiteName: "group.widget.relaxOn")!.value(forKey: "id") as? Int else {
-            entry = CDWidgetEntry(date: Date(), imageName: "Recipe5", id: 0, name: "error22")
-            return Timeline(entries: [entry], policy: .never)
+        if let widgetData = UserDefaults(suiteName: "group.widget.relaxOn")!.value(forKey: "smallWidgetData") as? Data,
+           let data = try? JSONDecoder().decode(SmallWidgetData.self, from: widgetData) {
+            entry = CDWidgetEntry(imageName: data.imageName, id: data.id, name: data.name)
+        } else {
+            entry = CDWidgetEntry()
         }
-        guard let title: String = UserDefaults(suiteName: "group.widget.relaxOn")!.value(forKey: "name") as? String else {
-            entry = CDWidgetEntry(date: Date(), imageName: "Recipe5", id: 1, name: "error2")
-            return Timeline(entries: [entry], policy: .never)
-        }
-        
-        entry = CDWidgetEntry(date: Date(), imageName: "Recipe5", id: id, name: title)
-        
         
         return Timeline(entries: [entry], policy: .never)
-//
-//        if let data = UserDefaults(suiteName: "group.widget.relaxOn")!.value(forKey: "recipe") as? Data {
-//            do {
-//                let decoder = JSONDecoder()
-//                mixedSounds = try decoder.decode([MixedSound].self, from: data)
-//                if let data: MixedSound = mixedSounds.first {
-//                    entry = CDWidgetEntry(date: Date())
-//                } else {
-//                    entry = CDWidgetEntry.sample
-//                }
-//                return Timeline(entries: [entry], policy: .never)
-//            } catch {
-//                entry = CDWidgetEntry.sample
-//                return Timeline(entries: [entry], policy: .never)
-//            }
-//        } else {
-//            entry = CDWidgetEntry.sample
-//            return Timeline(entries: [entry], policy: .never)
-//        }
     }
 }

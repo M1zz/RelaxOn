@@ -7,30 +7,19 @@
 
 import SwiftUI
 import AVFoundation
-import WidgetKit
 
 final class MusicViewModel: NSObject, ObservableObject {
     @Published var baseAudioManager = AudioManager()
     @Published var melodyAudioManager = AudioManager()
     @Published var naturalAudioManager = AudioManager()
     @Published var isPlaying: Bool = false {
+        // FIXME: addMainSoundToWidget()를 Sound가 재정렬 되었을 때 제일 위의 음악을 넣어야 합니다. (해당 로직이 안 짜진 거 같아 우선은, 여기로 뒀습니다.)
         didSet {
-            #warning("userdefault")
-            // play 될 때마다 timeline reset하기
-            print("RelaxOnWidget !")
-            
-            let imageName = mixedSound?.imageName
-            let name = mixedSound?.name
-            let id = mixedSound?.id
-            UserDefaults(suiteName: "group.widget.relaxOn")!.set(imageName, forKey: "imageName")
-            UserDefaults(suiteName: "group.widget.relaxOn")!.set(name, forKey: "name")
-            UserDefaults(suiteName: "group.widget.relaxOn")!.set(id, forKey: "id")
-            
-            WidgetCenter.shared.reloadTimelines(ofKind: "RelaxOnWidget")
-//            WidgetCenter.shared.reloadAllTimelines()
+            if let mixedSound = mixedSound {
+                WidgetManager.addMainSoundToWidget(imageName: mixedSound.imageName, name: mixedSound.name, id: mixedSound.id)
+            }
         }
     }
-    
     
     @Published var mixedSound: MixedSound?
     
