@@ -13,9 +13,21 @@ struct MixedSound: Identifiable, Codable, Equatable {
     }
     
     let id: Int
-    let name: String
+    var name: String
     var baseSound: Sound?
     var melodySound: Sound?
     var naturalSound: Sound?
     let imageName: String
+//    let url: URL
+    
+    init(id: Int, name: String, baseSound: Sound?, melodySound: Sound?, naturalSound: Sound?, imageName: String) {
+        self.id = id
+        self.name = name
+        self.baseSound = baseSound
+        self.melodySound = melodySound
+        self.naturalSound = naturalSound
+        self.imageName = imageName
+        #warning("id가 고유한 값 맞겠지..?")
+//        url =  URL(string: "RelaxOn:///\(id)+\(name)")!
+    }
 }

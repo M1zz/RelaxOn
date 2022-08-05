@@ -7,12 +7,27 @@
 
 import SwiftUI
 import AVFoundation
+import WidgetKit
 
 final class MusicViewModel: NSObject, ObservableObject {
     @Published var baseAudioManager = AudioManager()
     @Published var melodyAudioManager = AudioManager()
     @Published var naturalAudioManager = AudioManager()
-    @Published var isPlaying: Bool = false
+    @Published var isPlaying: Bool = false {
+        didSet {
+            #warning("userdefault")
+            // play 될 때마다 timeline reset하기
+            print("RelaxOnWidget !")
+            
+            UserDefaults(suiteName: "group.widget.relaxOn")!.set("Recipe9", forKey: "imageName")
+            UserDefaults(suiteName: "group.widget.relaxOn")!.set("test4", forKey: "name")
+            UserDefaults(suiteName: "group.widget.relaxOn")!.set(3, forKey: "id")
+            
+            WidgetCenter.shared.reloadTimelines(ofKind: "RelaxOnWidget")
+//            WidgetCenter.shared.reloadAllTimelines()
+        }
+    }
+    
     
     @Published var mixedSound: MixedSound?
     

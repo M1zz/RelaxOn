@@ -87,6 +87,8 @@ struct MixedSoundCardView: View {
 struct MixedSoundCardView_Previews: PreviewProvider {
     static var previews: some View {
         let dummyMixedSound = dummyMixedSound
+        // 삭제
+        MixedSoundCardView(data: dummyMixedSound, selectedID: "", hasEdited: .constant(false), audioVolumes: (baseVolume: 5, melodyVolume: 5, naturalVolume: 5))
         //        MixedSoundCard(data: dummyMixedSound,
         //                       selectedID: "", hasEdited: .constant(false))
         //        .background(ColorPalette.background.color)

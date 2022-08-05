@@ -58,6 +58,18 @@
 		CC5AC111289C033D00FE847B /* RelaxOnWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = CC5AC10D289C033C00FE847B /* RelaxOnWidget.intentdefinition */; };
 		CC5AC112289C033D00FE847B /* RelaxOnWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = CC5AC10D289C033C00FE847B /* RelaxOnWidget.intentdefinition */; };
 		CC5AC115289C033D00FE847B /* RelaxOnWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = CC5AC104289C033C00FE847B /* RelaxOnWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		CC5AC11F289D15EE00FE847B /* Static.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE1031283DF6E7002CDB9F /* Static.swift */; };
+		CC5AC124289D160A00FE847B /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5769AF2866F6B5007CCAE9 /* UserDefaultsManager.swift */; };
+		CC5AC125289D160E00FE847B /* AudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE101D283DC913002CDB9F /* AudioManager.swift */; };
+		CC5AC126289D161300FE847B /* ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC2820472880102400587334 /* ViewModifiers.swift */; };
+		CC5AC134289D184A00FE847B /* CDWidgetEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5AC133289D184A00FE847B /* CDWidgetEntry.swift */; };
+		CC5AC135289D185400FE847B /* CDWidgetEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5AC133289D184A00FE847B /* CDWidgetEntry.swift */; };
+		CC5AC137289D199600FE847B /* Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5AC136289D199600FE847B /* Provider.swift */; };
+		CC5AC138289D19C900FE847B /* Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5AC136289D199600FE847B /* Provider.swift */; };
+		CC5AC13B289D256100FE847B /* MixedSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5769AB2866F20A007CCAE9 /* MixedSound.swift */; };
+		CC5AC13D289D257B00FE847B /* DummyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5769AD2866F44E007CCAE9 /* DummyData.swift */; };
+		CC5AC13E289D258200FE847B /* Sound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61B1283A8E1700F25769 /* Sound.swift */; };
+		CC5AC141289D294800FE847B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58DE61862839C13A00F25769 /* Assets.xcassets */; };
 		CCA7F51E2877501E00D6A239 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CCA7F5202877501E00D6A239 /* Localizable.strings */; };
 		E2BF105428914E9E00408B8C /* TimerNavigationLinkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2BF105328914E9E00408B8C /* TimerNavigationLinkView.swift */; };
 		E2BF1057289173F100408B8C /* TimerPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2BF1056289173F100408B8C /* TimerPickerView.swift */; };
@@ -143,6 +155,10 @@
 		CC5AC10D289C033C00FE847B /* RelaxOnWidget.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = RelaxOnWidget.intentdefinition; sourceTree = "<group>"; };
 		CC5AC10E289C033D00FE847B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CC5AC110289C033D00FE847B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CC5AC133289D184A00FE847B /* CDWidgetEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDWidgetEntry.swift; sourceTree = "<group>"; };
+		CC5AC136289D199600FE847B /* Provider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Provider.swift; sourceTree = "<group>"; };
+		CC5AC18E289D48DD00FE847B /* RelaxOn.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RelaxOn.entitlements; sourceTree = "<group>"; };
+		CC5AC18F289D573A00FE847B /* RelaxOnWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RelaxOnWidgetExtension.entitlements; sourceTree = "<group>"; };
 		CCA7F51F2877501E00D6A239 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CCA7F5212877504200D6A239 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CCF0D9882887748500F61495 /* CustomTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabView.swift; sourceTree = "<group>"; };
@@ -286,6 +302,7 @@
 		58DE61762839C13900F25769 = {
 			isa = PBXGroup;
 			children = (
+				CC5AC18F289D573A00FE847B /* RelaxOnWidgetExtension.entitlements */,
 				58DE61812839C13900F25769 /* RelaxOn */,
 				CC5AC10A289C033C00FE847B /* RelaxOnWidget */,
 				CC5AC105289C033C00FE847B /* Frameworks */,
@@ -306,6 +323,7 @@
 		58DE61812839C13900F25769 /* RelaxOn */ = {
 			isa = PBXGroup;
 			children = (
+				CC5AC18E289D48DD00FE847B /* RelaxOn.entitlements */,
 				58DE61BE283E77E700F25769 /* Info.plist */,
 				58DE1030283DF6DA002CDB9F /* Utilities */,
 				58DE1022283DF536002CDB9F /* Resource */,
@@ -363,6 +381,8 @@
 			isa = PBXGroup;
 			children = (
 				CC5AC10B289C033C00FE847B /* RelaxOnWidget.swift */,
+				CC5AC136289D199600FE847B /* Provider.swift */,
+				CC5AC133289D184A00FE847B /* CDWidgetEntry.swift */,
 				CC5AC10D289C033C00FE847B /* RelaxOnWidget.intentdefinition */,
 				CC5AC10E289C033D00FE847B /* Assets.xcassets */,
 				CC5AC110289C033D00FE847B /* Info.plist */,
@@ -497,6 +517,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CC5AC141289D294800FE847B /* Assets.xcassets in Resources */,
 				CC5AC10F289C033D00FE847B /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -515,10 +536,12 @@
 				21D3ED952892774F006E871F /* UserDefaultsManager.swift in Sources */,
 				219BD67328900A28006FAF55 /* CDListView.swift in Sources */,
 				58DE61C52841C54700F25769 /* OnboardingView.swift in Sources */,
+				CC5AC137289D199600FE847B /* Provider.swift in Sources */,
 				58DE61B2283A8E1700F25769 /* Sound.swift in Sources */,
 				58DE61BD283E542400F25769 /* MixedSoundCardView.swift in Sources */,
 				58DE61C72843100100F25769 /* VolumeControlView.swift in Sources */,
 				E2BF105428914E9E00408B8C /* TimerNavigationLinkView.swift in Sources */,
+				CC5AC134289D184A00FE847B /* CDWidgetEntry.swift in Sources */,
 				10D26712288EF4C80056339A /* CustomSegmentControlView.swift in Sources */,
 				102CCFFA289101AD00B97F8F /* TestNavigateView.swift in Sources */,
 				58DE61832839C13900F25769 /* RelaxOnApp.swift in Sources */,
@@ -546,8 +569,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CC5AC126289D161300FE847B /* ViewModifiers.swift in Sources */,
+				CC5AC13E289D258200FE847B /* Sound.swift in Sources */,
+				CC5AC135289D185400FE847B /* CDWidgetEntry.swift in Sources */,
+				CC5AC124289D160A00FE847B /* UserDefaultsManager.swift in Sources */,
+				CC5AC13B289D256100FE847B /* MixedSound.swift in Sources */,
 				CC5AC111289C033D00FE847B /* RelaxOnWidget.intentdefinition in Sources */,
 				CC5AC10C289C033C00FE847B /* RelaxOnWidget.swift in Sources */,
+				CC5AC138289D19C900FE847B /* Provider.swift in Sources */,
+				CC5AC11F289D15EE00FE847B /* Static.swift in Sources */,
+				CC5AC13D289D257B00FE847B /* DummyData.swift in Sources */,
+				CC5AC125289D160E00FE847B /* AudioManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -696,6 +728,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = RelaxOn/RelaxOn.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"RelaxOn/Preview Content\"";
@@ -727,6 +760,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = RelaxOn/RelaxOn.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"RelaxOn/Preview Content\"";
@@ -757,6 +791,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = RelaxOnWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 46WT2M4LDU;
@@ -785,6 +820,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = RelaxOnWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 46WT2M4LDU;
