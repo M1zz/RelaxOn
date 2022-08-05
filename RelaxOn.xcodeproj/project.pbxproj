@@ -233,6 +233,7 @@
 		58DE103928405C7F002CDB9F /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				58DE61842839C13900F25769 /* CdLibraryView.swift */,
 				E2BF1055289172C600408B8C /* Timer */,
 				58DE61B8283A937000F25769 /* HomeView.swift */,
 				58DE61BC283E542400F25769 /* MixedSoundCardView.swift */,
@@ -265,7 +266,6 @@
 				58DE61BE283E77E700F25769 /* Info.plist */,
 				58DE1030283DF6DA002CDB9F /* Utilities */,
 				58DE1022283DF536002CDB9F /* Resource */,
-				58DE61842839C13900F25769 /* CdLibraryView.swift */,
 				58DE1035283F5193002CDB9F /* Manager */,
 				58DE61B5283A8F4500F25769 /* Views */,
 				58DE61B0283A8E0700F25769 /* Model */,
