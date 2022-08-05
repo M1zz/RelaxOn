@@ -37,10 +37,13 @@ struct CDCardView: View {
             }
             Text(data.name)
         }
-        #warning("onOpenURL 넣기")
-//        .onOpenURL { url in
-//            ispresent = url == data.url
-//        }
+        .onAppear {
+            print("alnd: \(data.id), \(data.name), \(data.url)")
+        }
+        .onOpenURL { url in
+            #warning("onOpenURL 넣기")
+            ispresent = url == data.url
+        }
     }
 }
 

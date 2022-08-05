@@ -32,15 +32,14 @@ struct RelaxOnWidgetEntryView : View {
 //                            .scaledToFit()
 //                            .opacity(0.5)
             }
-            Text(entry.title)
+            Text(entry.name)
             Image("\(entry.id)")
-            Image(entry.name)
 //            Text(entry.data.name)
         }
 //        Text(entry.date, style: .time)
         .padding(.vertical, 20)
+        .widgetURL(entry.url)
         #warning("widgetURL 추가")
-//        .widgetURL(entry.data.url)
         // 이후 추가 될 거임 ..!
         //        switch family {
         //            case .systemSmall:
@@ -77,16 +76,7 @@ struct RelaxOnWidget: Widget {
 
 struct RelaxOnWidget_Previews: PreviewProvider {
     static var previews: some View {
-        RelaxOnWidgetEntryView(entry: CDWidgetEntry(
-            date: Date(),
-            data: MixedSound(id: 0,
-                             name: "test",
-                             baseSound: dummyBaseSound,
-                             melodySound: dummyMelodySound,
-                             naturalSound: dummyNaturalSound,
-                             imageName: "Recipe1"),
-            audioVolumes: (baseVolume: 1.0, melodyVolume: 1.0, naturalVolume: 1.0))
-        )
+        RelaxOnWidgetEntryView(entry: CDWidgetEntry(date: Date(), imageName: "Recipe5", id: 1, name: "temp"))
         .previewContext(WidgetPreviewContext(family: .systemSmall))
     }
 }
