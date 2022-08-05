@@ -62,7 +62,8 @@ struct CDListView: View {
     var libraryHeader: some View {
         HStack {
             Text("CD Library".uppercased())
-                .font(.system(size: 28, weight: .semibold))
+                .font(.title)
+                .fontWeight(.semibold)
                 .foregroundColor(.systemGrey1)
                 
             Spacer()
@@ -72,7 +73,7 @@ struct CDListView: View {
             }) {
                 Text("Edit")
                     .foregroundColor(.relaxDimPurple)
-                    .font(.system(size: 16, weight: .regular))
+                    .font(.body)
             }
         }
     }
