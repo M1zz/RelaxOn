@@ -26,7 +26,7 @@ struct CDListView: View {
             libraryHeader
             ScrollView(.vertical, showsIndicators: false) {
                 LazyVGrid(columns: Array(repeating: GridItem(.flexible(),spacing: 10), count: 2), spacing: 20) {
-                    plusCDImage
+                    plusCDImage.disabled(isEditMode)
                     ForEach(userRepositoriesState.reversed()){ mixedSound in
                         CDCardView(data: mixedSound, audioVolumes: (baseVolume: mixedSound.baseSound?.audioVolume ?? 1.0, melodyVolume: mixedSound.melodySound?.audioVolume ?? 1.0, naturalVolume: mixedSound.naturalSound?.audioVolume ?? 1.0))
                             .disabled(isEditMode)
