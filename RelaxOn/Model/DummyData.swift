@@ -17,16 +17,16 @@ let dummyBaseSound = Sound(id: 0,
                            name: BaseAudioName.longSun.fileName,
                            soundType: .base,
                            audioVolume: 0.8,
-                           imageName: "LongSun")
+                           imageName: "gong1")
 
 let dummyMelodySound = Sound(id: 2,
                              name: MelodyAudioName.ambient.fileName,
                              soundType: .melody,
                              audioVolume: 1.0,
-                             imageName: "Ambient")
+                             imageName: "Melody1")
 
 let dummyNaturalSound = Sound(id: 6,
                               name: NaturalAudioName.dryGrass.fileName,
                               soundType: .natural,
                               audioVolume: 0.4,
-                              imageName: "DryGrass")
+                              imageName: "field")

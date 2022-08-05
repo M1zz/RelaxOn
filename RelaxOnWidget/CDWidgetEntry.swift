@@ -9,8 +9,7 @@ import Foundation
 import WidgetKit
 
 struct CDWidgetEntry: TimelineEntry {
-    // TimelineEntry 프로토콜은 date라는 프로퍼티를 필수적으로 요구함
-    let date: Date // WidgetKit이 widget을 rendering하는 date
+    let date: Date
     
     let imageName: String
     var id: Int
