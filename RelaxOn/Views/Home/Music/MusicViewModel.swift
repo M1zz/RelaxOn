@@ -114,7 +114,9 @@ final class MusicViewModel: NSObject, ObservableObject {
             self.setupRemoteCommandInfoCenter(mixedSound: firstSong)
             self.setupRemoteCommandCenter()
         } else {
-            let nextSong = userRepositories[ userRepositories.firstIndex { $0.id == id + 1} ?? 0 ]
+            let nextSong = userRepositories[ userRepositories.firstIndex {
+                $0.id == id + 1
+            } ?? 0 ]
             self.mixedSound = nextSong
             self.setupRemoteCommandInfoCenter(mixedSound: nextSong)
             self.setupRemoteCommandCenter()
@@ -129,7 +131,9 @@ final class MusicViewModel: NSObject, ObservableObject {
             self.setupRemoteCommandInfoCenter(mixedSound: lastSong)
             self.setupRemoteCommandCenter()
         } else {
-            let previousSong = userRepositories[ userRepositories.firstIndex { $0.id == id - 1} ?? 0 ]
+            let previousSong = userRepositories[ userRepositories.firstIndex {
+                $0.id == id - 1
+            } ?? 0 ]
             self.mixedSound = previousSong
             self.setupRemoteCommandInfoCenter(mixedSound: previousSong)
             self.setupRemoteCommandCenter()
