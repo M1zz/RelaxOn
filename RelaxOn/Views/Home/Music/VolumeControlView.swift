@@ -20,8 +20,11 @@ struct VolumeControlView: View {
     
     var body: some View {
         ZStack {
-            ColorPalette.tabBackground.color.ignoresSafeArea()
+            Color.black.ignoresSafeArea()
+            
             VStack {
+                UpperPartOfVolumeControlView()
+
                 HStack {
                     Button {
                         showVolumeControl.toggle()
@@ -190,6 +193,26 @@ struct VolumeControlView: View {
     }
 }
 
+extension VolumeControlView {
+    @ViewBuilder
+    func UpperPartOfVolumeControlView() -> some View {
+        VStack {
+            Capsule()
+                .frame(width: 72, height: 5)
+                .foregroundColor(.systemGrey1)
+                .padding(EdgeInsets(top: 8, leading: 0, bottom: 27, trailing: 0))
+            HStack {
+                Image(systemName: "waveform")
+                    .foregroundColor(.relaxDimPurple)
+                Text("MATERIAL VOLUME")
+                    .foregroundColor(.white)
+                    .font(.system(size: 17))
+                Spacer()
+            }
+            .padding(.leading, 20)
+        }
+    }
+}
 // 오류 때문에 주석처리
 //struct VolumeControlView_Previews: PreviewProvider {
 //    static var previews: some View {
