@@ -24,7 +24,7 @@ struct CDListView: View {
                 LazyVGrid(columns: Array(repeating: GridItem(.flexible(),spacing: 10), count: 2), spacing: 20) {
                     plusCDImage
                     ForEach(userRepositoriesState.reversed()){ mixedSound in
-                        CDCardView(data: mixedSound, audioVolumes: (baseVolume: mixedSound.baseSound?.audioVolume ?? 1.0, melodyVolume: mixedSound.melodySound?.audioVolume ?? 1.0, naturalVolume: mixedSound.naturalSound?.audioVolume ?? 1.0))
+                        CDCardView(data: mixedSound, audioVolumes: (baseVolume: mixedSound.baseSound?.audioVolume ?? 1.0, melodyVolume: mixedSound.melodySound?.audioVolume ?? 1.0, whiteNoiseVolume: mixedSound.whiteNoiseSound?.audioVolume ?? 1.0))
                     }
                 }
             }
@@ -87,6 +87,7 @@ struct CDListView: View {
                 .background(.gray)
             }
             .buttonStyle(.plain)
+            .navigationBarTitleDisplayMode(.inline)
             
             Text("Studio")
         }

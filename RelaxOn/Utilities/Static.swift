@@ -91,7 +91,7 @@ enum MelodyAudioName {
     }
 }
 
-enum NaturalAudioName {
+enum WhiteNoiseAudioName {
     case dryGrass
     case stream
     case summerField

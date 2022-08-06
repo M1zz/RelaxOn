@@ -11,7 +11,7 @@ let dummyMixedSound = MixedSound(id: 0,
                                  name: "test",
                                  baseSound: dummyBaseSound,
                                  melodySound: dummyMelodySound,
-                                 naturalSound: dummyNaturalSound,
+                                 whiteNoiseSound: dummyWhiteNoiseSound,
                                  imageName: "Recipe1")
 let dummyBaseSound = Sound(id: 0,
                            name: BaseAudioName.longSun.fileName,
@@ -25,8 +25,8 @@ let dummyMelodySound = Sound(id: 2,
                              audioVolume: 1.0,
                              imageName: "Melody1")
 
-let dummyNaturalSound = Sound(id: 6,
-                              name: NaturalAudioName.dryGrass.fileName,
-                              soundType: .natural,
+let dummyWhiteNoiseSound = Sound(id: 6,
+                              name: WhiteNoiseAudioName.dryGrass.fileName,
+                              soundType: .whiteNoise,
                               audioVolume: 0.4,
                               imageName: "field")

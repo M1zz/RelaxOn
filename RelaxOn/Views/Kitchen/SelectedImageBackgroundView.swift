@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SelectedImageBackgroundView: View {
-    @Binding var selectedImageNames: (base: String, melody: String, natural: String)
+    @Binding var selectedImageNames: (base: String, melody: String, whiteNoise: String)
     @Binding var opacityAnimationValues: [Double]
 
     var body: some View {
@@ -26,7 +26,7 @@ struct SelectedImageBackgroundView: View {
             IllustImage(imageName: selectedImageNames.melody, animateVar: opacityAnimationValues[1])
 
             // Natural
-            IllustImage(imageName: selectedImageNames.natural, animateVar: opacityAnimationValues[2])
+            IllustImage(imageName: selectedImageNames.whiteNoise, animateVar: opacityAnimationValues[2])
 
         }
     }

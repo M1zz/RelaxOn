@@ -49,7 +49,7 @@ struct CustomAlertView: View {
                                                   name: textEntered,
                                                   baseSound: baseSound,
                                                   melodySound: melodySound,
-                                                  naturalSound: naturalSound,
+                                                  whiteNoiseSound: whiteNoiseSound,
                                                   imageName: recipeRandomName.randomElement()!)
                         userRepositories.append(newSound)
 

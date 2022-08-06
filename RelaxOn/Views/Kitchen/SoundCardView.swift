@@ -58,8 +58,8 @@ struct SoundCardView: View {
                     Text(data.name)
                         .fontWeight(.semibold)
                         .font(Font.system(size: 17))
-                        .foregroundColor(Color.black)
-
+                        .foregroundColor(Color.white)
+                    Spacer()
                 }
             }
             .onTapGesture {

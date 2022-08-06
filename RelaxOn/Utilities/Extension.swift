@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 extension Color {
     // Main Color
@@ -18,4 +19,12 @@ extension Color {
     static let systemGrey1 = Color("SystemGrey1")
     static let systemGrey2 = Color("SystemGrey2")
     static let systemGrey3 = Color("SystemGrey3")
+}
+
+extension UIColor {
+    static let relaxBlack = UIColor(named: "RelaxBlack")
+    static let relaxRealBlack = UIColor(named: "RelaxRealBlack")
+    static let relaxNightBlue = UIColor(named: "RelaxNightBlue")
+    static let relaxLavender = UIColor(named: "RelaxLavender")
+    static let relaxDimPurple = UIColor(named: "RelaxDimPurple")
 }

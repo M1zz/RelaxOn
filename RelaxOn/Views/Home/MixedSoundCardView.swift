@@ -15,7 +15,7 @@ struct MixedSoundCardView: View {
     @Binding var hasEdited: Bool
     @State var showingActionSheet: Bool = false
     
-    @State var audioVolumes: (baseVolume: Float, melodyVolume: Float, naturalVolume: Float)
+    @State var audioVolumes: (baseVolume: Float, melodyVolume: Float, whiteNoiseVolume: Float)
     
     var body : some View {
         ZStack {

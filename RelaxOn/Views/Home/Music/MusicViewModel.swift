@@ -11,15 +11,15 @@ import AVFoundation
 final class MusicViewModel: NSObject, ObservableObject {
     @Published var baseAudioManager = AudioManager()
     @Published var melodyAudioManager = AudioManager()
-    @Published var naturalAudioManager = AudioManager()
+    @Published var whiteNoiseAudioManager = AudioManager()
     @Published var isPlaying: Bool = false
     
     @Published var mixedSound: MixedSound?
     
-    func updateVolume(audioVolumes: (baseVolume: Float, melodyVolume: Float, naturalVolume: Float)) {
+    func updateVolume(audioVolumes: (baseVolume: Float, melodyVolume: Float, whiteNoiseVolume: Float)) {
         self.mixedSound?.baseSound?.audioVolume = audioVolumes.baseVolume
         self.mixedSound?.melodySound?.audioVolume = audioVolumes.melodyVolume
-        self.mixedSound?.naturalSound?.audioVolume = audioVolumes.naturalVolume
+        self.mixedSound?.whiteNoiseSound?.audioVolume = audioVolumes.whiteNoiseVolume
     }
     
     func fetchData(data: MixedSound) {
@@ -30,12 +30,12 @@ final class MusicViewModel: NSObject, ObservableObject {
         if isPlaying {
             baseAudioManager.playPause()
             melodyAudioManager.playPause()
-            naturalAudioManager.playPause()
+            whiteNoiseAudioManager.playPause()
         } else {
             // play 할 때 mixedSound 볼륨 적용 시도
             baseAudioManager.startPlayer(track: mixedSound?.baseSound?.name ?? "base_default", volume: mixedSound?.baseSound?.audioVolume ?? 0.8)
             melodyAudioManager.startPlayer(track: mixedSound?.melodySound?.name ?? "base_default", volume: mixedSound?.melodySound?.audioVolume ?? 0.8)
-            naturalAudioManager.startPlayer(track: mixedSound?.naturalSound?.name ?? "base_default", volume: mixedSound?.naturalSound?.audioVolume ?? 0.8)
+            whiteNoiseAudioManager.startPlayer(track: mixedSound?.whiteNoiseSound?.name ?? "base_default", volume: mixedSound?.whiteNoiseSound?.audioVolume ?? 0.8)
         }
     }
     
@@ -43,7 +43,7 @@ final class MusicViewModel: NSObject, ObservableObject {
         if isPlaying {
             baseAudioManager.stop()
             melodyAudioManager.stop()
-            naturalAudioManager.stop()
+            whiteNoiseAudioManager.stop()
         }
     }
 }

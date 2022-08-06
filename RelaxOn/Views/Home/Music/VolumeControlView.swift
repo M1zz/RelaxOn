@@ -10,12 +10,12 @@ import SwiftUI
 struct VolumeControlView: View {
     
     @Binding var showVolumeControl: Bool
-    @Binding var audioVolumes: (baseVolume: Float, melodyVolume: Float, naturalVolume: Float)
+    @Binding var audioVolumes: (baseVolume: Float, melodyVolume: Float, whiteNoiseVolume: Float)
     
     let data: MixedSound
     let baseAudioManager = AudioManager()
     let melodyAudioManager = AudioManager()
-    let naturalAudioManager = AudioManager()
+    let whiteNoiseAudioManager = AudioManager()
     @State var hasShowAlert: Bool = false
     
     var body: some View {
@@ -27,7 +27,7 @@ struct VolumeControlView: View {
                         showVolumeControl.toggle()
                         baseAudioManager.stop()
                         melodyAudioManager.stop()
-                        naturalAudioManager.stop()
+                        whiteNoiseAudioManager.stop()
                     } label: {
                         Image(systemName: "xmark")
                             .resizable()
@@ -41,11 +41,11 @@ struct VolumeControlView: View {
                         //showVolumeControl.toggle()
                         baseAudioManager.stop()
                         melodyAudioManager.stop()
-                        naturalAudioManager.stop()
+                        whiteNoiseAudioManager.stop()
                         // TODO: - 볼륨 저장
                         guard let localBaseSound = data.baseSound,
                               let localMelodySound = data.melodySound,
-                              let localNaturalSound = data.naturalSound else { return }
+                              let localWhiteNoiseSound = data.whiteNoiseSound else { return }
                         
                         let newBaseSound = Sound(id: localBaseSound.id,
                                                  name: localBaseSound.name,
@@ -58,17 +58,17 @@ struct VolumeControlView: View {
                                                    audioVolume: audioVolumes.melodyVolume,
                                                    imageName: localMelodySound.imageName)
                         
-                        let newNaturalSound = Sound(id: localNaturalSound.id,
-                                                    name: localNaturalSound.name,
-                                                    soundType: localNaturalSound.soundType,
-                                                    audioVolume: audioVolumes.naturalVolume,
-                                                    imageName: localNaturalSound.imageName)
+                        let newWhiteNoiseSound = Sound(id: localWhiteNoiseSound.id,
+                                                    name: localWhiteNoiseSound.name,
+                                                    soundType: localWhiteNoiseSound.soundType,
+                                                    audioVolume: audioVolumes.whiteNoiseVolume,
+                                                    imageName: localWhiteNoiseSound.imageName)
                         
                         let newMixedSound = MixedSound(id: data.id,
                                                        name: data.name,
                                                        baseSound: newBaseSound,
                                                        melodySound: newMelodySound,
-                                                       naturalSound: newNaturalSound,
+                                                       whiteNoiseSound: newWhiteNoiseSound,
                                                        imageName: data.imageName)
                         
                         userRepositories.remove(at: data.id)
@@ -107,8 +107,8 @@ struct VolumeControlView: View {
                     SoundControlSlider(item: melodySound)
                 }
                 
-                if let naturalSound = data.naturalSound {
-                    SoundControlSlider(item: naturalSound)
+                if let whiteNoiseSound = data.whiteNoiseSound {
+                    SoundControlSlider(item: whiteNoiseSound)
                 }
                 
                 Spacer()
@@ -160,15 +160,15 @@ struct VolumeControlView: View {
                             melodyAudioManager.changeVolume(track: item.name,
                                                              volume: newValue)
                         }
-                case .natural:
-                    Slider(value: $audioVolumes.naturalVolume, in: 0...1)
+                case .whiteNoise:
+                    Slider(value: $audioVolumes.whiteNoiseVolume, in: 0...1)
                         .background(.black)
                         .cornerRadius(4)
                         .accentColor(.white)
                         .padding(.horizontal, 20)
-                        .onChange(of: audioVolumes.naturalVolume) { newValue in
+                        .onChange(of: audioVolumes.whiteNoiseVolume) { newValue in
                             print(newValue)
-                            naturalAudioManager.changeVolume(track: item.name,
+                            whiteNoiseAudioManager.changeVolume(track: item.name,
                                                               volume: newValue)
                         }
                 }

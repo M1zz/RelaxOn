@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct StudioNamingView: View {
-    @Binding var selectedImageNames: (base: String, melody: String, natural: String)
+    @Binding var selectedImageNames: (base: String, melody: String, whiteNoise: String)
     @Binding var opacityAnimationValues: [Double]
     var body: some View {
         ZStack{
