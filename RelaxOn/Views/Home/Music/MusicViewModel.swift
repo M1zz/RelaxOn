@@ -13,7 +13,7 @@ final class MusicViewModel: NSObject, ObservableObject {
     @Published var baseAudioManager = AudioManager()
     @Published var melodyAudioManager = AudioManager()
     @Published var naturalAudioManager = AudioManager()
-    @Published var isPlaying: Bool = true
+    @Published var isPlaying = true
     
     @Published var mixedSound: MixedSound? {
         didSet {
@@ -106,15 +106,15 @@ final class MusicViewModel: NSObject, ObservableObject {
     }
     
     func setupNextTrack(mixedSound: MixedSound) {
-        let count = mixedSoundList.count
+        let count = userRepositories.count
         let id = mixedSound.id
         if id == count - 1 {
-            guard let firstSong = mixedSoundList.first else { return }
+            guard let firstSong = userRepositories.first else { return }
             self.mixedSound = firstSong
             self.setupRemoteCommandInfoCenter(mixedSound: firstSong)
             self.setupRemoteCommandCenter()
         } else {
-            let nextSong = mixedSoundList[ mixedSoundList.firstIndex { $0.id == id + 1} ?? 0 ]
+            let nextSong = userRepositories[ userRepositories.firstIndex { $0.id == id + 1} ?? 0 ]
             self.mixedSound = nextSong
             self.setupRemoteCommandInfoCenter(mixedSound: nextSong)
             self.setupRemoteCommandCenter()
@@ -124,12 +124,12 @@ final class MusicViewModel: NSObject, ObservableObject {
     func setupPreviousTrack(mixedSound: MixedSound) {
         let id = mixedSound.id
         if id == 0 {
-            guard let lastSong = mixedSoundList.last else { return }
+            guard let lastSong = userRepositories.last else { return }
             self.mixedSound = lastSong
             self.setupRemoteCommandInfoCenter(mixedSound: lastSong)
             self.setupRemoteCommandCenter()
         } else {
-            let previousSong = mixedSoundList[ mixedSoundList.firstIndex { $0.id == id - 1} ?? 0 ]
+            let previousSong = userRepositories[ userRepositories.firstIndex { $0.id == id - 1} ?? 0 ]
             self.mixedSound = previousSong
             self.setupRemoteCommandInfoCenter(mixedSound: previousSong)
             self.setupRemoteCommandCenter()

@@ -37,7 +37,6 @@ struct CDListView: View {
                     userRepositories = try decoder.decode([MixedSound].self, from: data)
                     print("help : \(userRepositories)")
                     userRepositoriesState = userRepositories
-                    mixedSoundList = userRepositories
                 } catch {
                     print("Unable to Decode Note (\(error))")
                 }
@@ -50,7 +49,6 @@ struct CDListView: View {
 
                     userRepositories = try decoder.decode([MixedSound].self, from: data)
                     userRepositoriesState = userRepositories
-                    mixedSoundList = userRepositories
                     print("help : \(userRepositories)")
 
                 } catch {
