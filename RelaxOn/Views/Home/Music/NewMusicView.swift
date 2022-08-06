@@ -14,6 +14,15 @@ struct NewMusicView: View {
     @State var animatedValue : CGFloat = 55
     @State var maxWidth = UIScreen.main.bounds.width / 2.2
     @State var showVolumeControl: Bool = false
+    @State private var offsetYOfControlView = UIScreen.main.bounds.height * 0.83 {
+        didSet {
+            if offsetYOfControlView < UIScreen.main.bounds.height * 0.5 {
+                offsetYOfControlView = UIScreen.main.bounds.height * 0.5
+            } else if offsetYOfControlView > UIScreen.main.bounds.height * 0.83 {
+                offsetYOfControlView = UIScreen.main.bounds.height * 0.83
+            }
+        }
+    }
     
     var data: MixedSound
     
@@ -46,7 +55,25 @@ struct NewMusicView: View {
                               audioVolumes: $audioVolumes,
                               data: data)
             .cornerRadius(20)
-            .offset(y: UIScreen.main.bounds.height * 0.83)
+            .offset(y: offsetYOfControlView)
+            .gesture(
+                DragGesture()
+                    .onChanged { value in
+                        offsetYOfControlView += value.translation.height / 5
+                    }
+                    .onEnded { value in
+                        withAnimation(.easeInOut) {
+                            let draggedHeight = value.predictedEndTranslation.height
+                            if draggedHeight < -10 {
+                                offsetYOfControlView = UIScreen.main.bounds.height * 0.5
+                            } else if draggedHeight > 10 {
+                                offsetYOfControlView = UIScreen.main.bounds.height * 0.83
+                            } else {
+                                offsetYOfControlView = UIScreen.main.bounds.height * 0.83
+                            }
+                        }
+                    }
+            )
         }
         .onAppear {
             viewModel.fetchData(data: data)
@@ -98,6 +125,10 @@ struct NewMusicView: View {
                 }
             }
         }
+    }
+    
+    private func setupVolumeControlViewOffset() {
+        
     }
 }
 
