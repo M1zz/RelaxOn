@@ -45,7 +45,7 @@ struct CustomAlertView: View {
 
                     Button {
                         // TODO: - id 문제 해결
-                        let newSound = MixedSound(id: userRepositories.count,
+                        let newSound = MixedSound(id: getMusicId(ids: userRepositories.map({$0.id})),
                                                   name: textEntered,
                                                   baseSound: baseSound,
                                                   melodySound: melodySound,
@@ -70,6 +70,17 @@ struct CustomAlertView: View {
             }.padding(.top, 40)
         }
         .frame(width: deviceFrame().screenWidth - 100 , height: deviceFrame().screenHeight - 620)
+    }
+    
+    private func getMusicId(ids: [Int]) -> Int {
+        for i in 0..<ids.count {
+            if ids.first(where: {$0 == i}) == nil {
+                return i
+            } else {
+                continue
+            }
+        }
+        return ids.count
     }
     
     private func getEncodedData(data: [MixedSound]) -> Data? {
