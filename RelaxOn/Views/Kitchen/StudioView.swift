@@ -50,7 +50,7 @@ struct StudioView: View {
     var body: some View {
         ZStack{
             VStack {
-                SelectImage()
+                SelectedImageVIew(selectedImageNames: $selectedImageNames, opacityAnimationValues: $opacityAnimationValues)
                 CustomSegmentControlView(items: items, selection: $select)
                 switch select {
                 case 1:
@@ -154,54 +154,31 @@ struct StudioView: View {
             }.padding(.horizontal, 15)
         }
     }
-    
-    @ViewBuilder
-    func SelectImage() -> some View {
-        ZStack {
-            Rectangle()
-                .DeviceFrame()
-                .background(.gray)
-            
-            // Base
-            illustImage(imageName: selectedImageNames.base, animateVar: opacityAnimationValues[0])
-            
-            // Melody
-            illustImage(imageName: selectedImageNames.melody, animateVar: opacityAnimationValues[1])
-            
-            // Natural
-            illustImage(imageName: selectedImageNames.natural, animateVar: opacityAnimationValues[2])
-                
-        }
-    }
-    
-    @ViewBuilder
-    func illustImage(imageName: String, animateVar: Double) -> some View {
-        Image(imageName)
-            .resizable()
-            .DeviceFrame()
-            .opacity(animateVar)
-            .animation(.linear, value: animateVar)
-    }
 
     @ViewBuilder
     func MixButton() -> some View {
-        Button {
-            showingAlert = true
-
-            baseSound = selectedBaseSound
-            melodySound = selectedMelodySound
-            naturalSound = selectedNaturalSound
-
-            baseAudioManager.stop()
-            melodyAudioManager.stop()
-            naturalAudioManager.stop()
-
-            self.textEntered = ""
-        } label: {
+        NavigationLink(destination: StudioNamingView(selectedImageNames: $selectedImageNames, opacityAnimationValues: $opacityAnimationValues)) {
             Text("Mix")
                 .foregroundColor( ($selectedBaseSound.id == 0 && $selectedMelodySound.id == 10 && $selectedNaturalSound.id == 20) ? Color.gray : Color.black )
         }.disabled( ($selectedBaseSound.id == 0 && $selectedMelodySound.id == 10 && $selectedNaturalSound.id == 20) ? true : false )
     }
+//        Button {
+//            showingAlert = true
+//
+//            baseSound = selectedBaseSound
+//            melodySound = selectedMelodySound
+//            naturalSound = selectedNaturalSound
+//
+//            baseAudioManager.stop()
+//            melodyAudioManager.stop()
+//            naturalAudioManager.stop()
+//
+//            self.textEntered = ""
+////        } label: {
+//            Text("Mix")
+//                .foregroundColor( ($selectedBaseSound.id == 0 && $selectedMelodySound.id == 10 && $selectedNaturalSound.id == 20) ? Color.gray : Color.black )
+//        }.disabled( ($selectedBaseSound.id == 0 && $selectedMelodySound.id == 10 && $selectedNaturalSound.id == 20) ? true : false )
+//    }
 }
 
 
