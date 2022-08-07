@@ -14,9 +14,9 @@ struct CDListView: View {
         melody: "",
         natural: ""
     )
-    @State var isEditMode = false
-    @State var selectedMixedSoundIds: [Int] = []
-    @State var showingActionSheet = false
+    @State private var isEditMode = false
+    @State private var selectedMixedSoundIds: [Int] = []
+    @State private var showingActionSheet = false
     
     var body: some View {
         
