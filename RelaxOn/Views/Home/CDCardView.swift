@@ -10,11 +10,11 @@ import SwiftUI
 struct CDCardView: View {
     var data: MixedSound
     @State var audioVolumes: (baseVolume: Float, melodyVolume: Float, naturalVolume: Float) = (baseVolume: 0.0, melodyVolume: 0.0, naturalVolume: 0.0)
-    @State var ispresent = false
+    @State private var isPresent = false
     
     var body: some View {
         VStack(alignment: .leading) {
-            NavigationLink(isActive: $ispresent) {
+            NavigationLink(isActive: $isPresent) {
                 MusicView(data: data, audioVolumes: $audioVolumes)
             } label: {
                 ZStack {
@@ -32,13 +32,13 @@ struct CDCardView: View {
                         .frame(width: UIScreen.main.bounds.width * 0.43, height: UIScreen.main.bounds.width * 0.43)
                 }
                 .onTapGesture {
-                    ispresent = true
+                    isPresent = true
                 }
             }
             Text(data.name)
         }
         .onOpenURL { url in
-            ispresent = url == data.url
+            isPresent = url == data.url
         }
     }
 }
