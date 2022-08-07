@@ -37,6 +37,8 @@ struct StudioView: View {
     
     @State private var opacityAnimationValues = [0.0, 0.0, 0.0]
     
+    @State var value: Double = 30
+    
     let baseAudioManager = AudioManager()
     let melodyAudioManager = AudioManager()
     let naturalAudioManager = AudioManager()
@@ -91,8 +93,28 @@ struct StudioView: View {
                          soundType: SoundType) -> some View {
         VStack(spacing: 15) {
             HStack {
-                Text("볼륨조절 컴포넌트")
-            }
+                Image(systemName: "speaker.wave.1.fill")
+                    .frame(width: 18.0, height: 18.0)
+                    .foregroundColor(.white)
+                
+                CustomSlider(value: $value, range: (0, 100), knobWidth: 14) { modifiers in
+                  ZStack {
+                    Color.white.cornerRadius(3).frame(height: 2).modifier(modifiers.barLeft)
+                    Color.white.opacity(0.4).cornerRadius(3).frame(height: 2).modifier(modifiers.barRight)
+                    ZStack {
+                      Circle().fill(Color.white)
+                    }.modifier(modifiers.knob)
+                  }
+                }
+                .frame(height: 25)
+                
+                Text("\(Int(value))")
+                    .font(.body)
+                    .foregroundColor(.systemGrey1)
+                    .frame(maxWidth: 30)
+            }.background(Color.black)
+                .padding([.horizontal])
+            
             ScrollView(.vertical,
                        showsIndicators: false) {
                 HStack(spacing: 30) {
@@ -203,7 +225,6 @@ struct StudioView: View {
         }.disabled( ($selectedBaseSound.id == 0 && $selectedMelodySound.id == 10 && $selectedNaturalSound.id == 20) ? true : false )
     }
 }
-
 
 struct StudioView_Previews: PreviewProvider {
     static var previews: some View {
