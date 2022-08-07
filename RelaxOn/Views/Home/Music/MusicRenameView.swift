@@ -8,13 +8,44 @@
 import SwiftUI
 
 struct MusicRenameView: View {
+    var mixedSound: MixedSound
+    @State private var cdName = ""
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ZStack{
+            Color.yellow
+                .ignoresSafeArea()
+            
+            VStack(alignment: .leading, spacing: 0) {
+                TitleLabel(text: "Please rename")
+                TitleLabel(text: "this CD")
+                    .padding(.bottom, 22)
+                
+                TextField(mixedSound.name, text: $cdName)
+                    .padding(.bottom, 8)
+                Rectangle()
+                    .fill(.white)
+                    .frame(height: 1)
+                    .padding(.horizontal, 20)
+            }
+        }
+        .navigationBarHidden(true)
     }
 }
 
-struct MusicRenameView_Previews: PreviewProvider {
-    static var previews: some View {
-        MusicRenameView()
+extension MusicRenameView {
+    @ViewBuilder
+    func TitleLabel(text: String) -> some View {
+        Text(text)
+            .font(.system(.title, design: .default))
+            .fontWeight(.semibold)
+            .foregroundColor(.white)
+            .padding(.horizontal, 20)
     }
 }
+
+//struct MusicRenameView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        MusicRenameView()
+//    }
+//}

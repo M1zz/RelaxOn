@@ -19,3 +19,5 @@ struct MixedSound: Identifiable, Codable, Equatable {
     var naturalSound: Sound?
     let imageName: String
 }
+
+let emptyMixedSound = MixedSound(id: -1, name: "", imageName: "")

@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct NewMusicView: View {
+    @Environment(\.presentationMode) var presentationMode
     @State private var isActive = false
     
     @StateObject var viewModel = MusicViewModel()
@@ -29,101 +30,107 @@ struct NewMusicView: View {
     @Binding var audioVolumes: (baseVolume: Float, melodyVolume: Float, naturalVolume: Float)
     
     var body: some View {
-        ZStack {
-            CDCoverView()
-                .frame(width: .infinity, height: .infinity)
-                .ignoresSafeArea()
-                .blur(radius: 5)
-            
-            VStack(spacing: 0) {
+        NavigationView {
+            ZStack {
                 CDCoverView()
-                    .frame(width: .infinity)
-                    .aspectRatio(1, contentMode: .fit)
-                    .padding(.horizontal, 20)
+                    .frame(width: .infinity, height: .infinity)
+                    .ignoresSafeArea()
+                    .blur(radius: 5)
                 
-                Text("LongSun")
-                    .font(.system(.title, design: .default))
-                    .fontWeight(.semibold)
-                    .foregroundColor(.white)
-                    .padding(.top, 30)
+                VStack(spacing: 0) {
+                    CustomNavigationBar()
+                        .padding(EdgeInsets(top: 0, leading: 20, bottom: 27, trailing: 20))
+                    
+                    CDCoverView()
+                        .frame(width: .infinity)
+                        .aspectRatio(1, contentMode: .fit)
+                        .padding(.horizontal, 20)
+                    
+                    Text("LongSun")
+                        .font(.system(.title, design: .default))
+                        .fontWeight(.semibold)
+                        .foregroundColor(.white)
+                        .padding(.top, 30)
+                    
+                    MusicContollerView()
+                        .padding(.top, 54)
+                }
+                .padding(.bottom, 81)
                 
-                MusicContollerView()
-                    .padding(.top, 54)
-            }
-            
-            VolumeControlView(showVolumeControl: $showVolumeControl,
-                              audioVolumes: $audioVolumes,
-                              data: data)
-            .cornerRadius(20)
-            .offset(y: offsetYOfControlView)
-            .gesture(
-                DragGesture()
-                    .onChanged { value in
-                        offsetYOfControlView += value.translation.height / 5
-                    }
-                    .onEnded { value in
-                        withAnimation(.easeInOut) {
-                            let draggedHeight = value.predictedEndTranslation.height
-                            if draggedHeight < -10 {
-                                offsetYOfControlView = UIScreen.main.bounds.height * 0.5
-                            } else if draggedHeight > 10 {
-                                offsetYOfControlView = UIScreen.main.bounds.height * 0.83
-                            } else {
-                                offsetYOfControlView = UIScreen.main.bounds.height * 0.83
+                VolumeControlView(showVolumeControl: $showVolumeControl,
+                                  audioVolumes: $audioVolumes,
+                                  data: data)
+                .cornerRadius(20)
+                .offset(y: offsetYOfControlView)
+                .gesture(
+                    DragGesture()
+                        .onChanged { value in
+                            offsetYOfControlView += value.translation.height / 5
+                        }
+                        .onEnded { value in
+                            withAnimation(.easeOut) {
+                                let draggedHeight = value.predictedEndTranslation.height
+                                if draggedHeight < -10 {
+                                    offsetYOfControlView = UIScreen.main.bounds.height * 0.5
+                                } else if draggedHeight > 10 {
+                                    offsetYOfControlView = UIScreen.main.bounds.height * 0.83
+                                } else {
+                                    offsetYOfControlView = UIScreen.main.bounds.height * 0.83
+                                }
                             }
                         }
-                    }
+                )
+            }
+            .onAppear {
+                viewModel.fetchData(data: data)
+            }
+            .onDisappear {
+                viewModel.stop()
+            }
+            .background(
+                NavigationLink(destination: MusicRenameView(mixedSound: data), isActive: $isActive) {
+                    Text("")
+                }
             )
-        }
-        .onAppear {
-            viewModel.fetchData(data: data)
-        }
-        .onDisappear {
-            viewModel.stop()
-        }
-        .background(
-            NavigationLink(destination: MusicRenameView(), isActive: $isActive) {
-                Text("")
-            }
-        )
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button {
-                    print("하이")
-                } label: {
-                    Image(systemName: "shevron.down")
-                        .tint(.systemGrey1)
-                }
-            }
-            
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Menu {
-                    Button {
-                        self.isActive.toggle()
-                    } label: {
-                        HStack{
-                            Text("Rename")
-                            Image(systemName: "pencil")
-                        }
-                    }
-                    
-                    Button(role: .destructive) {
-                        print("하이")
-                    } label: {
-                        HStack{
-                            Text("Delete")
-                                .foregroundColor(.red)
-                            Image(systemName: "trash")
-                                .tint(.red)
-                        }
-                    }
-                    
-                } label: {
-                    Image(systemName: "ellipsis")
-                        .rotationEffect(.degrees(90))
-                        .tint(.systemGrey1)
-                }
-            }
+            .navigationTitle("Studio")
+            .navigationBarHidden(true)
+            //            .toolbar {
+            //                ToolbarItem(placement: .navigationBarLeading) {
+            //                    Button {
+            //                        print("하이")
+            //                    } label: {
+            //                        Image(systemName: "shevron.down")
+            //                            .tint(.systemGrey1)
+            //                    }
+            //                }
+            //                ToolbarItem(placement: .navigationBarTrailing) {
+            //                    Menu {
+            //                        Button {
+            //                            self.isActive.toggle()
+            //                        } label: {
+            //                            HStack{
+            //                                Text("Rename")
+            //                                Image(systemName: "pencil")
+            //                            }
+            //                        }
+            //
+            //                        Button(role: .destructive) {
+            //                            print("하이")
+            //                        } label: {
+            //                            HStack{
+            //                                Text("Delete")
+            //                                    .foregroundColor(.red)
+            //                                Image(systemName: "trash")
+            //                                    .tint(.red)
+            //                            }
+            //                        }
+            //                    } label: {
+            //                        Image(systemName: "ellipsis")
+            //                            .rotationEffect(.degrees(90))
+            //                            .tint(.systemGrey1)
+            //                    }
+            //                }
+            //            }
         }
     }
     
@@ -182,6 +189,54 @@ extension NewMusicView {
                 .resizable()
                 .opacity(0.5)
                 .frame(width: .infinity, height: .infinity)
+        }
+    }
+    
+    @ViewBuilder
+    func CustomNavigationBar() -> some View {
+        HStack {
+            Button {
+                withAnimation {
+                    presentationMode.wrappedValue.dismiss()
+                }
+            } label: {
+                Image(systemName: "chevron.down")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 19, height: 20)
+                    .tint(.systemGrey1)
+            }
+            
+            Spacer()
+            
+            Menu {
+                Button {
+                    self.isActive.toggle()
+                } label: {
+                    HStack{
+                        Text("Rename")
+                        Image(systemName: "pencil")
+                    }
+                }
+                
+                Button(role: .destructive) {
+                    print("하이")
+                } label: {
+                    HStack{
+                        Text("Delete")
+                            .foregroundColor(.red)
+                        Image(systemName: "trash")
+                            .tint(.red)
+                    }
+                }
+            } label: {
+                Image(systemName: "ellipsis")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 19, height: 20)
+                    .rotationEffect(.degrees(90))
+                    .tint(.systemGrey1)
+            }
         }
     }
 }
