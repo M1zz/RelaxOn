@@ -37,7 +37,7 @@ struct StudioView: View {
     
     @State private var opacityAnimationValues = [0.0, 0.0, 0.0]
     
-    @State var value: Double = 30
+    @State var volumes: [Double] = [0.5, 0.5, 0.5]
     
     let baseAudioManager = AudioManager()
     let melodyAudioManager = AudioManager()
@@ -97,7 +97,7 @@ struct StudioView: View {
                     .frame(width: 18.0, height: 18.0)
                     .foregroundColor(.white)
                 
-                CustomSlider(value: $value, range: (0, 100), knobWidth: 14) { modifiers in
+                CustomSlider(value: $volumes[select], range: (0, 1), knobWidth: 14) { modifiers in
                   ZStack {
                     Color.white.cornerRadius(3).frame(height: 2).modifier(modifiers.barLeft)
                     Color.white.opacity(0.4).cornerRadius(3).frame(height: 2).modifier(modifiers.barRight)
@@ -107,12 +107,21 @@ struct StudioView: View {
                   }
                 }
                 .frame(height: 25)
+                .onChange(of: volumes[0]) { volume in
+                    baseAudioManager.startPlayer(track: selectedBaseSound.name, volume: Float(volume))
+                }
+                .onChange(of: volumes[1]) { volume in
+                    naturalAudioManager.startPlayer(track: selectedNaturalSound.name, volume: Float(volume))
+                }
+                .onChange(of: volumes[2]) { volume in
+                    melodyAudioManager.startPlayer(track: selectedMelodySound.name, volume: Float(volume))
+                }
                 
-                Text("\(Int(value))")
+                Text("\(Int(volumes[select] * 100))")
                     .font(.body)
                     .foregroundColor(.systemGrey1)
                     .frame(maxWidth: 30)
-            }.background(Color.black)
+            }.background(Color.black) // 나중에 삭제할 예정
                 .padding([.horizontal])
             
             ScrollView(.vertical,
@@ -130,7 +139,7 @@ struct StudioView: View {
                                 
                                 opacityAnimationValues[0] = 0.0
                             } else {
-                                baseAudioManager.startPlayer(track: selectedBaseSound.name)
+                                baseAudioManager.startPlayer(track: selectedBaseSound.name, volume: Float(volumes[select]))
                                 
                                 selectedImageNames.base = selectedBaseSound.imageName
                                 opacityAnimationValues[0] = 0.5
@@ -146,7 +155,7 @@ struct StudioView: View {
                                 
                                 opacityAnimationValues[2] = 0.0
                             } else {
-                                naturalAudioManager.startPlayer(track: selectedNaturalSound.name)
+                                naturalAudioManager.startPlayer(track: selectedNaturalSound.name, volume: Float(volumes[select]))
                                 
                                 selectedImageNames.natural = selectedNaturalSound.imageName
                                 
@@ -163,7 +172,7 @@ struct StudioView: View {
                                 
                                 opacityAnimationValues[1] = 0.0
                             } else {
-                                melodyAudioManager.startPlayer(track: selectedMelodySound.name)
+                                melodyAudioManager.startPlayer(track: selectedMelodySound.name, volume: Float(volumes[select]))
                                 
                                 selectedImageNames.melody = selectedMelodySound.imageName
                                 
