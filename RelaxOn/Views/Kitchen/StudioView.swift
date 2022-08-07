@@ -13,20 +13,20 @@ struct StudioView: View {
     @State var select: Int = 0
     @State var showingConfirm = false
     @State var selectedBaseSound: Sound = Sound(id: 0,
-                                                        name: "",
-                                                        soundType: .base,
-                                                        audioVolume: 0.8,
-                                                        imageName: "")
+                                                name: "",
+                                                soundType: .base,
+                                                audioVolume: 0.8,
+                                                imageName: "")
     @State var selectedMelodySound: Sound = Sound(id: 10,
-                                                          name: "",
-                                                          soundType: .melody,
-                                                          audioVolume: 1.0,
-                                                          imageName: "")
+                                                  name: "",
+                                                  soundType: .melody,
+                                                  audioVolume: 1.0,
+                                                  imageName: "")
     @State var selectedWhiteNoiseSound: Sound = Sound(id: 20,
-                                                           name: "",
-                                                              soundType: .whiteNoise,
-                                                           audioVolume: 0.4,
-                                                           imageName: "")
+                                                      name: "",
+                                                      soundType: .whiteNoise,
+                                                      audioVolume: 0.4,
+                                                      imageName: "")
     @State var selectedImageNames: (base: String, melody: String, whiteNoise: String) = (
         base: "",
         melody: "",
@@ -39,14 +39,9 @@ struct StudioView: View {
     let baseAudioManager = AudioManager()
     let melodyAudioManager = AudioManager()
     let naturalAudioManager = AudioManager()
-
+    
     var items = ["BASE", "MELODY", "WHITE NOISE"]
-
-//    init(){
-//        Theme.navigationBarColors(background: .white, titleColor: .black)
-//        UINavigationBar.appearance().standardAppearance.shadowColor = .clear
-//    }
-
+    
     var body: some View {
         ZStack{
             Color.relaxBlack.ignoresSafeArea()
@@ -77,7 +72,6 @@ struct StudioView: View {
             .navigationBarHidden(true)
         }
     }
-
     
     private func getEncodedData(data: [MixedSound]) -> Data? {
         do {
@@ -102,11 +96,11 @@ struct StudioView: View {
                 HStack(spacing: 30) {
                     switch soundType {
                     case .base:
-                            RadioButtonGroupView(selectedId: soundType.rawValue,
-                                         items: baseSounds) { baseSelected in
+                        RadioButtonGroupView(selectedId: soundType.rawValue,
+                                             items: baseSounds) { baseSelected in
                             selectedBaseSound = baseSelected
                             // play music
-
+                            
                             if selectedBaseSound.name == "Empty" {
                                 baseAudioManager.stop()
                                 
@@ -119,10 +113,10 @@ struct StudioView: View {
                             }
                         }
                     case .whiteNoise:
-                            RadioButtonGroupView(selectedId: soundType.rawValue,
-                                         items: whiteNoiseSounds) { whiteNoiseSounds in
+                        RadioButtonGroupView(selectedId: soundType.rawValue,
+                                             items: whiteNoiseSounds) { whiteNoiseSounds in
                             selectedWhiteNoiseSound = whiteNoiseSounds
-
+                            
                             if selectedWhiteNoiseSound.name == "Empty" {
                                 naturalAudioManager.stop()
                                 
@@ -136,8 +130,8 @@ struct StudioView: View {
                             }
                         }
                     case .melody:
-                            RadioButtonGroupView(selectedId: soundType.rawValue,
-                                         items: melodySounds) { melodySounds in
+                        RadioButtonGroupView(selectedId: soundType.rawValue,
+                                             items: melodySounds) { melodySounds in
                             selectedMelodySound = melodySounds
                             
                             if selectedMelodySound.name == "Empty" {
@@ -158,7 +152,7 @@ struct StudioView: View {
             }.padding(.horizontal, 15)
         }
     }
-
+    
     @ViewBuilder
     func MixButton() -> some View {
         NavigationLink(destination: StudioNamingView(shouldPoptoRootView: self.$rootIsActive, selectedImageNames: $selectedImageNames, opacityAnimationValues: $opacityAnimationValues, textEntered: $textEntered)) {
@@ -170,14 +164,14 @@ struct StudioView: View {
                 baseSound = selectedBaseSound
                 melodySound = selectedMelodySound
                 whiteNoiseSound = selectedWhiteNoiseSound
-
+                
                 baseAudioManager.stop()
                 melodyAudioManager.stop()
                 naturalAudioManager.stop()
                 self.textEntered = ""
             })
     }
-
+    
     @ViewBuilder
     func StudioBackButton() -> some View {
         HStack{
@@ -202,4 +196,3 @@ struct StudioView: View {
         }.padding()
     }
 }
-

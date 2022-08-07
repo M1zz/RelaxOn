@@ -119,7 +119,6 @@ struct PlaceholderCustom: ViewModifier {
         ZStack(alignment: .leading) {
             if showPlaceHolder {
                 Text(placeHolder)
-//                    .padding(.horizontal, 15)
                     .foregroundColor(.systemGrey1)
                     .font(.system(size: 17, weight: .light))
             }
@@ -129,4 +128,3 @@ struct PlaceholderCustom: ViewModifier {
         }
     }
 }
-
