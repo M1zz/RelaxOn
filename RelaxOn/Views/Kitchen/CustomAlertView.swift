@@ -45,7 +45,7 @@ struct CustomAlertView: View {
 
                     Button {
                         // TODO: - id 문제 해결
-                        let newSound = MixedSound(id: getMusicId(ids: userRepositories.map({$0.id})),
+                        let newSound = MixedSound(id: makeMusicId(ids: userRepositories.map({$0.id})),
                                                   name: textEntered,
                                                   baseSound: baseSound,
                                                   melodySound: melodySound,
@@ -72,7 +72,9 @@ struct CustomAlertView: View {
         .frame(width: deviceFrame().screenWidth - 100 , height: deviceFrame().screenHeight - 620)
     }
     
-    private func getMusicId(ids: [Int]) -> Int {
+    /// 현재 라이브러리의 id 값에서 비어 있는 숫자 중 가장 작은 값을 반환
+    /// ex) 현재 라이브러리의 id 값이 [0, 2, 3]일 경우 새로운 id 값으로 1을 반환
+    private func makeMusicId(ids: [Int]) -> Int {
         for i in 0..<ids.count {
             if ids.first(where: {$0 == i}) == nil {
                 return i

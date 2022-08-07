@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-
-
 struct CDListView: View {
     @State var userRepositoriesState: [MixedSound] = userRepositories
     @State var selectedImageNames = (
@@ -24,6 +22,7 @@ struct CDListView: View {
         
         VStack {
             libraryHeader
+            
             ScrollView(.vertical, showsIndicators: false) {
                 LazyVGrid(columns: Array(repeating: GridItem(.flexible(),spacing: 10), count: 2), spacing: 20) {
                     plusCDImage.disabled(isEditMode)
@@ -76,6 +75,7 @@ struct CDListView: View {
             if let data = UserDefaultsManager.shared.standard.data(forKey: UserDefaultsManager.shared.recipes) {
                 do {
                     let decoder = JSONDecoder()
+                    
                     userRepositories = try decoder.decode([MixedSound].self, from: data)
                     userRepositoriesState = userRepositories
                     print("help : \(userRepositories)")
