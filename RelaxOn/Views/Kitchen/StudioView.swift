@@ -10,7 +10,7 @@ import SwiftUI
 struct StudioView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @State private var select: Int = 0
-    @State private var showingAlert = false
+    @State private var showingConfirm = false
     @State private var selectedBaseSound: Sound = Sound(id: 0,
                                                         name: "",
                                                         soundType: .base,
@@ -26,9 +26,6 @@ struct StudioView: View {
                                                               soundType: .whiteNoise,
                                                            audioVolume: 0.4,
                                                            imageName: "")
-    @State private var userName: String = ""
-    @State private var textEntered = ""
-    
     @State private var selectedImageNames: (base: String, melody: String, whiteNoise: String) = (
         base: "",
         melody: "",
@@ -36,6 +33,8 @@ struct StudioView: View {
     )
     
     @State private var opacityAnimationValues = [0.0, 0.0, 0.0]
+
+    @State private var textEntered = ""
     
     let baseAudioManager = AudioManager()
     let melodyAudioManager = AudioManager()
@@ -51,13 +50,14 @@ struct StudioView: View {
         ZStack{
             Color.relaxBlack.ignoresSafeArea()
             VStack {
+                StudioBackButton()
                 HStack{
                     Text("STUDIO")
                         .font(.system(size: 28, weight: .medium))
                         .foregroundColor(.white)
                     Spacer()
                     MixButton()
-                }.padding()
+                }.padding(.horizontal)
                 SelectedImageVIew(selectedImageNames: $selectedImageNames, opacityAnimationValues: $opacityAnimationValues)
                 CustomSegmentControlView(items: items, selection: $select)
                 switch select {
@@ -74,11 +74,6 @@ struct StudioView: View {
             }
             .navigationBarItems(leading: Text("STUDIO").bold())
             .navigationBarHidden(true)
-            .opacity(showingAlert ? 0.5 : 1)
-            
-            CustomAlertView(textEntered: $textEntered,
-                        showingAlert: $showingAlert)
-            .opacity(showingAlert ? 1 : 0)
         }
     }
 
@@ -165,32 +160,45 @@ struct StudioView: View {
 
     @ViewBuilder
     func MixButton() -> some View {
-        NavigationLink(destination: StudioNamingView(selectedImageNames: $selectedImageNames, opacityAnimationValues: $opacityAnimationValues)) {
+        NavigationLink(destination: StudioNamingView(selectedImageNames: $selectedImageNames, opacityAnimationValues: $opacityAnimationValues, textEntered: $textEntered)) {
             Text("Mix")
-                .foregroundColor( ($selectedBaseSound.id == 0 && $selectedMelodySound.id == 10 && $selectedWhiteNoiseSound.id == 20) ? Color.gray : Color.black )
+                .font(.system(size: 24, weight: .regular))
+                .foregroundColor( ($selectedBaseSound.id == 0 && $selectedMelodySound.id == 10 && $selectedWhiteNoiseSound.id == 20) ? Color.gray : Color.relaxDimPurple )
         }.disabled( ($selectedBaseSound.id == 0 && $selectedMelodySound.id == 10 && $selectedWhiteNoiseSound.id == 20) ? true : false )
+            .simultaneousGesture(TapGesture().onEnded { _ in
+                baseSound = selectedBaseSound
+                melodySound = selectedMelodySound
+                whiteNoiseSound = selectedWhiteNoiseSound
+
+                baseAudioManager.stop()
+                melodyAudioManager.stop()
+                naturalAudioManager.stop()
+                self.textEntered = ""
+            })
     }
-//        Button {
-//            showingAlert = true
-//
-//            baseSound = selectedBaseSound
-//            melodySound = selectedMelodySound
-//            naturalSound = selectedNaturalSound
-//
-//            baseAudioManager.stop()
-//            melodyAudioManager.stop()
-//            naturalAudioManager.stop()
-//
-//            self.textEntered = ""
-////        } label: {
-//            Text("Mix")
-//                .foregroundColor( ($selectedBaseSound.id == 0 && $selectedMelodySound.id == 10 && $selectedNaturalSound.id == 20) ? Color.gray : Color.black )
-//        }.disabled( ($selectedBaseSound.id == 0 && $selectedMelodySound.id == 10 && $selectedNaturalSound.id == 20) ? true : false )
-//    }
 
     @ViewBuilder
-    func backButton() -> some View {
-        
+    func StudioBackButton() -> some View {
+        HStack{
+            Button(action: {
+                showingConfirm = true
+            }, label: {
+                Image(systemName: "chevron.backward")
+                    .foregroundColor(.relaxDimPurple)
+            })
+            .confirmationDialog("Leave Studio", isPresented: $showingConfirm) {
+                Button("Leave Studio", role: .destructive){
+                    presentationMode.wrappedValue.dismiss()
+                }
+                Button("Cancle", role: .cancel){}
+            } message: {
+                Text("나가면 사라집니다...")
+            }
+            Text("CD LIBRARY")
+                .font(.system(size: 15, weight: .regular))
+                .foregroundColor(.relaxDimPurple)
+            Spacer()
+        }.padding()
     }
 }
 

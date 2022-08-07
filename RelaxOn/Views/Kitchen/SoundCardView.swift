@@ -37,7 +37,7 @@ struct SoundCardView: View {
                             .frame(width: (deviceFrame().exceptPaddingWidth - 20 ) / 3 ,
                                    height: (deviceFrame().exceptPaddingWidth - 20 ) / 3,
                                    alignment: .center)
-                            .border(selectedID == soundFileName ? .black : .clear, width: 3)
+                            .border(selectedID == soundFileName ? .white : .clear, width: 2)
                         Image(systemName: "moon.zzz.fill")
                             .resizable()
                             .frame(width: (deviceFrame().exceptPaddingWidth - 20 ) / 6,
@@ -51,12 +51,12 @@ struct SoundCardView: View {
                         .frame(width: (deviceFrame().exceptPaddingWidth - 20 ) / 3,
                                height: (deviceFrame().exceptPaddingWidth - 20 ) / 3,
                                alignment: .center)
-                        .border(selectedID == soundFileName ? .black : .clear, width: 3)
+                        .border(selectedID == soundFileName ? .white : .clear, width: 2)
                 }
 
                 HStack {
                     Text(data.name)
-                        .fontWeight(.semibold)
+                        .fontWeight(.light)
                         .font(Font.system(size: 17))
                         .foregroundColor(Color.white)
                     Spacer()

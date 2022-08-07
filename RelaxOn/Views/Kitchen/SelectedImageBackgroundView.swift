@@ -18,7 +18,6 @@ struct SelectedImageBackgroundView: View {
     @ViewBuilder
     func SelectImage() -> some View {
         ZStack {
-
             // Base
             IllustImage(imageName: selectedImageNames.base, animateVar: opacityAnimationValues[0])
 
@@ -36,7 +35,9 @@ struct SelectedImageBackgroundView: View {
         Image(imageName)
             .resizable()
             .frame(width: deviceFrame().screenWidth, height: deviceFrame().screenHeight)
-            .aspectRatio(contentMode: .fill)
+            .scaledToFill()
+            .clipped()
+//            .aspectRatio(contentMode: .fill)
             .opacity(animateVar)
             .animation(.linear, value: animateVar)
     }
