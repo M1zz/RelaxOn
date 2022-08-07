@@ -14,7 +14,11 @@ final class MusicViewModel: NSObject, ObservableObject {
     @Published var naturalAudioManager = AudioManager()
     @Published var isPlaying: Bool = false
     
-    @Published var mixedSound: MixedSound?
+    @Published var mixedSound: MixedSound? {
+        didSet {
+            play()
+        }
+    }
     
     func updateVolume(audioVolumes: (baseVolume: Float, melodyVolume: Float, naturalVolume: Float)) {
         self.mixedSound?.baseSound?.audioVolume = audioVolumes.baseVolume

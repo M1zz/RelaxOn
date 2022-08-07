@@ -31,7 +31,6 @@ struct CDListView: View {
         }
         .padding()
         .onAppear {
-            print("나여기")
             if let data = UserDefaultsManager.shared.standard.data(forKey: UserDefaultsManager.shared.recipes) {
                 do {
                     let decoder = JSONDecoder()
@@ -44,7 +43,6 @@ struct CDListView: View {
             }
         }
         .onChange(of: userRepositories) { newValue in
-            print("변했잖ㅇ")
             if let data = UserDefaultsManager.shared.standard.data(forKey: UserDefaultsManager.shared.recipes) {
                 do {
                     let decoder = JSONDecoder()

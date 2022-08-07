@@ -118,6 +118,9 @@ struct NewMusicView: View {
                                     cdNameFontSize = 28.0
                                     musicPlayButtonWidth = 44
                                     musicControlButtonWidth = 49
+                                    print("1")
+                                    saveNewVolume()
+                                    print("2")
                                 } else {
                                     offsetYOfControlView = UIScreen.main.bounds.height * 0.83
                                     cdViewWidth = UIScreen.main.bounds.width
@@ -125,6 +128,7 @@ struct NewMusicView: View {
                                     cdNameFontSize = 28.0
                                     musicPlayButtonWidth = 44
                                     musicControlButtonWidth = 49
+                                    saveNewVolume()
                                 }
                             }
                         }
@@ -183,8 +187,52 @@ struct NewMusicView: View {
         }
     }
     
-    private func setupVolumeControlViewOffset() {
+    private func getEncodedData(data: [MixedSound]) -> Data? {
+        do {
+            let encoder = JSONEncoder()
+            let encodedData = try encoder.encode(data)
+            return encodedData
+        } catch {
+            print("Unable to Encode Note (\(error))")
+        }
+        return nil
+    }
+    
+    private func saveNewVolume() {
+        print("시작")
+        guard let localBaseSound = data.baseSound,
+              let localMelodySound = data.melodySound,
+              let localNaturalSound = data.naturalSound else { return }
+        print("여기")
+        let newBaseSound = Sound(id: localBaseSound.id,
+                                 name: localBaseSound.name,
+                                 soundType: localBaseSound.soundType,
+                                 audioVolume: audioVolumes.baseVolume,
+                                 imageName: localBaseSound.imageName)
+        let newMelodySound = Sound(id: localMelodySound.id,
+                                   name: localMelodySound.name,
+                                   soundType: localMelodySound.soundType,
+                                   audioVolume: audioVolumes.melodyVolume,
+                                   imageName: localMelodySound.imageName)
         
+        let newNaturalSound = Sound(id: localNaturalSound.id,
+                                    name: localNaturalSound.name,
+                                    soundType: localNaturalSound.soundType,
+                                    audioVolume: audioVolumes.naturalVolume,
+                                    imageName: localNaturalSound.imageName)
+        
+        let newMixedSound = MixedSound(id: data.id,
+                                       name: data.name,
+                                       baseSound: newBaseSound,
+                                       melodySound: newMelodySound,
+                                       naturalSound: newNaturalSound,
+                                       imageName: data.imageName)
+        
+        userRepositories.remove(at: data.id)
+        userRepositories.insert(newMixedSound, at: data.id)
+        let data = getEncodedData(data: userRepositories)
+        UserDefaultsManager.shared.standard.set(data, forKey: UserDefaultsManager.shared.recipes)
+        print("저장됐지롱")
     }
 }
 
@@ -291,17 +339,6 @@ extension NewMusicView {
                     .tint(.systemGrey1)
             }
         }
-    }
-    
-    private func getEncodedData(data: [MixedSound]) -> Data? {
-        do {
-            let encoder = JSONEncoder()
-            let encodedData = try encoder.encode(data)
-            return encodedData
-        } catch {
-            print("Unable to Encode Note (\(error))")
-        }
-        return nil
     }
 }
 //
