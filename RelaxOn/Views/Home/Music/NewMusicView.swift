@@ -15,6 +15,13 @@ struct NewMusicView: View {
     @State var animatedValue : CGFloat = 55
     @State var maxWidth = UIScreen.main.bounds.width / 2.2
     @State var showVolumeControl: Bool = false
+    @State private var cdViewPadding = 81.0
+    @State private var cdViewWidth = UIScreen.main.bounds.width
+    @State private var cdViewHeight = UIScreen.main.bounds.height * 0.63
+    @State private var cdNameFontSize = 28.0
+    @State private var musicControlButtonWidth = 49.0
+    @State private var musicPlayButtonWidth = 44.0
+    
     @State private var offsetYOfControlView = UIScreen.main.bounds.height * 0.83 {
         didSet {
             if offsetYOfControlView < UIScreen.main.bounds.height * 0.5 {
@@ -37,25 +44,34 @@ struct NewMusicView: View {
                     .ignoresSafeArea()
                     .blur(radius: 5)
                 
-                VStack(spacing: 0) {
+                VStack {
                     CustomNavigationBar()
                         .padding(EdgeInsets(top: 0, leading: 20, bottom: 27, trailing: 20))
-                    
-                    CDCoverView()
-                        .frame(width: .infinity)
-                        .aspectRatio(1, contentMode: .fit)
-                        .padding(.horizontal, 20)
-                    
-                    Text("LongSun")
-                        .font(.system(.title, design: .default))
-                        .fontWeight(.semibold)
-                        .foregroundColor(.white)
-                        .padding(.top, 30)
-                    
-                    MusicContollerView()
-                        .padding(.top, 54)
+                    Spacer()
                 }
-                .padding(.bottom, 81)
+                
+                VStack {
+                    VStack(spacing: 0) {
+                        CDCoverView()
+                            .padding(.horizontal, 20)
+                            .frame(width: cdViewWidth, height: cdViewWidth - 40)
+                            .aspectRatio(1, contentMode: .fit)
+                        
+                        Text(data.name)
+                            .font(.system(size: cdNameFontSize, design: .default))
+                            .fontWeight(.semibold)
+                            .foregroundColor(.white)
+                            .padding(.top, 30)
+                        
+                        MusicContollerView()
+                            .padding(.top, 54)
+                    }
+                    .frame(width: cdViewWidth, height: cdViewHeight)
+                    .padding(.bottom, cdViewPadding)
+                    
+                    Spacer()
+                }
+                .padding(.top, UIScreen.main.bounds.height * 0.1)
                 
                 VolumeControlView(showVolumeControl: $showVolumeControl,
                                   audioVolumes: $audioVolumes,
@@ -66,16 +82,33 @@ struct NewMusicView: View {
                     DragGesture()
                         .onChanged { value in
                             offsetYOfControlView += value.translation.height / 5
+                            
+                            
                         }
                         .onEnded { value in
                             withAnimation(.easeOut) {
                                 let draggedHeight = value.predictedEndTranslation.height
                                 if draggedHeight < -10 {
                                     offsetYOfControlView = UIScreen.main.bounds.height * 0.5
+                                    cdViewWidth = UIScreen.main.bounds.width * 0.46
+                                    cdViewHeight = UIScreen.main.bounds.height * 0.33
+                                    cdNameFontSize = 22.0
+                                    musicPlayButtonWidth = 26.0
+                                    musicControlButtonWidth = 23
                                 } else if draggedHeight > 10 {
                                     offsetYOfControlView = UIScreen.main.bounds.height * 0.83
+                                    cdViewWidth = UIScreen.main.bounds.width
+                                    cdViewHeight = UIScreen.main.bounds.height * 0.63
+                                    cdNameFontSize = 28.0
+                                    musicPlayButtonWidth = 44
+                                    musicControlButtonWidth = 49
                                 } else {
                                     offsetYOfControlView = UIScreen.main.bounds.height * 0.83
+                                    cdViewWidth = UIScreen.main.bounds.width
+                                    cdViewHeight = UIScreen.main.bounds.height * 0.63
+                                    cdNameFontSize = 28.0
+                                    musicPlayButtonWidth = 44
+                                    musicControlButtonWidth = 49
                                 }
                             }
                         }
@@ -149,7 +182,7 @@ extension NewMusicView {
             } label: {
                 Image(systemName: "backward.fill")
                     .resizable()
-                    .frame(width: 49, height: 35)
+                    .frame(width: musicControlButtonWidth, height: musicControlButtonWidth * 0.71)
                     .tint(.white)
             }
             
@@ -158,7 +191,7 @@ extension NewMusicView {
             } label: {
                 Image(systemName: viewModel.isPlaying ? "pause.fill" : "play.fill")
                     .resizable()
-                    .frame(width: 44, height: 55)
+                    .frame(width: musicPlayButtonWidth, height: musicPlayButtonWidth * 1.25) //1.25
                     .tint(.white)
             }
             
@@ -167,7 +200,7 @@ extension NewMusicView {
             } label: {
                 Image(systemName: "forward.fill")
                     .resizable()
-                    .frame(width: 49, height: 35)
+                    .frame(width: musicControlButtonWidth, height: musicControlButtonWidth * 0.71)
                     .tint(.white)
             }
         }
