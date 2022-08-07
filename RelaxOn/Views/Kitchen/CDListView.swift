@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CDListView: View {
+    @State var isActive: Bool = false
     @State var userRepositoriesState: [MixedSound] = userRepositories
     @State var selectedImageNames = (
         base: "",
@@ -78,7 +79,7 @@ struct CDListView: View {
     
     var plusCDImage: some View {
         VStack(alignment: .leading) {
-            NavigationLink(destination: StudioView()) {
+            NavigationLink(destination: StudioView(rootIsActive: self.$isActive), isActive: self.$isActive) {
                 VStack {
                     Image(systemName: "plus")
                         .font(Font.system(size: 70, weight: .ultraLight))

@@ -9,42 +9,43 @@ import SwiftUI
 
 struct StudioView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    @State private var select: Int = 0
-    @State private var showingConfirm = false
-    @State private var selectedBaseSound: Sound = Sound(id: 0,
+    @Binding var rootIsActive: Bool
+    @State var select: Int = 0
+    @State var showingConfirm = false
+    @State var selectedBaseSound: Sound = Sound(id: 0,
                                                         name: "",
                                                         soundType: .base,
                                                         audioVolume: 0.8,
                                                         imageName: "")
-    @State private var selectedMelodySound: Sound = Sound(id: 10,
+    @State var selectedMelodySound: Sound = Sound(id: 10,
                                                           name: "",
                                                           soundType: .melody,
                                                           audioVolume: 1.0,
                                                           imageName: "")
-    @State private var selectedWhiteNoiseSound: Sound = Sound(id: 20,
+    @State var selectedWhiteNoiseSound: Sound = Sound(id: 20,
                                                            name: "",
                                                               soundType: .whiteNoise,
                                                            audioVolume: 0.4,
                                                            imageName: "")
-    @State private var selectedImageNames: (base: String, melody: String, whiteNoise: String) = (
+    @State var selectedImageNames: (base: String, melody: String, whiteNoise: String) = (
         base: "",
         melody: "",
         whiteNoise: ""
     )
     
-    @State private var opacityAnimationValues = [0.0, 0.0, 0.0]
-
-    @State private var textEntered = ""
+    @State var opacityAnimationValues = [0.0, 0.0, 0.0]
+    @State var textEntered = ""
     
     let baseAudioManager = AudioManager()
     let melodyAudioManager = AudioManager()
     let naturalAudioManager = AudioManager()
 
-    private var items = ["BASE", "MELODY", "WHITE NOISE"]
-    init(){
-        Theme.navigationBarColors(background: .white, titleColor: .black)
-        UINavigationBar.appearance().standardAppearance.shadowColor = .clear
-    }
+    var items = ["BASE", "MELODY", "WHITE NOISE"]
+
+//    init(){
+//        Theme.navigationBarColors(background: .white, titleColor: .black)
+//        UINavigationBar.appearance().standardAppearance.shadowColor = .clear
+//    }
 
     var body: some View {
         ZStack{
@@ -160,7 +161,7 @@ struct StudioView: View {
 
     @ViewBuilder
     func MixButton() -> some View {
-        NavigationLink(destination: StudioNamingView(selectedImageNames: $selectedImageNames, opacityAnimationValues: $opacityAnimationValues, textEntered: $textEntered)) {
+        NavigationLink(destination: StudioNamingView(shouldPoptoRootView: self.$rootIsActive, selectedImageNames: $selectedImageNames, opacityAnimationValues: $opacityAnimationValues, textEntered: $textEntered)) {
             Text("Mix")
                 .font(.system(size: 24, weight: .regular))
                 .foregroundColor( ($selectedBaseSound.id == 0 && $selectedMelodySound.id == 10 && $selectedWhiteNoiseSound.id == 20) ? Color.gray : Color.relaxDimPurple )
@@ -202,9 +203,3 @@ struct StudioView: View {
     }
 }
 
-
-struct StudioView_Previews: PreviewProvider {
-    static var previews: some View {
-        StudioView()
-    }
-}

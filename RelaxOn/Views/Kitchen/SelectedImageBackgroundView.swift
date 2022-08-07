@@ -28,16 +28,13 @@ struct SelectedImageBackgroundView: View {
             IllustImage(imageName: selectedImageNames.whiteNoise, animateVar: opacityAnimationValues[2])
 
         }
+        .ignoresSafeArea()
     }
 
     @ViewBuilder
     func IllustImage(imageName: String, animateVar: Double) -> some View {
         Image(imageName)
             .resizable()
-            .frame(width: deviceFrame().screenWidth, height: deviceFrame().screenHeight)
-            .scaledToFill()
-            .clipped()
-//            .aspectRatio(contentMode: .fill)
             .opacity(animateVar)
             .animation(.linear, value: animateVar)
     }

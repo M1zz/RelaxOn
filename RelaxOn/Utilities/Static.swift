@@ -183,9 +183,9 @@ let recipeRandomName = ["Recipe1","Recipe2","Recipe3","Recipe4","Recipe5","Recip
 let viewHorizontalPadding: CGFloat = 10
 
 class deviceFrame {
-    let screenWidth = UIScreen.main.bounds.size.width
-    let screenHeight = UIScreen.main.bounds.size.height
-    var exceptPaddingWidth: CGFloat {
+    static let screenWidth = UIScreen.main.bounds.size.width
+    static let screenHeight = UIScreen.main.bounds.size.height
+    static var exceptPaddingWidth: CGFloat {
         get {
             return screenWidth - 30
         }
