@@ -35,6 +35,7 @@ struct CdLibraryView: View {
             .navigationBarHidden(true)
             .navigationBarBackButtonHidden(true)
         }
+        .navigationViewStyle(.stack)
         .onAppear() {
             let notFirstVisit = UserDefaultsManager.shared.standard.bool(forKey: UserDefaultsManager.shared.notFirstVisit)
             showOnboarding = notFirstVisit ? false : true
