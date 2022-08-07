@@ -41,7 +41,7 @@ struct StudioView: View {
     let melodyAudioManager = AudioManager()
     let naturalAudioManager = AudioManager()
 
-    private var items = ["BASE", "MELODY", "NATURAL"]
+    private var items: [LocalizedStringKey] = ["BASE", "MELODY", "NATURAL"]
     init(){
         Theme.navigationBarColors(background: .white, titleColor: .black)
         UINavigationBar.appearance().standardAppearance.shadowColor = .clear

@@ -61,7 +61,7 @@ struct CDListView: View {
     
     var libraryHeader: some View {
         HStack {
-            Text("CD Library".uppercased())
+            Text("CD LIBRARY")
                 .font(.system(size: 24))
                 
             Spacer()
