@@ -26,79 +26,79 @@ struct VolumeControlView: View {
                 UpperPartOfVolumeControlView()
                     .padding(.bottom, UIScreen.main.bounds.height * 0.05)
                 
-//                HStack {
-//                    Button {
-//                        showVolumeControl.toggle()
-//                        baseAudioManager.stop()
-//                        melodyAudioManager.stop()
-//                        naturalAudioManager.stop()
-//                    } label: {
-//                        Image(systemName: "xmark")
-//                            .resizable()
-//                            .frame(width: 20, height: 20)
-//                            .foregroundColor(.white)
-//                    }
-//                    Spacer()
-//                    Text("Volume Control").WhiteTitleText()
-//                    Spacer()
-//                    Button {
-//                        //showVolumeControl.toggle()
-//                        baseAudioManager.stop()
-//                        melodyAudioManager.stop()
-//                        naturalAudioManager.stop()
-//                        // TODO: - 볼륨 저장
-//                        guard let localBaseSound = data.baseSound,
-//                              let localMelodySound = data.melodySound,
-//                              let localNaturalSound = data.naturalSound else { return }
-//
-//                        let newBaseSound = Sound(id: localBaseSound.id,
-//                                                 name: localBaseSound.name,
-//                                                 soundType: localBaseSound.soundType,
-//                                                 audioVolume: audioVolumes.baseVolume,
-//                                                 imageName: localBaseSound.imageName)
-//                        let newMelodySound = Sound(id: localMelodySound.id,
-//                                                   name: localMelodySound.name,
-//                                                   soundType: localMelodySound.soundType,
-//                                                   audioVolume: audioVolumes.melodyVolume,
-//                                                   imageName: localMelodySound.imageName)
-//
-//                        let newNaturalSound = Sound(id: localNaturalSound.id,
-//                                                    name: localNaturalSound.name,
-//                                                    soundType: localNaturalSound.soundType,
-//                                                    audioVolume: audioVolumes.naturalVolume,
-//                                                    imageName: localNaturalSound.imageName)
-//
-//                        let newMixedSound = MixedSound(id: data.id,
-//                                                       name: data.name,
-//                                                       baseSound: newBaseSound,
-//                                                       melodySound: newMelodySound,
-//                                                       naturalSound: newNaturalSound,
-//                                                       imageName: data.imageName)
-//
-//                        userRepositories.remove(at: data.id)
-//                        userRepositories.insert(newMixedSound, at: data.id)
-//                        let data = getEncodedData(data: userRepositories)
-//                        UserDefaultsManager.shared.standard.set(data, forKey: UserDefaultsManager.shared.recipes)
-//
-//                        hasShowAlert = true
-//                    } label: {
-//                        Text("Save")
-//                            .foregroundColor(ColorPalette.forground.color)
-//                            .fontWeight(.semibold)
-//                            .font(Font.system(size: 22))
-//                    }
-//
-//
-//                }
-//                .alert(isPresented: $hasShowAlert) {
-//                    Alert(
-//                        title: Text("Volume has changed, Restart the app please."),
-//                        dismissButton: .default(Text("Got it!")) {
-//                            showVolumeControl.toggle()
-//                        }
-//                    )
-//                }
-//                .padding()
+                //                HStack {
+                //                    Button {
+                //                        showVolumeControl.toggle()
+                //                        baseAudioManager.stop()
+                //                        melodyAudioManager.stop()
+                //                        naturalAudioManager.stop()
+                //                    } label: {
+                //                        Image(systemName: "xmark")
+                //                            .resizable()
+                //                            .frame(width: 20, height: 20)
+                //                            .foregroundColor(.white)
+                //                    }
+                //                    Spacer()
+                //                    Text("Volume Control").WhiteTitleText()
+                //                    Spacer()
+                //                    Button {
+                //                        //showVolumeControl.toggle()
+                //                        baseAudioManager.stop()
+                //                        melodyAudioManager.stop()
+                //                        naturalAudioManager.stop()
+                //                        // TODO: - 볼륨 저장
+                //                        guard let localBaseSound = data.baseSound,
+                //                              let localMelodySound = data.melodySound,
+                //                              let localNaturalSound = data.naturalSound else { return }
+                //
+                //                        let newBaseSound = Sound(id: localBaseSound.id,
+                //                                                 name: localBaseSound.name,
+                //                                                 soundType: localBaseSound.soundType,
+                //                                                 audioVolume: audioVolumes.baseVolume,
+                //                                                 imageName: localBaseSound.imageName)
+                //                        let newMelodySound = Sound(id: localMelodySound.id,
+                //                                                   name: localMelodySound.name,
+                //                                                   soundType: localMelodySound.soundType,
+                //                                                   audioVolume: audioVolumes.melodyVolume,
+                //                                                   imageName: localMelodySound.imageName)
+                //
+                //                        let newNaturalSound = Sound(id: localNaturalSound.id,
+                //                                                    name: localNaturalSound.name,
+                //                                                    soundType: localNaturalSound.soundType,
+                //                                                    audioVolume: audioVolumes.naturalVolume,
+                //                                                    imageName: localNaturalSound.imageName)
+                //
+                //                        let newMixedSound = MixedSound(id: data.id,
+                //                                                       name: data.name,
+                //                                                       baseSound: newBaseSound,
+                //                                                       melodySound: newMelodySound,
+                //                                                       naturalSound: newNaturalSound,
+                //                                                       imageName: data.imageName)
+                //
+                //                        userRepositories.remove(at: data.id)
+                //                        userRepositories.insert(newMixedSound, at: data.id)
+                //                        let data = getEncodedData(data: userRepositories)
+                //                        UserDefaultsManager.shared.standard.set(data, forKey: UserDefaultsManager.shared.recipes)
+                //
+                //                        hasShowAlert = true
+                //                    } label: {
+                //                        Text("Save")
+                //                            .foregroundColor(ColorPalette.forground.color)
+                //                            .fontWeight(.semibold)
+                //                            .font(Font.system(size: 22))
+                //                    }
+                //
+                //
+                //                }
+                //                .alert(isPresented: $hasShowAlert) {
+                //                    Alert(
+                //                        title: Text("Volume has changed, Restart the app please."),
+                //                        dismissButton: .default(Text("Got it!")) {
+                //                            showVolumeControl.toggle()
+                //                        }
+                //                    )
+                //                }
+                //                .padding()
                 
                 if let baseSound = data.baseSound {
                     SoundControlSlider(item: baseSound)
@@ -126,6 +126,10 @@ struct VolumeControlView: View {
                     .resizable()
                     .frame(width: 60, height: 60)
                     .cornerRadius(4)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 4)
+                            .stroke(.white, lineWidth: 1)
+                    )
             }
             
             VStack (alignment: .leading){
@@ -133,7 +137,7 @@ struct VolumeControlView: View {
                     Text(item.soundType.rawValue.uppercased())
                         .font(.system(size: 12, weight: .semibold, design: .default))
                         .foregroundColor(.systemGrey3)
-                        
+                    
                     Text(item.name)
                         .font(.system(size: 17, weight: .semibold, design: .default))
                         .foregroundColor(.systemGrey1)

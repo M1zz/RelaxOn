@@ -35,7 +35,7 @@ struct NewMusicView: View {
     var data: MixedSound
     
     @Binding var audioVolumes: (baseVolume: Float, melodyVolume: Float, naturalVolume: Float)
-    
+    @Binding var userRepositoriesState: [MixedSound]
     var body: some View {
         NavigationView {
             ZStack {
@@ -269,7 +269,11 @@ extension NewMusicView {
                 }
                 
                 Button(role: .destructive) {
-                    print("하이")
+                    userRepositories.remove(at: data.id)
+                    let data = getEncodedData(data: userRepositories)
+                    UserDefaultsManager.shared.standard.set(data, forKey: UserDefaultsManager.shared.recipes)
+                    userRepositoriesState = userRepositories
+                    presentationMode.wrappedValue.dismiss()
                 } label: {
                     HStack{
                         Text("Delete")
@@ -287,6 +291,17 @@ extension NewMusicView {
                     .tint(.systemGrey1)
             }
         }
+    }
+    
+    private func getEncodedData(data: [MixedSound]) -> Data? {
+        do {
+            let encoder = JSONEncoder()
+            let encodedData = try encoder.encode(data)
+            return encodedData
+        } catch {
+            print("Unable to Encode Note (\(error))")
+        }
+        return nil
     }
 }
 //
