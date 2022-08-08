@@ -57,7 +57,7 @@ struct NewMusicView: View {
                             .frame(width: cdViewWidth, height: cdViewWidth - 40)
                             .aspectRatio(1, contentMode: .fit)
                         
-                        Text(data.name)
+                        Text(viewModel.mixedSound?.name ?? "")
                             .font(.system(size: cdNameFontSize, design: .default))
                             .fontWeight(.semibold)
                             .foregroundColor(.white)
@@ -242,7 +242,7 @@ extension NewMusicView {
     func MusicContollerView() -> some View {
         HStack (spacing: 56) {
             Button {
-                print("ㅗㅑ")
+                viewModel.setupPreviousTrack(mixedSound: viewModel.mixedSound ?? emptyMixedSound)
             } label: {
                 Image(systemName: "backward.fill")
                     .resizable()
@@ -251,7 +251,8 @@ extension NewMusicView {
             }
             
             Button {
-                
+                viewModel.playPause()
+                viewModel.isPlaying.toggle()
             } label: {
                 Image(systemName: viewModel.isPlaying ? "pause.fill" : "play.fill")
                     .resizable()
@@ -260,7 +261,7 @@ extension NewMusicView {
             }
             
             Button {
-                print("ㅗㅑ")
+                viewModel.setupNextTrack(mixedSound: viewModel.mixedSound ?? emptyMixedSound)
             } label: {
                 Image(systemName: "forward.fill")
                     .resizable()

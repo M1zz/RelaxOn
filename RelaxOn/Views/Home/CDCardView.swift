@@ -17,7 +17,6 @@ struct CDCardView: View {
             Button(action: {
                 self.isShwoingMusicView.toggle()
             }, label: {
-                
                     ZStack {
                         Image(data.baseSound?.imageName ?? "")
                             .resizable()
