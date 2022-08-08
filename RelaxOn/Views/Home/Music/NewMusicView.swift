@@ -75,7 +75,7 @@ struct NewMusicView: View {
                 
                 VolumeControlView(showVolumeControl: $showVolumeControl,
                                   audioVolumes: $audioVolumes,
-                                  data: data)
+                                  data: viewModel.mixedSound ?? emptyMixedSound)
                 .cornerRadius(20)
                 .offset(y: offsetYOfControlView)
                 .gesture(
@@ -275,15 +275,15 @@ extension NewMusicView {
     @ViewBuilder
     func CDCoverView() -> some View {
         ZStack {
-            Image(data.baseSound?.imageName ?? "")
+            Image(viewModel.mixedSound?.baseSound?.imageName ?? "")
                 .resizable()
                 .opacity(0.5)
                 .frame(width: .infinity, height: .infinity)
-            Image(data.melodySound?.imageName ?? "")
+            Image(viewModel.mixedSound?.melodySound?.imageName ?? "")
                 .resizable()
                 .opacity(0.5)
                 .frame(width: .infinity, height: .infinity)
-            Image(data.naturalSound?.imageName ?? "")
+            Image(viewModel.mixedSound?.naturalSound?.imageName ?? "")
                 .resizable()
                 .opacity(0.5)
                 .frame(width: .infinity, height: .infinity)
