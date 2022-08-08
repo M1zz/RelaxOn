@@ -116,7 +116,7 @@ struct MusicView: View {
     @ViewBuilder
     func MusicControlButton() -> some View {
         Button(action: {
-            viewModel.play()
+            viewModel.playPause()
             viewModel.isPlaying.toggle()
         }, label: {
             
