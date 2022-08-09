@@ -9,15 +9,45 @@ import SwiftUI
 
 struct TimerSettingView: View {
     // TODO: @State var를 타이머 뷰모델로 교체 예정
-    @State var seconds: Double = 0
+    @State var seconds: Double = 60
+    var minute: Int {
+        Int(seconds / 60)
+    }
+    
 
     var body: some View {
         VStack {
+            header
             Spacer()
             timePickerView()
             Spacer()
             timerSettingButton()
         }
+        .background(.black)
+    }
+    
+    var header: some View {
+        return VStack() {
+            HStack(alignment: .bottom) {
+                Text("Relax for")
+                    .font(.system(size: 28, weight: .semibold))
+                    .padding(.bottom, 2)
+                Spacer()
+                Text("\(minute)")
+                    .font(.system(size: 28, weight: .regular))
+                    .foregroundColor(.relaxDimPurple)
+                Text("min")
+                    .font(.system(size: 18, weight: .regular))
+                    .foregroundColor(.relaxDimPurple)
+                    .padding(.bottom, 3)
+            }
+            .padding(.horizontal, 20)
+            Divider().background(.white)
+                .padding(.horizontal, 10)
+            Text("After \(minute) minutes, Relax On will automatically end")
+                .font(.system(size: 17))
+        }
+        .foregroundColor(.white)
     }
 }
 
@@ -42,11 +72,21 @@ extension TimerSettingView {
         Button {
         // TODO: 타이머 모델에 값 넣는 함수 넣기
         } label: {
-            Text("타이머 설정하기")
-                .font(.system(size: 17, weight: .medium))
-                .frame(width: deviceFrame().exceptPaddingWidth - 80, height: 44)
-                .background(.secondary)
-                .cornerRadius(8)
+            Text("SAVE")
+                .font(.system(size: 20, weight: .medium))
+                .frame(width: deviceFrame().screenWidth - 40, height: Layout.SaveButton.height)
+                .foregroundColor(.white)
+                .background(LinearGradient(gradient: Gradient(colors: [.relaxNightBlue, .relaxLavender]),
+                                           startPoint: .leading, endPoint: .trailing))
+                .cornerRadius(4)
         }.buttonStyle(.plain)
+    }
+}
+
+extension TimerSettingView {
+    private struct Layout {
+        enum SaveButton {
+            static let height: CGFloat = 60
+        }
     }
 }
