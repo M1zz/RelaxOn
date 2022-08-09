@@ -19,6 +19,7 @@ struct VolumeControlView: View {
     @State var hasShowAlert: Bool = false
     
     var body: some View {
+        let _ = print(audioVolumes)
         ZStack {
             Color.black.ignoresSafeArea()
             

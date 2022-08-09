@@ -36,6 +36,8 @@ struct NewMusicView: View {
     
     @Binding var audioVolumes: (baseVolume: Float, melodyVolume: Float, naturalVolume: Float)
     @Binding var userRepositoriesState: [MixedSound]
+    @State var newAudioVolumes: (baseVolume: Float, melodyVolume: Float, naturalVolume: Float) = (0, 0, 0)
+    @State var newMixedSound: MixedSound?
     var body: some View {
         NavigationView {
             ZStack {
@@ -74,7 +76,7 @@ struct NewMusicView: View {
                 .padding(.top, UIScreen.main.bounds.height * 0.1)
                 
                 VolumeControlView(showVolumeControl: $showVolumeControl,
-                                  audioVolumes: $audioVolumes,
+                                  audioVolumes: $newAudioVolumes,
                                   data: viewModel.mixedSound ?? emptyMixedSound)
                 .cornerRadius(20)
                 .offset(y: offsetYOfControlView)
@@ -104,14 +106,14 @@ struct NewMusicView: View {
                         .onEnded { value in
                             withAnimation(.spring()) {
                                 let draggedHeight = value.predictedEndTranslation.height
-                                if draggedHeight < -10 {
+                                if draggedHeight < -30 {
                                     offsetYOfControlView = UIScreen.main.bounds.height * 0.5
                                     cdViewWidth = UIScreen.main.bounds.width * 0.46
                                     cdViewHeight = UIScreen.main.bounds.height * 0.33
                                     cdNameFontSize = 22.0
                                     musicPlayButtonWidth = 26.0
                                     musicControlButtonWidth = 23
-                                } else if draggedHeight > 10 {
+                                } else if draggedHeight > 30 {
                                     offsetYOfControlView = UIScreen.main.bounds.height * 0.83
                                     cdViewWidth = UIScreen.main.bounds.width
                                     cdViewHeight = UIScreen.main.bounds.height * 0.63
@@ -136,7 +138,12 @@ struct NewMusicView: View {
             }
             .onAppear {
                 viewModel.fetchData(data: data)
+                self.newMixedSound = viewModel.mixedSound
             }
+            .onReceive(viewModel.$mixedSound, perform: { value in
+                newAudioVolumes = (baseVolume: viewModel.mixedSound?.baseSound?.audioVolume ?? 0.12,
+                                                  melodyVolume: viewModel.mixedSound?.melodySound?.audioVolume ?? 0.12, naturalVolume: viewModel.mixedSound?.naturalSound?.audioVolume ?? 0.12)
+            })
             .onDisappear {
                 viewModel.stop()
             }
@@ -242,7 +249,7 @@ extension NewMusicView {
     func MusicContollerView() -> some View {
         HStack (spacing: 56) {
             Button {
-                viewModel.setupPreviousTrack(mixedSound: viewModel.mixedSound ?? emptyMixedSound)
+                self.newMixedSound = viewModel.setupPreviousTrack(mixedSound: viewModel.mixedSound ?? emptyMixedSound)
             } label: {
                 Image(systemName: "backward.fill")
                     .resizable()
@@ -261,7 +268,7 @@ extension NewMusicView {
             }
             
             Button {
-                viewModel.setupNextTrack(mixedSound: viewModel.mixedSound ?? emptyMixedSound)
+                self.newMixedSound = viewModel.setupNextTrack(mixedSound: viewModel.mixedSound ?? emptyMixedSound)
             } label: {
                 Image(systemName: "forward.fill")
                     .resizable()

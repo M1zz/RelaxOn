@@ -14,7 +14,7 @@ final class MusicViewModel: NSObject, ObservableObject {
     @Published var melodyAudioManager = AudioManager()
     @Published var naturalAudioManager = AudioManager()
     @Published var isPlaying = true
-    
+//    @State var newAudioVolumes: (baseVolume: Float, melodyVolume: Float, naturalVolume: Float) = (0, 0, 0)
     @Published var mixedSound: MixedSound? {
         didSet {
             startPlayer()
@@ -105,14 +105,16 @@ final class MusicViewModel: NSObject, ObservableObject {
         center.nowPlayingInfo = nowPlayingInfo
     }
     
-    func setupNextTrack(mixedSound: MixedSound) {
+    func setupNextTrack(mixedSound: MixedSound) -> MixedSound {
         let count = userRepositories.count
         let id = mixedSound.id
         if id == count - 1 {
-            guard let firstSong = userRepositories.first else { return }
+            guard let firstSong = userRepositories.first else { return emptyMixedSound}
             self.mixedSound = firstSong
             self.setupRemoteCommandInfoCenter(mixedSound: firstSong)
             self.setupRemoteCommandCenter()
+            
+            return firstSong
         } else {
             let nextSong = userRepositories[ userRepositories.firstIndex {
                 $0.id > id
@@ -120,16 +122,20 @@ final class MusicViewModel: NSObject, ObservableObject {
             self.mixedSound = nextSong
             self.setupRemoteCommandInfoCenter(mixedSound: nextSong)
             self.setupRemoteCommandCenter()
+            
+            return nextSong
         }
     }
     
-    func setupPreviousTrack(mixedSound: MixedSound) {
+    func setupPreviousTrack(mixedSound: MixedSound) -> MixedSound {
         let id = mixedSound.id
         if id == 0 {
-            guard let lastSong = userRepositories.last else { return }
+            guard let lastSong = userRepositories.last else { return emptyMixedSound}
             self.mixedSound = lastSong
             self.setupRemoteCommandInfoCenter(mixedSound: lastSong)
             self.setupRemoteCommandCenter()
+            
+            return lastSong
         } else {
             let previousSong = userRepositories[ userRepositories.firstIndex {
                 $0.id < id
@@ -137,6 +143,8 @@ final class MusicViewModel: NSObject, ObservableObject {
             self.mixedSound = previousSong
             self.setupRemoteCommandInfoCenter(mixedSound: previousSong)
             self.setupRemoteCommandCenter()
+            
+            return previousSong
         }
     }
 }
