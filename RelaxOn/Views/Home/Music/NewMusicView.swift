@@ -73,7 +73,7 @@ struct NewMusicView: View {
                 }
                 .padding(.top, UIScreen.main.bounds.height * 0.1)
                 
-                VolumeControlView(showVolumeControl: $showVolumeControl,
+                VolumeControlView(viewModel: viewModel, showVolumeControl: $showVolumeControl,
                                   audioVolumes: $audioVolumes,
                                   data: viewModel.mixedSound ?? emptyMixedSound)
                 .cornerRadius(20)
@@ -86,7 +86,7 @@ struct NewMusicView: View {
                             let gradient = draggedHeight / deviceHalfHeight
                             
                             offsetYOfControlView += draggedHeight / 5
-                            
+                            print("변화중")
                             if value.translation.height > 0 {
                                 cdViewWidth = UIScreen.main.bounds.width * 0.54 * gradient + UIScreen.main.bounds.width * 0.46
                                 cdViewHeight = UIScreen.main.bounds.height * 0.3 * gradient + UIScreen.main.bounds.height * 0.33
@@ -118,9 +118,6 @@ struct NewMusicView: View {
                                     cdNameFontSize = 28.0
                                     musicPlayButtonWidth = 44
                                     musicControlButtonWidth = 49
-                                    print("1")
-                                    saveNewVolume()
-                                    print("2")
                                 } else {
                                     offsetYOfControlView = UIScreen.main.bounds.height * 0.83
                                     cdViewWidth = UIScreen.main.bounds.width
@@ -128,7 +125,6 @@ struct NewMusicView: View {
                                     cdNameFontSize = 28.0
                                     musicPlayButtonWidth = 44
                                     musicControlButtonWidth = 49
-                                    saveNewVolume()
                                 }
                             }
                         }
@@ -139,55 +135,19 @@ struct NewMusicView: View {
             }
             .onReceive(viewModel.$mixedSound, perform: { value in
                 audioVolumes = (baseVolume: viewModel.mixedSound?.baseSound?.audioVolume ?? 0.12,
-                                   melodyVolume: viewModel.mixedSound?.melodySound?.audioVolume ?? 0.12, naturalVolume: viewModel.mixedSound?.naturalSound?.audioVolume ?? 0.12)
+                                melodyVolume: viewModel.mixedSound?.melodySound?.audioVolume ?? 0.12,
+                                naturalVolume: viewModel.mixedSound?.naturalSound?.audioVolume ?? 0.12)
             })
             .onDisappear {
                 viewModel.stop()
+                userRepositoriesState = userRepositories
             }
             .background(
                 NavigationLink(destination: MusicRenameView(mixedSound: data), isActive: $isActive) {
                     Text("")
                 }
             )
-            .navigationTitle("Studio")
             .navigationBarHidden(true)
-            //            .toolbar {
-            //                ToolbarItem(placement: .navigationBarLeading) {
-            //                    Button {
-            //                        print("하이")
-            //                    } label: {
-            //                        Image(systemName: "shevron.down")
-            //                            .tint(.systemGrey1)
-            //                    }
-            //                }
-            //                ToolbarItem(placement: .navigationBarTrailing) {
-            //                    Menu {
-            //                        Button {
-            //                            self.isActive.toggle()
-            //                        } label: {
-            //                            HStack{
-            //                                Text("Rename")
-            //                                Image(systemName: "pencil")
-            //                            }
-            //                        }
-            //
-            //                        Button(role: .destructive) {
-            //                            print("하이")
-            //                        } label: {
-            //                            HStack{
-            //                                Text("Delete")
-            //                                    .foregroundColor(.red)
-            //                                Image(systemName: "trash")
-            //                                    .tint(.red)
-            //                            }
-            //                        }
-            //                    } label: {
-            //                        Image(systemName: "ellipsis")
-            //                            .rotationEffect(.degrees(90))
-            //                            .tint(.systemGrey1)
-            //                    }
-            //                }
-            //            }
         }
     }
     
@@ -200,43 +160,6 @@ struct NewMusicView: View {
             print("Unable to Encode Note (\(error))")
         }
         return nil
-    }
-    
-    private func saveNewVolume() {
-        print("시작")
-        guard let localBaseSound = data.baseSound,
-              let localMelodySound = data.melodySound,
-              let localNaturalSound = data.naturalSound else { return }
-        print("여기")
-        let newBaseSound = Sound(id: localBaseSound.id,
-                                 name: localBaseSound.name,
-                                 soundType: localBaseSound.soundType,
-                                 audioVolume: audioVolumes.baseVolume,
-                                 imageName: localBaseSound.imageName)
-        let newMelodySound = Sound(id: localMelodySound.id,
-                                   name: localMelodySound.name,
-                                   soundType: localMelodySound.soundType,
-                                   audioVolume: audioVolumes.melodyVolume,
-                                   imageName: localMelodySound.imageName)
-        
-        let newNaturalSound = Sound(id: localNaturalSound.id,
-                                    name: localNaturalSound.name,
-                                    soundType: localNaturalSound.soundType,
-                                    audioVolume: audioVolumes.naturalVolume,
-                                    imageName: localNaturalSound.imageName)
-        
-        let newMixedSound = MixedSound(id: data.id,
-                                       name: data.name,
-                                       baseSound: newBaseSound,
-                                       melodySound: newMelodySound,
-                                       naturalSound: newNaturalSound,
-                                       imageName: data.imageName)
-        
-        userRepositories.remove(at: data.id)
-        userRepositories.insert(newMixedSound, at: data.id)
-        let data = getEncodedData(data: userRepositories)
-        UserDefaultsManager.shared.standard.set(data, forKey: UserDefaultsManager.shared.recipes)
-        print("저장됐지롱")
     }
 }
 

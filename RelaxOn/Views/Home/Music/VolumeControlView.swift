@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct VolumeControlView: View {
-    
+    @ObservedObject var viewModel: MusicViewModel
     @Binding var showVolumeControl: Bool
     @Binding var audioVolumes: (baseVolume: Float, melodyVolume: Float, naturalVolume: Float)
     
@@ -19,87 +19,14 @@ struct VolumeControlView: View {
     @State var hasShowAlert: Bool = false
     
     var body: some View {
-        let _ = print(audioVolumes)
+//        let _ = print(data)
+//        let _ = print(audioVolumes)
         ZStack {
             Color.black.ignoresSafeArea()
             
             VStack {
                 UpperPartOfVolumeControlView()
                     .padding(.bottom, UIScreen.main.bounds.height * 0.05)
-                
-                //                HStack {
-                //                    Button {
-                //                        showVolumeControl.toggle()
-                //                        baseAudioManager.stop()
-                //                        melodyAudioManager.stop()
-                //                        naturalAudioManager.stop()
-                //                    } label: {
-                //                        Image(systemName: "xmark")
-                //                            .resizable()
-                //                            .frame(width: 20, height: 20)
-                //                            .foregroundColor(.white)
-                //                    }
-                //                    Spacer()
-                //                    Text("Volume Control").WhiteTitleText()
-                //                    Spacer()
-                //                    Button {
-                //                        //showVolumeControl.toggle()
-                //                        baseAudioManager.stop()
-                //                        melodyAudioManager.stop()
-                //                        naturalAudioManager.stop()
-                //                        // TODO: - 볼륨 저장
-                //                        guard let localBaseSound = data.baseSound,
-                //                              let localMelodySound = data.melodySound,
-                //                              let localNaturalSound = data.naturalSound else { return }
-                //
-                //                        let newBaseSound = Sound(id: localBaseSound.id,
-                //                                                 name: localBaseSound.name,
-                //                                                 soundType: localBaseSound.soundType,
-                //                                                 audioVolume: audioVolumes.baseVolume,
-                //                                                 imageName: localBaseSound.imageName)
-                //                        let newMelodySound = Sound(id: localMelodySound.id,
-                //                                                   name: localMelodySound.name,
-                //                                                   soundType: localMelodySound.soundType,
-                //                                                   audioVolume: audioVolumes.melodyVolume,
-                //                                                   imageName: localMelodySound.imageName)
-                //
-                //                        let newNaturalSound = Sound(id: localNaturalSound.id,
-                //                                                    name: localNaturalSound.name,
-                //                                                    soundType: localNaturalSound.soundType,
-                //                                                    audioVolume: audioVolumes.naturalVolume,
-                //                                                    imageName: localNaturalSound.imageName)
-                //
-                //                        let newMixedSound = MixedSound(id: data.id,
-                //                                                       name: data.name,
-                //                                                       baseSound: newBaseSound,
-                //                                                       melodySound: newMelodySound,
-                //                                                       naturalSound: newNaturalSound,
-                //                                                       imageName: data.imageName)
-                //
-                //                        userRepositories.remove(at: data.id)
-                //                        userRepositories.insert(newMixedSound, at: data.id)
-                //                        let data = getEncodedData(data: userRepositories)
-                //                        UserDefaultsManager.shared.standard.set(data, forKey: UserDefaultsManager.shared.recipes)
-                //
-                //                        hasShowAlert = true
-                //                    } label: {
-                //                        Text("Save")
-                //                            .foregroundColor(ColorPalette.forground.color)
-                //                            .fontWeight(.semibold)
-                //                            .font(Font.system(size: 22))
-                //                    }
-                //
-                //
-                //                }
-                //                .alert(isPresented: $hasShowAlert) {
-                //                    Alert(
-                //                        title: Text("Volume has changed, Restart the app please."),
-                //                        dismissButton: .default(Text("Got it!")) {
-                //                            showVolumeControl.toggle()
-                //                        }
-                //                    )
-                //                }
-                //                .padding()
                 
                 if let baseSound = data.baseSound {
                     SoundControlSlider(item: baseSound)
@@ -149,7 +76,11 @@ struct VolumeControlView: View {
                     
                     switch item.soundType {
                     case .base:
-                        Slider(value: $audioVolumes.baseVolume, in: 0...1)
+                        Slider(value: $audioVolumes.baseVolume, in: 0...1) { editing in
+                            if !editing {
+                                saveNewVolume()
+                            }
+                        }
                             .background(.black)
                             .cornerRadius(4)
                             .accentColor(.white)
@@ -162,7 +93,11 @@ struct VolumeControlView: View {
                         Text(String(Int(audioVolumes.baseVolume * 100)))
                             .foregroundColor(.systemGrey1)
                     case .melody:
-                        Slider(value: $audioVolumes.melodyVolume, in: 0...1)
+                        Slider(value: $audioVolumes.melodyVolume, in: 0...1) { editing in
+                            if !editing {
+                                saveNewVolume()
+                            }
+                        }
                             .background(.black)
                             .cornerRadius(4)
                             .accentColor(.white)
@@ -175,7 +110,11 @@ struct VolumeControlView: View {
                         Text(String(Int(audioVolumes.melodyVolume * 100)))
                             .foregroundColor(.systemGrey1)
                     case .natural:
-                        Slider(value: $audioVolumes.naturalVolume, in: 0...1)
+                        Slider(value: $audioVolumes.naturalVolume, in: 0...1) { editing in
+                            if !editing {
+                                saveNewVolume()
+                            }
+                        }
                             .background(.black)
                             .cornerRadius(4)
                             .accentColor(.white)
@@ -203,6 +142,44 @@ struct VolumeControlView: View {
             print("Unable to Encode Note (\(error))")
         }
         return nil
+    }
+    
+    private func saveNewVolume() {
+        guard let mixedSound = viewModel.mixedSound else { return }
+        guard let localBaseSound = viewModel.mixedSound?.baseSound,
+              let localMelodySound = viewModel.mixedSound?.melodySound,
+              let localNaturalSound = viewModel.mixedSound?.naturalSound else { return }
+        
+        let newBaseSound = Sound(id: localBaseSound.id,
+                                 name: localBaseSound.name,
+                                 soundType: localBaseSound.soundType,
+                                 audioVolume: audioVolumes.baseVolume,
+                                 imageName: localBaseSound.imageName)
+        let newMelodySound = Sound(id: localMelodySound.id,
+                                   name: localMelodySound.name,
+                                   soundType: localMelodySound.soundType,
+                                   audioVolume: audioVolumes.melodyVolume,
+                                   imageName: localMelodySound.imageName)
+        
+        let newNaturalSound = Sound(id: localNaturalSound.id,
+                                    name: localNaturalSound.name,
+                                    soundType: localNaturalSound.soundType,
+                                    audioVolume: audioVolumes.naturalVolume,
+                                    imageName: localNaturalSound.imageName)
+        
+        let newMixedSound = MixedSound(id: mixedSound.id,
+                                       name: mixedSound.name,
+                                       baseSound: newBaseSound,
+                                       melodySound: newMelodySound,
+                                       naturalSound: newNaturalSound,
+                                       imageName: mixedSound.imageName)
+        
+        userRepositories.remove(at: mixedSound.id)
+        userRepositories.insert(newMixedSound, at: mixedSound.id)
+        print(userRepositories)
+        let data = getEncodedData(data: userRepositories)
+        UserDefaultsManager.shared.standard.set(data, forKey: UserDefaultsManager.shared.recipes)
+        print("저장됐지롱")
     }
 }
 
