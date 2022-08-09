@@ -12,12 +12,12 @@ struct MixedSound: Identifiable, Codable, Equatable {
         return true
     }
     
-    /// 현재 라이브러리의 id 값에서 가장 큰 값에 + 1을 더한 값을 반환
+    /// 마지막으로 생성된 id + 1 값을 반환
     static func getUniqueId() -> Int {
-        if let maxId = userRepositories.map({$0.id}).max() {
-            return maxId + 1
-        }
-        return 0
+        let lastMusicId = UserDefaultsManager.shared.standard.integer(forKey: UserDefaultsManager.shared.lastMusicId)
+        let returnId = lastMusicId + 1
+        UserDefaultsManager.shared.standard.set(returnId, forKey: UserDefaultsManager.shared.lastMusicId)
+        return returnId
     }
 
     let id: Int
