@@ -21,7 +21,7 @@ struct TimerNavigationLinkView: View {
             HStack() {
                 Text("Relax on as much as you want")
                     .font(.callout)
-                    .foregroundColor(.white)
+                    .foregroundColor(.systemGrey1)
                 Spacer()
             }
         }.padding(.horizontal, 20)
@@ -34,6 +34,7 @@ struct TimerNavigationLinkView: View {
                 .foregroundColor(.systemGrey1)
                 .padding(.bottom, 2)
             Spacer()
+            // TODO: 타이머 남은 시간으로 변경 예정
             Text("30")
                 .font(.system(size: 28, weight: .regular))
                 .foregroundColor(.relaxDimPurple)

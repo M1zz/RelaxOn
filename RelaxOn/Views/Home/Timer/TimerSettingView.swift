@@ -47,6 +47,7 @@ struct TimerSettingView: View {
             HStack() {
                 Text("After \(minute) minutes, Relax On will automatically end")
                     .font(.system(size: 16))
+                    .foregroundColor(.systemGrey1)
                 Spacer()
             }
         }.padding(.horizontal, 20)
