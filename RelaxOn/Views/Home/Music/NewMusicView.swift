@@ -134,9 +134,10 @@ struct NewMusicView: View {
                 viewModel.fetchData(data: data)
             }
             .onReceive(viewModel.$mixedSound, perform: { value in
-                audioVolumes = (baseVolume: viewModel.mixedSound?.baseSound?.audioVolume ?? 0.12,
-                                melodyVolume: viewModel.mixedSound?.melodySound?.audioVolume ?? 0.12,
-                                naturalVolume: viewModel.mixedSound?.naturalSound?.audioVolume ?? 0.12)
+                guard let changedMixedSound = value else { return }
+                audioVolumes = (baseVolume: changedMixedSound.baseSound?.audioVolume ?? 0.12,
+                                melodyVolume: changedMixedSound.melodySound?.audioVolume ?? 0.12,
+                                naturalVolume: changedMixedSound.naturalSound?.audioVolume ?? 0.12)
             })
             .onDisappear {
                 viewModel.stop()
