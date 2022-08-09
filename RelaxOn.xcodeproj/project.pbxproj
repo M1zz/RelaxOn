@@ -112,7 +112,6 @@
 		10D26711288EF4C80056339A /* CustomSegmentControlView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSegmentControlView.swift; sourceTree = "<group>"; };
 		10D26713288EF4D20056339A /* RectPreference.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RectPreference.swift; sourceTree = "<group>"; };
 		10D26715288EF4DB0056339A /* StudioView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudioView.swift; sourceTree = "<group>"; };
-		2150BD0E2876CB89006C8312 /* CustomTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabView.swift; sourceTree = "<group>"; };
 		219BD67228900A28006FAF55 /* CDListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDListView.swift; sourceTree = "<group>"; };
 		21D897772892D48600A20FFE /* CDCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDCardView.swift; sourceTree = "<group>"; };
 		21FE2BB72899606A0024DA92 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
@@ -318,7 +317,6 @@
 				CC5AC10A289C033C00FE847B /* RelaxOnWidget */,
 				CC5AC105289C033C00FE847B /* Frameworks */,
 				58DE61802839C13900F25769 /* Products */,
-				CCF0D9872887745E00F61495 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
