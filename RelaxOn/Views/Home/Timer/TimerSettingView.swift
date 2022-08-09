@@ -23,14 +23,15 @@ struct TimerSettingView: View {
             Spacer()
             timerSettingButton()
         }
-        .background(.black)
+        .background(Color.relaxBlack)
     }
     
     var header: some View {
-        return VStack() {
+        return VStack(spacing: 6) {
             HStack(alignment: .bottom) {
                 Text("Relax for")
                     .font(.system(size: 28, weight: .semibold))
+                    .foregroundColor(.systemGrey1)
                     .padding(.bottom, 2)
                 Spacer()
                 Text("\(minute)")
@@ -41,13 +42,14 @@ struct TimerSettingView: View {
                     .foregroundColor(.relaxDimPurple)
                     .padding(.bottom, 3)
             }
-            .padding(.horizontal, 20)
             Divider().background(.white)
-                .padding(.horizontal, 10)
-            Text("After \(minute) minutes, Relax On will automatically end")
-                .font(.system(size: 17))
-        }
-        .foregroundColor(.white)
+                .padding(.bottom, 5)
+            HStack() {
+                Text("After \(minute) minutes, Relax On will automatically end")
+                    .font(.system(size: 16))
+                Spacer()
+            }
+        }.padding(.horizontal, 20)
     }
 }
 
@@ -55,6 +57,7 @@ struct TimerSettingView: View {
 struct TimerSettingView_Previews: PreviewProvider {
     static var previews: some View {
         TimerSettingView()
+            .preferredColorScheme(.dark)
     }
 }
 

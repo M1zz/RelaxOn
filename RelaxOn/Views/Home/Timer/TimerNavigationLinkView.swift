@@ -9,19 +9,29 @@ import SwiftUI
 
 struct TimerNavigationLinkView: View {
     var body: some View {
-        NavigationLink(destination : TimerSettingView()) {
-            label
-        }
-        .navigationBarTitle("CD LIBRARY") // 백버튼 텍스트 내용
-        .navigationBarHidden(true)
-        .buttonStyle(.plain)
+        VStack(spacing: 6) {
+            NavigationLink(destination : TimerSettingView()) {
+                label
+            }
+            .navigationBarTitle("CD LIBRARY") // 백버튼 텍스트 내용
+            .navigationBarHidden(true)
+            .buttonStyle(.plain)
+            Divider()
+                .background(.white)
+            HStack() {
+                Text("Relax on as much as you want")
+                    .font(.callout)
+                    .foregroundColor(.white)
+                Spacer()
+            }
+        }.padding(.horizontal, 20)
     }
     
     var label: some View {
         HStack(alignment: .bottom) {
             Text("Relax for")
                 .font(.system(size: 28, weight: .semibold))
-                .foregroundColor(.white)
+                .foregroundColor(.systemGrey1)
                 .padding(.bottom, 2)
             Spacer()
             Text("30")
@@ -36,7 +46,7 @@ struct TimerNavigationLinkView: View {
                 .foregroundColor(.relaxDimPurple)
                 .opacity(0.6)
                 .padding(.bottom, 3)
-        }.padding(.horizontal, 20)
+        }
     }
 }
 
