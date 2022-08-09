@@ -81,23 +81,30 @@ struct NewMusicView: View {
                 .gesture(
                     DragGesture()
                         .onChanged { value in
-                            let draggedHeight = value.translation.height
+                            var draggedHeight = value.translation.height
                             let deviceHalfHeight = UIScreen.main.bounds.height * 0.5
                             let gradient = draggedHeight / deviceHalfHeight
                             offsetYOfControlView += draggedHeight / 5
                             
-                            if value.translation.height > 0 {
-                                cdViewWidth = UIScreen.main.bounds.width * 0.54 * gradient + UIScreen.main.bounds.width * 0.46
-                                cdViewHeight = UIScreen.main.bounds.height * 0.3 * gradient + UIScreen.main.bounds.height * 0.33
-                                cdNameFontSize = 6.0 * gradient + 22.0
-                                musicPlayButtonWidth = 18 * gradient + 26.0
-                                musicControlButtonWidth = 26 * gradient + 23
+                            
+                            if value.location.y > UIScreen.main.bounds.height * 0.82 {
+                                return
+                            } else if offsetYOfControlView == deviceHalfHeight {
+                                return
                             } else {
-                                cdViewWidth = UIScreen.main.bounds.width * 0.54 * (gradient) + UIScreen.main.bounds.width
-                                cdViewHeight = UIScreen.main.bounds.height * 0.3 * (gradient) + UIScreen.main.bounds.height * 0.63
-                                cdNameFontSize = 6.0 * (gradient) + 28.0
-                                musicPlayButtonWidth = 18.0 * (gradient) + 44
-                                musicControlButtonWidth = 26 * (gradient) + 49
+                                if value.translation.height > 0 {
+                                    cdViewWidth = UIScreen.main.bounds.width * 0.54 * gradient + UIScreen.main.bounds.width * 0.46
+                                    cdViewHeight = UIScreen.main.bounds.height * 0.3 * gradient + UIScreen.main.bounds.height * 0.33
+                                    cdNameFontSize = 6.0 * gradient + 22.0
+                                    musicPlayButtonWidth = 18 * gradient + 26.0
+                                    musicControlButtonWidth = 26 * gradient + 23
+                                } else {
+                                    cdViewWidth = UIScreen.main.bounds.width * 0.54 * (gradient) + UIScreen.main.bounds.width
+                                    cdViewHeight = UIScreen.main.bounds.height * 0.3 * (gradient) + UIScreen.main.bounds.height * 0.63
+                                    cdNameFontSize = 6.0 * (gradient) + 28.0
+                                    musicPlayButtonWidth = 18.0 * (gradient) + 44
+                                    musicControlButtonWidth = 26 * (gradient) + 49
+                                }
                             }
                         }
                         .onEnded { value in
