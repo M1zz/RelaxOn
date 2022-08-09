@@ -37,7 +37,7 @@ struct StudioView: View {
     
     @State private var opacityAnimationValues = [0.0, 0.0, 0.0]
     
-    @State var volumes: [Double] = [0.5, 0.5, 0.5]
+    @State var volumes: [Float] = [0.5, 0.5, 0.5]
     
     let baseAudioManager = AudioManager()
     let melodyAudioManager = AudioManager()
@@ -108,13 +108,13 @@ struct StudioView: View {
                 }
                 .frame(height: 25)
                 .onChange(of: volumes[0]) { volume in
-                    baseAudioManager.changeVolume(track: selectedBaseSound.name, volume: Float(volume))
+                    baseAudioManager.changeVolume(track: selectedBaseSound.name, volume: volume)
                 }
                 .onChange(of: volumes[1]) { volume in
-                    naturalAudioManager.changeVolume(track: selectedNaturalSound.name, volume: Float(volume))
+                    naturalAudioManager.changeVolume(track: selectedNaturalSound.name, volume: volume)
                 }
                 .onChange(of: volumes[2]) { volume in
-                    melodyAudioManager.changeVolume(track: selectedMelodySound.name, volume: Float(volume))
+                    melodyAudioManager.changeVolume(track: selectedMelodySound.name, volume: volume)
                 }
                 
                 Text("\(Int(volumes[select] * 100))")
@@ -139,7 +139,7 @@ struct StudioView: View {
                                 
                                 opacityAnimationValues[0] = 0.0
                             } else {
-                                baseAudioManager.startPlayer(track: selectedBaseSound.name, volume: Float(volumes[select]))
+                                baseAudioManager.startPlayer(track: selectedBaseSound.name, volume: volumes[select])
                                 
                                 selectedImageNames.base = selectedBaseSound.imageName
                                 opacityAnimationValues[0] = 0.5
@@ -155,7 +155,7 @@ struct StudioView: View {
                                 
                                 opacityAnimationValues[2] = 0.0
                             } else {
-                                naturalAudioManager.startPlayer(track: selectedNaturalSound.name, volume: Float(volumes[select]))
+                                naturalAudioManager.startPlayer(track: selectedNaturalSound.name, volume: volumes[select])
                                 
                                 selectedImageNames.natural = selectedNaturalSound.imageName
                                 
@@ -172,7 +172,7 @@ struct StudioView: View {
                                 
                                 opacityAnimationValues[1] = 0.0
                             } else {
-                                melodyAudioManager.startPlayer(track: selectedMelodySound.name, volume: Float(volumes[select]))
+                                melodyAudioManager.startPlayer(track: selectedMelodySound.name, volume: volumes[select])
                                 
                                 selectedImageNames.melody = selectedMelodySound.imageName
                                 
