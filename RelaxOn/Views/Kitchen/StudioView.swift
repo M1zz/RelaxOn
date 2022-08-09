@@ -108,13 +108,13 @@ struct StudioView: View {
                 }
                 .frame(height: 25)
                 .onChange(of: volumes[0]) { volume in
-                    baseAudioManager.startPlayer(track: selectedBaseSound.name, volume: Float(volume))
+                    baseAudioManager.changeVolume(track: selectedBaseSound.name, volume: Float(volume))
                 }
                 .onChange(of: volumes[1]) { volume in
-                    naturalAudioManager.startPlayer(track: selectedNaturalSound.name, volume: Float(volume))
+                    naturalAudioManager.changeVolume(track: selectedNaturalSound.name, volume: Float(volume))
                 }
                 .onChange(of: volumes[2]) { volume in
-                    melodyAudioManager.startPlayer(track: selectedMelodySound.name, volume: Float(volume))
+                    melodyAudioManager.changeVolume(track: selectedMelodySound.name, volume: Float(volume))
                 }
                 
                 Text("\(Int(volumes[select] * 100))")
