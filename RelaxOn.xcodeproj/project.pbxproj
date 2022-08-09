@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		102CCFFA289101AD00B97F8F /* TestNavigateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 102CCFF9289101AD00B97F8F /* TestNavigateView.swift */; };
+		101417F6289EB80D00F40397 /* SelectedImageVew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 101417F5289EB80D00F40397 /* SelectedImageVew.swift */; };
+		101417F8289EB82200F40397 /* SelectedImageBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 101417F7289EB82200F40397 /* SelectedImageBackgroundView.swift */; };
+		101417FA289EB9F300F40397 /* StudioNamingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 101417F9289EB9F300F40397 /* StudioNamingView.swift */; };
 		10D26712288EF4C80056339A /* CustomSegmentControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D26711288EF4C80056339A /* CustomSegmentControlView.swift */; };
 		10D26714288EF4D20056339A /* RectPreference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D26713288EF4D20056339A /* RectPreference.swift */; };
 		10D26716288EF4DB0056339A /* StudioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D26715288EF4DB0056339A /* StudioView.swift */; };
@@ -59,7 +61,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		102CCFF9289101AD00B97F8F /* TestNavigateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestNavigateView.swift; sourceTree = "<group>"; };
+		101417F5289EB80D00F40397 /* SelectedImageVew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedImageVew.swift; sourceTree = "<group>"; };
+		101417F7289EB82200F40397 /* SelectedImageBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedImageBackgroundView.swift; sourceTree = "<group>"; };
+		101417F9289EB9F300F40397 /* StudioNamingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudioNamingView.swift; sourceTree = "<group>"; };
 		10D26711288EF4C80056339A /* CustomSegmentControlView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSegmentControlView.swift; sourceTree = "<group>"; };
 		10D26713288EF4D20056339A /* RectPreference.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RectPreference.swift; sourceTree = "<group>"; };
 		10D26715288EF4DB0056339A /* StudioView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudioView.swift; sourceTree = "<group>"; };
@@ -216,9 +220,11 @@
 				58DE61AE283A8C8B00F25769 /* KitchenView.swift */,
 				58DE101B283CA87F002CDB9F /* SoundCardView.swift */,
 				10D26715288EF4DB0056339A /* StudioView.swift */,
-				102CCFF9289101AD00B97F8F /* TestNavigateView.swift */,
 				58DE1033283F1A0A002CDB9F /* CustomAlertView.swift */,
 				219BD67228900A28006FAF55 /* CDListView.swift */,
+				101417F5289EB80D00F40397 /* SelectedImageVew.swift */,
+				101417F7289EB82200F40397 /* SelectedImageBackgroundView.swift */,
+				101417F9289EB9F300F40397 /* StudioNamingView.swift */,
 			);
 			path = Kitchen;
 			sourceTree = "<group>";
@@ -226,6 +232,7 @@
 		58DE103928405C7F002CDB9F /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				58DE61842839C13900F25769 /* CdLibraryView.swift */,
 				E2BF1055289172C600408B8C /* Timer */,
 				58DE61842839C13900F25769 /* CdLibraryView.swift */,
 				58DE61B8283A937000F25769 /* HomeView.swift */,
@@ -406,10 +413,10 @@
 				58DE61C52841C54700F25769 /* OnboardingView.swift in Sources */,
 				58DE61B2283A8E1700F25769 /* Sound.swift in Sources */,
 				58DE61BD283E542400F25769 /* MixedSoundCardView.swift in Sources */,
+				101417F8289EB82200F40397 /* SelectedImageBackgroundView.swift in Sources */,
 				58DE61C72843100100F25769 /* VolumeControlView.swift in Sources */,
 				E2BF105428914E9E00408B8C /* TimerNavigationLinkView.swift in Sources */,
 				10D26712288EF4C80056339A /* CustomSegmentControlView.swift in Sources */,
-				102CCFFA289101AD00B97F8F /* TestNavigateView.swift in Sources */,
 				58DE61832839C13900F25769 /* RelaxOnApp.swift in Sources */,
 				21D3ED972892781D006E871F /* CustomTabView.swift in Sources */,
 				21FE2BB82899606A0024DA92 /* Extension.swift in Sources */,
@@ -422,10 +429,12 @@
 				58DE101E283DC913002CDB9F /* AudioManager.swift in Sources */,
 				10D26714288EF4D20056339A /* RectPreference.swift in Sources */,
 				E2BF105B28917CAC00408B8C /* TimerSettingView.swift in Sources */,
+				101417F6289EB80D00F40397 /* SelectedImageVew.swift in Sources */,
 				58DE1034283F1A0A002CDB9F /* CustomAlertView.swift in Sources */,
 				E2BF105928917B6000408B8C /* TempMainView.swift in Sources */,
 				58DE61B7283A932E00F25769 /* MusicView.swift in Sources */,
 				58DE61B9283A937000F25769 /* HomeView.swift in Sources */,
+				101417FA289EB9F300F40397 /* StudioNamingView.swift in Sources */,
 				21D897782892D48600A20FFE /* CDCardView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
