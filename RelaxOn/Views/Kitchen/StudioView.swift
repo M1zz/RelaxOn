@@ -54,7 +54,7 @@ struct StudioView: View {
                     Spacer()
                     MixButton()
                 }.padding(.horizontal)
-                SelectedImageVIew(selectedImageNames: $selectedImageNames, opacityAnimationValues: $opacityAnimationValues)
+                SelectedImageView(selectedImageNames: $selectedImageNames, opacityAnimationValues: $opacityAnimationValues)
                 CustomSegmentControlView(items: items, selection: $select)
                 switch select {
                 case 1:

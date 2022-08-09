@@ -42,16 +42,31 @@ struct NewOnboardingView: View {
     var items = ["BASE", "MELODY", "WHITE NOISE"]
     var body: some View {
         NavigationView{
-            ZStack{
+            ZStack {
                 Color.relaxBlack.ignoresSafeArea()
                 VStack {
-                    HStack{
+
+                    HStack {
+
                         HStack {
-                            Text("Please name this CD")
-                                .frame(width: deviceFrame.exceptPaddingWidth / 2)
-                                .font(.system(size: 28, weight: .medium))
-                                .foregroundColor(.white)
-                                .lineLimit(2)
+
+                            VStack(alignment: .leading) {
+
+                                HStack {
+                                    Text("Please select")
+                                        .font(.system(size: 28, weight: .medium))
+                                        .foregroundColor(.white)
+                                    Spacer()
+                                }.fixedSize()
+
+                                HStack {
+                                    Text("\(items[select])")
+                                        .font(.system(size: 28, weight: .medium))
+                                        .foregroundColor(.white)
+                                    Spacer()
+                                }.fixedSize()
+                            }
+
                             Spacer()
                         }.padding()
 
@@ -59,8 +74,10 @@ struct NewOnboardingView: View {
 
                         MixButton()
                     }.padding(.horizontal)
-                    SelectedImageVIew(selectedImageNames: $selectedImageNames, opacityAnimationValues: $opacityAnimationValues)
+
+                    SelectedImageView(selectedImageNames: $selectedImageNames, opacityAnimationValues: $opacityAnimationValues)
                     CustomSegmentControlView(items: items, selection: $select)
+
                     switch select {
                     case 1:
                         SoundSelectView(sectionTitle: "Melody",
@@ -166,15 +183,15 @@ struct NewOnboardingView: View {
                 .foregroundColor( ($selectedBaseSound.id == 0 || $selectedMelodySound.id == 10 || $selectedWhiteNoiseSound.id == 20) ? Color.gray : Color.relaxDimPurple )
         }
         .opacity(($selectedBaseSound.id == 0 || $selectedMelodySound.id == 10 || $selectedWhiteNoiseSound.id == 20) ? 0 : 1)
-            .simultaneousGesture(TapGesture().onEnded { _ in
-                baseSound = selectedBaseSound
-                melodySound = selectedMelodySound
-                whiteNoiseSound = selectedWhiteNoiseSound
+        .simultaneousGesture(TapGesture().onEnded { _ in
+            baseSound = selectedBaseSound
+            melodySound = selectedMelodySound
+            whiteNoiseSound = selectedWhiteNoiseSound
 
-                baseAudioManager.stop()
-                melodyAudioManager.stop()
-                naturalAudioManager.stop()
-                self.textEntered = ""
-            })
+            baseAudioManager.stop()
+            melodyAudioManager.stop()
+            naturalAudioManager.stop()
+            self.textEntered = ""
+        })
     }
 }
