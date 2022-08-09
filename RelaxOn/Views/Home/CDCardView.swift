@@ -10,7 +10,6 @@ import SwiftUI
 struct CDCardView: View {
     var data: MixedSound
     @State var isShwoingMusicView = false
-    @State var audioVolumes: (baseVolume: Float, melodyVolume: Float, naturalVolume: Float) = (baseVolume: 0.0, melodyVolume: 0.0, naturalVolume: 0.0)
     @Binding var userRepositoriesState: [MixedSound]
     var body: some View {
         VStack(alignment: .leading) {
@@ -32,7 +31,7 @@ struct CDCardView: View {
                             .frame(width: UIScreen.main.bounds.width * 0.43, height: UIScreen.main.bounds.width * 0.43)
                     }
                     .fullScreenCover(isPresented: $isShwoingMusicView) {
-                        NewMusicView(data: data, audioVolumes: $audioVolumes, userRepositoriesState: $userRepositoriesState)
+                        NewMusicView(data: data, userRepositoriesState: $userRepositoriesState)
                     }
             })
             Text(data.name)

@@ -22,6 +22,7 @@ struct NewMusicView: View {
     @State private var musicControlButtonWidth = 49.0
     @State private var musicPlayButtonWidth = 44.0
     
+    @State var audioVolumes: (baseVolume: Float, melodyVolume: Float, naturalVolume: Float) = (0, 0, 0)
     @State private var offsetYOfControlView = UIScreen.main.bounds.height * 0.83 {
         didSet {
             if offsetYOfControlView < UIScreen.main.bounds.height * 0.5 {
@@ -33,11 +34,8 @@ struct NewMusicView: View {
     }
     
     var data: MixedSound
-    
-    @Binding var audioVolumes: (baseVolume: Float, melodyVolume: Float, naturalVolume: Float)
     @Binding var userRepositoriesState: [MixedSound]
-    @State var newAudioVolumes: (baseVolume: Float, melodyVolume: Float, naturalVolume: Float) = (0, 0, 0)
-    @State var newMixedSound: MixedSound?
+    
     var body: some View {
         NavigationView {
             ZStack {
@@ -76,7 +74,7 @@ struct NewMusicView: View {
                 .padding(.top, UIScreen.main.bounds.height * 0.1)
                 
                 VolumeControlView(showVolumeControl: $showVolumeControl,
-                                  audioVolumes: $newAudioVolumes,
+                                  audioVolumes: $audioVolumes,
                                   data: viewModel.mixedSound ?? emptyMixedSound)
                 .cornerRadius(20)
                 .offset(y: offsetYOfControlView)
@@ -138,11 +136,10 @@ struct NewMusicView: View {
             }
             .onAppear {
                 viewModel.fetchData(data: data)
-                self.newMixedSound = viewModel.mixedSound
             }
             .onReceive(viewModel.$mixedSound, perform: { value in
-                newAudioVolumes = (baseVolume: viewModel.mixedSound?.baseSound?.audioVolume ?? 0.12,
-                                                  melodyVolume: viewModel.mixedSound?.melodySound?.audioVolume ?? 0.12, naturalVolume: viewModel.mixedSound?.naturalSound?.audioVolume ?? 0.12)
+                audioVolumes = (baseVolume: viewModel.mixedSound?.baseSound?.audioVolume ?? 0.12,
+                                   melodyVolume: viewModel.mixedSound?.melodySound?.audioVolume ?? 0.12, naturalVolume: viewModel.mixedSound?.naturalSound?.audioVolume ?? 0.12)
             })
             .onDisappear {
                 viewModel.stop()
@@ -249,7 +246,7 @@ extension NewMusicView {
     func MusicContollerView() -> some View {
         HStack (spacing: 56) {
             Button {
-                self.newMixedSound = viewModel.setupPreviousTrack(mixedSound: viewModel.mixedSound ?? emptyMixedSound)
+                viewModel.setupPreviousTrack(mixedSound: viewModel.mixedSound ?? emptyMixedSound)
             } label: {
                 Image(systemName: "backward.fill")
                     .resizable()
@@ -268,7 +265,7 @@ extension NewMusicView {
             }
             
             Button {
-                self.newMixedSound = viewModel.setupNextTrack(mixedSound: viewModel.mixedSound ?? emptyMixedSound)
+                viewModel.setupNextTrack(mixedSound: viewModel.mixedSound ?? emptyMixedSound)
             } label: {
                 Image(systemName: "forward.fill")
                     .resizable()
