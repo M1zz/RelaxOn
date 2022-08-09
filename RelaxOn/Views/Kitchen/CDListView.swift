@@ -16,7 +16,6 @@ struct CDListView: View {
     )
     
     var body: some View {
-        
         VStack {
             libraryHeader
             

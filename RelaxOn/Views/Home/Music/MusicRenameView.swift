@@ -8,44 +8,141 @@
 import SwiftUI
 
 struct MusicRenameView: View {
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @State private var textEntered: String = ""
     var mixedSound: MixedSound
-    @State private var cdName = ""
     
     var body: some View {
-        ZStack{
-            Color.yellow
+        ZStack {
+            CDCoverView()
                 .ignoresSafeArea()
             
-            VStack(alignment: .leading, spacing: 0) {
-                TitleLabel(text: "Please rename")
-                TitleLabel(text: "this CD")
-                    .padding(.bottom, 22)
+            VStack {
+                HStack {
+                    NamingBackButton()
+                        .padding(.horizontal, 15)
+                    Spacer()
+                }
                 
-                TextField(mixedSound.name, text: $cdName)
-                    .padding(.bottom, 8)
-                Rectangle()
-                    .fill(.white)
-                    .frame(height: 1)
-                    .padding(.horizontal, 20)
+                HStack {
+                    Text("Please name this CD")
+                        .frame(width: deviceFrame().exceptPaddingWidth / 2)
+                        .font(.system(size: 28, weight: .medium))
+                        .foregroundColor(.white)
+                        .lineLimit(2)
+                    Spacer()
+                }.padding()
+                
+                VStack {
+                    TextField("", text: $textEntered)
+                        .foregroundColor(.white)
+                        .modifier(PlaceholderCustom(showPlaceHolder: textEntered.isEmpty, placeHolder: "Make your own CD"))
+                        .keyboardType(.alphabet)
+                        .multilineTextAlignment(.leading)
+                        .padding(.horizontal, 15)
+                    
+                    Rectangle()
+                        .foregroundColor(.white)
+                        .frame(width: deviceFrame().exceptPaddingWidth, height: 2)
+                }
+                Spacer()
+                SaveButton()
+                
             }
+        }.navigationBarHidden(true)
+    }
+    
+    private func getEncodedData(data: [MixedSound]) -> Data? {
+        do {
+            let encoder = JSONEncoder()
+            let encodedData = try encoder.encode(data)
+            return encodedData
+        } catch {
+            print("Unable to Encode Note (\(error))")
         }
-        .navigationBarHidden(true)
+        return nil
     }
-}
-
-extension MusicRenameView {
+    
     @ViewBuilder
-    func TitleLabel(text: String) -> some View {
-        Text(text)
-            .font(.system(.title, design: .default))
-            .fontWeight(.semibold)
-            .foregroundColor(.white)
-            .padding(.horizontal, 20)
+    func CDCoverView() -> some View {
+        ZStack {
+            Image(mixedSound.baseSound?.imageName ?? "")
+                .resizable()
+                .opacity(0.5)
+            //                .frame(width: .infinity, height: .infinity)
+            Image(mixedSound.melodySound?.imageName ?? "")
+                .resizable()
+                .opacity(0.5)
+            //                .frame(width: .infinity, height: .infinity)
+            Image(mixedSound.naturalSound?.imageName ?? "")
+                .resizable()
+                .opacity(0.5)
+            //                .frame(width: .infinity, height: .infinity)
+        }
+    }
+    
+    @ViewBuilder
+    func NamingBackButton() -> some View {
+        HStack{
+            Button(action: {
+                presentationMode.wrappedValue.dismiss()
+            }, label: {
+                Image(systemName: "chevron.backward")
+                    .foregroundColor(.white)
+            })
+            
+            Text("Studio")
+                .font(.system(size: 17, weight: .regular))
+                .foregroundColor(.white)
+            Spacer()
+        }
+    }
+    
+    @ViewBuilder
+    func SaveButton() -> some View {
+        ZStack {
+            Rectangle()
+                .foregroundColor(.relaxRealBlack)
+            
+            Text("SAVE")
+                .foregroundColor(.white)
+                .font(.system(size: 20, weight: .light))
+        }
+        .frame(width: deviceFrame().exceptPaddingWidth, height: deviceFrame().screenHeight * 0.07)
+        .opacity(textEntered.isEmpty ? 0.5 : 1)
+        .padding()
+        .onTapGesture {
+            let renamedMixedSound = MixedSound(id: mixedSound.id,
+                                               name: textEntered,
+                                               baseSound: mixedSound.baseSound,
+                                               melodySound: mixedSound.melodySound,
+                                               naturalSound: mixedSound.naturalSound,
+                                               imageName: recipeRandomName.randomElement()!)
+            
+            userRepositories.remove(at: mixedSound.id)
+            userRepositories.insert(renamedMixedSound, at: mixedSound.id)
+            
+            let data = getEncodedData(data: userRepositories)
+            UserDefaultsManager.shared.standard.set(data, forKey: UserDefaultsManager.shared.recipes)
+            presentationMode.wrappedValue.dismiss()
+        }
     }
 }
 
-//struct MusicRenameView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        MusicRenameView()
-//    }
-//}
+struct PlaceholderCustom: ViewModifier {
+    var showPlaceHolder: Bool
+    var placeHolder: String
+    
+    public func body(content: Content) -> some View {
+        ZStack(alignment: .leading) {
+            if showPlaceHolder {
+                Text(placeHolder)
+                    .foregroundColor(.systemGrey1)
+                    .font(.system(size: 17, weight: .light))
+            }
+            content
+                .foregroundColor(Color.white)
+                .font(.system(size: 17, weight: .light))
+        }
+    }
+}

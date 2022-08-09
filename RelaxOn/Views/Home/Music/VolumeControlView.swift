@@ -11,6 +11,7 @@ struct VolumeControlView: View {
     @ObservedObject var viewModel: MusicViewModel
     @Binding var showVolumeControl: Bool
     @Binding var audioVolumes: (baseVolume: Float, melodyVolume: Float, naturalVolume: Float)
+    @Binding var userRepositoriesState: [MixedSound]
     
     let data: MixedSound
     let baseAudioManager = AudioManager()
@@ -19,8 +20,6 @@ struct VolumeControlView: View {
     @State var hasShowAlert: Bool = false
     
     var body: some View {
-//        let _ = print(data)
-//        let _ = print(audioVolumes)
         ZStack {
             Color.black.ignoresSafeArea()
             
@@ -176,10 +175,9 @@ struct VolumeControlView: View {
         
         userRepositories.remove(at: mixedSound.id)
         userRepositories.insert(newMixedSound, at: mixedSound.id)
-        print(userRepositories)
+        userRepositoriesState = userRepositories
         let data = getEncodedData(data: userRepositories)
         UserDefaultsManager.shared.standard.set(data, forKey: UserDefaultsManager.shared.recipes)
-        print("저장됐지롱")
     }
 }
 

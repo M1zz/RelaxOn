@@ -74,7 +74,7 @@ struct NewMusicView: View {
                 .padding(.top, UIScreen.main.bounds.height * 0.1)
                 
                 VolumeControlView(viewModel: viewModel, showVolumeControl: $showVolumeControl,
-                                  audioVolumes: $audioVolumes,
+                                  audioVolumes: $audioVolumes, userRepositoriesState: $userRepositoriesState,
                                   data: viewModel.mixedSound ?? emptyMixedSound)
                 .cornerRadius(20)
                 .offset(y: offsetYOfControlView)
@@ -84,9 +84,8 @@ struct NewMusicView: View {
                             let draggedHeight = value.translation.height
                             let deviceHalfHeight = UIScreen.main.bounds.height * 0.5
                             let gradient = draggedHeight / deviceHalfHeight
-                            
                             offsetYOfControlView += draggedHeight / 5
-                            print("변화중")
+                            
                             if value.translation.height > 0 {
                                 cdViewWidth = UIScreen.main.bounds.width * 0.54 * gradient + UIScreen.main.bounds.width * 0.46
                                 cdViewHeight = UIScreen.main.bounds.height * 0.3 * gradient + UIScreen.main.bounds.height * 0.33
@@ -133,8 +132,8 @@ struct NewMusicView: View {
             .onAppear {
                 viewModel.fetchData(data: data)
             }
-            .onReceive(viewModel.$mixedSound, perform: { value in
-                guard let changedMixedSound = value else { return }
+            .onReceive(viewModel.$mixedSound, perform: { mixedSound in
+                guard let changedMixedSound = mixedSound else { return }
                 audioVolumes = (baseVolume: changedMixedSound.baseSound?.audioVolume ?? 0.12,
                                 melodyVolume: changedMixedSound.melodySound?.audioVolume ?? 0.12,
                                 naturalVolume: changedMixedSound.naturalSound?.audioVolume ?? 0.12)
@@ -144,7 +143,7 @@ struct NewMusicView: View {
                 userRepositoriesState = userRepositories
             }
             .background(
-                NavigationLink(destination: MusicRenameView(mixedSound: data), isActive: $isActive) {
+                NavigationLink(destination: MusicRenameView(mixedSound: viewModel.mixedSound ?? emptyMixedSound), isActive: $isActive) {
                     Text("")
                 }
             )
