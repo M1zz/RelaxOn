@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct NewOnboardingView: View {
+struct OnboardingView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @State var select: Int = 0
     @State var selectedBaseSound: Sound = Sound(id: 0,

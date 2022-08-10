@@ -40,7 +40,7 @@ struct CdLibraryView: View {
             showOnboarding = notFirstVisit ? false : true
         }
         .fullScreenCover(isPresented: $showOnboarding, content: {
-            NewOnboardingView(showOnboarding: $showOnboarding)
+            OnboardingView(showOnboarding: $showOnboarding)
                 .onDisappear {
                     userName = UserDefaultsManager.shared.standard.string(forKey: UserDefaultsManager.shared.userName) ?? UserDefaultsManager.shared.guest
                 }
