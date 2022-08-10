@@ -24,8 +24,10 @@ struct CDListView: View {
             libraryHeader
             
             ScrollView(.vertical, showsIndicators: false) {
-                LazyVGrid(columns: Array(repeating: GridItem(.flexible(),spacing: 10), count: 2), spacing: 20) {
+
+                LazyVGrid(columns: Array(repeating: GridItem(.flexible(), alignment: .top), count: 2), spacing: 18) {
                     plusCDImage.disabled(isEditMode)
+
                     ForEach(userRepositoriesState.reversed()){ mixedSound in
                         CDCardView(data: mixedSound, audioVolumes: (baseVolume: mixedSound.baseSound?.audioVolume ?? 1.0, melodyVolume: mixedSound.melodySound?.audioVolume ?? 1.0, naturalVolume: mixedSound.naturalSound?.audioVolume ?? 1.0))
                             .disabled(isEditMode)
@@ -118,7 +120,9 @@ struct CDListView: View {
     var libraryHeader: some View {
         HStack {
             Text("CD Library".uppercased())
-                .font(.system(size: 24))
+                .font(.title)
+                .fontWeight(.semibold)
+                .foregroundColor(.systemGrey1)
                 
             Spacer()
             
@@ -129,6 +133,7 @@ struct CDListView: View {
                     showingActionSheet = true
                 }
             }) {
+
                 if selectedMixedSoundIds.isEmpty {
                     Text(isEditMode ? "Done" : "Edit")
                         .foregroundColor(Color.gray)
@@ -145,16 +150,19 @@ struct CDListView: View {
     var plusCDImage: some View {
         VStack(alignment: .leading) {
             NavigationLink(destination: StudioView()) {
-                VStack {
-                    Image(systemName: "plus")
-                        .font(Font.system(size: 70, weight: .ultraLight))
+                ZStack {
+                    VStack {
+                        Image(systemName: "plus")
+                            .font(Font.system(size: 54, weight: .ultraLight))
+                    }
+                    
+                    RoundedRectangle(cornerRadius: 4)
+                        .strokeBorder()
                 }
                 .frame(width: UIScreen.main.bounds.width * 0.43, height: UIScreen.main.bounds.width * 0.43)
-                .background(.gray)
+                .foregroundColor(.systemGrey3)
             }
             .buttonStyle(.plain)
-            
-            Text("Studio")
         }
     }
 }
