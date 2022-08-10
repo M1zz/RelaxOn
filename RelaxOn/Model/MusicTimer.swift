@@ -10,9 +10,9 @@ import Foundation
 struct MusicTimer {
   
     var timerStop: Bool = false
-    var remainedSecond: Int = 0
+    var remainedSecond: Int = -1
     
     var timerOn: Bool {
-        remainedSecond > 0
+        remainedSecond > -1
     }
 }

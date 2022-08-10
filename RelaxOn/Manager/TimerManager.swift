@@ -13,14 +13,22 @@ final class TimerManager {
     
     var musicTimer = MusicTimer()
     
+    var currentMusicViewModel: MusicViewModel?
+    
     init() {
         Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
             if self.musicTimer.timerOn {
+                print(self.musicTimer.remainedSecond)
+                if self.musicTimer.remainedSecond <= 0 {
+                    if let currentMusicViewModel = self.currentMusicViewModel {
+                        print("종료")
+                        currentMusicViewModel.stop()
+                    }
+                }
+                
                 if !self.musicTimer.timerStop {
                     self.countDown()
                 }
-            } else {
-                // TODO: 음악 종료 함수 추가
             }
         }
     }
@@ -29,7 +37,7 @@ final class TimerManager {
         
     /// 1초씩 감소
     func countDown() {
-        if musicTimer.remainedSecond > 0 {
+        if musicTimer.remainedSecond > -1 {
             musicTimer.remainedSecond -= 1
         }
     }
