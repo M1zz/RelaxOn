@@ -11,7 +11,11 @@ struct VolumeControlView: View {
     @ObservedObject var viewModel: MusicViewModel
     @Binding var showVolumeControl: Bool
     @Binding var audioVolumes: (baseVolume: Float, melodyVolume: Float, naturalVolume: Float)
-    @Binding var userRepositoriesState: [MixedSound]
+    @Binding var userRepositoriesState: [MixedSound] {
+        didSet {
+            print("last24", userRepositoriesState.last?.baseSound?.audioVolume)
+        }
+    }
     
     let data: MixedSound
     let baseAudioManager = AudioManager()
@@ -173,11 +177,21 @@ struct VolumeControlView: View {
                                        naturalSound: newNaturalSound,
                                        imageName: mixedSound.imageName)
         
-        userRepositories.remove(at: mixedSound.id)
-        userRepositories.insert(newMixedSound, at: mixedSound.id)
-        userRepositoriesState = userRepositories
+//        userRepositories.remove(at: mixedSound.id)
+//        userRepositories.insert(newMixedSound, at: mixedSound.id)
+//        userRepositoriesState = userRepositories
+        #warning("DAKE 화이팅")
+        
+        userRepositoriesState.remove(at: mixedSound.id)
+        userRepositoriesState.insert(newMixedSound, at: mixedSound.id)
+        
+        print("last22", userRepositories.last?.baseSound?.audioVolume)
+        print("last25", userRepositoriesState.last?.baseSound?.audioVolume)
+        
         let data = getEncodedData(data: userRepositories)
         UserDefaultsManager.shared.standard.set(data, forKey: UserDefaultsManager.shared.recipes)
+        
+        
     }
 }
 

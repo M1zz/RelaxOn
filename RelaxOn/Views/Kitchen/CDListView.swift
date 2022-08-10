@@ -14,6 +14,7 @@ struct CDListView: View {
         melody: "",
         natural: ""
     )
+    @State var isShwoingMusicView = false
     
     var body: some View {
         VStack {
@@ -23,7 +24,7 @@ struct CDListView: View {
                 LazyVGrid(columns: Array(repeating: GridItem(.flexible(),spacing: 10), count: 2), spacing: 20) {
                     plusCDImage
                     ForEach(userRepositoriesState.reversed()){ mixedSound in
-                        CDCardView(data: mixedSound, userRepositoriesState: $userRepositoriesState)
+                        CDCardView(data: mixedSound, isShwoingMusicView: $isShwoingMusicView, userRepositoriesState: $userRepositoriesState)
                     }
                 }
             }
@@ -41,17 +42,22 @@ struct CDListView: View {
                 }
             }
         }
-        .onChange(of: userRepositories) { newValue in
-            if let data = UserDefaultsManager.shared.standard.data(forKey: UserDefaultsManager.shared.recipes) {
-                do {
-                    let decoder = JSONDecoder()
-
-                    userRepositories = try decoder.decode([MixedSound].self, from: data)
-                    userRepositoriesState = userRepositories
-                    print("help : \(userRepositories)")
-
-                } catch {
-                    print("Unable to Decode Note (\(error))")
+        .onChange(of: isShwoingMusicView) { newValue in
+            print("ss")
+            if isShwoingMusicView == false {
+                if let data = UserDefaultsManager.shared.standard.data(forKey: UserDefaultsManager.shared.recipes) {
+                    do {
+                        let decoder = JSONDecoder()
+                        
+                        userRepositories = try decoder.decode([MixedSound].self, from: data)
+                        userRepositoriesState = userRepositories
+                        print("help : \(userRepositories)")
+                        
+                        print("last", userRepositoriesState.last?.baseSound?.audioVolume)
+                        
+                    } catch {
+                        print("Unable to Decode Note (\(error))")
+                    }
                 }
             }
         }
@@ -62,7 +68,7 @@ struct CDListView: View {
         HStack {
             Text("CD Library".uppercased())
                 .font(.system(size: 24))
-                
+            
             Spacer()
             
             Button(action: {

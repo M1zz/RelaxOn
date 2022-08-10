@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CDCardView: View {
     var data: MixedSound
-    @State var isShwoingMusicView = false
+    @Binding var isShwoingMusicView: Bool
     @Binding var userRepositoriesState: [MixedSound]
     var body: some View {
         VStack(alignment: .leading) {
