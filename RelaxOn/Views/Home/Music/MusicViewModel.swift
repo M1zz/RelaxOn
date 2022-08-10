@@ -39,6 +39,7 @@ final class MusicViewModel: NSObject, ObservableObject {
     }
     
     func playPause() {
+        if isPlaying {
             baseAudioManager.playPause()
             melodyAudioManager.playPause()
             whiteNoiseAudioManager.playPause()
@@ -48,17 +49,18 @@ final class MusicViewModel: NSObject, ObservableObject {
             melodyAudioManager.startPlayer(track: mixedSound?.melodySound?.name ?? "base_default", volume: mixedSound?.melodySound?.audioVolume ?? 0.8)
             whiteNoiseAudioManager.startPlayer(track: mixedSound?.whiteNoiseSound?.name ?? "base_default", volume: mixedSound?.whiteNoiseSound?.audioVolume ?? 0.8)
         }
-    
+    }
+
     func stop() {
         baseAudioManager.stop()
         melodyAudioManager.stop()
-         whiteNoiseAudioManager.stop()
+        whiteNoiseAudioManager.stop()
     }
     
     func startPlayer() {
         baseAudioManager.startPlayer(track: mixedSound?.baseSound?.name ?? "base_default", volume: mixedSound?.baseSound?.audioVolume ?? 0.8)
         melodyAudioManager.startPlayer(track: mixedSound?.melodySound?.name ?? "base_default", volume: mixedSound?.melodySound?.audioVolume ?? 0.8)
-        naturalAudioManager.startPlayer(track: mixedSound?.naturalSound?.name ?? "base_default", volume: mixedSound?.naturalSound?.audioVolume ?? 0.8)
+        whiteNoiseAudioManager.startPlayer(track: mixedSound?.whiteNoiseSound?.name ?? "base_default", volume: mixedSound?.whiteNoiseSound?.audioVolume ?? 0.8)
     }
     
     func setupRemoteCommandCenter() {
