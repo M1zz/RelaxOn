@@ -181,13 +181,11 @@ struct StudioView: View {
                 Image(systemName: "chevron.backward")
                     .foregroundColor(.relaxDimPurple)
             })
-            .confirmationDialog("Leave Studio", isPresented: $showingConfirm) {
+            .confirmationDialog("나가면 사라집니다...", isPresented: $showingConfirm, titleVisibility: .visible) {
                 Button("Leave Studio", role: .destructive){
                     presentationMode.wrappedValue.dismiss()
                 }
                 Button("Cancle", role: .cancel){}
-            } message: {
-                Text("나가면 사라집니다...")
             }
             Text("CD LIBRARY")
                 .font(.system(size: 15, weight: .regular))
