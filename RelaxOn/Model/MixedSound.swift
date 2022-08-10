@@ -18,7 +18,7 @@ struct MixedSound: Identifiable, Codable, Equatable {
     var melodySound: Sound?
     var naturalSound: Sound?
     let imageName: String
-    let url: URL
+    let url: URL?
     
     init(id: Int, name: String, baseSound: Sound?, melodySound: Sound?, naturalSound: Sound?, imageName: String) {
         self.id = id
@@ -27,7 +27,12 @@ struct MixedSound: Identifiable, Codable, Equatable {
         self.melodySound = melodySound
         self.naturalSound = naturalSound
         self.imageName = imageName
+        #warning("여기입니다")
         // FIXME: id가 고유한 값이 맞는지 물어봐야 합니다(누구 담당인지를 모르겠습니다 아시는 분 알려주세요 !) 의심스러워서 우선은 id + name을 주소값으로 넣었습니다
-        url =  URL(string: "RelaxOn:///\(id)+\(name)")!
+        if let url = URL(string: "RelaxOn:///\(id)+\(name)") {
+            self.url = url
+        } else {
+            self.url = nil
+        }
     }
 }
