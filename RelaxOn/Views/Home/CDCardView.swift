@@ -10,10 +10,13 @@ import SwiftUI
 struct CDCardView: View {
     var data: MixedSound
     @State var audioVolumes: (baseVolume: Float, melodyVolume: Float, naturalVolume: Float) = (baseVolume: 0.0, melodyVolume: 0.0, naturalVolume: 0.0)
+    @State private var isPresent = false
     
     var body: some View {
         VStack(alignment: .leading) {
-            NavigationLink(destination: MusicView(data: data, audioVolumes: $audioVolumes)) {
+            NavigationLink(isActive: $isPresent) {
+                MusicView(data: data, audioVolumes: $audioVolumes)
+            } label: {
                 ZStack {
                     Image(data.baseSound?.imageName ?? "")
                         .resizable()
@@ -33,6 +36,9 @@ struct CDCardView: View {
             Text(data.name)
                 .font(.system(size: 17, weight: .regular))
                 .foregroundColor(.systemGrey1)
+        }
+        .onOpenURL { url in
+            isPresent = url == data.url
         }
     }
 }
