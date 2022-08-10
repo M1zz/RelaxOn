@@ -33,6 +33,7 @@ struct NewOnboardingView: View {
 
     @State var opacityAnimationValues = [0.0, 0.0, 0.0]
     @State var textEntered = ""
+    @State var stepBarWidth = deviceFrame.screenWidth * 0.33
     @Binding var showOnboarding: Bool
 
     let baseAudioManager = AudioManager()
@@ -40,11 +41,19 @@ struct NewOnboardingView: View {
     let naturalAudioManager = AudioManager()
 
     var items = ["BASE", "MELODY", "WHITE NOISE"]
+
     var body: some View {
         NavigationView{
             ZStack {
                 Color.relaxBlack.ignoresSafeArea()
+
                 VStack {
+                    Spacer()
+
+                    HStack{
+                        OnboardingStepBar()
+                        Spacer()
+                    }
 
                     HStack {
 
@@ -73,6 +82,7 @@ struct NewOnboardingView: View {
                         Spacer()
 
                         MixButton()
+                            .padding()
                     }.padding(.horizontal)
 
                     SelectedImageView(selectedImageNames: $selectedImageNames, opacityAnimationValues: $opacityAnimationValues)
@@ -82,12 +92,29 @@ struct NewOnboardingView: View {
                     case 1:
                         SoundSelectView(sectionTitle: "Melody",
                                         soundType: .melody)
+                        .onAppear() {
+                            withAnimation(.default) {
+                                stepBarWidth = deviceFrame.screenWidth * 0.66
+                            }
+                        }
+
                     case 2:
                         SoundSelectView(sectionTitle: "WhiteNoise Sound",
                                         soundType: .whiteNoise)
+                        .onAppear() {
+                            withAnimation(.default) {
+                                stepBarWidth = deviceFrame.screenWidth * 0.95
+                            }
+                        }
+
                     default:
                         SoundSelectView(sectionTitle: "Base Sound",
                                         soundType: .base)
+                        .onAppear() {
+                            withAnimation(.default) {
+                                stepBarWidth = deviceFrame.screenWidth * 0.33
+                            }
+                        }
                     }
                 }
                 .navigationBarHidden(true)
@@ -134,6 +161,7 @@ struct NewOnboardingView: View {
                                 opacityAnimationValues[0] = 0.5
                             }
                         }
+
                     case .whiteNoise:
                         RadioButtonGroupView(selectedId: soundType.rawValue,
                                              items: whiteNoiseSounds) { whiteNoiseSounds in
@@ -194,4 +222,17 @@ struct NewOnboardingView: View {
             self.textEntered = ""
         })
     }
+
+    @ViewBuilder
+    func OnboardingStepBar() -> some View {
+        Rectangle()
+            .frame(width: stepBarWidth, height: 3)
+            .foregroundStyle(LinearGradient(gradient: Gradient(colors: [Color.relaxNightBlue, Color.relaxLavender]), startPoint: .leading, endPoint: .trailing))
+    }
 }
+//
+//Rectangle()
+//    .foregroundColor(.white)
+//    .frame(width: selectedItemWidth, height: 3)
+//    .offset(x: selectedItemHorizontalOffset(), y: 0)
+//    .animation(Animation.linear(duration: 0.3), value: selectedItemWidth)
