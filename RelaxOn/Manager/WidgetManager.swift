@@ -5,7 +5,6 @@
 //  Created by 이가은 on 2022/08/06.
 //
 
-import SwiftUI
 import WidgetKit
 
 struct SmallWidgetData: Codable {

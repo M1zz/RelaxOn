@@ -5,9 +5,9 @@
 //  Created by 이가은 on 2022/08/04.
 //
 
+import Intents
 import WidgetKit
 import SwiftUI
-import Intents
 
 struct RelaxOnWidgetEntryView : View {
     //    @Environment(\.widgetFamily) var family: WidgetFamily
