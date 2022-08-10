@@ -13,13 +13,25 @@ struct SmallWidgetData: Codable {
     let id: Int
 }
 
-
 class WidgetManager {
+    static let suiteName = "group.widget.relaxOn"
+    static let smallWidgetData = "smallWidgetData"
+    static let widgetName = "RelaxOnWidget"
+    
     static func addMainSoundToWidget(imageName: String, name: String, id: Int) {
         let data = SmallWidgetData(imageName: imageName, name: name, id: id)
-        if let encodedData = try? JSONEncoder().encode(data) {
-            UserDefaults(suiteName: "group.widget.relaxOn")!.set(encodedData, forKey: "smallWidgetData")
+        if let encodedData = try? JSONEncoder().encode(data),
+           let UserDefaultsAppGroup = UserDefaults(suiteName: suiteName) {
+            UserDefaultsAppGroup.set(encodedData, forKey: smallWidgetData)
         }
-        WidgetCenter.shared.reloadTimelines(ofKind: "RelaxOnWidget")
+        WidgetCenter.shared.reloadTimelines(ofKind: widgetName)
+    }
+    
+    static func getURL(id: Int) -> URL? {
+        if let url = URL(string: "RelaxOn:///MixedSound\(id)") {
+            return url
+        } else {
+            return nil
+        }
     }
 }

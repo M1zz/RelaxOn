@@ -301,6 +301,7 @@
 			children = (
 				58DE61842839C13900F25769 /* CdLibraryView.swift */,
 				E2BF1055289172C600408B8C /* Timer */,
+				58DE61842839C13900F25769 /* CdLibraryView.swift */,
 				58DE61B8283A937000F25769 /* HomeView.swift */,
 				58DE61BC283E542400F25769 /* MixedSoundCardView.swift */,
 				58DE101F283DD9CA002CDB9F /* Music */,

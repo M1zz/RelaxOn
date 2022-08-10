@@ -12,6 +12,14 @@ struct MixedSound: Identifiable, Codable, Equatable {
         return true
     }
     
+    /// 마지막으로 생성된 id + 1 값을 반환
+    static func getUniqueId() -> Int {
+        let lastMusicId = UserDefaultsManager.shared.standard.integer(forKey: UserDefaultsManager.shared.lastMusicId)
+        let returnId = lastMusicId + 1
+        UserDefaultsManager.shared.standard.set(returnId, forKey: UserDefaultsManager.shared.lastMusicId)
+        return returnId
+    }
+
     let id: Int
     let name: String
     var baseSound: Sound?
@@ -27,12 +35,6 @@ struct MixedSound: Identifiable, Codable, Equatable {
         self.melodySound = melodySound
         self.naturalSound = naturalSound
         self.imageName = imageName
-        #warning("여기입니다")
-        // FIXME: id가 고유한 값이 맞는지 물어봐야 합니다(누구 담당인지를 모르겠습니다 아시는 분 알려주세요 !) 의심스러워서 우선은 id + name을 주소값으로 넣었습니다
-        if let url = URL(string: "RelaxOn:///\(id)+\(name)") {
-            self.url = url
-        } else {
-            self.url = nil
-        }
+        self.url = WidgetManager.getURL(id: id)
     }
 }

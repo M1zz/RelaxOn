@@ -13,14 +13,14 @@ struct CDWidgetEntry: TimelineEntry {
     let imageName: String
     var id: Int
     var name: String
-    var url: URL
+    var url: URL?
     
     init(date: Date = Date(), imageName: String = "Recipe5", id: Int = 100, name: String = "tempWidget") {
         self.date = date
         self.imageName = imageName
         self.id = id
         self.name = name
-        self.url = URL(string: "RelaxOn:///\(id)+\(name)")!
+        self.url = WidgetManager.getURL(id: id)
     }
 }
 

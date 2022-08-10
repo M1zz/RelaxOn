@@ -31,11 +31,11 @@ struct CDCardView: View {
                         .opacity(0.5)
                         .frame(width: UIScreen.main.bounds.width * 0.43, height: UIScreen.main.bounds.width * 0.43)
                 }
-                .onTapGesture {
-                    isPresent = true
-                }
+                .cornerRadius(4)
             }
             Text(data.name)
+                .font(.system(size: 17, weight: .regular))
+                .foregroundColor(.systemGrey1)
         }
         .onOpenURL { url in
             isPresent = url == data.url
