@@ -116,7 +116,7 @@ struct MusicView: View {
     @ViewBuilder
     func MusicControlButton() -> some View {
         Button(action: {
-            viewModel.play()
+            viewModel.playPause()
             viewModel.isPlaying.toggle()
         }, label: {
             
@@ -187,7 +187,6 @@ struct MusicView_Previews: PreviewProvider {
                                          melodySound: dummyMelodySound,
                                          naturalSound: dummyNaturalSound,
                                          imageName: "r1")
-        
         //        MusicView(data: dummyMixedSound)
     }
 }

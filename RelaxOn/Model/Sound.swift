@@ -15,6 +15,12 @@ struct Sound: Identifiable, Codable {
     let imageName: String
 }
 
+enum SoundType: String, Codable {
+    case base
+    case melody
+    case natural
+}
+
 var baseSounds = [
     Sound(id: 0,
           name: "Empty",

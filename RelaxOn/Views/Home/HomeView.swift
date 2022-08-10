@@ -45,6 +45,7 @@ struct HomeView: View {
                     print("Unable to Decode Note (\(error))")
                 }
             }
+            
         }
         .onChange(of: userRepositories) { newValue in
             userName = UserDefaultsManager.shared.standard.string(forKey: UserDefaultsManager.shared.userName) ?? UserDefaultsManager.shared.guest

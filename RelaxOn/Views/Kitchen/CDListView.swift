@@ -14,6 +14,9 @@ struct CDListView: View {
         melody: "",
         natural: ""
     )
+    @State private var isEditMode = false
+    @State private var selectedMixedSoundIds: [Int] = []
+    @State private var showingActionSheet = false
     
     var body: some View {
         
@@ -21,10 +24,38 @@ struct CDListView: View {
             libraryHeader
             
             ScrollView(.vertical, showsIndicators: false) {
-                LazyVGrid(columns: Array(repeating: GridItem(.flexible(),spacing: 10), count: 2), spacing: 20) {
-                    plusCDImage
+
+                LazyVGrid(columns: Array(repeating: GridItem(.flexible(), alignment: .top), count: 2), spacing: 18) {
+                    plusCDImage.disabled(isEditMode)
+
                     ForEach(userRepositoriesState.reversed()){ mixedSound in
                         CDCardView(data: mixedSound, audioVolumes: (baseVolume: mixedSound.baseSound?.audioVolume ?? 1.0, melodyVolume: mixedSound.melodySound?.audioVolume ?? 1.0, naturalVolume: mixedSound.naturalSound?.audioVolume ?? 1.0))
+                            .disabled(isEditMode)
+                            .overlay(alignment : .bottomTrailing) {
+                                if isEditMode {
+                                    if selectedMixedSoundIds.firstIndex(where: {$0 == mixedSound.id}) != nil {
+                                        Image(systemName: "checkmark.circle.fill")
+                                            .foregroundColor(.white)
+                                            .padding(.bottom, LayoutConstants.Padding.bottomOfRadioButton)
+                                            .padding(.trailing, LayoutConstants.Padding.trailingOfRadioButton)
+                                    } else {
+                                        Image(systemName: "circle")
+                                            .foregroundColor(.white)
+                                            .background(Image(systemName: "circle.fill").foregroundColor(.gray).opacity(0.5))
+                                            .padding(.bottom, LayoutConstants.Padding.bottomOfRadioButton)
+                                            .padding(.trailing, LayoutConstants.Padding.trailingOfRadioButton)
+                                    }
+                                }
+                            }
+                            .onTapGesture {
+                                if isEditMode {
+                                    if let index = selectedMixedSoundIds.firstIndex(where: {$0 == mixedSound.id}) {
+                                        selectedMixedSoundIds.remove(at: index)
+                                    } else {
+                                        selectedMixedSoundIds.append(mixedSound.id)
+                                    }
+                                }
+                            }
                     }
                 }
             }
@@ -46,7 +77,7 @@ struct CDListView: View {
             if let data = UserDefaultsManager.shared.standard.data(forKey: UserDefaultsManager.shared.recipes) {
                 do {
                     let decoder = JSONDecoder()
-
+                    
                     userRepositories = try decoder.decode([MixedSound].self, from: data)
                     userRepositoriesState = userRepositories
                     print("help : \(userRepositories)")
@@ -56,22 +87,62 @@ struct CDListView: View {
                 }
             }
         }
-        
+        .confirmationDialog("Are you sure?",
+                            isPresented: $showingActionSheet) {
+            Button("Delete \(selectedMixedSoundIds.count) CDs", role: .destructive) {
+                selectedMixedSoundIds.forEach { id in
+                    if let index = userRepositories.firstIndex(where: {$0.id == id}) {
+                        userRepositories.remove(at: index)
+                    }
+                }
+                let data = getEncodedData(data: userRepositories)
+                UserDefaults.standard.set(data, forKey: "recipes")
+                selectedMixedSoundIds = []
+                isEditMode = false
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("These CDs will be deleted from your library")
+        }
+    }
+    
+    private func getEncodedData(data: [MixedSound]) -> Data? {
+        do {
+            let encoder = JSONEncoder()
+            let encodedData = try encoder.encode(data)
+            return encodedData
+        } catch {
+            print("Unable to Encode Note (\(error))")
+        }
+        return nil
     }
     
     var libraryHeader: some View {
         HStack {
             Text("CD LIBRARY")
-                .font(.system(size: 24))
+                .font(.title)
+                .fontWeight(.semibold)
+                .foregroundColor(.systemGrey1)
                 
             Spacer()
             
             Button(action: {
-                
+                if selectedMixedSoundIds.isEmpty {
+                    isEditMode.toggle()
+                } else {
+                    showingActionSheet = true
+                }
             }) {
-                Text("Edit")
-                    .foregroundColor(Color.gray)
-                    .font(.system(size: 17))
+
+                if selectedMixedSoundIds.isEmpty {
+                    Text(isEditMode ? "Done" : "Edit")
+                        .foregroundColor(Color.gray)
+                        .font(.system(size: 17))
+                } else {
+                    Text("Delete")
+                        .foregroundColor(.red)
+                        .font(.system(size: 17))
+                }
             }
         }
     }
@@ -79,22 +150,37 @@ struct CDListView: View {
     var plusCDImage: some View {
         VStack(alignment: .leading) {
             NavigationLink(destination: StudioView()) {
-                VStack {
-                    Image(systemName: "plus")
-                        .font(Font.system(size: 70, weight: .ultraLight))
+                ZStack {
+                    VStack {
+                        Image(systemName: "plus")
+                            .font(Font.system(size: 54, weight: .ultraLight))
+                    }
+                    
+                    RoundedRectangle(cornerRadius: 4)
+                        .strokeBorder()
                 }
                 .frame(width: UIScreen.main.bounds.width * 0.43, height: UIScreen.main.bounds.width * 0.43)
-                .background(.gray)
+                .foregroundColor(.systemGrey3)
             }
             .buttonStyle(.plain)
-            
-            Text("Studio")
+        }
+    }
+}
+
+extension CDListView {
+    private struct LayoutConstants {
+        enum Padding {
+            static let trailingOfRadioButton: CGFloat = 10
+            static let bottomOfRadioButton: CGFloat = 40
         }
     }
 }
 
 struct CDListView_Previews: PreviewProvider {
     static var previews: some View {
-        CDListView()
+        NavigationView {
+            CDListView(userRepositoriesState: [dummyMixedSound, dummyMixedSound1, dummyMixedSound2, dummyMixedSound3])
+                .navigationBarHidden(true)
+        }
     }
 }
