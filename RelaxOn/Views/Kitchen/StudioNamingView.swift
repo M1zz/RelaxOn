@@ -29,7 +29,7 @@ struct StudioNamingView: View {
 
                 HStack {
                     Text("Please name this CD")
-                        .frame(width: deviceFrame.exceptPaddingWidth / 2)
+                        .frame(width: DeviceFrames.exceptPaddingWidth / 2)
                         .font(.system(size: 28, weight: .medium))
                         .foregroundColor(.white)
                         .lineLimit(2)
@@ -45,7 +45,7 @@ struct StudioNamingView: View {
 
                     Rectangle()
                         .foregroundColor(.white)
-                        .frame(width: deviceFrame.exceptPaddingWidth, height: 2)
+                        .frame(width: DeviceFrames.exceptPaddingWidth, height: 2)
                 }
                 Spacer()
                 SaveButton()
@@ -92,7 +92,7 @@ struct StudioNamingView: View {
                 .foregroundColor(.white)
                 .font(.system(size: 20, weight: .light))
         }
-        .frame(width: deviceFrame.exceptPaddingWidth, height: deviceFrame.screenHeight * 0.07)
+        .frame(width: DeviceFrames.exceptPaddingWidth, height: DeviceFrames.screenHeight * 0.07)
         .opacity(textEntered.isEmpty ? 0.5 : 1)
         .padding()
         .onTapGesture {

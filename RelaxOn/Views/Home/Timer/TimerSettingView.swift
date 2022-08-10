@@ -44,7 +44,7 @@ extension TimerSettingView {
         } label: {
             Text("타이머 설정하기")
                 .font(.system(size: 17, weight: .medium))
-                .frame(width: deviceFrame.exceptPaddingWidth - 80, height: 44)
+                .frame(width: DeviceFrames.exceptPaddingWidth - 80, height: 44)
                 .background(.secondary)
                 .cornerRadius(8)
         }.buttonStyle(.plain)

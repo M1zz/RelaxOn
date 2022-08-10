@@ -69,7 +69,7 @@ struct CustomAlertView: View {
                 }
             }.padding(.top, 40)
         }
-        .frame(width: deviceFrame.screenWidth - 100 , height: deviceFrame.screenHeight - 620)
+        .frame(width: DeviceFrames.screenWidth - 100 , height: DeviceFrames.screenHeight - 620)
     }
     
     private func getEncodedData(data: [MixedSound]) -> Data? {
