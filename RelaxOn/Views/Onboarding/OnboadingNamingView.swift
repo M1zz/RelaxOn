@@ -1,32 +1,28 @@
 //
-//  StudioNamingView.swift
+//  OnboadingNamingView.swift
 //  RelaxOn
 //
-//  Created by 김연호 on 2022/08/07.
+//  Created by 김연호 on 2022/08/08.
 //
 
 import SwiftUI
 
-struct StudioNamingView: View {
+struct OnboadingNamingView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    @Binding var shouldPoptoRootView: Bool
     @Binding var selectedImageNames: (base: String, melody: String, whiteNoise: String)
     @Binding var opacityAnimationValues: [Double]
     @Binding var textEntered: String
+    @Binding var showOnboarding: Bool
+    @State var isNamingNavigate: Bool = false
     
     var body: some View {
         ZStack {
-
+            
             SelectedImageBackgroundView(selectedImageNames: $selectedImageNames, opacityAnimationValues: $opacityAnimationValues)
                 .blur(radius: 5)
-
+            
             VStack {
-                HStack {
-                    NamingBackButton()
-                        .padding(.horizontal, 15)
-                    Spacer()
-                }
-
+                
                 HStack {
                     Text("Please name this CD")
                         .frame(width: deviceFrame.exceptPaddingWidth / 2)
@@ -35,25 +31,26 @@ struct StudioNamingView: View {
                         .lineLimit(2)
                     Spacer()
                 }.padding()
-
+                
                 VStack {
                     TextField("", text: $textEntered)
                         .foregroundColor(.white)
                         .modifier(PlaceholderCustom(showPlaceHolder: textEntered.isEmpty, placeHolder: "Make your own CD"))
                         .keyboardType(.alphabet)
                         .padding(.horizontal, 15)
-
+                    
                     Rectangle()
                         .foregroundColor(.white)
                         .frame(width: deviceFrame.exceptPaddingWidth, height: 2)
                 }
                 Spacer()
-                SaveButton()
 
+                SaveButton()
+                
             }
         }.navigationBarHidden(true)
     }
-
+    
     private func getEncodedData(data: [MixedSound]) -> Data? {
         do {
             let encoder = JSONEncoder()
@@ -64,38 +61,14 @@ struct StudioNamingView: View {
         }
         return nil
     }
-
-    @ViewBuilder
-    func NamingBackButton() -> some View {
-        HStack{
-            Button(action: {
-                presentationMode.wrappedValue.dismiss()
-            }, label: {
-                Image(systemName: "chevron.backward")
-                    .foregroundColor(.white)
-            })
-
-            Text("Studio")
-                .font(.system(size: 17, weight: .regular))
-                .foregroundColor(.white)
-            Spacer()
-        }
-    }
-
+    
     @ViewBuilder
     func SaveButton() -> some View {
-        ZStack {
-            Rectangle()
-                .foregroundColor(.relaxRealBlack)
-
-            Text("SAVE")
-                .foregroundColor(.white)
-                .font(.system(size: 20, weight: .light))
-        }
-        .frame(width: deviceFrame.exceptPaddingWidth, height: deviceFrame.screenHeight * 0.07)
-        .opacity(textEntered.isEmpty ? 0.5 : 1)
-        .padding()
-        .onTapGesture {
+        NavigationLink(isActive: $isNamingNavigate) {
+            OnboardingFinishView(selectedImageNames: $selectedImageNames, opacityAnimationValues: $opacityAnimationValues, textEntered: $textEntered, showOnboarding: $showOnboarding)
+        } label: {}
+        
+        Button {
             let newSound = MixedSound(id: userRepositories.count,
                                       name: textEntered,
                                       baseSound: baseSound,
@@ -103,28 +76,19 @@ struct StudioNamingView: View {
                                       whiteNoiseSound: whiteNoiseSound,
                                       imageName: recipeRandomName.randomElement()!)
             userRepositories.append(newSound)
-
+            
             let data = getEncodedData(data: userRepositories)
             UserDefaultsManager.shared.standard.set(data, forKey: UserDefaultsManager.shared.recipes)
-            self.shouldPoptoRootView = false
+            isNamingNavigate = true
+        } label: {
+            Text("SAVE")
+                .foregroundColor(.white)
+                .font(.system(size: 20, weight: .medium))
+                .frame(width: deviceFrame.exceptPaddingWidth, height: deviceFrame.screenHeight * 0.07)
+                .cornerRadius(10)
+                .background(.black)
         }
-    }
-}
-
-struct PlaceholderCustom: ViewModifier {
-    var showPlaceHolder: Bool
-    var placeHolder: String
-
-    public func body(content: Content) -> some View {
-        ZStack(alignment: .leading) {
-            if showPlaceHolder {
-                Text(placeHolder)
-                    .foregroundColor(.systemGrey1)
-                    .font(.system(size: 17, weight: .light))
-            }
-            content
-                .foregroundColor(Color.white)
-                .font(.system(size: 17, weight: .light))
-        }
+        .opacity(textEntered.isEmpty ? 0.5 : 1)
+        .padding()
     }
 }

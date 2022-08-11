@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CDListView: View {
+    @State var isActive: Bool = false
     @State var userRepositoriesState: [MixedSound] = userRepositories
     @State var selectedImageNames = (
         base: "",
@@ -17,6 +18,11 @@ struct CDListView: View {
     @State private var isEditMode = false
     @State private var selectedMixedSoundIds: [Int] = []
     @State private var showingActionSheet = false
+    
+    init(userRepositoriesState: [MixedSound] = userRepositories){
+        Theme.navigationBarColors(background: UIColor(named: "RelaxBlack") ?? .black, titleColor: UIColor(named: "RelaxDimPurple") ?? .white)
+        self.userRepositoriesState = userRepositoriesState
+    }
     
     var body: some View {
         
@@ -29,7 +35,8 @@ struct CDListView: View {
                     plusCDImage.disabled(isEditMode)
 
                     ForEach(userRepositoriesState.reversed()){ mixedSound in
-                        CDCardView(data: mixedSound, audioVolumes: (baseVolume: mixedSound.baseSound?.audioVolume ?? 1.0, melodyVolume: mixedSound.melodySound?.audioVolume ?? 1.0, naturalVolume: mixedSound.naturalSound?.audioVolume ?? 1.0))
+
+                        CDCardView(data: mixedSound, audioVolumes: (baseVolume: mixedSound.baseSound?.audioVolume ?? 1.0, melodyVolume: mixedSound.melodySound?.audioVolume ?? 1.0, whiteNoiseVolume: mixedSound.whiteNoiseSound?.audioVolume ?? 1.0))
                             .disabled(isEditMode)
                             .overlay(alignment : .bottomTrailing) {
                                 if isEditMode {
@@ -119,7 +126,7 @@ struct CDListView: View {
     
     var libraryHeader: some View {
         HStack {
-            Text("CD Library".uppercased())
+            Text("CD LIBRARY")
                 .font(.title)
                 .fontWeight(.semibold)
                 .foregroundColor(.systemGrey1)
@@ -149,7 +156,7 @@ struct CDListView: View {
     
     var plusCDImage: some View {
         VStack(alignment: .leading) {
-            NavigationLink(destination: StudioView()) {
+            NavigationLink(destination: StudioView(rootIsActive: self.$isActive), isActive: self.$isActive) {
                 ZStack {
                     VStack {
                         Image(systemName: "plus")
@@ -163,6 +170,9 @@ struct CDListView: View {
                 .foregroundColor(.systemGrey3)
             }
             .buttonStyle(.plain)
+            .navigationBarTitleDisplayMode(.inline)
+            
+            Text("Studio")
         }
     }
 }

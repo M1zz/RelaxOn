@@ -8,6 +8,7 @@
 import SwiftUI
 import MediaPlayer
 
+
 enum SelectedType: String {
     case home = "Home"
     case kitchen = "Kitchen"
