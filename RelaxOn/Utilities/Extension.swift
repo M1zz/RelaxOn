@@ -21,10 +21,16 @@ extension Color {
     static let systemGrey3 = Color("SystemGrey3")
 }
 
+
 extension UIColor {
     static let relaxBlack = UIColor(named: "RelaxBlack")
     static let relaxRealBlack = UIColor(named: "RelaxRealBlack")
     static let relaxNightBlue = UIColor(named: "RelaxNightBlue")
     static let relaxLavender = UIColor(named: "RelaxLavender")
     static let relaxDimPurple = UIColor(named: "RelaxDimPurple")
+
+extension String {
+    var localized: String {
+        return NSLocalizedString(self, tableName: "localizable", value: self, comment: "")
+    }
 }

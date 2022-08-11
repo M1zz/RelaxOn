@@ -55,8 +55,9 @@ struct SoundCardView: View {
                 }
 
                 HStack {
-                    Text(data.name)
-                        .fontWeight(.light)
+                    let name = LocalizedStringKey(data.name)
+                    Text(name)
+                        .fontWeight(.semibold)
                         .font(Font.system(size: 17))
                         .foregroundColor(Color.white)
                     Spacer()
