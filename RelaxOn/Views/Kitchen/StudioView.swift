@@ -42,10 +42,10 @@ struct StudioView: View {
     let naturalAudioManager = AudioManager()
 
     private var items = ["BASE", "MELODY", "NATURAL"]
-    init(){
-        Theme.navigationBarColors(background: .white, titleColor: .black)
-        UINavigationBar.appearance().standardAppearance.shadowColor = .clear
-    }
+//    init(){
+//        Theme.navigationBarColors(background: .white, titleColor: .black)
+//        UINavigationBar.appearance().standardAppearance.shadowColor = .clear
+//    }
 
     var body: some View {
         ZStack{
