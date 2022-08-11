@@ -9,7 +9,6 @@ import SwiftUI
 
 struct StudioView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    @Binding var rootIsActive: Bool
     @State var select: Int = 0
     @State var showingConfirm = false
     @State var selectedBaseSound: Sound = Sound(id: 0,
@@ -35,6 +34,8 @@ struct StudioView: View {
     
     @State var opacityAnimationValues = [0.0, 0.0, 0.0]
     @State var textEntered = ""
+    @State var navigateActive = false
+    @Binding var rootIsActive: Bool
     
     let baseAudioManager = AudioManager()
     let melodyAudioManager = AudioManager()
@@ -155,21 +156,26 @@ struct StudioView: View {
     
     @ViewBuilder
     func MixButton() -> some View {
-        NavigationLink(destination: StudioNamingView(shouldPoptoRootView: self.$rootIsActive, selectedImageNames: $selectedImageNames, opacityAnimationValues: $opacityAnimationValues, textEntered: $textEntered)) {
+        NavigationLink(isActive: $navigateActive) {
+            StudioNamingView(shouldPoptoRootView: self.$rootIsActive, selectedImageNames: $selectedImageNames, opacityAnimationValues: $opacityAnimationValues, textEntered: $textEntered)
+            } label: {}
+
+        Button {
+            baseSound = selectedBaseSound
+            melodySound = selectedMelodySound
+            whiteNoiseSound = selectedWhiteNoiseSound
+
+            baseAudioManager.stop()
+            melodyAudioManager.stop()
+            naturalAudioManager.stop()
+            self.textEntered = ""
+            navigateActive = true
+        } label: {
             Text("Mix")
                 .font(.system(size: 24, weight: .regular))
                 .foregroundColor( ($selectedBaseSound.id == 0 && $selectedMelodySound.id == 10 && $selectedWhiteNoiseSound.id == 20) ? Color.gray : Color.relaxDimPurple )
-        }.disabled( ($selectedBaseSound.id == 0 && $selectedMelodySound.id == 10 && $selectedWhiteNoiseSound.id == 20) ? true : false )
-            .simultaneousGesture(TapGesture().onEnded { _ in
-                baseSound = selectedBaseSound
-                melodySound = selectedMelodySound
-                whiteNoiseSound = selectedWhiteNoiseSound
-                
-                baseAudioManager.stop()
-                melodyAudioManager.stop()
-                naturalAudioManager.stop()
-                self.textEntered = ""
-            })
+        }.disabled(($selectedBaseSound.id == 0 && $selectedMelodySound.id == 10 && $selectedWhiteNoiseSound.id == 20) ? true : false)
+
     }
     
     @ViewBuilder
@@ -181,13 +187,11 @@ struct StudioView: View {
                 Image(systemName: "chevron.backward")
                     .foregroundColor(.relaxDimPurple)
             })
-            .confirmationDialog("Leave Studio", isPresented: $showingConfirm) {
+            .confirmationDialog("나가면 사라집니다...", isPresented: $showingConfirm, titleVisibility: .visible) {
                 Button("Leave Studio", role: .destructive){
                     presentationMode.wrappedValue.dismiss()
                 }
                 Button("Cancle", role: .cancel){}
-            } message: {
-                Text("나가면 사라집니다...")
             }
             Text("CD LIBRARY")
                 .font(.system(size: 15, weight: .regular))
