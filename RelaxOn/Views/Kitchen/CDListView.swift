@@ -124,7 +124,7 @@ struct CDListView: View {
     
     var libraryHeader: some View {
         HStack {
-            Text("CD Library".uppercased())
+            Text("CD LIBRARY")
                 .font(.title)
                 .fontWeight(.semibold)
                 .foregroundColor(.systemGrey1)

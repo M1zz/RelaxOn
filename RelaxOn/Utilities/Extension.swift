@@ -19,3 +19,9 @@ extension Color {
     static let systemGrey2 = Color("SystemGrey2")
     static let systemGrey3 = Color("SystemGrey3")
 }
+
+extension String {
+    var localized: String {
+        return NSLocalizedString(self, tableName: "localizable", value: self, comment: "")
+    }
+}

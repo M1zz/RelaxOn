@@ -13,9 +13,9 @@ public struct CustomSegmentControlView: View {
     @State private var segmentSize: CGSize = .zero
     @State private var itemTitleSizes: [CGSize] = []
 
-    private let items: [String]
+    private let items: [LocalizedStringKey]
 
-    public init(items: [String],
+    public init(items: [LocalizedStringKey],
                 selection: Binding<Int>) {
         self._selection = selection
         self.items = items
