@@ -52,6 +52,8 @@
 		58DE61C22841C20A00F25769 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 58DE61C12841C20A00F25769 /* Launch Screen.storyboard */; };
 		58DE61C52841C54700F25769 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61C42841C54700F25769 /* OnboardingView.swift */; };
 		58DE61C72843100100F25769 /* VolumeControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61C62843100100F25769 /* VolumeControlView.swift */; };
+		C77B294328A4E8A200CC97FC /* RelaxOnUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77B294228A4E8A200CC97FC /* RelaxOnUITests.swift */; };
+		C77B294528A4E8A200CC97FC /* RelaxOnUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77B294428A4E8A200CC97FC /* RelaxOnUITestsLaunchTests.swift */; };
 		CC2820482880102400587334 /* ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC2820472880102400587334 /* ViewModifiers.swift */; };
 		CC5AC107289C033C00FE847B /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC5AC106289C033C00FE847B /* WidgetKit.framework */; };
 		CC5AC109289C033C00FE847B /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC5AC108289C033C00FE847B /* SwiftUI.framework */; };
@@ -84,6 +86,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		C77B294628A4E8A200CC97FC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 58DE61772839C13900F25769 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 58DE617E2839C13900F25769;
+			remoteInfo = RelaxOn;
+		};
 		CC5AC113289C033D00FE847B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 58DE61772839C13900F25769 /* Project object */;
@@ -154,6 +163,9 @@
 		58DE61C12841C20A00F25769 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		58DE61C42841C54700F25769 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OnboardingView.swift; path = RelaxOn/Views/Onboarding/OnboardingView.swift; sourceTree = SOURCE_ROOT; };
 		58DE61C62843100100F25769 /* VolumeControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeControlView.swift; sourceTree = "<group>"; };
+		C77B294028A4E8A200CC97FC /* RelaxOnUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RelaxOnUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C77B294228A4E8A200CC97FC /* RelaxOnUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelaxOnUITests.swift; sourceTree = "<group>"; };
+		C77B294428A4E8A200CC97FC /* RelaxOnUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelaxOnUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		CC2820472880102400587334 /* ViewModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModifiers.swift; sourceTree = "<group>"; };
 		CC5AC104289C033C00FE847B /* RelaxOnWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = RelaxOnWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC5AC106289C033C00FE847B /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
@@ -180,6 +192,13 @@
 
 /* Begin PBXFrameworksBuildPhase section */
 		58DE617C2839C13900F25769 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C77B293D28A4E8A200CC97FC /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -320,6 +339,7 @@
 				CC5AC18F289D573A00FE847B /* RelaxOnWidgetExtension.entitlements */,
 				58DE61812839C13900F25769 /* RelaxOn */,
 				CC5AC10A289C033C00FE847B /* RelaxOnWidget */,
+				C77B294128A4E8A200CC97FC /* RelaxOnUITests */,
 				CC5AC105289C033C00FE847B /* Frameworks */,
 				58DE61802839C13900F25769 /* Products */,
 			);
@@ -330,6 +350,7 @@
 			children = (
 				58DE617F2839C13900F25769 /* RelaxOn.app */,
 				CC5AC104289C033C00FE847B /* RelaxOnWidgetExtension.appex */,
+				C77B294028A4E8A200CC97FC /* RelaxOnUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -380,6 +401,15 @@
 				58DE103828405C6C002CDB9F /* Kitchen */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		C77B294128A4E8A200CC97FC /* RelaxOnUITests */ = {
+			isa = PBXGroup;
+			children = (
+				C77B294228A4E8A200CC97FC /* RelaxOnUITests.swift */,
+				C77B294428A4E8A200CC97FC /* RelaxOnUITestsLaunchTests.swift */,
+			);
+			path = RelaxOnUITests;
 			sourceTree = "<group>";
 		};
 		CC5AC105289C033C00FE847B /* Frameworks */ = {
@@ -437,6 +467,24 @@
 			productReference = 58DE617F2839C13900F25769 /* RelaxOn.app */;
 			productType = "com.apple.product-type.application";
 		};
+		C77B293F28A4E8A200CC97FC /* RelaxOnUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C77B294A28A4E8A200CC97FC /* Build configuration list for PBXNativeTarget "RelaxOnUITests" */;
+			buildPhases = (
+				C77B293C28A4E8A200CC97FC /* Sources */,
+				C77B293D28A4E8A200CC97FC /* Frameworks */,
+				C77B293E28A4E8A200CC97FC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C77B294728A4E8A200CC97FC /* PBXTargetDependency */,
+			);
+			name = RelaxOnUITests;
+			productName = RelaxOnUITests;
+			productReference = C77B294028A4E8A200CC97FC /* RelaxOnUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		CC5AC103289C033C00FE847B /* RelaxOnWidgetExtension */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = CC5AC119289C033D00FE847B /* Build configuration list for PBXNativeTarget "RelaxOnWidgetExtension" */;
@@ -461,11 +509,15 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1340;
+				LastSwiftUpdateCheck = 1330;
 				LastUpgradeCheck = 1340;
 				TargetAttributes = {
 					58DE617E2839C13900F25769 = {
 						CreatedOnToolsVersion = 13.4;
+					};
+					C77B293F28A4E8A200CC97FC = {
+						CreatedOnToolsVersion = 13.3;
+						TestTargetID = 58DE617E2839C13900F25769;
 					};
 					CC5AC103289C033C00FE847B = {
 						CreatedOnToolsVersion = 13.4.1;
@@ -488,6 +540,7 @@
 			targets = (
 				58DE617E2839C13900F25769 /* RelaxOn */,
 				CC5AC103289C033C00FE847B /* RelaxOnWidgetExtension */,
+				C77B293F28A4E8A200CC97FC /* RelaxOnUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -516,6 +569,13 @@
 				CCA7F51E2877501E00D6A239 /* Localizable.strings in Resources */,
 				580CADB128659CF50091946C /* SpaceHigh.mp3 in Resources */,
 				580CADC22865A3850091946C /* DryGrass.mp3 in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C77B293E28A4E8A200CC97FC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -576,6 +636,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C77B293C28A4E8A200CC97FC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C77B294528A4E8A200CC97FC /* RelaxOnUITestsLaunchTests.swift in Sources */,
+				C77B294328A4E8A200CC97FC /* RelaxOnUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CC5AC100289C033C00FE847B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -598,6 +667,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		C77B294728A4E8A200CC97FC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 58DE617E2839C13900F25769 /* RelaxOn */;
+			targetProxy = C77B294628A4E8A200CC97FC /* PBXContainerItemProxy */;
+		};
 		CC5AC114289C033D00FE847B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = CC5AC103289C033C00FE847B /* RelaxOnWidgetExtension */;
@@ -798,6 +872,40 @@
 			};
 			name = Release;
 		};
+		C77B294828A4E8A200CC97FC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.RelaxOn.RelaxOnUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = RelaxOn;
+			};
+			name = Debug;
+		};
+		C77B294928A4E8A200CC97FC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.RelaxOn.RelaxOnUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = RelaxOn;
+			};
+			name = Release;
+		};
 		CC5AC117289C033D00FE847B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -877,6 +985,15 @@
 			buildConfigurations = (
 				58DE61A42839C13B00F25769 /* Debug */,
 				58DE61A52839C13B00F25769 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C77B294A28A4E8A200CC97FC /* Build configuration list for PBXNativeTarget "RelaxOnUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C77B294828A4E8A200CC97FC /* Debug */,
+				C77B294928A4E8A200CC97FC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
