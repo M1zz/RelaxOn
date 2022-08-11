@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import MediaPlayer
 
 enum SelectedType: String {
     case home = "Home"
@@ -21,23 +22,31 @@ struct CdLibraryView: View {
     
     var body: some View {
         NavigationView {
-            
             VStack {
-                // MARK: TimerNavigationView를 위한 자리
                 TimerNavigationLinkView()
-                Divider()
-                    .padding(.horizontal)
+                    .padding(.top, 56)
                 CDListView()
                 Spacer()
             }
+            .background(Color.relaxBlack)
             .navigationBarTitle("")
             .navigationBarHidden(true)
             .navigationBarBackButtonHidden(true)
         }
+        .preferredColorScheme(.dark)
         .navigationViewStyle(.stack)
         .onAppear() {
             let notFirstVisit = UserDefaultsManager.shared.standard.bool(forKey: UserDefaultsManager.shared.notFirstVisit)
             showOnboarding = notFirstVisit ? false : true
+            
+            UIApplication.shared.beginReceivingRemoteControlEvents()
+            let session = AVAudioSession.sharedInstance()
+               do{
+                   try session.setActive(true)
+                   try session.setCategory(.playback, mode: .default,  options: .defaultToSpeaker)
+               } catch{
+                   print(error.localizedDescription)
+               }
         }
         .fullScreenCover(isPresented: $showOnboarding, content: {
             OnboardingView(showOnboarding: $showOnboarding)
