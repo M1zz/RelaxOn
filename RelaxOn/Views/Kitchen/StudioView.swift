@@ -37,9 +37,11 @@ struct StudioView: View {
     @State var navigateActive = false
     @Binding var rootIsActive: Bool
     
+    @State var volumes: [Float] = [0.5, 0.5, 0.5]
+    
     let baseAudioManager = AudioManager()
     let melodyAudioManager = AudioManager()
-    let naturalAudioManager = AudioManager()
+    let whiteNoiseAudioManager = AudioManager()
     var items = ["BASE", "MELODY", "WHITE NOISE"]
     
     var body: some View {
@@ -89,8 +91,37 @@ struct StudioView: View {
                          soundType: SoundType) -> some View {
         VStack(spacing: 15) {
             HStack {
-                Text("볼륨조절 컴포넌트")
-            }
+                Image(systemName: "speaker.wave.1.fill")
+                    .frame(width: 18.0, height: 18.0)
+                    .foregroundColor(.white)
+                
+                VolumeSlider(value: $volumes[select], range: (0, 1), knobWidth: 14) { modifiers in
+                  ZStack {
+                    Color.white.cornerRadius(3).frame(height: 2).modifier(modifiers.barLeft)
+                    Color.white.opacity(0.4).cornerRadius(3).frame(height: 2).modifier(modifiers.barRight)
+                    ZStack {
+                      Circle().fill(Color.white)
+                    }.modifier(modifiers.knob)
+                  }
+                }
+                .frame(height: 25)
+                .onChange(of: volumes[0]) { volume in
+                    baseAudioManager.changeVolume(track: selectedBaseSound.name, volume: volume)
+                }
+                .onChange(of: volumes[1]) { volume in
+                    whiteNoiseAudioManager.changeVolume(track: selectedWhiteNoiseSound.name, volume: volume)
+                }
+                .onChange(of: volumes[2]) { volume in
+                    melodyAudioManager.changeVolume(track: selectedMelodySound.name, volume: volume)
+                }
+                
+                Text("\(Int(volumes[select] * 100))")
+                    .font(.body)
+                    .foregroundColor(.systemGrey1)
+                    .frame(maxWidth: 30)
+            }.background(Color.black) // 나중에 삭제할 예정
+                .padding([.horizontal])
+            
             ScrollView(.vertical,
                        showsIndicators: false) {
                 HStack(spacing: 30) {
@@ -106,7 +137,7 @@ struct StudioView: View {
                                 
                                 opacityAnimationValues[0] = 0.0
                             } else {
-                                baseAudioManager.startPlayer(track: selectedBaseSound.name)
+                                baseAudioManager.startPlayer(track: selectedBaseSound.name, volume: volumes[select])
                                 
                                 selectedImageNames.base = selectedBaseSound.imageName
                                 opacityAnimationValues[0] = 0.5
@@ -118,14 +149,13 @@ struct StudioView: View {
                             selectedWhiteNoiseSound = whiteNoiseSounds
                             
                             if selectedWhiteNoiseSound.name == "Empty" {
-                                naturalAudioManager.stop()
+                                whiteNoiseAudioManager.stop()
                                 
                                 opacityAnimationValues[2] = 0.0
                             } else {
-                                naturalAudioManager.startPlayer(track: selectedWhiteNoiseSound.name)
+                                whiteNoiseAudioManager.startPlayer(track: selectedWhiteNoiseSound.name, volume: volumes[select])
                                 
-                                selectedImageNames.whiteNoise = selectedWhiteNoiseSound.imageName
-                                
+                                selectedImageNames.whiteNoise = selectedWhiteNoiseSound.imageName                                
                                 opacityAnimationValues[2] = 0.5
                             }
                         }
@@ -139,7 +169,7 @@ struct StudioView: View {
                                 
                                 opacityAnimationValues[1] = 0.0
                             } else {
-                                melodyAudioManager.startPlayer(track: selectedMelodySound.name)
+                                melodyAudioManager.startPlayer(track: selectedMelodySound.name, volume: volumes[select])
                                 
                                 selectedImageNames.melody = selectedMelodySound.imageName
                                 
@@ -166,7 +196,7 @@ struct StudioView: View {
 
             baseAudioManager.stop()
             melodyAudioManager.stop()
-            naturalAudioManager.stop()
+            whiteNoiseAudioManager.stop()
             self.textEntered = ""
             navigateActive = true
         } label: {
@@ -174,9 +204,8 @@ struct StudioView: View {
                 .font(.system(size: 24, weight: .regular))
                 .foregroundColor( ($selectedBaseSound.id == 0 && $selectedMelodySound.id == 10 && $selectedWhiteNoiseSound.id == 20) ? Color.gray : Color.relaxDimPurple )
         }.disabled(($selectedBaseSound.id == 0 && $selectedMelodySound.id == 10 && $selectedWhiteNoiseSound.id == 20) ? true : false)
-
     }
-    
+
     @ViewBuilder
     func StudioBackButton() -> some View {
         HStack{
