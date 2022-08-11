@@ -42,10 +42,10 @@ struct StudioView: View {
     let naturalAudioManager = AudioManager()
 
     private var items = ["BASE", "MELODY", "NATURAL"]
-    init(){
-        Theme.navigationBarColors(background: .white, titleColor: .black)
-        UINavigationBar.appearance().standardAppearance.shadowColor = .clear
-    }
+//    init(){
+//        Theme.navigationBarColors(background: .white, titleColor: .black)
+//        UINavigationBar.appearance().standardAppearance.shadowColor = .clear
+//    }
 
     var body: some View {
         ZStack{
@@ -157,11 +157,26 @@ struct StudioView: View {
 
     @ViewBuilder
     func MixButton() -> some View {
-        NavigationLink(destination: StudioNamingView(selectedImageNames: $selectedImageNames, opacityAnimationValues: $opacityAnimationValues)) {
+          Button {
+            showingAlert = true
+            baseSound = selectedBaseSound
+            melodySound = selectedMelodySound
+            naturalSound = selectedNaturalSound
+            baseAudioManager.stop()
+            melodyAudioManager.stop()
+            naturalAudioManager.stop()
+            self.textEntered = ""
+          } label: {
             Text("Mix")
-                .foregroundColor( ($selectedBaseSound.id == 0 && $selectedMelodySound.id == 10 && $selectedNaturalSound.id == 20) ? Color.gray : Color.black )
-        }.disabled( ($selectedBaseSound.id == 0 && $selectedMelodySound.id == 10 && $selectedNaturalSound.id == 20) ? true : false )
-    }
+              .foregroundColor( ($selectedBaseSound.id == 0 && $selectedMelodySound.id == 10 && $selectedNaturalSound.id == 20) ? Color.gray : Color.black )
+          }.disabled( ($selectedBaseSound.id == 0 && $selectedMelodySound.id == 10 && $selectedNaturalSound.id == 20) ? true : false )
+        }
+//    func MixButton() -> some View {
+//        NavigationLink(destination: StudioNamingView(selectedImageNames: $selectedImageNames, opacityAnimationValues: $opacityAnimationValues)) {
+//            Text("Mix")
+//                .foregroundColor( ($selectedBaseSound.id == 0 && $selectedMelodySound.id == 10 && $selectedNaturalSound.id == 20) ? Color.gray : Color.black )
+//        }.disabled( ($selectedBaseSound.id == 0 && $selectedMelodySound.id == 10 && $selectedNaturalSound.id == 20) ? true : false )
+//    }
 //        Button {
 //            showingAlert = true
 //
