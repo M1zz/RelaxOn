@@ -9,29 +9,45 @@ import SwiftUI
 
 struct TimerNavigationLinkView: View {
     var body: some View {
-        NavigationLink(destination : TimerSettingView()) {
-            label
-        }
-        .buttonStyle(.plain)
+        VStack(spacing: 6) {
+            NavigationLink(destination : TimerSettingView()) {
+                label
+            }
+            .navigationBarTitle("CD LIBRARY") // 백버튼 텍스트 내용
+            .navigationBarHidden(true)
+            .buttonStyle(.plain)
+            Divider()
+                .background(.white)
+            HStack() {
+                Text("Relax on as much as you want")
+                    .font(.callout)
+                    .foregroundColor(.systemGrey1)
+                Spacer()
+            }
+        }.padding(.horizontal, 20)
     }
     
     var label: some View {
         HStack(alignment: .bottom) {
-            Text("HOW LONG ..")
-                .font(.system(size: 24, weight: .medium))
+            Text("Relax for")
+                .font(.system(size: 28, weight: .semibold))
+                .foregroundColor(.systemGrey1)
                 .padding(.bottom, 2)
             Spacer()
+            // TODO: 타이머 남은 시간으로 변경 예정
             Text("30")
                 .font(.system(size: 28, weight: .regular))
+                .foregroundColor(.relaxDimPurple)
             Text("min")
                 .font(.system(size: 18, weight: .regular))
-                .opacity(0.5)
+                .foregroundColor(.relaxDimPurple)
                 .padding(.bottom, 3)
             Image(systemName: "chevron.forward")
                 .font(.system(size: 25))
+                .foregroundColor(.relaxDimPurple)
                 .opacity(0.6)
                 .padding(.bottom, 3)
-        }.padding(.horizontal, 20)
+        }
     }
 }
 
@@ -40,6 +56,7 @@ struct TimerNavigationView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             TimerNavigationLinkView()
+            .background(.black)
         }
     }
 }

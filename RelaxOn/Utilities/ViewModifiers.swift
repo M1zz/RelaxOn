@@ -17,6 +17,6 @@ extension View {
     
     func DeviceFrame() -> some View {
         self
-            .frame(width: deviceFrame().exceptPaddingWidth, height: deviceFrame().exceptPaddingWidth, alignment: .center)
+            .frame(width: deviceFrame.exceptPaddingWidth, height: deviceFrame.exceptPaddingWidth, alignment: .center)
     }
 }

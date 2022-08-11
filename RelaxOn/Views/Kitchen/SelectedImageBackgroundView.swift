@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SelectedImageBackgroundView: View {
-    @Binding var selectedImageNames: (base: String, melody: String, natural: String)
+    @Binding var selectedImageNames: (base: String, melody: String, whiteNoise: String)
     @Binding var opacityAnimationValues: [Double]
 
     var body: some View {
@@ -18,7 +18,6 @@ struct SelectedImageBackgroundView: View {
     @ViewBuilder
     func SelectImage() -> some View {
         ZStack {
-
             // Base
             IllustImage(imageName: selectedImageNames.base, animateVar: opacityAnimationValues[0])
 
@@ -26,17 +25,16 @@ struct SelectedImageBackgroundView: View {
             IllustImage(imageName: selectedImageNames.melody, animateVar: opacityAnimationValues[1])
 
             // Natural
-            IllustImage(imageName: selectedImageNames.natural, animateVar: opacityAnimationValues[2])
+            IllustImage(imageName: selectedImageNames.whiteNoise, animateVar: opacityAnimationValues[2])
 
         }
+        .ignoresSafeArea()
     }
 
     @ViewBuilder
     func IllustImage(imageName: String, animateVar: Double) -> some View {
         Image(imageName)
             .resizable()
-            .frame(width: deviceFrame().screenWidth, height: deviceFrame().screenHeight)
-            .aspectRatio(contentMode: .fill)
             .opacity(animateVar)
             .animation(.linear, value: animateVar)
     }

@@ -45,6 +45,7 @@ struct HomeView: View {
                     print("Unable to Decode Note (\(error))")
                 }
             }
+            
         }
         .onChange(of: userRepositories) { newValue in
             userName = UserDefaultsManager.shared.standard.string(forKey: UserDefaultsManager.shared.userName) ?? UserDefaultsManager.shared.guest
@@ -130,7 +131,7 @@ struct HomeView: View {
                         MixedSoundCardView(data: item,
                                        selectedID: String(item.id),
                                        hasEdited: $hasEdited,
-                                       audioVolumes: (baseVolume: item.baseSound?.audioVolume ?? 1.0, melodyVolume: item.melodySound?.audioVolume ?? 1.0, naturalVolume: item.naturalSound?.audioVolume ?? 1.0))
+                                       audioVolumes: (baseVolume: item.baseSound?.audioVolume ?? 1.0, melodyVolume: item.melodySound?.audioVolume ?? 1.0, whiteNoiseVolume: item.whiteNoiseSound?.audioVolume ?? 1.0))
                         .onAppear {
                             userRepositoriesState = []
                             userRepositoriesState = userRepositories

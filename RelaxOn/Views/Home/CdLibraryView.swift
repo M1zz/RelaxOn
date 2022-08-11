@@ -8,6 +8,7 @@
 import SwiftUI
 import MediaPlayer
 
+
 enum SelectedType: String {
     case home = "Home"
     case kitchen = "Kitchen"
@@ -22,19 +23,18 @@ struct CdLibraryView: View {
     
     var body: some View {
         NavigationView {
-            
             VStack {
-                // MARK: TimerNavigationView를 위한 자리
                 TimerNavigationLinkView()
-                Divider()
-                    .padding(.horizontal)
+                    .padding(.top, 56)
                 CDListView()
                 Spacer()
             }
+            .background(Color.relaxBlack)
             .navigationBarTitle("")
             .navigationBarHidden(true)
             .navigationBarBackButtonHidden(true)
         }
+        .preferredColorScheme(.dark)
         .navigationViewStyle(.stack)
         .onAppear() {
             let notFirstVisit = UserDefaultsManager.shared.standard.bool(forKey: UserDefaultsManager.shared.notFirstVisit)

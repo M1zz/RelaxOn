@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CDListView: View {
+    @State var isActive: Bool = false
     @State var userRepositoriesState: [MixedSound] = userRepositories
     @State var selectedImageNames = (
         base: "",
@@ -18,16 +19,24 @@ struct CDListView: View {
     @State private var selectedMixedSoundIds: [Int] = []
     @State private var showingActionSheet = false
     
+    init(userRepositoriesState: [MixedSound] = userRepositories){
+        Theme.navigationBarColors(background: UIColor(named: "RelaxBlack") ?? .black, titleColor: UIColor(named: "RelaxDimPurple") ?? .white)
+        self.userRepositoriesState = userRepositoriesState
+    }
+    
     var body: some View {
         
         VStack {
             libraryHeader
             
             ScrollView(.vertical, showsIndicators: false) {
-                LazyVGrid(columns: Array(repeating: GridItem(.flexible(),spacing: 10), count: 2), spacing: 20) {
+
+                LazyVGrid(columns: Array(repeating: GridItem(.flexible(), alignment: .top), count: 2), spacing: 18) {
                     plusCDImage.disabled(isEditMode)
+
                     ForEach(userRepositoriesState.reversed()){ mixedSound in
-                        CDCardView(data: mixedSound, audioVolumes: (baseVolume: mixedSound.baseSound?.audioVolume ?? 1.0, melodyVolume: mixedSound.melodySound?.audioVolume ?? 1.0, naturalVolume: mixedSound.naturalSound?.audioVolume ?? 1.0))
+
+                        CDCardView(data: mixedSound, audioVolumes: (baseVolume: mixedSound.baseSound?.audioVolume ?? 1.0, melodyVolume: mixedSound.melodySound?.audioVolume ?? 1.0, whiteNoiseVolume: mixedSound.whiteNoiseSound?.audioVolume ?? 1.0))
                             .disabled(isEditMode)
                             .overlay(alignment : .bottomTrailing) {
                                 if isEditMode {
@@ -117,8 +126,10 @@ struct CDListView: View {
     
     var libraryHeader: some View {
         HStack {
-            Text("CD Library".uppercased())
-                .font(.system(size: 24))
+            Text("CD LIBRARY")
+                .font(.title)
+                .fontWeight(.semibold)
+                .foregroundColor(.systemGrey1)
                 
             Spacer()
             
@@ -129,6 +140,7 @@ struct CDListView: View {
                     showingActionSheet = true
                 }
             }) {
+
                 if selectedMixedSoundIds.isEmpty {
                     Text(isEditMode ? "Done" : "Edit")
                         .foregroundColor(Color.gray)
@@ -144,15 +156,21 @@ struct CDListView: View {
     
     var plusCDImage: some View {
         VStack(alignment: .leading) {
-            NavigationLink(destination: StudioView()) {
-                VStack {
-                    Image(systemName: "plus")
-                        .font(Font.system(size: 70, weight: .ultraLight))
+            NavigationLink(destination: StudioView(rootIsActive: self.$isActive), isActive: self.$isActive) {
+                ZStack {
+                    VStack {
+                        Image(systemName: "plus")
+                            .font(Font.system(size: 54, weight: .ultraLight))
+                    }
+                    
+                    RoundedRectangle(cornerRadius: 4)
+                        .strokeBorder()
                 }
                 .frame(width: UIScreen.main.bounds.width * 0.43, height: UIScreen.main.bounds.width * 0.43)
-                .background(.gray)
+                .foregroundColor(.systemGrey3)
             }
             .buttonStyle(.plain)
+            .navigationBarTitleDisplayMode(.inline)
             
             Text("Studio")
         }
