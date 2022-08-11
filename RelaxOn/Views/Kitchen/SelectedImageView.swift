@@ -29,10 +29,10 @@ struct SelectedImageView: View {
             
             // Melody
             IllustImage(imageName: selectedImageNames.melody, animateVar: opacityAnimationValues[1])
+                .blendMode(.darken)
             
             // Natural
             IllustImage(imageName: selectedImageNames.whiteNoise, animateVar: opacityAnimationValues[2])
-            
         }
     }
     

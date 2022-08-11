@@ -42,7 +42,7 @@ struct StudioView: View {
     let baseAudioManager = AudioManager()
     let melodyAudioManager = AudioManager()
     let whiteNoiseAudioManager = AudioManager()
-    var items = ["BASE", "MELODY", "WHITE NOISE"]
+    var items: [LocalizedStringKey] = ["BASE", "MELODY", "WHITE NOISE"]
     
     var body: some View {
         ZStack{
@@ -139,8 +139,8 @@ struct StudioView: View {
                             } else {
                                 baseAudioManager.startPlayer(track: selectedBaseSound.name, volume: volumes[select])
                                 
-                                selectedImageNames.base = selectedBaseSound.imageName
-                                opacityAnimationValues[0] = 0.5
+                                selectedImageNames.base = "BaseIllust"
+                                opacityAnimationValues[0] = 1
                             }
                         }
                     case .whiteNoise:
@@ -154,8 +154,7 @@ struct StudioView: View {
                                 opacityAnimationValues[2] = 0.0
                             } else {
                                 whiteNoiseAudioManager.startPlayer(track: selectedWhiteNoiseSound.name, volume: volumes[select])
-                                
-                                selectedImageNames.whiteNoise = selectedWhiteNoiseSound.imageName                                
+                                selectedImageNames.whiteNoise = ""//selectedWhiteNoiseSound.imageName                                
                                 opacityAnimationValues[2] = 0.5
                             }
                         }
@@ -171,10 +170,9 @@ struct StudioView: View {
                             } else {
                                 melodyAudioManager.startPlayer(track: selectedMelodySound.name, volume: volumes[select])
                                 
-                                selectedImageNames.melody = selectedMelodySound.imageName
+                                selectedImageNames.melody = "MelodyIllust"
                                 
-                                opacityAnimationValues[1] = 0.5
-                                
+                                opacityAnimationValues[1] = 1
                             }
                         }
                     }
