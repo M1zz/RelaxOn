@@ -97,7 +97,7 @@ struct StudioView: View {
                     .frame(width: 18.0, height: 18.0)
                     .foregroundColor(.white)
                 
-                CustomSlider(value: $volumes[select], range: (0, 1), knobWidth: 14) { modifiers in
+                VolumeSlider(value: $volumes[select], range: (0, 1), knobWidth: 14) { modifiers in
                   ZStack {
                     Color.white.cornerRadius(3).frame(height: 2).modifier(modifiers.barLeft)
                     Color.white.opacity(0.4).cornerRadius(3).frame(height: 2).modifier(modifiers.barRight)

@@ -1,5 +1,5 @@
 //
-//  CustomSlider.swift
+//  VolumeSlider.swift
 //  RelaxOn
 //
 //  Created by COBY_PRO on 2022/08/05.
@@ -8,13 +8,13 @@
 import SwiftUI
 import Foundation
 
-struct CustomSlider<Component: View>: View {
-
+struct VolumeSlider<Component: View>: View {
+    
     @Binding var value: Float
     var range: (Float, Float)
     var knobWidth: CGFloat?
     let viewBuilder: (CustomSliderComponents) -> Component
-
+    
     init(value: Binding<Float>, range: (Float, Float), knobWidth: CGFloat? = nil,
          _ viewBuilder: @escaping (CustomSliderComponents) -> Component
     ) {
@@ -44,28 +44,28 @@ struct CustomSlider<Component: View>: View {
     }
     
     var body: some View {
-      return GeometryReader { geometry in
-        self.view(geometry: geometry) // function below
-      }
+        return GeometryReader { geometry in
+            self.view(geometry: geometry) // function below
+        }
     }
-
+    
     private func view(geometry: GeometryProxy) -> some View {
-      let frame = geometry.frame(in: .global)
-      let drag = DragGesture(minimumDistance: 0).onChanged({ drag in
-        self.onDragChange(drag, frame) }
-      )
-      let offsetX = self.getOffsetX(frame: frame)
-
-      let knobSize = CGSize(width: knobWidth ?? frame.height, height: frame.height)
-      let barLeftSize = CGSize(width: CGFloat(offsetX + knobSize.width * 0.5), height:  frame.height)
-      let barRightSize = CGSize(width: frame.width - barLeftSize.width, height: frame.height)
-
-      let modifiers = CustomSliderComponents(
-          barLeft: CustomSliderModifier(name: .barLeft, size: barLeftSize, offset: 0),
-          barRight: CustomSliderModifier(name: .barRight, size: barRightSize, offset: barLeftSize.width),
-          knob: CustomSliderModifier(name: .knob, size: knobSize, offset: offsetX))
-
-      return ZStack { viewBuilder(modifiers).gesture(drag) }
+        let frame = geometry.frame(in: .global)
+        let drag = DragGesture(minimumDistance: 0).onChanged({ drag in
+            self.onDragChange(drag, frame) }
+        )
+        let offsetX = self.getOffsetX(frame: frame)
+        
+        let knobSize = CGSize(width: knobWidth ?? frame.height, height: frame.height)
+        let barLeftSize = CGSize(width: CGFloat(offsetX + knobSize.width * 0.5), height:  frame.height)
+        let barRightSize = CGSize(width: frame.width - barLeftSize.width, height: frame.height)
+        
+        let modifiers = CustomSliderComponents(
+            barLeft: CustomSliderModifier(name: .barLeft, size: barLeftSize, offset: 0),
+            barRight: CustomSliderModifier(name: .barRight, size: barRightSize, offset: barLeftSize.width),
+            knob: CustomSliderModifier(name: .knob, size: knobSize, offset: offsetX))
+        
+        return ZStack { viewBuilder(modifiers).gesture(drag) }
     }
 }
 
@@ -84,12 +84,12 @@ struct CustomSliderModifier: ViewModifier {
     let name: Name
     let size: CGSize
     let offset: CGFloat
-
+    
     func body(content: Content) -> some View {
         content
-        .frame(width: size.width)
-        .position(x: size.width*0.5, y: size.height*0.5)
-        .offset(x: offset)
+            .frame(width: size.width)
+            .position(x: size.width*0.5, y: size.height*0.5)
+            .offset(x: offset)
     }
 }
 
