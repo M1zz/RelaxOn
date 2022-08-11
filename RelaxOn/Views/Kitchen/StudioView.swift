@@ -42,7 +42,7 @@ struct StudioView: View {
     let naturalAudioManager = AudioManager()
     
     var items = ["BASE", "MELODY", "WHITE NOISE"]
-    
+
     var body: some View {
         ZStack{
             Color.relaxBlack.ignoresSafeArea()
