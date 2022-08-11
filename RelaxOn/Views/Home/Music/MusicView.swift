@@ -187,7 +187,6 @@ struct MusicView_Previews: PreviewProvider {
                                          melodySound: dummyMelodySound,
                                          naturalSound: dummyNaturalSound,
                                          imageName: "r1")
-        
         //        MusicView(data: dummyMixedSound)
     }
 }

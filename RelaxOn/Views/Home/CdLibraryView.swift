@@ -22,9 +22,7 @@ struct CdLibraryView: View {
     
     var body: some View {
         NavigationView {
-            
             VStack {
-                // MARK: TimerNavigationView를 위한 자리
                 TimerNavigationLinkView()
                     .padding(.top, 56)
                 CDListView()
