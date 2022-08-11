@@ -40,7 +40,7 @@ struct OnboardingView: View {
     let melodyAudioManager = AudioManager()
     let naturalAudioManager = AudioManager()
 
-    var items = ["BASE", "MELODY", "WHITE NOISE"]
+    var items: [LocalizedStringKey] = ["BASE", "MELODY", "WHITE NOISE"]
 
     var body: some View {
         NavigationView{
@@ -69,7 +69,7 @@ struct OnboardingView: View {
                                 }.fixedSize()
 
                                 HStack {
-                                    Text("\(items[select])")
+                                    Text(items[select])
                                         .font(.system(size: 28, weight: .medium))
                                         .foregroundColor(.white)
                                     Spacer()

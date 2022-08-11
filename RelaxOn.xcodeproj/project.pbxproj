@@ -112,6 +112,7 @@
 			proxyType = 1;
 			remoteGlobalIDString = 21B7A64C28A31DE600E90744;
 			remoteInfo = RelaxOnWatch;
+        };
 		CC5AC113289C033D00FE847B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 58DE61772839C13900F25769 /* Project object */;
@@ -801,6 +802,7 @@
 			isa = PBXTargetDependency;
 			target = 21B7A64C28A31DE600E90744 /* RelaxOnWatch */;
 			targetProxy = 21B7A66B28A31DE800E90744 /* PBXContainerItemProxy */;
+        };
 		CC5AC114289C033D00FE847B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = CC5AC103289C033C00FE847B /* RelaxOnWidgetExtension */;
