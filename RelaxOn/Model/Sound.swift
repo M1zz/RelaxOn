@@ -18,7 +18,7 @@ struct Sound: Identifiable, Codable {
 enum SoundType: String, Codable {
     case base
     case melody
-    case natural
+    case whiteNoise
 }
 
 var baseSounds = [

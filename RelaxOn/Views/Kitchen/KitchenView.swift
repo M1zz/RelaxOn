@@ -13,14 +13,6 @@ var categories = ["Natural",
                   "Deep Sleep",
                   "Lullaby"]
 
-
-
-enum SoundType: String, Codable {
-    case base
-    case melody
-    case whiteNoise
-}
-
 struct KitchenView: View {
  
     @State private var showingAlert = false
