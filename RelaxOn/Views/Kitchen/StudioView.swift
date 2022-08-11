@@ -41,11 +41,11 @@ struct StudioView: View {
     let melodyAudioManager = AudioManager()
     let naturalAudioManager = AudioManager()
 
-    private var items: [LocalizedStringKey] = ["BASE", "MELODY", "NATURAL"]
-    init(){
-        Theme.navigationBarColors(background: .white, titleColor: .black)
-        UINavigationBar.appearance().standardAppearance.shadowColor = .clear
-    }
+    private var items = ["BASE", "MELODY", "NATURAL"]
+//    init(){
+//        Theme.navigationBarColors(background: .white, titleColor: .black)
+//        UINavigationBar.appearance().standardAppearance.shadowColor = .clear
+//    }
 
     var body: some View {
         ZStack{
