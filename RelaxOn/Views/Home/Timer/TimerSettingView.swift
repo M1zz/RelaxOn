@@ -8,13 +8,14 @@
 import SwiftUI
 
 struct TimerSettingView: View {
-    // TODO: @State var를 타이머 뷰모델로 교체 예정
+
     @State var seconds: Double = 60
     var minute: Int {
         Int(seconds / 60)
     }
     
-
+    var timerManager = TimerManager.shared
+    
     var body: some View {
         VStack {
             header
@@ -74,7 +75,7 @@ extension TimerSettingView {
     @ViewBuilder
     func timerSettingButton() -> some View {
         Button {
-        // TODO: 타이머 모델에 값 넣는 함수 넣기
+            timerManager.start(countDownDuration: seconds)
         } label: {
             Text("SAVE")
                 .font(.system(size: 20, weight: .medium))
