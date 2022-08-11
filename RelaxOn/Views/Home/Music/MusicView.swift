@@ -17,7 +17,7 @@ struct MusicView: View {
     
     var data: MixedSound
     
-    @Binding var audioVolumes: (baseVolume: Float, melodyVolume: Float, naturalVolume: Float)
+    @Binding var audioVolumes: (baseVolume: Float, melodyVolume: Float, whiteNoiseVolume: Float)
     
     var body: some View {
         ZStack(alignment: .top) {
@@ -43,7 +43,7 @@ struct MusicView: View {
                     Divider()
                         .background(.white)
                         .padding(.horizontal, 20)
-                    SingleSong(song: data.naturalSound ?? emptySound)
+                    SingleSong(song: data.whiteNoiseSound ?? emptySound)
                 }
                 
                 
@@ -185,7 +185,7 @@ struct MusicView_Previews: PreviewProvider {
                                          name: "test4",
                                          baseSound: dummyBaseSound,
                                          melodySound: dummyMelodySound,
-                                         naturalSound: dummyNaturalSound,
+                                         whiteNoiseSound: dummyWhiteNoiseSound,
                                          imageName: "r1")
         //        MusicView(data: dummyMixedSound)
     }

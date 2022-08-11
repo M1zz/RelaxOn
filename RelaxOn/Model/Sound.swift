@@ -18,7 +18,7 @@ struct Sound: Identifiable, Codable {
 enum SoundType: String, Codable {
     case base
     case melody
-    case natural
+    case whiteNoise
 }
 
 var baseSounds = [
@@ -87,37 +87,37 @@ var melodySounds = [
           imageName: MelodyAudioName.wisdom.fileName)
 ]
 
-var naturalSounds = [
+var whiteNoiseSounds = [
     Sound(id: 20,
           name: "Empty",
-          soundType: .natural,
+          soundType: .whiteNoise,
           audioVolume: 0.4,
           imageName: "music"),
     Sound(id: 21,
-          name: NaturalAudioName.dryGrass.displayName,
-          soundType: .natural,
+          name: WhiteNoiseAudioName.dryGrass.fileName,
+          soundType: .whiteNoise,
           audioVolume: 0.4,
-          imageName: NaturalAudioName.dryGrass.fileName),
+          imageName: WhiteNoiseAudioName.dryGrass.fileName),
     Sound(id: 22,
-          name: NaturalAudioName.stream.displayName,
-          soundType: .natural,
+          name: WhiteNoiseAudioName.stream.fileName,
+          soundType: .whiteNoise,
           audioVolume: 0.4,
-          imageName: NaturalAudioName.stream.fileName),
+          imageName: WhiteNoiseAudioName.stream.fileName),
     Sound(id: 23,
-          name: NaturalAudioName.summerField.displayName,
-          soundType: .natural,
+          name: WhiteNoiseAudioName.summerField.fileName,
+          soundType: .whiteNoise,
           audioVolume: 0.4,
-          imageName: NaturalAudioName.summerField.fileName),
+          imageName: WhiteNoiseAudioName.summerField.fileName),
     Sound(id: 24,
-          name: NaturalAudioName.umbrellaRain.displayName,
-          soundType: .natural,
+          name: WhiteNoiseAudioName.umbrellaRain.fileName,
+          soundType: .whiteNoise,
           audioVolume: 0.4,
-          imageName: NaturalAudioName.umbrellaRain.fileName),
+          imageName: WhiteNoiseAudioName.umbrellaRain.fileName),
     Sound(id: 25,
-          name: NaturalAudioName.wave.displayName,
-          soundType: .natural,
+          name: WhiteNoiseAudioName.wave.fileName,
+          soundType: .whiteNoise,
           audioVolume: 0.4,
-          imageName: NaturalAudioName.wave.fileName)
+          imageName: WhiteNoiseAudioName.wave.fileName)
 ]
 
 let emptySound: Sound = Sound(id: 0,
@@ -136,7 +136,7 @@ var melodySound: Sound = Sound(id: 3,
                                soundType: .base,
                                audioVolume: 0.0,
                                imageName: "music")
-var naturalSound: Sound = Sound(id: 6,
+var whiteNoiseSound: Sound = Sound(id: 6,
                                 name: "Empty",
                                 soundType: .base,
                                 audioVolume: 0.0,

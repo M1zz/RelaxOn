@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CDCardView: View {
     var data: MixedSound
-    @State var audioVolumes: (baseVolume: Float, melodyVolume: Float, naturalVolume: Float) = (baseVolume: 0.0, melodyVolume: 0.0, naturalVolume: 0.0)
+    @State var audioVolumes: (baseVolume: Float, melodyVolume: Float, whiteNoiseVolume: Float) = (baseVolume: 0.0, melodyVolume: 0.0, whiteNoiseVolume: 0.0)
     @State private var isPresent = false
     
     var body: some View {
@@ -26,7 +26,7 @@ struct CDCardView: View {
                         .resizable()
                         .opacity(0.5)
                         .frame(width: UIScreen.main.bounds.width * 0.43, height: UIScreen.main.bounds.width * 0.43)
-                    Image(data.naturalSound?.imageName ?? "")
+                    Image(data.whiteNoiseSound?.imageName ?? "")
                         .resizable()
                         .opacity(0.5)
                         .frame(width: UIScreen.main.bounds.width * 0.43, height: UIScreen.main.bounds.width * 0.43)

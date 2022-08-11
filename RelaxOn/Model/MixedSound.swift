@@ -24,16 +24,16 @@ struct MixedSound: Identifiable, Codable, Equatable {
     let name: String
     var baseSound: Sound?
     var melodySound: Sound?
-    var naturalSound: Sound?
+    var whiteNoiseSound: Sound?
     let imageName: String
     let url: URL?
     
-    init(id: Int, name: String, baseSound: Sound?, melodySound: Sound?, naturalSound: Sound?, imageName: String) {
+    init(id: Int, name: String, baseSound: Sound?, melodySound: Sound?, whiteNoiseSound: Sound?, imageName: String) {
         self.id = id
         self.name = name
         self.baseSound = baseSound
         self.melodySound = melodySound
-        self.naturalSound = naturalSound
+        self.whiteNoiseSound = whiteNoiseSound
         self.imageName = imageName
         self.url = WidgetManager.getURL(id: id)
     }

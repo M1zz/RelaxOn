@@ -9,71 +9,69 @@ import SwiftUI
 
 struct StudioView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    @State private var select: Int = 0
-    @State private var showingAlert = false
-    @State private var selectedBaseSound: Sound = Sound(id: 0,
-                                                        name: "",
-                                                        soundType: .base,
-                                                        audioVolume: 0.8,
-                                                        imageName: "")
-    @State private var selectedMelodySound: Sound = Sound(id: 10,
-                                                          name: "",
-                                                          soundType: .melody,
-                                                          audioVolume: 1.0,
-                                                          imageName: "")
-    @State private var selectedNaturalSound: Sound = Sound(id: 20,
-                                                           name: "",
-                                                           soundType: .natural,
-                                                           audioVolume: 0.4,
-                                                           imageName: "")
-    @State private var userName: String = ""
-    @State private var textEntered = ""
-    
-    @State private var selectedImageNames: (base: String, melody: String, natural: String) = (
+    @State var select: Int = 0
+    @State var showingConfirm = false
+    @State var selectedBaseSound: Sound = Sound(id: 0,
+                                                name: "",
+                                                soundType: .base,
+                                                audioVolume: 0.8,
+                                                imageName: "")
+    @State var selectedMelodySound: Sound = Sound(id: 10,
+                                                  name: "",
+                                                  soundType: .melody,
+                                                  audioVolume: 1.0,
+                                                  imageName: "")
+    @State var selectedWhiteNoiseSound: Sound = Sound(id: 20,
+                                                      name: "",
+                                                      soundType: .whiteNoise,
+                                                      audioVolume: 0.4,
+                                                      imageName: "")
+    @State var selectedImageNames: (base: String, melody: String, whiteNoise: String) = (
         base: "",
         melody: "",
-        natural: ""
+        whiteNoise: ""
     )
     
-    @State private var opacityAnimationValues = [0.0, 0.0, 0.0]
+    @State var opacityAnimationValues = [0.0, 0.0, 0.0]
+    @State var textEntered = ""
+    @State var navigateActive = false
+    @Binding var rootIsActive: Bool
     
     let baseAudioManager = AudioManager()
     let melodyAudioManager = AudioManager()
     let naturalAudioManager = AudioManager()
-
-    private var items = ["BASE", "MELODY", "NATURAL"]
-//    init(){
-//        Theme.navigationBarColors(background: .white, titleColor: .black)
-//        UINavigationBar.appearance().standardAppearance.shadowColor = .clear
-//    }
-
+    var items = ["BASE", "MELODY", "WHITE NOISE"]
+    
     var body: some View {
         ZStack{
+            Color.relaxBlack.ignoresSafeArea()
             VStack {
-                SelectedImageVIew(selectedImageNames: $selectedImageNames, opacityAnimationValues: $opacityAnimationValues)
+                StudioBackButton()
+                HStack{
+                    Text("STUDIO")
+                        .font(.system(size: 28, weight: .medium))
+                        .foregroundColor(.white)
+                    Spacer()
+                    MixButton()
+                }.padding(.horizontal)
+                SelectedImageView(selectedImageNames: $selectedImageNames, opacityAnimationValues: $opacityAnimationValues)
                 CustomSegmentControlView(items: items, selection: $select)
                 switch select {
                 case 1:
                     SoundSelectView(sectionTitle: "Melody",
                                     soundType: .melody)
                 case 2:
-                    SoundSelectView(sectionTitle: "Natural Sound",
-                                    soundType: .natural)
+                    SoundSelectView(sectionTitle: "WhiteNoise Sound",
+                                    soundType: .whiteNoise)
                 default:
                     SoundSelectView(sectionTitle: "Base Sound",
                                     soundType: .base)
                 }
             }
-            .navigationBarItems(leading: Text("STUDIO").bold(), trailing: MixButton())
-            .navigationBarHidden(false)
-            .opacity(showingAlert ? 0.5 : 1)
-            
-            CustomAlertView(textEntered: $textEntered,
-                        showingAlert: $showingAlert)
-            .opacity(showingAlert ? 1 : 0)
+            .navigationBarItems(leading: Text("STUDIO").bold())
+            .navigationBarHidden(true)
         }
     }
-
     
     private func getEncodedData(data: [MixedSound]) -> Data? {
         do {
@@ -98,11 +96,11 @@ struct StudioView: View {
                 HStack(spacing: 30) {
                     switch soundType {
                     case .base:
-                            RadioButtonGroupView(selectedId: soundType.rawValue,
-                                         items: baseSounds) { baseSelected in
+                        RadioButtonGroupView(selectedId: soundType.rawValue,
+                                             items: baseSounds) { baseSelected in
                             selectedBaseSound = baseSelected
                             // play music
-
+                            
                             if selectedBaseSound.name == "Empty" {
                                 baseAudioManager.stop()
                                 
@@ -114,26 +112,26 @@ struct StudioView: View {
                                 opacityAnimationValues[0] = 0.5
                             }
                         }
-                    case .natural:
-                            RadioButtonGroupView(selectedId: soundType.rawValue,
-                                         items: naturalSounds) { naturalSounds in
-                            selectedNaturalSound = naturalSounds
-
-                            if selectedNaturalSound.name == "Empty" {
+                    case .whiteNoise:
+                        RadioButtonGroupView(selectedId: soundType.rawValue,
+                                             items: whiteNoiseSounds) { whiteNoiseSounds in
+                            selectedWhiteNoiseSound = whiteNoiseSounds
+                            
+                            if selectedWhiteNoiseSound.name == "Empty" {
                                 naturalAudioManager.stop()
                                 
                                 opacityAnimationValues[2] = 0.0
                             } else {
-                                naturalAudioManager.startPlayer(track: selectedNaturalSound.name)
+                                naturalAudioManager.startPlayer(track: selectedWhiteNoiseSound.name)
                                 
-                                selectedImageNames.natural = selectedNaturalSound.imageName
+                                selectedImageNames.whiteNoise = selectedWhiteNoiseSound.imageName
                                 
                                 opacityAnimationValues[2] = 0.5
                             }
                         }
                     case .melody:
-                            RadioButtonGroupView(selectedId: soundType.rawValue,
-                                         items: melodySounds) { melodySounds in
+                        RadioButtonGroupView(selectedId: soundType.rawValue,
+                                             items: melodySounds) { melodySounds in
                             selectedMelodySound = melodySounds
                             
                             if selectedMelodySound.name == "Empty" {
@@ -154,51 +152,50 @@ struct StudioView: View {
             }.padding(.horizontal, 15)
         }
     }
-
+    
     @ViewBuilder
     func MixButton() -> some View {
-          Button {
-            showingAlert = true
+        NavigationLink(isActive: $navigateActive) {
+            StudioNamingView(shouldPoptoRootView: self.$rootIsActive, selectedImageNames: $selectedImageNames, opacityAnimationValues: $opacityAnimationValues, textEntered: $textEntered)
+            } label: {}
+
+        Button {
             baseSound = selectedBaseSound
             melodySound = selectedMelodySound
-            naturalSound = selectedNaturalSound
+            whiteNoiseSound = selectedWhiteNoiseSound
+
             baseAudioManager.stop()
             melodyAudioManager.stop()
             naturalAudioManager.stop()
             self.textEntered = ""
-          } label: {
+            navigateActive = true
+        } label: {
             Text("Mix")
-              .foregroundColor( ($selectedBaseSound.id == 0 && $selectedMelodySound.id == 10 && $selectedNaturalSound.id == 20) ? Color.gray : Color.black )
-          }.disabled( ($selectedBaseSound.id == 0 && $selectedMelodySound.id == 10 && $selectedNaturalSound.id == 20) ? true : false )
-        }
-//    func MixButton() -> some View {
-//        NavigationLink(destination: StudioNamingView(selectedImageNames: $selectedImageNames, opacityAnimationValues: $opacityAnimationValues)) {
-//            Text("Mix")
-//                .foregroundColor( ($selectedBaseSound.id == 0 && $selectedMelodySound.id == 10 && $selectedNaturalSound.id == 20) ? Color.gray : Color.black )
-//        }.disabled( ($selectedBaseSound.id == 0 && $selectedMelodySound.id == 10 && $selectedNaturalSound.id == 20) ? true : false )
-//    }
-//        Button {
-//            showingAlert = true
-//
-//            baseSound = selectedBaseSound
-//            melodySound = selectedMelodySound
-//            naturalSound = selectedNaturalSound
-//
-//            baseAudioManager.stop()
-//            melodyAudioManager.stop()
-//            naturalAudioManager.stop()
-//
-//            self.textEntered = ""
-////        } label: {
-//            Text("Mix")
-//                .foregroundColor( ($selectedBaseSound.id == 0 && $selectedMelodySound.id == 10 && $selectedNaturalSound.id == 20) ? Color.gray : Color.black )
-//        }.disabled( ($selectedBaseSound.id == 0 && $selectedMelodySound.id == 10 && $selectedNaturalSound.id == 20) ? true : false )
-//    }
-}
+                .font(.system(size: 24, weight: .regular))
+                .foregroundColor( ($selectedBaseSound.id == 0 && $selectedMelodySound.id == 10 && $selectedWhiteNoiseSound.id == 20) ? Color.gray : Color.relaxDimPurple )
+        }.disabled(($selectedBaseSound.id == 0 && $selectedMelodySound.id == 10 && $selectedWhiteNoiseSound.id == 20) ? true : false)
 
-
-struct StudioView_Previews: PreviewProvider {
-    static var previews: some View {
-        StudioView()
+    }
+    
+    @ViewBuilder
+    func StudioBackButton() -> some View {
+        HStack{
+            Button(action: {
+                showingConfirm = true
+            }, label: {
+                Image(systemName: "chevron.backward")
+                    .foregroundColor(.relaxDimPurple)
+            })
+            .confirmationDialog("나가면 사라집니다...", isPresented: $showingConfirm, titleVisibility: .visible) {
+                Button("Leave Studio", role: .destructive){
+                    presentationMode.wrappedValue.dismiss()
+                }
+                Button("Cancle", role: .cancel){}
+            }
+            Text("CD LIBRARY")
+                .font(.system(size: 15, weight: .regular))
+                .foregroundColor(.relaxDimPurple)
+            Spacer()
+        }.padding()
     }
 }

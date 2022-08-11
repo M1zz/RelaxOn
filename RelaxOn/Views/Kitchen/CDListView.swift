@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CDListView: View {
+    @State var isActive: Bool = false
     @State var userRepositoriesState: [MixedSound] = userRepositories
     @State var selectedImageNames = (
         base: "",
@@ -34,7 +35,8 @@ struct CDListView: View {
                     plusCDImage.disabled(isEditMode)
 
                     ForEach(userRepositoriesState.reversed()){ mixedSound in
-                        CDCardView(data: mixedSound, audioVolumes: (baseVolume: mixedSound.baseSound?.audioVolume ?? 1.0, melodyVolume: mixedSound.melodySound?.audioVolume ?? 1.0, naturalVolume: mixedSound.naturalSound?.audioVolume ?? 1.0))
+
+                        CDCardView(data: mixedSound, audioVolumes: (baseVolume: mixedSound.baseSound?.audioVolume ?? 1.0, melodyVolume: mixedSound.melodySound?.audioVolume ?? 1.0, whiteNoiseVolume: mixedSound.whiteNoiseSound?.audioVolume ?? 1.0))
                             .disabled(isEditMode)
                             .overlay(alignment : .bottomTrailing) {
                                 if isEditMode {
@@ -154,7 +156,7 @@ struct CDListView: View {
     
     var plusCDImage: some View {
         VStack(alignment: .leading) {
-            NavigationLink(destination: StudioView()) {
+            NavigationLink(destination: StudioView(rootIsActive: self.$isActive), isActive: self.$isActive) {
                 ZStack {
                     VStack {
                         Image(systemName: "plus")
@@ -168,6 +170,9 @@ struct CDListView: View {
                 .foregroundColor(.systemGrey3)
             }
             .buttonStyle(.plain)
+            .navigationBarTitleDisplayMode(.inline)
+            
+            Text("Studio")
         }
     }
 }

@@ -34,24 +34,24 @@ struct SoundCardView: View {
                     ZStack {
                         Rectangle()
                             .background(.black)
-                            .frame(width: (deviceFrame().exceptPaddingWidth - 20 ) / 3 ,
-                                   height: (deviceFrame().exceptPaddingWidth - 20 ) / 3,
+                            .frame(width: (deviceFrame.exceptPaddingWidth - 20 ) / 3 ,
+                                   height: (deviceFrame.exceptPaddingWidth - 20 ) / 3,
                                    alignment: .center)
-                            .border(selectedID == soundFileName ? .black : .clear, width: 3)
+                            .border(selectedID == soundFileName ? .white : .clear, width: 2)
                         Image(systemName: "moon.zzz.fill")
                             .resizable()
-                            .frame(width: (deviceFrame().exceptPaddingWidth - 20 ) / 6,
-                                   height: (deviceFrame().exceptPaddingWidth - 20 ) / 6)
+                            .frame(width: (deviceFrame.exceptPaddingWidth - 20 ) / 6,
+                                   height: (deviceFrame.exceptPaddingWidth - 20 ) / 6)
                             .foregroundColor(.white)
 
                     }
                 } else {
                     Image(data.imageName)
                         .resizable()
-                        .frame(width: (deviceFrame().exceptPaddingWidth - 20 ) / 3,
-                               height: (deviceFrame().exceptPaddingWidth - 20 ) / 3,
+                        .frame(width: (deviceFrame.exceptPaddingWidth - 20 ) / 3,
+                               height: (deviceFrame.exceptPaddingWidth - 20 ) / 3,
                                alignment: .center)
-                        .border(selectedID == soundFileName ? .black : .clear, width: 3)
+                        .border(selectedID == soundFileName ? .white : .clear, width: 2)
                 }
 
                 HStack {
@@ -59,8 +59,8 @@ struct SoundCardView: View {
                     Text(name)
                         .fontWeight(.semibold)
                         .font(Font.system(size: 17))
-                        .foregroundColor(Color.black)
-
+                        .foregroundColor(Color.white)
+                    Spacer()
                 }
             }
             .onTapGesture {
@@ -89,7 +89,7 @@ struct RadioButtonGroupView: View {
     let items : [Sound] // sound 를 받아야 함
     let callback: (Sound) -> ()
     let columns = [
-        GridItem(.adaptive(minimum: (deviceFrame().exceptPaddingWidth - 20 ) / 3))
+        GridItem(.adaptive(minimum: (deviceFrame.exceptPaddingWidth - 20 ) / 3))
     ]
 
     var body: some View {

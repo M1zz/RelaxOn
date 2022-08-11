@@ -44,7 +44,7 @@ public struct CustomSegmentControlView: View {
 
                     // 선택된 요소 밑줄
                     Rectangle()
-                        .foregroundColor(.black)
+                        .foregroundColor(.white)
                         .frame(width: selectedItemWidth, height: 3)
                         .offset(x: selectedItemHorizontalOffset(), y: 0)
                         .animation(Animation.linear(duration: 0.3), value: selectedItemWidth)
@@ -69,7 +69,7 @@ public struct CustomSegmentControlView: View {
         return
             Text(items[index])
                 .font(.caption)
-                .foregroundColor(isSelected ? .black : .gray)
+                .foregroundColor(isSelected ? .white : .gray)
                 .background(BackgroundGeometryReader())
                 .onPreferenceChange(SizePreferenceKey.self) {
                     itemTitleSizes[index] = $0
