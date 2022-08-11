@@ -204,12 +204,8 @@ struct StudioView: View {
                 .font(.system(size: 24, weight: .regular))
                 .foregroundColor( ($selectedBaseSound.id == 0 && $selectedMelodySound.id == 10 && $selectedWhiteNoiseSound.id == 20) ? Color.gray : Color.relaxDimPurple )
         }.disabled(($selectedBaseSound.id == 0 && $selectedMelodySound.id == 10 && $selectedWhiteNoiseSound.id == 20) ? true : false)
-
-struct StudioView_Previews: PreviewProvider {
-    static var previews: some View {
-        StudioView()
     }
-    
+
     @ViewBuilder
     func StudioBackButton() -> some View {
         HStack{

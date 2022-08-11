@@ -28,6 +28,7 @@ extension UIColor {
     static let relaxNightBlue = UIColor(named: "RelaxNightBlue")
     static let relaxLavender = UIColor(named: "RelaxLavender")
     static let relaxDimPurple = UIColor(named: "RelaxDimPurple")
+}
 
 extension String {
     var localized: String {
