@@ -75,14 +75,17 @@ struct MusicView: View {
     @ViewBuilder
     func MusicInfo() -> some View {
         HStack(alignment: .top) {
-            if let thumbNailImage = UIImage(named: data.imageName) {
-                Image(uiImage: thumbNailImage)
+            ZStack {
+                Image("BaseIllust")
                     .resizable()
                     .frame(width: 156,
                            height: 156)
                     .cornerRadius(15)
-            } else {
-                // 문제시 기본이미지 영역
+                Image("MelodyIllust")
+                    .resizable()
+                    .frame(width: 156,
+                           height: 156)
+                    .cornerRadius(15)
             }
             
             VStack(alignment: .leading) {

@@ -110,8 +110,8 @@ struct StudioView: View {
                             } else {
                                 baseAudioManager.startPlayer(track: selectedBaseSound.name)
                                 
-                                selectedImageNames.base = selectedBaseSound.imageName
-                                opacityAnimationValues[0] = 0.5
+                                selectedImageNames.base = "BaseIllust"
+                                opacityAnimationValues[0] = 1
                             }
                         }
                     case .natural:
@@ -126,7 +126,7 @@ struct StudioView: View {
                             } else {
                                 naturalAudioManager.startPlayer(track: selectedNaturalSound.name)
                                 
-                                selectedImageNames.natural = selectedNaturalSound.imageName
+                                selectedImageNames.natural = ""
                                 
                                 opacityAnimationValues[2] = 0.5
                             }
@@ -143,10 +143,9 @@ struct StudioView: View {
                             } else {
                                 melodyAudioManager.startPlayer(track: selectedMelodySound.name)
                                 
-                                selectedImageNames.melody = selectedMelodySound.imageName
+                                selectedImageNames.melody = "MelodyIllust"
                                 
-                                opacityAnimationValues[1] = 0.5
-                                
+                                opacityAnimationValues[1] = 1
                             }
                         }
                     }

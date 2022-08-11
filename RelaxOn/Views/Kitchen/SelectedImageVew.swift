@@ -18,19 +18,17 @@ struct SelectedImageVIew: View {
     @ViewBuilder
     func SelectImage() -> some View {
         ZStack {
-            Rectangle()
-                .DeviceFrame()
-                .background(.gray)
-
+            
             // Base
             IllustImage(imageName: selectedImageNames.base, animateVar: opacityAnimationValues[0])
 
             // Melody
             IllustImage(imageName: selectedImageNames.melody, animateVar: opacityAnimationValues[1])
-
+                .blendMode(.darken)
+            
             // Natural
             IllustImage(imageName: selectedImageNames.natural, animateVar: opacityAnimationValues[2])
-
+            
         }
     }
 
