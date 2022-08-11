@@ -117,11 +117,10 @@ struct MusicView: View {
     func MusicControlButton() -> some View {
         Button(action: {
             viewModel.playPause()
-            viewModel.isPlaying.toggle()
         }, label: {
             
             HStack {
-                (Text("\(viewModel.isPlaying ? "Pause " : "Play ")").bold() + Text(Image(systemName: viewModel.isPlaying ? "pause.fill" : "play.fill")))
+                (Text("\(viewModel.isPlaying && viewModel.mixedSound?.name == data.name ? "Pause " : "Play ")").bold() + Text(Image(systemName: viewModel.isPlaying && viewModel.mixedSound?.name == data.name ? "pause.fill" : "play.fill")))
                     .frame(minWidth: 0,
                            maxWidth: .infinity,
                            maxHeight: 35)
