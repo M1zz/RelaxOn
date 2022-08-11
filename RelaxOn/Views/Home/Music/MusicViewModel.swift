@@ -13,7 +13,14 @@ final class MusicViewModel: NSObject, ObservableObject {
     @Published var baseAudioManager = AudioManager()
     @Published var melodyAudioManager = AudioManager()
     @Published var whiteNoiseAudioManager = AudioManager()
-    @Published var isPlaying = true
+    @Published var isPlaying: Bool = false {
+        // FIXME: addMainSoundToWidget()를 Sound가 재정렬 되었을 때 제일 위의 음악을 넣어야 합니다. (해당 로직이 안 짜진 거 같아 우선은, 여기로 뒀습니다.)
+        didSet {
+            if let mixedSound = mixedSound {
+                WidgetManager.addMainSoundToWidget(imageName: mixedSound.imageName, name: mixedSound.name, id: mixedSound.id)
+            }
+        }
+    }
     
     @Published var mixedSound: MixedSound? {
         didSet {
