@@ -40,7 +40,6 @@ struct StudioView: View {
     let baseAudioManager = AudioManager()
     let melodyAudioManager = AudioManager()
     let naturalAudioManager = AudioManager()
-    
     var items = ["BASE", "MELODY", "WHITE NOISE"]
     
     var body: some View {
