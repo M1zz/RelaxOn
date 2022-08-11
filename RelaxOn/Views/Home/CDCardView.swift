@@ -11,9 +11,11 @@ struct CDCardView: View {
     var data: MixedSound
     @Binding var isShwoingMusicView: Bool
     @Binding var userRepositoriesState: [MixedSound]
+    @State var selectedMixedSound: MixedSound?
     var body: some View {
         VStack(alignment: .leading) {
             Button(action: {
+                self.selectedMixedSound = data
                 self.isShwoingMusicView.toggle()
             }, label: {
                     ZStack {
@@ -30,7 +32,7 @@ struct CDCardView: View {
                             .opacity(0.5)
                             .frame(width: UIScreen.main.bounds.width * 0.43, height: UIScreen.main.bounds.width * 0.43)
                     }
-                    .fullScreenCover(isPresented: $isShwoingMusicView) {
+                    .fullScreenCover(item: $selectedMixedSound) { _ in
                         NewMusicView(data: data, userRepositoriesState: $userRepositoriesState)
                     }
             })

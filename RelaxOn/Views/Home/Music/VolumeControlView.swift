@@ -177,9 +177,9 @@ struct VolumeControlView: View {
                                        naturalSound: newNaturalSound,
                                        imageName: mixedSound.imageName)
         
-//        userRepositories.remove(at: mixedSound.id)
-//        userRepositories.insert(newMixedSound, at: mixedSound.id)
-//        userRepositoriesState = userRepositories
+        userRepositories.remove(at: mixedSound.id)
+        userRepositories.insert(newMixedSound, at: mixedSound.id)
+        userRepositoriesState = userRepositories
         #warning("DAKE 화이팅")
         
         userRepositoriesState.remove(at: mixedSound.id)
@@ -191,7 +191,7 @@ struct VolumeControlView: View {
         let data = getEncodedData(data: userRepositories)
         UserDefaultsManager.shared.standard.set(data, forKey: UserDefaultsManager.shared.recipes)
         
-        
+        print("볼륨 저장되었음")
     }
 }
 
