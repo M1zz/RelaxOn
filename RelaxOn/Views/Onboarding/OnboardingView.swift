@@ -1,69 +1,238 @@
 //
-//  OnboardingView.swift
-//  LullabyRecipe
+//  NewOnboardingView.swift
+//  RelaxOn
 //
-//  Created by hyunho lee on 2022/05/28.
+//  Created by 김연호 on 2022/08/08.
 //
 
 import SwiftUI
 
 struct OnboardingView: View {
-    
-    @State var userName: String = ""
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @State var select: Int = 0
+    @State var selectedBaseSound: Sound = Sound(id: 0,
+                                                name: "",
+                                                soundType: .base,
+                                                audioVolume: 0.8,
+                                                imageName: "")
+    @State var selectedMelodySound: Sound = Sound(id: 10,
+                                                  name: "",
+                                                  soundType: .melody,
+                                                  audioVolume: 1.0,
+                                                  imageName: "")
+    @State var selectedWhiteNoiseSound: Sound = Sound(id: 20,
+                                                      name: "",
+                                                      soundType: .whiteNoise,
+                                                      audioVolume: 0.4,
+                                                      imageName: "")
+    @State var selectedImageNames: (base: String, melody: String, whiteNoise: String) = (
+        base: "",
+        melody: "",
+        whiteNoise: ""
+    )
+
+    @State var opacityAnimationValues = [0.0, 0.0, 0.0]
+    @State var textEntered = ""
+    @State var stepBarWidth = deviceFrame.screenWidth * 0.33
     @Binding var showOnboarding: Bool
-    
+
+    let baseAudioManager = AudioManager()
+    let melodyAudioManager = AudioManager()
+    let naturalAudioManager = AudioManager()
+
+    var items: [LocalizedStringKey] = ["BASE", "MELODY", "WHITE NOISE"]
+
     var body: some View {
-        ZStack {
-            ColorPalette.launchbackground.color.ignoresSafeArea()
-            
-            Image(ImageName.BackPattern.imageName)
-                .resizable()
-                .ignoresSafeArea()
-            
-            VStack(alignment:.leading) {
-                Text("Nice to meet you.")
-                    .WhiteTitleText()
-                    .padding(.leading)
-                
-                Text("What's your name?")
-                    .WhiteTitleText()
-                    .padding(.leading)
-                
-                TextField("", text: $userName)
-                    .frame(minWidth: 0,
-                           maxWidth: .infinity,
-                           maxHeight: 70)
-                    .background(ColorPalette.background.color)
-                    .cornerRadius(14)
-                    .foregroundColor(.white)
-                    .multilineTextAlignment(.center)
-                    .padding(10)
-                
-                Button {
-                    if userName.isEmpty {
-                        // todo : 이름을 입력해주세요
-                    } else {
-                        UserDefaultsManager.shared.standard.set(true, forKey: UserDefaultsManager.shared.notFirstVisit)
-                        UserDefaultsManager.shared.standard.set(userName, forKey: UserDefaultsManager.shared.userName)
-                        showOnboarding = false
+        NavigationView{
+            ZStack {
+                Color.relaxBlack.ignoresSafeArea()
+
+                VStack {
+                    Spacer()
+
+                    HStack{
+                        OnboardingStepBar()
+                        Spacer()
                     }
-                } label: {
-                    Text("Start")
-                        .bold()
-                        .frame(minWidth: 0,
-                               maxWidth: .infinity,
-                               maxHeight: 50)
-                        .font(Font.system(size: 22))
-                        .foregroundColor(ColorPalette.forground.color)
-                        .padding(.top, 10)
+
+                    HStack {
+
+                        HStack {
+
+                            VStack(alignment: .leading) {
+
+                                HStack {
+                                    Text("Please select")
+                                        .font(.system(size: 28, weight: .medium))
+                                        .foregroundColor(.white)
+                                    Spacer()
+                                }.fixedSize()
+
+                                HStack {
+                                    Text(items[select])
+                                        .font(.system(size: 28, weight: .medium))
+                                        .foregroundColor(.white)
+                                    Spacer()
+                                }.fixedSize()
+                            }
+
+                            Spacer()
+                        }.padding()
+
+                        Spacer()
+
+                        MixButton()
+                            .padding()
+                    }.padding(.horizontal)
+
+                    SelectedImageView(selectedImageNames: $selectedImageNames, opacityAnimationValues: $opacityAnimationValues)
+                    CustomSegmentControlView(items: items, selection: $select)
+
+                    switch select {
+                    case 1:
+                        SoundSelectView(sectionTitle: "Melody",
+                                        soundType: .melody)
+                        .onAppear() {
+                            withAnimation(.default) {
+                                stepBarWidth = deviceFrame.screenWidth * 0.66
+                            }
+                        }
+
+                    case 2:
+                        SoundSelectView(sectionTitle: "WhiteNoise Sound",
+                                        soundType: .whiteNoise)
+                        .onAppear() {
+                            withAnimation(.default) {
+                                stepBarWidth = deviceFrame.screenWidth * 0.95
+                            }
+                        }
+
+                    default:
+                        SoundSelectView(sectionTitle: "Base Sound",
+                                        soundType: .base)
+                        .onAppear() {
+                            withAnimation(.default) {
+                                stepBarWidth = deviceFrame.screenWidth * 0.33
+                            }
+                        }
+                    }
                 }
+                .navigationBarHidden(true)
             }
         }
     }
-}
 
-struct OnboardingView_Previews: PreviewProvider {
-    static var previews: some View {
-        OnboardingView(showOnboarding: .constant(true))
+    private func getEncodedData(data: [MixedSound]) -> Data? {
+        do {
+            let encoder = JSONEncoder()
+            let encodedData = try encoder.encode(data)
+            return encodedData
+        } catch {
+            print("Unable to Encode Note (\(error))")
+        }
+        return nil
+    }
+
+    @ViewBuilder
+    func SoundSelectView(sectionTitle: String,
+                         soundType: SoundType) -> some View {
+        VStack(spacing: 15) {
+            HStack {
+                Text("볼륨조절 컴포넌트")
+            }
+            ScrollView(.vertical,
+                       showsIndicators: false) {
+                HStack(spacing: 30) {
+                    switch soundType {
+                    case .base:
+                        RadioButtonGroupView(selectedId: soundType.rawValue,
+                                             items: baseSounds) { baseSelected in
+                            selectedBaseSound = baseSelected
+                            // play music
+
+                            if selectedBaseSound.name == "Empty" {
+                                baseAudioManager.stop()
+
+                                opacityAnimationValues[0] = 0.0
+                            } else {
+                                baseAudioManager.startPlayer(track: selectedBaseSound.name)
+
+                                selectedImageNames.base = selectedBaseSound.imageName
+                                opacityAnimationValues[0] = 0.5
+                            }
+                        }
+
+                    case .whiteNoise:
+                        RadioButtonGroupView(selectedId: soundType.rawValue,
+                                             items: whiteNoiseSounds) { whiteNoiseSounds in
+                            selectedWhiteNoiseSound = whiteNoiseSounds
+
+                            if selectedWhiteNoiseSound.name == "Empty" {
+                                naturalAudioManager.stop()
+
+                                opacityAnimationValues[2] = 0.0
+                            } else {
+                                naturalAudioManager.startPlayer(track: selectedWhiteNoiseSound.name)
+
+                                selectedImageNames.whiteNoise = selectedWhiteNoiseSound.imageName
+
+                                opacityAnimationValues[2] = 0.5
+                            }
+                        }
+                    case .melody:
+                        RadioButtonGroupView(selectedId: soundType.rawValue,
+                                             items: melodySounds) { melodySounds in
+                            selectedMelodySound = melodySounds
+
+                            if selectedMelodySound.name == "Empty" {
+                                melodyAudioManager.stop()
+
+                                opacityAnimationValues[1] = 0.0
+                            } else {
+                                melodyAudioManager.startPlayer(track: selectedMelodySound.name)
+
+                                selectedImageNames.melody = selectedMelodySound.imageName
+
+                                opacityAnimationValues[1] = 0.5
+
+                            }
+                        }
+                    }
+                }
+            }.padding(.horizontal, 15)
+        }
+    }
+
+    @ViewBuilder
+    func MixButton() -> some View {
+        NavigationLink(destination: OnboadingNamingView(selectedImageNames: $selectedImageNames, opacityAnimationValues: $opacityAnimationValues, textEntered: $textEntered, showOnboarding: $showOnboarding)) {
+            Text("Mix")
+                .font(.system(size: 24, weight: .regular))
+                .foregroundColor( ($selectedBaseSound.id == 0 || $selectedMelodySound.id == 10 || $selectedWhiteNoiseSound.id == 20) ? Color.gray : Color.relaxDimPurple )
+        }
+        .opacity(($selectedBaseSound.id == 0 || $selectedMelodySound.id == 10 || $selectedWhiteNoiseSound.id == 20) ? 0 : 1)
+        .simultaneousGesture(TapGesture().onEnded { _ in
+            baseSound = selectedBaseSound
+            melodySound = selectedMelodySound
+            whiteNoiseSound = selectedWhiteNoiseSound
+
+            baseAudioManager.stop()
+            melodyAudioManager.stop()
+            naturalAudioManager.stop()
+            self.textEntered = ""
+        })
+    }
+
+    @ViewBuilder
+    func OnboardingStepBar() -> some View {
+        Rectangle()
+            .frame(width: stepBarWidth, height: 3)
+            .foregroundStyle(LinearGradient(gradient: Gradient(colors: [Color.relaxNightBlue, Color.relaxLavender]), startPoint: .leading, endPoint: .trailing))
     }
 }
+//
+//Rectangle()
+//    .foregroundColor(.white)
+//    .frame(width: selectedItemWidth, height: 3)
+//    .offset(x: selectedItemHorizontalOffset(), y: 0)
+//    .animation(Animation.linear(duration: 0.3), value: selectedItemWidth)

@@ -17,7 +17,7 @@ struct MusicView: View {
     
     var data: MixedSound
     
-    @Binding var audioVolumes: (baseVolume: Float, melodyVolume: Float, naturalVolume: Float)
+    @Binding var audioVolumes: (baseVolume: Float, melodyVolume: Float, whiteNoiseVolume: Float)
     
     var body: some View {
         ZStack(alignment: .top) {
@@ -43,7 +43,7 @@ struct MusicView: View {
                     Divider()
                         .background(.white)
                         .padding(.horizontal, 20)
-                    SingleSong(song: data.naturalSound ?? emptySound)
+                    SingleSong(song: data.whiteNoiseSound ?? emptySound)
                 }
                 
                 
@@ -75,14 +75,17 @@ struct MusicView: View {
     @ViewBuilder
     func MusicInfo() -> some View {
         HStack(alignment: .top) {
-            if let thumbNailImage = UIImage(named: data.imageName) {
-                Image(uiImage: thumbNailImage)
+            ZStack {
+                Image("BaseIllust")
                     .resizable()
                     .frame(width: 156,
                            height: 156)
                     .cornerRadius(15)
-            } else {
-                // 문제시 기본이미지 영역
+                Image("MelodyIllust")
+                    .resizable()
+                    .frame(width: 156,
+                           height: 156)
+                    .cornerRadius(15)
             }
             
             VStack(alignment: .leading) {
@@ -116,12 +119,11 @@ struct MusicView: View {
     @ViewBuilder
     func MusicControlButton() -> some View {
         Button(action: {
-            viewModel.play()
-            viewModel.isPlaying.toggle()
+            viewModel.playPause()
         }, label: {
             
             HStack {
-                (Text("\(viewModel.isPlaying ? "Pause " : "Play ")").bold() + Text(Image(systemName: viewModel.isPlaying ? "pause.fill" : "play.fill")))
+                (Text("\(viewModel.isPlaying && viewModel.mixedSound?.name == data.name ? "Pause " : "Play ")").bold() + Text(Image(systemName: viewModel.isPlaying && viewModel.mixedSound?.name == data.name ? "pause.fill" : "play.fill")))
                     .frame(minWidth: 0,
                            maxWidth: .infinity,
                            maxHeight: 35)
@@ -185,9 +187,8 @@ struct MusicView_Previews: PreviewProvider {
                                          name: "test4",
                                          baseSound: dummyBaseSound,
                                          melodySound: dummyMelodySound,
-                                         naturalSound: dummyNaturalSound,
+                                         whiteNoiseSound: dummyWhiteNoiseSound,
                                          imageName: "r1")
-        
         //        MusicView(data: dummyMixedSound)
     }
 }
