@@ -16,4 +16,5 @@ class UserDefaultsManager {
     let guest: String = "Guest"
     let recipes: String = "recipes"
     let notFirstVisit: String = "notFirstVisit"
+    let lastMusicId: String = "lastMusicId"
 }

@@ -27,6 +27,7 @@ final class AudioManager {
         }
         
         do {
+            try AVAudioSession.sharedInstance().setCategory(.playback)
             player = try AVAudioPlayer(contentsOf: url)
             player?.volume = volume
             player?.numberOfLoops = -1
