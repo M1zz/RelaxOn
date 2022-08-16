@@ -133,11 +133,6 @@ struct MusicView: View {
                     .font(.system(size: 16))
             }
         })
-        
-        //        }
-        //        .frame(width: maxWidth,
-        //               height: maxWidth)
-        //        .padding(.top,30)
     }
     
     @ViewBuilder
