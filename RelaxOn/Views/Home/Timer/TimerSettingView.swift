@@ -24,6 +24,7 @@ struct TimerSettingView: View {
             Spacer()
             timerSettingButton()
         }
+        .navigationBarTitleDisplayMode(.large)
         .background(Color.relaxBlack)
     }
     
