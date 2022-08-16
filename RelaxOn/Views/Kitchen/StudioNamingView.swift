@@ -96,7 +96,7 @@ struct StudioNamingView: View {
         .opacity(textEntered.isEmpty ? 0.5 : 1)
         .padding()
         .onTapGesture {
-            let newSound = MixedSound(id: userRepositories.count,
+            let newSound = MixedSound(id: MixedSound.getUniqueId(),
                                       name: textEntered,
                                       baseSound: baseSound,
                                       melodySound: melodySound,
