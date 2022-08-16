@@ -21,9 +21,7 @@ struct CdLibraryView: View {
                 Spacer()
             }
             .background(Color.relaxBlack)
-            .navigationBarTitle("")
             .navigationBarHidden(true)
-            .navigationBarBackButtonHidden(true)
         }
         .preferredColorScheme(.dark)
         .navigationViewStyle(.stack)
