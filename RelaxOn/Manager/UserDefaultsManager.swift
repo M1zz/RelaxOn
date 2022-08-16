@@ -12,8 +12,6 @@ class UserDefaultsManager {
     
     let standard = UserDefaults.standard
     
-    let userName: String = "userName"
-    let guest: String = "Guest"
     let recipes: String = "recipes"
     let notFirstVisit: String = "notFirstVisit"
     let lastMusicId: String = "lastMusicId"
