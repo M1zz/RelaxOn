@@ -1,6 +1,6 @@
 //
-//  LullabyRecipeApp.swift
-//  LullabyRecipe
+//  RelaxOnApp.swift
+//  RelaxOn
 //
 //  Created by hyunho lee on 2022/05/22.
 //
