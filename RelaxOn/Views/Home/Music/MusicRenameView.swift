@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MusicRenameView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @ObservedObject var viewModel: MusicViewModel
     @State private var textEntered: String = ""
     @Binding var userRepositoriesState: [MixedSound]
     var mixedSound: MixedSound
@@ -113,6 +114,7 @@ struct MusicRenameView: View {
         .opacity(textEntered.isEmpty ? 0.5 : 1)
         .padding()
         .onTapGesture {
+            viewModel.mixedSound?.name = textEntered
             let renamedMixedSound = MixedSound(id: mixedSound.id,
                                                name: textEntered,
                                                baseSound: mixedSound.baseSound,

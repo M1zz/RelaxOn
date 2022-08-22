@@ -149,7 +149,7 @@ struct NewMusicView: View {
                 userRepositoriesState = userRepositories
             }
             .background(
-                NavigationLink(destination: MusicRenameView(userRepositoriesState: $userRepositoriesState, mixedSound: viewModel.mixedSound ?? emptyMixedSound), isActive: $isActive) {
+                NavigationLink(destination: MusicRenameView(viewModel: viewModel, userRepositoriesState: $userRepositoriesState, mixedSound: viewModel.mixedSound ?? emptyMixedSound), isActive: $isActive) {
                     Text("")
                 }
             )
