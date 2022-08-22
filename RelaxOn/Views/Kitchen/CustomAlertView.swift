@@ -45,11 +45,11 @@ struct CustomAlertView: View {
 
                     Button {
                         // TODO: - id 문제 해결
-                        let newSound = MixedSound(id: userRepositories.count,
+                        let newSound = MixedSound(id: MixedSound.getUniqueId(),
                                                   name: textEntered,
                                                   baseSound: baseSound,
                                                   melodySound: melodySound,
-                                                  naturalSound: naturalSound,
+                                                  whiteNoiseSound: whiteNoiseSound,
                                                   imageName: recipeRandomName.randomElement()!)
                         userRepositories.append(newSound)
 
@@ -69,7 +69,7 @@ struct CustomAlertView: View {
                 }
             }.padding(.top, 40)
         }
-        .frame(width: deviceFrame().screenWidth - 100 , height: deviceFrame().screenHeight - 620)
+        .frame(width: deviceFrame.screenWidth - 100 , height: deviceFrame.screenHeight - 620)
     }
     
     private func getEncodedData(data: [MixedSound]) -> Data? {

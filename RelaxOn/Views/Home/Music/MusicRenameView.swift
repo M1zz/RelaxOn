@@ -10,6 +10,7 @@ import SwiftUI
 struct MusicRenameView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @State private var textEntered: String = ""
+    @Binding var userRepositoriesState: [MixedSound]
     var mixedSound: MixedSound
     
     var body: some View {
@@ -26,7 +27,7 @@ struct MusicRenameView: View {
                 
                 HStack {
                     Text("Please name this CD")
-                        .frame(width: deviceFrame().exceptPaddingWidth / 2)
+                        .frame(width: deviceFrame.exceptPaddingWidth / 2)
                         .font(.system(size: 28, weight: .medium))
                         .foregroundColor(.white)
                         .lineLimit(2)
@@ -36,14 +37,14 @@ struct MusicRenameView: View {
                 VStack {
                     TextField("", text: $textEntered)
                         .foregroundColor(.white)
-                        .modifier(PlaceholderCustom(showPlaceHolder: textEntered.isEmpty, placeHolder: "Make your own CD"))
+                        .modifier(RenamePlaceholderCustom(showPlaceHolder: textEntered.isEmpty, placeHolder: "Make your own CD"))
                         .keyboardType(.alphabet)
                         .multilineTextAlignment(.leading)
                         .padding(.horizontal, 15)
                     
                     Rectangle()
                         .foregroundColor(.white)
-                        .frame(width: deviceFrame().exceptPaddingWidth, height: 2)
+                        .frame(width: deviceFrame.exceptPaddingWidth, height: 2)
                 }
                 Spacer()
                 SaveButton()
@@ -74,7 +75,7 @@ struct MusicRenameView: View {
                 .resizable()
                 .opacity(0.5)
             //                .frame(width: .infinity, height: .infinity)
-            Image(mixedSound.naturalSound?.imageName ?? "")
+            Image(mixedSound.whiteNoiseSound?.imageName ?? "")
                 .resizable()
                 .opacity(0.5)
             //                .frame(width: .infinity, height: .infinity)
@@ -108,7 +109,7 @@ struct MusicRenameView: View {
                 .foregroundColor(.white)
                 .font(.system(size: 20, weight: .light))
         }
-        .frame(width: deviceFrame().exceptPaddingWidth, height: deviceFrame().screenHeight * 0.07)
+        .frame(width: deviceFrame.exceptPaddingWidth, height: deviceFrame.screenHeight * 0.07)
         .opacity(textEntered.isEmpty ? 0.5 : 1)
         .padding()
         .onTapGesture {
@@ -116,11 +117,16 @@ struct MusicRenameView: View {
                                                name: textEntered,
                                                baseSound: mixedSound.baseSound,
                                                melodySound: mixedSound.melodySound,
-                                               naturalSound: mixedSound.naturalSound,
+                                               whiteNoiseSound: mixedSound.whiteNoiseSound,
                                                imageName: recipeRandomName.randomElement()!)
             
-            userRepositories.remove(at: mixedSound.id)
-            userRepositories.insert(renamedMixedSound, at: mixedSound.id)
+            let index = userRepositoriesState.firstIndex { element in
+                element.name == mixedSound.name
+            }
+            userRepositories.remove(at: index ?? -1)
+            userRepositories.insert(renamedMixedSound, at: index ?? -1)
+            userRepositoriesState.remove(at: index ?? -1)
+            userRepositoriesState.insert(renamedMixedSound, at: index ?? -1)
             
             let data = getEncodedData(data: userRepositories)
             UserDefaultsManager.shared.standard.set(data, forKey: UserDefaultsManager.shared.recipes)
@@ -129,7 +135,7 @@ struct MusicRenameView: View {
     }
 }
 
-struct PlaceholderCustom: ViewModifier {
+struct RenamePlaceholderCustom: ViewModifier {
     var showPlaceHolder: Bool
     var placeHolder: String
     

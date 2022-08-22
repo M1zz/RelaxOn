@@ -10,12 +10,12 @@ import SwiftUI
 struct VolumeControlView: View {
     @ObservedObject var viewModel: MusicViewModel
     @Binding var showVolumeControl: Bool
-    @Binding var audioVolumes: (baseVolume: Float, melodyVolume: Float, naturalVolume: Float)
+    @Binding var audioVolumes: (baseVolume: Float, melodyVolume: Float, whiteNoiseVolume: Float)
     @Binding var userRepositoriesState: [MixedSound]
     
     let baseAudioManager = AudioManager()
     let melodyAudioManager = AudioManager()
-    let naturalAudioManager = AudioManager()
+    let whiteNoiseAudioManager = AudioManager()
     @State var hasShowAlert: Bool = false
     
     var body: some View {
@@ -34,8 +34,8 @@ struct VolumeControlView: View {
                     SoundControlSlider(item: melodySound)
                 }
                 
-                if let naturalSound = viewModel.mixedSound?.naturalSound {
-                    SoundControlSlider(item: naturalSound)
+                if let whiteNoiseSound = viewModel.mixedSound?.whiteNoiseSound {
+                    SoundControlSlider(item: whiteNoiseSound)
                 }
                 
                 Spacer()
@@ -107,8 +107,8 @@ struct VolumeControlView: View {
                             }
                         Text(String(Int(audioVolumes.melodyVolume * 100)))
                             .foregroundColor(.systemGrey1)
-                    case .natural:
-                        Slider(value: $audioVolumes.naturalVolume, in: 0...1) { editing in
+                    case .whiteNoise:
+                        Slider(value: $audioVolumes.whiteNoiseVolume, in: 0...1) { editing in
                             if !editing {
                                 saveNewVolume()
                             }
@@ -117,12 +117,12 @@ struct VolumeControlView: View {
                             .cornerRadius(4)
                             .accentColor(.white)
                             .padding(.horizontal, 20)
-                            .onChange(of: audioVolumes.naturalVolume) { newValue in
+                            .onChange(of: audioVolumes.whiteNoiseVolume) { newValue in
                                 print(newValue)
-                                viewModel.naturalAudioManager.changeVolume(track: item.name,
+                                viewModel.whiteNoiseAudioManager.changeVolume(track: item.name,
                                                                  volume: newValue)
                             }
-                        Text(String(Int(audioVolumes.naturalVolume * 100)))
+                        Text(String(Int(audioVolumes.whiteNoiseVolume * 100)))
                             .foregroundColor(.systemGrey1)
                     }
                 }
@@ -146,7 +146,7 @@ struct VolumeControlView: View {
         guard let selectedMixedSound = viewModel.mixedSound else { return }
         guard let localBaseSound = viewModel.mixedSound?.baseSound,
               let localMelodySound = viewModel.mixedSound?.melodySound,
-              let localNaturalSound = viewModel.mixedSound?.naturalSound else { return }
+              let localWhiteNoiseSound = viewModel.mixedSound?.whiteNoiseSound else { return }
         
         let newBaseSound = Sound(id: localBaseSound.id,
                                  name: localBaseSound.name,
@@ -159,17 +159,17 @@ struct VolumeControlView: View {
                                    audioVolume: audioVolumes.melodyVolume,
                                    imageName: localMelodySound.imageName)
         
-        let newNaturalSound = Sound(id: localNaturalSound.id,
-                                    name: localNaturalSound.name,
-                                    soundType: localNaturalSound.soundType,
-                                    audioVolume: audioVolumes.naturalVolume,
-                                    imageName: localNaturalSound.imageName)
+        let newWhiteNoiseSound = Sound(id: localWhiteNoiseSound.id,
+                                    name: localWhiteNoiseSound.name,
+                                    soundType: localWhiteNoiseSound.soundType,
+                                    audioVolume: audioVolumes.whiteNoiseVolume,
+                                    imageName: localWhiteNoiseSound.imageName)
         
         let newMixedSound = MixedSound(id: selectedMixedSound.id,
                                        name: selectedMixedSound.name,
                                        baseSound: newBaseSound,
                                        melodySound: newMelodySound,
-                                       naturalSound: newNaturalSound,
+                                       whiteNoiseSound: newWhiteNoiseSound,
                                        imageName: selectedMixedSound.imageName)
         
         let index = userRepositoriesState.firstIndex { mixedSound in

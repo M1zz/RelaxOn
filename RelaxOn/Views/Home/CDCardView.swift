@@ -12,6 +12,7 @@ struct CDCardView: View {
     @Binding var isShwoingMusicView: Bool
     @Binding var userRepositoriesState: [MixedSound]
     @State var selectedMixedSound: MixedSound?
+    @State private var isPresent = false
     var body: some View {
         VStack(alignment: .leading) {
             Button(action: {
@@ -27,7 +28,7 @@ struct CDCardView: View {
                             .resizable()
                             .opacity(0.5)
                             .frame(width: UIScreen.main.bounds.width * 0.43, height: UIScreen.main.bounds.width * 0.43)
-                        Image(data.naturalSound?.imageName ?? "")
+                        Image(data.whiteNoiseSound?.imageName ?? "")
                             .resizable()
                             .opacity(0.5)
                             .frame(width: UIScreen.main.bounds.width * 0.43, height: UIScreen.main.bounds.width * 0.43)
@@ -37,6 +38,11 @@ struct CDCardView: View {
                     }
             })
             Text(data.name)
+                .font(.system(size: 17, weight: .regular))
+                .foregroundColor(.systemGrey1)
+        }
+        .onOpenURL { url in
+            isPresent = url == data.url
         }
     }
 }

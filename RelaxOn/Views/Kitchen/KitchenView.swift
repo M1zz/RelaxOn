@@ -13,14 +13,6 @@ var categories = ["Natural",
                   "Deep Sleep",
                   "Lullaby"]
 
-
-
-enum SoundType: String, Codable {
-    case base
-    case melody
-    case natural
-}
-
 struct KitchenView: View {
  
     @State private var showingAlert = false
@@ -34,9 +26,9 @@ struct KitchenView: View {
                                                           soundType: .melody,
                                                           audioVolume: 1.0,
                                                           imageName: "")
-    @State private var selectedNaturalSound: Sound = Sound(id: 0,
+    @State private var selectedWhiteNoiseSound: Sound = Sound(id: 0,
                                                            name: "",
-                                                           soundType: .natural,
+                                                           soundType: .whiteNoise,
                                                            audioVolume: 0.4,
                                                            imageName: "")
     @State var userName: String = ""
@@ -46,7 +38,7 @@ struct KitchenView: View {
     
     let baseAudioManager = AudioManager()
     let melodyAudioManager = AudioManager()
-    let naturalAudioManager = AudioManager()
+    let whiteNoiseAudioManager = AudioManager()
     
     var body : some View {
         
@@ -65,8 +57,8 @@ struct KitchenView: View {
                         SoundSelectView(sectionTitle: "Melody",
                                         soundType: .melody)
                         
-                        SoundSelectView(sectionTitle: "Natural Sound",
-                                        soundType: .natural)
+                        SoundSelectView(sectionTitle: "WhiteNoise Sound",
+                                        soundType: .whiteNoise)
                     }
                 }
                 
@@ -103,11 +95,11 @@ struct KitchenView: View {
             
             baseSound = selectedBaseSound
             melodySound = selectedMelodySound
-            naturalSound = selectedNaturalSound
+            whiteNoiseSound = selectedWhiteNoiseSound
             
             baseAudioManager.stop()
             melodyAudioManager.stop()
-            naturalAudioManager.stop()
+            whiteNoiseAudioManager.stop()
             
             self.textEntered = ""
         } label: {
@@ -156,17 +148,17 @@ struct KitchenView: View {
                             
                             
                         }
-                    case .natural:
+                    case .whiteNoise:
                         RadioButtonGroupView(selectedId: soundType.rawValue,
-                                         items: naturalSounds) { naturalSounds in
-                            print("naturalSounds is: \(naturalSounds)")
-                            selectedNaturalSound = naturalSounds
+                                         items: whiteNoiseSounds) { whiteNoiseSounds in
+                            print("naturalSounds is: \(whiteNoiseSounds)")
+                            selectedWhiteNoiseSound = whiteNoiseSounds
                             
                             
-                            if selectedNaturalSound.name == "Empty" {
-                                naturalAudioManager.stop()
+                            if selectedWhiteNoiseSound.name == "Empty" {
+                                whiteNoiseAudioManager.stop()
                             } else {
-                                naturalAudioManager.startPlayer(track: naturalSounds.name)
+                                whiteNoiseAudioManager.startPlayer(track: whiteNoiseSounds.name)
                             }
                         }
                     case .melody:

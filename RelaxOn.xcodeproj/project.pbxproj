@@ -7,13 +7,28 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		101417F6289EB80D00F40397 /* SelectedImageVew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 101417F5289EB80D00F40397 /* SelectedImageVew.swift */; };
+		101417F6289EB80D00F40397 /* SelectedImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 101417F5289EB80D00F40397 /* SelectedImageView.swift */; };
 		101417F8289EB82200F40397 /* SelectedImageBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 101417F7289EB82200F40397 /* SelectedImageBackgroundView.swift */; };
 		101417FA289EB9F300F40397 /* StudioNamingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 101417F9289EB9F300F40397 /* StudioNamingView.swift */; };
 		10D26712288EF4C80056339A /* CustomSegmentControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D26711288EF4C80056339A /* CustomSegmentControlView.swift */; };
 		10D26714288EF4D20056339A /* RectPreference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D26713288EF4D20056339A /* RectPreference.swift */; };
 		10D26716288EF4DB0056339A /* StudioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D26715288EF4DB0056339A /* StudioView.swift */; };
+		10FB81AF28A138E7000168CC /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FB81AE28A138E7000168CC /* OnboardingView.swift */; };
+		10FB81B128A13D97000168CC /* OnboadingNamingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FB81B028A13D97000168CC /* OnboadingNamingView.swift */; };
+		10FB81B528A17468000168CC /* OnboardingFinishView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FB81B428A17468000168CC /* OnboardingFinishView.swift */; };
 		219BD67328900A28006FAF55 /* CDListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 219BD67228900A28006FAF55 /* CDListView.swift */; };
+		21B7A65028A31DE700E90744 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 21B7A64F28A31DE700E90744 /* Assets.xcassets */; };
+		21B7A65628A31DE700E90744 /* RelaxOnWatch WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 21B7A65528A31DE700E90744 /* RelaxOnWatch WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		21B7A65B28A31DE700E90744 /* RelaxOnApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B7A65A28A31DE700E90744 /* RelaxOnApp.swift */; };
+		21B7A65D28A31DE700E90744 /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B7A65C28A31DE700E90744 /* PlayerView.swift */; };
+		21B7A65F28A31DE700E90744 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B7A65E28A31DE700E90744 /* NotificationController.swift */; };
+		21B7A66128A31DE700E90744 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B7A66028A31DE700E90744 /* NotificationView.swift */; };
+		21B7A66328A31DE700E90744 /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B7A66228A31DE700E90744 /* ComplicationController.swift */; };
+		21B7A66528A31DE800E90744 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 21B7A66428A31DE800E90744 /* Assets.xcassets */; };
+		21B7A66828A31DE800E90744 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 21B7A66728A31DE800E90744 /* Preview Assets.xcassets */; };
+		21B7A66D28A31DE800E90744 /* RelaxOnWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 21B7A64D28A31DE600E90744 /* RelaxOnWatch.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		21B7A67728A31E7000E90744 /* PlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B7A67628A31E7000E90744 /* PlayerViewModel.swift */; };
+		21B7A67928A31EB200E90744 /* Connectivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B7A67828A31EB200E90744 /* Connectivity.swift */; };
 		21D3ED952892774F006E871F /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5769AF2866F6B5007CCAE9 /* UserDefaultsManager.swift */; };
 		21D3ED972892781D006E871F /* CustomTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF0D9882887748500F61495 /* CustomTabView.swift */; };
 		21D897782892D48600A20FFE /* CDCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D897772892D48600A20FFE /* CDCardView.swift */; };
@@ -22,10 +37,10 @@
 		4A5769AE2866F44E007CCAE9 /* DummyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5769AD2866F44E007CCAE9 /* DummyData.swift */; };
 		4A657339289E62CF00E6D5A0 /* NewMusicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A657338289E62CF00E6D5A0 /* NewMusicView.swift */; };
 		4A65733B289E6BBC00E6D5A0 /* MusicRenameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A65733A289E6BBC00E6D5A0 /* MusicRenameView.swift */; };
-		580CADAA28659BEF0091946C /* LongSun.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 580CADA928659BEF0091946C /* LongSun.mp3 */; };
-		580CADAC28659C990091946C /* SpaceMid.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 580CADAB28659C990091946C /* SpaceMid.mp3 */; };
-		580CADB028659CF50091946C /* SpaceLow.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 580CADAD28659CF50091946C /* SpaceLow.mp3 */; };
-		580CADB128659CF50091946C /* SpaceHigh.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 580CADAE28659CF50091946C /* SpaceHigh.mp3 */; };
+		580CADAA28659BEF0091946C /* Long Sun.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 580CADA928659BEF0091946C /* Long Sun.mp3 */; };
+		580CADAC28659C990091946C /* Space Mid.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 580CADAB28659C990091946C /* Space Mid.mp3 */; };
+		580CADB028659CF50091946C /* Space Low.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 580CADAD28659CF50091946C /* Space Low.mp3 */; };
+		580CADB128659CF50091946C /* Space High.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 580CADAE28659CF50091946C /* Space High.mp3 */; };
 		580CADB228659CF50091946C /* Oxygen.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 580CADAF28659CF50091946C /* Oxygen.mp3 */; };
 		580CADB828659FAF0091946C /* Relaxing.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 580CADB328659FAE0091946C /* Relaxing.mp3 */; };
 		580CADB928659FAF0091946C /* Wisdom.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 580CADB428659FAE0091946C /* Wisdom.mp3 */; };
@@ -52,24 +67,124 @@
 		58DE61B9283A937000F25769 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61B8283A937000F25769 /* HomeView.swift */; };
 		58DE61BD283E542400F25769 /* MixedSoundCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61BC283E542400F25769 /* MixedSoundCardView.swift */; };
 		58DE61C22841C20A00F25769 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 58DE61C12841C20A00F25769 /* Launch Screen.storyboard */; };
-		58DE61C52841C54700F25769 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61C42841C54700F25769 /* OnboardingView.swift */; };
 		58DE61C72843100100F25769 /* VolumeControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61C62843100100F25769 /* VolumeControlView.swift */; };
+		CBFDC8F4289C23AC00386FB5 /* VolumeSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBFDC8F3289C23AC00386FB5 /* VolumeSlider.swift */; };
 		CC2820482880102400587334 /* ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC2820472880102400587334 /* ViewModifiers.swift */; };
+		CC5AC107289C033C00FE847B /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC5AC106289C033C00FE847B /* WidgetKit.framework */; };
+		CC5AC109289C033C00FE847B /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC5AC108289C033C00FE847B /* SwiftUI.framework */; };
+		CC5AC10C289C033C00FE847B /* RelaxOnWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5AC10B289C033C00FE847B /* RelaxOnWidget.swift */; };
+		CC5AC10F289C033D00FE847B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC5AC10E289C033D00FE847B /* Assets.xcassets */; };
+		CC5AC111289C033D00FE847B /* RelaxOnWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = CC5AC10D289C033C00FE847B /* RelaxOnWidget.intentdefinition */; };
+		CC5AC112289C033D00FE847B /* RelaxOnWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = CC5AC10D289C033C00FE847B /* RelaxOnWidget.intentdefinition */; };
+		CC5AC115289C033D00FE847B /* RelaxOnWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = CC5AC104289C033C00FE847B /* RelaxOnWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		CC5AC11F289D15EE00FE847B /* Static.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE1031283DF6E7002CDB9F /* Static.swift */; };
+		CC5AC124289D160A00FE847B /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5769AF2866F6B5007CCAE9 /* UserDefaultsManager.swift */; };
+		CC5AC125289D160E00FE847B /* AudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE101D283DC913002CDB9F /* AudioManager.swift */; };
+		CC5AC126289D161300FE847B /* ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC2820472880102400587334 /* ViewModifiers.swift */; };
+		CC5AC134289D184A00FE847B /* CDWidgetEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5AC133289D184A00FE847B /* CDWidgetEntry.swift */; };
+		CC5AC135289D185400FE847B /* CDWidgetEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5AC133289D184A00FE847B /* CDWidgetEntry.swift */; };
+		CC5AC137289D199600FE847B /* Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5AC136289D199600FE847B /* Provider.swift */; };
+		CC5AC138289D19C900FE847B /* Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5AC136289D199600FE847B /* Provider.swift */; };
+		CC5AC13B289D256100FE847B /* MixedSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5769AB2866F20A007CCAE9 /* MixedSound.swift */; };
+		CC5AC13D289D257B00FE847B /* DummyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5769AD2866F44E007CCAE9 /* DummyData.swift */; };
+		CC5AC13E289D258200FE847B /* Sound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61B1283A8E1700F25769 /* Sound.swift */; };
+		CC5AC141289D294800FE847B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58DE61862839C13A00F25769 /* Assets.xcassets */; };
+		CC5AC191289D69E500FE847B /* WidgetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5AC190289D69E500FE847B /* WidgetManager.swift */; };
+		CC5AC192289D6CD200FE847B /* WidgetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5AC190289D69E500FE847B /* WidgetManager.swift */; };
 		CCA7F51E2877501E00D6A239 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CCA7F5202877501E00D6A239 /* Localizable.strings */; };
+		E211ED052896D051002843EE /* MusicTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E211ED042896D051002843EE /* MusicTimer.swift */; };
+		E211ED072896D06A002843EE /* TimerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E211ED062896D06A002843EE /* TimerManager.swift */; };
 		E2BF105428914E9E00408B8C /* TimerNavigationLinkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2BF105328914E9E00408B8C /* TimerNavigationLinkView.swift */; };
 		E2BF1057289173F100408B8C /* TimerPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2BF1056289173F100408B8C /* TimerPickerView.swift */; };
 		E2BF105928917B6000408B8C /* TempMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2BF105828917B6000408B8C /* TempMainView.swift */; };
 		E2BF105B28917CAC00408B8C /* TimerSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2BF105A28917CAC00408B8C /* TimerSettingView.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		21B7A65728A31DE700E90744 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 58DE61772839C13900F25769 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 21B7A65428A31DE700E90744;
+			remoteInfo = "RelaxOnWatch WatchKit Extension";
+		};
+		21B7A66B28A31DE800E90744 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 58DE61772839C13900F25769 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 21B7A64C28A31DE600E90744;
+			remoteInfo = RelaxOnWatch;
+		};
+		CC5AC113289C033D00FE847B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 58DE61772839C13900F25769 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CC5AC103289C033C00FE847B;
+			remoteInfo = RelaxOnWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		21B7A66E28A31DE800E90744 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				21B7A66D28A31DE800E90744 /* RelaxOnWatch.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		21B7A67128A31DE800E90744 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				21B7A65628A31DE700E90744 /* RelaxOnWatch WatchKit Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CC5AC116289C033D00FE847B /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				CC5AC115289C033D00FE847B /* RelaxOnWidgetExtension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		101417F5289EB80D00F40397 /* SelectedImageVew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedImageVew.swift; sourceTree = "<group>"; };
+		101417F5289EB80D00F40397 /* SelectedImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedImageView.swift; sourceTree = "<group>"; };
 		101417F7289EB82200F40397 /* SelectedImageBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedImageBackgroundView.swift; sourceTree = "<group>"; };
 		101417F9289EB9F300F40397 /* StudioNamingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudioNamingView.swift; sourceTree = "<group>"; };
 		10D26711288EF4C80056339A /* CustomSegmentControlView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSegmentControlView.swift; sourceTree = "<group>"; };
 		10D26713288EF4D20056339A /* RectPreference.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RectPreference.swift; sourceTree = "<group>"; };
 		10D26715288EF4DB0056339A /* StudioView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudioView.swift; sourceTree = "<group>"; };
+		10FB81AE28A138E7000168CC /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		10FB81B028A13D97000168CC /* OnboadingNamingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboadingNamingView.swift; sourceTree = "<group>"; };
+		10FB81B428A17468000168CC /* OnboardingFinishView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingFinishView.swift; sourceTree = "<group>"; };
 		219BD67228900A28006FAF55 /* CDListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDListView.swift; sourceTree = "<group>"; };
+		21B7A64D28A31DE600E90744 /* RelaxOnWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RelaxOnWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		21B7A64F28A31DE700E90744 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		21B7A65528A31DE700E90744 /* RelaxOnWatch WatchKit Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "RelaxOnWatch WatchKit Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		21B7A65A28A31DE700E90744 /* RelaxOnApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelaxOnApp.swift; sourceTree = "<group>"; };
+		21B7A65C28A31DE700E90744 /* PlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
+		21B7A65E28A31DE700E90744 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
+		21B7A66028A31DE700E90744 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
+		21B7A66228A31DE700E90744 /* ComplicationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplicationController.swift; sourceTree = "<group>"; };
+		21B7A66428A31DE800E90744 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		21B7A66728A31DE800E90744 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		21B7A66928A31DE800E90744 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		21B7A66A28A31DE800E90744 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
+		21B7A67628A31E7000E90744 /* PlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewModel.swift; sourceTree = "<group>"; };
+		21B7A67828A31EB200E90744 /* Connectivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Connectivity.swift; sourceTree = "<group>"; };
 		21D897772892D48600A20FFE /* CDCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDCardView.swift; sourceTree = "<group>"; };
 		21FE2BB72899606A0024DA92 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		4A5769AB2866F20A007CCAE9 /* MixedSound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixedSound.swift; sourceTree = "<group>"; };
@@ -77,10 +192,10 @@
 		4A5769AF2866F6B5007CCAE9 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		4A657338289E62CF00E6D5A0 /* NewMusicView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMusicView.swift; sourceTree = "<group>"; };
 		4A65733A289E6BBC00E6D5A0 /* MusicRenameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicRenameView.swift; sourceTree = "<group>"; };
-		580CADA928659BEF0091946C /* LongSun.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = LongSun.mp3; sourceTree = "<group>"; };
-		580CADAB28659C990091946C /* SpaceMid.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = SpaceMid.mp3; sourceTree = "<group>"; };
-		580CADAD28659CF50091946C /* SpaceLow.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = SpaceLow.mp3; sourceTree = "<group>"; };
-		580CADAE28659CF50091946C /* SpaceHigh.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = SpaceHigh.mp3; sourceTree = "<group>"; };
+		580CADA928659BEF0091946C /* Long Sun.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Long Sun.mp3"; sourceTree = "<group>"; };
+		580CADAB28659C990091946C /* Space Mid.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Space Mid.mp3"; sourceTree = "<group>"; };
+		580CADAD28659CF50091946C /* Space Low.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Space Low.mp3"; sourceTree = "<group>"; };
+		580CADAE28659CF50091946C /* Space High.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Space High.mp3"; sourceTree = "<group>"; };
 		580CADAF28659CF50091946C /* Oxygen.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Oxygen.mp3; sourceTree = "<group>"; };
 		580CADB328659FAE0091946C /* Relaxing.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Relaxing.mp3; sourceTree = "<group>"; };
 		580CADB428659FAE0091946C /* Wisdom.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Wisdom.mp3; sourceTree = "<group>"; };
@@ -109,12 +224,26 @@
 		58DE61BC283E542400F25769 /* MixedSoundCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixedSoundCardView.swift; sourceTree = "<group>"; };
 		58DE61BE283E77E700F25769 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		58DE61C12841C20A00F25769 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
-		58DE61C42841C54700F25769 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OnboardingView.swift; path = RelaxOn/Views/Onboarding/OnboardingView.swift; sourceTree = SOURCE_ROOT; };
 		58DE61C62843100100F25769 /* VolumeControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeControlView.swift; sourceTree = "<group>"; };
+		CBFDC8F3289C23AC00386FB5 /* VolumeSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeSlider.swift; sourceTree = "<group>"; };
 		CC2820472880102400587334 /* ViewModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModifiers.swift; sourceTree = "<group>"; };
+		CC5AC104289C033C00FE847B /* RelaxOnWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = RelaxOnWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		CC5AC106289C033C00FE847B /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		CC5AC108289C033C00FE847B /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		CC5AC10B289C033C00FE847B /* RelaxOnWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelaxOnWidget.swift; sourceTree = "<group>"; };
+		CC5AC10D289C033C00FE847B /* RelaxOnWidget.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = RelaxOnWidget.intentdefinition; sourceTree = "<group>"; };
+		CC5AC10E289C033D00FE847B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		CC5AC110289C033D00FE847B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CC5AC133289D184A00FE847B /* CDWidgetEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDWidgetEntry.swift; sourceTree = "<group>"; };
+		CC5AC136289D199600FE847B /* Provider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Provider.swift; sourceTree = "<group>"; };
+		CC5AC18E289D48DD00FE847B /* RelaxOn.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RelaxOn.entitlements; sourceTree = "<group>"; };
+		CC5AC18F289D573A00FE847B /* RelaxOnWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RelaxOnWidgetExtension.entitlements; sourceTree = "<group>"; };
+		CC5AC190289D69E500FE847B /* WidgetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetManager.swift; sourceTree = "<group>"; };
 		CCA7F51F2877501E00D6A239 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CCA7F5212877504200D6A239 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CCF0D9882887748500F61495 /* CustomTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabView.swift; sourceTree = "<group>"; };
+		E211ED042896D051002843EE /* MusicTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicTimer.swift; sourceTree = "<group>"; };
+		E211ED062896D06A002843EE /* TimerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerManager.swift; sourceTree = "<group>"; };
 		E2BF105328914E9E00408B8C /* TimerNavigationLinkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerNavigationLinkView.swift; sourceTree = "<group>"; };
 		E2BF1056289173F100408B8C /* TimerPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerPickerView.swift; sourceTree = "<group>"; };
 		E2BF105828917B6000408B8C /* TempMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempMainView.swift; sourceTree = "<group>"; };
@@ -122,6 +251,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		21B7A65228A31DE700E90744 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		58DE617C2839C13900F25769 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -129,13 +265,58 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CC5AC101289C033C00FE847B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CC5AC109289C033C00FE847B /* SwiftUI.framework in Frameworks */,
+				CC5AC107289C033C00FE847B /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		21B7A64E28A31DE600E90744 /* RelaxOnWatch */ = {
+			isa = PBXGroup;
+			children = (
+				21B7A64F28A31DE700E90744 /* Assets.xcassets */,
+			);
+			path = RelaxOnWatch;
+			sourceTree = "<group>";
+		};
+		21B7A65928A31DE700E90744 /* RelaxOnWatch WatchKit Extension */ = {
+			isa = PBXGroup;
+			children = (
+				21B7A65A28A31DE700E90744 /* RelaxOnApp.swift */,
+				21B7A65C28A31DE700E90744 /* PlayerView.swift */,
+				21B7A65E28A31DE700E90744 /* NotificationController.swift */,
+				21B7A66028A31DE700E90744 /* NotificationView.swift */,
+				21B7A66228A31DE700E90744 /* ComplicationController.swift */,
+				21B7A66428A31DE800E90744 /* Assets.xcassets */,
+				21B7A66928A31DE800E90744 /* Info.plist */,
+				21B7A66A28A31DE800E90744 /* PushNotificationPayload.apns */,
+				21B7A66628A31DE800E90744 /* Preview Content */,
+				21B7A67628A31E7000E90744 /* PlayerViewModel.swift */,
+				21B7A67828A31EB200E90744 /* Connectivity.swift */,
+			);
+			path = "RelaxOnWatch WatchKit Extension";
+			sourceTree = "<group>";
+		};
+		21B7A66628A31DE800E90744 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				21B7A66728A31DE800E90744 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
 		583AA0EF284E0344005A0677 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
-				58DE61C42841C54700F25769 /* OnboardingView.swift */,
+				10FB81AE28A138E7000168CC /* OnboardingView.swift */,
+				10FB81B028A13D97000168CC /* OnboadingNamingView.swift */,
+				10FB81B428A17468000168CC /* OnboardingFinishView.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -165,11 +346,11 @@
 		58DE1023283DF53F002CDB9F /* Base */ = {
 			isa = PBXGroup;
 			children = (
-				580CADA928659BEF0091946C /* LongSun.mp3 */,
+				580CADA928659BEF0091946C /* Long Sun.mp3 */,
 				580CADAF28659CF50091946C /* Oxygen.mp3 */,
-				580CADAE28659CF50091946C /* SpaceHigh.mp3 */,
-				580CADAD28659CF50091946C /* SpaceLow.mp3 */,
-				580CADAB28659C990091946C /* SpaceMid.mp3 */,
+				580CADAE28659CF50091946C /* Space High.mp3 */,
+				580CADAD28659CF50091946C /* Space Low.mp3 */,
+				580CADAB28659C990091946C /* Space Mid.mp3 */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -212,8 +393,10 @@
 		58DE1035283F5193002CDB9F /* Manager */ = {
 			isa = PBXGroup;
 			children = (
+				E211ED062896D06A002843EE /* TimerManager.swift */,
 				58DE101D283DC913002CDB9F /* AudioManager.swift */,
 				4A5769AF2866F6B5007CCAE9 /* UserDefaultsManager.swift */,
+				CC5AC190289D69E500FE847B /* WidgetManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -228,7 +411,8 @@
 				10D26715288EF4DB0056339A /* StudioView.swift */,
 				58DE1033283F1A0A002CDB9F /* CustomAlertView.swift */,
 				219BD67228900A28006FAF55 /* CDListView.swift */,
-				101417F5289EB80D00F40397 /* SelectedImageVew.swift */,
+				CBFDC8F3289C23AC00386FB5 /* VolumeSlider.swift */,
+				101417F5289EB80D00F40397 /* SelectedImageView.swift */,
 				101417F7289EB82200F40397 /* SelectedImageBackgroundView.swift */,
 				101417F9289EB9F300F40397 /* StudioNamingView.swift */,
 			);
@@ -238,8 +422,8 @@
 		58DE103928405C7F002CDB9F /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				58DE61842839C13900F25769 /* CdLibraryView.swift */,
 				E2BF1055289172C600408B8C /* Timer */,
+				58DE61842839C13900F25769 /* CdLibraryView.swift */,
 				58DE61B8283A937000F25769 /* HomeView.swift */,
 				58DE61BC283E542400F25769 /* MixedSoundCardView.swift */,
 				58DE101F283DD9CA002CDB9F /* Music */,
@@ -251,7 +435,12 @@
 		58DE61762839C13900F25769 = {
 			isa = PBXGroup;
 			children = (
+				CC5AC18F289D573A00FE847B /* RelaxOnWidgetExtension.entitlements */,
 				58DE61812839C13900F25769 /* RelaxOn */,
+				21B7A64E28A31DE600E90744 /* RelaxOnWatch */,
+				21B7A65928A31DE700E90744 /* RelaxOnWatch WatchKit Extension */,
+				CC5AC10A289C033C00FE847B /* RelaxOnWidget */,
+				CC5AC105289C033C00FE847B /* Frameworks */,
 				58DE61802839C13900F25769 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -260,6 +449,9 @@
 			isa = PBXGroup;
 			children = (
 				58DE617F2839C13900F25769 /* RelaxOn.app */,
+				21B7A64D28A31DE600E90744 /* RelaxOnWatch.app */,
+				21B7A65528A31DE700E90744 /* RelaxOnWatch WatchKit Extension.appex */,
+				CC5AC104289C033C00FE847B /* RelaxOnWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -267,6 +459,7 @@
 		58DE61812839C13900F25769 /* RelaxOn */ = {
 			isa = PBXGroup;
 			children = (
+				CC5AC18E289D48DD00FE847B /* RelaxOn.entitlements */,
 				58DE61BE283E77E700F25769 /* Info.plist */,
 				58DE1030283DF6DA002CDB9F /* Utilities */,
 				58DE1022283DF536002CDB9F /* Resource */,
@@ -292,6 +485,7 @@
 		58DE61B0283A8E0700F25769 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				E211ED042896D051002843EE /* MusicTimer.swift */,
 				58DE61B1283A8E1700F25769 /* Sound.swift */,
 				4A5769AB2866F20A007CCAE9 /* MixedSound.swift */,
 				4A5769AD2866F44E007CCAE9 /* DummyData.swift */,
@@ -310,6 +504,28 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		CC5AC105289C033C00FE847B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CC5AC106289C033C00FE847B /* WidgetKit.framework */,
+				CC5AC108289C033C00FE847B /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CC5AC10A289C033C00FE847B /* RelaxOnWidget */ = {
+			isa = PBXGroup;
+			children = (
+				CC5AC10B289C033C00FE847B /* RelaxOnWidget.swift */,
+				CC5AC136289D199600FE847B /* Provider.swift */,
+				CC5AC133289D184A00FE847B /* CDWidgetEntry.swift */,
+				CC5AC10D289C033C00FE847B /* RelaxOnWidget.intentdefinition */,
+				CC5AC10E289C033D00FE847B /* Assets.xcassets */,
+				CC5AC110289C033D00FE847B /* Info.plist */,
+			);
+			path = RelaxOnWidget;
+			sourceTree = "<group>";
+		};
 		E2BF1055289172C600408B8C /* Timer */ = {
 			isa = PBXGroup;
 			children = (
@@ -324,6 +540,40 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		21B7A64C28A31DE600E90744 /* RelaxOnWatch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 21B7A67528A31DE800E90744 /* Build configuration list for PBXNativeTarget "RelaxOnWatch" */;
+			buildPhases = (
+				21B7A64B28A31DE600E90744 /* Resources */,
+				21B7A67128A31DE800E90744 /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				21B7A65828A31DE700E90744 /* PBXTargetDependency */,
+			);
+			name = RelaxOnWatch;
+			productName = RelaxOnWatch;
+			productReference = 21B7A64D28A31DE600E90744 /* RelaxOnWatch.app */;
+			productType = "com.apple.product-type.application.watchapp2";
+		};
+		21B7A65428A31DE700E90744 /* RelaxOnWatch WatchKit Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 21B7A67428A31DE800E90744 /* Build configuration list for PBXNativeTarget "RelaxOnWatch WatchKit Extension" */;
+			buildPhases = (
+				21B7A65128A31DE700E90744 /* Sources */,
+				21B7A65228A31DE700E90744 /* Frameworks */,
+				21B7A65328A31DE700E90744 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "RelaxOnWatch WatchKit Extension";
+			productName = "RelaxOnWatch WatchKit Extension";
+			productReference = 21B7A65528A31DE700E90744 /* RelaxOnWatch WatchKit Extension.appex */;
+			productType = "com.apple.product-type.watchkit2-extension";
+		};
 		58DE617E2839C13900F25769 /* RelaxOn */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 58DE61A32839C13B00F25769 /* Build configuration list for PBXNativeTarget "RelaxOn" */;
@@ -331,15 +581,36 @@
 				58DE617B2839C13900F25769 /* Sources */,
 				58DE617C2839C13900F25769 /* Frameworks */,
 				58DE617D2839C13900F25769 /* Resources */,
+				21B7A66E28A31DE800E90744 /* Embed Watch Content */,
+				CC5AC116289C033D00FE847B /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				21B7A66C28A31DE800E90744 /* PBXTargetDependency */,
+				CC5AC114289C033D00FE847B /* PBXTargetDependency */,
 			);
 			name = RelaxOn;
 			productName = LullabyRecipe;
 			productReference = 58DE617F2839C13900F25769 /* RelaxOn.app */;
 			productType = "com.apple.product-type.application";
+		};
+		CC5AC103289C033C00FE847B /* RelaxOnWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CC5AC119289C033D00FE847B /* Build configuration list for PBXNativeTarget "RelaxOnWidgetExtension" */;
+			buildPhases = (
+				CC5AC100289C033C00FE847B /* Sources */,
+				CC5AC101289C033C00FE847B /* Frameworks */,
+				CC5AC102289C033C00FE847B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RelaxOnWidgetExtension;
+			productName = RelaxOnWidgetExtension;
+			productReference = CC5AC104289C033C00FE847B /* RelaxOnWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -348,11 +619,20 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1340;
+				LastSwiftUpdateCheck = 1330;
 				LastUpgradeCheck = 1340;
 				TargetAttributes = {
+					21B7A64C28A31DE600E90744 = {
+						CreatedOnToolsVersion = 13.3;
+					};
+					21B7A65428A31DE700E90744 = {
+						CreatedOnToolsVersion = 13.3;
+					};
 					58DE617E2839C13900F25769 = {
 						CreatedOnToolsVersion = 13.4;
+					};
+					CC5AC103289C033C00FE847B = {
+						CreatedOnToolsVersion = 13.4.1;
 					};
 				};
 			};
@@ -371,21 +651,41 @@
 			projectRoot = "";
 			targets = (
 				58DE617E2839C13900F25769 /* RelaxOn */,
+				21B7A64C28A31DE600E90744 /* RelaxOnWatch */,
+				21B7A65428A31DE700E90744 /* RelaxOnWatch WatchKit Extension */,
+				CC5AC103289C033C00FE847B /* RelaxOnWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		21B7A64B28A31DE600E90744 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				21B7A65028A31DE700E90744 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		21B7A65328A31DE700E90744 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				21B7A66828A31DE800E90744 /* Preview Assets.xcassets in Resources */,
+				21B7A66528A31DE800E90744 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		58DE617D2839C13900F25769 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				580CADB828659FAF0091946C /* Relaxing.mp3 in Resources */,
-				580CADAC28659C990091946C /* SpaceMid.mp3 in Resources */,
+				580CADAC28659C990091946C /* Space Mid.mp3 in Resources */,
 				58DE618A2839C13A00F25769 /* Preview Assets.xcassets in Resources */,
 				58DE61872839C13A00F25769 /* Assets.xcassets in Resources */,
 				580CADBB28659FAF0091946C /* Garden.mp3 in Resources */,
-				580CADAA28659BEF0091946C /* LongSun.mp3 in Resources */,
+				580CADAA28659BEF0091946C /* Long Sun.mp3 in Resources */,
 				580CADBA28659FAF0091946C /* Ambient.mp3 in Resources */,
 				580CADBC28659FAF0091946C /* Gymnopedia.mp3 in Resources */,
 				58DE61C22841C20A00F25769 /* Launch Screen.storyboard in Resources */,
@@ -394,59 +694,128 @@
 				580CADB928659FAF0091946C /* Wisdom.mp3 in Resources */,
 				580CADC42865A3850091946C /* SummerField.mp3 in Resources */,
 				580CADB228659CF50091946C /* Oxygen.mp3 in Resources */,
-				580CADB028659CF50091946C /* SpaceLow.mp3 in Resources */,
+				580CADB028659CF50091946C /* Space Low.mp3 in Resources */,
 				580CADC32865A3850091946C /* Stream.mp3 in Resources */,
 				CCA7F51E2877501E00D6A239 /* Localizable.strings in Resources */,
-				580CADB128659CF50091946C /* SpaceHigh.mp3 in Resources */,
+				580CADB128659CF50091946C /* Space High.mp3 in Resources */,
 				580CADC22865A3850091946C /* DryGrass.mp3 in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CC5AC102289C033C00FE847B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CC5AC141289D294800FE847B /* Assets.xcassets in Resources */,
+				CC5AC10F289C033D00FE847B /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		21B7A65128A31DE700E90744 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				21B7A65F28A31DE700E90744 /* NotificationController.swift in Sources */,
+				21B7A65D28A31DE700E90744 /* PlayerView.swift in Sources */,
+				21B7A66328A31DE700E90744 /* ComplicationController.swift in Sources */,
+				21B7A67728A31E7000E90744 /* PlayerViewModel.swift in Sources */,
+				21B7A65B28A31DE700E90744 /* RelaxOnApp.swift in Sources */,
+				21B7A66128A31DE700E90744 /* NotificationView.swift in Sources */,
+				21B7A67928A31EB200E90744 /* Connectivity.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		58DE617B2839C13900F25769 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				58DE1021283DD9DD002CDB9F /* MusicViewModel.swift in Sources */,
+				CC5AC191289D69E500FE847B /* WidgetManager.swift in Sources */,
 				58DE61852839C13900F25769 /* CdLibraryView.swift in Sources */,
 				58DE1032283DF6E7002CDB9F /* Static.swift in Sources */,
 				58DE61AF283A8C8B00F25769 /* KitchenView.swift in Sources */,
 				4A65733B289E6BBC00E6D5A0 /* MusicRenameView.swift in Sources */,
 				21D3ED952892774F006E871F /* UserDefaultsManager.swift in Sources */,
 				219BD67328900A28006FAF55 /* CDListView.swift in Sources */,
-				58DE61C52841C54700F25769 /* OnboardingView.swift in Sources */,
 				4A657339289E62CF00E6D5A0 /* NewMusicView.swift in Sources */,
+				CBFDC8F4289C23AC00386FB5 /* VolumeSlider.swift in Sources */,
+				CC5AC137289D199600FE847B /* Provider.swift in Sources */,
 				58DE61B2283A8E1700F25769 /* Sound.swift in Sources */,
 				58DE61BD283E542400F25769 /* MixedSoundCardView.swift in Sources */,
 				101417F8289EB82200F40397 /* SelectedImageBackgroundView.swift in Sources */,
 				58DE61C72843100100F25769 /* VolumeControlView.swift in Sources */,
 				E2BF105428914E9E00408B8C /* TimerNavigationLinkView.swift in Sources */,
+				10FB81B128A13D97000168CC /* OnboadingNamingView.swift in Sources */,
+				E211ED072896D06A002843EE /* TimerManager.swift in Sources */,
+				CC5AC134289D184A00FE847B /* CDWidgetEntry.swift in Sources */,
 				10D26712288EF4C80056339A /* CustomSegmentControlView.swift in Sources */,
 				58DE61832839C13900F25769 /* RelaxOnApp.swift in Sources */,
 				21D3ED972892781D006E871F /* CustomTabView.swift in Sources */,
 				21FE2BB82899606A0024DA92 /* Extension.swift in Sources */,
 				10D26716288EF4DB0056339A /* StudioView.swift in Sources */,
 				4A5769AC2866F20A007CCAE9 /* MixedSound.swift in Sources */,
+				E211ED052896D051002843EE /* MusicTimer.swift in Sources */,
 				58DE101C283CA87F002CDB9F /* SoundCardView.swift in Sources */,
 				4A5769AE2866F44E007CCAE9 /* DummyData.swift in Sources */,
+				10FB81AF28A138E7000168CC /* OnboardingView.swift in Sources */,
 				CC2820482880102400587334 /* ViewModifiers.swift in Sources */,
 				E2BF1057289173F100408B8C /* TimerPickerView.swift in Sources */,
 				58DE101E283DC913002CDB9F /* AudioManager.swift in Sources */,
 				10D26714288EF4D20056339A /* RectPreference.swift in Sources */,
 				E2BF105B28917CAC00408B8C /* TimerSettingView.swift in Sources */,
-				101417F6289EB80D00F40397 /* SelectedImageVew.swift in Sources */,
+				CC5AC112289C033D00FE847B /* RelaxOnWidget.intentdefinition in Sources */,
+				101417F6289EB80D00F40397 /* SelectedImageView.swift in Sources */,
 				58DE1034283F1A0A002CDB9F /* CustomAlertView.swift in Sources */,
 				E2BF105928917B6000408B8C /* TempMainView.swift in Sources */,
 				58DE61B7283A932E00F25769 /* MusicView.swift in Sources */,
 				58DE61B9283A937000F25769 /* HomeView.swift in Sources */,
+				10FB81B528A17468000168CC /* OnboardingFinishView.swift in Sources */,
 				101417FA289EB9F300F40397 /* StudioNamingView.swift in Sources */,
 				21D897782892D48600A20FFE /* CDCardView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CC5AC100289C033C00FE847B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CC5AC126289D161300FE847B /* ViewModifiers.swift in Sources */,
+				CC5AC13E289D258200FE847B /* Sound.swift in Sources */,
+				CC5AC135289D185400FE847B /* CDWidgetEntry.swift in Sources */,
+				CC5AC124289D160A00FE847B /* UserDefaultsManager.swift in Sources */,
+				CC5AC13B289D256100FE847B /* MixedSound.swift in Sources */,
+				CC5AC192289D6CD200FE847B /* WidgetManager.swift in Sources */,
+				CC5AC111289C033D00FE847B /* RelaxOnWidget.intentdefinition in Sources */,
+				CC5AC10C289C033C00FE847B /* RelaxOnWidget.swift in Sources */,
+				CC5AC138289D19C900FE847B /* Provider.swift in Sources */,
+				CC5AC11F289D15EE00FE847B /* Static.swift in Sources */,
+				CC5AC13D289D257B00FE847B /* DummyData.swift in Sources */,
+				CC5AC125289D160E00FE847B /* AudioManager.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		21B7A65828A31DE700E90744 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 21B7A65428A31DE700E90744 /* RelaxOnWatch WatchKit Extension */;
+			targetProxy = 21B7A65728A31DE700E90744 /* PBXContainerItemProxy */;
+		};
+		21B7A66C28A31DE800E90744 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 21B7A64C28A31DE600E90744 /* RelaxOnWatch */;
+			targetProxy = 21B7A66B28A31DE800E90744 /* PBXContainerItemProxy */;
+		};
+		CC5AC114289C033D00FE847B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CC5AC103289C033C00FE847B /* RelaxOnWidgetExtension */;
+			targetProxy = CC5AC113289C033D00FE847B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		CCA7F5202877501E00D6A239 /* Localizable.strings */ = {
@@ -461,6 +830,120 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		21B7A66F28A31DE800E90744 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = QGAQ3AY3R3;
+				GENERATE_INFOPLIST_FILE = YES;
+				IBSC_MODULE = RelaxOnWatch_WatchKit_Extension;
+				INFOPLIST_KEY_CFBundleDisplayName = RelaxOnWatch;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.leeo.LullabyRecipe;
+				MARKETING_VERSION = 2.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.LullabyRecipe.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 8.5;
+			};
+			name = Debug;
+		};
+		21B7A67028A31DE800E90744 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = QGAQ3AY3R3;
+				GENERATE_INFOPLIST_FILE = YES;
+				IBSC_MODULE = RelaxOnWatch_WatchKit_Extension;
+				INFOPLIST_KEY_CFBundleDisplayName = RelaxOnWatch;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.leeo.LullabyRecipe;
+				MARKETING_VERSION = 2.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.LullabyRecipe.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 8.5;
+			};
+			name = Release;
+		};
+		21B7A67228A31DE800E90744 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"RelaxOnWatch WatchKit Extension/Preview Content\"";
+				DEVELOPMENT_TEAM = QGAQ3AY3R3;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "RelaxOnWatch WatchKit Extension/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "RelaxOnWatch WatchKit Extension";
+				INFOPLIST_KEY_CLKComplicationPrincipalClass = RelaxOnWatch_WatchKit_Extension.ComplicationController;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 2.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.LullabyRecipe.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 8.5;
+			};
+			name = Debug;
+		};
+		21B7A67328A31DE800E90744 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"RelaxOnWatch WatchKit Extension/Preview Content\"";
+				DEVELOPMENT_TEAM = QGAQ3AY3R3;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "RelaxOnWatch WatchKit Extension/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "RelaxOnWatch WatchKit Extension";
+				INFOPLIST_KEY_CLKComplicationPrincipalClass = RelaxOnWatch_WatchKit_Extension.ComplicationController;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 2.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.LullabyRecipe.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 8.5;
+			};
+			name = Release;
+		};
 		58DE61A12839C13B00F25769 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -580,12 +1063,14 @@
 		58DE61A42839C13B00F25769 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = RelaxOn/RelaxOn.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"RelaxOn/Preview Content\"";
-				DEVELOPMENT_TEAM = JP5BCXZWJP;
+				DEVELOPMENT_TEAM = QGAQ3AY3R3;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RelaxOn/Info.plist;
@@ -598,8 +1083,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.3;
-				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.RelaxOn;
+				MARKETING_VERSION = 2.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.LullabyRecipe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -610,12 +1095,14 @@
 		58DE61A52839C13B00F25769 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = RelaxOn/RelaxOn.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"RelaxOn/Preview Content\"";
-				DEVELOPMENT_TEAM = JP5BCXZWJP;
+				DEVELOPMENT_TEAM = QGAQ3AY3R3;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RelaxOn/Info.plist;
@@ -628,8 +1115,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.3;
-				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.RelaxOn;
+				MARKETING_VERSION = 2.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.LullabyRecipe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -637,9 +1124,89 @@
 			};
 			name = Release;
 		};
+		CC5AC117289C033D00FE847B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = RelaxOnWidgetExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = QGAQ3AY3R3;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = RelaxOnWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = RelaxOnWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.LullabyRecipe.RelaxOnWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		CC5AC118289C033D00FE847B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = RelaxOnWidgetExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = QGAQ3AY3R3;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = RelaxOnWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = RelaxOnWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.LullabyRecipe.RelaxOnWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		21B7A67428A31DE800E90744 /* Build configuration list for PBXNativeTarget "RelaxOnWatch WatchKit Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				21B7A67228A31DE800E90744 /* Debug */,
+				21B7A67328A31DE800E90744 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		21B7A67528A31DE800E90744 /* Build configuration list for PBXNativeTarget "RelaxOnWatch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				21B7A66F28A31DE800E90744 /* Debug */,
+				21B7A67028A31DE800E90744 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		58DE617A2839C13900F25769 /* Build configuration list for PBXProject "RelaxOn" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -654,6 +1221,15 @@
 			buildConfigurations = (
 				58DE61A42839C13B00F25769 /* Debug */,
 				58DE61A52839C13B00F25769 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CC5AC119289C033D00FE847B /* Build configuration list for PBXNativeTarget "RelaxOnWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CC5AC117289C033D00FE847B /* Debug */,
+				CC5AC118289C033D00FE847B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

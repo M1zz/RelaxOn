@@ -8,22 +8,58 @@
 import SwiftUI
 import AVFoundation
 import MediaPlayer
+import WatchConnectivity
 
 final class MusicViewModel: NSObject, ObservableObject {
+    @Published var watchInfo: String = ""
+        
+    override init() {
+        super.init()
+
+        guard WCSession.isSupported() else {
+            return
+        }
+
+        WCSession.default.delegate = self
+        WCSession.default.activate()
+    }
+
+    public func send(cdInfos: [String]) {
+        guard WCSession.default.activationState == .activated else {
+            return
+        }
+        guard WCSession.default.isWatchAppInstalled else {
+            return
+        }
+        let userInfo: [String: [String]] = [
+            "cdInfo" : cdInfos
+        ]
+        WCSession.default.transferUserInfo(userInfo)
+    }
+    
     @Published var baseAudioManager = AudioManager()
     @Published var melodyAudioManager = AudioManager()
-    @Published var naturalAudioManager = AudioManager()
-    @Published var isPlaying = true
-    @Published var mixedSound: MixedSound? {
+    @Published var whiteNoiseAudioManager = AudioManager()
+    @Published var isPlaying: Bool = true {
+        // FIXME: addMainSoundToWidget()를 Sound가 재정렬 되었을 때 제일 위의 음악을 넣어야 합니다. (해당 로직이 안 짜진 거 같아 우선은, 여기로 뒀습니다.)
         didSet {
-            startPlayer()
+            if let mixedSound = mixedSound {
+                WidgetManager.addMainSoundToWidget(imageName: mixedSound.imageName, name: mixedSound.name, id: mixedSound.id)
+            }
         }
     }
     
-    func updateVolume(audioVolumes: (baseVolume: Float, melodyVolume: Float, naturalVolume: Float)) {
+    @Published var mixedSound: MixedSound? {
+        didSet {
+            startPlayer()
+            updateCompanion()
+        }
+    }
+    
+    func updateVolume(audioVolumes: (baseVolume: Float, melodyVolume: Float, whiteNoiseVolume: Float)) {
         self.mixedSound?.baseSound?.audioVolume = audioVolumes.baseVolume
         self.mixedSound?.melodySound?.audioVolume = audioVolumes.melodyVolume
-        self.mixedSound?.naturalSound?.audioVolume = audioVolumes.naturalVolume
+        self.mixedSound?.whiteNoiseSound?.audioVolume = audioVolumes.whiteNoiseVolume
     }
     
     func changeMixedSound(mixedSound: MixedSound) {
@@ -38,21 +74,32 @@ final class MusicViewModel: NSObject, ObservableObject {
     }
     
     func playPause() {
+        self.isPlaying.toggle()
+        if !isPlaying {
             baseAudioManager.playPause()
             melodyAudioManager.playPause()
-            naturalAudioManager.playPause()
+            whiteNoiseAudioManager.playPause()
+        } else {
+            // play 할 때 mixedSound 볼륨 적용 시도
+            baseAudioManager.startPlayer(track: mixedSound?.baseSound?.name ?? "base_default", volume: mixedSound?.baseSound?.audioVolume ?? 0.8)
+            melodyAudioManager.startPlayer(track: mixedSound?.melodySound?.name ?? "base_default", volume: mixedSound?.melodySound?.audioVolume ?? 0.8)
+            whiteNoiseAudioManager.startPlayer(track: mixedSound?.whiteNoiseSound?.name ?? "base_default", volume: mixedSound?.whiteNoiseSound?.audioVolume ?? 0.8)
+        }
+        updateCompanion()
+
     }
     
     func stop() {
         baseAudioManager.stop()
         melodyAudioManager.stop()
-        naturalAudioManager.stop()
+        whiteNoiseAudioManager.stop()
+        updateCompanion()
     }
     
     func startPlayer() {
         baseAudioManager.startPlayer(track: mixedSound?.baseSound?.name ?? "base_default", volume: mixedSound?.baseSound?.audioVolume ?? 0.8)
         melodyAudioManager.startPlayer(track: mixedSound?.melodySound?.name ?? "base_default", volume: mixedSound?.melodySound?.audioVolume ?? 0.8)
-        naturalAudioManager.startPlayer(track: mixedSound?.naturalSound?.name ?? "base_default", volume: mixedSound?.naturalSound?.audioVolume ?? 0.8)
+        whiteNoiseAudioManager.startPlayer(track: mixedSound?.whiteNoiseSound?.name ?? "base_default", volume: mixedSound?.whiteNoiseSound?.audioVolume ?? 0.8)
     }
     
     func setupRemoteCommandCenter() {
@@ -64,13 +111,11 @@ final class MusicViewModel: NSObject, ObservableObject {
         guard let mixedSound = self.mixedSound else { return }
         
         center.playCommand.addTarget { commandEvent -> MPRemoteCommandHandlerStatus in
-            self.isPlaying = true
             self.playPause()
             return .success
         }
         
         center.pauseCommand.addTarget { commandEvent -> MPRemoteCommandHandlerStatus in
-            self.isPlaying = false
             self.playPause()
             return .success
         }
@@ -110,11 +155,13 @@ final class MusicViewModel: NSObject, ObservableObject {
         let index = userRepositories.firstIndex { element in
             element.name == mixedSound.name
         }
+        self.isPlaying = true
         if index == count - 1 {
             guard let firstSong = userRepositories.first else { return }
             self.mixedSound = firstSong
             self.setupRemoteCommandInfoCenter(mixedSound: firstSong)
             self.setupRemoteCommandCenter()
+            updateCompanion()
         } else {
             let nextSong = userRepositories[ userRepositories.firstIndex {
                 $0.id > id
@@ -122,6 +169,7 @@ final class MusicViewModel: NSObject, ObservableObject {
             self.mixedSound = nextSong
             self.setupRemoteCommandInfoCenter(mixedSound: nextSong)
             self.setupRemoteCommandCenter()
+            updateCompanion()
         }
     }
     
@@ -130,11 +178,13 @@ final class MusicViewModel: NSObject, ObservableObject {
         let index = userRepositories.firstIndex { element in
             element.name == mixedSound.name
         }
+        self.isPlaying = true
         if index == 0 {
             guard let lastSong = userRepositories.last else { return }
             self.mixedSound = lastSong
             self.setupRemoteCommandInfoCenter(mixedSound: lastSong)
             self.setupRemoteCommandCenter()
+            updateCompanion()
         } else {
             let previousSong = userRepositories[ userRepositories.lastIndex {
                 $0.id < id
@@ -142,6 +192,53 @@ final class MusicViewModel: NSObject, ObservableObject {
             self.mixedSound = previousSong
             self.setupRemoteCommandInfoCenter(mixedSound: previousSong)
             self.setupRemoteCommandCenter()
+            updateCompanion()
         }
     }
+    
+    // Watch 업데이트
+    func updateCompanion() {
+        self.send(cdInfos: [isPlaying ? "true" : "false", mixedSound?.name ?? ""])
+    }
+}
+
+extension MusicViewModel: WCSessionDelegate {
+    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
+    }
+
+    func session(_ session: WCSession, didReceiveUserInfo userInfo: [String : Any] = [:]) {
+        DispatchQueue.main.async {
+            let key = "watchInfo"
+                guard let WatchInfo = userInfo[key] as? String else {
+                return
+            }
+            
+            switch WatchInfo {
+            case "playing", "paused":
+                self.playPause()
+            case "prev":
+                guard let mixedSound = self.mixedSound else {
+                    return
+                }
+                self.setupPreviousTrack(mixedSound: mixedSound)
+            case "next":
+                guard let mixedSound = self.mixedSound else {
+                    return
+                }
+                self.setupNextTrack(mixedSound: mixedSound)
+            default:
+                print("unknown watchinfo")
+            }
+        }
+    }
+
+    // iOS에만 해당
+    #if os(iOS)
+    func sessionDidBecomeInactive(_ session: WCSession) {
+    }
+    func sessionDidDeactivate(_ session: WCSession) {
+        // 애플워치가 2개 이상일 때, 새로운 기기에서 다시 activate
+        WCSession.default.activate()
+    }
+    #endif
 }

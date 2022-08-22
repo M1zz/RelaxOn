@@ -22,7 +22,7 @@ struct NewMusicView: View {
     @State private var musicControlButtonWidth = 49.0
     @State private var musicPlayButtonWidth = 44.0
     
-    @State var audioVolumes: (baseVolume: Float, melodyVolume: Float, naturalVolume: Float) = (0, 0, 0)
+    @State var audioVolumes: (baseVolume: Float, melodyVolume: Float, whiteNoiseVolume: Float) = (0, 0, 0)
     @State private var offsetYOfControlView = UIScreen.main.bounds.height * 0.83 {
         didSet {
             if offsetYOfControlView < UIScreen.main.bounds.height * 0.5 {
@@ -142,14 +142,14 @@ struct NewMusicView: View {
                 guard let changedMixedSound = mixedSound else { return }
                 audioVolumes = (baseVolume: changedMixedSound.baseSound?.audioVolume ?? 0.12,
                                 melodyVolume: changedMixedSound.melodySound?.audioVolume ?? 0.12,
-                                naturalVolume: changedMixedSound.naturalSound?.audioVolume ?? 0.12)
+                                whiteNoiseVolume: changedMixedSound.whiteNoiseSound?.audioVolume ?? 0.12)
             })
             .onDisappear {
                 viewModel.stop()
                 userRepositoriesState = userRepositories
             }
             .background(
-                NavigationLink(destination: MusicRenameView(mixedSound: viewModel.mixedSound ?? emptyMixedSound), isActive: $isActive) {
+                NavigationLink(destination: MusicRenameView(userRepositoriesState: $userRepositoriesState, mixedSound: viewModel.mixedSound ?? emptyMixedSound), isActive: $isActive) {
                     Text("")
                 }
             )
@@ -216,7 +216,7 @@ extension NewMusicView {
                 .resizable()
                 .opacity(0.5)
                 .frame(width: .infinity, height: .infinity)
-            Image(viewModel.mixedSound?.naturalSound?.imageName ?? "")
+            Image(viewModel.mixedSound?.whiteNoiseSound?.imageName ?? "")
                 .resizable()
                 .opacity(0.5)
                 .frame(width: .infinity, height: .infinity)

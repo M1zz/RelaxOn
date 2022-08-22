@@ -19,6 +19,7 @@ struct TimePicker: UIViewRepresentable {
     }
 
     func updateUIView(_ datePicker: UIDatePicker, context: Context) {
+        datePicker.countDownDuration = seconds
     }
 
     func makeCoordinator() -> TimePicker.Coordinator {
@@ -42,7 +43,7 @@ struct TimePicker: UIViewRepresentable {
 struct TimePicker_Previews: PreviewProvider {
     
     struct TimePickerForPreview: View {
-        @State var seconds = 0.0
+        @State var seconds = 60.0
         var body: some View {
             VStack {
                 Text("\(seconds)")
