@@ -2,8 +2,8 @@
 # Test를 실행하도록 하는 도구입니다.
 
 # 마지막으로 실행했던 Tes 결과가 남아있다면 제거합니다
-rm -rf resultBundle
-rm -rf resultBundle.xcresult
+rm -rf UITest/resultBundle
+rm -rf UITest/resultBundle.xcresult
 
 # Test Simulator Deivce
 SIMULATOR_NAME="iPhone SE (3rd generation)"
@@ -26,13 +26,17 @@ xcrun simctl uninstall $SIMULATOR_ID $BUNDLE_ID
 
 # 실제 Test를 실행합니다.
 set -e -o pipefail 
-xcodebuild test -scheme "RelaxOn" \
-  -sdk iphonesimulator \
+xcodebuild test -project RelaxOn.xcodeproj \
+  -scheme "RelaxOn" \
   -destination "platform=iOS Simulator,id=$SIMULATOR_ID" \
-  -resultBundlePath resultBundle 
+  -resultBundlePath resultBundle
+# -sdk iphonesimulator \
 # 👇 테스트 실패시, CI에 업로드하기 편하도록, resultBundle이 저장되는 위치를 지정합니다.
 # -workspace banksalad.xcworkspace \
 #  -derivedDataPath build/ \
 #  -testPlan SmokeTests \
 
 xcrun simctl shutdown $SIMULATOR_ID
+
+mv resultBundle UITest/
+mv resultBundle.xcresult UITest/

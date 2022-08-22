@@ -2,8 +2,10 @@
 # 주어진 조건에 해당하는 시뮬레이터의 고유 ID를 출력합니다.
 require "json"
 
-deviceName = ARGV[0]
-runTime = ARGV[1]
+# deviceName = ARGV[0]
+deviceName = "iPhone SE (3rd generation)"
+# runTime = ARGV[1]
+runTime = "15-4"
 
 json = JSON.parse(%x(xcrun simctl list 'devices' -j))
 devices = json["devices"]["com.apple.CoreSimulator.SimRuntime.iOS-#{runTime}"]
