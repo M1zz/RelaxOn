@@ -107,7 +107,10 @@ final class MusicViewModel: NSObject, ObservableObject {
     func setupNextTrack(mixedSound: MixedSound) {
         let count = userRepositories.count
         let id = mixedSound.id
-        if id == count - 1 {
+        let index = userRepositories.firstIndex { element in
+            element.name == mixedSound.name
+        }
+        if index == count - 1 {
             guard let firstSong = userRepositories.first else { return }
             self.mixedSound = firstSong
             self.setupRemoteCommandInfoCenter(mixedSound: firstSong)
@@ -124,7 +127,10 @@ final class MusicViewModel: NSObject, ObservableObject {
     
     func setupPreviousTrack(mixedSound: MixedSound) {
         let id = mixedSound.id
-        if id == 0 {
+        let index = userRepositories.firstIndex { element in
+            element.name == mixedSound.name
+        }
+        if index == 0 {
             guard let lastSong = userRepositories.last else { return }
             self.mixedSound = lastSong
             self.setupRemoteCommandInfoCenter(mixedSound: lastSong)
