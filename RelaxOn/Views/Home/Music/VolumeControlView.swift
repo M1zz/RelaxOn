@@ -11,13 +11,8 @@ struct VolumeControlView: View {
     @ObservedObject var viewModel: MusicViewModel
     @Binding var showVolumeControl: Bool
     @Binding var audioVolumes: (baseVolume: Float, melodyVolume: Float, naturalVolume: Float)
-    @Binding var userRepositoriesState: [MixedSound] {
-        didSet {
-            print("last24", userRepositoriesState.last?.baseSound?.audioVolume)
-        }
-    }
+    @Binding var userRepositoriesState: [MixedSound]
     
-    let data: MixedSound
     let baseAudioManager = AudioManager()
     let melodyAudioManager = AudioManager()
     let naturalAudioManager = AudioManager()
@@ -31,15 +26,15 @@ struct VolumeControlView: View {
                 UpperPartOfVolumeControlView()
                     .padding(.bottom, UIScreen.main.bounds.height * 0.05)
                 
-                if let baseSound = data.baseSound {
+                if let baseSound = viewModel.mixedSound?.baseSound {
                     SoundControlSlider(item: baseSound)
                 }
                 
-                if let melodySound = data.melodySound {
+                if let melodySound = viewModel.mixedSound?.melodySound {
                     SoundControlSlider(item: melodySound)
                 }
                 
-                if let naturalSound = data.naturalSound {
+                if let naturalSound = viewModel.mixedSound?.naturalSound {
                     SoundControlSlider(item: naturalSound)
                 }
                 
@@ -90,7 +85,7 @@ struct VolumeControlView: View {
                             .padding(.horizontal, 20)
                             .onChange(of: audioVolumes.baseVolume) { newValue in
                                 print(newValue)
-                                baseAudioManager.changeVolume(track: item.name,
+                                viewModel.baseAudioManager.changeVolume(track: item.name,
                                                               volume: newValue)
                             }
                         Text(String(Int(audioVolumes.baseVolume * 100)))
@@ -107,7 +102,7 @@ struct VolumeControlView: View {
                             .padding(.horizontal, 20)
                             .onChange(of: audioVolumes.melodyVolume) { newValue in
                                 print(newValue)
-                                melodyAudioManager.changeVolume(track: item.name,
+                                viewModel.melodyAudioManager.changeVolume(track: item.name,
                                                                 volume: newValue)
                             }
                         Text(String(Int(audioVolumes.melodyVolume * 100)))
@@ -124,7 +119,7 @@ struct VolumeControlView: View {
                             .padding(.horizontal, 20)
                             .onChange(of: audioVolumes.naturalVolume) { newValue in
                                 print(newValue)
-                                naturalAudioManager.changeVolume(track: item.name,
+                                viewModel.naturalAudioManager.changeVolume(track: item.name,
                                                                  volume: newValue)
                             }
                         Text(String(Int(audioVolumes.naturalVolume * 100)))
@@ -148,7 +143,7 @@ struct VolumeControlView: View {
     }
     
     private func saveNewVolume() {
-        guard let mixedSound = viewModel.mixedSound else { return }
+        guard let selectedMixedSound = viewModel.mixedSound else { return }
         guard let localBaseSound = viewModel.mixedSound?.baseSound,
               let localMelodySound = viewModel.mixedSound?.melodySound,
               let localNaturalSound = viewModel.mixedSound?.naturalSound else { return }
@@ -170,23 +165,22 @@ struct VolumeControlView: View {
                                     audioVolume: audioVolumes.naturalVolume,
                                     imageName: localNaturalSound.imageName)
         
-        let newMixedSound = MixedSound(id: mixedSound.id,
-                                       name: mixedSound.name,
+        let newMixedSound = MixedSound(id: selectedMixedSound.id,
+                                       name: selectedMixedSound.name,
                                        baseSound: newBaseSound,
                                        melodySound: newMelodySound,
                                        naturalSound: newNaturalSound,
-                                       imageName: mixedSound.imageName)
+                                       imageName: selectedMixedSound.imageName)
         
-        userRepositories.remove(at: mixedSound.id)
-        userRepositories.insert(newMixedSound, at: mixedSound.id)
-        userRepositoriesState = userRepositories
-        #warning("DAKE 화이팅")
+        let index = userRepositoriesState.firstIndex { mixedSound in
+            mixedSound.name == selectedMixedSound.name
+        }
         
-        userRepositoriesState.remove(at: mixedSound.id)
-        userRepositoriesState.insert(newMixedSound, at: mixedSound.id)
+        userRepositories.remove(at: index ?? -1)
+        userRepositories.insert(newMixedSound, at: index ?? -1)
         
-        print("last22", userRepositories.last?.baseSound?.audioVolume)
-        print("last25", userRepositoriesState.last?.baseSound?.audioVolume)
+        userRepositoriesState.remove(at: index ?? -1)
+        userRepositoriesState.insert(newMixedSound, at: index ?? -1)
         
         let data = getEncodedData(data: userRepositories)
         UserDefaultsManager.shared.standard.set(data, forKey: UserDefaultsManager.shared.recipes)

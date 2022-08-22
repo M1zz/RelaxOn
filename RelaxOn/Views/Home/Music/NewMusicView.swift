@@ -74,8 +74,7 @@ struct NewMusicView: View {
                 .padding(.top, UIScreen.main.bounds.height * 0.1)
                 
                 VolumeControlView(viewModel: viewModel, showVolumeControl: $showVolumeControl,
-                                  audioVolumes: $audioVolumes, userRepositoriesState: $userRepositoriesState,
-                                  data: viewModel.mixedSound ?? emptyMixedSound)
+                                  audioVolumes: $audioVolumes, userRepositoriesState: $userRepositoriesState)
                 .cornerRadius(20)
                 .offset(y: offsetYOfControlView)
                 .gesture(
@@ -252,7 +251,12 @@ extension NewMusicView {
                 }
                 
                 Button(role: .destructive) {
-                    userRepositories.remove(at: data.id)
+                    let index = userRepositoriesState.firstIndex { mixedSound in
+                        mixedSound.name == viewModel.mixedSound?.name ?? ""
+                    }
+                    userRepositories.remove(at: index ?? -1)
+                    userRepositoriesState.remove(at: index ?? -1)
+                    
                     let data = getEncodedData(data: userRepositories)
                     UserDefaultsManager.shared.standard.set(data, forKey: UserDefaultsManager.shared.recipes)
                     userRepositoriesState = userRepositories
