@@ -1,8 +1,0 @@
-10:19:24.243 xcodebuild[4669:111690] Sim iPhone SE (3rd generation): Unregistering for sim device notification with token 3
-10:19:24.243 xcodebuild[4669:111690] Calling -[SimDevice getenv:error:] for TESTMANAGERD_SIM_SOCK
-10:19:24.245 xcodebuild[4669:111690] Sim iPhone SE (3rd generation) has testmanagerd socket at /private/tmp/com.apple.launchd.NutOjKP1sf/com.apple.testmanagerd.unix-domain.socket
-10:19:24.245 xcodebuild[4669:111690] Validating test connection socket path (/private/tmp/com.apple.launchd.NutOjKP1sf/com.apple.testmanagerd.unix-domain.socket)
-10:19:24.245 xcodebuild[4669:111690] Constructing transport for test connection socket
-10:19:24.245 xcodebuild[4669:111690] Connected socket 27 to testmanagerd for Sim iPhone SE (3rd generation)
-10:19:24.245 xcodebuild[4669:111690] Initiating control session with IDE capabilities: <XCTCapabilities: 0x6000007a5550>: {
-}
