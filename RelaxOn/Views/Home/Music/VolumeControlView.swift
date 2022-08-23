@@ -184,8 +184,6 @@ struct VolumeControlView: View {
         
         let data = getEncodedData(data: userRepositories)
         UserDefaultsManager.shared.standard.set(data, forKey: UserDefaultsManager.shared.recipes)
-        
-        print("볼륨 저장되었음")
     }
 }
 

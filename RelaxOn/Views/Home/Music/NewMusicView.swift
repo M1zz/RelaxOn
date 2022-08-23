@@ -10,6 +10,7 @@ import SwiftUI
 struct NewMusicView: View {
     @Environment(\.presentationMode) var presentationMode
     @State private var isActive = false
+    @State private var isFetchFirstData = true
     
     @StateObject var viewModel = MusicViewModel()
     @State var animatedValue : CGFloat = 55
@@ -136,7 +137,10 @@ struct NewMusicView: View {
                 )
             }
             .onAppear {
-                viewModel.fetchData(data: data)
+                if isFetchFirstData {
+                    viewModel.fetchData(data: data)
+                }
+                self.isFetchFirstData = false
             }
             .onReceive(viewModel.$mixedSound, perform: { mixedSound in
                 guard let changedMixedSound = mixedSound else { return }

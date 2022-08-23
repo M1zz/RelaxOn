@@ -114,7 +114,6 @@ struct MusicRenameView: View {
         .opacity(textEntered.isEmpty ? 0.5 : 1)
         .padding()
         .onTapGesture {
-            viewModel.mixedSound?.name = textEntered
             let renamedMixedSound = MixedSound(id: mixedSound.id,
                                                name: textEntered,
                                                baseSound: mixedSound.baseSound,
@@ -125,6 +124,8 @@ struct MusicRenameView: View {
             let index = userRepositoriesState.firstIndex { element in
                 element.name == mixedSound.name
             }
+            
+            viewModel.mixedSound = renamedMixedSound
             userRepositories.remove(at: index ?? -1)
             userRepositories.insert(renamedMixedSound, at: index ?? -1)
             userRepositoriesState.remove(at: index ?? -1)
