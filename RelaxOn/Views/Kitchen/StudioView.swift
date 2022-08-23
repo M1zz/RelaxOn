@@ -1,6 +1,6 @@
 //
 //  StudioView.swift
-//  LullabyRecipe
+//  RelaxOn
 //
 //  Created by 김연호 on 2022/07/23.
 //
