@@ -189,7 +189,6 @@ extension NewMusicView {
             
             Button {
                 viewModel.playPause()
-                viewModel.isPlaying.toggle()
             } label: {
                 Image(systemName: viewModel.isPlaying ? "pause.fill" : "play.fill")
                     .resizable()
