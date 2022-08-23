@@ -4,8 +4,8 @@
 # xcrun으로부터 받은 json을 parsing하기 위해 import합니다.
 require "json"
 
-# deviceName = ARGV[0]
-deviceName = "iPhone SE (3rd generation)"
+deviceName = ARGV[0]
+# deviceNameArray = ["iPhone 8", "iPhone 13", "iPhone 13 Pro Max"]
 # runTime = ARGV[1]
 runTime = "15-4"
 
