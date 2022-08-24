@@ -95,15 +95,6 @@
             BlueprintName = "RelaxOnWatch"
             ReferencedContainer = "container:RelaxOn.xcodeproj">
          </BuildableReference>
-      </RemoteRunnable>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "21B7A64C28A31DE600E90744"
-            BuildableName = "RelaxOnWatch.app"
-            BlueprintName = "RelaxOnWatch"
-            ReferencedContainer = "container:RelaxOn.xcodeproj">
-         </BuildableReference>
       </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction

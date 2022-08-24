@@ -1,6 +1,6 @@
 //
 //  CdLibraryView.swift
-//  LullabyRecipe
+//  RelaxOn
 //
 //  Created by hyunho lee on 2022/05/22.
 //
@@ -60,7 +60,9 @@ struct CdLibraryView: View {
 
 struct CdLibraryView_Previews: PreviewProvider {
     static var previews: some View {
-        CdLibraryView()
+        MultiPreview {
+            CdLibraryView()
+        }
     }
 }
 

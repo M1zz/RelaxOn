@@ -1,6 +1,6 @@
 //
 //  SoundCardView.swift
-//  LullabyRecipe
+//  RelaxOn
 //
 //  Created by hyunho lee on 5/24/22.
 //
