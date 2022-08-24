@@ -30,7 +30,6 @@
 		21B7A67728A31E7000E90744 /* PlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B7A67628A31E7000E90744 /* PlayerViewModel.swift */; };
 		21B7A67928A31EB200E90744 /* Connectivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B7A67828A31EB200E90744 /* Connectivity.swift */; };
 		21D3ED952892774F006E871F /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5769AF2866F6B5007CCAE9 /* UserDefaultsManager.swift */; };
-		21D3ED972892781D006E871F /* CustomTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF0D9882887748500F61495 /* CustomTabView.swift */; };
 		21D897782892D48600A20FFE /* CDCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D897772892D48600A20FFE /* CDCardView.swift */; };
 		21FE2BB82899606A0024DA92 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21FE2BB72899606A0024DA92 /* Extension.swift */; };
 		4A5769AC2866F20A007CCAE9 /* MixedSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5769AB2866F20A007CCAE9 /* MixedSound.swift */; };
@@ -54,16 +53,12 @@
 		58DE101E283DC913002CDB9F /* AudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE101D283DC913002CDB9F /* AudioManager.swift */; };
 		58DE1021283DD9DD002CDB9F /* MusicViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE1020283DD9DD002CDB9F /* MusicViewModel.swift */; };
 		58DE1032283DF6E7002CDB9F /* Static.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE1031283DF6E7002CDB9F /* Static.swift */; };
-		58DE1034283F1A0A002CDB9F /* CustomAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE1033283F1A0A002CDB9F /* CustomAlertView.swift */; };
 		58DE61832839C13900F25769 /* RelaxOnApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61822839C13900F25769 /* RelaxOnApp.swift */; };
 		58DE61852839C13900F25769 /* CdLibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61842839C13900F25769 /* CdLibraryView.swift */; };
 		58DE61872839C13A00F25769 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58DE61862839C13A00F25769 /* Assets.xcassets */; };
 		58DE618A2839C13A00F25769 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58DE61892839C13A00F25769 /* Preview Assets.xcassets */; };
-		58DE61AF283A8C8B00F25769 /* KitchenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61AE283A8C8B00F25769 /* KitchenView.swift */; };
 		58DE61B2283A8E1700F25769 /* Sound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61B1283A8E1700F25769 /* Sound.swift */; };
 		58DE61B7283A932E00F25769 /* MusicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61B6283A932E00F25769 /* MusicView.swift */; };
-		58DE61B9283A937000F25769 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61B8283A937000F25769 /* HomeView.swift */; };
-		58DE61BD283E542400F25769 /* MixedSoundCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61BC283E542400F25769 /* MixedSoundCardView.swift */; };
 		58DE61C22841C20A00F25769 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 58DE61C12841C20A00F25769 /* Launch Screen.storyboard */; };
 		58DE61C72843100100F25769 /* VolumeControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61C62843100100F25769 /* VolumeControlView.swift */; };
 		C776B17128B2620000A13052 /* RelaxOnUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C776B17028B2620000A13052 /* RelaxOnUITests.swift */; };
@@ -217,17 +212,13 @@
 		58DE101D283DC913002CDB9F /* AudioManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
 		58DE1020283DD9DD002CDB9F /* MusicViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicViewModel.swift; sourceTree = "<group>"; };
 		58DE1031283DF6E7002CDB9F /* Static.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Static.swift; sourceTree = "<group>"; };
-		58DE1033283F1A0A002CDB9F /* CustomAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertView.swift; sourceTree = "<group>"; };
 		58DE617F2839C13900F25769 /* RelaxOn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RelaxOn.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		58DE61822839C13900F25769 /* RelaxOnApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelaxOnApp.swift; sourceTree = "<group>"; };
 		58DE61842839C13900F25769 /* CdLibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CdLibraryView.swift; sourceTree = "<group>"; };
 		58DE61862839C13A00F25769 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		58DE61892839C13A00F25769 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		58DE61AE283A8C8B00F25769 /* KitchenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KitchenView.swift; sourceTree = "<group>"; };
 		58DE61B1283A8E1700F25769 /* Sound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sound.swift; sourceTree = "<group>"; };
 		58DE61B6283A932E00F25769 /* MusicView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicView.swift; sourceTree = "<group>"; };
-		58DE61B8283A937000F25769 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
-		58DE61BC283E542400F25769 /* MixedSoundCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixedSoundCardView.swift; sourceTree = "<group>"; };
 		58DE61BE283E77E700F25769 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		58DE61C12841C20A00F25769 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		58DE61C62843100100F25769 /* VolumeControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeControlView.swift; sourceTree = "<group>"; };
@@ -250,7 +241,6 @@
 		CC5AC190289D69E500FE847B /* WidgetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetManager.swift; sourceTree = "<group>"; };
 		CCA7F51F2877501E00D6A239 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CCA7F5212877504200D6A239 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
-		CCF0D9882887748500F61495 /* CustomTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabView.swift; sourceTree = "<group>"; };
 		E211ED042896D051002843EE /* MusicTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicTimer.swift; sourceTree = "<group>"; };
 		E211ED062896D06A002843EE /* TimerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerManager.swift; sourceTree = "<group>"; };
 		E24F21E128ABE1A000371BA4 /* MultiPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiPreview.swift; sourceTree = "<group>"; };
@@ -422,10 +412,8 @@
 			children = (
 				10D26713288EF4D20056339A /* RectPreference.swift */,
 				10D26711288EF4C80056339A /* CustomSegmentControlView.swift */,
-				58DE61AE283A8C8B00F25769 /* KitchenView.swift */,
 				58DE101B283CA87F002CDB9F /* SoundCardView.swift */,
 				10D26715288EF4DB0056339A /* StudioView.swift */,
-				58DE1033283F1A0A002CDB9F /* CustomAlertView.swift */,
 				219BD67228900A28006FAF55 /* CDListView.swift */,
 				CBFDC8F3289C23AC00386FB5 /* VolumeSlider.swift */,
 				101417F5289EB80D00F40397 /* SelectedImageView.swift */,
@@ -440,8 +428,6 @@
 			children = (
 				E2BF1055289172C600408B8C /* Timer */,
 				58DE61842839C13900F25769 /* CdLibraryView.swift */,
-				58DE61B8283A937000F25769 /* HomeView.swift */,
-				58DE61BC283E542400F25769 /* MixedSoundCardView.swift */,
 				58DE101F283DD9CA002CDB9F /* Music */,
 				21D897772892D48600A20FFE /* CDCardView.swift */,
 			);
@@ -514,7 +500,6 @@
 		58DE61B5283A8F4500F25769 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				CCF0D9882887748500F61495 /* CustomTabView.swift */,
 				583AA0EF284E0344005A0677 /* Onboarding */,
 				58DE103928405C7F002CDB9F /* Home */,
 				58DE103828405C6C002CDB9F /* Kitchen */,
@@ -794,13 +779,11 @@
 				58DE61852839C13900F25769 /* CdLibraryView.swift in Sources */,
 				58DE1032283DF6E7002CDB9F /* Static.swift in Sources */,
 				E24F21E228ABE1A100371BA4 /* MultiPreview.swift in Sources */,
-				58DE61AF283A8C8B00F25769 /* KitchenView.swift in Sources */,
 				21D3ED952892774F006E871F /* UserDefaultsManager.swift in Sources */,
 				219BD67328900A28006FAF55 /* CDListView.swift in Sources */,
 				CBFDC8F4289C23AC00386FB5 /* VolumeSlider.swift in Sources */,
 				CC5AC137289D199600FE847B /* Provider.swift in Sources */,
 				58DE61B2283A8E1700F25769 /* Sound.swift in Sources */,
-				58DE61BD283E542400F25769 /* MixedSoundCardView.swift in Sources */,
 				101417F8289EB82200F40397 /* SelectedImageBackgroundView.swift in Sources */,
 				58DE61C72843100100F25769 /* VolumeControlView.swift in Sources */,
 				E2BF105428914E9E00408B8C /* TimerNavigationLinkView.swift in Sources */,
@@ -809,7 +792,6 @@
 				CC5AC134289D184A00FE847B /* CDWidgetEntry.swift in Sources */,
 				10D26712288EF4C80056339A /* CustomSegmentControlView.swift in Sources */,
 				58DE61832839C13900F25769 /* RelaxOnApp.swift in Sources */,
-				21D3ED972892781D006E871F /* CustomTabView.swift in Sources */,
 				21FE2BB82899606A0024DA92 /* Extension.swift in Sources */,
 				10D26716288EF4DB0056339A /* StudioView.swift in Sources */,
 				4A5769AC2866F20A007CCAE9 /* MixedSound.swift in Sources */,
@@ -824,10 +806,8 @@
 				E2BF105B28917CAC00408B8C /* TimerSettingView.swift in Sources */,
 				CC5AC112289C033D00FE847B /* RelaxOnWidget.intentdefinition in Sources */,
 				101417F6289EB80D00F40397 /* SelectedImageView.swift in Sources */,
-				58DE1034283F1A0A002CDB9F /* CustomAlertView.swift in Sources */,
 				E2BF105928917B6000408B8C /* TempMainView.swift in Sources */,
 				58DE61B7283A932E00F25769 /* MusicView.swift in Sources */,
-				58DE61B9283A937000F25769 /* HomeView.swift in Sources */,
 				10FB81B528A17468000168CC /* OnboardingFinishView.swift in Sources */,
 				101417FA289EB9F300F40397 /* StudioNamingView.swift in Sources */,
 				21D897782892D48600A20FFE /* CDCardView.swift in Sources */,
