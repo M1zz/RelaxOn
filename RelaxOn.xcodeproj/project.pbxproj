@@ -66,6 +66,8 @@
 		58DE61BD283E542400F25769 /* MixedSoundCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61BC283E542400F25769 /* MixedSoundCardView.swift */; };
 		58DE61C22841C20A00F25769 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 58DE61C12841C20A00F25769 /* Launch Screen.storyboard */; };
 		58DE61C72843100100F25769 /* VolumeControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61C62843100100F25769 /* VolumeControlView.swift */; };
+		C776B17128B2620000A13052 /* RelaxOnUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C776B17028B2620000A13052 /* RelaxOnUITests.swift */; };
+		C776B17328B2620000A13052 /* RelaxOnUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C776B17228B2620000A13052 /* RelaxOnUITestsLaunchTests.swift */; };
 		CBFDC8F4289C23AC00386FB5 /* VolumeSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBFDC8F3289C23AC00386FB5 /* VolumeSlider.swift */; };
 		CC2820482880102400587334 /* ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC2820472880102400587334 /* ViewModifiers.swift */; };
 		CC5AC107289C033C00FE847B /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC5AC106289C033C00FE847B /* WidgetKit.framework */; };
@@ -113,6 +115,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 21B7A64C28A31DE600E90744;
 			remoteInfo = RelaxOnWatch;
+		};
+		C776B17428B2620000A13052 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 58DE61772839C13900F25769 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 58DE617E2839C13900F25769;
+			remoteInfo = RelaxOn;
 		};
 		CC5AC113289C033D00FE847B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -222,6 +231,9 @@
 		58DE61BE283E77E700F25769 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		58DE61C12841C20A00F25769 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		58DE61C62843100100F25769 /* VolumeControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeControlView.swift; sourceTree = "<group>"; };
+		C776B16E28B2620000A13052 /* RelaxOnUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RelaxOnUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C776B17028B2620000A13052 /* RelaxOnUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelaxOnUITests.swift; sourceTree = "<group>"; };
+		C776B17228B2620000A13052 /* RelaxOnUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelaxOnUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		CBFDC8F3289C23AC00386FB5 /* VolumeSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeSlider.swift; sourceTree = "<group>"; };
 		CC2820472880102400587334 /* ViewModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModifiers.swift; sourceTree = "<group>"; };
 		CC5AC104289C033C00FE847B /* RelaxOnWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = RelaxOnWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -257,6 +269,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		58DE617C2839C13900F25769 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C776B16B28B2620000A13052 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -437,6 +456,7 @@
 				21B7A64E28A31DE600E90744 /* RelaxOnWatch */,
 				21B7A65928A31DE700E90744 /* RelaxOnWatch WatchKit Extension */,
 				CC5AC10A289C033C00FE847B /* RelaxOnWidget */,
+				C776B16F28B2620000A13052 /* RelaxOnUITests */,
 				CC5AC105289C033C00FE847B /* Frameworks */,
 				58DE61802839C13900F25769 /* Products */,
 			);
@@ -449,6 +469,7 @@
 				21B7A64D28A31DE600E90744 /* RelaxOnWatch.app */,
 				21B7A65528A31DE700E90744 /* RelaxOnWatch WatchKit Extension.appex */,
 				CC5AC104289C033C00FE847B /* RelaxOnWidgetExtension.appex */,
+				C776B16E28B2620000A13052 /* RelaxOnUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -499,6 +520,15 @@
 				58DE103828405C6C002CDB9F /* Kitchen */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		C776B16F28B2620000A13052 /* RelaxOnUITests */ = {
+			isa = PBXGroup;
+			children = (
+				C776B17028B2620000A13052 /* RelaxOnUITests.swift */,
+				C776B17228B2620000A13052 /* RelaxOnUITestsLaunchTests.swift */,
+			);
+			path = RelaxOnUITests;
 			sourceTree = "<group>";
 		};
 		CC5AC105289C033C00FE847B /* Frameworks */ = {
@@ -592,6 +622,24 @@
 			productReference = 58DE617F2839C13900F25769 /* RelaxOn.app */;
 			productType = "com.apple.product-type.application";
 		};
+		C776B16D28B2620000A13052 /* RelaxOnUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C776B17828B2620000A13052 /* Build configuration list for PBXNativeTarget "RelaxOnUITests" */;
+			buildPhases = (
+				C776B16A28B2620000A13052 /* Sources */,
+				C776B16B28B2620000A13052 /* Frameworks */,
+				C776B16C28B2620000A13052 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C776B17528B2620000A13052 /* PBXTargetDependency */,
+			);
+			name = RelaxOnUITests;
+			productName = RelaxOnUITests;
+			productReference = C776B16E28B2620000A13052 /* RelaxOnUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		CC5AC103289C033C00FE847B /* RelaxOnWidgetExtension */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = CC5AC119289C033D00FE847B /* Build configuration list for PBXNativeTarget "RelaxOnWidgetExtension" */;
@@ -628,6 +676,10 @@
 					58DE617E2839C13900F25769 = {
 						CreatedOnToolsVersion = 13.4;
 					};
+					C776B16D28B2620000A13052 = {
+						CreatedOnToolsVersion = 13.3;
+						TestTargetID = 58DE617E2839C13900F25769;
+					};
 					CC5AC103289C033C00FE847B = {
 						CreatedOnToolsVersion = 13.4.1;
 					};
@@ -651,6 +703,7 @@
 				21B7A64C28A31DE600E90744 /* RelaxOnWatch */,
 				21B7A65428A31DE700E90744 /* RelaxOnWatch WatchKit Extension */,
 				CC5AC103289C033C00FE847B /* RelaxOnWidgetExtension */,
+				C776B16D28B2620000A13052 /* RelaxOnUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -696,6 +749,13 @@
 				CCA7F51E2877501E00D6A239 /* Localizable.strings in Resources */,
 				580CADB128659CF50091946C /* SpaceHigh.mp3 in Resources */,
 				580CADC22865A3850091946C /* DryGrass.mp3 in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C776B16C28B2620000A13052 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -774,6 +834,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C776B16A28B2620000A13052 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C776B17328B2620000A13052 /* RelaxOnUITestsLaunchTests.swift in Sources */,
+				C776B17128B2620000A13052 /* RelaxOnUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CC5AC100289C033C00FE847B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -805,6 +874,11 @@
 			isa = PBXTargetDependency;
 			target = 21B7A64C28A31DE600E90744 /* RelaxOnWatch */;
 			targetProxy = 21B7A66B28A31DE800E90744 /* PBXContainerItemProxy */;
+		};
+		C776B17528B2620000A13052 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 58DE617E2839C13900F25769 /* RelaxOn */;
+			targetProxy = C776B17428B2620000A13052 /* PBXContainerItemProxy */;
 		};
 		CC5AC114289C033D00FE847B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -839,9 +913,9 @@
 				IBSC_MODULE = RelaxOnWatch_WatchKit_Extension;
 				INFOPLIST_KEY_CFBundleDisplayName = RelaxOnWatch;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.leeo.LullabyRecipe;
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.leeo.RelaxOn;
 				MARKETING_VERSION = 2.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.LullabyRecipe.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.RelaxOn.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -865,9 +939,9 @@
 				IBSC_MODULE = RelaxOnWatch_WatchKit_Extension;
 				INFOPLIST_KEY_CFBundleDisplayName = RelaxOnWatch;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.leeo.LullabyRecipe;
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.leeo.RelaxOn;
 				MARKETING_VERSION = 2.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.LullabyRecipe.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.RelaxOn.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -898,7 +972,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 2.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.LullabyRecipe.watchkitapp.watchkitextension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.RelaxOn.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -929,7 +1003,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 2.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.LullabyRecipe.watchkitapp.watchkitextension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.RelaxOn.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -998,6 +1072,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				WATCHOS_DEPLOYMENT_TARGET = 8.0;
 			};
 			name = Debug;
 		};
@@ -1053,6 +1128,7 @@
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 8.0;
 			};
 			name = Release;
 		};
@@ -1079,8 +1155,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.LullabyRecipe;
+				MARKETING_VERSION = 2.0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.RelaxOn;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1111,12 +1187,54 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.LullabyRecipe;
+				MARKETING_VERSION = 2.0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.RelaxOn;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		C776B17628B2620000A13052 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Z629PZ4XVL;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.RelaxOnUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+				SUPPORTS_MACCATALYST = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = RelaxOn;
+			};
+			name = Debug;
+		};
+		C776B17728B2620000A13052 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Z629PZ4XVL;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.RelaxOnUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+				SUPPORTS_MACCATALYST = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = RelaxOn;
 			};
 			name = Release;
 		};
@@ -1141,7 +1259,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.LullabyRecipe.RelaxOnWidget;
+				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.RelaxOn.RelaxOnWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
@@ -1172,7 +1290,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.LullabyRecipe.RelaxOnWidget;
+				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.RelaxOn.RelaxOnWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
@@ -1217,6 +1335,15 @@
 			buildConfigurations = (
 				58DE61A42839C13B00F25769 /* Debug */,
 				58DE61A52839C13B00F25769 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C776B17828B2620000A13052 /* Build configuration list for PBXNativeTarget "RelaxOnUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C776B17628B2620000A13052 /* Debug */,
+				C776B17728B2620000A13052 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
