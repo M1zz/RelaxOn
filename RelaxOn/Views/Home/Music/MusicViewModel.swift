@@ -44,7 +44,7 @@ final class MusicViewModel: NSObject, ObservableObject {
         // FIXME: addMainSoundToWidget()를 Sound가 재정렬 되었을 때 제일 위의 음악을 넣어야 합니다. (해당 로직이 안 짜진 거 같아 우선은, 여기로 뒀습니다.)
         didSet {
             if let mixedSound = mixedSound {
-                WidgetManager.addMainSoundToWidget(imageName: mixedSound.imageName, name: mixedSound.name, id: mixedSound.id)
+                WidgetManager.addMainSoundToWidget(imageName: mixedSound.fileName, name: mixedSound.name, id: mixedSound.id)
             }
         }
     }
@@ -136,7 +136,7 @@ final class MusicViewModel: NSObject, ObservableObject {
         var nowPlayingInfo = center.nowPlayingInfo ?? [String: Any]()
         
         nowPlayingInfo[MPMediaItemPropertyTitle] = mixedSound.name
-        if let albumCoverPage = UIImage(named: mixedSound.imageName) {
+        if let albumCoverPage = UIImage(named: mixedSound.fileName) {
             nowPlayingInfo[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(boundsSize: albumCoverPage.size, requestHandler: { size in
                 return albumCoverPage
             })

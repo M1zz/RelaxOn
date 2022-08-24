@@ -12,7 +12,7 @@ struct Sound: Identifiable, Codable {
     let name: String
     var soundType: SoundType
     var audioVolume: Float
-    let imageName: String
+    let fileName: String
 }
 
 enum SoundType: String, Codable {
@@ -26,32 +26,32 @@ var baseSounds = [
           name: "Empty",
           soundType: .base,
           audioVolume: 0.8,
-          imageName: "music"),
+          fileName: "music"),
     Sound(id: 1,
           name: BaseAudioName.longSun.displayName,
           soundType: .base,
           audioVolume: 0.8,
-          imageName: BaseAudioName.longSun.fileName),
+          fileName: BaseAudioName.longSun.fileName),
     Sound(id: 2,
           name: BaseAudioName.spaceMid.displayName,
           soundType: .base,
           audioVolume: 0.8,
-          imageName: BaseAudioName.spaceMid.fileName),
+          fileName: BaseAudioName.spaceMid.fileName),
     Sound(id: 3,
           name: BaseAudioName.spaceLow.displayName,
           soundType: .base,
           audioVolume: 0.8,
-          imageName: BaseAudioName.spaceLow.fileName),
+          fileName: BaseAudioName.spaceLow.fileName),
     Sound(id: 4,
           name: BaseAudioName.spaceHigh.displayName,
           soundType: .base,
           audioVolume: 0.8,
-          imageName: BaseAudioName.spaceHigh.fileName),
+          fileName: BaseAudioName.spaceHigh.fileName),
     Sound(id: 5,
           name: BaseAudioName.oxygen.displayName,
           soundType: .base,
           audioVolume: 0.8,
-          imageName: BaseAudioName.oxygen.fileName),
+          fileName: BaseAudioName.oxygen.fileName),
 ]
 
 var melodySounds = [
@@ -59,32 +59,32 @@ var melodySounds = [
           name: "Empty",
           soundType: .melody,
           audioVolume: 1.0,
-          imageName: "music"),
+          fileName: "music"),
     Sound(id: 11,
           name: MelodyAudioName.ambient.displayName,
           soundType: .melody,
           audioVolume: 1.0,
-          imageName: MelodyAudioName.ambient.fileName),
+          fileName: MelodyAudioName.ambient.fileName),
     Sound(id: 12,
           name: MelodyAudioName.garden.displayName,
           soundType: .melody,
           audioVolume: 1.0,
-          imageName: MelodyAudioName.garden.fileName),
+          fileName: MelodyAudioName.garden.fileName),
     Sound(id: 13,
           name: MelodyAudioName.gymnopedia.displayName,
           soundType: .melody,
           audioVolume: 1.0,
-          imageName: MelodyAudioName.gymnopedia.fileName),
+          fileName: MelodyAudioName.gymnopedia.fileName),
     Sound(id: 14,
           name: MelodyAudioName.relaxing.displayName,
           soundType: .melody,
           audioVolume: 1.0,
-          imageName: MelodyAudioName.relaxing.fileName),
+          fileName: MelodyAudioName.relaxing.fileName),
     Sound(id: 15,
           name: MelodyAudioName.wisdom.displayName,
           soundType: .melody,
           audioVolume: 1.0,
-          imageName: MelodyAudioName.wisdom.fileName)
+          fileName: MelodyAudioName.wisdom.fileName)
 ]
 
 var whiteNoiseSounds = [
@@ -92,55 +92,55 @@ var whiteNoiseSounds = [
           name: "Empty",
           soundType: .whiteNoise,
           audioVolume: 0.4,
-          imageName: "music"),
+          fileName: "music"),
     Sound(id: 21,
-          name: WhiteNoiseAudioName.dryGrass.fileName,
+          name: WhiteNoiseAudioName.dryGrass.displayName,
           soundType: .whiteNoise,
           audioVolume: 0.4,
-          imageName: WhiteNoiseAudioName.dryGrass.fileName),
+          fileName: WhiteNoiseAudioName.dryGrass.fileName),
     Sound(id: 22,
-          name: WhiteNoiseAudioName.stream.fileName,
+          name: WhiteNoiseAudioName.stream.displayName,
           soundType: .whiteNoise,
           audioVolume: 0.4,
-          imageName: WhiteNoiseAudioName.stream.fileName),
+          fileName: WhiteNoiseAudioName.stream.fileName),
     Sound(id: 23,
-          name: WhiteNoiseAudioName.summerField.fileName,
+          name: WhiteNoiseAudioName.summerField.displayName,
           soundType: .whiteNoise,
           audioVolume: 0.4,
-          imageName: WhiteNoiseAudioName.summerField.fileName),
+          fileName: WhiteNoiseAudioName.summerField.fileName),
     Sound(id: 24,
-          name: WhiteNoiseAudioName.umbrellaRain.fileName,
+          name: WhiteNoiseAudioName.umbrellaRain.displayName,
           soundType: .whiteNoise,
           audioVolume: 0.4,
-          imageName: WhiteNoiseAudioName.umbrellaRain.fileName),
+          fileName: WhiteNoiseAudioName.umbrellaRain.fileName),
     Sound(id: 25,
-          name: WhiteNoiseAudioName.wave.fileName,
+          name: WhiteNoiseAudioName.wave.displayName,
           soundType: .whiteNoise,
           audioVolume: 0.4,
-          imageName: WhiteNoiseAudioName.wave.fileName)
+          fileName: WhiteNoiseAudioName.wave.fileName)
 ]
 
 let emptySound: Sound = Sound(id: 0,
                                name: "Empty",
                                soundType: .base,
                                audioVolume: 0.0,
-                               imageName: "music")
+                               fileName: "music")
 
 var baseSound: Sound = Sound(id: 0,
                              name: "Empty",
                              soundType: .base,
                              audioVolume: 0.0,
-                             imageName: "music")
+                             fileName: "music")
 var melodySound: Sound = Sound(id: 3,
                                name: "Empty",
                                soundType: .base,
                                audioVolume: 0.0,
-                               imageName: "music")
+                               fileName: "music")
 var whiteNoiseSound: Sound = Sound(id: 6,
                                 name: "Empty",
                                 soundType: .base,
                                 audioVolume: 0.0,
-                                imageName: "music")
+                                fileName: "music")
 
 var mixedAudioSources: [Sound] = []
 var userRepositories: [MixedSound] = []

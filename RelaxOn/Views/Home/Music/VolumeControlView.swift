@@ -51,25 +51,25 @@ struct VolumeControlView: View {
                                                  name: localBaseSound.name,
                                                  soundType: localBaseSound.soundType,
                                                  audioVolume: audioVolumes.baseVolume,
-                                                 imageName: localBaseSound.imageName)
+                                                 fileName: localBaseSound.fileName)
                         let newMelodySound = Sound(id: localMelodySound.id,
                                                    name: localMelodySound.name,
                                                    soundType: localMelodySound.soundType,
                                                    audioVolume: audioVolumes.melodyVolume,
-                                                   imageName: localMelodySound.imageName)
+                                                   fileName: localMelodySound.fileName)
                         
                         let newWhiteNoiseSound = Sound(id: localWhiteNoiseSound.id,
                                                     name: localWhiteNoiseSound.name,
                                                     soundType: localWhiteNoiseSound.soundType,
                                                     audioVolume: audioVolumes.whiteNoiseVolume,
-                                                    imageName: localWhiteNoiseSound.imageName)
+                                                    fileName: localWhiteNoiseSound.fileName)
                         
                         let newMixedSound = MixedSound(id: data.id,
                                                        name: data.name,
                                                        baseSound: newBaseSound,
                                                        melodySound: newMelodySound,
                                                        whiteNoiseSound: newWhiteNoiseSound,
-                                                       imageName: data.imageName)
+                                                       fileName: data.fileName)
                         
                         userRepositories.remove(at: data.id)
                         userRepositories.insert(newMixedSound, at: data.id)
@@ -121,7 +121,7 @@ struct VolumeControlView: View {
     func SoundControlSlider(item: Sound) -> some View {
         HStack {
             VStack {
-                Image(item.imageName)
+                Image(item.fileName)
                     .resizable()
                     .frame(width: 80, height: 80)
                     .cornerRadius(24)

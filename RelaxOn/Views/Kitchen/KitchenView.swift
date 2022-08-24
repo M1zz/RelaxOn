@@ -20,17 +20,17 @@ struct KitchenView: View {
                                                         name: "",
                                                         soundType: .base,
                                                         audioVolume: 0.8,
-                                                        imageName: "")
+                                                        fileName: "")
     @State private var selectedMelodySound: Sound = Sound(id: 0,
                                                           name: "",
                                                           soundType: .melody,
                                                           audioVolume: 1.0,
-                                                          imageName: "")
+                                                          fileName: "")
     @State private var selectedWhiteNoiseSound: Sound = Sound(id: 0,
                                                            name: "",
                                                            soundType: .whiteNoise,
                                                            audioVolume: 0.4,
-                                                           imageName: "")
+                                                           fileName: "")
     @State var userName: String = ""
     @Binding var selected: SelectedType
     

@@ -14,17 +14,17 @@ struct OnboardingView: View {
                                                 name: "",
                                                 soundType: .base,
                                                 audioVolume: 0.8,
-                                                imageName: "")
+                                                fileName: "")
     @State var selectedMelodySound: Sound = Sound(id: 10,
                                                   name: "",
                                                   soundType: .melody,
                                                   audioVolume: 1.0,
-                                                  imageName: "")
+                                                  fileName: "")
     @State var selectedWhiteNoiseSound: Sound = Sound(id: 20,
                                                       name: "",
                                                       soundType: .whiteNoise,
                                                       audioVolume: 0.4,
-                                                      imageName: "")
+                                                      fileName: "")
     @State var selectedImageNames: (base: String, melody: String, whiteNoise: String) = (
         base: "",
         melody: "",
@@ -157,7 +157,7 @@ struct OnboardingView: View {
                             } else {
                                 baseAudioManager.startPlayer(track: selectedBaseSound.name)
 
-                                selectedImageNames.base = selectedBaseSound.imageName
+                                selectedImageNames.base = selectedBaseSound.fileName
                                 opacityAnimationValues[0] = 0.5
                             }
                         }
@@ -174,7 +174,7 @@ struct OnboardingView: View {
                             } else {
                                 naturalAudioManager.startPlayer(track: selectedWhiteNoiseSound.name)
 
-                                selectedImageNames.whiteNoise = selectedWhiteNoiseSound.imageName
+                                selectedImageNames.whiteNoise = selectedWhiteNoiseSound.fileName
 
                                 opacityAnimationValues[2] = 0.5
                             }
@@ -191,7 +191,7 @@ struct OnboardingView: View {
                             } else {
                                 melodyAudioManager.startPlayer(track: selectedMelodySound.name)
 
-                                selectedImageNames.melody = selectedMelodySound.imageName
+                                selectedImageNames.melody = selectedMelodySound.fileName
 
                                 opacityAnimationValues[1] = 0.5
 

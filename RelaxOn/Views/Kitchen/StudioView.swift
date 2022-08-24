@@ -15,17 +15,17 @@ struct StudioView: View {
                                                 name: "",
                                                 soundType: .base,
                                                 audioVolume: 0.8,
-                                                imageName: "")
+                                                fileName: "")
     @State var selectedMelodySound: Sound = Sound(id: 10,
                                                   name: "",
                                                   soundType: .melody,
                                                   audioVolume: 1.0,
-                                                  imageName: "")
+                                                  fileName: "")
     @State var selectedWhiteNoiseSound: Sound = Sound(id: 20,
                                                       name: "",
                                                       soundType: .whiteNoise,
                                                       audioVolume: 0.4,
-                                                      imageName: "")
+                                                      fileName: "")
     @State var selectedImageNames: (base: String, melody: String, whiteNoise: String) = (
         base: "",
         melody: "",
