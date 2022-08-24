@@ -35,13 +35,13 @@ enum BaseAudioName {
         get {
             switch self {
             case .longSun:
-                return "Long Sun"
+                return "LongSun"
             case .spaceMid:
-                return "Space Mid"
+                return "SpaceMid"
             case .spaceLow:
-                return "Space Low"
+                return "SpaceLow"
             case .spaceHigh:
-                return "Space High"
+                return "SpaceHigh"
             case .oxygen:
                 return "Oxygen"
             }
