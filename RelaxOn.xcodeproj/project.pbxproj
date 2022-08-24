@@ -37,10 +37,10 @@
 		4A5769AE2866F44E007CCAE9 /* DummyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5769AD2866F44E007CCAE9 /* DummyData.swift */; };
 		4A657339289E62CF00E6D5A0 /* NewMusicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A657338289E62CF00E6D5A0 /* NewMusicView.swift */; };
 		4A65733B289E6BBC00E6D5A0 /* MusicRenameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A65733A289E6BBC00E6D5A0 /* MusicRenameView.swift */; };
-		580CADAA28659BEF0091946C /* Long Sun.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 580CADA928659BEF0091946C /* Long Sun.mp3 */; };
-		580CADAC28659C990091946C /* Space Mid.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 580CADAB28659C990091946C /* Space Mid.mp3 */; };
-		580CADB028659CF50091946C /* Space Low.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 580CADAD28659CF50091946C /* Space Low.mp3 */; };
-		580CADB128659CF50091946C /* Space High.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 580CADAE28659CF50091946C /* Space High.mp3 */; };
+		580CADAA28659BEF0091946C /* LongSun.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 580CADA928659BEF0091946C /* LongSun.mp3 */; };
+		580CADAC28659C990091946C /* SpaceMid.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 580CADAB28659C990091946C /* SpaceMid.mp3 */; };
+		580CADB028659CF50091946C /* SpaceLow.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 580CADAD28659CF50091946C /* SpaceLow.mp3 */; };
+		580CADB128659CF50091946C /* SpaceHigh.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 580CADAE28659CF50091946C /* SpaceHigh.mp3 */; };
 		580CADB228659CF50091946C /* Oxygen.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 580CADAF28659CF50091946C /* Oxygen.mp3 */; };
 		580CADB828659FAF0091946C /* Relaxing.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 580CADB328659FAE0091946C /* Relaxing.mp3 */; };
 		580CADB928659FAF0091946C /* Wisdom.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 580CADB428659FAE0091946C /* Wisdom.mp3 */; };
@@ -192,10 +192,10 @@
 		4A5769AF2866F6B5007CCAE9 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		4A657338289E62CF00E6D5A0 /* NewMusicView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMusicView.swift; sourceTree = "<group>"; };
 		4A65733A289E6BBC00E6D5A0 /* MusicRenameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicRenameView.swift; sourceTree = "<group>"; };
-		580CADA928659BEF0091946C /* Long Sun.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Long Sun.mp3"; sourceTree = "<group>"; };
-		580CADAB28659C990091946C /* Space Mid.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Space Mid.mp3"; sourceTree = "<group>"; };
-		580CADAD28659CF50091946C /* Space Low.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Space Low.mp3"; sourceTree = "<group>"; };
-		580CADAE28659CF50091946C /* Space High.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Space High.mp3"; sourceTree = "<group>"; };
+		580CADA928659BEF0091946C /* LongSun.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = LongSun.mp3; sourceTree = "<group>"; };
+		580CADAB28659C990091946C /* SpaceMid.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = SpaceMid.mp3; sourceTree = "<group>"; };
+		580CADAD28659CF50091946C /* SpaceLow.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = SpaceLow.mp3; sourceTree = "<group>"; };
+		580CADAE28659CF50091946C /* SpaceHigh.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = SpaceHigh.mp3; sourceTree = "<group>"; };
 		580CADAF28659CF50091946C /* Oxygen.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Oxygen.mp3; sourceTree = "<group>"; };
 		580CADB328659FAE0091946C /* Relaxing.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Relaxing.mp3; sourceTree = "<group>"; };
 		580CADB428659FAE0091946C /* Wisdom.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Wisdom.mp3; sourceTree = "<group>"; };
@@ -346,11 +346,11 @@
 		58DE1023283DF53F002CDB9F /* Base */ = {
 			isa = PBXGroup;
 			children = (
-				580CADA928659BEF0091946C /* Long Sun.mp3 */,
+				580CADA928659BEF0091946C /* LongSun.mp3 */,
 				580CADAF28659CF50091946C /* Oxygen.mp3 */,
-				580CADAE28659CF50091946C /* Space High.mp3 */,
-				580CADAD28659CF50091946C /* Space Low.mp3 */,
-				580CADAB28659C990091946C /* Space Mid.mp3 */,
+				580CADAE28659CF50091946C /* SpaceHigh.mp3 */,
+				580CADAD28659CF50091946C /* SpaceLow.mp3 */,
+				580CADAB28659C990091946C /* SpaceMid.mp3 */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -681,11 +681,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				580CADB828659FAF0091946C /* Relaxing.mp3 in Resources */,
-				580CADAC28659C990091946C /* Space Mid.mp3 in Resources */,
+				580CADAC28659C990091946C /* SpaceMid.mp3 in Resources */,
 				58DE618A2839C13A00F25769 /* Preview Assets.xcassets in Resources */,
 				58DE61872839C13A00F25769 /* Assets.xcassets in Resources */,
 				580CADBB28659FAF0091946C /* Garden.mp3 in Resources */,
-				580CADAA28659BEF0091946C /* Long Sun.mp3 in Resources */,
+				580CADAA28659BEF0091946C /* LongSun.mp3 in Resources */,
 				580CADBA28659FAF0091946C /* Ambient.mp3 in Resources */,
 				580CADBC28659FAF0091946C /* Gymnopedia.mp3 in Resources */,
 				58DE61C22841C20A00F25769 /* Launch Screen.storyboard in Resources */,
@@ -694,10 +694,10 @@
 				580CADB928659FAF0091946C /* Wisdom.mp3 in Resources */,
 				580CADC42865A3850091946C /* SummerField.mp3 in Resources */,
 				580CADB228659CF50091946C /* Oxygen.mp3 in Resources */,
-				580CADB028659CF50091946C /* Space Low.mp3 in Resources */,
+				580CADB028659CF50091946C /* SpaceLow.mp3 in Resources */,
 				580CADC32865A3850091946C /* Stream.mp3 in Resources */,
 				CCA7F51E2877501E00D6A239 /* Localizable.strings in Resources */,
-				580CADB128659CF50091946C /* Space High.mp3 in Resources */,
+				580CADB128659CF50091946C /* SpaceHigh.mp3 in Resources */,
 				580CADC22865A3850091946C /* DryGrass.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -838,7 +838,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = QGAQ3AY3R3;
+				DEVELOPMENT_TEAM = JP5BCXZWJP;
 				GENERATE_INFOPLIST_FILE = YES;
 				IBSC_MODULE = RelaxOnWatch_WatchKit_Extension;
 				INFOPLIST_KEY_CFBundleDisplayName = RelaxOnWatch;
@@ -864,7 +864,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = QGAQ3AY3R3;
+				DEVELOPMENT_TEAM = JP5BCXZWJP;
 				GENERATE_INFOPLIST_FILE = YES;
 				IBSC_MODULE = RelaxOnWatch_WatchKit_Extension;
 				INFOPLIST_KEY_CFBundleDisplayName = RelaxOnWatch;
