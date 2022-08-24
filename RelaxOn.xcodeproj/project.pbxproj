@@ -87,6 +87,7 @@
 		CCA7F51E2877501E00D6A239 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CCA7F5202877501E00D6A239 /* Localizable.strings */; };
 		E211ED052896D051002843EE /* MusicTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E211ED042896D051002843EE /* MusicTimer.swift */; };
 		E211ED072896D06A002843EE /* TimerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E211ED062896D06A002843EE /* TimerManager.swift */; };
+		E24F21E228ABE1A100371BA4 /* MultiPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24F21E128ABE1A000371BA4 /* MultiPreview.swift */; };
 		E2BF105428914E9E00408B8C /* TimerNavigationLinkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2BF105328914E9E00408B8C /* TimerNavigationLinkView.swift */; };
 		E2BF1057289173F100408B8C /* TimerPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2BF1056289173F100408B8C /* TimerPickerView.swift */; };
 		E2BF105928917B6000408B8C /* TempMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2BF105828917B6000408B8C /* TempMainView.swift */; };
@@ -230,6 +231,7 @@
 		CCA7F5212877504200D6A239 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		E211ED042896D051002843EE /* MusicTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicTimer.swift; sourceTree = "<group>"; };
 		E211ED062896D06A002843EE /* TimerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerManager.swift; sourceTree = "<group>"; };
+		E24F21E128ABE1A000371BA4 /* MultiPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiPreview.swift; sourceTree = "<group>"; };
 		E2BF105328914E9E00408B8C /* TimerNavigationLinkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerNavigationLinkView.swift; sourceTree = "<group>"; };
 		E2BF1056289173F100408B8C /* TimerPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerPickerView.swift; sourceTree = "<group>"; };
 		E2BF105828917B6000408B8C /* TempMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempMainView.swift; sourceTree = "<group>"; };
@@ -370,6 +372,7 @@
 				CCA7F5202877501E00D6A239 /* Localizable.strings */,
 				CC2820472880102400587334 /* ViewModifiers.swift */,
 				21FE2BB72899606A0024DA92 /* Extension.swift */,
+				E24F21E128ABE1A000371BA4 /* MultiPreview.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -715,6 +718,7 @@
 				CC5AC191289D69E500FE847B /* WidgetManager.swift in Sources */,
 				58DE61852839C13900F25769 /* CdLibraryView.swift in Sources */,
 				58DE1032283DF6E7002CDB9F /* Static.swift in Sources */,
+				E24F21E228ABE1A100371BA4 /* MultiPreview.swift in Sources */,
 				21D3ED952892774F006E871F /* UserDefaultsManager.swift in Sources */,
 				219BD67328900A28006FAF55 /* CDListView.swift in Sources */,
 				CBFDC8F4289C23AC00386FB5 /* VolumeSlider.swift in Sources */,
