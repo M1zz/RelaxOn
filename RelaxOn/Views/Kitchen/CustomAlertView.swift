@@ -45,8 +45,7 @@ struct CustomAlertView: View {
 
                     Button {
                         // TODO: - id 문제 해결
-                        let newSound = MixedSound(id: MixedSound.getUniqueId(),
-                                                  name: textEntered,
+                        let newSound = MixedSound(name: textEntered,
                                                   baseSound: baseSound,
                                                   melodySound: melodySound,
                                                   whiteNoiseSound: whiteNoiseSound,

@@ -69,8 +69,7 @@ struct OnboadingNamingView: View {
         } label: {}
         
         Button {
-            let newSound = MixedSound(id: MixedSound.getUniqueId(),
-                                      name: textEntered,
+            let newSound = MixedSound(name: textEntered,
                                       baseSound: baseSound,
                                       melodySound: melodySound,
                                       whiteNoiseSound: whiteNoiseSound,
