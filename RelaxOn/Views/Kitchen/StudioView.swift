@@ -106,13 +106,13 @@ struct StudioView: View {
                 }
                 .frame(height: 25)
                 .onChange(of: volumes[0]) { volume in
-                    baseAudioManager.changeVolume(track: selectedBaseSound.name, volume: volume)
+                    baseAudioManager.changeVolume(track: selectedBaseSound.fileName, volume: volume)
                 }
                 .onChange(of: volumes[1]) { volume in
-                    whiteNoiseAudioManager.changeVolume(track: selectedWhiteNoiseSound.name, volume: volume)
+                    whiteNoiseAudioManager.changeVolume(track: selectedWhiteNoiseSound.fileName, volume: volume)
                 }
                 .onChange(of: volumes[2]) { volume in
-                    melodyAudioManager.changeVolume(track: selectedMelodySound.name, volume: volume)
+                    melodyAudioManager.changeVolume(track: selectedMelodySound.fileName, volume: volume)
                 }
                 
                 Text("\(Int(volumes[select] * 100))")
@@ -132,12 +132,12 @@ struct StudioView: View {
                             selectedBaseSound = baseSelected
                             // play music
                             
-                            if selectedBaseSound.name == "Empty" {
+                            if selectedBaseSound.fileName == "Empty" {
                                 baseAudioManager.stop()
                                 
                                 opacityAnimationValues[0] = 0.0
                             } else {
-                                baseAudioManager.startPlayer(track: selectedBaseSound.name, volume: volumes[select])
+                                baseAudioManager.startPlayer(track: selectedBaseSound.fileName, volume: volumes[select])
                                 
                                 selectedImageNames.base = "BaseIllust"
                                 opacityAnimationValues[0] = 1
@@ -148,12 +148,12 @@ struct StudioView: View {
                                              items: whiteNoiseSounds) { whiteNoiseSounds in
                             selectedWhiteNoiseSound = whiteNoiseSounds
                             
-                            if selectedWhiteNoiseSound.name == "Empty" {
+                            if selectedWhiteNoiseSound.fileName == "Empty" {
                                 whiteNoiseAudioManager.stop()
                                 
                                 opacityAnimationValues[2] = 0.0
                             } else {
-                                whiteNoiseAudioManager.startPlayer(track: selectedWhiteNoiseSound.name, volume: volumes[select])
+                                whiteNoiseAudioManager.startPlayer(track: selectedWhiteNoiseSound.fileName, volume: volumes[select])
                                 selectedImageNames.whiteNoise = ""//selectedWhiteNoiseSound.imageName                                
                                 opacityAnimationValues[2] = 0.5
                             }
@@ -163,12 +163,12 @@ struct StudioView: View {
                                              items: melodySounds) { melodySounds in
                             selectedMelodySound = melodySounds
                             
-                            if selectedMelodySound.name == "Empty" {
+                            if selectedMelodySound.fileName == "Empty" {
                                 melodyAudioManager.stop()
                                 
                                 opacityAnimationValues[1] = 0.0
                             } else {
-                                melodyAudioManager.startPlayer(track: selectedMelodySound.name, volume: volumes[select])
+                                melodyAudioManager.startPlayer(track: selectedMelodySound.fileName, volume: volumes[select])
                                 
                                 selectedImageNames.melody = "MelodyIllust"
                                 
