@@ -62,7 +62,7 @@ struct MusicView: View {
                content: {
             VolumeControlView(showVolumeControl: $showVolumeControl,
                               audioVolumes: $audioVolumes,
-                              data: data)
+                              mixedSound: data)
             .onDisappear {
                 viewModel.updateVolume(audioVolumes: audioVolumes)
             }

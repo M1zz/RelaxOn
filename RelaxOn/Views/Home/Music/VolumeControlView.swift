@@ -12,7 +12,7 @@ struct VolumeControlView: View {
     @Binding var showVolumeControl: Bool
     @Binding var audioVolumes: (baseVolume: Float, melodyVolume: Float, whiteNoiseVolume: Float)
     
-    let data: MixedSound
+    let mixedSound: MixedSound
     let baseAudioManager = AudioManager()
     let melodyAudioManager = AudioManager()
     let whiteNoiseAudioManager = AudioManager()
@@ -43,9 +43,9 @@ struct VolumeControlView: View {
                         melodyAudioManager.stop()
                         whiteNoiseAudioManager.stop()
                         // TODO: - 볼륨 저장
-                        guard let localBaseSound = data.baseSound,
-                              let localMelodySound = data.melodySound,
-                              let localWhiteNoiseSound = data.whiteNoiseSound else { return }
+                        guard let localBaseSound = mixedSound.baseSound,
+                              let localMelodySound = mixedSound.melodySound,
+                              let localWhiteNoiseSound = mixedSound.whiteNoiseSound else { return }
                         
                         let newBaseSound = Sound(id: localBaseSound.id,
                                                  name: localBaseSound.name,
@@ -64,17 +64,17 @@ struct VolumeControlView: View {
                                                     audioVolume: audioVolumes.whiteNoiseVolume,
                                                     imageName: localWhiteNoiseSound.imageName)
                         
-                        let newMixedSound = MixedSound(id: data.id,
-                                                       name: data.name,
+                        let newMixedSound = MixedSound(id: mixedSound.id,
+                                                       name: mixedSound.name,
                                                        baseSound: newBaseSound,
                                                        melodySound: newMelodySound,
                                                        whiteNoiseSound: newWhiteNoiseSound,
-                                                       imageName: data.imageName)
+                                                       imageName: mixedSound.imageName)
                         
-                        userRepositories.remove(at: data.id)
-                        userRepositories.insert(newMixedSound, at: data.id)
+                        userRepositories.remove(at: mixedSound.id)
+                        userRepositories.insert(newMixedSound, at: mixedSound.id)
                         let data = getEncodedData(data: userRepositories)
-                        UserDefaultsManager.shared.standard.set(data, forKey: UserDefaultsManager.shared.recipes)
+                        UserDefaultsManager.shared.recipes = data
                         
                         hasShowAlert = true
                     } label: {
@@ -99,15 +99,15 @@ struct VolumeControlView: View {
                 
                 .padding()
                 
-                if let baseSound = data.baseSound {
+                if let baseSound = mixedSound.baseSound {
                     SoundControlSlider(item: baseSound)
                 }
                 
-                if let melodySound = data.melodySound {
+                if let melodySound = mixedSound.melodySound {
                     SoundControlSlider(item: melodySound)
                 }
                 
-                if let whiteNoiseSound = data.whiteNoiseSound {
+                if let whiteNoiseSound = mixedSound.whiteNoiseSound {
                     SoundControlSlider(item: whiteNoiseSound)
                 }
                 

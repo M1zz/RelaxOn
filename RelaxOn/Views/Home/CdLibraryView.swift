@@ -26,7 +26,7 @@ struct CdLibraryView: View {
         .preferredColorScheme(.dark)
         .navigationViewStyle(.stack)
         .onAppear() {
-            let notFirstVisit = UserDefaultsManager.shared.standard.bool(forKey: UserDefaultsManager.shared.notFirstVisit)
+            let notFirstVisit = UserDefaultsManager.shared.notFirstVisit
             showOnboarding = notFirstVisit ? false : true
             
             UIApplication.shared.beginReceivingRemoteControlEvents()

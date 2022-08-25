@@ -34,9 +34,9 @@ extension MixedSound {
     
     /// 마지막으로 생성된 id + 1 값을 반환
     static func getUniqueId() -> Int {
-        let lastMusicId = UserDefaultsManager.shared.standard.integer(forKey: UserDefaultsManager.shared.lastMusicId)
+        let lastMusicId = UserDefaultsManager.shared.lastMusicId
         let returnId = lastMusicId + 1
-        UserDefaultsManager.shared.standard.set(returnId, forKey: UserDefaultsManager.shared.lastMusicId)
+        UserDefaultsManager.shared.lastMusicId = returnId
         return returnId
     }
 }
