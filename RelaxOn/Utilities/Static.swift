@@ -15,40 +15,21 @@ enum BaseAudioName {
     case oxygen
     
     var fileName: String {
-        get {
-            switch self {
-            case .longSun:
-                let fileNameLongSun = BaseAudioName.longSun.displayName.components(separatedBy: [" "]).joined()
-                return fileNameLongSun
-            case .spaceMid:
-                let fileNameSpaceMid = BaseAudioName.spaceMid.displayName.components(separatedBy: [" "]).joined()
-                return fileNameSpaceMid
-            case .spaceLow:
-                let fileNameSpaceLow = BaseAudioName.spaceLow.displayName.components(separatedBy: [" "]).joined()
-                return fileNameSpaceLow
-            case .spaceHigh:
-                let fileNameSpaceHigh = BaseAudioName.spaceHigh.displayName.components(separatedBy: [" "]).joined()
-                return fileNameSpaceHigh
-            case .oxygen:
-                return "Oxygen"
-            }
-        }
+        return self.displayName.components(separatedBy: " ").joined()
     }
     
     var displayName: String {
-        get {
-            switch self {
-            case .longSun:
-                return "Long Sun"
-            case .spaceMid:
-                return "Space Mid"
-            case .spaceLow:
-                return "Space Low"
-            case .spaceHigh:
-                return "Space High"
-            case .oxygen:
-                return "Oxygen"
-            }
+        switch self {
+        case .longSun:
+            return "Long Sun"
+        case .spaceMid:
+            return "Space Mid"
+        case .spaceLow:
+            return "Space Low"
+        case .spaceHigh:
+            return "Space High"
+        case .oxygen:
+            return "Oxygen"
         }
     }
 }
@@ -61,36 +42,21 @@ enum MelodyAudioName {
     case wisdom
     
     var fileName: String {
-        get {
-            switch self {
-            case .ambient:
-                return "Ambient"
-            case .garden:
-                return "Garden"
-            case .gymnopedia:
-                return "Gymnopedia"
-            case .relaxing:
-                return "Relaxing"
-            case .wisdom:
-                return "Wisdom"
-            }
-        }
+        return self.displayName.components(separatedBy: " ").joined()
     }
     
     var displayName: String {
-        get {
-            switch self {
-            case .ambient:
-                return "Ambient"
-            case .garden:
-                return "Garden"
-            case .gymnopedia:
-                return "Gymnopedia"
-            case .relaxing:
-                return "Relaxing"
-            case .wisdom:
-                return "Wisdom"
-            }
+        switch self {
+        case .ambient:
+            return "Ambient"
+        case .garden:
+            return "Garden"
+        case .gymnopedia:
+            return "Gymnopedia"
+        case .relaxing:
+            return "Relaxing"
+        case .wisdom:
+            return "Wisdom"
         }
     }
 }
@@ -103,39 +69,21 @@ enum WhiteNoiseAudioName {
     case wave
     
     var fileName: String {
-        get {
-            switch self {
-            case .dryGrass:
-                let fileNameDryGrass = WhiteNoiseAudioName.dryGrass.displayName.components(separatedBy: [" "]).joined()
-                return fileNameDryGrass
-            case .stream:
-                return "Stream"
-            case .summerField:
-                let fileNameSummerField = WhiteNoiseAudioName.summerField.displayName.components(separatedBy: [" "]).joined()
-                return fileNameSummerField
-            case .umbrellaRain:
-                let fileNameUnbrellaRain = WhiteNoiseAudioName.umbrellaRain.displayName.components(separatedBy: [" "]).joined()
-                return fileNameUnbrellaRain
-            case .wave:
-                return "Wave"
-            }
-        }
+        return self.displayName.components(separatedBy: " ").joined()
     }
     
     var displayName: String {
-        get {
-            switch self {
-            case .dryGrass:
-                return "Dry Grass"
-            case .stream:
-                return "Stream"
-            case .summerField:
-                return "Summer Field"
-            case .umbrellaRain:
-                return "Umbrella Rain"
-            case .wave:
-                return "Wave"
-            }
+        switch self {
+        case .dryGrass:
+            return "Dry Grass"
+        case .stream:
+            return "Stream"
+        case .summerField:
+            return "Summer Field"
+        case .umbrellaRain:
+            return "Umbrella Rain"
+        case .wave:
+            return "Wave"
         }
     }
 }
@@ -149,21 +97,19 @@ enum ColorPalette {
     case textGray
     
     var color: Color {
-        get {
-            switch self {
-            case .background:
-                return Color("Background")
-            case .forground:
-                return Color("Forground")
-            case .tabBackground:
-                return Color("TabBackground")
-            case .buttonBackground:
-                return Color("ButtonBackground")
-            case .launchbackground:
-                return Color("LaunchBackground")
-            case .textGray:
-                return Color("TextGray")
-            }
+        switch self {
+        case .background:
+            return Color("Background")
+        case .forground:
+            return Color("Forground")
+        case .tabBackground:
+            return Color("TabBackground")
+        case .buttonBackground:
+            return Color("ButtonBackground")
+        case .launchbackground:
+            return Color("LaunchBackground")
+        case .textGray:
+            return Color("TextGray")
         }
     }
 }
@@ -173,13 +119,11 @@ enum ImageName {
     case NewSoundtrack
     
     var imageName: String {
-        get {
-            switch self {
-            case .BackPattern:
-                return "BackPattern"
-            case .NewSoundtrack:
-                return "NewSoundtrack"
-            }
+        switch self {
+        case .BackPattern:
+            return "BackPattern"
+        case .NewSoundtrack:
+            return "NewSoundtrack"
         }
     }
 }
@@ -193,17 +137,15 @@ class deviceFrame {
     static let screenWidth = UIScreen.main.bounds.size.width
     static let screenHeight = UIScreen.main.bounds.size.height
     static var exceptPaddingWidth: CGFloat {
-        get {
-            return screenWidth - 30
-        }
+        return screenWidth - 30
     }
 }
 
 /*
  * 사용 방법:
 
-        init(){Theme.navigationBarColors(background: .systemFill, titleColor: .white)}
-        var body: some View {} ~
+ init(){Theme.navigationBarColors(background: .systemFill, titleColor: .white)}
+ var body: some View {} ~
 
  위 코드를 View 안에 넣고 원하는 UIColor 의 Color 로 설정해주면 된다.
  */
