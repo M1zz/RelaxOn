@@ -1,6 +1,6 @@
 //
 //  MixedSound.swift
-//  LullabyRecipe
+//  RelaxOn
 //
 //  Created by 최동권 on 2022/06/25.
 //

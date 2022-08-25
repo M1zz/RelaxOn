@@ -219,9 +219,3 @@ struct OnboardingView: View {
             .foregroundStyle(LinearGradient(gradient: Gradient(colors: [Color.relaxNightBlue, Color.relaxLavender]), startPoint: .leading, endPoint: .trailing))
     }
 }
-//
-//Rectangle()
-//    .foregroundColor(.white)
-//    .frame(width: selectedItemWidth, height: 3)
-//    .offset(x: selectedItemHorizontalOffset(), y: 0)
-//    .animation(Animation.linear(duration: 0.3), value: selectedItemWidth)

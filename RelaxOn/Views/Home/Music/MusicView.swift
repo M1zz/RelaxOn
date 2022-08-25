@@ -1,6 +1,6 @@
 //
 //  MusicView.swift
-//  LullabyRecipe
+//  RelaxOn
 //
 //  Created by hyunho lee on 2022/05/23.
 //
@@ -133,11 +133,6 @@ struct MusicView: View {
                     .font(.system(size: 16))
             }
         })
-        
-        //        }
-        //        .frame(width: maxWidth,
-        //               height: maxWidth)
-        //        .padding(.top,30)
     }
     
     @ViewBuilder
