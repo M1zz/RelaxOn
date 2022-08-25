@@ -18,13 +18,17 @@ enum BaseAudioName {
         get {
             switch self {
             case .longSun:
-                return "LongSun"
+                let fileNameLongSun = BaseAudioName.longSun.displayName.components(separatedBy: [" "]).joined()
+                return fileNameLongSun
             case .spaceMid:
-                return "SpaceMid"
+                let fileNameSpaceMid = BaseAudioName.spaceMid.displayName.components(separatedBy: [" "]).joined()
+                return fileNameSpaceMid
             case .spaceLow:
-                return "SpaceLow"
+                let fileNameSpaceLow = BaseAudioName.spaceLow.displayName.components(separatedBy: [" "]).joined()
+                return fileNameSpaceLow
             case .spaceHigh:
-                return "SpaceHigh"
+                let fileNameSpaceHigh = BaseAudioName.spaceHigh.displayName.components(separatedBy: [" "]).joined()
+                return fileNameSpaceHigh
             case .oxygen:
                 return "Oxygen"
             }
@@ -35,13 +39,13 @@ enum BaseAudioName {
         get {
             switch self {
             case .longSun:
-                return "LongSun"
+                return "Long Sun"
             case .spaceMid:
-                return "SpaceMid"
+                return "Space Mid"
             case .spaceLow:
-                return "SpaceLow"
+                return "Space Low"
             case .spaceHigh:
-                return "SpaceHigh"
+                return "Space High"
             case .oxygen:
                 return "Oxygen"
             }
@@ -102,13 +106,16 @@ enum WhiteNoiseAudioName {
         get {
             switch self {
             case .dryGrass:
-                return "DryGrass"
+                let fileNameDryGrass = WhiteNoiseAudioName.dryGrass.displayName.components(separatedBy: [" "]).joined()
+                return fileNameDryGrass
             case .stream:
                 return "Stream"
             case .summerField:
-                return "SummerField"
+                let fileNameSummerField = WhiteNoiseAudioName.summerField.displayName.components(separatedBy: [" "]).joined()
+                return fileNameSummerField
             case .umbrellaRain:
-                return "UmbrellaRain"
+                let fileNameUnbrellaRain = WhiteNoiseAudioName.umbrellaRain.displayName.components(separatedBy: [" "]).joined()
+                return fileNameUnbrellaRain
             case .wave:
                 return "Wave"
             }
@@ -119,13 +126,13 @@ enum WhiteNoiseAudioName {
         get {
             switch self {
             case .dryGrass:
-                return "DryGrass"
+                return "Dry Grass"
             case .stream:
                 return "Stream"
             case .summerField:
-                return "SummerField"
+                return "Summer Field"
             case .umbrellaRain:
-                return "UmbrellaRain"
+                return "Umbrella Rain"
             case .wave:
                 return "Wave"
             }
