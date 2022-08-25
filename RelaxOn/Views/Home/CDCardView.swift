@@ -9,31 +9,34 @@ import SwiftUI
 
 struct CDCardView: View {
     var data: MixedSound
-    @State var audioVolumes: (baseVolume: Float, melodyVolume: Float, whiteNoiseVolume: Float) = (baseVolume: 0.0, melodyVolume: 0.0, whiteNoiseVolume: 0.0)
+    @Binding var isShwoingMusicView: Bool
+    @Binding var userRepositoriesState: [MixedSound]
+    @State var selectedMixedSound: MixedSound?
     @State private var isPresent = false
-    
     var body: some View {
         VStack(alignment: .leading) {
-            NavigationLink(isActive: $isPresent) {
-                MusicView(data: data, audioVolumes: $audioVolumes)
-            } label: {
-                ZStack {
-                    Image("BaseIllust")
-                        .resizable()
-                        .opacity(0.5)
-                        .frame(width: UIScreen.main.bounds.width * 0.43, height: UIScreen.main.bounds.width * 0.43)
-                    Image("MelodyIllust")
-                        .resizable()
-                        .opacity(0.5)
-                        .frame(width: UIScreen.main.bounds.width * 0.43, height: UIScreen.main.bounds.width * 0.43)
-                    // MARK: -추후 Nature 일러스트가 추가되면 사용되어야 할 코드
-//                    Image(data.naturalSound?.imageName ?? "")
-//                        .resizable()
-//                        .opacity(0.5)
-//                        .frame(width: UIScreen.main.bounds.width * 0.43, height: UIScreen.main.bounds.width * 0.43)
-                }
-                .cornerRadius(4)
-            }
+            Button(action: {
+                self.selectedMixedSound = data
+                self.isShwoingMusicView.toggle()
+            }, label: {
+                    ZStack {
+                        Image(data.baseSound?.imageName ?? "")
+                            .resizable()
+                            .opacity(0.5)
+                            .frame(width: UIScreen.main.bounds.width * 0.43, height: UIScreen.main.bounds.width * 0.43)
+                        Image(data.melodySound?.imageName ?? "")
+                            .resizable()
+                            .opacity(0.5)
+                            .frame(width: UIScreen.main.bounds.width * 0.43, height: UIScreen.main.bounds.width * 0.43)
+                        Image(data.whiteNoiseSound?.imageName ?? "")
+                            .resizable()
+                            .opacity(0.5)
+                            .frame(width: UIScreen.main.bounds.width * 0.43, height: UIScreen.main.bounds.width * 0.43)
+                    }
+                    .fullScreenCover(item: $selectedMixedSound) { _ in
+                        NewMusicView(data: data, userRepositoriesState: $userRepositoriesState)
+                    }
+            })
             Text(data.name)
                 .font(.system(size: 17, weight: .regular))
                 .foregroundColor(.systemGrey1)
@@ -43,9 +46,9 @@ struct CDCardView: View {
         }
     }
 }
-
-struct CDCardView_Previews: PreviewProvider {
-    static var previews: some View {
-        CDCardView(data: dummyMixedSound)
-    }
-}
+//
+//struct CDCardView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        CDCardView(data: dummyMixedSound)
+//    }
+//}

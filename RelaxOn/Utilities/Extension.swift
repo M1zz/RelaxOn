@@ -35,3 +35,16 @@ extension String {
         return NSLocalizedString(self, tableName: "localizable", value: self, comment: "")
     }
 }
+
+extension View {
+    func getEncodedData(data: [MixedSound]) -> Data? {
+        do {
+            let encoder = JSONEncoder()
+            let encodedData = try encoder.encode(data)
+            return encodedData
+        } catch {
+            print("Unable to Encode Note (\(error))")
+        }
+        return nil
+    }
+}

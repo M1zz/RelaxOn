@@ -18,6 +18,7 @@ struct CDListView: View {
     @State private var isEditMode = false
     @State private var selectedMixedSoundIds: [Int] = []
     @State private var showingActionSheet = false
+    @State var isShwoingMusicView = false
     
     init(userRepositoriesState: [MixedSound] = userRepositories){
         Theme.navigationBarColors(background: UIColor(named: "RelaxBlack") ?? .black, titleColor: UIColor(named: "RelaxDimPurple") ?? .white)
@@ -25,7 +26,6 @@ struct CDListView: View {
     }
     
     var body: some View {
-        
         VStack {
             libraryHeader
             
@@ -36,7 +36,7 @@ struct CDListView: View {
 
                     ForEach(userRepositoriesState.reversed()){ mixedSound in
 
-                        CDCardView(data: mixedSound, audioVolumes: (baseVolume: mixedSound.baseSound?.audioVolume ?? 1.0, melodyVolume: mixedSound.melodySound?.audioVolume ?? 1.0, whiteNoiseVolume: mixedSound.whiteNoiseSound?.audioVolume ?? 1.0))
+                        CDCardView(data: mixedSound, isShwoingMusicView: $isShwoingMusicView, userRepositoriesState: $userRepositoriesState)
                             .disabled(isEditMode)
                             .overlay(alignment : .bottomTrailing) {
                                 if isEditMode {
@@ -80,17 +80,17 @@ struct CDListView: View {
                 }
             }
         }
-        .onChange(of: userRepositories) { newValue in
-            if let data = UserDefaultsManager.shared.standard.data(forKey: UserDefaultsManager.shared.recipes) {
-                do {
-                    let decoder = JSONDecoder()
-                    
-                    userRepositories = try decoder.decode([MixedSound].self, from: data)
-                    userRepositoriesState = userRepositories
-                    print("help : \(userRepositories)")
-
-                } catch {
-                    print("Unable to Decode Note (\(error))")
+        .onChange(of: isShwoingMusicView) { newValue in
+            if isShwoingMusicView == false {
+                if let data = UserDefaultsManager.shared.standard.data(forKey: UserDefaultsManager.shared.recipes) {
+                    do {
+                        let decoder = JSONDecoder()
+                        
+                        userRepositories = try decoder.decode([MixedSound].self, from: data)
+                        userRepositoriesState = userRepositories
+                    } catch {
+                        print("Unable to Decode Note (\(error))")
+                    }
                 }
             }
         }
@@ -111,17 +111,6 @@ struct CDListView: View {
         } message: {
             Text("These CDs will be deleted from your library")
         }
-    }
-    
-    private func getEncodedData(data: [MixedSound]) -> Data? {
-        do {
-            let encoder = JSONEncoder()
-            let encodedData = try encoder.encode(data)
-            return encodedData
-        } catch {
-            print("Unable to Encode Note (\(error))")
-        }
-        return nil
     }
     
     var libraryHeader: some View {

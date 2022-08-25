@@ -38,3 +38,10 @@ struct MixedSound: Identifiable, Codable, Equatable {
         self.url = WidgetManager.getURL(id: id)
     }
 }
+
+let emptyMixedSound = MixedSound(id: -1,
+                                 name: "empty",
+                                 baseSound: emptySound,
+                                 melodySound: emptySound,
+                                 whiteNoiseSound: emptySound,
+                                 imageName: "")
