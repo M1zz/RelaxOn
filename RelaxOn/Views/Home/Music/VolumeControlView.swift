@@ -177,17 +177,6 @@ struct VolumeControlView: View {
         }
         .padding()
     }
-    
-    private func getEncodedData(data: [MixedSound]) -> Data? {
-        do {
-            let encoder = JSONEncoder()
-            let encodedData = try encoder.encode(data)
-            return encodedData
-        } catch {
-            print("Unable to Encode Note (\(error))")
-        }
-        return nil
-    }
 }
 
 // 오류 때문에 주석처리

@@ -8,21 +8,22 @@
 import SwiftUI
 
 struct OnboadingNamingView: View {
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    // MARK: - State Properties
+    @State var isNamingNavigate: Bool = false
     @Binding var selectedImageNames: (base: String, melody: String, whiteNoise: String)
     @Binding var opacityAnimationValues: [Double]
     @Binding var textEntered: String
     @Binding var showOnboarding: Bool
-    @State var isNamingNavigate: Bool = false
-    
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+
+    // MARK: - Life Cycles
     var body: some View {
         ZStack {
-            
-            SelectedImageBackgroundView(selectedImageNames: $selectedImageNames, opacityAnimationValues: $opacityAnimationValues)
+            SelectedImageBackgroundView(selectedImageNames: $selectedImageNames,
+                                        opacityAnimationValues: $opacityAnimationValues)
                 .blur(radius: 5)
             
             VStack {
-                
                 HStack {
                     Text("Please name this CD")
                         .frame(width: deviceFrame.exceptPaddingWidth / 2)
@@ -51,17 +52,11 @@ struct OnboadingNamingView: View {
         }.navigationBarHidden(true)
     }
     
-    private func getEncodedData(data: [MixedSound]) -> Data? {
-        do {
-            let encoder = JSONEncoder()
-            let encodedData = try encoder.encode(data)
-            return encodedData
-        } catch {
-            print("Unable to Encode Note (\(error))")
-        }
-        return nil
-    }
-    
+
+}
+
+// MARK: - ViewBuilder
+extension OnboadingNamingView {
     @ViewBuilder
     func SaveButton() -> some View {
         NavigationLink(isActive: $isNamingNavigate) {
@@ -91,4 +86,5 @@ struct OnboadingNamingView: View {
         .opacity(textEntered.isEmpty ? 0.5 : 1)
         .padding()
     }
+
 }

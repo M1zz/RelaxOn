@@ -8,16 +8,19 @@
 import SwiftUI
 
 struct StudioNamingView: View {
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    // MARK: - State Properties
     @Binding var shouldPoptoRootView: Bool
     @Binding var selectedImageNames: (base: String, melody: String, whiteNoise: String)
     @Binding var opacityAnimationValues: [Double]
     @Binding var textEntered: String
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
+    // MARK: - Life Cycles
     var body: some View {
         ZStack {
 
-            SelectedImageBackgroundView(selectedImageNames: $selectedImageNames, opacityAnimationValues: $opacityAnimationValues)
+            SelectedImageBackgroundView(selectedImageNames: $selectedImageNames,
+                                        opacityAnimationValues: $opacityAnimationValues)
                 .blur(radius: 5)
 
             VStack {
@@ -53,18 +56,10 @@ struct StudioNamingView: View {
             }
         }.navigationBarHidden(true)
     }
+}
 
-    private func getEncodedData(data: [MixedSound]) -> Data? {
-        do {
-            let encoder = JSONEncoder()
-            let encodedData = try encoder.encode(data)
-            return encodedData
-        } catch {
-            print("Unable to Encode Note (\(error))")
-        }
-        return nil
-    }
-
+// MARK: - ViewBuilder
+extension StudioNamingView {
     @ViewBuilder
     func NamingBackButton() -> some View {
         HStack{
