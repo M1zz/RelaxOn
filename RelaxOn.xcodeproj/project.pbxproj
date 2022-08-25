@@ -31,7 +31,6 @@
 		21B7A67928A31EB200E90744 /* Connectivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B7A67828A31EB200E90744 /* Connectivity.swift */; };
 		21D3ED952892774F006E871F /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5769AF2866F6B5007CCAE9 /* UserDefaultsManager.swift */; };
 		21D897782892D48600A20FFE /* CDCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D897772892D48600A20FFE /* CDCardView.swift */; };
-		21FE2BB82899606A0024DA92 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21FE2BB72899606A0024DA92 /* Extension.swift */; };
 		4A5769AC2866F20A007CCAE9 /* MixedSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5769AB2866F20A007CCAE9 /* MixedSound.swift */; };
 		4A5769AE2866F44E007CCAE9 /* DummyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5769AD2866F44E007CCAE9 /* DummyData.swift */; };
 		580CADAA28659BEF0091946C /* LongSun.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 580CADA928659BEF0091946C /* LongSun.mp3 */; };
@@ -61,6 +60,10 @@
 		58DE61B7283A932E00F25769 /* MusicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61B6283A932E00F25769 /* MusicView.swift */; };
 		58DE61C22841C20A00F25769 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 58DE61C12841C20A00F25769 /* Launch Screen.storyboard */; };
 		58DE61C72843100100F25769 /* VolumeControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61C62843100100F25769 /* VolumeControlView.swift */; };
+		C753494E28B7489D0055F7CA /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C753494D28B7489D0055F7CA /* View+Extension.swift */; };
+		C753495028B748C80055F7CA /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C753494F28B748C80055F7CA /* Color+Extension.swift */; };
+		C753495228B748D40055F7CA /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C753495128B748D40055F7CA /* UIColor+Extension.swift */; };
+		C753495428B748E20055F7CA /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C753495328B748E20055F7CA /* String+Extension.swift */; };
 		C776B17128B2620000A13052 /* RelaxOnUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C776B17028B2620000A13052 /* RelaxOnUITests.swift */; };
 		C776B17328B2620000A13052 /* RelaxOnUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C776B17228B2620000A13052 /* RelaxOnUITestsLaunchTests.swift */; };
 		CBFDC8F4289C23AC00386FB5 /* VolumeSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBFDC8F3289C23AC00386FB5 /* VolumeSlider.swift */; };
@@ -189,7 +192,6 @@
 		21B7A67628A31E7000E90744 /* PlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewModel.swift; sourceTree = "<group>"; };
 		21B7A67828A31EB200E90744 /* Connectivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Connectivity.swift; sourceTree = "<group>"; };
 		21D897772892D48600A20FFE /* CDCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDCardView.swift; sourceTree = "<group>"; };
-		21FE2BB72899606A0024DA92 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		4A5769AB2866F20A007CCAE9 /* MixedSound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixedSound.swift; sourceTree = "<group>"; };
 		4A5769AD2866F44E007CCAE9 /* DummyData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyData.swift; sourceTree = "<group>"; };
 		4A5769AF2866F6B5007CCAE9 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
@@ -222,6 +224,10 @@
 		58DE61BE283E77E700F25769 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		58DE61C12841C20A00F25769 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		58DE61C62843100100F25769 /* VolumeControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeControlView.swift; sourceTree = "<group>"; };
+		C753494D28B7489D0055F7CA /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
+		C753494F28B748C80055F7CA /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
+		C753495128B748D40055F7CA /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		C753495328B748E20055F7CA /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		C776B16E28B2620000A13052 /* RelaxOnUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RelaxOnUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C776B17028B2620000A13052 /* RelaxOnUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelaxOnUITests.swift; sourceTree = "<group>"; };
 		C776B17228B2620000A13052 /* RelaxOnUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelaxOnUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -390,7 +396,6 @@
 				58DE1031283DF6E7002CDB9F /* Static.swift */,
 				CCA7F5202877501E00D6A239 /* Localizable.strings */,
 				CC2820472880102400587334 /* ViewModifiers.swift */,
-				21FE2BB72899606A0024DA92 /* Extension.swift */,
 				E24F21E128ABE1A000371BA4 /* MultiPreview.swift */,
 			);
 			path = Utilities;
@@ -465,6 +470,7 @@
 			children = (
 				CC5AC18E289D48DD00FE847B /* RelaxOn.entitlements */,
 				58DE61BE283E77E700F25769 /* Info.plist */,
+				C753494C28B748710055F7CA /* Extension */,
 				58DE1030283DF6DA002CDB9F /* Utilities */,
 				58DE1022283DF536002CDB9F /* Resource */,
 				58DE1035283F5193002CDB9F /* Manager */,
@@ -505,6 +511,17 @@
 				58DE103828405C6C002CDB9F /* Kitchen */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		C753494C28B748710055F7CA /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				C753494D28B7489D0055F7CA /* View+Extension.swift */,
+				C753494F28B748C80055F7CA /* Color+Extension.swift */,
+				C753495128B748D40055F7CA /* UIColor+Extension.swift */,
+				C753495328B748E20055F7CA /* String+Extension.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 		C776B16F28B2620000A13052 /* RelaxOnUITests */ = {
@@ -784,6 +801,7 @@
 				CBFDC8F4289C23AC00386FB5 /* VolumeSlider.swift in Sources */,
 				CC5AC137289D199600FE847B /* Provider.swift in Sources */,
 				58DE61B2283A8E1700F25769 /* Sound.swift in Sources */,
+				C753495028B748C80055F7CA /* Color+Extension.swift in Sources */,
 				101417F8289EB82200F40397 /* SelectedImageBackgroundView.swift in Sources */,
 				58DE61C72843100100F25769 /* VolumeControlView.swift in Sources */,
 				E2BF105428914E9E00408B8C /* TimerNavigationLinkView.swift in Sources */,
@@ -792,10 +810,10 @@
 				CC5AC134289D184A00FE847B /* CDWidgetEntry.swift in Sources */,
 				10D26712288EF4C80056339A /* CustomSegmentControlView.swift in Sources */,
 				58DE61832839C13900F25769 /* RelaxOnApp.swift in Sources */,
-				21FE2BB82899606A0024DA92 /* Extension.swift in Sources */,
 				10D26716288EF4DB0056339A /* StudioView.swift in Sources */,
 				4A5769AC2866F20A007CCAE9 /* MixedSound.swift in Sources */,
 				E211ED052896D051002843EE /* MusicTimer.swift in Sources */,
+				C753494E28B7489D0055F7CA /* View+Extension.swift in Sources */,
 				58DE101C283CA87F002CDB9F /* SoundCardView.swift in Sources */,
 				4A5769AE2866F44E007CCAE9 /* DummyData.swift in Sources */,
 				10FB81AF28A138E7000168CC /* OnboardingView.swift in Sources */,
@@ -811,6 +829,8 @@
 				10FB81B528A17468000168CC /* OnboardingFinishView.swift in Sources */,
 				101417FA289EB9F300F40397 /* StudioNamingView.swift in Sources */,
 				21D897782892D48600A20FFE /* CDCardView.swift in Sources */,
+				C753495228B748D40055F7CA /* UIColor+Extension.swift in Sources */,
+				C753495428B748E20055F7CA /* String+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -888,7 +908,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = Z629PZ4XVL;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				IBSC_MODULE = RelaxOnWatch_WatchKit_Extension;
 				INFOPLIST_KEY_CFBundleDisplayName = RelaxOnWatch;
@@ -914,7 +934,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = Z629PZ4XVL;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				IBSC_MODULE = RelaxOnWatch_WatchKit_Extension;
 				INFOPLIST_KEY_CFBundleDisplayName = RelaxOnWatch;
@@ -1122,7 +1142,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"RelaxOn/Preview Content\"";
-				DEVELOPMENT_TEAM = Z629PZ4XVL;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RelaxOn/Info.plist;
@@ -1154,7 +1174,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"RelaxOn/Preview Content\"";
-				DEVELOPMENT_TEAM = Z629PZ4XVL;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RelaxOn/Info.plist;

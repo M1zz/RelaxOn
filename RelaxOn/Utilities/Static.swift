@@ -182,7 +182,7 @@ let recipeRandomName = ["Recipe1","Recipe2","Recipe3","Recipe4","Recipe5","Recip
 
 let viewHorizontalPadding: CGFloat = 10
 
-class deviceFrame {
+final class deviceFrame {
     static let screenWidth = UIScreen.main.bounds.size.width
     static let screenHeight = UIScreen.main.bounds.size.height
     static var exceptPaddingWidth: CGFloat {
@@ -195,14 +195,19 @@ class deviceFrame {
 /*
  * 사용 방법:
 
-        init(){Theme.navigationBarColors(background: .systemFill, titleColor: .white)}
-        var body: some View {} ~
+        init() {
+            Theme.navigationBarColors(background: .systemFill, titleColor: .white)
+        }
+ 
+        var body: some View {
+
+        } ~
 
  위 코드를 View 안에 넣고 원하는 UIColor 의 Color 로 설정해주면 된다.
  */
 
 // MARK: Navigation Bar Color change
-class Theme {
+final class Theme {
     static func navigationBarColors(background: UIColor?, titleColor: UIColor? = nil, tintColor: UIColor? = nil ) {
 
         let navigationAppearance = UINavigationBarAppearance()
