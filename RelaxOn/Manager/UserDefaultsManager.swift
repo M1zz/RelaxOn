@@ -10,11 +10,11 @@ import Foundation
 final class UserDefaultsManager {
     static let shared = UserDefaultsManager()
     
-    let standard = UserDefaults.standard
+    private let standard = UserDefaults.standard
     
-    let RECIPES_KEY: String = "recipes"
-    let NOT_FIRST_VISIT_KEY: String = "notFirstVisit"
-    let LAST_MUSIC_ID_KEY: String = "lastMusicId"
+    private let RECIPES_KEY: String = "recipes"
+    private let NOT_FIRST_VISIT_KEY: String = "notFirstVisit"
+    private let LAST_MUSIC_ID_KEY: String = "lastMusicId"
 }
 
 /// Data Get, Set Properties
