@@ -54,17 +54,6 @@ struct MusicRenameView: View {
         }.navigationBarHidden(true)
     }
     
-    private func getEncodedData(data: [MixedSound]) -> Data? {
-        do {
-            let encoder = JSONEncoder()
-            let encodedData = try encoder.encode(data)
-            return encodedData
-        } catch {
-            print("Unable to Encode Note (\(error))")
-        }
-        return nil
-    }
-    
     @ViewBuilder
     func CDCoverView() -> some View {
         ZStack {

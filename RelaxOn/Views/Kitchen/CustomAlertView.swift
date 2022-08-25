@@ -71,17 +71,6 @@ struct CustomAlertView: View {
         }
         .frame(width: deviceFrame.screenWidth - 100 , height: deviceFrame.screenHeight - 620)
     }
-    
-    private func getEncodedData(data: [MixedSound]) -> Data? {
-        do {
-            let encoder = JSONEncoder()
-            let encodedData = try encoder.encode(data)
-            return encodedData
-        } catch {
-            print("Unable to Encode Note (\(error))")
-        }
-        return nil
-    }
 }
 
 

@@ -71,17 +71,6 @@ struct MixedSoundCardView: View {
             Text("This item will be deleted. This action cannot be undone.")
         }
     }
-    
-    private func getEncodedData(data: [MixedSound]) -> Data? {
-        do {
-            let encoder = JSONEncoder()
-            let encodedData = try encoder.encode(data)
-            return encodedData
-        } catch {
-            print("Unable to Encode Note (\(error))")
-        }
-        return nil
-    }
 }
 
 struct MixedSoundCardView_Previews: PreviewProvider {

@@ -131,17 +131,6 @@ struct VolumeControlView: View {
         .padding(.horizontal, 20)
     }
     
-    private func getEncodedData(data: [MixedSound]) -> Data? {
-        do {
-            let encoder = JSONEncoder()
-            let encodedData = try encoder.encode(data)
-            return encodedData
-        } catch {
-            print("Unable to Encode Note (\(error))")
-        }
-        return nil
-    }
-    
     private func saveNewVolume() {
         guard let selectedMixedSound = viewModel.mixedSound else { return }
         guard let localBaseSound = viewModel.mixedSound?.baseSound,

@@ -81,7 +81,6 @@ struct CDListView: View {
             }
         }
         .onChange(of: isShwoingMusicView) { newValue in
-            print("ss")
             if isShwoingMusicView == false {
                 if let data = UserDefaultsManager.shared.standard.data(forKey: UserDefaultsManager.shared.recipes) {
                     do {
@@ -112,17 +111,6 @@ struct CDListView: View {
         } message: {
             Text("These CDs will be deleted from your library")
         }
-    }
-    
-    private func getEncodedData(data: [MixedSound]) -> Data? {
-        do {
-            let encoder = JSONEncoder()
-            let encodedData = try encoder.encode(data)
-            return encodedData
-        } catch {
-            print("Unable to Encode Note (\(error))")
-        }
-        return nil
     }
     
     var libraryHeader: some View {
