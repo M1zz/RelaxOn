@@ -52,7 +52,7 @@ enum MelodyAudioName {
         case .garden:
             return "Garden"
         case .gymnopedia:
-            return "Gymnopedia"
+            return "Gymnopedie"
         case .relaxing:
             return "Relaxing"
         case .wisdom:
