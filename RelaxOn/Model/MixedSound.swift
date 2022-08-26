@@ -40,3 +40,11 @@ extension MixedSound {
         return returnId
     }
 }
+
+let emptyMixedSound = MixedSound(id: -1,
+                                 name: "empty",
+                                 baseSound: emptySound,
+                                 melodySound: emptySound,
+                                 whiteNoiseSound: emptySound,
+                                 imageName: "")
+

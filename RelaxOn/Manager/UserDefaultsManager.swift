@@ -12,9 +12,9 @@ final class UserDefaultsManager {
     
     private let standard = UserDefaults.standard
     
-    private let RECIPES_KEY: String = "recipes"
-    private let NOT_FIRST_VISIT_KEY: String = "notFirstVisit"
-    private let LAST_MUSIC_ID_KEY: String = "lastMusicId"
+    private let RECIPES_KEY = "recipes"
+    private let NOT_FIRST_VISIT_KEY = "notFirstVisit"
+    private let LAST_MUSIC_ID_KEY = "lastMusicId"
 }
 
 /// Data Get, Set Properties

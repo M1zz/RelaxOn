@@ -58,15 +58,15 @@ struct MusicView: View {
                 viewModel.stop()
             }
         }
-        .sheet(isPresented: $showVolumeControl,
-               content: {
-            VolumeControlView(showVolumeControl: $showVolumeControl,
-                              audioVolumes: $audioVolumes,
-                              mixedSound: data)
-            .onDisappear {
-                viewModel.updateVolume(audioVolumes: audioVolumes)
-            }
-        })
+//        .sheet(isPresented: $showVolumeControl,
+//               content: {
+//            VolumeControlView(showVolumeControl: $showVolumeControl,
+//                              audioVolumes: $audioVolumes,
+//                              data: data)
+//            .onDisappear {
+//                viewModel.updateVolume(audioVolumes: audioVolumes)
+//            }
+//        })
         .navigationBarTitle(Text(""),
                             // Todo :- edit 버튼 동작 .toolbar(content: { Button("Edit") { }}) }}
                             displayMode: .inline)

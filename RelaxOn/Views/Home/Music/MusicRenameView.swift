@@ -1,32 +1,31 @@
 //
-//  StudioNamingView.swift
+//  MusicRenameView.swift
 //  RelaxOn
 //
-//  Created by 김연호 on 2022/08/07.
+//  Created by 최동권 on 2022/08/06.
 //
 
 import SwiftUI
 
-struct StudioNamingView: View {
+struct MusicRenameView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    @Binding var shouldPoptoRootView: Bool
-    @Binding var selectedImageNames: (base: String, melody: String, whiteNoise: String)
-    @Binding var opacityAnimationValues: [Double]
-    @Binding var textEntered: String
+    @ObservedObject var viewModel: MusicViewModel
+    @State private var textEntered: String = ""
+    @Binding var userRepositoriesState: [MixedSound]
+    var mixedSound: MixedSound
     
     var body: some View {
         ZStack {
-
-            SelectedImageBackgroundView(selectedImageNames: $selectedImageNames, opacityAnimationValues: $opacityAnimationValues)
-                .blur(radius: 5)
-
+            CDCoverView()
+                .ignoresSafeArea()
+            
             VStack {
                 HStack {
                     NamingBackButton()
                         .padding(.horizontal, 15)
                     Spacer()
                 }
-
+                
                 HStack {
                     Text("Please name this CD")
                         .frame(width: deviceFrame.exceptPaddingWidth / 2)
@@ -35,25 +34,44 @@ struct StudioNamingView: View {
                         .lineLimit(2)
                     Spacer()
                 }.padding()
-
+                
                 VStack {
                     TextField("", text: $textEntered)
                         .foregroundColor(.white)
-                        .modifier(PlaceholderCustom(showPlaceHolder: textEntered.isEmpty, placeHolder: "Make your own CD"))
+                        .modifier(RenamePlaceholderCustom(showPlaceHolder: textEntered.isEmpty, placeHolder: "Make your own CD"))
                         .keyboardType(.alphabet)
+                        .multilineTextAlignment(.leading)
                         .padding(.horizontal, 15)
-
+                    
                     Rectangle()
                         .foregroundColor(.white)
                         .frame(width: deviceFrame.exceptPaddingWidth, height: 2)
                 }
                 Spacer()
                 SaveButton()
-
+                
             }
         }.navigationBarHidden(true)
     }
-
+    
+    @ViewBuilder
+    func CDCoverView() -> some View {
+        ZStack {
+            Image(mixedSound.baseSound?.imageName ?? "")
+                .resizable()
+                .opacity(0.5)
+            //                .frame(width: .infinity, height: .infinity)
+            Image(mixedSound.melodySound?.imageName ?? "")
+                .resizable()
+                .opacity(0.5)
+            //                .frame(width: .infinity, height: .infinity)
+            Image(mixedSound.whiteNoiseSound?.imageName ?? "")
+                .resizable()
+                .opacity(0.5)
+            //                .frame(width: .infinity, height: .infinity)
+        }
+    }
+    
     @ViewBuilder
     func NamingBackButton() -> some View {
         HStack{
@@ -63,20 +81,20 @@ struct StudioNamingView: View {
                 Image(systemName: "chevron.backward")
                     .foregroundColor(.white)
             })
-
+            
             Text("Studio")
                 .font(.system(size: 17, weight: .regular))
                 .foregroundColor(.white)
             Spacer()
         }
     }
-
+    
     @ViewBuilder
     func SaveButton() -> some View {
         ZStack {
             Rectangle()
                 .foregroundColor(.relaxRealBlack)
-
+            
             Text("SAVE")
                 .foregroundColor(.white)
                 .font(.system(size: 20, weight: .light))
@@ -85,25 +103,34 @@ struct StudioNamingView: View {
         .opacity(textEntered.isEmpty ? 0.5 : 1)
         .padding()
         .onTapGesture {
-            let newSound = MixedSound(id: userRepositories.count,
-                                      name: textEntered,
-                                      baseSound: baseSound,
-                                      melodySound: melodySound,
-                                      whiteNoiseSound: whiteNoiseSound,
-                                      imageName: recipeRandomName.randomElement()!)
-            userRepositories.append(newSound)
-
+            let renamedMixedSound = MixedSound(id: mixedSound.id,
+                                               name: textEntered,
+                                               baseSound: mixedSound.baseSound,
+                                               melodySound: mixedSound.melodySound,
+                                               whiteNoiseSound: mixedSound.whiteNoiseSound,
+                                               imageName: recipeRandomName.randomElement()!)
+            
+            let index = userRepositoriesState.firstIndex { element in
+                element.name == mixedSound.name
+            }
+            
+            viewModel.mixedSound = renamedMixedSound
+            userRepositories.remove(at: index ?? -1)
+            userRepositories.insert(renamedMixedSound, at: index ?? -1)
+            userRepositoriesState.remove(at: index ?? -1)
+            userRepositoriesState.insert(renamedMixedSound, at: index ?? -1)
+            
             let data = getEncodedData(data: userRepositories)
             UserDefaultsManager.shared.recipes = data
-            self.shouldPoptoRootView = false
+            presentationMode.wrappedValue.dismiss()
         }
     }
 }
 
-struct PlaceholderCustom: ViewModifier {
+struct RenamePlaceholderCustom: ViewModifier {
     var showPlaceHolder: Bool
     var placeHolder: String
-
+    
     public func body(content: Content) -> some View {
         ZStack(alignment: .leading) {
             if showPlaceHolder {
