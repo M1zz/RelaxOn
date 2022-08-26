@@ -93,7 +93,20 @@ struct CDListView: View {
                     print("Unable to Decode Note (\(error))")
                 }
             }
-            
+        }
+        .onChange(of: isShwoingMusicView) { newValue in
+            if isShwoingMusicView == false {
+                if let data = UserDefaultsManager.shared.recipes {
+                    do {
+                        let decoder = JSONDecoder()
+                        
+                        userRepositories = try decoder.decode([MixedSound].self, from: data)
+                        userRepositoriesState = userRepositories
+                    } catch {
+                        print("Unable to Decode Note (\(error))")
+                    }
+                }
+            }
         }
         .onChange(of: isShwoingMusicView) { newValue in
             if isShwoingMusicView == false {
