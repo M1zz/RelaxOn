@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-enum BaseAudioName {
+enum BaseAudioName: String {
     case longSun
     case spaceMid
     case spaceLow
@@ -32,24 +32,11 @@ enum BaseAudioName {
     }
     
     var displayName: String {
-        get {
-            switch self {
-            case .longSun:
-                return "Long Sun"
-            case .spaceMid:
-                return "Space Mid"
-            case .spaceLow:
-                return "Space Low"
-            case .spaceHigh:
-                return "Space High"
-            case .oxygen:
-                return "Oxygen"
-            }
-        }
+        self.rawValue.displayName
     }
 }
 
-enum MelodyAudioName {
+enum MelodyAudioName: String {
     case ambient
     case garden
     case gymnopedia
@@ -74,24 +61,11 @@ enum MelodyAudioName {
     }
     
     var displayName: String {
-        get {
-            switch self {
-            case .ambient:
-                return "Ambient"
-            case .garden:
-                return "Garden"
-            case .gymnopedia:
-                return "Gymnopedia"
-            case .relaxing:
-                return "Relaxing"
-            case .wisdom:
-                return "Wisdom"
-            }
-        }
+        self.rawValue.displayName
     }
 }
 
-enum WhiteNoiseAudioName {
+enum WhiteNoiseAudioName: String {
     case dryGrass
     case stream
     case summerField
@@ -116,20 +90,7 @@ enum WhiteNoiseAudioName {
     }
     
     var displayName: String {
-        get {
-            switch self {
-            case .dryGrass:
-                return "DryGrass"
-            case .stream:
-                return "Stream"
-            case .summerField:
-                return "SummerField"
-            case .umbrellaRain:
-                return "UmbrellaRain"
-            case .wave:
-                return "Wave"
-            }
-        }
+        self.rawValue.displayName
     }
 }
 

@@ -68,6 +68,11 @@
 		C753495828B75E4A0055F7CA /* RadioButtonGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C753495728B75E4A0055F7CA /* RadioButtonGroupView.swift */; };
 		C776B17128B2620000A13052 /* RelaxOnUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C776B17028B2620000A13052 /* RelaxOnUITests.swift */; };
 		C776B17328B2620000A13052 /* RelaxOnUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C776B17228B2620000A13052 /* RelaxOnUITestsLaunchTests.swift */; };
+		C7EC1CA128B783B8006A5860 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C753495328B748E20055F7CA /* String+Extension.swift */; };
+		C7EC1CA228B783C7006A5860 /* Float+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C753495528B75BD20055F7CA /* Float+Extension.swift */; };
+		C7EC1CA328B783C7006A5860 /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C753494D28B7489D0055F7CA /* View+Extension.swift */; };
+		C7EC1CA428B783C7006A5860 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C753494F28B748C80055F7CA /* Color+Extension.swift */; };
+		C7EC1CA528B783C7006A5860 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C753495128B748D40055F7CA /* UIColor+Extension.swift */; };
 		CBFDC8F4289C23AC00386FB5 /* VolumeSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBFDC8F3289C23AC00386FB5 /* VolumeSlider.swift */; };
 		CC2820482880102400587334 /* ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC2820472880102400587334 /* ViewModifiers.swift */; };
 		CC5AC107289C033C00FE847B /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC5AC106289C033C00FE847B /* WidgetKit.framework */; };
@@ -859,13 +864,18 @@
 				CC5AC13E289D258200FE847B /* Sound.swift in Sources */,
 				CC5AC135289D185400FE847B /* CDWidgetEntry.swift in Sources */,
 				CC5AC124289D160A00FE847B /* UserDefaultsManager.swift in Sources */,
+				C7EC1CA528B783C7006A5860 /* UIColor+Extension.swift in Sources */,
 				CC5AC13B289D256100FE847B /* MixedSound.swift in Sources */,
 				CC5AC192289D6CD200FE847B /* WidgetManager.swift in Sources */,
+				C7EC1CA128B783B8006A5860 /* String+Extension.swift in Sources */,
+				C7EC1CA428B783C7006A5860 /* Color+Extension.swift in Sources */,
+				C7EC1CA328B783C7006A5860 /* View+Extension.swift in Sources */,
 				CC5AC111289C033D00FE847B /* RelaxOnWidget.intentdefinition in Sources */,
 				CC5AC10C289C033C00FE847B /* RelaxOnWidget.swift in Sources */,
 				CC5AC138289D19C900FE847B /* Provider.swift in Sources */,
 				CC5AC11F289D15EE00FE847B /* Static.swift in Sources */,
 				CC5AC13D289D257B00FE847B /* DummyData.swift in Sources */,
+				C7EC1CA228B783C7006A5860 /* Float+Extension.swift in Sources */,
 				CC5AC125289D160E00FE847B /* AudioManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
