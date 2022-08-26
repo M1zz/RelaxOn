@@ -69,7 +69,7 @@ struct CDListView: View {
         }
         .padding()
         .onAppear {
-            if let data = UserDefaultsManager.shared.standard.data(forKey: UserDefaultsManager.shared.recipes) {
+            if let data = UserDefaultsManager.shared.recipes {
                 do {
                     let decoder = JSONDecoder()
                     userRepositories = try decoder.decode([MixedSound].self, from: data)
@@ -80,9 +80,37 @@ struct CDListView: View {
                 }
             }
         }
+        .onChange(of: userRepositories) { newValue in
+            if let data = UserDefaultsManager.shared.recipes {
+                do {
+                    let decoder = JSONDecoder()
+                    
+                    userRepositories = try decoder.decode([MixedSound].self, from: data)
+                    userRepositoriesState = userRepositories
+                    print("help : \(userRepositories)")
+
+                } catch {
+                    print("Unable to Decode Note (\(error))")
+                }
+            }
+        }
         .onChange(of: isShwoingMusicView) { newValue in
             if isShwoingMusicView == false {
-                if let data = UserDefaultsManager.shared.standard.data(forKey: UserDefaultsManager.shared.recipes) {
+                if let data = UserDefaultsManager.shared.recipes {
+                    do {
+                        let decoder = JSONDecoder()
+                        
+                        userRepositories = try decoder.decode([MixedSound].self, from: data)
+                        userRepositoriesState = userRepositories
+                    } catch {
+                        print("Unable to Decode Note (\(error))")
+                    }
+                }
+            }
+        }
+        .onChange(of: isShwoingMusicView) { newValue in
+            if isShwoingMusicView == false {
+                if let data = UserDefaultsManager.shared.recipes {
                     do {
                         let decoder = JSONDecoder()
                         

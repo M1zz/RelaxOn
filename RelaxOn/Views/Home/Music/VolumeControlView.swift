@@ -172,7 +172,7 @@ struct VolumeControlView: View {
         userRepositoriesState.insert(newMixedSound, at: index ?? -1)
         
         let data = getEncodedData(data: userRepositories)
-        UserDefaultsManager.shared.standard.set(data, forKey: UserDefaultsManager.shared.recipes)
+        UserDefaultsManager.shared.recipes = data
     }
 }
 

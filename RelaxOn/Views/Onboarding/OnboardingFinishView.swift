@@ -45,7 +45,7 @@ struct OnboardingFinishView: View {
         } label: {}
         
         Button {
-            UserDefaultsManager.shared.standard.set(true, forKey: UserDefaultsManager.shared.notFirstVisit)
+            UserDefaultsManager.shared.notFirstVisit = true
             showOnboarding = false
             onboardingNavigate = true
         } label: {
