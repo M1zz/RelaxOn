@@ -33,6 +33,8 @@
 		21D897782892D48600A20FFE /* CDCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D897772892D48600A20FFE /* CDCardView.swift */; };
 		4A5769AC2866F20A007CCAE9 /* MixedSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5769AB2866F20A007CCAE9 /* MixedSound.swift */; };
 		4A5769AE2866F44E007CCAE9 /* DummyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5769AD2866F44E007CCAE9 /* DummyData.swift */; };
+		4A657339289E62CF00E6D5A0 /* NewMusicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A657338289E62CF00E6D5A0 /* NewMusicView.swift */; };
+		4A65733B289E6BBC00E6D5A0 /* MusicRenameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A65733A289E6BBC00E6D5A0 /* MusicRenameView.swift */; };
 		580CADAA28659BEF0091946C /* LongSun.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 580CADA928659BEF0091946C /* LongSun.mp3 */; };
 		580CADAC28659C990091946C /* SpaceMid.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 580CADAB28659C990091946C /* SpaceMid.mp3 */; };
 		580CADB028659CF50091946C /* SpaceLow.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 580CADAD28659CF50091946C /* SpaceLow.mp3 */; };
@@ -60,6 +62,7 @@
 		58DE61B7283A932E00F25769 /* MusicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61B6283A932E00F25769 /* MusicView.swift */; };
 		58DE61C22841C20A00F25769 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 58DE61C12841C20A00F25769 /* Launch Screen.storyboard */; };
 		58DE61C72843100100F25769 /* VolumeControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61C62843100100F25769 /* VolumeControlView.swift */; };
+		C71EFE8828B8BA37008B9D05 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71EFE8728B8BA37008B9D05 /* Extension.swift */; };
 		C753494E28B7489D0055F7CA /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C753494D28B7489D0055F7CA /* View+Extension.swift */; };
 		C753495028B748C80055F7CA /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C753494F28B748C80055F7CA /* Color+Extension.swift */; };
 		C753495228B748D40055F7CA /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C753495128B748D40055F7CA /* UIColor+Extension.swift */; };
@@ -195,6 +198,8 @@
 		4A5769AB2866F20A007CCAE9 /* MixedSound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixedSound.swift; sourceTree = "<group>"; };
 		4A5769AD2866F44E007CCAE9 /* DummyData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyData.swift; sourceTree = "<group>"; };
 		4A5769AF2866F6B5007CCAE9 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
+		4A657338289E62CF00E6D5A0 /* NewMusicView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMusicView.swift; sourceTree = "<group>"; };
+		4A65733A289E6BBC00E6D5A0 /* MusicRenameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicRenameView.swift; sourceTree = "<group>"; };
 		580CADA928659BEF0091946C /* LongSun.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = LongSun.mp3; sourceTree = "<group>"; };
 		580CADAB28659C990091946C /* SpaceMid.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = SpaceMid.mp3; sourceTree = "<group>"; };
 		580CADAD28659CF50091946C /* SpaceLow.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = SpaceLow.mp3; sourceTree = "<group>"; };
@@ -224,6 +229,7 @@
 		58DE61BE283E77E700F25769 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		58DE61C12841C20A00F25769 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		58DE61C62843100100F25769 /* VolumeControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeControlView.swift; sourceTree = "<group>"; };
+		C71EFE8728B8BA37008B9D05 /* Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		C753494D28B7489D0055F7CA /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
 		C753494F28B748C80055F7CA /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
 		C753495128B748D40055F7CA /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
@@ -340,6 +346,8 @@
 				58DE61B6283A932E00F25769 /* MusicView.swift */,
 				58DE1020283DD9DD002CDB9F /* MusicViewModel.swift */,
 				58DE61C62843100100F25769 /* VolumeControlView.swift */,
+				4A657338289E62CF00E6D5A0 /* NewMusicView.swift */,
+				4A65733A289E6BBC00E6D5A0 /* MusicRenameView.swift */,
 			);
 			path = Music;
 			sourceTree = "<group>";
@@ -396,6 +404,7 @@
 				58DE1031283DF6E7002CDB9F /* Static.swift */,
 				CCA7F5202877501E00D6A239 /* Localizable.strings */,
 				CC2820472880102400587334 /* ViewModifiers.swift */,
+				C71EFE8728B8BA37008B9D05 /* Extension.swift */,
 				E24F21E128ABE1A000371BA4 /* MultiPreview.swift */,
 			);
 			path = Utilities;
@@ -795,9 +804,11 @@
 				CC5AC191289D69E500FE847B /* WidgetManager.swift in Sources */,
 				58DE61852839C13900F25769 /* CdLibraryView.swift in Sources */,
 				58DE1032283DF6E7002CDB9F /* Static.swift in Sources */,
+				4A65733B289E6BBC00E6D5A0 /* MusicRenameView.swift in Sources */,
 				E24F21E228ABE1A100371BA4 /* MultiPreview.swift in Sources */,
 				21D3ED952892774F006E871F /* UserDefaultsManager.swift in Sources */,
 				219BD67328900A28006FAF55 /* CDListView.swift in Sources */,
+				4A657339289E62CF00E6D5A0 /* NewMusicView.swift in Sources */,
 				CBFDC8F4289C23AC00386FB5 /* VolumeSlider.swift in Sources */,
 				CC5AC137289D199600FE847B /* Provider.swift in Sources */,
 				58DE61B2283A8E1700F25769 /* Sound.swift in Sources */,
@@ -822,6 +833,7 @@
 				58DE101E283DC913002CDB9F /* AudioManager.swift in Sources */,
 				10D26714288EF4D20056339A /* RectPreference.swift in Sources */,
 				E2BF105B28917CAC00408B8C /* TimerSettingView.swift in Sources */,
+				C71EFE8828B8BA37008B9D05 /* Extension.swift in Sources */,
 				CC5AC112289C033D00FE847B /* RelaxOnWidget.intentdefinition in Sources */,
 				101417F6289EB80D00F40397 /* SelectedImageView.swift in Sources */,
 				E2BF105928917B6000408B8C /* TempMainView.swift in Sources */,
