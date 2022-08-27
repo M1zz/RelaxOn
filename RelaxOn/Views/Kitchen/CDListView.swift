@@ -20,8 +20,8 @@ struct CDListView: View {
     @State private var showingActionSheet = false
     @State var isShwoingMusicView = false
     
-    init(userRepositoriesState: [MixedSound] = userRepositories){
-        Theme.navigationBarColors(background: UIColor(named: "RelaxBlack") ?? .black, titleColor: UIColor(named: "RelaxDimPurple") ?? .white)
+    init(userRepositoriesState: [MixedSound] = userRepositories) {
+        UINavigationBar.appearance().tintColor = UIColor.relaxDimPurple ?? .white
         self.userRepositoriesState = userRepositoriesState
     }
     
