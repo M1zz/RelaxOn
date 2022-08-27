@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct StudioView: View {
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    // MARK: - State Properties
     @State var select: Int = 0
     @State var showingConfirm = false
     @State var selectedBaseSound: Sound = Sound(id: 0,
@@ -35,15 +35,18 @@ struct StudioView: View {
     @State var opacityAnimationValues = [0.0, 0.0, 0.0]
     @State var textEntered = ""
     @State var navigateActive = false
-    @Binding var rootIsActive: Bool
-    
     @State var volumes: [Float] = [0.5, 0.5, 0.5]
     
+    @Binding var rootIsActive: Bool
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+
+    // MARK: - General Properties
     let baseAudioManager = AudioManager()
     let melodyAudioManager = AudioManager()
     let whiteNoiseAudioManager = AudioManager()
     var items: [LocalizedStringKey] = ["BASE", "MELODY", "WHITE NOISE"]
     
+    // MARK: - Life Cycles
     var body: some View {
         ZStack{
             Color.relaxBlack.ignoresSafeArea()
@@ -74,7 +77,10 @@ struct StudioView: View {
             .navigationBarHidden(true)
         }
     }
-    
+}
+
+// MARK: - ViewBuilder
+extension StudioView {
     @ViewBuilder
     func SoundSelectView(sectionTitle: String,
                          soundType: SoundType) -> some View {

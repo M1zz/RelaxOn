@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct OnboardingView: View {
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    // MARK: - State Properties
     @State var select: Int = 0
     @State var selectedBaseSound: Sound = Sound(id: 0,
                                                 name: "",
@@ -35,13 +35,16 @@ struct OnboardingView: View {
     @State var textEntered = ""
     @State var stepBarWidth = deviceFrame.screenWidth * 0.33
     @Binding var showOnboarding: Bool
-
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    
+    // MARK: - General Properties
     let baseAudioManager = AudioManager()
     let melodyAudioManager = AudioManager()
     let naturalAudioManager = AudioManager()
 
     var items: [LocalizedStringKey] = ["BASE", "MELODY", "WHITE NOISE"]
 
+    // MARK: - Life Cycles
     var body: some View {
         NavigationView{
             ZStack {
@@ -49,16 +52,13 @@ struct OnboardingView: View {
 
                 VStack {
                     Spacer()
-
                     HStack{
                         OnboardingStepBar()
                         Spacer()
                     }
 
                     HStack {
-
                         HStack {
-
                             VStack(alignment: .leading) {
 
                                 HStack {
@@ -121,7 +121,10 @@ struct OnboardingView: View {
             }
         }
     }
+}
 
+// MARK: - ViewBuilder
+extension OnboardingView {
     @ViewBuilder
     func SoundSelectView(sectionTitle: String,
                          soundType: SoundType) -> some View {

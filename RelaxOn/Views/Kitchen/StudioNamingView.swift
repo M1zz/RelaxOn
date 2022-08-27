@@ -8,16 +8,19 @@
 import SwiftUI
 
 struct StudioNamingView: View {
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    // MARK: - State Properties
     @Binding var shouldPoptoRootView: Bool
     @Binding var selectedImageNames: (base: String, melody: String, whiteNoise: String)
     @Binding var opacityAnimationValues: [Double]
     @Binding var textEntered: String
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
+    // MARK: - Life Cycles
     var body: some View {
         ZStack {
 
-            SelectedImageBackgroundView(selectedImageNames: $selectedImageNames, opacityAnimationValues: $opacityAnimationValues)
+            SelectedImageBackgroundView(selectedImageNames: $selectedImageNames,
+                                        opacityAnimationValues: $opacityAnimationValues)
                 .blur(radius: 5)
 
             VStack {
@@ -53,7 +56,10 @@ struct StudioNamingView: View {
             }
         }.navigationBarHidden(true)
     }
+}
 
+// MARK: - ViewBuilder
+extension StudioNamingView {
     @ViewBuilder
     func NamingBackButton() -> some View {
         HStack{

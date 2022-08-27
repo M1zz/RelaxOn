@@ -74,14 +74,16 @@ struct NewMusicView: View {
                 }
                 .padding(.top, UIScreen.main.bounds.height * 0.1)
                 
-                VolumeControlView(viewModel: viewModel, showVolumeControl: $showVolumeControl,
-                                  audioVolumes: $audioVolumes, userRepositoriesState: $userRepositoriesState)
+                VolumeControlView(showVolumeControl: $showVolumeControl,
+                                  audioVolumes: $audioVolumes,
+                                  userRepositoriesState: $userRepositoriesState,
+                                  viewModel: viewModel)
                 .cornerRadius(20)
                 .offset(y: offsetYOfControlView)
                 .gesture(
                     DragGesture()
                         .onChanged { value in
-                            var draggedHeight = value.translation.height
+                            let draggedHeight = value.translation.height
                             let deviceHalfHeight = UIScreen.main.bounds.height * 0.5
                             let gradient = draggedHeight / deviceHalfHeight
                             offsetYOfControlView += draggedHeight / 5

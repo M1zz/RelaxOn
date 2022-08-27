@@ -8,13 +8,18 @@
 import SwiftUI
 
 struct SelectedImageBackgroundView: View {
+    // MARK: - State Properties
     @Binding var selectedImageNames: (base: String, melody: String, whiteNoise: String)
     @Binding var opacityAnimationValues: [Double]
-
+    
+    // MARK: - Life Cycles
     var body: some View {
         SelectImage()
     }
+}
 
+// MARK: - ViewBuilder
+extension SelectedImageBackgroundView {
     @ViewBuilder
     func SelectImage() -> some View {
         ZStack {
