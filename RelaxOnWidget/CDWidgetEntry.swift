@@ -16,13 +16,17 @@ struct CDWidgetEntry: TimelineEntry {
     var id: Int
     var name: String
     var url: URL?
+    let isPlaying: Bool
+    let isSample: Bool
     
     init(date: Date = Date(),
-         baseImageName: String = BaseAudioName.longSun.fileName,
-         melodyImageName: String = MelodyAudioName.ambient.fileName,
-         whiteNoiseImageName: String = WhiteNoiseAudioName.dryGrass.fileName,
-         id: Int = 1,
-         name: String = "tempWidget") {
+         baseImageName: String,
+         melodyImageName: String,
+         whiteNoiseImageName: String,
+         id: Int,
+         name: String,
+         isPlaying: Bool,
+         isSample: Bool = false) {
         self.date = date
         self.baseImageName = baseImageName
         self.melodyImageName = melodyImageName
@@ -30,9 +34,17 @@ struct CDWidgetEntry: TimelineEntry {
         self.id = id
         self.name = name
         self.url = WidgetManager.getURL(id: id)
+        self.isPlaying = isPlaying
+        self.isSample = isSample
     }
 }
 
 extension CDWidgetEntry {
-    static var sample = CDWidgetEntry()
+    static var sample = CDWidgetEntry(date: Date(),
+                                      baseImageName: BaseAudioName.longSun.fileName,
+                                      melodyImageName: MelodyAudioName.ambient.fileName,
+                                      whiteNoiseImageName: WhiteNoiseAudioName.dryGrass.fileName,
+                                      id: 1,
+                                      name: "Listen to Music and Relax ON",
+                                      isPlaying: false, isSample: true)
 }
