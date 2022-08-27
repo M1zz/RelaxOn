@@ -136,7 +136,7 @@ final class MusicViewModel: NSObject, ObservableObject {
         var nowPlayingInfo = center.nowPlayingInfo ?? [String: Any]()
         
         nowPlayingInfo[MPMediaItemPropertyTitle] = mixedSound.name
-        if let albumCoverPage = UIImage(named: mixedSound.imageName) {
+        if let albumCoverPage = UIImage(named: mixedSound.baseSound?.name ?? "") {
             nowPlayingInfo[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(boundsSize: albumCoverPage.size, requestHandler: { size in
                 return albumCoverPage
             })
@@ -152,8 +152,11 @@ final class MusicViewModel: NSObject, ObservableObject {
     func setupNextTrack(mixedSound: MixedSound) {
         let count = userRepositories.count
         let id = mixedSound.id
+        let index = userRepositories.firstIndex { element in
+            element.name == mixedSound.name
+        }
         self.isPlaying = true
-        if id == count - 1 {
+        if index == count - 1 {
             guard let firstSong = userRepositories.first else { return }
             self.mixedSound = firstSong
             self.setupRemoteCommandInfoCenter(mixedSound: firstSong)
@@ -161,7 +164,7 @@ final class MusicViewModel: NSObject, ObservableObject {
             updateCompanion()
         } else {
             let nextSong = userRepositories[ userRepositories.firstIndex {
-                $0.id == id + 1
+                $0.id > id
             } ?? 0 ]
             self.mixedSound = nextSong
             self.setupRemoteCommandInfoCenter(mixedSound: nextSong)
@@ -172,16 +175,19 @@ final class MusicViewModel: NSObject, ObservableObject {
     
     func setupPreviousTrack(mixedSound: MixedSound) {
         let id = mixedSound.id
+        let index = userRepositories.firstIndex { element in
+            element.name == mixedSound.name
+        }
         self.isPlaying = true
-        if id == 0 {
+        if index == 0 {
             guard let lastSong = userRepositories.last else { return }
             self.mixedSound = lastSong
             self.setupRemoteCommandInfoCenter(mixedSound: lastSong)
             self.setupRemoteCommandCenter()
             updateCompanion()
         } else {
-            let previousSong = userRepositories[ userRepositories.firstIndex {
-                $0.id == id - 1
+            let previousSong = userRepositories[ userRepositories.lastIndex {
+                $0.id < id
             } ?? 0 ]
             self.mixedSound = previousSong
             self.setupRemoteCommandInfoCenter(mixedSound: previousSong)

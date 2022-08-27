@@ -51,8 +51,6 @@ struct OnboadingNamingView: View {
             }
         }.navigationBarHidden(true)
     }
-    
-
 }
 
 // MARK: - ViewBuilder

@@ -9,12 +9,12 @@ import SwiftUI
 
 struct TimerSettingView: View {
 
-    @State var seconds: Double = 60
+    @State var seconds: Double = UserDefaults.standard.double(forKey: "lastSetDurationInSeconds")
     var minute: Int {
         Int(seconds / 60)
     }
     
-    var timerManager = TimerManager.shared
+    @ObservedObject var timerManager = TimerManager.shared
     
     var body: some View {
         VStack {
@@ -24,6 +24,7 @@ struct TimerSettingView: View {
             Spacer()
             timerSettingButton()
         }
+        .navigationBarTitleDisplayMode(.large)
         .background(Color.relaxBlack)
     }
     

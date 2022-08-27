@@ -19,18 +19,17 @@ struct CDListView: View {
     @State private var isEditMode = false
     @State private var selectedMixedSoundIds: [Int] = []
     @State private var showingActionSheet = false
+    @State var isShwoingMusicView = false
     
     // MARK: - Life Cycles
-    init(userRepositoriesState: [MixedSound] = userRepositories){
-        Theme.navigationBarColors(background: UIColor(named: "RelaxBlack") ?? .black, titleColor: UIColor(named: "RelaxDimPurple") ?? .white)
+    init(userRepositoriesState: [MixedSound] = userRepositories) {
+        UINavigationBar.appearance().tintColor = UIColor.relaxDimPurple ?? .white
         self.userRepositoriesState = userRepositoriesState
     }
     
     var body: some View {
-        
         VStack {
             LibraryHeader
-            
             ScrollView(.vertical, showsIndicators: false) {
 
                 LazyVGrid(columns: Array(repeating: GridItem(.flexible(), alignment: .top), count: 2), spacing: 18) {
@@ -38,12 +37,9 @@ struct CDListView: View {
                         .disabled(isEditMode)
 
                     ForEach(userRepositoriesState.reversed()){ mixedSound in
-
                         CDCardView(data: mixedSound,
-                                   audioVolumes: (baseVolume: mixedSound.baseSound?.audioVolume ?? 1.0,
-                                                  melodyVolume: mixedSound.melodySound?.audioVolume ?? 1.0,
-                                                  whiteNoiseVolume: mixedSound.whiteNoiseSound?.audioVolume ?? 1.0)
-                        )
+                                   isShwoingMusicView: $isShwoingMusicView,
+                                   userRepositoriesState: $userRepositoriesState)
                             .disabled(isEditMode)
                             .overlay(alignment : .bottomTrailing) {
                                 if isEditMode {
@@ -98,6 +94,34 @@ struct CDListView: View {
 
                 } catch {
                     print("Unable to Decode Note (\(error))")
+                }
+            }
+        }
+        .onChange(of: isShwoingMusicView) { newValue in
+            if isShwoingMusicView == false {
+                if let data = UserDefaultsManager.shared.recipes {
+                    do {
+                        let decoder = JSONDecoder()
+                        
+                        userRepositories = try decoder.decode([MixedSound].self, from: data)
+                        userRepositoriesState = userRepositories
+                    } catch {
+                        print("Unable to Decode Note (\(error))")
+                    }
+                }
+            }
+        }
+        .onChange(of: isShwoingMusicView) { newValue in
+            if isShwoingMusicView == false {
+                if let data = UserDefaultsManager.shared.recipes {
+                    do {
+                        let decoder = JSONDecoder()
+                        
+                        userRepositories = try decoder.decode([MixedSound].self, from: data)
+                        userRepositoriesState = userRepositories
+                    } catch {
+                        print("Unable to Decode Note (\(error))")
+                    }
                 }
             }
         }

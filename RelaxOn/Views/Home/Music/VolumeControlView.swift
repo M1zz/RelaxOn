@@ -8,106 +8,81 @@
 import SwiftUI
 
 struct VolumeControlView: View {
-    
+    // MARK: - State Properties
+    @State var hasShowAlert: Bool = false
     @Binding var showVolumeControl: Bool
     @Binding var audioVolumes: (baseVolume: Float, melodyVolume: Float, whiteNoiseVolume: Float)
+    @Binding var userRepositoriesState: [MixedSound]
+    @ObservedObject var viewModel: MusicViewModel
     
-    let mixedSound: MixedSound
+    // MARK: - General Properties
     let baseAudioManager = AudioManager()
     let melodyAudioManager = AudioManager()
     let whiteNoiseAudioManager = AudioManager()
-    @State var hasShowAlert: Bool = false
     
+    // MARK: - Methods
+    private func saveNewVolume() {
+        guard let selectedMixedSound = viewModel.mixedSound else { return }
+        guard let localBaseSound = viewModel.mixedSound?.baseSound,
+              let localMelodySound = viewModel.mixedSound?.melodySound,
+              let localWhiteNoiseSound = viewModel.mixedSound?.whiteNoiseSound else { return }
+        
+        let newBaseSound = Sound(id: localBaseSound.id,
+                                 name: localBaseSound.name,
+                                 soundType: localBaseSound.soundType,
+                                 audioVolume: audioVolumes.baseVolume,
+                                 imageName: localBaseSound.imageName)
+        let newMelodySound = Sound(id: localMelodySound.id,
+                                   name: localMelodySound.name,
+                                   soundType: localMelodySound.soundType,
+                                   audioVolume: audioVolumes.melodyVolume,
+                                   imageName: localMelodySound.imageName)
+        
+        let newWhiteNoiseSound = Sound(id: localWhiteNoiseSound.id,
+                                    name: localWhiteNoiseSound.name,
+                                    soundType: localWhiteNoiseSound.soundType,
+                                    audioVolume: audioVolumes.whiteNoiseVolume,
+                                    imageName: localWhiteNoiseSound.imageName)
+        
+        let newMixedSound = MixedSound(id: selectedMixedSound.id,
+                                       name: selectedMixedSound.name,
+                                       baseSound: newBaseSound,
+                                       melodySound: newMelodySound,
+                                       whiteNoiseSound: newWhiteNoiseSound,
+                                       imageName: selectedMixedSound.imageName)
+        
+        let index = userRepositoriesState.firstIndex { mixedSound in
+            mixedSound.name == selectedMixedSound.name
+        }
+        
+        userRepositories.remove(at: index ?? -1)
+        userRepositories.insert(newMixedSound, at: index ?? -1)
+        
+        userRepositoriesState.remove(at: index ?? -1)
+        userRepositoriesState.insert(newMixedSound, at: index ?? -1)
+        
+        let data = getEncodedData(data: userRepositories)
+        UserDefaultsManager.shared.recipes = data
+    }
+    
+    // MARK: - Life Cycles
     var body: some View {
         ZStack {
-            ColorPalette.tabBackground.color.ignoresSafeArea()
+            Color.black.ignoresSafeArea()
+            
             VStack {
-                HStack {
-                    Button {
-                        showVolumeControl.toggle()
-                        baseAudioManager.stop()
-                        melodyAudioManager.stop()
-                        whiteNoiseAudioManager.stop()
-                    } label: {
-                        Image(systemName: "xmark")
-                            .resizable()
-                            .frame(width: 20, height: 20)
-                            .foregroundColor(.white)
-                    }
-                    Spacer()
-                    Text("Volume Control").WhiteTitleText()
-                    Spacer()
-                    Button {
-                        //showVolumeControl.toggle()
-                        baseAudioManager.stop()
-                        melodyAudioManager.stop()
-                        whiteNoiseAudioManager.stop()
-                        // TODO: - 볼륨 저장
-                        guard let localBaseSound = mixedSound.baseSound,
-                              let localMelodySound = mixedSound.melodySound,
-                              let localWhiteNoiseSound = mixedSound.whiteNoiseSound else { return }
-                        
-                        let newBaseSound = Sound(id: localBaseSound.id,
-                                                 name: localBaseSound.name,
-                                                 soundType: localBaseSound.soundType,
-                                                 audioVolume: audioVolumes.baseVolume,
-                                                 imageName: localBaseSound.imageName)
-                        let newMelodySound = Sound(id: localMelodySound.id,
-                                                   name: localMelodySound.name,
-                                                   soundType: localMelodySound.soundType,
-                                                   audioVolume: audioVolumes.melodyVolume,
-                                                   imageName: localMelodySound.imageName)
-                        
-                        let newWhiteNoiseSound = Sound(id: localWhiteNoiseSound.id,
-                                                    name: localWhiteNoiseSound.name,
-                                                    soundType: localWhiteNoiseSound.soundType,
-                                                    audioVolume: audioVolumes.whiteNoiseVolume,
-                                                    imageName: localWhiteNoiseSound.imageName)
-                        
-                        let newMixedSound = MixedSound(id: mixedSound.id,
-                                                       name: mixedSound.name,
-                                                       baseSound: newBaseSound,
-                                                       melodySound: newMelodySound,
-                                                       whiteNoiseSound: newWhiteNoiseSound,
-                                                       imageName: mixedSound.imageName)
-                        
-                        userRepositories.remove(at: mixedSound.id)
-                        userRepositories.insert(newMixedSound, at: mixedSound.id)
-                        let data = getEncodedData(data: userRepositories)
-                        UserDefaultsManager.shared.recipes = data
-                        
-                        hasShowAlert = true
-                    } label: {
-                        Text("Save")
-                            .foregroundColor(ColorPalette.forground.color)
-                            .fontWeight(.semibold)
-                            .font(Font.system(size: 22))
-                    }
-                    
-                    
-                }
-                .alert(isPresented: $hasShowAlert) {
-                    Alert(
-                        title: Text("Volume has changed, Restart the app please."),
-                        dismissButton: .default(Text("Got it!")) {
-                            showVolumeControl.toggle()
-                        }
-                    )
-                }
+                UpperPartOfVolumeControlView()
+                    .padding(.bottom, UIScreen.main.bounds.height * 0.05)
                 
-                
-                
-                .padding()
-                
-                if let baseSound = mixedSound.baseSound {
+                if let baseSound = viewModel.mixedSound?.baseSound {
                     SoundControlSlider(item: baseSound)
                 }
                 
-                if let melodySound = mixedSound.melodySound {
+                if let melodySound = viewModel.mixedSound?.melodySound {
                     SoundControlSlider(item: melodySound)
                 }
                 
-                if let whiteNoiseSound = mixedSound.whiteNoiseSound {
+                if let whiteNoiseSound = viewModel.mixedSound?.whiteNoiseSound {
                     SoundControlSlider(item: whiteNoiseSound)
                 }
                 
@@ -115,7 +90,28 @@ struct VolumeControlView: View {
             }
         }
     }
+}
 
+// MARK: - ViewBuilder
+extension VolumeControlView {
+    @ViewBuilder
+    func UpperPartOfVolumeControlView() -> some View {
+        VStack {
+            Capsule()
+                .frame(width: 72, height: 5)
+                .foregroundColor(.systemGrey1)
+                .padding(EdgeInsets(top: 8, leading: 0, bottom: 27, trailing: 0))
+            HStack {
+                Image(systemName: "waveform")
+                    .foregroundColor(.relaxDimPurple)
+                Text("MATERIAL VOLUME")
+                    .foregroundColor(.white)
+                    .font(.system(size: 17))
+                Spacer()
+            }
+            .padding(.leading, 20)
+        }
+    }
     
     @ViewBuilder
     func SoundControlSlider(item: Sound) -> some View {
@@ -123,59 +119,85 @@ struct VolumeControlView: View {
             VStack {
                 Image(item.imageName)
                     .resizable()
-                    .frame(width: 80, height: 80)
-                    .cornerRadius(24)
-                Text(item.name)
-                    .fontWeight(.semibold)
-                    .foregroundColor(.white)
-                    .lineLimit(1)
-                    .truncationMode(.tail)
+                    .frame(width: 60, height: 60)
+                    .cornerRadius(4)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 4)
+                            .stroke(.white, lineWidth: 1)
+                    )
             }
-            .frame(width: 120)
-            ZStack {
-                Rectangle()
-                    .background(.black)
-                    .frame(height: 40)
-                    .cornerRadius(12)
-                switch item.soundType {
-                case .base:
-                    Slider(value: $audioVolumes.baseVolume, in: 0...1)
-                        .background(.black)
-                        .cornerRadius(4)
-                        .accentColor(.white)
-                        .padding(.horizontal, 20)
-                        .onChange(of: audioVolumes.baseVolume) { newValue in
-                            print(newValue)
-                            baseAudioManager.changeVolume(track: item.name,
-                                                           volume: newValue)
-                        }
-                case .melody:
-                    Slider(value: $audioVolumes.melodyVolume, in: 0...1)
-                        .background(.black)
-                        .cornerRadius(4)
-                        .accentColor(.white)
-                        .padding(.horizontal, 20)
-                        .onChange(of: audioVolumes.melodyVolume) { newValue in
-                            print(newValue)
-                            melodyAudioManager.changeVolume(track: item.name,
-                                                             volume: newValue)
-                        }
-                case .whiteNoise:
-                    Slider(value: $audioVolumes.whiteNoiseVolume, in: 0...1)
-                        .background(.black)
-                        .cornerRadius(4)
-                        .accentColor(.white)
-                        .padding(.horizontal, 20)
-                        .onChange(of: audioVolumes.whiteNoiseVolume) { newValue in
-                            print(newValue)
-                            whiteNoiseAudioManager.changeVolume(track: item.name,
-                                                              volume: newValue)
-                        }
+            
+            VStack (alignment: .leading){
+                HStack {
+                    Text(item.soundType.rawValue.uppercased())
+                        .font(.system(size: 12, weight: .semibold, design: .default))
+                        .foregroundColor(.systemGrey3)
+                    
+                    Text(item.name)
+                        .font(.system(size: 17, weight: .semibold, design: .default))
+                        .foregroundColor(.systemGrey1)
                 }
-                
+                HStack(spacing: 0){
+                    Image(systemName: "speaker.wave.1")
+                        .tint(.systemGrey1)
+                    
+                    switch item.soundType {
+                    case .base:
+                        Slider(value: $audioVolumes.baseVolume, in: 0...1) { editing in
+                            if !editing {
+                                saveNewVolume()
+                            }
+                        }
+                            .background(.black)
+                            .cornerRadius(4)
+                            .accentColor(.white)
+                            .padding(.horizontal, 20)
+                            .onChange(of: audioVolumes.baseVolume) { newValue in
+                                print(newValue)
+                                viewModel.baseAudioManager.changeVolume(track: item.name,
+                                                              volume: newValue)
+                            }
+                        Text(String(Int(audioVolumes.baseVolume * 100)))
+                            .foregroundColor(.systemGrey1)
+                    case .melody:
+                        Slider(value: $audioVolumes.melodyVolume, in: 0...1) { editing in
+                            if !editing {
+                                saveNewVolume()
+                            }
+                        }
+                            .background(.black)
+                            .cornerRadius(4)
+                            .accentColor(.white)
+                            .padding(.horizontal, 20)
+                            .onChange(of: audioVolumes.melodyVolume) { newValue in
+                                print(newValue)
+                                viewModel.melodyAudioManager.changeVolume(track: item.name,
+                                                                volume: newValue)
+                            }
+                        Text(String(Int(audioVolumes.melodyVolume * 100)))
+                            .foregroundColor(.systemGrey1)
+                    case .whiteNoise:
+                        Slider(value: $audioVolumes.whiteNoiseVolume, in: 0...1) { editing in
+                            if !editing {
+                                saveNewVolume()
+                            }
+                        }
+                            .background(.black)
+                            .cornerRadius(4)
+                            .accentColor(.white)
+                            .padding(.horizontal, 20)
+                            .onChange(of: audioVolumes.whiteNoiseVolume) { newValue in
+                                print(newValue)
+                                viewModel.whiteNoiseAudioManager.changeVolume(track: item.name,
+                                                                 volume: newValue)
+                            }
+                        Text(String(Int(audioVolumes.whiteNoiseVolume * 100)))
+                            .foregroundColor(.systemGrey1)
+                    }
+                }
             }
         }
-        .padding()
+        .padding(.horizontal, 20)
     }
 }
 
