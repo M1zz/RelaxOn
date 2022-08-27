@@ -7,12 +7,6 @@
 
 import SwiftUI
 
-public extension View {
-    func eraseToAnyView() -> AnyView {
-        AnyView(self)
-    }
-}
-
 /// PreferenceKey for a subview to notify superview of its size
 struct SizePreferenceKey: PreferenceKey {
     public typealias Value = CGSize
