@@ -20,7 +20,7 @@ struct CDListView: View {
     @State private var showingActionSheet = false
     
     init(userRepositoriesState: [MixedSound] = userRepositories) {
-        UINavigationBar.appearance().tintColor = UIColor(named: "RelaxDimPurple") ?? .white
+        UINavigationBar.appearance().tintColor = UIColor.relaxDimPurple ?? .white
         self.userRepositoriesState = userRepositoriesState
     }
     
