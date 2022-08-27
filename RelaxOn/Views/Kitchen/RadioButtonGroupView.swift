@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RadioButtonGroupView: View {
-    @State var selectedId: String = ""
+    @State var selectedId = ""
     let items : [Sound] // sound 를 받아야 함
     let callback: (Sound) -> ()
     let columns = [
