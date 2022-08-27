@@ -32,7 +32,7 @@ enum BaseAudioName: String {
     }
     
     var displayName: String {
-        self.rawValue.displayName
+        self.rawValue.addSpaceBeforeUppercase.convertUppercaseFirstChar
     }
 }
 
@@ -61,7 +61,7 @@ enum MelodyAudioName: String {
     }
     
     var displayName: String {
-        self.rawValue.displayName
+        self.rawValue.addSpaceBeforeUppercase.convertUppercaseFirstChar
     }
 }
 
@@ -90,7 +90,7 @@ enum WhiteNoiseAudioName: String {
     }
     
     var displayName: String {
-        self.rawValue.displayName
+        self.rawValue.addSpaceBeforeUppercase.convertUppercaseFirstChar
     }
 }
 

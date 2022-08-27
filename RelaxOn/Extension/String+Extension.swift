@@ -12,18 +12,29 @@ extension String {
         return NSLocalizedString(self, tableName: "localizable", value: self, comment: "")
     }
     
-    var displayName: String {
+    var addSpaceBeforeUppercase: String {
         var string = self
-        string.removeFirst()
-        
-        let firstChar = self.first?.uppercased() ?? ""
-        for char in string {
+        for (index, char) in string.enumerated() {
+            // 대문자 일 때,
             if char.isUppercase {
-                if let insertIndex = string.range(of: "\(char)")?.lowerBound {
-                    string.insert(contentsOf: " ", at: insertIndex)
-                }
+                // 해당 인덱스 앞에 띄어쓰기 추가
+                let insertIndex = string.index(self.startIndex, offsetBy: index)
+                string.insert(contentsOf: " ", at: insertIndex)
             }
         }
+        return string
+    }
+    
+    var convertUppercaseFirstChar: String {
+        var string = self
+        
+        // 첫 글자 빼기
+        string.removeFirst()
+        
+        // 첫 글자 대문자 변환
+        let firstChar = self.first?.uppercased() ?? ""
+        
+        // 첫 글자 + 나머지
         return firstChar + string
     }
 }
