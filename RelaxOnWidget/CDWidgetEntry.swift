@@ -21,7 +21,7 @@ struct CDWidgetEntry: TimelineEntry {
          baseImageName: String = BaseAudioName.longSun.fileName,
          melodyImageName: String = MelodyAudioName.ambient.fileName,
          whiteNoiseImageName: String = WhiteNoiseAudioName.dryGrass.fileName,
-         id: Int = 100,
+         id: Int = 1,
          name: String = "tempWidget") {
         self.date = date
         self.baseImageName = baseImageName

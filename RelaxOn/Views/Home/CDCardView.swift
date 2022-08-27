@@ -36,6 +36,9 @@ struct CDCardView: View {
                     .fullScreenCover(item: $selectedMixedSound) { _ in
                         NewMusicView(data: data, userRepositoriesState: $userRepositoriesState)
                     }
+                    .fullScreenCover(isPresented: $isPresent, content: {
+                        NewMusicView(data: data, userRepositoriesState: $userRepositoriesState)
+                    })
             })
             Text(data.name)
                 .font(.system(size: 17, weight: .regular))
