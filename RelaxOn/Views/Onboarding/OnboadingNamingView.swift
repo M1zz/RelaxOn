@@ -50,17 +50,7 @@ struct OnboadingNamingView: View {
             }
         }.navigationBarHidden(true)
     }
-    
-    private func getEncodedData(data: [MixedSound]) -> Data? {
-        do {
-            let encoder = JSONEncoder()
-            let encodedData = try encoder.encode(data)
-            return encodedData
-        } catch {
-            print("Unable to Encode Note (\(error))")
-        }
-        return nil
-    }
+
     
     @ViewBuilder
     func SaveButton() -> some View {
@@ -77,7 +67,7 @@ struct OnboadingNamingView: View {
             userRepositories.append(newSound)
             
             let data = getEncodedData(data: userRepositories)
-            UserDefaultsManager.shared.standard.set(data, forKey: UserDefaultsManager.shared.recipes)
+            UserDefaultsManager.shared.recipes = data
             isNamingNavigate = true
         } label: {
             Text("SAVE")

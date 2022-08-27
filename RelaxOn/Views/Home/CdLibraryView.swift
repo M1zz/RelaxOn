@@ -8,18 +8,9 @@
 import SwiftUI
 import MediaPlayer
 
-
-enum SelectedType: String {
-    case home = "Home"
-    case kitchen = "Kitchen"
-}
-var tabs:[SelectedType] = [.home, .kitchen]
-
 struct CdLibraryView: View {
     
-    @State var selected: SelectedType = .home
     @State var showOnboarding: Bool = false
-    @State var userName: String?
     
     var body: some View {
         NavigationView {
@@ -30,14 +21,12 @@ struct CdLibraryView: View {
                 Spacer()
             }
             .background(Color.relaxBlack)
-            .navigationBarTitle("")
             .navigationBarHidden(true)
-            .navigationBarBackButtonHidden(true)
         }
         .preferredColorScheme(.dark)
         .navigationViewStyle(.stack)
         .onAppear() {
-            let notFirstVisit = UserDefaultsManager.shared.standard.bool(forKey: UserDefaultsManager.shared.notFirstVisit)
+            let notFirstVisit = UserDefaultsManager.shared.notFirstVisit
             showOnboarding = notFirstVisit ? false : true
             
             UIApplication.shared.beginReceivingRemoteControlEvents()
@@ -51,9 +40,6 @@ struct CdLibraryView: View {
         }
         .fullScreenCover(isPresented: $showOnboarding, content: {
             OnboardingView(showOnboarding: $showOnboarding)
-                .onDisappear {
-                    userName = UserDefaultsManager.shared.standard.string(forKey: UserDefaultsManager.shared.userName) ?? UserDefaultsManager.shared.guest
-                }
         })
     }
 }
@@ -63,23 +49,5 @@ struct CdLibraryView_Previews: PreviewProvider {
         MultiPreview {
             CdLibraryView()
         }
-    }
-}
-
-
-extension View {
-    func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
-        clipShape( RoundedCorner(radius: radius, corners: corners) )
-    }
-}
-
-struct RoundedCorner: Shape {
-
-    var radius: CGFloat = .infinity
-    var corners: UIRectCorner = .allCorners
-
-    func path(in rect: CGRect) -> Path {
-        let path = UIBezierPath(roundedRect: rect, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
-        return Path(path.cgPath)
     }
 }

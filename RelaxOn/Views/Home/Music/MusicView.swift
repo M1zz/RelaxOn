@@ -58,15 +58,15 @@ struct MusicView: View {
                 viewModel.stop()
             }
         }
-        .sheet(isPresented: $showVolumeControl,
-               content: {
-            VolumeControlView(showVolumeControl: $showVolumeControl,
-                              audioVolumes: $audioVolumes,
-                              data: data)
-            .onDisappear {
-                viewModel.updateVolume(audioVolumes: audioVolumes)
-            }
-        })
+//        .sheet(isPresented: $showVolumeControl,
+//               content: {
+//            VolumeControlView(showVolumeControl: $showVolumeControl,
+//                              audioVolumes: $audioVolumes,
+//                              data: data)
+//            .onDisappear {
+//                viewModel.updateVolume(audioVolumes: audioVolumes)
+//            }
+//        })
         .navigationBarTitle(Text(""),
                             // Todo :- edit 버튼 동작 .toolbar(content: { Button("Edit") { }}) }}
                             displayMode: .inline)
@@ -133,11 +133,6 @@ struct MusicView: View {
                     .font(.system(size: 16))
             }
         })
-        
-        //        }
-        //        .frame(width: maxWidth,
-        //               height: maxWidth)
-        //        .padding(.top,30)
     }
     
     @ViewBuilder

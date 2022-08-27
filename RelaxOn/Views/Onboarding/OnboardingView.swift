@@ -122,17 +122,6 @@ struct OnboardingView: View {
         }
     }
 
-    private func getEncodedData(data: [MixedSound]) -> Data? {
-        do {
-            let encoder = JSONEncoder()
-            let encodedData = try encoder.encode(data)
-            return encodedData
-        } catch {
-            print("Unable to Encode Note (\(error))")
-        }
-        return nil
-    }
-
     @ViewBuilder
     func SoundSelectView(sectionTitle: String,
                          soundType: SoundType) -> some View {
@@ -230,9 +219,3 @@ struct OnboardingView: View {
             .foregroundStyle(LinearGradient(gradient: Gradient(colors: [Color.relaxNightBlue, Color.relaxLavender]), startPoint: .leading, endPoint: .trailing))
     }
 }
-//
-//Rectangle()
-//    .foregroundColor(.white)
-//    .frame(width: selectedItemWidth, height: 3)
-//    .offset(x: selectedItemHorizontalOffset(), y: 0)
-//    .animation(Animation.linear(duration: 0.3), value: selectedItemWidth)
