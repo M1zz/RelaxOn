@@ -14,6 +14,7 @@ struct SmallWidgetData: Codable {
     let name: String
     let id: Int
     let isPlaying: Bool
+    let isRecentPlay: Bool
 }
 
 final class WidgetManager {
@@ -21,13 +22,27 @@ final class WidgetManager {
     static let smallWidgetData = "smallWidgetData"
     static let widgetName = "RelaxOnWidget"
     
-    static func addMainSoundToWidget(baseImageName: String, melodyImageName: String, whiteNoiseImageName: String, name: String, id: Int, isPlaying: Bool) {
-        let data = SmallWidgetData(baseImageName: baseImageName, melodyImageName: melodyImageName, whiteNoiseImageName: whiteNoiseImageName, name: name, id: id, isPlaying: isPlaying)
+    static func addMainSoundToWidget(baseImageName: String, melodyImageName: String, whiteNoiseImageName: String, name: String, id: Int, isPlaying: Bool, isRecentPlay: Bool) {
+        let data = SmallWidgetData(baseImageName: baseImageName, melodyImageName: melodyImageName, whiteNoiseImageName: whiteNoiseImageName, name: name, id: id, isPlaying: isPlaying, isRecentPlay: isRecentPlay)
         if let encodedData = try? JSONEncoder().encode(data),
            let UserDefaultsAppGroup = UserDefaults(suiteName: suiteName) {
             UserDefaultsAppGroup.set(encodedData, forKey: smallWidgetData)
         }
         WidgetCenter.shared.reloadTimelines(ofKind: widgetName)
+    }
+    
+    static func closeApp() {
+        if let UserDefaultsAppGroup = UserDefaults(suiteName: suiteName),
+           let savedData = UserDefaultsAppGroup.object(forKey: smallWidgetData) as? Data,
+           let loadedStudent = try? JSONDecoder().decode(SmallWidgetData.self, from: savedData) {
+            let savedSmallWidgetData = loadedStudent
+            let data = SmallWidgetData(baseImageName: savedSmallWidgetData.baseImageName, melodyImageName: savedSmallWidgetData.melodyImageName, whiteNoiseImageName: savedSmallWidgetData.whiteNoiseImageName, name: savedSmallWidgetData.name, id: savedSmallWidgetData.id, isPlaying: savedSmallWidgetData.isPlaying, isRecentPlay: true)
+            if let encodedData = try? JSONEncoder().encode(data),
+               let UserDefaultsAppGroup = UserDefaults(suiteName: suiteName) {
+                UserDefaultsAppGroup.set(encodedData, forKey: smallWidgetData)
+            }
+            WidgetCenter.shared.reloadTimelines(ofKind: widgetName)
+        }
     }
     
     static func getURL(id: Int) -> URL? {

@@ -64,7 +64,7 @@ struct RelaxOnWidgetEntryView : View {
                         .scaledToFit()
                         .frame(width: 16, height: 17)
                 }
-                Text(entry.isPlaying ? "NOW PLAYING" : "PAUSED")
+                Text(entry.isRecentPlay ? "RECENT PLAY" : (entry.isPlaying ? "NOW PLAYING" : "PAUSED"))
                     .font(.system(size: 12))
                     .fontWeight(.medium)
                     .foregroundColor(Color.systemGrey1)
@@ -77,19 +77,25 @@ struct RelaxOnWidgetEntryView : View {
             .padding(18)
             .background(
                 ZStack{
-                    Image(entry.baseImageName)
-                        .resizable()
-                        .scaledToFit()
-                        .blur(radius: 24)
-                    Image(entry.melodyImageName)
-                        .resizable()
-                        .scaledToFit()
-                        .blur(radius: 24)
-                    Image(entry.whiteNoiseImageName)
-                        .resizable()
-                        .scaledToFit()
-                        .blur(radius: 24)
-                    Color.black.opacity(0.3)
+                    if entry.isRecentPlay {
+                        Image("WidgetBackground")
+                            .resizable()
+                            .scaledToFit()
+                    } else {
+                        Image(entry.baseImageName)
+                            .resizable()
+                            .scaledToFit()
+                            .blur(radius: 24)
+                        Image(entry.melodyImageName)
+                            .resizable()
+                            .scaledToFit()
+                            .blur(radius: 24)
+                        Image(entry.whiteNoiseImageName)
+                            .resizable()
+                            .scaledToFit()
+                            .blur(radius: 24)
+                        Color.black.opacity(0.3)
+                    }
                 }
             )
             .widgetURL(entry.url)
@@ -127,7 +133,7 @@ struct RelaxOnWidget: Widget {
 
 struct RelaxOnWidget_Previews: PreviewProvider {
     static var previews: some View {
-//        RelaxOnWidgetEntryView(entry: CDWidgetEntry.sample)
+        //        RelaxOnWidgetEntryView(entry: CDWidgetEntry.sample)
         RelaxOnWidgetEntryView(entry: CDWidgetEntry( baseImageName: BaseAudioName.oxygen.fileName, melodyImageName: MelodyAudioName.garden.fileName, whiteNoiseImageName: WhiteNoiseAudioName.umbrellaRain.fileName,id: 1, name: "Forest Relax", isPlaying: false))
             .previewContext(WidgetPreviewContext(family: .systemSmall))
     }

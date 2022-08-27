@@ -47,7 +47,7 @@ final class MusicViewModel: NSObject, ObservableObject {
                let baseImageName = mixedSound.baseSound?.imageName,
                let melodyImageName = mixedSound.melodySound?.imageName,
                let whiteNoiseImageName = mixedSound.whiteNoiseSound?.imageName {
-                WidgetManager.addMainSoundToWidget(baseImageName: baseImageName, melodyImageName: melodyImageName, whiteNoiseImageName: whiteNoiseImageName, name: mixedSound.name, id: mixedSound.id, isPlaying: isPlaying)
+                WidgetManager.addMainSoundToWidget(baseImageName: baseImageName, melodyImageName: melodyImageName, whiteNoiseImageName: whiteNoiseImageName, name: mixedSound.name, id: mixedSound.id, isPlaying: isPlaying, isRecentPlay: false)
             }
         }
     }

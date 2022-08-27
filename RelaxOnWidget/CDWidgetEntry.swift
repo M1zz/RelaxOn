@@ -18,6 +18,7 @@ struct CDWidgetEntry: TimelineEntry {
     var url: URL?
     let isPlaying: Bool
     let isSample: Bool
+    let isRecentPlay: Bool
     
     init(date: Date = Date(),
          baseImageName: String,
@@ -26,7 +27,8 @@ struct CDWidgetEntry: TimelineEntry {
          id: Int,
          name: String,
          isPlaying: Bool,
-         isSample: Bool = false) {
+         isSample: Bool = false,
+         isRecentPlay: Bool = false) {
         self.date = date
         self.baseImageName = baseImageName
         self.melodyImageName = melodyImageName
@@ -36,6 +38,7 @@ struct CDWidgetEntry: TimelineEntry {
         self.url = WidgetManager.getURL(id: id)
         self.isPlaying = isPlaying
         self.isSample = isSample
+        self.isRecentPlay = isRecentPlay
     }
 }
 
