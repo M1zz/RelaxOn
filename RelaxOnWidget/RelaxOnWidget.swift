@@ -15,9 +15,20 @@ struct RelaxOnWidgetEntryView : View {
     
     var body: some View {
         VStack {
-            Image(entry.imageName)
-                .resizable()
-                .scaledToFit()
+            ZStack {
+                Image(entry.whiteNoiseImageName)
+                    .resizable()
+                    .scaledToFit()
+                    .opacity(0.5)
+                Image(entry.melodyImageName)
+                    .resizable()
+                    .scaledToFit()
+                    .opacity(0.5)
+                Image(entry.baseImageName)
+                    .resizable()
+                    .scaledToFit()
+                    .opacity(0.5)
+            }
             Text(entry.name)
         }
         .padding(.vertical, 20)
@@ -54,7 +65,7 @@ struct RelaxOnWidget: Widget {
 
 struct RelaxOnWidget_Previews: PreviewProvider {
     static var previews: some View {
-        RelaxOnWidgetEntryView(entry: CDWidgetEntry(date: Date(), imageName: "Recipe5", id: 1, name: "temp"))
+        RelaxOnWidgetEntryView(entry: CDWidgetEntry(date: Date(), id: 1, name: "temp"))
             .previewContext(WidgetPreviewContext(family: .systemSmall))
     }
 }

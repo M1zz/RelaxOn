@@ -10,14 +10,23 @@ import WidgetKit
 struct CDWidgetEntry: TimelineEntry {
     let date: Date
     
-    let imageName: String
+    let baseImageName: String
+    let melodyImageName: String
+    let whiteNoiseImageName: String
     var id: Int
     var name: String
     var url: URL?
     
-    init(date: Date = Date(), imageName: String = "Recipe5", id: Int = 100, name: String = "tempWidget") {
+    init(date: Date = Date(),
+         baseImageName: String = BaseAudioName.longSun.fileName,
+         melodyImageName: String = MelodyAudioName.ambient.fileName,
+         whiteNoiseImageName: String = WhiteNoiseAudioName.dryGrass.fileName,
+         id: Int = 100,
+         name: String = "tempWidget") {
         self.date = date
-        self.imageName = imageName
+        self.baseImageName = baseImageName
+        self.melodyImageName = melodyImageName
+        self.whiteNoiseImageName = whiteNoiseImageName
         self.id = id
         self.name = name
         self.url = WidgetManager.getURL(id: id)

@@ -8,7 +8,9 @@
 import WidgetKit
 
 struct SmallWidgetData: Codable {
-    let imageName: String
+    let baseImageName: String
+    let melodyImageName: String
+    let whiteNoiseImageName: String
     let name: String
     let id: Int
 }
@@ -18,8 +20,8 @@ final class WidgetManager {
     static let smallWidgetData = "smallWidgetData"
     static let widgetName = "RelaxOnWidget"
     
-    static func addMainSoundToWidget(imageName: String, name: String, id: Int) {
-        let data = SmallWidgetData(imageName: imageName, name: name, id: id)
+    static func addMainSoundToWidget(baseImageName: String, melodyImageName: String, whiteNoiseImageName: String, name: String, id: Int) {
+        let data = SmallWidgetData(baseImageName: baseImageName, melodyImageName: melodyImageName, whiteNoiseImageName: whiteNoiseImageName, name: name, id: id)
         if let encodedData = try? JSONEncoder().encode(data),
            let UserDefaultsAppGroup = UserDefaults(suiteName: suiteName) {
             UserDefaultsAppGroup.set(encodedData, forKey: smallWidgetData)
