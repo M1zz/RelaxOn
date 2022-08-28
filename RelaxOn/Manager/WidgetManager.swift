@@ -34,8 +34,8 @@ final class WidgetManager {
     static func closeApp() {
         if let UserDefaultsAppGroup = UserDefaults(suiteName: suiteName),
            let savedData = UserDefaultsAppGroup.object(forKey: smallWidgetData) as? Data,
-           let loadedStudent = try? JSONDecoder().decode(SmallWidgetData.self, from: savedData) {
-            let savedSmallWidgetData = loadedStudent
+           let loadedData = try? JSONDecoder().decode(SmallWidgetData.self, from: savedData) {
+            let savedSmallWidgetData = loadedData
             let data = SmallWidgetData(baseImageName: savedSmallWidgetData.baseImageName, melodyImageName: savedSmallWidgetData.melodyImageName, whiteNoiseImageName: savedSmallWidgetData.whiteNoiseImageName, name: savedSmallWidgetData.name, id: savedSmallWidgetData.id, isPlaying: savedSmallWidgetData.isPlaying, isRecentPlay: true)
             if let encodedData = try? JSONEncoder().encode(data),
                let UserDefaultsAppGroup = UserDefaults(suiteName: suiteName) {

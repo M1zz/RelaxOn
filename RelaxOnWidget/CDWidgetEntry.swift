@@ -9,45 +9,22 @@ import WidgetKit
 
 struct CDWidgetEntry: TimelineEntry {
     let date: Date
-    
-    let baseImageName: String
-    let melodyImageName: String
-    let whiteNoiseImageName: String
-    var id: Int
-    var name: String
     var url: URL?
-    let isPlaying: Bool
     let isSample: Bool
-    let isRecentPlay: Bool
+    
+    let data : SmallWidgetData
     
     init(date: Date = Date(),
-         baseImageName: String,
-         melodyImageName: String,
-         whiteNoiseImageName: String,
-         id: Int,
-         name: String,
-         isPlaying: Bool,
          isSample: Bool = false,
-         isRecentPlay: Bool = false) {
+         data: SmallWidgetData
+    ) {
         self.date = date
-        self.baseImageName = baseImageName
-        self.melodyImageName = melodyImageName
-        self.whiteNoiseImageName = whiteNoiseImageName
-        self.id = id
-        self.name = name
-        self.url = WidgetManager.getURL(id: id)
-        self.isPlaying = isPlaying
+        self.data = data
+        self.url = WidgetManager.getURL(id: data.id)
         self.isSample = isSample
-        self.isRecentPlay = isRecentPlay
     }
 }
 
 extension CDWidgetEntry {
-    static var sample = CDWidgetEntry(date: Date(),
-                                      baseImageName: BaseAudioName.longSun.fileName,
-                                      melodyImageName: MelodyAudioName.ambient.fileName,
-                                      whiteNoiseImageName: WhiteNoiseAudioName.dryGrass.fileName,
-                                      id: 1,
-                                      name: "Listen to Music and Relax ON",
-                                      isPlaying: false, isSample: true)
+    static var sample = CDWidgetEntry(date: Date(), isSample: true, data: SmallWidgetData(baseImageName: BaseAudioName.longSun.fileName, melodyImageName: MelodyAudioName.ambient.fileName, whiteNoiseImageName: WhiteNoiseAudioName.dryGrass.fileName, name: "Listen to Music and Relax ON", id: 1, isPlaying: false, isRecentPlay: false))
 }

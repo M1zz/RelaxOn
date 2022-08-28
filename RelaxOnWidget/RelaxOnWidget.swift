@@ -45,13 +45,13 @@ struct RelaxOnWidgetEntryView : View {
             VStack(alignment: .leading, spacing: 0) {
                 HStack(alignment: .top, spacing: 0) {
                     ZStack{
-                        Image(entry.baseImageName)
+                        Image(entry.data.baseImageName)
                             .resizable()
                             .scaledToFit()
-                        Image(entry.melodyImageName)
+                        Image(entry.data.melodyImageName)
                             .resizable()
                             .scaledToFit()
-                        Image(entry.whiteNoiseImageName)
+                        Image(entry.data.whiteNoiseImageName)
                             .resizable()
                             .scaledToFit()
                     }
@@ -64,12 +64,12 @@ struct RelaxOnWidgetEntryView : View {
                         .scaledToFit()
                         .frame(width: 16, height: 17)
                 }
-                Text(entry.isRecentPlay ? "RECENT PLAY" : (entry.isPlaying ? "NOW PLAYING" : "PAUSED"))
+                Text(entry.data.isRecentPlay ? "RECENT PLAY" : (entry.data.isPlaying ? "NOW PLAYING" : "PAUSED"))
                     .font(.system(size: 12))
                     .fontWeight(.medium)
                     .foregroundColor(Color.systemGrey1)
                     .padding(.top, 8)
-                Text(entry.name)
+                Text(entry.data.name)
                     .font(.system(size: 16))
                     .fontWeight(.semibold)
                     .foregroundColor(Color.systemGrey1)
@@ -77,20 +77,20 @@ struct RelaxOnWidgetEntryView : View {
             .padding(18)
             .background(
                 ZStack{
-                    if entry.isRecentPlay {
+                    if entry.data.isRecentPlay {
                         Image("WidgetBackground")
                             .resizable()
                             .scaledToFit()
                     } else {
-                        Image(entry.baseImageName)
+                        Image(entry.data.baseImageName)
                             .resizable()
                             .scaledToFit()
                             .blur(radius: 24)
-                        Image(entry.melodyImageName)
+                        Image(entry.data.melodyImageName)
                             .resizable()
                             .scaledToFit()
                             .blur(radius: 24)
-                        Image(entry.whiteNoiseImageName)
+                        Image(entry.data.whiteNoiseImageName)
                             .resizable()
                             .scaledToFit()
                             .blur(radius: 24)
@@ -133,8 +133,7 @@ struct RelaxOnWidget: Widget {
 
 struct RelaxOnWidget_Previews: PreviewProvider {
     static var previews: some View {
-        //        RelaxOnWidgetEntryView(entry: CDWidgetEntry.sample)
-        RelaxOnWidgetEntryView(entry: CDWidgetEntry( baseImageName: BaseAudioName.oxygen.fileName, melodyImageName: MelodyAudioName.garden.fileName, whiteNoiseImageName: WhiteNoiseAudioName.umbrellaRain.fileName,id: 1, name: "Forest Relax", isPlaying: false))
+        RelaxOnWidgetEntryView(entry: CDWidgetEntry(date: Date(), isSample: false, data: SmallWidgetData(baseImageName: BaseAudioName.oxygen.fileName, melodyImageName: MelodyAudioName.garden.fileName, whiteNoiseImageName: WhiteNoiseAudioName.umbrellaRain.fileName, name: "Forest Relax", id: 1, isPlaying: false, isRecentPlay: false)))
             .previewContext(WidgetPreviewContext(family: .systemSmall))
     }
 }
