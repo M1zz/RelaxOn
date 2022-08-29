@@ -11,7 +11,7 @@ import MediaPlayer
 import WatchConnectivity
 
 final class MusicViewModel: NSObject, ObservableObject {
-    @Published var watchInfo: String = ""
+    @Published var watchInfo: [String] = [""]
         
     override init() {
         super.init()
@@ -209,11 +209,17 @@ extension MusicViewModel: WCSessionDelegate {
     func session(_ session: WCSession, didReceiveUserInfo userInfo: [String : Any] = [:]) {
         DispatchQueue.main.async {
             let key = "watchInfo"
-                guard let WatchInfo = userInfo[key] as? String else {
+                guard let WatchInfo = userInfo[key] as? [String] else {
                 return
             }
             
-            switch WatchInfo {
+            let index = userRepositories.firstIndex { element in
+                element.name == WatchInfo[0]
+            }
+            
+            self.mixedSound = userRepositories[index ?? 0]
+            
+            switch WatchInfo[1] {
             case "playing", "paused":
                 self.playPause()
             case "prev":

@@ -26,12 +26,12 @@ final class Connectivity: NSObject, ObservableObject {
         WCSession.default.activate()
     }
     
-    public func sendFromWatch(watchInfo: String) {
+    public func sendFromWatch(watchInfo: [String]) {
         guard WCSession.default.activationState == .activated else {
             return
         }
         
-        let watchInfo: [String: String] = [
+        let watchInfo: [String: [String]] = [
             "watchInfo" : watchInfo
         ]
         WCSession.default.transferUserInfo(watchInfo)

@@ -9,27 +9,63 @@ import SwiftUI
 
 struct PlayerView: View {
     @StateObject var playerViewModel = PlayerViewModel()
+    @State var volume = 10.0
     
     var body: some View {
-        VStack {
-            Text(playerViewModel.cdinfos[1])
+        ZStack {
+            Image("MusicBackground")
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .blur(radius: 10)
             
-            HStack {
-                Button(action: {
-                    playerViewModel.playPrevious()
-                }) {
-                    Image(systemName: "backward.fill")
+            VStack {
+                Text(playerViewModel.currentCDName)
+                
+                Spacer()
+                
+                HStack {
+                    Button(action: {
+                        playerViewModel.playPrevious()
+                    }) {
+                        Image(systemName: "backward.end")
+                            .font(.system(size: 20, weight: .medium))
+                    }
+                    .buttonStyle(.plain)
+                    
+                    Spacer()
+                                    
+                    Button(action: {
+                        playerViewModel.playPause()
+                    }) {
+                        ZStack {
+                            Circle()
+                                .fill(.black)
+                                .frame(width: 50, height: 50)
+                        Image(systemName: playerViewModel.cdinfos[0] == "false" ? "play.fill" : "pause.fill")
+                                .font(.system(size: 30))
+                        }
+                    }
+                    .buttonStyle(.plain)
+                    
+                    Spacer()
+                    
+                    Button(action: {
+                        playerViewModel.playNext()
+                    }) {
+                        Image(systemName: "forward.end")
+                            .font(.system(size: 20, weight: .medium))
+                    }
+                    .buttonStyle(.plain)
                 }
-                Button(action: {
-                    playerViewModel.playPause()
-                }) {
-                    Image(systemName: playerViewModel.cdinfos[0] == "false" ? "play.fill" : "pause.fill")
-                }
-                Button(action: {
-                    playerViewModel.playNext()
-                }) {
-                    Image(systemName: "forward.fill")
-                }
+                .padding()
+                
+                Slider(
+                    value: $volume,
+                    in: 0...100,
+                    onEditingChanged: { _ in print("slider is editing")
+                    }
+                )
+                .tint(.white)
             }
         }
     }

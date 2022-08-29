@@ -29,20 +29,23 @@ class PlayerViewModel: ObservableObject {
     
     func playPause() {
         self.isPlaying = !isPlaying
-        updateCompanion(info: isPlaying ? "playing" : "paused")
+        let info = [currentCDName, isPlaying ? "playing" : "paused"]
+        updateCompanion(info: info)
     }
     
     func playPrevious() {
         self.playState = .backward
-        updateCompanion(info: "prev")
+        let info = [currentCDName, "prev"]
+        updateCompanion(info: info)
     }
     
     func playNext() {
         self.playState = .forward
-        updateCompanion(info: "next")
+        let info = [currentCDName, "next"]
+        updateCompanion(info: info)
     }
     
-    func updateCompanion(info: String) {
+    func updateCompanion(info: [String]) {
         Connectivity.shared.sendFromWatch(watchInfo: info)
     }
 }
