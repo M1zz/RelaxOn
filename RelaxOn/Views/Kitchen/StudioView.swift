@@ -117,8 +117,8 @@ extension StudioView {
                     .font(.body)
                     .foregroundColor(.systemGrey1)
                     .frame(maxWidth: 30)
-            }.background(Color.black) // 나중에 삭제할 예정
-                .padding([.horizontal])
+            }
+            .padding([.horizontal])
             
             ScrollView(.vertical,
                        showsIndicators: false) {
