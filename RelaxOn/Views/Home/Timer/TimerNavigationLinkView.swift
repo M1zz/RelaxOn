@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct TimerNavigationLinkView: View {
+    
+    @ObservedObject var timerManager = TimerManager.shared
+    
     var body: some View {
         VStack(spacing: 6) {
             NavigationLink(destination : TimerSettingView()) {
@@ -34,8 +37,7 @@ struct TimerNavigationLinkView: View {
                 .foregroundColor(.systemGrey1)
                 .padding(.bottom, 2)
             Spacer()
-            // TODO: 타이머 남은 시간으로 변경 예정
-            Text("30")
+            Text("\(timerManager.getRemainedMinute())")
                 .font(.system(size: 28, weight: .regular))
                 .foregroundColor(.relaxDimPurple)
             Text("min")

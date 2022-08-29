@@ -10,12 +10,16 @@ import AVFoundation
 
 
 struct SoundCardView: View {
+    // MARK: - State Properties
+    @State var show = false
+    
+    // MARK: - General Properties
     let soundFileName: String
-    var data: Sound
     let callback: ((String, Sound)->())?
     let selectedID: String?
-    @State var show = false
-
+    var data: Sound
+    
+    // MARK: - Life Cycles
     init(soundFileName: String,
          data: Sound,
          callback: ((String, Sound)->())? = nil,
@@ -26,8 +30,7 @@ struct SoundCardView: View {
         self.selectedID = selectedID
     }
 
-    var body : some View {
-
+    var body: some View {
         ZStack {
             VStack(alignment: .center, spacing: 10) {
                 if data.name == "Empty" {
@@ -84,27 +87,4 @@ struct SoundCard_Previews: PreviewProvider {
 }
 
 
-struct RadioButtonGroupView: View {
-    @State var selectedId: String = ""
-    let items : [Sound] // sound 를 받아야 함
-    let callback: (Sound) -> ()
-    let columns = [
-        GridItem(.adaptive(minimum: (deviceFrame.exceptPaddingWidth - 20 ) / 3))
-    ]
 
-    var body: some View {
-        LazyVGrid(columns: columns) {
-            ForEach(items) { item in
-                SoundCardView(soundFileName : item.name,
-                          data: item,
-                          callback: radioGroupCallback,
-                          selectedID: selectedId)
-            }
-        }
-    }
-
-    func radioGroupCallback(id: String, audio: Sound) {
-        selectedId = id
-        callback(audio)
-    }
-}

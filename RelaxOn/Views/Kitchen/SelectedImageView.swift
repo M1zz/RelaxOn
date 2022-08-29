@@ -8,14 +8,19 @@
 import SwiftUI
 
 struct SelectedImageView: View {
+    // MARK: - State Properties
     @State var framerevise: Bool = false
     @Binding var selectedImageNames: (base: String, melody: String, whiteNoise: String)
     @Binding var opacityAnimationValues: [Double]
     
+    // MARK: - Life Cycles
     var body: some View {
         SelectImage()
     }
-    
+}
+
+// MARK: - ViewBuilder
+extension SelectedImageView {
     @ViewBuilder
     func SelectImage() -> some View {
         ZStack {
