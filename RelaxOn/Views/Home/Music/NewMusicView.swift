@@ -213,18 +213,33 @@ extension NewMusicView {
     @ViewBuilder
     func CDCoverView() -> some View {
         ZStack {
-            Image(viewModel.mixedSound?.baseSound?.imageName ?? "")
-                .resizable()
-                .opacity(0.5)
-                .frame(width: .infinity, height: .infinity)
-            Image(viewModel.mixedSound?.melodySound?.imageName ?? "")
-                .resizable()
-                .opacity(0.5)
-                .frame(width: .infinity, height: .infinity)
-            Image(viewModel.mixedSound?.whiteNoiseSound?.imageName ?? "")
-                .resizable()
-                .opacity(0.5)
-                .frame(width: .infinity, height: .infinity)
+            if let baseSoundImageName = viewModel.mixedSound?.baseSound?.imageName {
+                    Image(baseSoundImageName)
+                        .resizable()
+                        .opacity(baseSoundImageName == "music" ? 0.0 : 0.5)
+                        .frame(width: .infinity, height: .infinity)
+            }
+            if let melodySoundImageName = viewModel.mixedSound?.melodySound?.imageName {
+                    Image(melodySoundImageName)
+                        .resizable()
+                        .opacity(melodySoundImageName == "music" ? 0.0 : 0.5)
+                        .frame(width: .infinity, height: .infinity)
+            }
+            if let whiteNoiseSoundImageName = viewModel.mixedSound?.whiteNoiseSound?.imageName {
+                let _ = print(whiteNoiseSoundImageName, "왜")
+                    Image(whiteNoiseSoundImageName)
+                        .resizable()
+                        .opacity(whiteNoiseSoundImageName == "music" ? 0.0 : 0.5)
+                        .frame(width: .infinity, height: .infinity)
+            }
+//            Image(viewModel.mixedSound?.melodySound?.imageName ?? "")
+//                .resizable()
+//                .opacity(0.5)
+//                .frame(width: .infinity, height: .infinity)
+//            Image(viewModel.mixedSound?.whiteNoiseSound?.imageName ?? "")
+//                .resizable()
+//                .opacity(0.5)
+//                .frame(width: .infinity, height: .infinity)
         }
     }
     
