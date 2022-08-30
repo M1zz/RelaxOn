@@ -12,19 +12,27 @@ struct ListView: View {
     @State var selected = -1
     
     var dummyTitles = ["Forest", "Midnight", "Reflection", "Foucs", "Favorite", "Calm", "Quiet"]
+//    @ObservedObject var playerViewModel: PlayerViewModel
+    
     var body: some View {
         VStack {
             ScrollView {
                 VStack (alignment: .leading, spacing: 0) {
-                    ForEach(dummyTitles.indices, id: \.self) { titleIdx in
+                    ForEach(Connectivity.shared.cdList.indices, id: \.self) { titleIdx in
                         if titleIdx == 0 {
                             Divider()
                         }
                         Button(action: {
-                            tabNumber = 1
+//                            playerViewModel.currentCDName = Connectivity.shared.cdList[titleIdx]
+                            
+//                            playerViewModel.updateCurrentCDName(name: Connectivity.shared.cdList[titleIdx])
+                            PlayerViewModel.shared.updateCurrentCDName(name: Connectivity.shared.cdList[titleIdx])
+                            print("name: \(Connectivity.shared.cdList[titleIdx])")
+                            print("name when clicked: \(PlayerViewModel.shared.currentCDName)")
                             selected = titleIdx
+                            tabNumber = 1
                         }) {
-                            Text(dummyTitles[titleIdx])
+                            Text(Connectivity.shared.cdList[titleIdx])
                                 .foregroundColor(selected == titleIdx ? Color.relaxDimPurple : .white)
                                 .font(.system(size: 18))
                                 .padding(10)
@@ -40,8 +48,8 @@ struct ListView: View {
     }
 }
 
-struct ListView_Previews: PreviewProvider {
-    static var previews: some View {
-        ListView(tabNumber: .constant(0))
-    }
-}
+//struct ListView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ListView(tabNumber: .constant(0))
+//    }
+//}

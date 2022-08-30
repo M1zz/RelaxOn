@@ -9,6 +9,7 @@ import SwiftUI
 
 struct TabsView: View {
     @State var tabNumber = 0
+//    @StateObject var playerViewModel = PlayerViewModel()
     
     var body: some View {
         TabView(selection: $tabNumber) {
@@ -23,8 +24,8 @@ struct TabsView: View {
     }
 }
 
-struct TabsView_Previews: PreviewProvider {
-    static var previews: some View {
-        TabsView()
-    }
-}
+//struct TabsView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        TabsView()
+//    }
+//}

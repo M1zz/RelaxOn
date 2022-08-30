@@ -16,12 +16,17 @@ enum PlayStates: String {
 }
 
 final class Connectivity: NSObject, ObservableObject {
+//    @StateObject var playerViewModel = PlayerViewModel()
     @Published var cdInfos: [String] = []
+    @Published var cdList: [String] = []
     
     static let shared = Connectivity()
 
-    override private init() {
+    override init() {
         super.init()
+        guard WCSession.isSupported() else {
+            return
+        }
         WCSession.default.delegate = self
         WCSession.default.activate()
     }
@@ -48,5 +53,15 @@ extension Connectivity: WCSessionDelegate {
             return
         }
         self.cdInfos = CDInfos
+        PlayerViewModel.shared.updateCurrentCDName(name: self.cdInfos[1])
+    }
+    
+    func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String : Any]) {
+        print("received application context")
+        let key = "cdList"
+        guard let CDList = applicationContext[key] as? [String] else {
+            return
+        }
+        self.cdList = CDList
     }
 }

@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct PlayerView: View {
-    @StateObject var playerViewModel = PlayerViewModel()
+//    @ObservedObject var playerViewModel: PlayerViewModel
     @State var volume = 10.0
+    @State var currentCDName: String = ""
+    
     
     var body: some View {
         ZStack {
@@ -19,13 +21,14 @@ struct PlayerView: View {
                 .blur(radius: 10)
             
             VStack {
-                Text(playerViewModel.currentCDName)
+                Text(currentCDName)
+                let _ = print("player view: \(PlayerViewModel.shared.currentCDName)")
                 
                 Spacer()
                 
                 HStack {
                     Button(action: {
-                        playerViewModel.playPrevious()
+                        PlayerViewModel.shared.playPrevious()
                     }) {
                         Image(systemName: "backward.end")
                             .font(.system(size: 20, weight: .medium))
@@ -35,13 +38,13 @@ struct PlayerView: View {
                     Spacer()
                                     
                     Button(action: {
-                        playerViewModel.playPause()
+                        PlayerViewModel.shared.playPause()
                     }) {
                         ZStack {
                             Circle()
                                 .fill(.black)
                                 .frame(width: 50, height: 50)
-                        Image(systemName: playerViewModel.cdinfos[0] == "false" ? "play.fill" : "pause.fill")
+                            Image(systemName: PlayerViewModel.shared.cdinfos[0] == "false" ? "play.fill" : "pause.fill")
                                 .font(.system(size: 30))
                         }
                     }
@@ -50,7 +53,7 @@ struct PlayerView: View {
                     Spacer()
                     
                     Button(action: {
-                        playerViewModel.playNext()
+                        PlayerViewModel.shared.playNext()
                     }) {
                         Image(systemName: "forward.end")
                             .font(.system(size: 20, weight: .medium))
@@ -68,11 +71,15 @@ struct PlayerView: View {
                 .tint(.white)
             }
         }
+        .onAppear {
+            currentCDName = PlayerViewModel.shared.currentCDName
+            print("onAppear: \(PlayerViewModel.shared.currentCDName)")
+        }
     }
 }
 
-struct PlayerView_Previews: PreviewProvider {
-    static var previews: some View {
-        PlayerView()
-    }
-}
+//struct PlayerView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        PlayerView(playerViewModel: <#PlayerViewModel#>)
+//    }
+//}

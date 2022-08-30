@@ -200,6 +200,18 @@ final class MusicViewModel: NSObject, ObservableObject {
     func updateCompanion() {
         self.send(cdInfos: [isPlaying ? "true" : "false", mixedSound?.name ?? ""])
     }
+    
+    func updateCDList(cdList: [String]) {
+//        sendApplicationContext(cdList: userRepositories.map{mixedSound in mixedSound.name})
+//        WCSession.default.sendMessage(["message" : cdList], replyHandler: nil) { (error) in
+//            print(error.localizedDescription)
+//        }
+        do {
+            try WCSession.default.updateApplicationContext(["cdList" : cdList])
+        } catch {
+            print("update Application context error")
+        }
+    }
 }
 
 extension MusicViewModel: WCSessionDelegate {

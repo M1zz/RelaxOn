@@ -9,13 +9,15 @@ import MediaPlayer
 import Combine
 import AVFoundation
 
-
 class PlayerViewModel: ObservableObject {
+    static let shared = PlayerViewModel()
+    
     @Published var playState: PlayStates = .pause
-    @Published var currentCDName = "Not playing"
+    @Published var currentCDName = ""
     
     @Published var isPlaying = false
     @Published var cdinfos: [String] = ["false", ""]
+    @Published var cdlist: [String] = [""]
     
     var cancellable = Set<AnyCancellable>()
     
@@ -25,6 +27,18 @@ class PlayerViewModel: ObservableObject {
             .receive(on: DispatchQueue.main)
             .assign(to: \.cdinfos, on: self)
             .store(in: &cancellable)
+        self.currentCDName = self.cdinfos[1]
+        
+//        Connectivity.shared.$cdList
+//            .dropFirst()
+//            .receive(on: DispatchQueue.main)
+//            .assign(to: \.cdlist, on: self)
+//            .store(in: &cancellable)
+    }
+    
+    func updateCurrentCDName(name: String) {
+        self.currentCDName = name
+        print("inside updateCurrentCDName: \(self.currentCDName)")
     }
     
     func playPause() {
