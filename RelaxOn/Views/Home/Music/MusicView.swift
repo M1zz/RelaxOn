@@ -178,8 +178,7 @@ struct MusicView: View {
 
 struct MusicView_Previews: PreviewProvider {
     static var previews: some View {
-        let dummyMixedSound = MixedSound(id: 3,
-                                         name: "test4",
+        let dummyMixedSound = MixedSound(name: "test4",
                                          baseSound: dummyBaseSound,
                                          melodySound: dummyMelodySound,
                                          whiteNoiseSound: dummyWhiteNoiseSound,

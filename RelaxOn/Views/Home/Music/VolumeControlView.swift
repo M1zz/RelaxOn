@@ -44,8 +44,7 @@ struct VolumeControlView: View {
                                     audioVolume: audioVolumes.whiteNoiseVolume,
                                     imageName: localWhiteNoiseSound.imageName)
         
-        let newMixedSound = MixedSound(id: selectedMixedSound.id,
-                                       name: selectedMixedSound.name,
+        let newMixedSound = MixedSound(name: selectedMixedSound.name,
                                        baseSound: newBaseSound,
                                        melodySound: newMelodySound,
                                        whiteNoiseSound: newWhiteNoiseSound,
