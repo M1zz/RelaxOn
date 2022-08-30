@@ -14,17 +14,17 @@ struct StudioView: View {
     @State var selectedBaseSound: Sound = Sound(id: 0,
                                                 name: "",
                                                 soundType: .base,
-                                                audioVolume: 0.8,
+                                                audioVolume: 0.5,
                                                 imageName: "")
     @State var selectedMelodySound: Sound = Sound(id: 10,
                                                   name: "",
                                                   soundType: .melody,
-                                                  audioVolume: 1.0,
+                                                  audioVolume: 0.5,
                                                   imageName: "")
     @State var selectedWhiteNoiseSound: Sound = Sound(id: 20,
                                                       name: "",
                                                       soundType: .whiteNoise,
-                                                      audioVolume: 0.4,
+                                                      audioVolume: 0.5,
                                                       imageName: "")
     @State var selectedImageNames: (base: String, melody: String, whiteNoise: String) = (
         base: "",
@@ -101,12 +101,15 @@ extension StudioView {
                 }
                 .frame(height: 25)
                 .onChange(of: volumes[0]) { volume in
+                    selectedBaseSound.audioVolume = volume
                     baseAudioManager.changeVolume(track: selectedBaseSound.imageName, volume: volume)
                 }
                 .onChange(of: volumes[1]) { volume in
+                    selectedMelodySound.audioVolume = volume
                     melodyAudioManager.changeVolume(track: selectedMelodySound.imageName, volume: volume)
                 }
                 .onChange(of: volumes[2]) { volume in
+                    selectedWhiteNoiseSound.audioVolume = volume
                     whiteNoiseAudioManager.changeVolume(track: selectedWhiteNoiseSound.imageName, volume: volume)
                 }
                 
@@ -114,8 +117,8 @@ extension StudioView {
                     .font(.body)
                     .foregroundColor(.systemGrey1)
                     .frame(maxWidth: 30)
-            }.background(Color.black) // 나중에 삭제할 예정
-                .padding([.horizontal])
+            }
+            .padding([.horizontal])
             
             ScrollView(.vertical,
                        showsIndicators: false) {
