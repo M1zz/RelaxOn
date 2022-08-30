@@ -66,7 +66,7 @@ extension OnboadingNamingView {
                                       baseSound: baseSound,
                                       melodySound: melodySound,
                                       whiteNoiseSound: whiteNoiseSound,
-                                      imageName: recipeRandomName.randomElement()!)
+                                      fileName: recipeRandomName.randomElement()!)
             userRepositories.append(newSound)
             
             let data = getEncodedData(data: userRepositories)

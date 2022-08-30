@@ -44,7 +44,7 @@
 		580CADB928659FAF0091946C /* Wisdom.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 580CADB428659FAE0091946C /* Wisdom.mp3 */; };
 		580CADBA28659FAF0091946C /* Ambient.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 580CADB528659FAE0091946C /* Ambient.mp3 */; };
 		580CADBB28659FAF0091946C /* Garden.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 580CADB628659FAE0091946C /* Garden.mp3 */; };
-		580CADBC28659FAF0091946C /* Gymnopedia.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 580CADB728659FAF0091946C /* Gymnopedia.mp3 */; };
+		580CADBC28659FAF0091946C /* Gymnopedie.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 580CADB728659FAF0091946C /* Gymnopedie.mp3 */; };
 		580CADC22865A3850091946C /* DryGrass.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 580CADBD2865A3850091946C /* DryGrass.mp3 */; };
 		580CADC32865A3850091946C /* Stream.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 580CADBE2865A3850091946C /* Stream.mp3 */; };
 		580CADC42865A3850091946C /* SummerField.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 580CADBF2865A3850091946C /* SummerField.mp3 */; };
@@ -217,7 +217,7 @@
 		580CADB428659FAE0091946C /* Wisdom.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Wisdom.mp3; sourceTree = "<group>"; };
 		580CADB528659FAE0091946C /* Ambient.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Ambient.mp3; sourceTree = "<group>"; };
 		580CADB628659FAE0091946C /* Garden.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Garden.mp3; sourceTree = "<group>"; };
-		580CADB728659FAF0091946C /* Gymnopedia.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Gymnopedia.mp3; sourceTree = "<group>"; };
+		580CADB728659FAF0091946C /* Gymnopedie.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Gymnopedie.mp3; sourceTree = "<group>"; };
 		580CADBD2865A3850091946C /* DryGrass.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = DryGrass.mp3; sourceTree = "<group>"; };
 		580CADBE2865A3850091946C /* Stream.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Stream.mp3; sourceTree = "<group>"; };
 		580CADBF2865A3850091946C /* SummerField.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = SummerField.mp3; sourceTree = "<group>"; };
@@ -389,7 +389,7 @@
 			children = (
 				580CADB528659FAE0091946C /* Ambient.mp3 */,
 				580CADB628659FAE0091946C /* Garden.mp3 */,
-				580CADB728659FAF0091946C /* Gymnopedia.mp3 */,
+				580CADB728659FAF0091946C /* Gymnopedie.mp3 */,
 				580CADB328659FAE0091946C /* Relaxing.mp3 */,
 				580CADB428659FAE0091946C /* Wisdom.mp3 */,
 			);
@@ -760,7 +760,7 @@
 				580CADBB28659FAF0091946C /* Garden.mp3 in Resources */,
 				580CADAA28659BEF0091946C /* LongSun.mp3 in Resources */,
 				580CADBA28659FAF0091946C /* Ambient.mp3 in Resources */,
-				580CADBC28659FAF0091946C /* Gymnopedia.mp3 in Resources */,
+				580CADBC28659FAF0091946C /* Gymnopedie.mp3 in Resources */,
 				58DE61C22841C20A00F25769 /* Launch Screen.storyboard in Resources */,
 				580CADC62865A3850091946C /* Wave.mp3 in Resources */,
 				580CADC52865A3850091946C /* UmbrellaRain.mp3 in Resources */,
