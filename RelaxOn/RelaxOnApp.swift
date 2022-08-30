@@ -9,6 +9,8 @@ import SwiftUI
 
 @main
 struct RelaxOnApp: App {
+    @UIApplicationDelegateAdaptor var delegate: AppDelegate
+    
     var body: some Scene {
         WindowGroup {
             CdLibraryView()
