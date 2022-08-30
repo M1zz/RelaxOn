@@ -44,7 +44,7 @@ struct StudioView: View {
     let baseAudioManager = AudioManager()
     let melodyAudioManager = AudioManager()
     let whiteNoiseAudioManager = AudioManager()
-    var items: [LocalizedStringKey] = ["BASE", "MELODY", "WHITE NOISE"]
+    var items = ["BASE", "MELODY", "WHITE NOISE"]
     
     // MARK: - Life Cycles
     var body: some View {
@@ -215,7 +215,7 @@ extension StudioView {
                 Button("Leave Studio", role: .destructive){
                     presentationMode.wrappedValue.dismiss()
                 }
-                Button("Cancle", role: .cancel){}
+                Button("Cancel", role: .cancel){}
             }
             Text("CD LIBRARY")
                 .font(.system(size: 15, weight: .regular))
