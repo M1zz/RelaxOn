@@ -136,8 +136,8 @@ struct RelaxOnWidget: Widget {
         StaticConfiguration(kind: kind, provider: Provider(), content: { entry in
             RelaxOnWidgetEntryView(entry: entry)
         })
-        .configurationDisplayName("My Widget")
-        .description("This is an example widget.")
+        .configurationDisplayName("Recently Played")
+        .description("Quickly access recently played CDs.")
         .supportedFamilies([.systemSmall])
     }
 }
