@@ -29,7 +29,6 @@ struct CdLibraryView: View {
         .onAppear() {
             let notFirstVisit = UserDefaultsManager.shared.notFirstVisit
             showOnboarding = notFirstVisit ? false : true
-            print(userRepositories)
             
             UIApplication.shared.beginReceivingRemoteControlEvents()
             let session = AVAudioSession.sharedInstance()
