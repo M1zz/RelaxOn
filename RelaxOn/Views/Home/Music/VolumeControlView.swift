@@ -31,24 +31,24 @@ struct VolumeControlView: View {
                                  name: localBaseSound.name,
                                  soundType: localBaseSound.soundType,
                                  audioVolume: audioVolumes.baseVolume,
-                                 imageName: localBaseSound.imageName)
+                                 fileName: localBaseSound.fileName)
         let newMelodySound = Sound(id: localMelodySound.id,
                                    name: localMelodySound.name,
                                    soundType: localMelodySound.soundType,
                                    audioVolume: audioVolumes.melodyVolume,
-                                   imageName: localMelodySound.imageName)
+                                   fileName: localMelodySound.fileName)
         
         let newWhiteNoiseSound = Sound(id: localWhiteNoiseSound.id,
                                     name: localWhiteNoiseSound.name,
                                     soundType: localWhiteNoiseSound.soundType,
                                     audioVolume: audioVolumes.whiteNoiseVolume,
-                                    imageName: localWhiteNoiseSound.imageName)
+                                    fileName: localWhiteNoiseSound.fileName)
         
         let newMixedSound = MixedSound(name: selectedMixedSound.name,
                                        baseSound: newBaseSound,
                                        melodySound: newMelodySound,
                                        whiteNoiseSound: newWhiteNoiseSound,
-                                       imageName: selectedMixedSound.imageName)
+                                       fileName: selectedMixedSound.fileName)
         
         let index = userRepositoriesState.firstIndex { mixedSound in
             mixedSound.name == selectedMixedSound.name
@@ -116,7 +116,7 @@ extension VolumeControlView {
     func SoundControlSlider(item: Sound) -> some View {
         HStack {
             VStack {
-                Image(item.imageName)
+                Image(item.fileName)
                     .resizable()
                     .frame(width: 60, height: 60)
                     .cornerRadius(4)

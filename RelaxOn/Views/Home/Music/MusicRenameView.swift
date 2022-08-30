@@ -57,15 +57,15 @@ struct MusicRenameView: View {
     @ViewBuilder
     func CDCoverView() -> some View {
         ZStack {
-            Image(mixedSound.baseSound?.imageName ?? "")
+            Image(mixedSound.baseSound?.fileName ?? "")
                 .resizable()
                 .opacity(0.5)
             //                .frame(width: .infinity, height: .infinity)
-            Image(mixedSound.melodySound?.imageName ?? "")
+            Image(mixedSound.melodySound?.fileName ?? "")
                 .resizable()
                 .opacity(0.5)
             //                .frame(width: .infinity, height: .infinity)
-            Image(mixedSound.whiteNoiseSound?.imageName ?? "")
+            Image(mixedSound.whiteNoiseSound?.fileName ?? "")
                 .resizable()
                 .opacity(0.5)
             //                .frame(width: .infinity, height: .infinity)
@@ -107,7 +107,7 @@ struct MusicRenameView: View {
                                                baseSound: mixedSound.baseSound,
                                                melodySound: mixedSound.melodySound,
                                                whiteNoiseSound: mixedSound.whiteNoiseSound,
-                                               imageName: recipeRandomName.randomElement()!)
+                                               fileName: recipeRandomName.randomElement()!)
             
             let index = userRepositoriesState.firstIndex { element in
                 element.name == mixedSound.name
