@@ -40,7 +40,7 @@ struct OnboardingView: View {
     let melodyAudioManager = AudioManager()
     let naturalAudioManager = AudioManager()
 
-    var items: [LocalizedStringKey] = ["BASE", "MELODY", "WHITE NOISE"]
+    var items = ["BASE", "MELODY", "WHITE NOISE"]
 
     var body: some View {
         NavigationView{
@@ -58,22 +58,25 @@ struct OnboardingView: View {
                     HStack {
 
                         HStack {
-
                             VStack(alignment: .leading) {
-
                                 HStack {
-                                    Text("Please select")
+                                    let item: String = items[select]
+                                    let text = "Please select \n\(item)"
+                                    Text(LocalizedStringKey(text))
                                         .font(.system(size: 28, weight: .medium))
                                         .foregroundColor(.white)
+                                        .onAppear {
+                                            print(LocalizedStringKey(text))
+                                        }
                                     Spacer()
                                 }.fixedSize()
 
-                                HStack {
-                                    Text(items[select])
-                                        .font(.system(size: 28, weight: .medium))
-                                        .foregroundColor(.white)
-                                    Spacer()
-                                }.fixedSize()
+//                                HStack {
+//                                    Text()
+//                                        .font(.system(size: 28, weight: .medium))
+//                                        .foregroundColor(.white)
+//                                    Spacer()
+//                                }.fixedSize()
                             }
 
                             Spacer()

@@ -60,11 +60,11 @@ struct VolumeControlView: View {
             
             VStack (alignment: .leading){
                 HStack {
-                    Text(item.soundType.rawValue.uppercased())
+                    Text(LocalizedStringKey(item.soundType.rawValue.uppercased()))
                         .font(.system(size: 12, weight: .semibold, design: .default))
                         .foregroundColor(.systemGrey3)
                     
-                    Text(item.name)
+                    Text(LocalizedStringKey(item.name))
                         .font(.system(size: 17, weight: .semibold, design: .default))
                         .foregroundColor(.systemGrey1)
                 }

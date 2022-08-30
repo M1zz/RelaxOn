@@ -24,9 +24,9 @@
 "Stream" = "시냇물";
 "Wave" = "파도";
 "Umbrella Rain" = "봄비";
-"Please select BASE" = "베이스를 선택해주세요";
-"Please select MELODY" = "멜로디를 선택해주세요";
-"Please select WHITE NOISE" = "백색소음을 선택해주세요";
+"Please select \nBASE" = "베이스를 \n선택해주세요";
+"Please select \nMELODY" = "멜로디를 \n선택해주세요";
+"Please select \nWHITE NOISE" = "백색소음을 \n선택해주세요";
 "Please name this CD" = "CD의 제목을 지어주세요";
 "Make your own CD" = "나만의 CD";
 "SAVE" = "저장하기";
@@ -47,3 +47,5 @@
 "STUDIO" = "스튜디오";
 "Mix" = "믹싱";
 "Leave Studio" = "스튜디오 나가기";
+"Done" = "완료";
+"Cancle" = "취소";

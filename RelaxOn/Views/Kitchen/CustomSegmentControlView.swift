@@ -15,10 +15,10 @@ public struct CustomSegmentControlView: View {
 
     private let items: [LocalizedStringKey]
 
-    public init(items: [LocalizedStringKey],
+    public init(items: [String],
                 selection: Binding<Int>) {
         self._selection = selection
-        self.items = items
+        self.items = items.map{LocalizedStringKey($0)}
         self._itemTitleSizes = State(initialValue: [CGSize](repeating: .zero, count: items.count))
     }
 
