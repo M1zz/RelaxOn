@@ -20,19 +20,19 @@ struct CDCardView: View {
                 self.isShwoingMusicView.toggle()
             }, label: {
                     ZStack {
-                        if let baseSoundImageName = data.baseSound?.imageName {
+                        if let baseSoundImageName = data.baseSound?.fileName {
                             Image(baseSoundImageName)
                                 .resizable()
                                 .opacity(baseSoundImageName == "music" ? 0 : 0.5)
                                 .frame(width: UIScreen.main.bounds.width * 0.43, height: UIScreen.main.bounds.width * 0.43)
                         }
-                        if let melodySoundImageName = data.melodySound?.imageName {
+                        if let melodySoundImageName = data.melodySound?.fileName {
                             Image(melodySoundImageName)
                                 .resizable()
                                 .opacity(melodySoundImageName == "music" ? 0 : 0.5)
                                 .frame(width: UIScreen.main.bounds.width * 0.43, height: UIScreen.main.bounds.width * 0.43)
                         }
-                        if let whiteNoiseSoundImageName = data.whiteNoiseSound?.imageName {
+                        if let whiteNoiseSoundImageName = data.whiteNoiseSound?.fileName {
                             Image(whiteNoiseSoundImageName)
                                 .resizable()
                                 .opacity(whiteNoiseSoundImageName == "music" ? 0 : 0.5)
@@ -42,6 +42,9 @@ struct CDCardView: View {
                     .fullScreenCover(item: $selectedMixedSound) { _ in
                         NewMusicView(data: data, userRepositoriesState: $userRepositoriesState)
                     }
+                    .fullScreenCover(isPresented: $isPresent, content: {
+                        NewMusicView(data: data, userRepositoriesState: $userRepositoriesState)
+                    })
             })
             Text(data.name)
                 .font(.system(size: 17, weight: .regular))

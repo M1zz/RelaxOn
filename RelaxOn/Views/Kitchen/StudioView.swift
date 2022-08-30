@@ -14,18 +14,18 @@ struct StudioView: View {
     @State var selectedBaseSound: Sound = Sound(id: 0,
                                                 name: "",
                                                 soundType: .base,
-                                                audioVolume: 0.8,
-                                                imageName: "")
+                                                audioVolume: 0.5,
+                                                fileName: "")
     @State var selectedMelodySound: Sound = Sound(id: 10,
                                                   name: "",
                                                   soundType: .melody,
-                                                  audioVolume: 1.0,
-                                                  imageName: "")
+                                                  audioVolume: 0.5,
+                                                  fileName: "")
     @State var selectedWhiteNoiseSound: Sound = Sound(id: 20,
                                                       name: "",
                                                       soundType: .whiteNoise,
-                                                      audioVolume: 0.4,
-                                                      imageName: "")
+                                                      audioVolume: 0.5,
+                                                      fileName: "")
     @State var selectedImageNames: (base: String, melody: String, whiteNoise: String) = (
         base: "",
         melody: "",
@@ -44,7 +44,7 @@ struct StudioView: View {
     let baseAudioManager = AudioManager()
     let melodyAudioManager = AudioManager()
     let whiteNoiseAudioManager = AudioManager()
-    var items: [LocalizedStringKey] = ["BASE", "MELODY", "WHITE NOISE"]
+    var items = ["BASE", "MELODY", "WHITE NOISE"]
     
     // MARK: - Life Cycles
     var body: some View {
@@ -101,21 +101,24 @@ extension StudioView {
                 }
                 .frame(height: 25)
                 .onChange(of: volumes[0]) { volume in
-                    baseAudioManager.changeVolume(track: selectedBaseSound.imageName, volume: volume)
+                    selectedBaseSound.audioVolume = volume
+                    baseAudioManager.changeVolume(track: selectedBaseSound.fileName, volume: volume)
                 }
                 .onChange(of: volumes[1]) { volume in
-                    melodyAudioManager.changeVolume(track: selectedMelodySound.imageName, volume: volume)
+                    selectedMelodySound.audioVolume = volume
+                    melodyAudioManager.changeVolume(track: selectedMelodySound.fileName, volume: volume)
                 }
                 .onChange(of: volumes[2]) { volume in
-                    whiteNoiseAudioManager.changeVolume(track: selectedWhiteNoiseSound.imageName, volume: volume)
+                    selectedWhiteNoiseSound.audioVolume = volume
+                    whiteNoiseAudioManager.changeVolume(track: selectedWhiteNoiseSound.fileName, volume: volume)
                 }
                 
                 Text("\(Int(volumes[select] * 100))")
                     .font(.body)
                     .foregroundColor(.systemGrey1)
                     .frame(maxWidth: 30)
-            }.background(Color.black) // 나중에 삭제할 예정
-                .padding([.horizontal])
+            }
+            .padding([.horizontal])
             
             ScrollView(.vertical,
                        showsIndicators: false) {
@@ -132,7 +135,7 @@ extension StudioView {
                                 
                                 opacityAnimationValues[0] = 0.0
                             } else {
-                                baseAudioManager.startPlayer(track: selectedBaseSound.imageName, volume: volumes[select])
+                                baseAudioManager.startPlayer(track: selectedBaseSound.fileName, volume: volumes[select])
                                 
                                 selectedImageNames.base = "BaseIllust"
                                 opacityAnimationValues[0] = 1
@@ -148,7 +151,7 @@ extension StudioView {
                                 
                                 opacityAnimationValues[1] = 0.0
                             } else {
-                                melodyAudioManager.startPlayer(track: selectedMelodySound.imageName, volume: volumes[select])
+                                melodyAudioManager.startPlayer(track: selectedMelodySound.fileName, volume: volumes[select])
                                 
                                 selectedImageNames.melody = "MelodyIllust"
                                 opacityAnimationValues[1] = 1
@@ -164,7 +167,7 @@ extension StudioView {
                                 
                                 opacityAnimationValues[2] = 0.0
                             } else {
-                                whiteNoiseAudioManager.startPlayer(track: selectedWhiteNoiseSound.imageName, volume: volumes[select])
+                                whiteNoiseAudioManager.startPlayer(track: selectedWhiteNoiseSound.fileName, volume: volumes[select])
                                 
                                 selectedImageNames.whiteNoise = ""//selectedWhiteNoiseSound.imageName
                                 opacityAnimationValues[2] = 0.5
@@ -212,7 +215,7 @@ extension StudioView {
                 Button("Leave Studio", role: .destructive){
                     presentationMode.wrappedValue.dismiss()
                 }
-                Button("Cancle", role: .cancel){}
+                Button("Cancel", role: .cancel){}
             }
             Text("CD LIBRARY")
                 .font(.system(size: 15, weight: .regular))

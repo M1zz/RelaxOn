@@ -13,18 +13,19 @@ struct OnboardingView: View {
     @State var selectedBaseSound: Sound = Sound(id: 0,
                                                 name: "",
                                                 soundType: .base,
-                                                audioVolume: 0.8,
-                                                imageName: "")
+                                                audioVolume: 0.5,
+                                                fileName: "")
     @State var selectedMelodySound: Sound = Sound(id: 10,
                                                   name: "",
                                                   soundType: .melody,
-                                                  audioVolume: 1.0,
-                                                  imageName: "")
+                                                  audioVolume: 0.5,
+                                                  fileName: "")
     @State var selectedWhiteNoiseSound: Sound = Sound(id: 20,
                                                       name: "",
                                                       soundType: .whiteNoise,
-                                                      audioVolume: 0.4,
-                                                      imageName: "")
+                                                      audioVolume: 0.5,
+                                                      fileName: "")
+
     @State var selectedImageNames: (base: String, melody: String, whiteNoise: String) = (
         base: "",
         melody: "",
@@ -34,15 +35,17 @@ struct OnboardingView: View {
     @State var opacityAnimationValues = [0.0, 0.0, 0.0]
     @State var textEntered = ""
     @State var stepBarWidth = deviceFrame.screenWidth * 0.33
+    @State var volumes: [Float] = [0.5, 0.5, 0.5]
+    
     @Binding var showOnboarding: Bool
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     // MARK: - General Properties
     let baseAudioManager = AudioManager()
     let melodyAudioManager = AudioManager()
-    let naturalAudioManager = AudioManager()
+    let whiteNoiseAudioManager = AudioManager()
 
-    var items: [LocalizedStringKey] = ["BASE", "MELODY", "WHITE NOISE"]
+    var items = ["BASE", "MELODY", "WHITE NOISE"]
 
     // MARK: - Life Cycles
     var body: some View {
@@ -62,14 +65,8 @@ struct OnboardingView: View {
                             VStack(alignment: .leading) {
 
                                 HStack {
-                                    Text("Please select")
-                                        .font(.system(size: 28, weight: .medium))
-                                        .foregroundColor(.white)
-                                    Spacer()
-                                }.fixedSize()
-
-                                HStack {
-                                    Text(items[select])
+                                    let text: String = "Please select \n\(items[select])"
+                                    Text(LocalizedStringKey(text))
                                         .font(.system(size: 28, weight: .medium))
                                         .foregroundColor(.white)
                                     Spacer()
@@ -130,8 +127,39 @@ extension OnboardingView {
                          soundType: SoundType) -> some View {
         VStack(spacing: 15) {
             HStack {
-                Text("볼륨조절 컴포넌트")
-            }
+                Image(systemName: "speaker.wave.1.fill")
+                    .frame(width: 18.0, height: 18.0)
+                    .foregroundColor(.white)
+                
+                VolumeSlider(value: $volumes[select], range: (0, 1), knobWidth: 14) { modifiers in
+                  ZStack {
+                    Color.white.cornerRadius(3).frame(height: 2).modifier(modifiers.barLeft)
+                    Color.white.opacity(0.4).cornerRadius(3).frame(height: 2).modifier(modifiers.barRight)
+                    ZStack {
+                      Circle().fill(Color.white)
+                    }.modifier(modifiers.knob)
+                  }
+                }
+                .frame(height: 25)
+                .onChange(of: volumes[0]) { volume in
+                    selectedBaseSound.audioVolume = volume
+                    baseAudioManager.changeVolume(track: selectedBaseSound.imageName, volume: volume)
+                }
+                .onChange(of: volumes[1]) { volume in
+                    selectedMelodySound.audioVolume = volume
+                    melodyAudioManager.changeVolume(track: selectedMelodySound.imageName, volume: volume)
+                }
+                .onChange(of: volumes[2]) { volume in
+                    selectedWhiteNoiseSound.audioVolume = volume
+                    whiteNoiseAudioManager.changeVolume(track: selectedWhiteNoiseSound.imageName, volume: volume)
+                }
+                
+                Text("\(Int(volumes[select] * 100))")
+                    .font(.body)
+                    .foregroundColor(.systemGrey1)
+                    .frame(maxWidth: 30)
+            }.padding([.horizontal])
+            
             ScrollView(.vertical,
                        showsIndicators: false) {
                 HStack(spacing: 30) {
@@ -147,9 +175,9 @@ extension OnboardingView {
 
                                 opacityAnimationValues[0] = 0.0
                             } else {
-                                baseAudioManager.startPlayer(track: selectedBaseSound.name)
+                                baseAudioManager.startPlayer(track: selectedBaseSound.fileName)
 
-                                selectedImageNames.base = selectedBaseSound.imageName
+                                selectedImageNames.base = selectedBaseSound.fileName
                                 opacityAnimationValues[0] = 0.5
                             }
                         }
@@ -160,13 +188,14 @@ extension OnboardingView {
                             selectedWhiteNoiseSound = whiteNoiseSounds
 
                             if selectedWhiteNoiseSound.name == "Empty" {
-                                naturalAudioManager.stop()
+                                whiteNoiseAudioManager.stop()
 
                                 opacityAnimationValues[2] = 0.0
                             } else {
-                                naturalAudioManager.startPlayer(track: selectedWhiteNoiseSound.name)
 
-                                selectedImageNames.whiteNoise = selectedWhiteNoiseSound.imageName
+                                whiteNoiseAudioManager.startPlayer(track: selectedWhiteNoiseSound.fileName)
+
+                                selectedImageNames.whiteNoise = selectedWhiteNoiseSound.fileName
 
                                 opacityAnimationValues[2] = 0.5
                             }
@@ -181,9 +210,9 @@ extension OnboardingView {
 
                                 opacityAnimationValues[1] = 0.0
                             } else {
-                                melodyAudioManager.startPlayer(track: selectedMelodySound.name)
+                                melodyAudioManager.startPlayer(track: selectedMelodySound.fileName)
 
-                                selectedImageNames.melody = selectedMelodySound.imageName
+                                selectedImageNames.melody = selectedMelodySound.fileName
 
                                 opacityAnimationValues[1] = 0.5
 
@@ -210,7 +239,7 @@ extension OnboardingView {
 
             baseAudioManager.stop()
             melodyAudioManager.stop()
-            naturalAudioManager.stop()
+            whiteNoiseAudioManager.stop()
             self.textEntered = ""
         })
     }

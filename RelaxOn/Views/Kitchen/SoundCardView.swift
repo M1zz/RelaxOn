@@ -49,7 +49,7 @@ struct SoundCardView: View {
 
                     }
                 } else {
-                    Image(data.imageName)
+                    Image(data.fileName)
                         .resizable()
                         .frame(width: (deviceFrame.exceptPaddingWidth - 20 ) / 3,
                                height: (deviceFrame.exceptPaddingWidth - 20 ) / 3,

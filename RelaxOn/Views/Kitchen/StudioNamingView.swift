@@ -91,12 +91,11 @@ extension StudioNamingView {
         .opacity(textEntered.isEmpty ? 0.5 : 1)
         .padding()
         .onTapGesture {
-            let newSound = MixedSound(id: userRepositories.count,
-                                      name: textEntered,
+            let newSound = MixedSound(name: textEntered,
                                       baseSound: baseSound,
                                       melodySound: melodySound,
                                       whiteNoiseSound: whiteNoiseSound,
-                                      imageName: recipeRandomName.randomElement()!)
+                                      fileName: recipeRandomName.randomElement()!)
             userRepositories.append(newSound)
 
             let data = getEncodedData(data: userRepositories)
@@ -113,7 +112,7 @@ struct PlaceholderCustom: ViewModifier {
     public func body(content: Content) -> some View {
         ZStack(alignment: .leading) {
             if showPlaceHolder {
-                Text(placeHolder)
+                Text(LocalizedStringKey(placeHolder))
                     .foregroundColor(.systemGrey1)
                     .font(.system(size: 17, weight: .light))
             }

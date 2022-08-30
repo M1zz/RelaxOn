@@ -9,21 +9,22 @@ import WidgetKit
 
 struct CDWidgetEntry: TimelineEntry {
     let date: Date
-    
-    let imageName: String
-    var id: Int
-    var name: String
     var url: URL?
+    let isSample: Bool
     
-    init(date: Date = Date(), imageName: String = "Recipe5", id: Int = 100, name: String = "tempWidget") {
+    let data : SmallWidgetData
+    
+    init(date: Date = Date(),
+         isSample: Bool = false,
+         data: SmallWidgetData
+    ) {
         self.date = date
-        self.imageName = imageName
-        self.id = id
-        self.name = name
-        self.url = WidgetManager.getURL(id: id)
+        self.data = data
+        self.url = WidgetManager.getURL(id: data.id)
+        self.isSample = isSample
     }
 }
 
 extension CDWidgetEntry {
-    static var sample = CDWidgetEntry()
+    static var sample = CDWidgetEntry(date: Date(), isSample: true, data: SmallWidgetData(baseImageName: BaseAudioName.longSun.fileName, melodyImageName: MelodyAudioName.ambient.fileName, whiteNoiseImageName: WhiteNoiseAudioName.dryGrass.fileName, name: "Listen to Music and Relax ON", id: 1, isPlaying: false, isRecentPlay: false))
 }

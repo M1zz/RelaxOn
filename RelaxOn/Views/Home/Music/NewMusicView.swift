@@ -23,6 +23,8 @@ struct NewMusicView: View {
     @State private var musicControlButtonWidth = 49.0
     @State private var musicPlayButtonWidth = 44.0
     
+    var timerManager = TimerManager.shared
+    
     @State var audioVolumes: (baseVolume: Float, melodyVolume: Float, whiteNoiseVolume: Float) = (0, 0, 0)
     @State private var offsetYOfControlView = UIScreen.main.bounds.height * 0.83 {
         didSet {
@@ -143,6 +145,7 @@ struct NewMusicView: View {
                     viewModel.fetchData(data: data)
                 }
                 self.isFetchFirstData = false
+                timerManager.currentMusicViewModel = self.viewModel
             }
             .onReceive(viewModel.$mixedSound, perform: { mixedSound in
                 guard let changedMixedSound = mixedSound else { return }
@@ -213,19 +216,19 @@ extension NewMusicView {
     @ViewBuilder
     func CDCoverView() -> some View {
         ZStack {
-            if let baseSoundImageName = viewModel.mixedSound?.baseSound?.imageName {
+            if let baseSoundImageName = viewModel.mixedSound?.baseSound?.fileName {
                     Image(baseSoundImageName)
                         .resizable()
                         .opacity(baseSoundImageName == "music" ? 0.0 : 0.5)
                         .frame(width: .infinity, height: .infinity)
             }
-            if let melodySoundImageName = viewModel.mixedSound?.melodySound?.imageName {
+            if let melodySoundImageName = viewModel.mixedSound?.melodySound?.fileName {
                     Image(melodySoundImageName)
                         .resizable()
                         .opacity(melodySoundImageName == "music" ? 0.0 : 0.5)
                         .frame(width: .infinity, height: .infinity)
             }
-            if let whiteNoiseSoundImageName = viewModel.mixedSound?.whiteNoiseSound?.imageName {
+            if let whiteNoiseSoundImageName = viewModel.mixedSound?.whiteNoiseSound?.fileName {
                 let _ = print(whiteNoiseSoundImageName, "왜")
                     Image(whiteNoiseSoundImageName)
                         .resizable()

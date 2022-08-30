@@ -62,12 +62,11 @@ extension OnboadingNamingView {
         } label: {}
         
         Button {
-            let newSound = MixedSound(id: userRepositories.count,
-                                      name: textEntered,
+            let newSound = MixedSound(name: textEntered,
                                       baseSound: baseSound,
                                       melodySound: melodySound,
                                       whiteNoiseSound: whiteNoiseSound,
-                                      imageName: recipeRandomName.randomElement()!)
+                                      fileName: recipeRandomName.randomElement()!)
             userRepositories.append(newSound)
             
             let data = getEncodedData(data: userRepositories)

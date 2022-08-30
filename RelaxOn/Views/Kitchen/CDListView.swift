@@ -10,7 +10,7 @@ import SwiftUI
 struct CDListView: View {
     // MARK: - State Properties
     @State var isActive: Bool = false
-    @State var userRepositoriesState: [MixedSound] = userRepositories
+    @State var userRepositoriesState: [MixedSound]
     @State var selectedImageNames = (
         base: "",
         melody: "",
@@ -25,7 +25,7 @@ struct CDListView: View {
     @StateObject var musicViewModel = MusicViewModel()
     
     // MARK: - Life Cycles
-    init(userRepositoriesState: [MixedSound] = userRepositories) {
+    init(userRepositoriesState: [MixedSound]) {
         UINavigationBar.appearance().tintColor = UIColor.relaxDimPurple ?? .white
         self.userRepositoriesState = userRepositoriesState
     }

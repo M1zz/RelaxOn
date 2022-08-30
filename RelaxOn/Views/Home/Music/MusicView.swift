@@ -138,7 +138,7 @@ struct MusicView: View {
     @ViewBuilder
     func SingleSong(song: Sound) -> some View {
         HStack {
-            Image(song.imageName)
+            Image(song.fileName)
                 .resizable()
                 .frame(width: 80,
                        height: 80)
@@ -178,12 +178,11 @@ struct MusicView: View {
 
 struct MusicView_Previews: PreviewProvider {
     static var previews: some View {
-        let dummyMixedSound = MixedSound(id: 3,
-                                         name: "test4",
+        let dummyMixedSound = MixedSound(name: "test4",
                                          baseSound: dummyBaseSound,
                                          melodySound: dummyMelodySound,
                                          whiteNoiseSound: dummyWhiteNoiseSound,
-                                         imageName: "r1")
+                                         fileName: "r1")
         //        MusicView(data: dummyMixedSound)
     }
 }
