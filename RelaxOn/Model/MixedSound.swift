@@ -16,8 +16,8 @@ struct MixedSound: Identifiable, Codable, Equatable {
     let imageName: String
     let url: URL?
     
-    init(id: Int, name: String, baseSound: Sound?, melodySound: Sound?, whiteNoiseSound: Sound?, imageName: String) {
-        self.id = id
+    init(name: String, baseSound: Sound?, melodySound: Sound?, whiteNoiseSound: Sound?, imageName: String) {
+        self.id = MixedSound.getUniqueId()
         self.name = name
         self.baseSound = baseSound
         self.melodySound = melodySound
@@ -41,8 +41,7 @@ extension MixedSound {
     }
 }
 
-let emptyMixedSound = MixedSound(id: -1,
-                                 name: "empty",
+let emptyMixedSound = MixedSound(name: "empty",
                                  baseSound: emptySound,
                                  melodySound: emptySound,
                                  whiteNoiseSound: emptySound,

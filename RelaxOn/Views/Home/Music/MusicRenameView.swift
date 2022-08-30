@@ -103,8 +103,7 @@ struct MusicRenameView: View {
         .opacity(textEntered.isEmpty ? 0.5 : 1)
         .padding()
         .onTapGesture {
-            let renamedMixedSound = MixedSound(id: mixedSound.id,
-                                               name: textEntered,
+            let renamedMixedSound = MixedSound(name: textEntered,
                                                baseSound: mixedSound.baseSound,
                                                melodySound: mixedSound.melodySound,
                                                whiteNoiseSound: mixedSound.whiteNoiseSound,

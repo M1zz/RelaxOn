@@ -91,8 +91,7 @@ extension StudioNamingView {
         .opacity(textEntered.isEmpty ? 0.5 : 1)
         .padding()
         .onTapGesture {
-            let newSound = MixedSound(id: userRepositories.count,
-                                      name: textEntered,
+            let newSound = MixedSound(name: textEntered,
                                       baseSound: baseSound,
                                       melodySound: melodySound,
                                       whiteNoiseSound: whiteNoiseSound,
