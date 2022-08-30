@@ -40,7 +40,6 @@ struct CdLibraryView: View {
                }
         }
         .fullScreenCover(isPresented: $showOnboarding, onDismiss: {
-            print("닫힘")
             userRepositoriesData = userRepositories
         } ,content: {
             OnboardingView(showOnboarding: $showOnboarding)
