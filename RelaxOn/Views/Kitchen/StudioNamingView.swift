@@ -112,7 +112,7 @@ struct PlaceholderCustom: ViewModifier {
     public func body(content: Content) -> some View {
         ZStack(alignment: .leading) {
             if showPlaceHolder {
-                Text(placeHolder)
+                Text(LocalizedStringKey(placeHolder))
                     .foregroundColor(.systemGrey1)
                     .font(.system(size: 17, weight: .light))
             }
