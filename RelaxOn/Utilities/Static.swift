@@ -26,7 +26,7 @@ enum BaseAudioName: String {
 enum MelodyAudioName: String {
     case ambient
     case garden
-    case gymnopedia
+    case gymnopedie
     case relaxing
     case wisdom
     
