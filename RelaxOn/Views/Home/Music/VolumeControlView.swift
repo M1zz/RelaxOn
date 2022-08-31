@@ -39,12 +39,13 @@ struct VolumeControlView: View {
                                    fileName: localMelodySound.fileName)
         
         let newWhiteNoiseSound = Sound(id: localWhiteNoiseSound.id,
-                                    name: localWhiteNoiseSound.name,
-                                    soundType: localWhiteNoiseSound.soundType,
-                                    audioVolume: audioVolumes.whiteNoiseVolume,
-                                    fileName: localWhiteNoiseSound.fileName)
+                                       name: localWhiteNoiseSound.name,
+                                       soundType: localWhiteNoiseSound.soundType,
+                                       audioVolume: audioVolumes.whiteNoiseVolume,
+                                       fileName: localWhiteNoiseSound.fileName)
         
-        let newMixedSound = MixedSound(name: selectedMixedSound.name,
+        let newMixedSound = MixedSound(id: selectedMixedSound.id,
+                                       name: selectedMixedSound.name,
                                        baseSound: newBaseSound,
                                        melodySound: newMelodySound,
                                        whiteNoiseSound: newWhiteNoiseSound,
@@ -57,8 +58,8 @@ struct VolumeControlView: View {
         userRepositories.remove(at: index ?? -1)
         userRepositories.insert(newMixedSound, at: index ?? -1)
         
-//        userRepositoriesState.remove(at: index ?? -1)
-//        userRepositoriesState.insert(newMixedSound, at: index ?? -1)
+        userRepositoriesState.remove(at: index ?? -1)
+        userRepositoriesState.insert(newMixedSound, at: index ?? -1)
         
         let data = getEncodedData(data: userRepositories)
         UserDefaultsManager.shared.recipes = data
@@ -147,15 +148,15 @@ extension VolumeControlView {
                                 saveNewVolume()
                             }
                         }
-                            .background(.black)
-                            .cornerRadius(4)
-                            .accentColor(.white)
-                            .padding(.horizontal, 20)
-                            .onChange(of: audioVolumes.baseVolume) { newValue in
-                                print(newValue)
-                                viewModel.baseAudioManager.changeVolume(track: item.name,
-                                                              volume: newValue)
-                            }
+                        .background(.black)
+                        .cornerRadius(4)
+                        .accentColor(.white)
+                        .padding(.horizontal, 20)
+                        .onChange(of: audioVolumes.baseVolume) { newValue in
+                            print(newValue)
+                            viewModel.baseAudioManager.changeVolume(track: item.name,
+                                                                    volume: newValue)
+                        }
                         Text(String(Int(audioVolumes.baseVolume * 100)))
                             .foregroundColor(.systemGrey1)
                     case .melody:
@@ -164,15 +165,15 @@ extension VolumeControlView {
                                 saveNewVolume()
                             }
                         }
-                            .background(.black)
-                            .cornerRadius(4)
-                            .accentColor(.white)
-                            .padding(.horizontal, 20)
-                            .onChange(of: audioVolumes.melodyVolume) { newValue in
-                                print(newValue)
-                                viewModel.melodyAudioManager.changeVolume(track: item.name,
-                                                                volume: newValue)
-                            }
+                        .background(.black)
+                        .cornerRadius(4)
+                        .accentColor(.white)
+                        .padding(.horizontal, 20)
+                        .onChange(of: audioVolumes.melodyVolume) { newValue in
+                            print(newValue)
+                            viewModel.melodyAudioManager.changeVolume(track: item.name,
+                                                                      volume: newValue)
+                        }
                         Text(String(Int(audioVolumes.melodyVolume * 100)))
                             .foregroundColor(.systemGrey1)
                     case .whiteNoise:
@@ -181,15 +182,15 @@ extension VolumeControlView {
                                 saveNewVolume()
                             }
                         }
-                            .background(.black)
-                            .cornerRadius(4)
-                            .accentColor(.white)
-                            .padding(.horizontal, 20)
-                            .onChange(of: audioVolumes.whiteNoiseVolume) { newValue in
-                                print(newValue)
-                                viewModel.whiteNoiseAudioManager.changeVolume(track: item.name,
-                                                                 volume: newValue)
-                            }
+                        .background(.black)
+                        .cornerRadius(4)
+                        .accentColor(.white)
+                        .padding(.horizontal, 20)
+                        .onChange(of: audioVolumes.whiteNoiseVolume) { newValue in
+                            print(newValue)
+                            viewModel.whiteNoiseAudioManager.changeVolume(track: item.name,
+                                                                          volume: newValue)
+                        }
                         Text(String(Int(audioVolumes.whiteNoiseVolume * 100)))
                             .foregroundColor(.systemGrey1)
                     }
