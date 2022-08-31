@@ -137,7 +137,7 @@ extension StudioView {
                             } else {
                                 baseAudioManager.startPlayer(track: selectedBaseSound.fileName, volume: volumes[select])
                                 
-                                selectedImageNames.base = "BaseIllust"
+                                selectedImageNames.base = selectedBaseSound.fileName
                                 opacityAnimationValues[0] = 1
                             }
                         }
@@ -153,7 +153,7 @@ extension StudioView {
                             } else {
                                 melodyAudioManager.startPlayer(track: selectedMelodySound.fileName, volume: volumes[select])
                                 
-                                selectedImageNames.melody = "MelodyIllust"
+                                selectedImageNames.melody = selectedMelodySound.fileName
                                 opacityAnimationValues[1] = 1
                             }
                         }
@@ -169,7 +169,7 @@ extension StudioView {
                             } else {
                                 whiteNoiseAudioManager.startPlayer(track: selectedWhiteNoiseSound.fileName, volume: volumes[select])
                                 
-                                selectedImageNames.whiteNoise = ""//selectedWhiteNoiseSound.imageName
+                                selectedImageNames.whiteNoise = selectedWhiteNoiseSound.fileName
                                 opacityAnimationValues[2] = 0.5
                             }
                         }

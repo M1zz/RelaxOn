@@ -34,7 +34,6 @@ extension SelectedImageView {
             
             // Melody
             IllustImage(imageName: selectedImageNames.melody, animateVar: opacityAnimationValues[1])
-                .blendMode(.darken)
             
             // WhiteNoise
             IllustImage(imageName: selectedImageNames.whiteNoise, animateVar: opacityAnimationValues[2])
