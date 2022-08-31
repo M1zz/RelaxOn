@@ -142,7 +142,7 @@ final class MusicViewModel: NSObject, ObservableObject {
         var nowPlayingInfo = center.nowPlayingInfo ?? [String: Any]()
         
         nowPlayingInfo[MPMediaItemPropertyTitle] = mixedSound.name
-        if let albumCoverPage = UIImage(named: mixedSound.baseSound?.name ?? "") {
+        if let albumCoverPage = UIImage(named: mixedSound.baseSound?.fileName ?? "") {
             nowPlayingInfo[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(boundsSize: albumCoverPage.size, requestHandler: { size in
                 return albumCoverPage
             })
