@@ -16,6 +16,11 @@
 		10FB81AF28A138E7000168CC /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FB81AE28A138E7000168CC /* OnboardingView.swift */; };
 		10FB81B128A13D97000168CC /* OnboadingNamingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FB81B028A13D97000168CC /* OnboadingNamingView.swift */; };
 		10FB81B528A17468000168CC /* OnboardingFinishView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FB81B428A17468000168CC /* OnboardingFinishView.swift */; };
+		216057D928BD4DBA0032A5AC /* TabsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216057D828BD4DBA0032A5AC /* TabsView.swift */; };
+		216057DB28BD4DBF0032A5AC /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216057DA28BD4DBF0032A5AC /* ListView.swift */; };
+		216057DD28BD4E760032A5AC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 216057DC28BD4E760032A5AC /* Assets.xcassets */; };
+		216057DE28BD4EA40032A5AC /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C753494F28B748C80055F7CA /* Color+Extension.swift */; };
+		216057DF28BD4EAA0032A5AC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58DE61862839C13A00F25769 /* Assets.xcassets */; };
 		219BD67328900A28006FAF55 /* CDListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 219BD67228900A28006FAF55 /* CDListView.swift */; };
 		21B7A65028A31DE700E90744 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 21B7A64F28A31DE700E90744 /* Assets.xcassets */; };
 		21B7A65628A31DE700E90744 /* RelaxOnWatch WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 21B7A65528A31DE700E90744 /* RelaxOnWatch WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -24,7 +29,6 @@
 		21B7A65F28A31DE700E90744 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B7A65E28A31DE700E90744 /* NotificationController.swift */; };
 		21B7A66128A31DE700E90744 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B7A66028A31DE700E90744 /* NotificationView.swift */; };
 		21B7A66328A31DE700E90744 /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B7A66228A31DE700E90744 /* ComplicationController.swift */; };
-		21B7A66528A31DE800E90744 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 21B7A66428A31DE800E90744 /* Assets.xcassets */; };
 		21B7A66828A31DE800E90744 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 21B7A66728A31DE800E90744 /* Preview Assets.xcassets */; };
 		21B7A66D28A31DE800E90744 /* RelaxOnWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 21B7A64D28A31DE600E90744 /* RelaxOnWatch.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		21B7A67728A31E7000E90744 /* PlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B7A67628A31E7000E90744 /* PlayerViewModel.swift */; };
@@ -187,6 +191,9 @@
 		10FB81AE28A138E7000168CC /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		10FB81B028A13D97000168CC /* OnboadingNamingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboadingNamingView.swift; sourceTree = "<group>"; };
 		10FB81B428A17468000168CC /* OnboardingFinishView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingFinishView.swift; sourceTree = "<group>"; };
+		216057D828BD4DBA0032A5AC /* TabsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabsView.swift; sourceTree = "<group>"; };
+		216057DA28BD4DBF0032A5AC /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
+		216057DC28BD4E760032A5AC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		219BD67228900A28006FAF55 /* CDListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDListView.swift; sourceTree = "<group>"; };
 		21B7A64D28A31DE600E90744 /* RelaxOnWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RelaxOnWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		21B7A64F28A31DE700E90744 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -196,7 +203,6 @@
 		21B7A65E28A31DE700E90744 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
 		21B7A66028A31DE700E90744 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		21B7A66228A31DE700E90744 /* ComplicationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplicationController.swift; sourceTree = "<group>"; };
-		21B7A66428A31DE800E90744 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		21B7A66728A31DE800E90744 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		21B7A66928A31DE800E90744 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		21B7A66A28A31DE800E90744 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
@@ -322,12 +328,14 @@
 				21B7A65E28A31DE700E90744 /* NotificationController.swift */,
 				21B7A66028A31DE700E90744 /* NotificationView.swift */,
 				21B7A66228A31DE700E90744 /* ComplicationController.swift */,
-				21B7A66428A31DE800E90744 /* Assets.xcassets */,
 				21B7A66928A31DE800E90744 /* Info.plist */,
 				21B7A66A28A31DE800E90744 /* PushNotificationPayload.apns */,
 				21B7A66628A31DE800E90744 /* Preview Content */,
 				21B7A67628A31E7000E90744 /* PlayerViewModel.swift */,
 				21B7A67828A31EB200E90744 /* Connectivity.swift */,
+				216057D828BD4DBA0032A5AC /* TabsView.swift */,
+				216057DA28BD4DBF0032A5AC /* ListView.swift */,
+				216057DC28BD4E760032A5AC /* Assets.xcassets */,
 			);
 			path = "RelaxOnWatch WatchKit Extension";
 			sourceTree = "<group>";
@@ -744,8 +752,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				216057DD28BD4E760032A5AC /* Assets.xcassets in Resources */,
+				216057DF28BD4EAA0032A5AC /* Assets.xcassets in Resources */,
 				21B7A66828A31DE800E90744 /* Preview Assets.xcassets in Resources */,
-				21B7A66528A31DE800E90744 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -799,12 +808,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				21B7A65F28A31DE700E90744 /* NotificationController.swift in Sources */,
+				216057DE28BD4EA40032A5AC /* Color+Extension.swift in Sources */,
 				21B7A65D28A31DE700E90744 /* PlayerView.swift in Sources */,
 				21B7A66328A31DE700E90744 /* ComplicationController.swift in Sources */,
 				21B7A67728A31E7000E90744 /* PlayerViewModel.swift in Sources */,
 				21B7A65B28A31DE700E90744 /* RelaxOnApp.swift in Sources */,
 				21B7A66128A31DE700E90744 /* NotificationView.swift in Sources */,
+				216057D928BD4DBA0032A5AC /* TabsView.swift in Sources */,
 				21B7A67928A31EB200E90744 /* Connectivity.swift in Sources */,
+				216057DB28BD4DBF0032A5AC /* ListView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1304,7 +1316,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 2.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.LullabyRecipe.RelaxOnWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = relaxOnWidget;
@@ -1335,7 +1347,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 2.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.LullabyRecipe.RelaxOnWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = relaxOnWidget;

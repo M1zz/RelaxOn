@@ -21,6 +21,9 @@ struct CDListView: View {
     @State private var showingActionSheet = false
     @State var isShwoingMusicView = false
     
+    // TODO: - 추후 다른 방식으로 수정
+    @StateObject var musicViewModel = MusicViewModel()
+    
     // MARK: - Life Cycles
     init(userRepositoriesState: [MixedSound]) {
         UINavigationBar.appearance().tintColor = UIColor.relaxDimPurple ?? .white
@@ -78,6 +81,9 @@ struct CDListView: View {
                     userRepositories = try decoder.decode([MixedSound].self, from: data)
                     print("help : \(userRepositories)")
                     userRepositoriesState = userRepositories
+                    
+                    // TODO: - 추후 다른 방식으로 수정
+                    musicViewModel.updateCDList(cdList: userRepositoriesState.map{mixedSound in mixedSound.name})
                 } catch {
                     print("Unable to Decode Note (\(error))")
                 }
@@ -90,6 +96,10 @@ struct CDListView: View {
                     
                     userRepositories = try decoder.decode([MixedSound].self, from: data)
                     userRepositoriesState = userRepositories
+                    
+                    // TODO: - 추후 다른 방식으로 수정
+                    musicViewModel.updateCDList(cdList: userRepositoriesState.map{mixedSound in mixedSound.name})
+                    
                     print("help : \(userRepositories)")
 
                 } catch {
@@ -131,6 +141,8 @@ struct CDListView: View {
                 selectedMixedSoundIds.forEach { id in
                     if let index = userRepositories.firstIndex(where: {$0.id == id}) {
                         userRepositories.remove(at: index)
+                        // TODO: - 추후 다른 방식으로 수정
+                        musicViewModel.updateCDList(cdList: userRepositoriesState.map{mixedSound in mixedSound.name})
                     }
                 }
                 let data = getEncodedData(data: userRepositories)
