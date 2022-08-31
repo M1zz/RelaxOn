@@ -138,7 +138,7 @@ extension StudioView {
                                 baseAudioManager.startPlayer(track: selectedBaseSound.fileName, volume: volumes[select])
                                 
                                 selectedImageNames.base = selectedBaseSound.fileName
-                                opacityAnimationValues[0] = 1
+                                opacityAnimationValues[0] = 1.0
                             }
                         }
                     case .melody:
@@ -154,7 +154,7 @@ extension StudioView {
                                 melodyAudioManager.startPlayer(track: selectedMelodySound.fileName, volume: volumes[select])
                                 
                                 selectedImageNames.melody = selectedMelodySound.fileName
-                                opacityAnimationValues[1] = 1
+                                opacityAnimationValues[1] = 1.0
                             }
                         }
                     case .whiteNoise:
@@ -170,7 +170,7 @@ extension StudioView {
                                 whiteNoiseAudioManager.startPlayer(track: selectedWhiteNoiseSound.fileName, volume: volumes[select])
                                 
                                 selectedImageNames.whiteNoise = selectedWhiteNoiseSound.fileName
-                                opacityAnimationValues[2] = 0.5
+                                opacityAnimationValues[2] = 1.0
                             }
                         }
                     }

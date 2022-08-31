@@ -178,7 +178,7 @@ extension OnboardingView {
                                 baseAudioManager.startPlayer(track: selectedBaseSound.fileName)
 
                                 selectedImageNames.base = selectedBaseSound.fileName
-                                opacityAnimationValues[0] = 0.5
+                                opacityAnimationValues[0] = 1.0
                             }
                         }
 
@@ -197,7 +197,7 @@ extension OnboardingView {
 
                                 selectedImageNames.whiteNoise = selectedWhiteNoiseSound.fileName
 
-                                opacityAnimationValues[2] = 0.5
+                                opacityAnimationValues[2] = 1.0
                             }
                         }
                     case .melody:
@@ -214,7 +214,7 @@ extension OnboardingView {
 
                                 selectedImageNames.melody = selectedMelodySound.fileName
 
-                                opacityAnimationValues[1] = 0.5
+                                opacityAnimationValues[1] = 1.0
 
                             }
                         }
