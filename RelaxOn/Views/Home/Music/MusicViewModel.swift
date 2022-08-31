@@ -153,6 +153,7 @@ final class MusicViewModel: NSObject, ObservableObject {
         let index = userRepositories.firstIndex { element in
             element.name == mixedSound.name
         }
+        self.playPause()
         self.isPlaying = true
         if index == count - 1 {
             guard let firstSong = userRepositories.first else { return }
@@ -176,6 +177,7 @@ final class MusicViewModel: NSObject, ObservableObject {
         let index = userRepositories.firstIndex { element in
             element.name == mixedSound.name
         }
+        self.playPause()
         self.isPlaying = true
         if index == 0 {
             guard let lastSong = userRepositories.last else { return }
