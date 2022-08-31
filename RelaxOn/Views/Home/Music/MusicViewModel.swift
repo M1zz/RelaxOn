@@ -11,7 +11,7 @@ import MediaPlayer
 import WatchConnectivity
 
 final class MusicViewModel: NSObject, ObservableObject {
-    @Published var watchInfo: [String] = [""]
+    @Published var watchInfo: [String] = []
         
     override init() {
         super.init()
@@ -34,7 +34,10 @@ final class MusicViewModel: NSObject, ObservableObject {
         let userInfo: [String: [String]] = [
             "cdInfo" : cdInfos
         ]
-        WCSession.default.transferUserInfo(userInfo)
+        
+        WCSession.default.sendMessage(userInfo) { _ in
+            print("error sendmessage from iphone")
+        }
     }
     
     @Published var baseAudioManager = AudioManager()
@@ -44,9 +47,9 @@ final class MusicViewModel: NSObject, ObservableObject {
         // FIXME: addMainSoundToWidget()를 Sound가 재정렬 되었을 때 제일 위의 음악을 넣어야 합니다. (해당 로직이 안 짜진 거 같아 우선은, 여기로 뒀습니다.)
         didSet {
             if let mixedSound = mixedSound,
-               let baseImageName = mixedSound.baseSound?.imageName,
-               let melodyImageName = mixedSound.melodySound?.imageName,
-               let whiteNoiseImageName = mixedSound.whiteNoiseSound?.imageName {
+               let baseImageName = mixedSound.baseSound?.fileName,
+               let melodyImageName = mixedSound.melodySound?.fileName,
+               let whiteNoiseImageName = mixedSound.whiteNoiseSound?.fileName {
                 WidgetManager.addMainSoundToWidget(baseImageName: baseImageName, melodyImageName: melodyImageName, whiteNoiseImageName: whiteNoiseImageName, name: mixedSound.name, id: mixedSound.id, isPlaying: isPlaying, isRecentPlay: false)
             }
         }
@@ -199,16 +202,11 @@ final class MusicViewModel: NSObject, ObservableObject {
         }
     }
     
-    // Watch 업데이트
     func updateCompanion() {
         self.send(cdInfos: [isPlaying ? "true" : "false", mixedSound?.name ?? ""])
     }
     
     func updateCDList(cdList: [String]) {
-//        sendApplicationContext(cdList: userRepositories.map{mixedSound in mixedSound.name})
-//        WCSession.default.sendMessage(["message" : cdList], replyHandler: nil) { (error) in
-//            print(error.localizedDescription)
-//        }
         do {
             try WCSession.default.updateApplicationContext(["cdList" : cdList])
         } catch {
@@ -220,8 +218,44 @@ final class MusicViewModel: NSObject, ObservableObject {
 extension MusicViewModel: WCSessionDelegate {
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
     }
+    
+    private func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHander: @escaping ([String:Any]) -> Void) {
+        print("received message from watch")
+        let key = "watchInfo"
+            guard let WatchInfo = message[key] as? [String] else {
+            return
+        }
+        
+        let index = userRepositories.firstIndex { element in
+            element.name == WatchInfo[0]
+        }
+        
+        self.mixedSound = userRepositories[index ?? 0]
+        
+        switch WatchInfo[1] {
+        case "playing", "paused":
+            print("playPause()")
+            self.playPause()
+        case "prev":
+            print("prev()")
+            guard let mixedSound = self.mixedSound else {
+                return
+            }
+            self.setupPreviousTrack(mixedSound: mixedSound)
+        case "next":
+            print("next()")
+            guard let mixedSound = self.mixedSound else {
+                return
+            }
+            self.setupNextTrack(mixedSound: mixedSound)
+        default:
+            print("unknown watchinfo")
+        }
+    }
 
     func session(_ session: WCSession, didReceiveUserInfo userInfo: [String : Any] = [:]) {
+        print("received from watch")
+        
         DispatchQueue.main.async {
             let key = "watchInfo"
                 guard let WatchInfo = userInfo[key] as? [String] else {
@@ -236,13 +270,16 @@ extension MusicViewModel: WCSessionDelegate {
             
             switch WatchInfo[1] {
             case "playing", "paused":
+                print("playPause()")
                 self.playPause()
             case "prev":
+                print("prev()")
                 guard let mixedSound = self.mixedSound else {
                     return
                 }
                 self.setupPreviousTrack(mixedSound: mixedSound)
             case "next":
+                print("next()")
                 guard let mixedSound = self.mixedSound else {
                     return
                 }

@@ -143,15 +143,15 @@ extension OnboardingView {
                 .frame(height: 25)
                 .onChange(of: volumes[0]) { volume in
                     selectedBaseSound.audioVolume = volume
-                    baseAudioManager.changeVolume(track: selectedBaseSound.imageName, volume: volume)
+                    baseAudioManager.changeVolume(track: selectedBaseSound.fileName, volume: volume)
                 }
                 .onChange(of: volumes[1]) { volume in
                     selectedMelodySound.audioVolume = volume
-                    melodyAudioManager.changeVolume(track: selectedMelodySound.imageName, volume: volume)
+                    melodyAudioManager.changeVolume(track: selectedMelodySound.fileName, volume: volume)
                 }
                 .onChange(of: volumes[2]) { volume in
                     selectedWhiteNoiseSound.audioVolume = volume
-                    whiteNoiseAudioManager.changeVolume(track: selectedWhiteNoiseSound.imageName, volume: volume)
+                    whiteNoiseAudioManager.changeVolume(track: selectedWhiteNoiseSound.fileName, volume: volume)
                 }
                 
                 Text("\(Int(volumes[select] * 100))")

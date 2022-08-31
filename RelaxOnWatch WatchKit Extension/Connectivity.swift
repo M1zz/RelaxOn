@@ -16,7 +16,6 @@ enum PlayStates: String {
 }
 
 final class Connectivity: NSObject, ObservableObject {
-//    @StateObject var playerViewModel = PlayerViewModel()
     @Published var cdInfos: [String] = []
     @Published var cdList: [String] = []
     
@@ -32,6 +31,7 @@ final class Connectivity: NSObject, ObservableObject {
     }
     
     public func sendFromWatch(watchInfo: [String]) {
+        print("sended from watch")
         guard WCSession.default.activationState == .activated else {
             return
         }
@@ -39,7 +39,10 @@ final class Connectivity: NSObject, ObservableObject {
         let watchInfo: [String: [String]] = [
             "watchInfo" : watchInfo
         ]
-        WCSession.default.transferUserInfo(watchInfo)
+        WCSession.default.sendMessage(watchInfo, replyHandler: nil, errorHandler: {(error) in
+            print(error)
+            print("send message failed from watch")
+        })
     }
 }
 
@@ -48,12 +51,14 @@ extension Connectivity: WCSessionDelegate {
     }
     
     func session(_ session: WCSession, didReceiveUserInfo userInfo: [String : Any] = [:]) {
+        print("received cdinfo")
         let key = "cdInfo"
             guard let CDInfos = userInfo[key] as? [String] else {
             return
         }
         self.cdInfos = CDInfos
         PlayerViewModel.shared.updateCurrentCDName(name: self.cdInfos[1])
+        print(PlayerViewModel.shared.cdinfos)
     }
     
     func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String : Any]) {
@@ -63,5 +68,16 @@ extension Connectivity: WCSessionDelegate {
             return
         }
         self.cdList = CDList
+    }
+    
+    func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
+        print("received message")
+        let key = "cdInfo"
+            guard let CDInfos = message[key] as? [String] else {
+            return
+        }
+        self.cdInfos = CDInfos
+        PlayerViewModel.shared.updateCurrentCDName(name: self.cdInfos[1])
+        print(PlayerViewModel.shared.cdinfos)
     }
 }

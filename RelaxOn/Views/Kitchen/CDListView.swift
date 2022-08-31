@@ -21,7 +21,7 @@ struct CDListView: View {
     @State private var showingActionSheet = false
     @State var isShwoingMusicView = false
     
-    // MARK: - Delete!!!
+    // TODO: - 추후 다른 방식으로 수정
     @StateObject var musicViewModel = MusicViewModel()
     
     // MARK: - Life Cycles
@@ -82,7 +82,7 @@ struct CDListView: View {
                     print("help : \(userRepositories)")
                     userRepositoriesState = userRepositories
                     
-                    // MARK: -Delete!!
+                    // TODO: - 추후 다른 방식으로 수정
                     musicViewModel.updateCDList(cdList: userRepositoriesState.map{mixedSound in mixedSound.name})
                 } catch {
                     print("Unable to Decode Note (\(error))")
@@ -97,7 +97,7 @@ struct CDListView: View {
                     userRepositories = try decoder.decode([MixedSound].self, from: data)
                     userRepositoriesState = userRepositories
                     
-                    // MARK: -Delete!!
+                    // TODO: - 추후 다른 방식으로 수정
                     musicViewModel.updateCDList(cdList: userRepositoriesState.map{mixedSound in mixedSound.name})
                     
                     print("help : \(userRepositories)")
@@ -141,7 +141,7 @@ struct CDListView: View {
                 selectedMixedSoundIds.forEach { id in
                     if let index = userRepositories.firstIndex(where: {$0.id == id}) {
                         userRepositories.remove(at: index)
-                        // MARK: -Delete!!
+                        // TODO: - 추후 다른 방식으로 수정
                         musicViewModel.updateCDList(cdList: userRepositoriesState.map{mixedSound in mixedSound.name})
                     }
                 }

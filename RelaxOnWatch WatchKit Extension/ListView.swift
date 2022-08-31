@@ -12,7 +12,6 @@ struct ListView: View {
     @State var selected = -1
     
     var dummyTitles = ["Forest", "Midnight", "Reflection", "Foucs", "Favorite", "Calm", "Quiet"]
-//    @ObservedObject var playerViewModel: PlayerViewModel
     
     var body: some View {
         VStack {
@@ -23,12 +22,7 @@ struct ListView: View {
                             Divider()
                         }
                         Button(action: {
-//                            playerViewModel.currentCDName = Connectivity.shared.cdList[titleIdx]
-                            
-//                            playerViewModel.updateCurrentCDName(name: Connectivity.shared.cdList[titleIdx])
                             PlayerViewModel.shared.updateCurrentCDName(name: Connectivity.shared.cdList[titleIdx])
-                            print("name: \(Connectivity.shared.cdList[titleIdx])")
-                            print("name when clicked: \(PlayerViewModel.shared.currentCDName)")
                             selected = titleIdx
                             tabNumber = 1
                         }) {
@@ -48,8 +42,8 @@ struct ListView: View {
     }
 }
 
-//struct ListView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ListView(tabNumber: .constant(0))
-//    }
-//}
+struct ListView_Previews: PreviewProvider {
+    static var previews: some View {
+        ListView(tabNumber: .constant(0))
+    }
+}

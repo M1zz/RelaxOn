@@ -17,7 +17,7 @@ class PlayerViewModel: ObservableObject {
     
     @Published var isPlaying = false
     @Published var cdinfos: [String] = ["false", ""]
-    @Published var cdlist: [String] = [""]
+    @Published var cdlist: [String] = []
     
     var cancellable = Set<AnyCancellable>()
     
@@ -27,13 +27,6 @@ class PlayerViewModel: ObservableObject {
             .receive(on: DispatchQueue.main)
             .assign(to: \.cdinfos, on: self)
             .store(in: &cancellable)
-        self.currentCDName = self.cdinfos[1]
-        
-//        Connectivity.shared.$cdList
-//            .dropFirst()
-//            .receive(on: DispatchQueue.main)
-//            .assign(to: \.cdlist, on: self)
-//            .store(in: &cancellable)
     }
     
     func updateCurrentCDName(name: String) {
@@ -44,19 +37,19 @@ class PlayerViewModel: ObservableObject {
     func playPause() {
         self.isPlaying = !isPlaying
         let info = [currentCDName, isPlaying ? "playing" : "paused"]
-        updateCompanion(info: info)
+        self.updateCompanion(info: info)
     }
     
     func playPrevious() {
         self.playState = .backward
         let info = [currentCDName, "prev"]
-        updateCompanion(info: info)
+        self.updateCompanion(info: info)
     }
     
     func playNext() {
         self.playState = .forward
         let info = [currentCDName, "next"]
-        updateCompanion(info: info)
+        self.updateCompanion(info: info)
     }
     
     func updateCompanion(info: [String]) {

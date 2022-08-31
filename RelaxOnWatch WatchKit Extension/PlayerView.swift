@@ -8,10 +8,8 @@
 import SwiftUI
 
 struct PlayerView: View {
-//    @ObservedObject var playerViewModel: PlayerViewModel
     @State var volume = 10.0
     @State var currentCDName: String = ""
-    
     
     var body: some View {
         ZStack {
@@ -22,7 +20,6 @@ struct PlayerView: View {
             
             VStack {
                 Text(currentCDName)
-                let _ = print("player view: \(PlayerViewModel.shared.currentCDName)")
                 
                 Spacer()
                 
@@ -73,13 +70,12 @@ struct PlayerView: View {
         }
         .onAppear {
             currentCDName = PlayerViewModel.shared.currentCDName
-            print("onAppear: \(PlayerViewModel.shared.currentCDName)")
         }
     }
 }
 
-//struct PlayerView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        PlayerView(playerViewModel: <#PlayerViewModel#>)
-//    }
-//}
+struct PlayerView_Previews: PreviewProvider {
+    static var previews: some View {
+        PlayerView()
+    }
+}
