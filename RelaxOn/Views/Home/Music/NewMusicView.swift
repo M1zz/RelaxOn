@@ -141,6 +141,8 @@ struct NewMusicView: View {
                 )
             }
             .onAppear {
+                UIApplication.shared.beginReceivingRemoteControlEvents()
+                
                 if isFetchFirstData {
                     viewModel.fetchData(data: data)
                 }
@@ -156,6 +158,7 @@ struct NewMusicView: View {
             .onDisappear {
                 viewModel.stop()
                 userRepositoriesState = userRepositories
+                UIApplication.shared.endReceivingRemoteControlEvents()
             }
             .background(
                 NavigationLink(destination: MusicRenameView(viewModel: viewModel, userRepositoriesState: $userRepositoriesState, mixedSound: viewModel.mixedSound ?? emptyMixedSound), isActive: $isActive) {
