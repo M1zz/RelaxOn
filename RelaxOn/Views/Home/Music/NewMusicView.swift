@@ -229,7 +229,6 @@ extension NewMusicView {
                         .frame(width: .infinity, height: .infinity)
             }
             if let whiteNoiseSoundImageName = viewModel.mixedSound?.whiteNoiseSound?.fileName {
-                let _ = print(whiteNoiseSoundImageName, "왜")
                     Image(whiteNoiseSoundImageName)
                         .resizable()
                         .opacity(whiteNoiseSoundImageName == "music" ? 0.0 : 0.5)
