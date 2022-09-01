@@ -123,6 +123,7 @@ struct MusicRenameView: View {
             UserDefaultsManager.shared.recipes = data
             presentationMode.wrappedValue.dismiss()
         }
+        .disabled(textEntered.isEmpty)
     }
 }
 
