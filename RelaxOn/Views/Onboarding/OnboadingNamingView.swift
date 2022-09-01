@@ -80,6 +80,7 @@ extension OnboadingNamingView {
                 .cornerRadius(10)
                 .background(.black)
         }
+        .disabled(textEntered.isEmpty)
         .opacity(textEntered.isEmpty ? 0.5 : 1)
         .padding()
     }

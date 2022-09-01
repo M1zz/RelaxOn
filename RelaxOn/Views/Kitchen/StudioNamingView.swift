@@ -102,6 +102,7 @@ extension StudioNamingView {
             UserDefaultsManager.shared.recipes = data
             self.shouldPoptoRootView = false
         }
+        .disabled(textEntered.isEmpty)
     }
 }
 
