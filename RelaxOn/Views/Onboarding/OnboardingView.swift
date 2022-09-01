@@ -11,20 +11,20 @@ struct OnboardingView: View {
     // MARK: - State Properties
     @State var select: Int = 0
     @State var selectedBaseSound: Sound = Sound(id: 0,
-                                                name: "",
+                                                name: "Empty",
                                                 soundType: .base,
                                                 audioVolume: 0.5,
-                                                fileName: "")
+                                                fileName: "music")
     @State var selectedMelodySound: Sound = Sound(id: 10,
-                                                  name: "",
+                                                  name: "Empty",
                                                   soundType: .melody,
                                                   audioVolume: 0.5,
-                                                  fileName: "")
+                                                  fileName: "music")
     @State var selectedWhiteNoiseSound: Sound = Sound(id: 20,
-                                                      name: "",
+                                                      name: "Empty",
                                                       soundType: .whiteNoise,
                                                       audioVolume: 0.5,
-                                                      fileName: "")
+                                                      fileName: "music")
 
     @State var selectedImageNames: (base: String, melody: String, whiteNoise: String) = (
         base: "",

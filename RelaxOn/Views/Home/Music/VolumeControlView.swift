@@ -32,6 +32,7 @@ struct VolumeControlView: View {
                                  soundType: localBaseSound.soundType,
                                  audioVolume: audioVolumes.baseVolume,
                                  fileName: localBaseSound.fileName)
+        
         let newMelodySound = Sound(id: localMelodySound.id,
                                    name: localMelodySound.name,
                                    soundType: localMelodySound.soundType,
@@ -154,7 +155,7 @@ extension VolumeControlView {
                         .padding(.horizontal, 20)
                         .onChange(of: audioVolumes.baseVolume) { newValue in
                             print(newValue)
-                            viewModel.baseAudioManager.changeVolume(track: item.name,
+                            viewModel.baseAudioManager.changeVolume(track: item.fileName,
                                                                     volume: newValue)
                         }
                         Text(String(Int(audioVolumes.baseVolume * 100)))
@@ -171,7 +172,7 @@ extension VolumeControlView {
                         .padding(.horizontal, 20)
                         .onChange(of: audioVolumes.melodyVolume) { newValue in
                             print(newValue)
-                            viewModel.melodyAudioManager.changeVolume(track: item.name,
+                            viewModel.melodyAudioManager.changeVolume(track: item.fileName,
                                                                       volume: newValue)
                         }
                         Text(String(Int(audioVolumes.melodyVolume * 100)))
@@ -188,7 +189,7 @@ extension VolumeControlView {
                         .padding(.horizontal, 20)
                         .onChange(of: audioVolumes.whiteNoiseVolume) { newValue in
                             print(newValue)
-                            viewModel.whiteNoiseAudioManager.changeVolume(track: item.name,
+                            viewModel.whiteNoiseAudioManager.changeVolume(track: item.fileName,
                                                                           volume: newValue)
                         }
                         Text(String(Int(audioVolumes.whiteNoiseVolume * 100)))
