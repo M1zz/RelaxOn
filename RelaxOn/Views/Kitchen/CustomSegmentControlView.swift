@@ -20,11 +20,12 @@ public struct CustomSegmentControlView: View {
         return itemTitleSizes.count > selection ? itemTitleSizes[selection].width : .zero
     }
     
-    private var xSpace: CGFloat {
-        let itemWidthSum: CGFloat = itemTitleSizes.map { $0.width }.reduce(0, +).rounded()
-        let space = (segmentSize.width - itemWidthSum) / CGFloat(items.count - 1)
-        return max(space, 0)
-    }
+//    private var xSpace: CGFloat {
+//        let itemWidthSum: CGFloat = itemTitleSizes.map { $0.width }.reduce(0, +).rounded()
+//        let space = (segmentSize.width - itemWidthSum) / CGFloat(items.count - 1)
+//        return max(space, 0)
+//
+//    }
     
     // MARK: - Methods
     private func segmentItemView(for index: Int) -> some View {
@@ -77,7 +78,7 @@ public struct CustomSegmentControlView: View {
 
             HStack {
                 VStack(alignment: .leading, spacing: 0) {
-                    HStack(spacing: xSpace) {
+                    HStack(spacing: 0) {
                         ForEach(0 ..< items.count, id: \.self) { index in
                             segmentItemView(for: index)
                                 .padding(.leading, index == 0 ? 20 : 36)
@@ -93,7 +94,7 @@ public struct CustomSegmentControlView: View {
                         .animation(Animation.linear(duration: 0.3), value: selectedItemWidth)
 
                 }
-                .padding(.horizontal, xSpace)
+//                .padding(.horizontal, 36)
                 Spacer()
             }
 
