@@ -12,20 +12,20 @@ struct StudioView: View {
     @State var select: Int = 0
     @State var showingConfirm = false
     @State var selectedBaseSound: Sound = Sound(id: 0,
-                                                name: "",
+                                                name: "Empty",
                                                 soundType: .base,
                                                 audioVolume: 0.5,
-                                                fileName: "")
+                                                fileName: "music")
     @State var selectedMelodySound: Sound = Sound(id: 10,
-                                                  name: "",
+                                                  name: "Empty",
                                                   soundType: .melody,
                                                   audioVolume: 0.5,
-                                                  fileName: "")
+                                                  fileName: "music")
     @State var selectedWhiteNoiseSound: Sound = Sound(id: 20,
-                                                      name: "",
+                                                      name: "Empty",
                                                       soundType: .whiteNoise,
                                                       audioVolume: 0.5,
-                                                      fileName: "")
+                                                      fileName: "music")
     @State var selectedImageNames: (base: String, melody: String, whiteNoise: String) = (
         base: "",
         melody: "",
@@ -208,8 +208,13 @@ extension StudioView {
             Button(action: {
                 showingConfirm = true
             }, label: {
-                Image(systemName: "chevron.backward")
-                    .foregroundColor(.relaxDimPurple)
+                HStack {
+                    Image(systemName: "chevron.backward")
+                        .foregroundColor(.relaxDimPurple)
+                    Text("CD LIBRARY")
+                        .font(.system(size: 15, weight: .regular))
+                        .foregroundColor(.relaxDimPurple)
+                }
             })
             .confirmationDialog("나가면 사라집니다...", isPresented: $showingConfirm, titleVisibility: .visible) {
                 Button("Leave Studio", role: .destructive){
@@ -217,9 +222,7 @@ extension StudioView {
                 }
                 Button("Cancel", role: .cancel){}
             }
-            Text("CD LIBRARY")
-                .font(.system(size: 15, weight: .regular))
-                .foregroundColor(.relaxDimPurple)
+            
             Spacer()
         }.padding()
     }

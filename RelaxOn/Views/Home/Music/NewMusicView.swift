@@ -90,7 +90,6 @@ struct NewMusicView: View {
                             let gradient = draggedHeight / deviceHalfHeight
                             offsetYOfControlView += draggedHeight / 5
                             
-                            
                             if value.location.y > UIScreen.main.bounds.height * 0.82 {
                                 return
                             } else if offsetYOfControlView == deviceHalfHeight {
@@ -141,6 +140,8 @@ struct NewMusicView: View {
                 )
             }
             .onAppear {
+                UIApplication.shared.beginReceivingRemoteControlEvents()
+                
                 if isFetchFirstData {
                     viewModel.fetchData(data: data)
                 }
@@ -156,6 +157,7 @@ struct NewMusicView: View {
             .onDisappear {
                 viewModel.stop()
                 userRepositoriesState = userRepositories
+                UIApplication.shared.endReceivingRemoteControlEvents()
             }
             .background(
                 NavigationLink(destination: MusicRenameView(viewModel: viewModel, userRepositoriesState: $userRepositoriesState, mixedSound: viewModel.mixedSound ?? emptyMixedSound), isActive: $isActive) {
