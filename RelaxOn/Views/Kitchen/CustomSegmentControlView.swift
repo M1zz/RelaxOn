@@ -12,7 +12,7 @@ public struct CustomSegmentControlView: View {
     @State private var segmentSize: CGSize = .zero
     @State private var itemTitleSizes: [CGSize] = []
     @Binding private var selection: Int
-    
+
     // MARK: - General Properties
     private let items: [LocalizedStringKey]
     
@@ -20,12 +20,12 @@ public struct CustomSegmentControlView: View {
         return itemTitleSizes.count > selection ? itemTitleSizes[selection].width : .zero
     }
     
-    private var xSpace: CGFloat {
-        guard !itemTitleSizes.isEmpty, !items.isEmpty, segmentSize.width != 0 else { return 0 }
-        let itemWidthSum: CGFloat = itemTitleSizes.map { $0.width }.reduce(0, +).rounded()
-        let space = (segmentSize.width - itemWidthSum) / CGFloat(items.count + 1)
-        return max(space, 0)
-    }
+//    private var xSpace: CGFloat {
+//        let itemWidthSum: CGFloat = itemTitleSizes.map { $0.width }.reduce(0, +).rounded()
+//        let space = (segmentSize.width - itemWidthSum) / CGFloat(items.count - 1)
+//        return max(space, 0)
+//
+//    }
     
     // MARK: - Methods
     private func segmentItemView(for index: Int) -> some View {
@@ -36,15 +36,15 @@ public struct CustomSegmentControlView: View {
         let isSelected = self.selection == index
 
         return
-            Text(items[index])
-                .font(.caption)
-                .foregroundColor(isSelected ? .white : .gray)
-                .background(BackgroundGeometryReader())
-                .onPreferenceChange(SizePreferenceKey.self) {
-                    itemTitleSizes[index] = $0
-                }
-                .onTapGesture { onItemTap(index: index) }
-                .eraseToAnyView()
+        Text(items[index])
+            .font(.body)
+            .foregroundColor(isSelected ? .white : .gray)
+            .background(BackgroundGeometryReader())
+            .onPreferenceChange(SizePreferenceKey.self) {
+                itemTitleSizes[index] = $0
+            }
+            .onTapGesture { onItemTap(index: index) }
+            .eraseToAnyView()
     }
 
     private func onItemTap(index: Int) {
@@ -53,15 +53,16 @@ public struct CustomSegmentControlView: View {
     }
 
     private func selectedItemHorizontalOffset() -> CGFloat {
-        guard selectedItemWidth != .zero, selection != 0 else { return 0 }
-
+        guard selectedItemWidth != .zero, selection != 0 else { return 20 }
+        // selected Item이전까지의 select된 title의 width값의 합
         let result = itemTitleSizes
             .enumerated()
             .filter { $0.offset < selection }
             .map { $0.element.width }
             .reduce(0, +)
 
-        return result + xSpace * CGFloat(selection)
+        return 20 + 36 * CGFloat(selection) + result
+//        return result + xSpace * CGFloat(selection)
     }
     
     // MARK: - Life Cycles
@@ -74,34 +75,29 @@ public struct CustomSegmentControlView: View {
 
     public var body: some View {
         ZStack {
-            GeometryReader { geometry in
-                Color
-                    .clear
-                    .onAppear {
-                        segmentSize = geometry.size
-                    }
-            }
-            .frame(maxWidth: .infinity, maxHeight: 1)
 
-            VStack(alignment: .center, spacing: 0) {
+            HStack {
                 VStack(alignment: .leading, spacing: 0) {
-                    HStack(spacing: xSpace) {
+                    HStack(spacing: 0) {
                         ForEach(0 ..< items.count, id: \.self) { index in
                             segmentItemView(for: index)
+                                .padding(.leading, index == 0 ? 20 : 36)
                         }
                     }
-                    .padding(.bottom, 5)
+                    .padding(.bottom, 2)
 
                     // 선택된 요소 밑줄
                     Rectangle()
                         .foregroundColor(.white)
-                        .frame(width: selectedItemWidth, height: 3)
+                        .frame(width: selectedItemWidth, height: 2)
                         .offset(x: selectedItemHorizontalOffset(), y: 0)
                         .animation(Animation.linear(duration: 0.3), value: selectedItemWidth)
-                }
-                .padding(.horizontal, xSpace)
 
+                }
+//                .padding(.horizontal, 36)
+                Spacer()
             }
+
         }
     }
 }

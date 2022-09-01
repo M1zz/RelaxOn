@@ -18,8 +18,6 @@ struct SizePreferenceKey: PreferenceKey {
 }
 
 struct BackgroundGeometryReader: View {
-    public init() {}
-
     public var body: some View {
         GeometryReader { geometry in
             return Color

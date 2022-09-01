@@ -104,7 +104,7 @@ final class deviceFrame {
     static let screenWidth = UIScreen.main.bounds.size.width
     static let screenHeight = UIScreen.main.bounds.size.height
     static var exceptPaddingWidth: CGFloat {
-        return screenWidth - 30
+        return screenWidth - 40
     }
 }
 
