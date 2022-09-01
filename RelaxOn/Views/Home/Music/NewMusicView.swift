@@ -90,7 +90,6 @@ struct NewMusicView: View {
                             let gradient = draggedHeight / deviceHalfHeight
                             offsetYOfControlView += draggedHeight / 5
                             
-                            print("하하이")
                             if value.location.y > UIScreen.main.bounds.height * 0.82 {
                                 return
                             } else if offsetYOfControlView == deviceHalfHeight {
