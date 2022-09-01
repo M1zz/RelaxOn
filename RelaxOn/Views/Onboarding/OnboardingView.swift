@@ -83,7 +83,9 @@ struct OnboardingView: View {
                     }.padding(.horizontal)
 
                     SelectedImageView(selectedImageNames: $selectedImageNames, opacityAnimationValues: $opacityAnimationValues)
+
                     CustomSegmentControlView(items: items, selection: $select)
+
 
                     switch select {
                     case 1:
