@@ -26,25 +26,25 @@ struct StudioNamingView: View {
             VStack {
                 HStack {
                     NamingBackButton()
-                        .padding(.horizontal, 15)
+                        .padding(.horizontal)
                     Spacer()
                 }
 
                 HStack {
                     Text("Please name this CD")
-                        .frame(width: deviceFrame.exceptPaddingWidth / 2)
                         .font(.system(size: 28, weight: .medium))
                         .foregroundColor(.white)
-                        .lineLimit(2)
                     Spacer()
-                }.padding()
+                }
+                .padding(.horizontal)
+                .padding(.top, deviceFrame.screenHeight * 0.04)
 
                 VStack {
                     TextField("", text: $textEntered)
                         .foregroundColor(.white)
                         .modifier(PlaceholderCustom(showPlaceHolder: textEntered.isEmpty, placeHolder: "Make your own CD"))
                         .keyboardType(.alphabet)
-                        .padding(.horizontal, 15)
+                        .padding(.horizontal)
 
                     Rectangle()
                         .foregroundColor(.white)
