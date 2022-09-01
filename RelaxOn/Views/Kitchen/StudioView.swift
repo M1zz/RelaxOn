@@ -207,6 +207,9 @@ extension StudioView {
         HStack{
             Button(action: {
                 showingConfirm = true
+//                baseAudioManager.stop()
+//                melodyAudioManager.stop()
+//                whiteNoiseAudioManager.stop()
             }, label: {
                 HStack {
                     Image(systemName: "chevron.backward")
@@ -219,6 +222,9 @@ extension StudioView {
             .confirmationDialog("나가면 사라집니다...", isPresented: $showingConfirm, titleVisibility: .visible) {
                 Button("Leave Studio", role: .destructive){
                     presentationMode.wrappedValue.dismiss()
+                    baseAudioManager.stop()
+                    melodyAudioManager.stop()
+                    whiteNoiseAudioManager.stop()
                 }
                 Button("Cancel", role: .cancel){}
             }
