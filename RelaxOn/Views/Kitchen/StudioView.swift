@@ -208,8 +208,13 @@ extension StudioView {
             Button(action: {
                 showingConfirm = true
             }, label: {
-                Image(systemName: "chevron.backward")
-                    .foregroundColor(.relaxDimPurple)
+                HStack {
+                    Image(systemName: "chevron.backward")
+                        .foregroundColor(.relaxDimPurple)
+                    Text("CD LIBRARY")
+                        .font(.system(size: 15, weight: .regular))
+                        .foregroundColor(.relaxDimPurple)
+                }
             })
             .confirmationDialog("나가면 사라집니다...", isPresented: $showingConfirm, titleVisibility: .visible) {
                 Button("Leave Studio", role: .destructive){
@@ -217,9 +222,7 @@ extension StudioView {
                 }
                 Button("Cancel", role: .cancel){}
             }
-            Text("CD LIBRARY")
-                .font(.system(size: 15, weight: .regular))
-                .foregroundColor(.relaxDimPurple)
+            
             Spacer()
         }.padding()
     }
