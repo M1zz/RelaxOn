@@ -48,11 +48,15 @@ struct CDListView: View {
                                 if isEditMode {
                                     if selectedMixedSoundIds.firstIndex(where: {$0 == mixedSound.id}) != nil {
                                         Image(systemName: "checkmark.circle.fill")
+                                            .resizable()
+                                            .frame(width: 24.0, height: 24.0)
                                             .foregroundColor(.white)
                                             .padding(.bottom, LayoutConstants.Padding.bottomOfRadioButton)
                                             .padding(.trailing, LayoutConstants.Padding.trailingOfRadioButton)
                                     } else {
                                         Image(systemName: "circle")
+                                            .resizable()
+                                            .frame(width: 24.0, height: 24.0)
                                             .foregroundColor(.white)
                                             .background(Image(systemName: "circle.fill").foregroundColor(.gray).opacity(0.5))
                                             .padding(.bottom, LayoutConstants.Padding.bottomOfRadioButton)
