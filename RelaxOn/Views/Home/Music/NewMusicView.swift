@@ -147,6 +147,12 @@ struct NewMusicView: View {
                 }
                 self.isFetchFirstData = false
                 timerManager.currentMusicViewModel = self.viewModel
+                if let mixedSound = viewModel.mixedSound,
+                   let baseImageName = viewModel.mixedSound?.baseSound?.fileName,
+                   let melodyImageName = viewModel.mixedSound?.melodySound?.fileName,
+                   let whiteNoiseImageName = viewModel.mixedSound?.whiteNoiseSound?.fileName {
+                    WidgetManager.addMainSoundToWidget(baseImageName: baseImageName, melodyImageName: melodyImageName, whiteNoiseImageName: whiteNoiseImageName, name: mixedSound.name, id: mixedSound.id, isPlaying: viewModel.isPlaying, isRecentPlay: false)
+                }
             }
             .onReceive(viewModel.$mixedSound, perform: { mixedSound in
                 guard let changedMixedSound = mixedSound else { return }
