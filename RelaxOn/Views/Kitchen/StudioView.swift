@@ -135,7 +135,6 @@ extension StudioView {
                                 
                                 opacityAnimationValues[0] = 0.0
                             } else {
-                                print(baseSelected.name, "하하이")
                                 baseAudioManager.startPlayer(track: selectedBaseSound.fileName, volume: volumes[select])
                                 
                                 selectedImageNames.base = "BaseIllust"
