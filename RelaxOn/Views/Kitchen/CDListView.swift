@@ -1,6 +1,6 @@
 //
 //  LibraryView.swift
-//  LullabyRecipe
+//  RelaxOn
 //
 //  Created by Minkyeong Ko on 2022/07/26.
 //
@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct CDListView: View {
+    // MARK: - State Properties
     @State var isActive: Bool = false
-    @State var userRepositoriesState: [MixedSound] = userRepositories
+    @State var userRepositoriesState: [MixedSound]
     @State var selectedImageNames = (
         base: "",
         melody: "",
@@ -18,35 +19,44 @@ struct CDListView: View {
     @State private var isEditMode = false
     @State private var selectedMixedSoundIds: [Int] = []
     @State private var showingActionSheet = false
+    @State var isShwoingMusicView = false
     
-    init(userRepositoriesState: [MixedSound] = userRepositories){
-        Theme.navigationBarColors(background: UIColor(named: "RelaxBlack") ?? .black, titleColor: UIColor(named: "RelaxDimPurple") ?? .white)
+    // TODO: - 추후 다른 방식으로 수정
+    @StateObject var musicViewModel = MusicViewModel()
+    
+    // MARK: - Life Cycles
+    init(userRepositoriesState: [MixedSound]) {
+        UINavigationBar.appearance().tintColor = UIColor.relaxDimPurple ?? .white
         self.userRepositoriesState = userRepositoriesState
     }
     
     var body: some View {
-        
         VStack {
-            libraryHeader
-            
+            LibraryHeader
             ScrollView(.vertical, showsIndicators: false) {
 
                 LazyVGrid(columns: Array(repeating: GridItem(.flexible(), alignment: .top), count: 2), spacing: 18) {
-                    plusCDImage.disabled(isEditMode)
+                    PlusCDImage
+                        .disabled(isEditMode)
 
                     ForEach(userRepositoriesState.reversed()){ mixedSound in
-
-                        CDCardView(data: mixedSound, audioVolumes: (baseVolume: mixedSound.baseSound?.audioVolume ?? 1.0, melodyVolume: mixedSound.melodySound?.audioVolume ?? 1.0, whiteNoiseVolume: mixedSound.whiteNoiseSound?.audioVolume ?? 1.0))
+                        CDCardView(data: mixedSound,
+                                   isShwoingMusicView: $isShwoingMusicView,
+                                   userRepositoriesState: $userRepositoriesState)
                             .disabled(isEditMode)
                             .overlay(alignment : .bottomTrailing) {
                                 if isEditMode {
                                     if selectedMixedSoundIds.firstIndex(where: {$0 == mixedSound.id}) != nil {
                                         Image(systemName: "checkmark.circle.fill")
+                                            .resizable()
+                                            .frame(width: 24.0, height: 24.0)
                                             .foregroundColor(.white)
                                             .padding(.bottom, LayoutConstants.Padding.bottomOfRadioButton)
                                             .padding(.trailing, LayoutConstants.Padding.trailingOfRadioButton)
                                     } else {
                                         Image(systemName: "circle")
+                                            .resizable()
+                                            .frame(width: 24.0, height: 24.0)
                                             .foregroundColor(.white)
                                             .background(Image(systemName: "circle.fill").foregroundColor(.gray).opacity(0.5))
                                             .padding(.bottom, LayoutConstants.Padding.bottomOfRadioButton)
@@ -69,28 +79,63 @@ struct CDListView: View {
         }
         .padding()
         .onAppear {
-            if let data = UserDefaultsManager.shared.standard.data(forKey: UserDefaultsManager.shared.recipes) {
+            if let data = UserDefaultsManager.shared.recipes {
                 do {
                     let decoder = JSONDecoder()
                     userRepositories = try decoder.decode([MixedSound].self, from: data)
                     print("help : \(userRepositories)")
                     userRepositoriesState = userRepositories
+                    
+                    // TODO: - 추후 다른 방식으로 수정
+                    musicViewModel.updateCDList(cdList: userRepositoriesState.map{mixedSound in mixedSound.name})
                 } catch {
                     print("Unable to Decode Note (\(error))")
                 }
             }
         }
         .onChange(of: userRepositories) { newValue in
-            if let data = UserDefaultsManager.shared.standard.data(forKey: UserDefaultsManager.shared.recipes) {
+            if let data = UserDefaultsManager.shared.recipes {
                 do {
                     let decoder = JSONDecoder()
                     
                     userRepositories = try decoder.decode([MixedSound].self, from: data)
                     userRepositoriesState = userRepositories
+                    
+                    // TODO: - 추후 다른 방식으로 수정
+                    musicViewModel.updateCDList(cdList: userRepositoriesState.map{mixedSound in mixedSound.name})
+                    
                     print("help : \(userRepositories)")
 
                 } catch {
                     print("Unable to Decode Note (\(error))")
+                }
+            }
+        }
+        .onChange(of: isShwoingMusicView) { newValue in
+            if isShwoingMusicView == false {
+                if let data = UserDefaultsManager.shared.recipes {
+                    do {
+                        let decoder = JSONDecoder()
+                        
+                        userRepositories = try decoder.decode([MixedSound].self, from: data)
+                        userRepositoriesState = userRepositories
+                    } catch {
+                        print("Unable to Decode Note (\(error))")
+                    }
+                }
+            }
+        }
+        .onChange(of: isShwoingMusicView) { newValue in
+            if isShwoingMusicView == false {
+                if let data = UserDefaultsManager.shared.recipes {
+                    do {
+                        let decoder = JSONDecoder()
+                        
+                        userRepositories = try decoder.decode([MixedSound].self, from: data)
+                        userRepositoriesState = userRepositories
+                    } catch {
+                        print("Unable to Decode Note (\(error))")
+                    }
                 }
             }
         }
@@ -100,6 +145,8 @@ struct CDListView: View {
                 selectedMixedSoundIds.forEach { id in
                     if let index = userRepositories.firstIndex(where: {$0.id == id}) {
                         userRepositories.remove(at: index)
+                        // TODO: - 추후 다른 방식으로 수정
+                        musicViewModel.updateCDList(cdList: userRepositoriesState.map{mixedSound in mixedSound.name})
                     }
                 }
                 let data = getEncodedData(data: userRepositories)
@@ -112,19 +159,11 @@ struct CDListView: View {
             Text("These CDs will be deleted from your library")
         }
     }
-    
-    private func getEncodedData(data: [MixedSound]) -> Data? {
-        do {
-            let encoder = JSONEncoder()
-            let encodedData = try encoder.encode(data)
-            return encodedData
-        } catch {
-            print("Unable to Encode Note (\(error))")
-        }
-        return nil
-    }
-    
-    var libraryHeader: some View {
+}
+
+// MARK: - View Properties
+extension CDListView {
+    var LibraryHeader: some View {
         HStack {
             Text("CD LIBRARY")
                 .font(.title)
@@ -154,7 +193,7 @@ struct CDListView: View {
         }
     }
     
-    var plusCDImage: some View {
+    var PlusCDImage: some View {
         VStack(alignment: .leading) {
             NavigationLink(destination: StudioView(rootIsActive: self.$isActive), isActive: self.$isActive) {
                 ZStack {

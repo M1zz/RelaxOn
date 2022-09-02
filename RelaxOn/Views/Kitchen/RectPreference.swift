@@ -1,17 +1,11 @@
 //
 //  RectPreference.swift
-//  LullabyRecipe
+//  RelaxOn
 //
 //  Created by 김연호 on 2022/07/23.
 //
 
 import SwiftUI
-
-public extension View {
-    func eraseToAnyView() -> AnyView {
-        AnyView(self)
-    }
-}
 
 /// PreferenceKey for a subview to notify superview of its size
 struct SizePreferenceKey: PreferenceKey {
@@ -24,8 +18,6 @@ struct SizePreferenceKey: PreferenceKey {
 }
 
 struct BackgroundGeometryReader: View {
-    public init() {}
-
     public var body: some View {
         GeometryReader { geometry in
             return Color

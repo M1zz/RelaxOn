@@ -1,6 +1,6 @@
 //
 //  StudioView.swift
-//  LullabyRecipe
+//  RelaxOn
 //
 //  Created by 김연호 on 2022/07/23.
 //
@@ -8,24 +8,24 @@
 import SwiftUI
 
 struct StudioView: View {
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    // MARK: - State Properties
     @State var select: Int = 0
     @State var showingConfirm = false
     @State var selectedBaseSound: Sound = Sound(id: 0,
-                                                name: "",
+                                                name: "Empty",
                                                 soundType: .base,
-                                                audioVolume: 0.8,
-                                                imageName: "")
+                                                audioVolume: 0.5,
+                                                fileName: "music")
     @State var selectedMelodySound: Sound = Sound(id: 10,
-                                                  name: "",
+                                                  name: "Empty",
                                                   soundType: .melody,
-                                                  audioVolume: 1.0,
-                                                  imageName: "")
+                                                  audioVolume: 0.5,
+                                                  fileName: "music")
     @State var selectedWhiteNoiseSound: Sound = Sound(id: 20,
-                                                      name: "",
+                                                      name: "Empty",
                                                       soundType: .whiteNoise,
-                                                      audioVolume: 0.4,
-                                                      imageName: "")
+                                                      audioVolume: 0.5,
+                                                      fileName: "music")
     @State var selectedImageNames: (base: String, melody: String, whiteNoise: String) = (
         base: "",
         melody: "",
@@ -35,15 +35,18 @@ struct StudioView: View {
     @State var opacityAnimationValues = [0.0, 0.0, 0.0]
     @State var textEntered = ""
     @State var navigateActive = false
-    @Binding var rootIsActive: Bool
-    
     @State var volumes: [Float] = [0.5, 0.5, 0.5]
     
+    @Binding var rootIsActive: Bool
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+
+    // MARK: - General Properties
     let baseAudioManager = AudioManager()
     let melodyAudioManager = AudioManager()
     let whiteNoiseAudioManager = AudioManager()
-    var items: [LocalizedStringKey] = ["BASE", "MELODY", "WHITE NOISE"]
+    var items = ["BASE", "MELODY", "WHITE NOISE"]
     
+    // MARK: - Life Cycles
     var body: some View {
         ZStack{
             Color.relaxBlack.ignoresSafeArea()
@@ -74,18 +77,10 @@ struct StudioView: View {
             .navigationBarHidden(true)
         }
     }
-    
-    private func getEncodedData(data: [MixedSound]) -> Data? {
-        do {
-            let encoder = JSONEncoder()
-            let encodedData = try encoder.encode(data)
-            return encodedData
-        } catch {
-            print("Unable to Encode Note (\(error))")
-        }
-        return nil
-    }
-    
+}
+
+// MARK: - ViewBuilder
+extension StudioView {
     @ViewBuilder
     func SoundSelectView(sectionTitle: String,
                          soundType: SoundType) -> some View {
@@ -106,21 +101,24 @@ struct StudioView: View {
                 }
                 .frame(height: 25)
                 .onChange(of: volumes[0]) { volume in
-                    baseAudioManager.changeVolume(track: selectedBaseSound.name, volume: volume)
+                    selectedBaseSound.audioVolume = volume
+                    baseAudioManager.changeVolume(track: selectedBaseSound.fileName, volume: volume)
                 }
                 .onChange(of: volumes[1]) { volume in
-                    whiteNoiseAudioManager.changeVolume(track: selectedWhiteNoiseSound.name, volume: volume)
+                    selectedMelodySound.audioVolume = volume
+                    melodyAudioManager.changeVolume(track: selectedMelodySound.fileName, volume: volume)
                 }
                 .onChange(of: volumes[2]) { volume in
-                    melodyAudioManager.changeVolume(track: selectedMelodySound.name, volume: volume)
+                    selectedWhiteNoiseSound.audioVolume = volume
+                    whiteNoiseAudioManager.changeVolume(track: selectedWhiteNoiseSound.fileName, volume: volume)
                 }
                 
                 Text("\(Int(volumes[select] * 100))")
                     .font(.body)
                     .foregroundColor(.systemGrey1)
                     .frame(maxWidth: 30)
-            }.background(Color.black) // 나중에 삭제할 예정
-                .padding([.horizontal])
+            }
+            .padding([.horizontal])
             
             ScrollView(.vertical,
                        showsIndicators: false) {
@@ -137,25 +135,10 @@ struct StudioView: View {
                                 
                                 opacityAnimationValues[0] = 0.0
                             } else {
-                                baseAudioManager.startPlayer(track: selectedBaseSound.name, volume: volumes[select])
+                                baseAudioManager.startPlayer(track: selectedBaseSound.fileName, volume: volumes[select])
                                 
-                                selectedImageNames.base = "BaseIllust"
-                                opacityAnimationValues[0] = 1
-                            }
-                        }
-                    case .whiteNoise:
-                        RadioButtonGroupView(selectedId: soundType.rawValue,
-                                             items: whiteNoiseSounds) { whiteNoiseSounds in
-                            selectedWhiteNoiseSound = whiteNoiseSounds
-                            
-                            if selectedWhiteNoiseSound.name == "Empty" {
-                                whiteNoiseAudioManager.stop()
-                                
-                                opacityAnimationValues[2] = 0.0
-                            } else {
-                                whiteNoiseAudioManager.startPlayer(track: selectedWhiteNoiseSound.name, volume: volumes[select])
-                                selectedImageNames.whiteNoise = ""//selectedWhiteNoiseSound.imageName                                
-                                opacityAnimationValues[2] = 0.5
+                                selectedImageNames.base = selectedBaseSound.fileName
+                                opacityAnimationValues[0] = 1.0
                             }
                         }
                     case .melody:
@@ -168,11 +151,26 @@ struct StudioView: View {
                                 
                                 opacityAnimationValues[1] = 0.0
                             } else {
-                                melodyAudioManager.startPlayer(track: selectedMelodySound.name, volume: volumes[select])
+                                melodyAudioManager.startPlayer(track: selectedMelodySound.fileName, volume: volumes[select])
                                 
-                                selectedImageNames.melody = "MelodyIllust"
+                                selectedImageNames.melody = selectedMelodySound.fileName
+                                opacityAnimationValues[1] = 1.0
+                            }
+                        }
+                    case .whiteNoise:
+                        RadioButtonGroupView(selectedId: soundType.rawValue,
+                                             items: whiteNoiseSounds) { whiteNoiseSounds in
+                            selectedWhiteNoiseSound = whiteNoiseSounds
+                            
+                            if selectedWhiteNoiseSound.name == "Empty" {
+                                whiteNoiseAudioManager.stop()
                                 
-                                opacityAnimationValues[1] = 1
+                                opacityAnimationValues[2] = 0.0
+                            } else {
+                                whiteNoiseAudioManager.startPlayer(track: selectedWhiteNoiseSound.fileName, volume: volumes[select])
+                                
+                                selectedImageNames.whiteNoise = selectedWhiteNoiseSound.fileName
+                                opacityAnimationValues[2] = 1.0
                             }
                         }
                     }
@@ -209,19 +207,28 @@ struct StudioView: View {
         HStack{
             Button(action: {
                 showingConfirm = true
+//                baseAudioManager.stop()
+//                melodyAudioManager.stop()
+//                whiteNoiseAudioManager.stop()
             }, label: {
-                Image(systemName: "chevron.backward")
-                    .foregroundColor(.relaxDimPurple)
+                HStack {
+                    Image(systemName: "chevron.backward")
+                        .foregroundColor(.relaxDimPurple)
+                    Text("CD LIBRARY")
+                        .font(.system(size: 15, weight: .regular))
+                        .foregroundColor(.relaxDimPurple)
+                }
             })
             .confirmationDialog("나가면 사라집니다...", isPresented: $showingConfirm, titleVisibility: .visible) {
                 Button("Leave Studio", role: .destructive){
                     presentationMode.wrappedValue.dismiss()
+                    baseAudioManager.stop()
+                    melodyAudioManager.stop()
+                    whiteNoiseAudioManager.stop()
                 }
-                Button("Cancle", role: .cancel){}
+                Button("Cancel", role: .cancel){}
             }
-            Text("CD LIBRARY")
-                .font(.system(size: 15, weight: .regular))
-                .foregroundColor(.relaxDimPurple)
+            
             Spacer()
         }.padding()
     }

@@ -1,6 +1,6 @@
 //
 //  MusicViewModel.swift
-//  LullabyRecipe
+//  RelaxOn
 //
 //  Created by hyunho lee on 5/25/22.
 //
@@ -11,19 +11,19 @@ import MediaPlayer
 import WatchConnectivity
 
 final class MusicViewModel: NSObject, ObservableObject {
-    @Published var watchInfo: String = ""
-        
+    @Published var watchInfo: [String] = []
+    
     override init() {
         super.init()
-
+        
         guard WCSession.isSupported() else {
             return
         }
-
+        
         WCSession.default.delegate = self
         WCSession.default.activate()
     }
-
+    
     public func send(cdInfos: [String]) {
         guard WCSession.default.activationState == .activated else {
             return
@@ -34,7 +34,10 @@ final class MusicViewModel: NSObject, ObservableObject {
         let userInfo: [String: [String]] = [
             "cdInfo" : cdInfos
         ]
-        WCSession.default.transferUserInfo(userInfo)
+        
+        WCSession.default.sendMessage(userInfo) { _ in
+            print("error sendmessage from iphone")
+        }
     }
     
     @Published var baseAudioManager = AudioManager()
@@ -43,8 +46,11 @@ final class MusicViewModel: NSObject, ObservableObject {
     @Published var isPlaying: Bool = true {
         // FIXME: addMainSoundToWidget()를 Sound가 재정렬 되었을 때 제일 위의 음악을 넣어야 합니다. (해당 로직이 안 짜진 거 같아 우선은, 여기로 뒀습니다.)
         didSet {
-            if let mixedSound = mixedSound {
-                WidgetManager.addMainSoundToWidget(imageName: mixedSound.imageName, name: mixedSound.name, id: mixedSound.id)
+            if let mixedSound = mixedSound,
+               let baseImageName = mixedSound.baseSound?.fileName,
+               let melodyImageName = mixedSound.melodySound?.fileName,
+               let whiteNoiseImageName = mixedSound.whiteNoiseSound?.fileName {
+                WidgetManager.addMainSoundToWidget(baseImageName: baseImageName, melodyImageName: melodyImageName, whiteNoiseImageName: whiteNoiseImageName, name: mixedSound.name, id: mixedSound.id, isPlaying: isPlaying, isRecentPlay: false)
             }
         }
     }
@@ -74,19 +80,11 @@ final class MusicViewModel: NSObject, ObservableObject {
     }
     
     func playPause() {
+        baseAudioManager.playPause()
+        melodyAudioManager.playPause()
+        whiteNoiseAudioManager.playPause()
         self.isPlaying.toggle()
-        if !isPlaying {
-            baseAudioManager.playPause()
-            melodyAudioManager.playPause()
-            whiteNoiseAudioManager.playPause()
-        } else {
-            // play 할 때 mixedSound 볼륨 적용 시도
-            baseAudioManager.startPlayer(track: mixedSound?.baseSound?.name ?? "base_default", volume: mixedSound?.baseSound?.audioVolume ?? 0.8)
-            melodyAudioManager.startPlayer(track: mixedSound?.melodySound?.name ?? "base_default", volume: mixedSound?.melodySound?.audioVolume ?? 0.8)
-            whiteNoiseAudioManager.startPlayer(track: mixedSound?.whiteNoiseSound?.name ?? "base_default", volume: mixedSound?.whiteNoiseSound?.audioVolume ?? 0.8)
-        }
         updateCompanion()
-
     }
     
     func stop() {
@@ -97,9 +95,9 @@ final class MusicViewModel: NSObject, ObservableObject {
     }
     
     func startPlayer() {
-        baseAudioManager.startPlayer(track: mixedSound?.baseSound?.name ?? "base_default", volume: mixedSound?.baseSound?.audioVolume ?? 0.8)
-        melodyAudioManager.startPlayer(track: mixedSound?.melodySound?.name ?? "base_default", volume: mixedSound?.melodySound?.audioVolume ?? 0.8)
-        whiteNoiseAudioManager.startPlayer(track: mixedSound?.whiteNoiseSound?.name ?? "base_default", volume: mixedSound?.whiteNoiseSound?.audioVolume ?? 0.8)
+        baseAudioManager.startPlayer(track: mixedSound?.baseSound?.fileName ?? "base_default", volume: mixedSound?.baseSound?.audioVolume ?? 0.8)
+        melodyAudioManager.startPlayer(track: mixedSound?.melodySound?.fileName ?? "base_default", volume: mixedSound?.melodySound?.audioVolume ?? 0.8)
+        whiteNoiseAudioManager.startPlayer(track: mixedSound?.whiteNoiseSound?.fileName ?? "base_default", volume: mixedSound?.whiteNoiseSound?.audioVolume ?? 0.8)
     }
     
     func setupRemoteCommandCenter() {
@@ -136,13 +134,13 @@ final class MusicViewModel: NSObject, ObservableObject {
         var nowPlayingInfo = center.nowPlayingInfo ?? [String: Any]()
         
         nowPlayingInfo[MPMediaItemPropertyTitle] = mixedSound.name
-        if let albumCoverPage = UIImage(named: mixedSound.imageName) {
+        if let albumCoverPage = UIImage(named: mixedSound.baseSound?.fileName ?? "") {
             nowPlayingInfo[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(boundsSize: albumCoverPage.size, requestHandler: { size in
                 return albumCoverPage
             })
         }
         // MARK: - 타이머 연동돌 때 건드릴 코드
-//        nowPlayingInfo[MPMediaItemPropertyPlaybackDuration] = self.baseAudioManager.player?.duration
+        //        nowPlayingInfo[MPMediaItemPropertyPlaybackDuration] = self.baseAudioManager.player?.duration
         nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = 1
         nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = NSNumber(value: self.baseAudioManager.player?.currentTime ?? 0.0)
         
@@ -152,8 +150,12 @@ final class MusicViewModel: NSObject, ObservableObject {
     func setupNextTrack(mixedSound: MixedSound) {
         let count = userRepositories.count
         let id = mixedSound.id
+        let index = userRepositories.firstIndex { element in
+            element.name == mixedSound.name
+        }
         self.isPlaying = true
-        if id == count - 1 {
+        
+        if index == count - 1 {
             guard let firstSong = userRepositories.first else { return }
             self.mixedSound = firstSong
             self.setupRemoteCommandInfoCenter(mixedSound: firstSong)
@@ -161,7 +163,7 @@ final class MusicViewModel: NSObject, ObservableObject {
             updateCompanion()
         } else {
             let nextSong = userRepositories[ userRepositories.firstIndex {
-                $0.id == id + 1
+                $0.id > id
             } ?? 0 ]
             self.mixedSound = nextSong
             self.setupRemoteCommandInfoCenter(mixedSound: nextSong)
@@ -172,16 +174,20 @@ final class MusicViewModel: NSObject, ObservableObject {
     
     func setupPreviousTrack(mixedSound: MixedSound) {
         let id = mixedSound.id
+        let index = userRepositories.firstIndex { element in
+            element.name == mixedSound.name
+        }
         self.isPlaying = true
-        if id == 0 {
+        
+        if index == 0 {
             guard let lastSong = userRepositories.last else { return }
             self.mixedSound = lastSong
             self.setupRemoteCommandInfoCenter(mixedSound: lastSong)
             self.setupRemoteCommandCenter()
             updateCompanion()
         } else {
-            let previousSong = userRepositories[ userRepositories.firstIndex {
-                $0.id == id - 1
+            let previousSong = userRepositories[ userRepositories.lastIndex {
+                $0.id < id
             } ?? 0 ]
             self.mixedSound = previousSong
             self.setupRemoteCommandInfoCenter(mixedSound: previousSong)
@@ -190,32 +196,84 @@ final class MusicViewModel: NSObject, ObservableObject {
         }
     }
     
-    // Watch 업데이트
     func updateCompanion() {
         self.send(cdInfos: [isPlaying ? "true" : "false", mixedSound?.name ?? ""])
+    }
+    
+    func updateCDList(cdList: [String]) {
+        do {
+            try WCSession.default.updateApplicationContext(["cdList" : cdList])
+        } catch {
+            print("update Application context error")
+        }
     }
 }
 
 extension MusicViewModel: WCSessionDelegate {
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
     }
-
+    
+    private func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHander: @escaping ([String:Any]) -> Void) {
+        print("received message from watch")
+        let key = "watchInfo"
+        guard let WatchInfo = message[key] as? [String] else {
+            return
+        }
+        
+        let index = userRepositories.firstIndex { element in
+            element.name == WatchInfo[0]
+        }
+        
+        self.mixedSound = userRepositories[index ?? 0]
+        
+        switch WatchInfo[1] {
+        case "playing", "paused":
+            print("playPause()")
+            self.playPause()
+        case "prev":
+            print("prev()")
+            guard let mixedSound = self.mixedSound else {
+                return
+            }
+            self.setupPreviousTrack(mixedSound: mixedSound)
+        case "next":
+            print("next()")
+            guard let mixedSound = self.mixedSound else {
+                return
+            }
+            self.setupNextTrack(mixedSound: mixedSound)
+        default:
+            print("unknown watchinfo")
+        }
+    }
+    
     func session(_ session: WCSession, didReceiveUserInfo userInfo: [String : Any] = [:]) {
+        print("received from watch")
+        
         DispatchQueue.main.async {
             let key = "watchInfo"
-                guard let WatchInfo = userInfo[key] as? String else {
+            guard let WatchInfo = userInfo[key] as? [String] else {
                 return
             }
             
-            switch WatchInfo {
+            let index = userRepositories.firstIndex { element in
+                element.name == WatchInfo[0]
+            }
+            
+            self.mixedSound = userRepositories[index ?? 0]
+            
+            switch WatchInfo[1] {
             case "playing", "paused":
+                print("playPause()")
                 self.playPause()
             case "prev":
+                print("prev()")
                 guard let mixedSound = self.mixedSound else {
                     return
                 }
                 self.setupPreviousTrack(mixedSound: mixedSound)
             case "next":
+                print("next()")
                 guard let mixedSound = self.mixedSound else {
                     return
                 }
@@ -225,14 +283,14 @@ extension MusicViewModel: WCSessionDelegate {
             }
         }
     }
-
+    
     // iOS에만 해당
-    #if os(iOS)
+#if os(iOS)
     func sessionDidBecomeInactive(_ session: WCSession) {
     }
     func sessionDidDeactivate(_ session: WCSession) {
         // 애플워치가 2개 이상일 때, 새로운 기기에서 다시 activate
         WCSession.default.activate()
     }
-    #endif
+#endif
 }

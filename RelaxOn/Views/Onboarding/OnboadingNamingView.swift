@@ -8,36 +8,36 @@
 import SwiftUI
 
 struct OnboadingNamingView: View {
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    // MARK: - State Properties
+    @State var isNamingNavigate: Bool = false
     @Binding var selectedImageNames: (base: String, melody: String, whiteNoise: String)
     @Binding var opacityAnimationValues: [Double]
     @Binding var textEntered: String
     @Binding var showOnboarding: Bool
-    @State var isNamingNavigate: Bool = false
-    
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+
+    // MARK: - Life Cycles
     var body: some View {
         ZStack {
-            
-            SelectedImageBackgroundView(selectedImageNames: $selectedImageNames, opacityAnimationValues: $opacityAnimationValues)
+            SelectedImageBackgroundView(selectedImageNames: $selectedImageNames,
+                                        opacityAnimationValues: $opacityAnimationValues)
                 .blur(radius: 5)
             
             VStack {
-                
                 HStack {
                     Text("Please name this CD")
-                        .frame(width: deviceFrame.exceptPaddingWidth / 2)
                         .font(.system(size: 28, weight: .medium))
                         .foregroundColor(.white)
-                        .lineLimit(2)
                     Spacer()
-                }.padding()
-                
+                }
+                .padding(.horizontal)
+                .padding(.top, deviceFrame.screenHeight * 0.04)
+
                 VStack {
                     TextField("", text: $textEntered)
                         .foregroundColor(.white)
                         .modifier(PlaceholderCustom(showPlaceHolder: textEntered.isEmpty, placeHolder: "Make your own CD"))
-                        .keyboardType(.alphabet)
-                        .padding(.horizontal, 15)
+                        .padding(.horizontal)
                     
                     Rectangle()
                         .foregroundColor(.white)
@@ -50,18 +50,10 @@ struct OnboadingNamingView: View {
             }
         }.navigationBarHidden(true)
     }
-    
-    private func getEncodedData(data: [MixedSound]) -> Data? {
-        do {
-            let encoder = JSONEncoder()
-            let encodedData = try encoder.encode(data)
-            return encodedData
-        } catch {
-            print("Unable to Encode Note (\(error))")
-        }
-        return nil
-    }
-    
+}
+
+// MARK: - ViewBuilder
+extension OnboadingNamingView {
     @ViewBuilder
     func SaveButton() -> some View {
         NavigationLink(isActive: $isNamingNavigate) {
@@ -69,16 +61,15 @@ struct OnboadingNamingView: View {
         } label: {}
         
         Button {
-            let newSound = MixedSound(id: userRepositories.count,
-                                      name: textEntered,
+            let newSound = MixedSound(name: textEntered,
                                       baseSound: baseSound,
                                       melodySound: melodySound,
                                       whiteNoiseSound: whiteNoiseSound,
-                                      imageName: recipeRandomName.randomElement()!)
+                                      fileName: recipeRandomName.randomElement()!)
             userRepositories.append(newSound)
             
             let data = getEncodedData(data: userRepositories)
-            UserDefaultsManager.shared.standard.set(data, forKey: UserDefaultsManager.shared.recipes)
+            UserDefaultsManager.shared.recipes = data
             isNamingNavigate = true
         } label: {
             Text("SAVE")
@@ -88,7 +79,9 @@ struct OnboadingNamingView: View {
                 .cornerRadius(10)
                 .background(.black)
         }
+        .disabled(textEntered.isEmpty)
         .opacity(textEntered.isEmpty ? 0.5 : 1)
         .padding()
     }
+
 }

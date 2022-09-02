@@ -42,6 +42,16 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "C776B16D28B2620000A13052"
+               BuildableName = "RelaxOnUITests.xctest"
+               BlueprintName = "RelaxOnUITests"
+               ReferencedContainer = "container:RelaxOn.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
@@ -55,8 +65,10 @@
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES"
       launchAutomaticallySubstyle = "32">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <RemoteRunnable
+         runnableDebuggingMode = "2"
+         BundleIdentifier = "com.apple.Carousel"
+         RemotePath = "/RelaxOnWatch">
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "21B7A64C28A31DE600E90744"
@@ -64,7 +76,7 @@
             BlueprintName = "RelaxOnWatch"
             ReferencedContainer = "container:RelaxOn.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </RemoteRunnable>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -73,8 +85,10 @@
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES"
       launchAutomaticallySubstyle = "32">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <RemoteRunnable
+         runnableDebuggingMode = "2"
+         BundleIdentifier = "com.apple.Carousel"
+         RemotePath = "/RelaxOnWatch">
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "21B7A64C28A31DE600E90744"
@@ -82,7 +96,16 @@
             BlueprintName = "RelaxOnWatch"
             ReferencedContainer = "container:RelaxOn.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </RemoteRunnable>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "21B7A64C28A31DE600E90744"
+            BuildableName = "RelaxOnWatch.app"
+            BlueprintName = "RelaxOnWatch"
+            ReferencedContainer = "container:RelaxOn.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

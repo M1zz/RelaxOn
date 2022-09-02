@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct OnboardingFinishView: View {
+    // MARK: - State Properties
     @State var userRepositoriesState: [MixedSound] = userRepositories
     @State var onboardingNavigate: Bool = false
     @Binding var selectedImageNames: (base: String, melody: String, whiteNoise: String)
@@ -15,15 +16,16 @@ struct OnboardingFinishView: View {
     @Binding var textEntered: String
     @Binding var showOnboarding: Bool
     
+    // MARK: - Life Cycles
     var body: some View {
         ZStack {
-            
-            SelectedImageBackgroundView(selectedImageNames: $selectedImageNames, opacityAnimationValues: $opacityAnimationValues)
-            
-            
+            SelectedImageBackgroundView(selectedImageNames: $selectedImageNames,
+                                        opacityAnimationValues: $opacityAnimationValues)
             VStack {
                 Spacer()
-                SelectedImageView(framerevise: true, selectedImageNames: $selectedImageNames, opacityAnimationValues: $opacityAnimationValues)
+                SelectedImageView(framerevise: true,
+                                  selectedImageNames: $selectedImageNames,
+                                  opacityAnimationValues: $opacityAnimationValues)
                     .frame(width: deviceFrame.screenWidth * 0.6, height: deviceFrame.screenWidth * 0.6)
                 
                 Text("\(textEntered)")
@@ -36,7 +38,10 @@ struct OnboardingFinishView: View {
             }
         }.navigationBarHidden(true)
     }
-    
+}
+
+// MARK: - ViewBuilder
+extension OnboardingFinishView {
     @ViewBuilder
     func StartButton() -> some View {
         NavigationLink(isActive: $onboardingNavigate) {
@@ -45,7 +50,7 @@ struct OnboardingFinishView: View {
         } label: {}
         
         Button {
-            UserDefaultsManager.shared.standard.set(true, forKey: UserDefaultsManager.shared.notFirstVisit)
+            UserDefaultsManager.shared.notFirstVisit = true
             showOnboarding = false
             onboardingNavigate = true
         } label: {

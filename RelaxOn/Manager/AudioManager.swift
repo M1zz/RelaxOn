@@ -1,6 +1,6 @@
 //
 //  AudioManager.swift
-//  LullabyRecipe
+//  RelaxOn
 //
 //  Created by hyunho lee on 5/25/22.
 //
@@ -22,6 +22,7 @@ final class AudioManager {
     func startPlayer(track: String, volume: Float? = 1.0) {
         guard let url = getPathUrl(forResource: track, musicExtension: .mp3),
               let volume = volume else {
+            self.player = nil
             print("resource not found \(track)")
             return
         }
