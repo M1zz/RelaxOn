@@ -46,7 +46,6 @@ struct SoundCardView: View {
                             .frame(width: (deviceFrame.exceptPaddingWidth - 20 ) / 6,
                                    height: (deviceFrame.exceptPaddingWidth - 20 ) / 6)
                             .foregroundColor(.white)
-
                     }
                 } else {
                     Image(data.fileName)
@@ -79,7 +78,7 @@ struct SoundCardView: View {
 struct SoundCard_Previews: PreviewProvider {
     static var previews: some View {
         SoundCardView(soundFileName : "base_default",
-                       data: baseSounds[0],
+                      data: SoundType.base.soundList.first ?? Sound.empty(0),
                   callback: {_,_  in },
                   selectedID: "")
         .background(Color.backgroundColor)

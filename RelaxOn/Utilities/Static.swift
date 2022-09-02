@@ -7,56 +7,7 @@
 
 import SwiftUI
 
-enum BaseAudioName: String {
-    case longSun
-    case spaceMid
-    case spaceLow
-    case spaceHigh
-    case oxygen
-    
-    var fileName: String {
-        return self.displayName.components(separatedBy: " ").joined()
-    }
-    
-    var displayName: String {
-        self.rawValue.addSpaceBeforeUppercase.convertUppercaseFirstChar
-    }
-}
-
-enum MelodyAudioName: String {
-    case ambient
-    case garden
-    case gymnopedie
-    case relaxing
-    case wisdom
-    
-    var fileName: String {
-        return self.displayName.components(separatedBy: " ").joined()
-    }
-    
-    var displayName: String {
-        self.rawValue.addSpaceBeforeUppercase.convertUppercaseFirstChar
-    }
-}
-
-enum WhiteNoiseAudioName: String {
-    case dryGrass
-    case stream
-    case summerField
-    case umbrellaRain
-    case wave
-    
-    var fileName: String {
-        return self.displayName.components(separatedBy: " ").joined()
-    }
-    
-    var displayName: String {
-        self.rawValue.addSpaceBeforeUppercase.convertUppercaseFirstChar
-    }
-}
-
 let recipeRandomName = ["Recipe1","Recipe2","Recipe3","Recipe4","Recipe5","Recipe6","Recipe7","Recipe8","Recipe9","Recipe10"]
-
 
 let viewHorizontalPadding: CGFloat = 10
 
