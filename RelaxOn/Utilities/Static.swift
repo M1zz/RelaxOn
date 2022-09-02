@@ -55,46 +55,6 @@ enum WhiteNoiseAudioName: String {
     }
 }
 
-enum ColorPalette {
-    case background
-    case forground
-    case tabBackground
-    case buttonBackground
-    case launchbackground
-    case textGray
-    
-    var color: Color {
-        switch self {
-        case .background:
-            return Color("Background")
-        case .forground:
-            return Color("Forground")
-        case .tabBackground:
-            return Color("TabBackground")
-        case .buttonBackground:
-            return Color("ButtonBackground")
-        case .launchbackground:
-            return Color("LaunchBackground")
-        case .textGray:
-            return Color("TextGray")
-        }
-    }
-}
-
-enum ImageName {
-    case BackPattern
-    case NewSoundtrack
-    
-    var imageName: String {
-        switch self {
-        case .BackPattern:
-            return "BackPattern"
-        case .NewSoundtrack:
-            return "NewSoundtrack"
-        }
-    }
-}
-
 let recipeRandomName = ["Recipe1","Recipe2","Recipe3","Recipe4","Recipe5","Recipe6","Recipe7","Recipe8","Recipe9","Recipe10"]
 
 

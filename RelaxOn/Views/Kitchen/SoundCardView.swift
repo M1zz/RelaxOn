@@ -82,7 +82,7 @@ struct SoundCard_Previews: PreviewProvider {
                        data: baseSounds[0],
                   callback: {_,_  in },
                   selectedID: "")
-        .background(ColorPalette.background.color)
+        .background(Color.backgroundColor)
     }
 }
 
