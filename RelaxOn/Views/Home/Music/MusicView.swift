@@ -1,6 +1,6 @@
 //
 //  MusicView.swift
-//  LullabyRecipe
+//  RelaxOn
 //
 //  Created by hyunho lee on 2022/05/23.
 //
@@ -58,15 +58,15 @@ struct MusicView: View {
                 viewModel.stop()
             }
         }
-        .sheet(isPresented: $showVolumeControl,
-               content: {
-            VolumeControlView(showVolumeControl: $showVolumeControl,
-                              audioVolumes: $audioVolumes,
-                              data: data)
-            .onDisappear {
-                viewModel.updateVolume(audioVolumes: audioVolumes)
-            }
-        })
+//        .sheet(isPresented: $showVolumeControl,
+//               content: {
+//            VolumeControlView(showVolumeControl: $showVolumeControl,
+//                              audioVolumes: $audioVolumes,
+//                              data: data)
+//            .onDisappear {
+//                viewModel.updateVolume(audioVolumes: audioVolumes)
+//            }
+//        })
         .navigationBarTitle(Text(""),
                             // Todo :- edit 버튼 동작 .toolbar(content: { Button("Edit") { }}) }}
                             displayMode: .inline)
@@ -133,17 +133,12 @@ struct MusicView: View {
                     .font(.system(size: 16))
             }
         })
-        
-        //        }
-        //        .frame(width: maxWidth,
-        //               height: maxWidth)
-        //        .padding(.top,30)
     }
     
     @ViewBuilder
     func SingleSong(song: Sound) -> some View {
         HStack {
-            Image(song.imageName)
+            Image(song.fileName)
                 .resizable()
                 .frame(width: 80,
                        height: 80)
@@ -183,12 +178,11 @@ struct MusicView: View {
 
 struct MusicView_Previews: PreviewProvider {
     static var previews: some View {
-        let dummyMixedSound = MixedSound(id: 3,
-                                         name: "test4",
+        let dummyMixedSound = MixedSound(name: "test4",
                                          baseSound: dummyBaseSound,
                                          melodySound: dummyMelodySound,
                                          whiteNoiseSound: dummyWhiteNoiseSound,
-                                         imageName: "r1")
+                                         fileName: "r1")
         //        MusicView(data: dummyMixedSound)
     }
 }

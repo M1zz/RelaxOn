@@ -8,23 +8,24 @@
 import SwiftUI
 
 struct OnboardingView: View {
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    // MARK: - State Properties
     @State var select: Int = 0
     @State var selectedBaseSound: Sound = Sound(id: 0,
-                                                name: "",
+                                                name: "Empty",
                                                 soundType: .base,
-                                                audioVolume: 0.8,
-                                                imageName: "")
+                                                audioVolume: 0.5,
+                                                fileName: "music")
     @State var selectedMelodySound: Sound = Sound(id: 10,
-                                                  name: "",
+                                                  name: "Empty",
                                                   soundType: .melody,
-                                                  audioVolume: 1.0,
-                                                  imageName: "")
+                                                  audioVolume: 0.5,
+                                                  fileName: "music")
     @State var selectedWhiteNoiseSound: Sound = Sound(id: 20,
-                                                      name: "",
+                                                      name: "Empty",
                                                       soundType: .whiteNoise,
-                                                      audioVolume: 0.4,
-                                                      imageName: "")
+                                                      audioVolume: 0.5,
+                                                      fileName: "music")
+
     @State var selectedImageNames: (base: String, melody: String, whiteNoise: String) = (
         base: "",
         melody: "",
@@ -34,14 +35,19 @@ struct OnboardingView: View {
     @State var opacityAnimationValues = [0.0, 0.0, 0.0]
     @State var textEntered = ""
     @State var stepBarWidth = deviceFrame.screenWidth * 0.33
+    @State var volumes: [Float] = [0.5, 0.5, 0.5]
+    
     @Binding var showOnboarding: Bool
-
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    
+    // MARK: - General Properties
     let baseAudioManager = AudioManager()
     let melodyAudioManager = AudioManager()
-    let naturalAudioManager = AudioManager()
+    let whiteNoiseAudioManager = AudioManager()
 
-    var items: [LocalizedStringKey] = ["BASE", "MELODY", "WHITE NOISE"]
+    var items = ["BASE", "MELODY", "WHITE NOISE"]
 
+    // MARK: - Life Cycles
     var body: some View {
         NavigationView{
             ZStack {
@@ -49,27 +55,18 @@ struct OnboardingView: View {
 
                 VStack {
                     Spacer()
-
                     HStack{
                         OnboardingStepBar()
                         Spacer()
                     }
 
                     HStack {
-
                         HStack {
-
                             VStack(alignment: .leading) {
 
                                 HStack {
-                                    Text("Please select")
-                                        .font(.system(size: 28, weight: .medium))
-                                        .foregroundColor(.white)
-                                    Spacer()
-                                }.fixedSize()
-
-                                HStack {
-                                    Text(items[select])
+                                    let text: String = "Please select \n\(items[select])"
+                                    Text(LocalizedStringKey(text))
                                         .font(.system(size: 28, weight: .medium))
                                         .foregroundColor(.white)
                                     Spacer()
@@ -86,7 +83,9 @@ struct OnboardingView: View {
                     }.padding(.horizontal)
 
                     SelectedImageView(selectedImageNames: $selectedImageNames, opacityAnimationValues: $opacityAnimationValues)
+
                     CustomSegmentControlView(items: items, selection: $select)
+
 
                     switch select {
                     case 1:
@@ -121,25 +120,48 @@ struct OnboardingView: View {
             }
         }
     }
+}
 
-    private func getEncodedData(data: [MixedSound]) -> Data? {
-        do {
-            let encoder = JSONEncoder()
-            let encodedData = try encoder.encode(data)
-            return encodedData
-        } catch {
-            print("Unable to Encode Note (\(error))")
-        }
-        return nil
-    }
-
+// MARK: - ViewBuilder
+extension OnboardingView {
     @ViewBuilder
     func SoundSelectView(sectionTitle: String,
                          soundType: SoundType) -> some View {
         VStack(spacing: 15) {
             HStack {
-                Text("볼륨조절 컴포넌트")
-            }
+                Image(systemName: "speaker.wave.1.fill")
+                    .frame(width: 18.0, height: 18.0)
+                    .foregroundColor(.white)
+                
+                VolumeSlider(value: $volumes[select], range: (0, 1), knobWidth: 14) { modifiers in
+                  ZStack {
+                    Color.white.cornerRadius(3).frame(height: 2).modifier(modifiers.barLeft)
+                    Color.white.opacity(0.4).cornerRadius(3).frame(height: 2).modifier(modifiers.barRight)
+                    ZStack {
+                      Circle().fill(Color.white)
+                    }.modifier(modifiers.knob)
+                  }
+                }
+                .frame(height: 25)
+                .onChange(of: volumes[0]) { volume in
+                    selectedBaseSound.audioVolume = volume
+                    baseAudioManager.changeVolume(track: selectedBaseSound.fileName, volume: volume)
+                }
+                .onChange(of: volumes[1]) { volume in
+                    selectedMelodySound.audioVolume = volume
+                    melodyAudioManager.changeVolume(track: selectedMelodySound.fileName, volume: volume)
+                }
+                .onChange(of: volumes[2]) { volume in
+                    selectedWhiteNoiseSound.audioVolume = volume
+                    whiteNoiseAudioManager.changeVolume(track: selectedWhiteNoiseSound.fileName, volume: volume)
+                }
+                
+                Text("\(Int(volumes[select] * 100))")
+                    .font(.body)
+                    .foregroundColor(.systemGrey1)
+                    .frame(maxWidth: 30)
+            }.padding([.horizontal])
+            
             ScrollView(.vertical,
                        showsIndicators: false) {
                 HStack(spacing: 30) {
@@ -155,10 +177,10 @@ struct OnboardingView: View {
 
                                 opacityAnimationValues[0] = 0.0
                             } else {
-                                baseAudioManager.startPlayer(track: selectedBaseSound.name)
+                                baseAudioManager.startPlayer(track: selectedBaseSound.fileName)
 
-                                selectedImageNames.base = selectedBaseSound.imageName
-                                opacityAnimationValues[0] = 0.5
+                                selectedImageNames.base = selectedBaseSound.fileName
+                                opacityAnimationValues[0] = 1.0
                             }
                         }
 
@@ -168,15 +190,16 @@ struct OnboardingView: View {
                             selectedWhiteNoiseSound = whiteNoiseSounds
 
                             if selectedWhiteNoiseSound.name == "Empty" {
-                                naturalAudioManager.stop()
+                                whiteNoiseAudioManager.stop()
 
                                 opacityAnimationValues[2] = 0.0
                             } else {
-                                naturalAudioManager.startPlayer(track: selectedWhiteNoiseSound.name)
 
-                                selectedImageNames.whiteNoise = selectedWhiteNoiseSound.imageName
+                                whiteNoiseAudioManager.startPlayer(track: selectedWhiteNoiseSound.fileName)
 
-                                opacityAnimationValues[2] = 0.5
+                                selectedImageNames.whiteNoise = selectedWhiteNoiseSound.fileName
+
+                                opacityAnimationValues[2] = 1.0
                             }
                         }
                     case .melody:
@@ -189,11 +212,11 @@ struct OnboardingView: View {
 
                                 opacityAnimationValues[1] = 0.0
                             } else {
-                                melodyAudioManager.startPlayer(track: selectedMelodySound.name)
+                                melodyAudioManager.startPlayer(track: selectedMelodySound.fileName)
 
-                                selectedImageNames.melody = selectedMelodySound.imageName
+                                selectedImageNames.melody = selectedMelodySound.fileName
 
-                                opacityAnimationValues[1] = 0.5
+                                opacityAnimationValues[1] = 1.0
 
                             }
                         }
@@ -218,7 +241,7 @@ struct OnboardingView: View {
 
             baseAudioManager.stop()
             melodyAudioManager.stop()
-            naturalAudioManager.stop()
+            whiteNoiseAudioManager.stop()
             self.textEntered = ""
         })
     }
@@ -230,9 +253,3 @@ struct OnboardingView: View {
             .foregroundStyle(LinearGradient(gradient: Gradient(colors: [Color.relaxNightBlue, Color.relaxLavender]), startPoint: .leading, endPoint: .trailing))
     }
 }
-//
-//Rectangle()
-//    .foregroundColor(.white)
-//    .frame(width: selectedItemWidth, height: 3)
-//    .offset(x: selectedItemHorizontalOffset(), y: 0)
-//    .animation(Animation.linear(duration: 0.3), value: selectedItemWidth)

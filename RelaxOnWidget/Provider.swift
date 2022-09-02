@@ -25,11 +25,12 @@ struct Provider: TimelineProvider {
         
         let entry: CDWidgetEntry
         
-        if let widgetData = UserDefaults(suiteName: "group.widget.relaxOn")!.value(forKey: "smallWidgetData") as? Data,
+        if let userDefault = UserDefaults(suiteName: WidgetManager.suiteName),
+           let widgetData = userDefault.value(forKey: "smallWidgetData") as? Data,
            let data = try? JSONDecoder().decode(SmallWidgetData.self, from: widgetData) {
-            entry = CDWidgetEntry(imageName: data.imageName, id: data.id, name: data.name)
+            entry = CDWidgetEntry(date: Date(), isSample: false, data: data)
         } else {
-            entry = CDWidgetEntry()
+            entry = CDWidgetEntry.sample
         }
         
         return Timeline(entries: [entry], policy: .never)

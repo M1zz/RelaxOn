@@ -11,9 +11,7 @@ import SwiftUI
 struct RelaxOnApp: App {
     @SceneBuilder var body: some Scene {
         WindowGroup {
-            NavigationView {
-                PlayerView()
-            }
+            TabsView()
         }
 
         WKNotificationScene(controller: NotificationController.self, category: "myCategory")
