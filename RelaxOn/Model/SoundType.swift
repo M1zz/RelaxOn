@@ -5,7 +5,6 @@
 //  Created by Moon Jongseek on 2022/09/02.
 //
 
-import Foundation
 import SwiftUI
 
 enum SoundType: String, CaseIterable, Codable {
@@ -54,12 +53,13 @@ enum BaseSound: String, CaseIterable {
     }
     
     static var soundList: [Sound] {
-        return self.allCases.map {
-            Sound(id: $0.hashValue + 1,
-                  name: $0.displayName,
+        
+        return self.allCases.enumerated().map {
+            Sound(id: $0.offset + 1,
+                  name: $0.element.displayName,
                   soundType: .base,
                   audioVolume: 0.8,
-                  fileName: $0.fileName)
+                  fileName: $0.element.fileName)
         }
     }
 }
@@ -80,12 +80,12 @@ enum MelodySound: String, CaseIterable {
     }
     
     static var soundList: [Sound] {
-        return self.allCases.map {
-            Sound(id: $0.hashValue + 1 + 10,
-                  name: $0.displayName,
+        return self.allCases.enumerated().map {
+            Sound(id: $0.offset + 1 + 10,
+                  name: $0.element.displayName,
                   soundType: .base,
                   audioVolume: 0.8,
-                  fileName: $0.fileName)
+                  fileName: $0.element.fileName)
         }
     }
 }
@@ -106,12 +106,12 @@ enum WhiteNoiseSound: String, CaseIterable {
     }
     
     static var soundList: [Sound] {
-        return self.allCases.map {
-            Sound(id: $0.hashValue + 1 + 20,
-                  name: $0.displayName,
+        return self.allCases.enumerated().map {
+            Sound(id: $0.offset + 1 + 20,
+                  name: $0.element.displayName,
                   soundType: .base,
                   audioVolume: 0.8,
-                  fileName: $0.fileName)
+                  fileName: $0.element.fileName)
         }
     }
 }
