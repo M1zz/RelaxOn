@@ -42,10 +42,14 @@ struct NewMusicView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                CDCoverView()
-                    .frame(width: .infinity, height: .infinity)
-                    .ignoresSafeArea()
-                    .blur(radius: 5)
+                GeometryReader { proxy in
+                    CDCoverView()
+                        .scaledToFill()
+                        .frame(width: proxy.size.width, height: proxy.size.height)
+                        .clipped()
+                        .ignoresSafeArea()
+                        .blur(radius: 30)
+                }
                 
                 VStack {
                     CustomNavigationBar()
@@ -56,6 +60,8 @@ struct NewMusicView: View {
                 VStack {
                     VStack(spacing: 0) {
                         CDCoverView()
+                            .cornerRadius(4)
+                            .clipped()
                             .padding(.horizontal, 20)
                             .frame(width: cdViewWidth, height: cdViewWidth - 40)
                             .aspectRatio(1, contentMode: .fit)
@@ -172,17 +178,6 @@ struct NewMusicView: View {
             )
             .navigationBarHidden(true)
         }
-    }
-    
-    private func getEncodedData(data: [MixedSound]) -> Data? {
-        do {
-            let encoder = JSONEncoder()
-            let encodedData = try encoder.encode(data)
-            return encodedData
-        } catch {
-            print("Unable to Encode Note (\(error))")
-        }
-        return nil
     }
 }
 
