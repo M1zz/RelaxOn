@@ -47,9 +47,9 @@ struct NewMusicView: View {
                         .scaledToFill()
                         .frame(width: proxy.size.width, height: proxy.size.height)
                         .clipped()
-                        .ignoresSafeArea()
                         .blur(radius: 30)
                 }
+                .ignoresSafeArea()
                 
                 VStack {
                     CustomNavigationBar()
