@@ -58,6 +58,7 @@ struct StudioView: View {
                     Spacer()
                     MixButton()
                 }.padding(.horizontal)
+                
                 SelectedImageView(selectedImageNames: $selectedImageNames, opacityAnimationValues: $opacityAnimationValues)
                 CustomSegmentControlView(items: items, selection: $select)
                 switch select {
@@ -181,8 +182,10 @@ extension StudioView {
     @ViewBuilder
     func MixButton() -> some View {
         NavigationLink(isActive: $navigateActive) {
-            CDNamingView(goToPreviousView: self.$rootIsActive,
-                         mixedSound: self.mixedSound)
+            if let mixedSound = self.mixedSound {
+                CDNamingView(goToPreviousView: self.$rootIsActive,
+                             mixedSound: mixedSound)
+            }
         } label: {
             Text("Mix")
                 .font(.system(size: 24, weight: .regular))

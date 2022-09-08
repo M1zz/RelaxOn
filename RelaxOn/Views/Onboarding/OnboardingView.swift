@@ -228,7 +228,14 @@ extension OnboardingView {
 
     @ViewBuilder
     func MixButton() -> some View {
-        NavigationLink(destination: OnboadingNamingView(selectedImageNames: $selectedImageNames, opacityAnimationValues: $opacityAnimationValues, textEntered: $textEntered, showOnboarding: $showOnboarding)) {
+        NavigationLink {
+            let mixedSound = MixedSound(name: "",
+                                        baseSound: selectedBaseSound,
+                                        melodySound: selectedMelodySound,
+                                        whiteNoiseSound: selectedWhiteNoiseSound,
+                                        fileName: recipeRandomName.randomElement()!)
+            CDNamingView(goToPreviousView: $showOnboarding, mixedSound: mixedSound)
+    } label: {
             Text("Mix")
                 .font(.system(size: 24, weight: .regular))
                 .foregroundColor( ($selectedBaseSound.id == 0 || $selectedMelodySound.id == 10 || $selectedWhiteNoiseSound.id == 20) ? Color.gray : Color.relaxDimPurple )
