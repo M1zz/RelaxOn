@@ -51,6 +51,7 @@ struct StudioNamingView: View {
                         .frame(width: deviceFrame.exceptPaddingWidth, height: 2)
                 }
                 Spacer()
+                
                 SaveButton()
 
             }
