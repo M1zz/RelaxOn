@@ -15,17 +15,17 @@ struct StudioView: View {
                                                 name: "Empty",
                                                 soundType: .base,
                                                 audioVolume: 0.5,
-                                                fileName: "music")
+                                                fileName: "")
     @State var selectedMelodySound: Sound = Sound(id: 10,
                                                   name: "Empty",
                                                   soundType: .melody,
                                                   audioVolume: 0.5,
-                                                  fileName: "music")
+                                                  fileName: "")
     @State var selectedWhiteNoiseSound: Sound = Sound(id: 20,
                                                       name: "Empty",
                                                       soundType: .whiteNoise,
                                                       audioVolume: 0.5,
-                                                      fileName: "music")
+                                                      fileName: "")
     @State var selectedImageNames: (base: String, melody: String, whiteNoise: String) = (
         base: "",
         melody: "",
@@ -33,10 +33,9 @@ struct StudioView: View {
     )
     
     @State var opacityAnimationValues = [0.0, 0.0, 0.0]
-    @State var textEntered = ""
     @State var navigateActive = false
     @State var volumes: [Float] = [0.5, 0.5, 0.5]
-    
+    @State var mixedSound: MixedSound?
     @Binding var rootIsActive: Bool
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
@@ -182,24 +181,30 @@ extension StudioView {
     @ViewBuilder
     func MixButton() -> some View {
         NavigationLink(isActive: $navigateActive) {
-            StudioNamingView(shouldPoptoRootView: self.$rootIsActive, selectedImageNames: $selectedImageNames, opacityAnimationValues: $opacityAnimationValues, textEntered: $textEntered)
-            } label: {}
-
-        Button {
-            baseSound = selectedBaseSound
-            melodySound = selectedMelodySound
-            whiteNoiseSound = selectedWhiteNoiseSound
-
-            baseAudioManager.stop()
-            melodyAudioManager.stop()
-            whiteNoiseAudioManager.stop()
-            self.textEntered = ""
-            navigateActive = true
+            CDNamingView(goToPreviousView: self.$rootIsActive,
+                         mixedSound: self.mixedSound)
         } label: {
             Text("Mix")
                 .font(.system(size: 24, weight: .regular))
                 .foregroundColor( ($selectedBaseSound.id == 0 && $selectedMelodySound.id == 10 && $selectedWhiteNoiseSound.id == 20) ? Color.gray : Color.relaxDimPurple )
-        }.disabled(($selectedBaseSound.id == 0 && $selectedMelodySound.id == 10 && $selectedWhiteNoiseSound.id == 20) ? true : false)
+                .onTapGesture {
+                    baseSound = selectedBaseSound
+                    melodySound = selectedMelodySound
+                    whiteNoiseSound = selectedWhiteNoiseSound
+
+                    mixedSound = MixedSound(name: "",
+                                              baseSound: baseSound,
+                                              melodySound: melodySound,
+                                              whiteNoiseSound: whiteNoiseSound,
+                                              fileName: recipeRandomName.randomElement()!)
+                    
+                    baseAudioManager.stop()
+                    melodyAudioManager.stop()
+                    whiteNoiseAudioManager.stop()
+                    navigateActive = true
+                }
+        }
+        .disabled(($selectedBaseSound.id == 0 && $selectedMelodySound.id == 10 && $selectedWhiteNoiseSound.id == 20) ? true : false)
     }
 
     @ViewBuilder
@@ -207,9 +212,6 @@ extension StudioView {
         HStack{
             Button(action: {
                 showingConfirm = true
-//                baseAudioManager.stop()
-//                melodyAudioManager.stop()
-//                whiteNoiseAudioManager.stop()
             }, label: {
                 HStack {
                     Image(systemName: "chevron.backward")

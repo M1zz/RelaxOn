@@ -14,17 +14,17 @@ struct OnboardingView: View {
                                                 name: "Empty",
                                                 soundType: .base,
                                                 audioVolume: 0.5,
-                                                fileName: "music")
+                                                fileName: "")
     @State var selectedMelodySound: Sound = Sound(id: 10,
                                                   name: "Empty",
                                                   soundType: .melody,
                                                   audioVolume: 0.5,
-                                                  fileName: "music")
+                                                  fileName: "")
     @State var selectedWhiteNoiseSound: Sound = Sound(id: 20,
                                                       name: "Empty",
                                                       soundType: .whiteNoise,
                                                       audioVolume: 0.5,
-                                                      fileName: "music")
+                                                      fileName: "")
 
     @State var selectedImageNames: (base: String, melody: String, whiteNoise: String) = (
         base: "",

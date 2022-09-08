@@ -226,7 +226,7 @@ extension NewMusicView {
         ZStack {
             if let baseSoundImageName = viewModel.mixedSound?.baseSound?.fileName {
                 switch baseSoundImageName {
-                case "music":
+                case "":
                     EmptyView()
                 default:
                     Image(baseSoundImageName)
@@ -236,7 +236,7 @@ extension NewMusicView {
             }
             if let melodySoundImageName = viewModel.mixedSound?.melodySound?.fileName {
                 switch melodySoundImageName {
-                case "music":
+                case "":
                     EmptyView()
                 default:
                     Image(melodySoundImageName)
@@ -246,7 +246,7 @@ extension NewMusicView {
             }
             if let whiteNoiseSoundImageName = viewModel.mixedSound?.whiteNoiseSound?.fileName {
                 switch whiteNoiseSoundImageName {
-                case "music":
+                case "":
                     EmptyView()
                 default:
                     Image(whiteNoiseSoundImageName)

@@ -107,6 +107,121 @@ extension StudioNamingView {
     }
 }
 
+struct CDNamingView: View {
+    // MARK: - State Properties
+    @Binding var goToPreviousView: Bool
+    @State var soundName = ""
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    
+    var mixedSound: MixedSound?
+    
+    // MARK: - Life Cycles
+    var body: some View {
+        ZStack {
+            if let mixedSound = self.mixedSound {
+                CDCoverImageView(selectedImageNames: mixedSound.getImageName())
+                    .toBackground()
+            }
+            
+            VStack {
+                HStack {
+                    NamingBackButton()
+                        .padding(.horizontal)
+                    Spacer()
+                }
+
+                HStack {
+                    Text("Please name this CD")
+                        .font(.system(size: 28, weight: .medium))
+                        .foregroundColor(.white)
+                    Spacer()
+                }
+                .padding(.horizontal)
+                .padding(.top, deviceFrame.screenHeight * 0.04)
+
+                VStack {
+                    TextField("", text: $soundName)
+                        .foregroundColor(.white)
+                        .modifier(PlaceholderCustom(showPlaceHolder: soundName.isEmpty, placeHolder: "Make your own CD"))
+                        .keyboardType(.alphabet)
+                        .padding(.horizontal)
+
+                    Rectangle()
+                        .foregroundColor(.white)
+                        .frame(height: 4)
+                        .padding(.horizontal)
+                }
+                Spacer()
+                
+                NewCDSaveButton()
+
+            }
+        }
+        .navigationBarHidden(true)
+    }
+}
+
+// MARK: - ViewBuilder
+extension CDNamingView {
+    @ViewBuilder
+    func NamingBackButton() -> some View {
+        HStack{
+            Button(action: {
+                presentationMode.wrappedValue.dismiss()
+            }, label: {
+                HStack {
+                    Image(systemName: "chevron.backward")
+                        .foregroundColor(.white)
+                    
+                    Text("Studio")
+                        .font(.system(size: 17, weight: .regular))
+                        .foregroundColor(.white)
+                }
+                
+            })
+
+            Spacer()
+        }
+    }
+
+    @ViewBuilder
+    func SaveButton() -> some View {
+        Text("SAVE")
+            .foregroundColor(.white)
+            .font(.system(size: 20, weight: .light))
+        .frame(width: deviceFrame.exceptPaddingWidth,
+               height: deviceFrame.screenHeight * 0.07)
+        .background {
+            RoundedRectangle(cornerRadius: 4)
+                .foregroundColor(.relaxRealBlack)
+        }
+        .padding()
+    }
+    
+    @ViewBuilder
+    func NewCDSaveButton() -> some View {
+        Button {
+            guard let mixedSound = self.mixedSound else {
+                return
+            }
+            let newSound = MixedSound(name: self.soundName,
+                                      baseSound: mixedSound.baseSound,
+                                      melodySound: mixedSound.melodySound,
+                                      whiteNoiseSound: mixedSound.whiteNoiseSound,
+                                      fileName: recipeRandomName.randomElement()!)
+            
+            userRepositories.append(newSound)
+            let data = getEncodedData(data: userRepositories)
+            UserDefaultsManager.shared.recipes = data
+            self.goToPreviousView = false
+        } label: {
+            SaveButton()
+        }
+        .opacity(soundName.isEmpty ? 0.5 : 1)
+        .disabled(soundName.isEmpty)
+    }
+}
+
 struct PlaceholderCustom: ViewModifier {
     var showPlaceHolder: Bool
     var placeHolder: String
