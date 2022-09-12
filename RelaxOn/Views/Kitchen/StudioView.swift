@@ -137,10 +137,9 @@ extension StudioView {
                                 opacityAnimationValues[0] = 0.0
                             } else {
                                 baseAudioManager.startPlayer(track: selectedBaseSound.fileName, volume: volumes[select])
-                                
-                                selectedImageNames.base = selectedBaseSound.fileName
                                 opacityAnimationValues[0] = 1.0
                             }
+                            selectedImageNames.base = selectedBaseSound.fileName
                         }
                     case .melody:
                         RadioButtonGroupView(selectedId: soundType.rawValue,
@@ -153,10 +152,9 @@ extension StudioView {
                                 opacityAnimationValues[1] = 0.0
                             } else {
                                 melodyAudioManager.startPlayer(track: selectedMelodySound.fileName, volume: volumes[select])
-                                
-                                selectedImageNames.melody = selectedMelodySound.fileName
                                 opacityAnimationValues[1] = 1.0
                             }
+                            selectedImageNames.melody = selectedMelodySound.fileName
                         }
                     case .whiteNoise:
                         RadioButtonGroupView(selectedId: soundType.rawValue,
@@ -169,10 +167,9 @@ extension StudioView {
                                 opacityAnimationValues[2] = 0.0
                             } else {
                                 whiteNoiseAudioManager.startPlayer(track: selectedWhiteNoiseSound.fileName, volume: volumes[select])
-                                
-                                selectedImageNames.whiteNoise = selectedWhiteNoiseSound.fileName
                                 opacityAnimationValues[2] = 1.0
                             }
+                            selectedImageNames.whiteNoise = selectedWhiteNoiseSound.fileName
                         }
                     }
                 }
