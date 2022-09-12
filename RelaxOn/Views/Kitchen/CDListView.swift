@@ -27,9 +27,8 @@ struct CDListView: View {
     @StateObject var musicViewModel = MusicViewModel()
     
     // MARK: - Life Cycles
-    init() {//userRepositoriesState: [MixedSound]) {
+    init() {
         UINavigationBar.appearance().tintColor = UIColor.relaxDimPurple ?? .white
-//        self.userRepositoriesState = userRepositoriesState
     }
     
     var body: some View {
@@ -99,14 +98,8 @@ struct CDListView: View {
             }
         }
         .onChange(of: showOnboarding) { _ in
-            print("Change showOnboarding")
-            print(showOnboarding)
             if !showOnboarding {
-                print(userRepositoriesState)
-                print(userRepositories)
                 userRepositoriesState = userRepositories
-                print(userRepositoriesState)
-                print(userRepositories)
             }
         }
         .fullScreenCover(isPresented: $showOnboarding) {
