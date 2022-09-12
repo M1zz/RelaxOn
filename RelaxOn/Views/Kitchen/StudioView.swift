@@ -60,6 +60,7 @@ struct StudioView: View {
                 }.padding(.horizontal)
                 
                 SelectedImageView(selectedImageNames: $selectedImageNames, opacityAnimationValues: $opacityAnimationValues)
+                
                 CustomSegmentControlView(items: items, selection: $select)
                 switch select {
                 case 1:
@@ -184,7 +185,8 @@ extension StudioView {
         NavigationLink(isActive: $navigateActive) {
             if let mixedSound = self.mixedSound {
                 CDNamingView(goToPreviousView: self.$rootIsActive,
-                             mixedSound: mixedSound)
+                             mixedSound: mixedSound,
+                             previousView: .studio)
             }
         } label: {
             Text("Mix")

@@ -16,9 +16,20 @@ struct CDNamingView: View {
     
     @State var mixedSound: MixedSound
     
+    var musicModelDelegate: MusicViewDelegate?
+    var previousView: PreviousView = .music
+    
+    // MARK: - Enumeration Condition
+    enum PreviousView {
+        case onboarding
+        case studio
+        case music
+    }
+    
     // MARK: - Life Cycles
     var body: some View {
         ZStack {
+            
             CDCoverImageView(selectedImageNames: mixedSound.getImageName())
                 .toBackground()
             
@@ -38,12 +49,13 @@ struct CDNamingView: View {
                 .padding(.horizontal)
                 .padding(.top, deviceFrame.screenHeight * 0.04)
 
-                VStack {
+                VStack(alignment: .leading) {
                     TextField("", text: $soundName)
                         .foregroundColor(.white)
                         .modifier(PlaceholderCustom(showPlaceHolder: soundName.isEmpty, placeHolder: "Make your own CD"))
                         .keyboardType(.alphabet)
                         .padding(.horizontal)
+                        .multilineTextAlignment(.leading)
 
                     Rectangle()
                         .foregroundColor(.white)
@@ -52,9 +64,14 @@ struct CDNamingView: View {
                 }
                 Spacer()
                 
-                NewCDSaveButton()
-//                OnboardingSaveButton()
-
+                switch previousView {
+                case .music:
+                    RenameCDSaveButton()
+                case .studio:
+                    NewCDSaveButton()
+                case .onboarding:
+                    OnboardingSaveButton()
+                }
             }
         }
         .navigationBarHidden(true)
@@ -97,6 +114,25 @@ extension CDNamingView {
     }
     
     @ViewBuilder
+    func OnboardingSaveButton() -> some View {
+        NavigationLink(isActive: $goToOnboardingFinishView) {
+            OnboardingFinishView(showOnboarding: $goToPreviousView, mixedSound: mixedSound)
+        } label: {
+            SaveButton()
+                .onTapGesture {
+                    mixedSound = MixedSound(name: soundName,
+                                              baseSound: baseSound,
+                                              melodySound: melodySound,
+                                              whiteNoiseSound: whiteNoiseSound,
+                                              fileName: recipeRandomName.randomElement()!)
+                    goToOnboardingFinishView = true
+                }
+        }
+        .opacity(soundName.isEmpty ? 0.5 : 1)
+        .disabled(soundName.isEmpty)
+    }
+    
+    @ViewBuilder
     func NewCDSaveButton() -> some View {
         Button {
             let newSound = MixedSound(name: self.soundName,
@@ -117,23 +153,18 @@ extension CDNamingView {
     }
     
     @ViewBuilder
-    func OnboardingSaveButton() -> some View {
-        NavigationLink(isActive: $goToOnboardingFinishView) {
-            OnboardingFinishView(showOnboarding: $goToPreviousView, mixedSound: mixedSound)
+    func RenameCDSaveButton() -> some View {
+        Button {
+            let newSound = MixedSound(id: mixedSound.id,
+                                      name: self.soundName,
+                                      baseSound: mixedSound.baseSound,
+                                      melodySound: mixedSound.melodySound,
+                                      whiteNoiseSound: mixedSound.whiteNoiseSound,
+                                      fileName: recipeRandomName.randomElement()!)
+            musicModelDelegate?.renameMusic(renamedMixedSound: newSound)
+            presentationMode.wrappedValue.dismiss()
         } label: {
             SaveButton()
-                .onTapGesture {
-                    mixedSound = MixedSound(name: soundName,
-                                              baseSound: baseSound,
-                                              melodySound: melodySound,
-                                              whiteNoiseSound: whiteNoiseSound,
-                                              fileName: recipeRandomName.randomElement()!)
-                    userRepositories.append(mixedSound)
-                    
-                    let data = getEncodedData(data: userRepositories)
-                    UserDefaultsManager.shared.recipes = data
-                    goToOnboardingFinishView = true
-                }
         }
         .opacity(soundName.isEmpty ? 0.5 : 1)
         .disabled(soundName.isEmpty)

@@ -27,7 +27,7 @@ extension SelectedImageView {
             if !framerevise {
                 Rectangle()
                     .DeviceFrame()
-                    .background(.gray)
+//                    .background(.gray)
             }
             // Base
             IllustImage(imageName: selectedImageNames.base, animateVar: opacityAnimationValues[0])

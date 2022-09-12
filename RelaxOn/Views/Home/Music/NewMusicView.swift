@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreMIDI
 
 struct NewMusicView: View {
     @Environment(\.presentationMode) var presentationMode
@@ -138,6 +139,18 @@ struct NewMusicView: View {
                             }
                         }
                 )
+                
+                NavigationLink(isActive: $isActive) {
+                    if let mixedSound = viewModel.mixedSound {
+                        CDNamingView(goToPreviousView: $isActive,
+                                     mixedSound: mixedSound,
+                                     musicModelDelegate: self,
+                                     previousView: .music)
+                    }
+                } label: {
+                    Text("")
+                }
+                .hidden()
             }
             .onAppear {
                 UIApplication.shared.beginReceivingRemoteControlEvents()
@@ -165,11 +178,6 @@ struct NewMusicView: View {
                 userRepositoriesState = userRepositories
                 UIApplication.shared.endReceivingRemoteControlEvents()
             }
-            .background(
-                NavigationLink(destination: MusicRenameView(viewModel: viewModel, userRepositoriesState: $userRepositoriesState, mixedSound: viewModel.mixedSound ?? emptyMixedSound), isActive: $isActive) {
-                    Text("")
-                }
-            )
             .navigationBarHidden(true)
         }
     }
@@ -254,14 +262,14 @@ extension NewMusicView {
                         .frame(width: .infinity, height: .infinity)
                 }
             }
-//            Image(viewModel.mixedSound?.melodySound?.imageName ?? "")
-//                .resizable()
-//                .opacity(0.5)
-//                .frame(width: .infinity, height: .infinity)
-//            Image(viewModel.mixedSound?.whiteNoiseSound?.imageName ?? "")
-//                .resizable()
-//                .opacity(0.5)
-//                .frame(width: .infinity, height: .infinity)
+            //            Image(viewModel.mixedSound?.melodySound?.imageName ?? "")
+            //                .resizable()
+            //                .opacity(0.5)
+            //                .frame(width: .infinity, height: .infinity)
+            //            Image(viewModel.mixedSound?.whiteNoiseSound?.imageName ?? "")
+            //                .resizable()
+            //                .opacity(0.5)
+            //                .frame(width: .infinity, height: .infinity)
         }
     }
     
@@ -322,6 +330,28 @@ extension NewMusicView {
         }
     }
 }
+
+// MARK: - MusicVeiwDelegate
+extension NewMusicView: MusicViewDelegate {
+    func renameMusic(renamedMixedSound: MixedSound) {
+        let firstIndex = userRepositoriesState.firstIndex { element in
+            return element.id == viewModel.mixedSound?.id ?? -1
+        }
+        
+        guard let index = firstIndex else {
+            return
+        }
+        viewModel.mixedSound = renamedMixedSound
+        userRepositories.remove(at: index)
+        userRepositories.insert(renamedMixedSound, at: index)
+        userRepositoriesState.remove(at: index)
+        userRepositoriesState.insert(renamedMixedSound, at: index)
+        
+        let data = getEncodedData(data: userRepositories)
+        UserDefaultsManager.shared.recipes = data
+    }
+}
+
 //
 //struct NewMusicView_Previews: PreviewProvider {
 //    static var previews: some View {

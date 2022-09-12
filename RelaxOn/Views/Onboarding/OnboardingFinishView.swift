@@ -9,7 +9,6 @@ import SwiftUI
 
 struct OnboardingFinishView: View {
     // MARK: - State Properties
-//    @State var userRepositoriesState: [MixedSound] = userRepositories
     @Binding var showOnboarding: Bool
     
     // MARK: - General Properties
@@ -44,7 +43,13 @@ extension OnboardingFinishView {
     @ViewBuilder
     func StartButton() -> some View {
         Button {
+            userRepositories.append(mixedSound)
+            
+            let data = getEncodedData(data: userRepositories)
+            UserDefaultsManager.shared.recipes = data
+            
             UserDefaultsManager.shared.notFirstVisit = true
+            
             showOnboarding = false
         } label: {
             Text("START")

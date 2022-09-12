@@ -37,8 +37,23 @@ extension CDCoverImageView {
     }
     
     @ViewBuilder
+    func addWhiteBackground() -> some View {
+        self
+            .background {
+                RoundedRectangle(cornerRadius: 4)
+                    .fill(.white)
+            }
+            .clipped()
+    }
+    
+    @ViewBuilder
     func IllustImage(imageName: String) -> some View {
-        Image(imageName)
-            .resizable()
+        if imageName.isEmpty {
+            Rectangle()
+                .fill(.clear)
+        } else {
+            Image(imageName)
+                .resizable()
+        }
     }
 }

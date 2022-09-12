@@ -22,7 +22,7 @@ struct CDCardView: View {
                 ZStack {
                     if let baseSoundImageName = data.baseSound?.fileName {
                         switch baseSoundImageName {
-                        case "music":
+                        case "":
                             EmptyView()
                         default:
                             Image(baseSoundImageName)
@@ -33,7 +33,7 @@ struct CDCardView: View {
                     
                     if let melodySoundImageName = data.melodySound?.fileName {
                         switch melodySoundImageName {
-                        case "music":
+                        case "":
                             EmptyView()
                         default:
                             Image(melodySoundImageName)
@@ -44,7 +44,7 @@ struct CDCardView: View {
                     
                     if let whiteNoiseSoundImageName = data.whiteNoiseSound?.fileName {
                         switch whiteNoiseSoundImageName {
-                        case "music":
+                        case "":
                             EmptyView()
                         default:
                             Image(whiteNoiseSoundImageName)
