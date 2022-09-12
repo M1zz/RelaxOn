@@ -31,7 +31,7 @@ struct CDNamingView: View {
         ZStack {
             
             CDCoverImageView(selectedImageNames: mixedSound.getImageName())
-                .toBackground()
+                .toBlurBackground()
             
             VStack {
                 HStack {
