@@ -35,7 +35,6 @@
 		21D897782892D48600A20FFE /* CDCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D897772892D48600A20FFE /* CDCardView.swift */; };
 		4A5769AC2866F20A007CCAE9 /* MixedSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5769AB2866F20A007CCAE9 /* MixedSound.swift */; };
 		4A5769AE2866F44E007CCAE9 /* DummyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5769AD2866F44E007CCAE9 /* DummyData.swift */; };
-		4A657339289E62CF00E6D5A0 /* MusicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A657338289E62CF00E6D5A0 /* MusicView.swift */; };
 		580CADAA28659BEF0091946C /* LongSun.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 580CADA928659BEF0091946C /* LongSun.mp3 */; };
 		580CADAC28659C990091946C /* SpaceMid.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 580CADAB28659C990091946C /* SpaceMid.mp3 */; };
 		580CADB028659CF50091946C /* SpaceLow.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 580CADAD28659CF50091946C /* SpaceLow.mp3 */; };
@@ -70,6 +69,7 @@
 		C753495828B75E4A0055F7CA /* RadioButtonGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C753495728B75E4A0055F7CA /* RadioButtonGroupView.swift */; };
 		C776B17128B2620000A13052 /* RelaxOnUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C776B17028B2620000A13052 /* RelaxOnUITests.swift */; };
 		C776B17328B2620000A13052 /* RelaxOnUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C776B17228B2620000A13052 /* RelaxOnUITestsLaunchTests.swift */; };
+		C7A50DDC28D08FA000841BC6 /* MusicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A50DDB28D08FA000841BC6 /* MusicView.swift */; };
 		C7E8029028CCCEF0009BADC1 /* MusicViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E8028F28CCCEF0009BADC1 /* MusicViewDelegate.swift */; };
 		C7EC1CA128B783B8006A5860 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C753495328B748E20055F7CA /* String+Extension.swift */; };
 		C7EC1CA228B783C7006A5860 /* Float+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C753495528B75BD20055F7CA /* Float+Extension.swift */; };
@@ -207,7 +207,6 @@
 		4A5769AB2866F20A007CCAE9 /* MixedSound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixedSound.swift; sourceTree = "<group>"; };
 		4A5769AD2866F44E007CCAE9 /* DummyData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyData.swift; sourceTree = "<group>"; };
 		4A5769AF2866F6B5007CCAE9 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
-		4A657338289E62CF00E6D5A0 /* MusicView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicView.swift; sourceTree = "<group>"; };
 		580CADA928659BEF0091946C /* LongSun.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = LongSun.mp3; sourceTree = "<group>"; };
 		580CADAB28659C990091946C /* SpaceMid.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = SpaceMid.mp3; sourceTree = "<group>"; };
 		580CADAD28659CF50091946C /* SpaceLow.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = SpaceLow.mp3; sourceTree = "<group>"; };
@@ -245,6 +244,7 @@
 		C776B16E28B2620000A13052 /* RelaxOnUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RelaxOnUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C776B17028B2620000A13052 /* RelaxOnUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelaxOnUITests.swift; sourceTree = "<group>"; };
 		C776B17228B2620000A13052 /* RelaxOnUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelaxOnUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		C7A50DDB28D08FA000841BC6 /* MusicView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicView.swift; sourceTree = "<group>"; };
 		C7E8028F28CCCEF0009BADC1 /* MusicViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicViewDelegate.swift; sourceTree = "<group>"; };
 		CBFDC8F3289C23AC00386FB5 /* VolumeSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeSlider.swift; sourceTree = "<group>"; };
 		CC04E26228BDA3F800509C60 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -356,7 +356,7 @@
 			children = (
 				58DE1020283DD9DD002CDB9F /* MusicViewModel.swift */,
 				58DE61C62843100100F25769 /* VolumeControlView.swift */,
-				4A657338289E62CF00E6D5A0 /* MusicView.swift */,
+				C7A50DDB28D08FA000841BC6 /* MusicView.swift */,
 			);
 			path = Music;
 			sourceTree = "<group>";
@@ -827,12 +827,12 @@
 				58DE1021283DD9DD002CDB9F /* MusicViewModel.swift in Sources */,
 				CC5AC191289D69E500FE847B /* WidgetManager.swift in Sources */,
 				58DE61852839C13900F25769 /* CdLibraryView.swift in Sources */,
+				C7A50DDC28D08FA000841BC6 /* MusicView.swift in Sources */,
 				58DE1032283DF6E7002CDB9F /* Static.swift in Sources */,
 				E24F21E228ABE1A100371BA4 /* MultiPreview.swift in Sources */,
 				C753495628B75BD20055F7CA /* Float+Extension.swift in Sources */,
 				21D3ED952892774F006E871F /* UserDefaultsManager.swift in Sources */,
 				219BD67328900A28006FAF55 /* CDListView.swift in Sources */,
-				4A657339289E62CF00E6D5A0 /* MusicView.swift in Sources */,
 				C7E8029028CCCEF0009BADC1 /* MusicViewDelegate.swift in Sources */,
 				CBFDC8F4289C23AC00386FB5 /* VolumeSlider.swift in Sources */,
 				CC5AC137289D199600FE847B /* Provider.swift in Sources */,

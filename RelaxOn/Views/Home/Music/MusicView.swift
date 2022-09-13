@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import CoreMIDI
 
 struct MusicView: View {
     @Environment(\.presentationMode) var presentationMode
@@ -262,14 +261,6 @@ extension MusicView {
                         .frame(width: .infinity, height: .infinity)
                 }
             }
-            //            Image(viewModel.mixedSound?.melodySound?.imageName ?? "")
-            //                .resizable()
-            //                .opacity(0.5)
-            //                .frame(width: .infinity, height: .infinity)
-            //            Image(viewModel.mixedSound?.whiteNoiseSound?.imageName ?? "")
-            //                .resizable()
-            //                .opacity(0.5)
-            //                .frame(width: .infinity, height: .infinity)
         }
     }
     
