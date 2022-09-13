@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import CoreMIDI
 
 struct NewMusicView: View {
     @Environment(\.presentationMode) var presentationMode
