@@ -18,7 +18,7 @@ struct OnboardingFinishView: View {
     var body: some View {
         ZStack {
             CDCoverImageView(selectedImageNames: mixedSound.getImageName())
-                .toBackground()
+                .toBlurBackground()
             
             VStack {
                 Spacer()

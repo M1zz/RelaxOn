@@ -41,9 +41,9 @@ struct CDListView: View {
                         .disabled(isEditMode)
 
                     ForEach(userRepositoriesState.reversed()){ mixedSound in
-                        CDCardView(data: mixedSound,
-                                   isShwoingMusicView: $isShwoingMusicView,
-                                   userRepositoriesState: $userRepositoriesState)
+                        CDCardView(isShwoingMusicView: $isShwoingMusicView,
+                                   userRepositoriesState: $userRepositoriesState,
+                                   data: mixedSound)
                             .disabled(isEditMode)
                             .overlay(alignment : .bottomTrailing) {
                                 if isEditMode {
@@ -103,21 +103,8 @@ struct CDListView: View {
             }
         }
         .fullScreenCover(isPresented: $showOnboarding) {
+//            StudioView(rootIsActive: $showOnboarding)
             OnboardingView(showOnboarding: $showOnboarding)
-        }
-        .onChange(of: isShwoingMusicView) { newValue in
-            if isShwoingMusicView == false {
-                if let data = UserDefaultsManager.shared.recipes {
-                    do {
-                        let decoder = JSONDecoder()
-                        
-                        userRepositories = try decoder.decode([MixedSound].self, from: data)
-                        userRepositoriesState = userRepositories
-                    } catch {
-                        print("Unable to Decode Note (\(error))")
-                    }
-                }
-            }
         }
         .onChange(of: isShwoingMusicView) { newValue in
             if isShwoingMusicView == false {

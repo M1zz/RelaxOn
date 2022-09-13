@@ -25,7 +25,7 @@ struct CDCoverImageView: View {
 // MARK: - ViewBuilder
 extension CDCoverImageView {
     @ViewBuilder
-    func toBackground() -> some View {
+    func toBlurBackground() -> some View {
         GeometryReader { proxy in
             self
                 .scaledToFill()

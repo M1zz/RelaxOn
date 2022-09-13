@@ -59,7 +59,9 @@ struct StudioView: View {
                     MixButton()
                 }.padding(.horizontal)
                 
-                SelectedImageView(selectedImageNames: $selectedImageNames, opacityAnimationValues: $opacityAnimationValues)
+                CDCoverImageView(selectedImageNames: selectedImageNames)
+                    .addWhiteBackground()
+                    .DeviceFrame()
                 
                 CustomSegmentControlView(items: items, selection: $select)
                 switch select {
