@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import CoreMIDI
 
 struct MusicView: View {
     @Environment(\.presentationMode) var presentationMode
@@ -43,10 +42,10 @@ struct MusicView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                CDCoverView()
-                    .frame(width: .infinity, height: .infinity)
-                    .ignoresSafeArea()
-                    .blur(radius: 5)
+                if let selectedImageNames = viewModel.mixedSound?.getImageName() {
+                    CDCoverImageView(selectedImageNames: selectedImageNames)
+                        .toBlurBackground()
+                }
                 
                 VStack {
                     CustomNavigationBar()
@@ -56,10 +55,13 @@ struct MusicView: View {
                 
                 VStack {
                     VStack(spacing: 0) {
-                        CDCoverView()
-                            .padding(.horizontal, 20)
-                            .frame(width: cdViewWidth, height: cdViewWidth - 40)
-                            .aspectRatio(1, contentMode: .fit)
+                        if let selectedImageNames = viewModel.mixedSound?.getImageName() {
+                            CDCoverImageView(selectedImageNames: selectedImageNames)
+                                .addWhiteBackground()
+                                .padding(.horizontal, 20)
+                                .frame(width: cdViewWidth, height: cdViewWidth - 40)
+                                .aspectRatio(1, contentMode: .fit)
+                        }
                         
                         Text(viewModel.mixedSound?.name ?? "")
                             .font(.system(size: cdNameFontSize, design: .default))
@@ -181,17 +183,6 @@ struct MusicView: View {
             .navigationBarHidden(true)
         }
     }
-    
-    private func getEncodedData(data: [MixedSound]) -> Data? {
-        do {
-            let encoder = JSONEncoder()
-            let encodedData = try encoder.encode(data)
-            return encodedData
-        } catch {
-            print("Unable to Encode Note (\(error))")
-        }
-        return nil
-    }
 }
 
 // MARK: ViewBuilder
@@ -225,51 +216,6 @@ extension MusicView {
                     .frame(width: musicControlButtonWidth, height: musicControlButtonWidth * 0.71)
                     .tint(.white)
             }
-        }
-    }
-    
-    // TODO: CDCover만들 곳
-    @ViewBuilder
-    func CDCoverView() -> some View {
-        ZStack {
-            if let baseSoundImageName = viewModel.mixedSound?.baseSound?.fileName {
-                switch baseSoundImageName {
-                case "":
-                    EmptyView()
-                default:
-                    Image(baseSoundImageName)
-                        .resizable()
-                        .frame(width: .infinity, height: .infinity)
-                }
-            }
-            if let melodySoundImageName = viewModel.mixedSound?.melodySound?.fileName {
-                switch melodySoundImageName {
-                case "":
-                    EmptyView()
-                default:
-                    Image(melodySoundImageName)
-                        .resizable()
-                        .frame(width: .infinity, height: .infinity)
-                }
-            }
-            if let whiteNoiseSoundImageName = viewModel.mixedSound?.whiteNoiseSound?.fileName {
-                switch whiteNoiseSoundImageName {
-                case "":
-                    EmptyView()
-                default:
-                    Image(whiteNoiseSoundImageName)
-                        .resizable()
-                        .frame(width: .infinity, height: .infinity)
-                }
-            }
-            //            Image(viewModel.mixedSound?.melodySound?.imageName ?? "")
-            //                .resizable()
-            //                .opacity(0.5)
-            //                .frame(width: .infinity, height: .infinity)
-            //            Image(viewModel.mixedSound?.whiteNoiseSound?.imageName ?? "")
-            //                .resizable()
-            //                .opacity(0.5)
-            //                .frame(width: .infinity, height: .infinity)
         }
     }
     

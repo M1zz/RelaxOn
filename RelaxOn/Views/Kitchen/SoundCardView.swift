@@ -75,10 +75,10 @@ struct SoundCardView: View {
 struct SoundCard_Previews: PreviewProvider {
     static var previews: some View {
         SoundCardView(soundFileName : "base_default",
-                       data: baseSounds[0],
+                      data: SoundType.base.soundList.first ?? Sound.empty(0),
                   callback: {_,_  in },
                   selectedID: "")
-        .background(ColorPalette.background.color)
+        .background(Color.backgroundColor)
     }
 }
 

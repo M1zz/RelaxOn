@@ -138,7 +138,7 @@ extension StudioView {
                     switch soundType {
                     case .base:
                         RadioButtonGroupView(selectedId: soundType.rawValue,
-                                             items: baseSounds) { baseSelected in
+                                             items: SoundType.base.soundList) { baseSelected in
                             selectedBaseSound = baseSelected
                             // play music
                             
@@ -154,7 +154,7 @@ extension StudioView {
                         }
                     case .melody:
                         RadioButtonGroupView(selectedId: soundType.rawValue,
-                                             items: melodySounds) { melodySounds in
+                                             items: SoundType.melody.soundList) { melodySounds in
                             selectedMelodySound = melodySounds
                             
                             if selectedMelodySound.name == "Empty" {
@@ -169,7 +169,7 @@ extension StudioView {
                         }
                     case .whiteNoise:
                         RadioButtonGroupView(selectedId: soundType.rawValue,
-                                             items: whiteNoiseSounds) { whiteNoiseSounds in
+                                             items: SoundType.whiteNoise.soundList) { whiteNoiseSounds in
                             selectedWhiteNoiseSound = whiteNoiseSounds
                             
                             if selectedWhiteNoiseSound.name == "Empty" {

@@ -211,7 +211,7 @@ extension CDListView {
 struct CDListView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            CDListView()//userRepositoriesState: [dummyMixedSound, dummyMixedSound1, dummyMixedSound2, dummyMixedSound3])
+            CDListView()
                 .navigationBarHidden(true)
         }
     }
