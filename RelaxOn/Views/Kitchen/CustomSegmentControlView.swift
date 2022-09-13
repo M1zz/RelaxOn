@@ -35,8 +35,7 @@ public struct CustomSegmentControlView: View {
 
         let isSelected = self.selection == index
 
-        return
-        Text(items[index])
+        return Text(items[index])
             .font(.body)
             .foregroundColor(isSelected ? .white : .gray)
             .background(BackgroundGeometryReader())
