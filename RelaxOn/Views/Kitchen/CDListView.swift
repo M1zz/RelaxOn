@@ -40,7 +40,7 @@ struct CDListView: View {
                     PlusCDImage
                         .disabled(isEditMode)
 
-                    ForEach(userRepositoriesState.reversed()){ mixedSound in
+                    ForEach(userRepositoriesState){ mixedSound in
                         CDCardView(isShwoingMusicView: $isShwoingMusicView,
                                    userRepositoriesState: $userRepositoriesState,
                                    data: mixedSound)
