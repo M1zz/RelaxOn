@@ -13,6 +13,8 @@ struct CDCardView: View {
     @Binding var userRepositoriesState: [MixedSound]
     @State var selectedMixedSound: MixedSound?
     @State private var isPresent = false
+    @StateObject var viewModel: MusicViewModel
+    
     var body: some View {
         VStack(alignment: .leading) {
             Button(action: {
@@ -54,15 +56,22 @@ struct CDCardView: View {
                     }
                 }
                 .fullScreenCover(item: $selectedMixedSound) { _ in
-                    NewMusicView(data: data, userRepositoriesState: $userRepositoriesState)
+                    NewMusicView(viewModel: viewModel, data: data, userRepositoriesState: $userRepositoriesState)
                 }
                 .fullScreenCover(isPresented: $isPresent) {
-                    NewMusicView(data: data, userRepositoriesState: $userRepositoriesState)
+                    NewMusicView(viewModel: viewModel, data: data, userRepositoriesState: $userRepositoriesState)
                 }
             })
             Text(data.name)
                 .font(.system(size: 17, weight: .regular))
                 .foregroundColor(.systemGrey1)
+        }
+        .onChange(of: viewModel.initiatedByWatch) { changedValue in
+            if viewModel.currentTitle == data.name && viewModel.initiatedByWatch {
+                isPresent = true
+                viewModel.isMusicViewPresented = true
+                viewModel.initiatedByWatch = false
+            }
         }
         .onOpenURL { url in
             isPresent = url == data.url

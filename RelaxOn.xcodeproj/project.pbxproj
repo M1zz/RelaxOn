@@ -16,8 +16,10 @@
 		10FB81AF28A138E7000168CC /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FB81AE28A138E7000168CC /* OnboardingView.swift */; };
 		10FB81B128A13D97000168CC /* OnboadingNamingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FB81B028A13D97000168CC /* OnboadingNamingView.swift */; };
 		10FB81B528A17468000168CC /* OnboardingFinishView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FB81B428A17468000168CC /* OnboardingFinishView.swift */; };
-		216057D928BD4DBA0032A5AC /* TabsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216057D828BD4DBA0032A5AC /* TabsView.swift */; };
-		216057DB28BD4DBF0032A5AC /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216057DA28BD4DBF0032A5AC /* ListView.swift */; };
+		2125F1B928CE0299007BAB85 /* PageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2125F1B828CE0299007BAB85 /* PageView.swift */; };
+		2125F1BB28CE02BE007BAB85 /* CDPlayerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2125F1BA28CE02BD007BAB85 /* CDPlayerManager.swift */; };
+		2125F1BD28CE02D7007BAB85 /* WatchConnectivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2125F1BC28CE02D7007BAB85 /* WatchConnectivityManager.swift */; };
+		216057DB28BD4DBF0032A5AC /* CDListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216057DA28BD4DBF0032A5AC /* CDListView.swift */; };
 		216057DD28BD4E760032A5AC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 216057DC28BD4E760032A5AC /* Assets.xcassets */; };
 		216057DE28BD4EA40032A5AC /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C753494F28B748C80055F7CA /* Color+Extension.swift */; };
 		216057DF28BD4EAA0032A5AC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58DE61862839C13A00F25769 /* Assets.xcassets */; };
@@ -25,14 +27,12 @@
 		21B7A65028A31DE700E90744 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 21B7A64F28A31DE700E90744 /* Assets.xcassets */; };
 		21B7A65628A31DE700E90744 /* RelaxOnWatch WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 21B7A65528A31DE700E90744 /* RelaxOnWatch WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		21B7A65B28A31DE700E90744 /* RelaxOnApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B7A65A28A31DE700E90744 /* RelaxOnApp.swift */; };
-		21B7A65D28A31DE700E90744 /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B7A65C28A31DE700E90744 /* PlayerView.swift */; };
+		21B7A65D28A31DE700E90744 /* CDPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B7A65C28A31DE700E90744 /* CDPlayerView.swift */; };
 		21B7A65F28A31DE700E90744 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B7A65E28A31DE700E90744 /* NotificationController.swift */; };
 		21B7A66128A31DE700E90744 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B7A66028A31DE700E90744 /* NotificationView.swift */; };
 		21B7A66328A31DE700E90744 /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B7A66228A31DE700E90744 /* ComplicationController.swift */; };
 		21B7A66828A31DE800E90744 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 21B7A66728A31DE800E90744 /* Preview Assets.xcassets */; };
 		21B7A66D28A31DE800E90744 /* RelaxOnWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 21B7A64D28A31DE600E90744 /* RelaxOnWatch.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		21B7A67728A31E7000E90744 /* PlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B7A67628A31E7000E90744 /* PlayerViewModel.swift */; };
-		21B7A67928A31EB200E90744 /* Connectivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B7A67828A31EB200E90744 /* Connectivity.swift */; };
 		21D3ED952892774F006E871F /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5769AF2866F6B5007CCAE9 /* UserDefaultsManager.swift */; };
 		21D897782892D48600A20FFE /* CDCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D897772892D48600A20FFE /* CDCardView.swift */; };
 		4A5769AC2866F20A007CCAE9 /* MixedSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5769AB2866F20A007CCAE9 /* MixedSound.swift */; };
@@ -191,23 +191,23 @@
 		10FB81AE28A138E7000168CC /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		10FB81B028A13D97000168CC /* OnboadingNamingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboadingNamingView.swift; sourceTree = "<group>"; };
 		10FB81B428A17468000168CC /* OnboardingFinishView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingFinishView.swift; sourceTree = "<group>"; };
-		216057D828BD4DBA0032A5AC /* TabsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabsView.swift; sourceTree = "<group>"; };
-		216057DA28BD4DBF0032A5AC /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
+		2125F1B828CE0299007BAB85 /* PageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageView.swift; sourceTree = "<group>"; };
+		2125F1BA28CE02BD007BAB85 /* CDPlayerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDPlayerManager.swift; sourceTree = "<group>"; };
+		2125F1BC28CE02D7007BAB85 /* WatchConnectivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchConnectivityManager.swift; sourceTree = "<group>"; };
+		216057DA28BD4DBF0032A5AC /* CDListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDListView.swift; sourceTree = "<group>"; };
 		216057DC28BD4E760032A5AC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		219BD67228900A28006FAF55 /* CDListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDListView.swift; sourceTree = "<group>"; };
 		21B7A64D28A31DE600E90744 /* RelaxOnWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RelaxOnWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		21B7A64F28A31DE700E90744 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		21B7A65528A31DE700E90744 /* RelaxOnWatch WatchKit Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "RelaxOnWatch WatchKit Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		21B7A65A28A31DE700E90744 /* RelaxOnApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelaxOnApp.swift; sourceTree = "<group>"; };
-		21B7A65C28A31DE700E90744 /* PlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
+		21B7A65C28A31DE700E90744 /* CDPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDPlayerView.swift; sourceTree = "<group>"; };
 		21B7A65E28A31DE700E90744 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
 		21B7A66028A31DE700E90744 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		21B7A66228A31DE700E90744 /* ComplicationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplicationController.swift; sourceTree = "<group>"; };
 		21B7A66728A31DE800E90744 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		21B7A66928A31DE800E90744 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		21B7A66A28A31DE800E90744 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
-		21B7A67628A31E7000E90744 /* PlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewModel.swift; sourceTree = "<group>"; };
-		21B7A67828A31EB200E90744 /* Connectivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Connectivity.swift; sourceTree = "<group>"; };
 		21D897772892D48600A20FFE /* CDCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDCardView.swift; sourceTree = "<group>"; };
 		4A5769AB2866F20A007CCAE9 /* MixedSound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixedSound.swift; sourceTree = "<group>"; };
 		4A5769AD2866F44E007CCAE9 /* DummyData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyData.swift; sourceTree = "<group>"; };
@@ -312,6 +312,43 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2130E21628D01368009502F1 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				2125F1B828CE0299007BAB85 /* PageView.swift */,
+				216057DA28BD4DBF0032A5AC /* CDListView.swift */,
+				21B7A65C28A31DE700E90744 /* CDPlayerView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		2130E21728D0138F009502F1 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				2125F1BC28CE02D7007BAB85 /* WatchConnectivityManager.swift */,
+				2125F1BA28CE02BD007BAB85 /* CDPlayerManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		2130E21828D013A6009502F1 /* Notification */ = {
+			isa = PBXGroup;
+			children = (
+				21B7A65E28A31DE700E90744 /* NotificationController.swift */,
+				21B7A66028A31DE700E90744 /* NotificationView.swift */,
+				21B7A66A28A31DE800E90744 /* PushNotificationPayload.apns */,
+			);
+			path = Notification;
+			sourceTree = "<group>";
+		};
+		2130E21928D013BA009502F1 /* Complication */ = {
+			isa = PBXGroup;
+			children = (
+				21B7A66228A31DE700E90744 /* ComplicationController.swift */,
+			);
+			path = Complication;
+			sourceTree = "<group>";
+		};
 		21B7A64E28A31DE600E90744 /* RelaxOnWatch */ = {
 			isa = PBXGroup;
 			children = (
@@ -323,18 +360,13 @@
 		21B7A65928A31DE700E90744 /* RelaxOnWatch WatchKit Extension */ = {
 			isa = PBXGroup;
 			children = (
-				21B7A65A28A31DE700E90744 /* RelaxOnApp.swift */,
-				21B7A65C28A31DE700E90744 /* PlayerView.swift */,
-				21B7A65E28A31DE700E90744 /* NotificationController.swift */,
-				21B7A66028A31DE700E90744 /* NotificationView.swift */,
-				21B7A66228A31DE700E90744 /* ComplicationController.swift */,
 				21B7A66928A31DE800E90744 /* Info.plist */,
-				21B7A66A28A31DE800E90744 /* PushNotificationPayload.apns */,
+				21B7A65A28A31DE700E90744 /* RelaxOnApp.swift */,
+				2130E21628D01368009502F1 /* Views */,
+				2130E21728D0138F009502F1 /* Managers */,
+				2130E21828D013A6009502F1 /* Notification */,
+				2130E21928D013BA009502F1 /* Complication */,
 				21B7A66628A31DE800E90744 /* Preview Content */,
-				21B7A67628A31E7000E90744 /* PlayerViewModel.swift */,
-				21B7A67828A31EB200E90744 /* Connectivity.swift */,
-				216057D828BD4DBA0032A5AC /* TabsView.swift */,
-				216057DA28BD4DBF0032A5AC /* ListView.swift */,
 				216057DC28BD4E760032A5AC /* Assets.xcassets */,
 			);
 			path = "RelaxOnWatch WatchKit Extension";
@@ -809,14 +841,14 @@
 			files = (
 				21B7A65F28A31DE700E90744 /* NotificationController.swift in Sources */,
 				216057DE28BD4EA40032A5AC /* Color+Extension.swift in Sources */,
-				21B7A65D28A31DE700E90744 /* PlayerView.swift in Sources */,
+				21B7A65D28A31DE700E90744 /* CDPlayerView.swift in Sources */,
 				21B7A66328A31DE700E90744 /* ComplicationController.swift in Sources */,
-				21B7A67728A31E7000E90744 /* PlayerViewModel.swift in Sources */,
 				21B7A65B28A31DE700E90744 /* RelaxOnApp.swift in Sources */,
+				2125F1BD28CE02D7007BAB85 /* WatchConnectivityManager.swift in Sources */,
 				21B7A66128A31DE700E90744 /* NotificationView.swift in Sources */,
-				216057D928BD4DBA0032A5AC /* TabsView.swift in Sources */,
-				21B7A67928A31EB200E90744 /* Connectivity.swift in Sources */,
-				216057DB28BD4DBF0032A5AC /* ListView.swift in Sources */,
+				2125F1BB28CE02BE007BAB85 /* CDPlayerManager.swift in Sources */,
+				2125F1B928CE0299007BAB85 /* PageView.swift in Sources */,
+				216057DB28BD4DBF0032A5AC /* CDListView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

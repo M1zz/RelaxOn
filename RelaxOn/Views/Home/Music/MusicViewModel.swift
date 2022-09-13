@@ -11,32 +11,34 @@ import MediaPlayer
 import WatchConnectivity
 
 final class MusicViewModel: NSObject, ObservableObject {
-    @Published var watchInfo: [String] = []
+    private let playMessageKey = "player"
+    private let volumeMessageKey = "volume"
+    private let titleMessageKey = "title"
+    @Published var currentTitle = ""
+    @Published var initiatedByWatch = false
+    @Published var isMusicViewPresented = false
     
     override init() {
         super.init()
         
-        guard WCSession.isSupported() else {
-            return
+        if WCSession.isSupported() {
+            WCSession.default.delegate = self
+            
+            WCSession.default.activate()
         }
-        
-        WCSession.default.delegate = self
-        WCSession.default.activate()
     }
     
-    public func send(cdInfos: [String]) {
+    func sendMessage(key: String, _ message: Any) {
         guard WCSession.default.activationState == .activated else {
-            return
+          return
         }
+        
         guard WCSession.default.isWatchAppInstalled else {
             return
         }
-        let userInfo: [String: [String]] = [
-            "cdInfo" : cdInfos
-        ]
         
-        WCSession.default.sendMessage(userInfo) { _ in
-            print("error sendmessage from iphone")
+        WCSession.default.sendMessage([key : message], replyHandler: nil) { error in
+            print("Cannot send volume message: \(String(describing: error))")
         }
     }
     
@@ -58,7 +60,7 @@ final class MusicViewModel: NSObject, ObservableObject {
     @Published var mixedSound: MixedSound? {
         didSet {
             startPlayer()
-            updateCompanion()
+            
         }
     }
     
@@ -84,24 +86,57 @@ final class MusicViewModel: NSObject, ObservableObject {
         melodyAudioManager.playPause()
         whiteNoiseAudioManager.playPause()
         self.isPlaying.toggle()
-        updateCompanion()
+        
+        self.sendMessage(key: playMessageKey, self.isPlaying ? "play" : "pause")
+        self.sendMessage(key: titleMessageKey, self.mixedSound?.name ?? "")
     }
     
     func stop() {
         baseAudioManager.stop()
         melodyAudioManager.stop()
         whiteNoiseAudioManager.stop()
-        updateCompanion()
+     
+        self.sendMessage(key: playMessageKey, "pause")
+        self.sendMessage(key: titleMessageKey, self.mixedSound?.name ?? "")
     }
     
     func startPlayer() {
+        self.currentTitle = mixedSound?.name ?? ""
+        
         baseAudioManager.startPlayer(track: mixedSound?.baseSound?.fileName ?? "base_default", volume: mixedSound?.baseSound?.audioVolume ?? 0.8)
         melodyAudioManager.startPlayer(track: mixedSound?.melodySound?.fileName ?? "base_default", volume: mixedSound?.melodySound?.audioVolume ?? 0.8)
         whiteNoiseAudioManager.startPlayer(track: mixedSound?.whiteNoiseSound?.fileName ?? "base_default", volume: mixedSound?.whiteNoiseSound?.audioVolume ?? 0.8)
+        
+        self.isPlaying = true
+        
+        self.sendMessage(key: playMessageKey, "play")
+        self.sendMessage(key: titleMessageKey, self.mixedSound?.name ?? "")
+    }
+    
+    func startPlayerFromWatch() {
+        
+        let index = userRepositories.firstIndex { element in
+            element.name == self.currentTitle
+        }
+
+        guard let idx = index else { return }
+        let mixedSound = userRepositories[idx]
+        self.mixedSound = userRepositories[idx]
+        guard let mixedSound = self.mixedSound else { return }
+        
+        self.isPlaying = true
+        
+        baseAudioManager.startPlayer(track: mixedSound.baseSound?.fileName ?? "base_default", volume: mixedSound.baseSound?.audioVolume ?? 0.8)
+        melodyAudioManager.startPlayer(track: mixedSound.melodySound?.fileName ?? "base_default", volume: mixedSound.melodySound?.audioVolume ?? 0.8)
+        whiteNoiseAudioManager.startPlayer(track: mixedSound.whiteNoiseSound?.fileName ?? "base_default", volume: mixedSound.whiteNoiseSound?.audioVolume ?? 0.8)
+        
+        self.setupRemoteCommandCenter()
+        self.setupRemoteCommandInfoCenter(mixedSound: mixedSound)
     }
     
     func setupRemoteCommandCenter() {
         let center = MPRemoteCommandCenter.shared()
+        
         center.playCommand.removeTarget(nil)
         center.pauseCommand.removeTarget(nil)
         center.nextTrackCommand.removeTarget(nil)
@@ -110,11 +145,15 @@ final class MusicViewModel: NSObject, ObservableObject {
         
         center.playCommand.addTarget { commandEvent -> MPRemoteCommandHandlerStatus in
             self.playPause()
+            self.sendMessage(key: self.playMessageKey, self.isPlaying ? "play" : "pause")
+            self.sendMessage(key: self.titleMessageKey, self.mixedSound?.name ?? "")
             return .success
         }
         
         center.pauseCommand.addTarget { commandEvent -> MPRemoteCommandHandlerStatus in
             self.playPause()
+            self.sendMessage(key: self.playMessageKey, self.isPlaying ? "play" : "pause")
+            self.sendMessage(key: self.titleMessageKey, self.mixedSound?.name ?? "")
             return .success
         }
         
@@ -160,7 +199,10 @@ final class MusicViewModel: NSObject, ObservableObject {
             self.mixedSound = firstSong
             self.setupRemoteCommandInfoCenter(mixedSound: firstSong)
             self.setupRemoteCommandCenter()
-            updateCompanion()
+            
+            self.currentTitle = firstSong.name
+            self.sendMessage(key: self.titleMessageKey, firstSong.name)
+            self.sendMessage(key: self.playMessageKey, "play")
         } else {
             let nextSong = userRepositories[ userRepositories.firstIndex {
                 $0.id > id
@@ -168,7 +210,10 @@ final class MusicViewModel: NSObject, ObservableObject {
             self.mixedSound = nextSong
             self.setupRemoteCommandInfoCenter(mixedSound: nextSong)
             self.setupRemoteCommandCenter()
-            updateCompanion()
+            
+            self.currentTitle = nextSong.name
+            self.sendMessage(key: self.titleMessageKey, nextSong.name)
+            self.sendMessage(key: self.playMessageKey, "play")
         }
     }
     
@@ -184,7 +229,9 @@ final class MusicViewModel: NSObject, ObservableObject {
             self.mixedSound = lastSong
             self.setupRemoteCommandInfoCenter(mixedSound: lastSong)
             self.setupRemoteCommandCenter()
-            updateCompanion()
+            
+            self.currentTitle = lastSong.name
+            self.sendMessage(key: self.titleMessageKey, lastSong.name)
         } else {
             let previousSong = userRepositories[ userRepositories.lastIndex {
                 $0.id < id
@@ -192,105 +239,77 @@ final class MusicViewModel: NSObject, ObservableObject {
             self.mixedSound = previousSong
             self.setupRemoteCommandInfoCenter(mixedSound: previousSong)
             self.setupRemoteCommandCenter()
-            updateCompanion()
-        }
-    }
-    
-    func updateCompanion() {
-        self.send(cdInfos: [isPlaying ? "true" : "false", mixedSound?.name ?? ""])
-    }
-    
-    func updateCDList(cdList: [String]) {
-        do {
-            try WCSession.default.updateApplicationContext(["cdList" : cdList])
-        } catch {
-            print("update Application context error")
+            
+            self.currentTitle = previousSong.name
+            self.sendMessage(key: self.titleMessageKey, previousSong.name)
         }
     }
 }
 
 extension MusicViewModel: WCSessionDelegate {
+
+    func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
+        if let state = message[playMessageKey] as? String {
+            DispatchQueue.main.async { [weak self] in
+                print(state)
+                switch state {
+                case "play", "pause":
+                    if let isPresented = self?.isMusicViewPresented {
+                        if isPresented {
+                            self?.playPause()
+                        } else {
+                            self?.initiatedByWatch = true
+                            if (UIApplication.shared.applicationState == .background) {
+                                self?.playPause()
+                            }
+                        }
+                    } else {
+                        self?.playPause()
+                    }
+                    case "prev":
+                        guard let mixedSound = self?.mixedSound else { return }
+                        self?.setupPreviousTrack(mixedSound: mixedSound)
+                    case "next":
+                        guard let mixedSound = self?.mixedSound else { return }
+                        self?.setupNextTrack(mixedSound: mixedSound)
+                    default:
+                        print("해당 안됨")
+                }
+            }
+        }
+        
+        if let request = message["list"] as? String {
+            DispatchQueue.main.async { [weak self] in
+                self?.sendMessage(key: "list", userRepositories.map{mixedSound in mixedSound.name})
+            }
+        }
+
+        if let title = message[titleMessageKey] as? String {
+            DispatchQueue.main.async { [weak self] in
+                self?.currentTitle = title
+                if let isPresented = self?.isMusicViewPresented {
+                    if isPresented {
+                        self?.startPlayerFromWatch()
+                    } else {
+                        self?.initiatedByWatch = true
+                        self?.startPlayerFromWatch()
+                    }
+                } else {
+                    self?.startPlayerFromWatch()
+                }
+            }
+        }
+    }
+
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
+
     }
-    
-    private func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHander: @escaping ([String:Any]) -> Void) {
-        print("received message from watch")
-        let key = "watchInfo"
-        guard let WatchInfo = message[key] as? [String] else {
-            return
-        }
-        
-        let index = userRepositories.firstIndex { element in
-            element.name == WatchInfo[0]
-        }
-        
-        self.mixedSound = userRepositories[index ?? 0]
-        
-        switch WatchInfo[1] {
-        case "playing", "paused":
-            print("playPause()")
-            self.playPause()
-        case "prev":
-            print("prev()")
-            guard let mixedSound = self.mixedSound else {
-                return
-            }
-            self.setupPreviousTrack(mixedSound: mixedSound)
-        case "next":
-            print("next()")
-            guard let mixedSound = self.mixedSound else {
-                return
-            }
-            self.setupNextTrack(mixedSound: mixedSound)
-        default:
-            print("unknown watchinfo")
-        }
-    }
-    
-    func session(_ session: WCSession, didReceiveUserInfo userInfo: [String : Any] = [:]) {
-        print("received from watch")
-        
-        DispatchQueue.main.async {
-            let key = "watchInfo"
-            guard let WatchInfo = userInfo[key] as? [String] else {
-                return
-            }
-            
-            let index = userRepositories.firstIndex { element in
-                element.name == WatchInfo[0]
-            }
-            
-            self.mixedSound = userRepositories[index ?? 0]
-            
-            switch WatchInfo[1] {
-            case "playing", "paused":
-                print("playPause()")
-                self.playPause()
-            case "prev":
-                print("prev()")
-                guard let mixedSound = self.mixedSound else {
-                    return
-                }
-                self.setupPreviousTrack(mixedSound: mixedSound)
-            case "next":
-                print("next()")
-                guard let mixedSound = self.mixedSound else {
-                    return
-                }
-                self.setupNextTrack(mixedSound: mixedSound)
-            default:
-                print("unknown watchinfo")
-            }
-        }
-    }
-    
-    // iOS에만 해당
-#if os(iOS)
+
     func sessionDidBecomeInactive(_ session: WCSession) {
+
     }
+
     func sessionDidDeactivate(_ session: WCSession) {
-        // 애플워치가 2개 이상일 때, 새로운 기기에서 다시 activate
-        WCSession.default.activate()
+        session.activate()
     }
-#endif
 }
