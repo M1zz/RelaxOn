@@ -1,5 +1,5 @@
 //
-//  NewMusicView.swift
+//  MusicView.swift
 //  RelaxOn
 //
 //  Created by 최동권 on 2022/08/06.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct NewMusicView: View {
+struct MusicView: View {
     @Environment(\.presentationMode) var presentationMode
     @State private var isActive = false
     @State private var isFetchFirstData = true
@@ -138,6 +138,18 @@ struct NewMusicView: View {
                             }
                         }
                 )
+                
+                NavigationLink(isActive: $isActive) {
+                    if let mixedSound = viewModel.mixedSound {
+                        CDNamingView(goToPreviousView: $isActive,
+                                     mixedSound: mixedSound,
+                                     musicModelDelegate: self,
+                                     previousView: .music)
+                    }
+                } label: {
+                    Text("")
+                }
+                .hidden()
             }
             .onAppear {
                 UIApplication.shared.beginReceivingRemoteControlEvents()
@@ -165,11 +177,6 @@ struct NewMusicView: View {
                 userRepositoriesState = userRepositories
                 UIApplication.shared.endReceivingRemoteControlEvents()
             }
-            .background(
-                NavigationLink(destination: MusicRenameView(viewModel: viewModel, userRepositoriesState: $userRepositoriesState, mixedSound: viewModel.mixedSound ?? emptyMixedSound), isActive: $isActive) {
-                    Text("")
-                }
-            )
             .navigationBarHidden(true)
         }
     }
@@ -187,7 +194,7 @@ struct NewMusicView: View {
 }
 
 // MARK: ViewBuilder
-extension NewMusicView {
+extension MusicView {
     @ViewBuilder
     func MusicContollerView() -> some View {
         HStack (spacing: 56) {
@@ -226,7 +233,7 @@ extension NewMusicView {
         ZStack {
             if let baseSoundImageName = viewModel.mixedSound?.baseSound?.fileName {
                 switch baseSoundImageName {
-                case "music":
+                case "":
                     EmptyView()
                 default:
                     Image(baseSoundImageName)
@@ -236,7 +243,7 @@ extension NewMusicView {
             }
             if let melodySoundImageName = viewModel.mixedSound?.melodySound?.fileName {
                 switch melodySoundImageName {
-                case "music":
+                case "":
                     EmptyView()
                 default:
                     Image(melodySoundImageName)
@@ -246,7 +253,7 @@ extension NewMusicView {
             }
             if let whiteNoiseSoundImageName = viewModel.mixedSound?.whiteNoiseSound?.fileName {
                 switch whiteNoiseSoundImageName {
-                case "music":
+                case "":
                     EmptyView()
                 default:
                     Image(whiteNoiseSoundImageName)
@@ -254,14 +261,6 @@ extension NewMusicView {
                         .frame(width: .infinity, height: .infinity)
                 }
             }
-//            Image(viewModel.mixedSound?.melodySound?.imageName ?? "")
-//                .resizable()
-//                .opacity(0.5)
-//                .frame(width: .infinity, height: .infinity)
-//            Image(viewModel.mixedSound?.whiteNoiseSound?.imageName ?? "")
-//                .resizable()
-//                .opacity(0.5)
-//                .frame(width: .infinity, height: .infinity)
         }
     }
     
@@ -322,9 +321,31 @@ extension NewMusicView {
         }
     }
 }
+
+// MARK: - MusicVeiwDelegate
+extension MusicView: MusicViewDelegate {
+    func renameMusic(renamedMixedSound: MixedSound) {
+        let firstIndex = userRepositoriesState.firstIndex { element in
+            return element.id == viewModel.mixedSound?.id ?? -1
+        }
+        
+        guard let index = firstIndex else {
+            return
+        }
+        viewModel.mixedSound = renamedMixedSound
+        userRepositories.remove(at: index)
+        userRepositories.insert(renamedMixedSound, at: index)
+        userRepositoriesState.remove(at: index)
+        userRepositoriesState.insert(renamedMixedSound, at: index)
+        
+        let data = getEncodedData(data: userRepositories)
+        UserDefaultsManager.shared.recipes = data
+    }
+}
+
 //
 //struct NewMusicView_Previews: PreviewProvider {
 //    static var previews: some View {
-//        NewMusicView()
+//        MusicView()
 //    }
 //}

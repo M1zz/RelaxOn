@@ -45,6 +45,14 @@ extension MixedSound {
                                     melodySound: Sound.empty(1),
                                     whiteNoiseSound: Sound.empty(2),
                                     fileName: "Recipe1")
+    
+    func getImageName() -> (String, String, String) {
+        let baseImageName = baseSound?.fileName ?? ""
+        let melodyImageName = melodySound?.fileName ?? ""
+        let whiteNoiseImageName = whiteNoiseSound?.fileName ?? ""
+        
+        return (baseImageName, melodyImageName, whiteNoiseImageName)
+    }
 }
 
 let emptyMixedSound = MixedSound(name: "empty",
