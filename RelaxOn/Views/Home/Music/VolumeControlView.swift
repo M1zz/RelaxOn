@@ -154,7 +154,6 @@ extension VolumeControlView {
                         .accentColor(.white)
                         .padding(.horizontal, 20)
                         .onChange(of: audioVolumes.baseVolume) { newValue in
-                            print(newValue)
                             viewModel.baseAudioManager.changeVolume(track: item.fileName,
                                                                     volume: newValue)
                         }
@@ -171,7 +170,6 @@ extension VolumeControlView {
                         .accentColor(.white)
                         .padding(.horizontal, 20)
                         .onChange(of: audioVolumes.melodyVolume) { newValue in
-                            print(newValue)
                             viewModel.melodyAudioManager.changeVolume(track: item.fileName,
                                                                       volume: newValue)
                         }
@@ -188,7 +186,6 @@ extension VolumeControlView {
                         .accentColor(.white)
                         .padding(.horizontal, 20)
                         .onChange(of: audioVolumes.whiteNoiseVolume) { newValue in
-                            print(newValue)
                             viewModel.whiteNoiseAudioManager.changeVolume(track: item.fileName,
                                                                           volume: newValue)
                         }

@@ -209,6 +209,7 @@ final class MusicViewModel: NSObject, ObservableObject {
     }
 }
 
+// MARK: - WCSessionDelegate
 extension MusicViewModel: WCSessionDelegate {
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
     }

@@ -10,7 +10,7 @@ import SwiftUI
 struct CDListView: View {
     // MARK: - State Properties
     @State var isActive: Bool = false
-    @State var userRepositoriesState: [MixedSound]
+    @State var userRepositoriesState: [MixedSound] = []
     @State var selectedImageNames = (
         base: "",
         melody: "",
@@ -21,13 +21,14 @@ struct CDListView: View {
     @State private var showingActionSheet = false
     @State var isShwoingMusicView = false
     
+    @State var showOnboarding: Bool = false
+    
     // TODO: - 추후 다른 방식으로 수정
     @StateObject var musicViewModel = MusicViewModel()
     
     // MARK: - Life Cycles
-    init(userRepositoriesState: [MixedSound]) {
+    init() {
         UINavigationBar.appearance().tintColor = UIColor.relaxDimPurple ?? .white
-        self.userRepositoriesState = userRepositoriesState
     }
     
     var body: some View {
@@ -40,9 +41,9 @@ struct CDListView: View {
                         .disabled(isEditMode)
 
                     ForEach(userRepositoriesState.reversed()){ mixedSound in
-                        CDCardView(data: mixedSound,
-                                   isShwoingMusicView: $isShwoingMusicView,
-                                   userRepositoriesState: $userRepositoriesState)
+                        CDCardView(isShwoingMusicView: $isShwoingMusicView,
+                                   userRepositoriesState: $userRepositoriesState,
+                                   data: mixedSound)
                             .disabled(isEditMode)
                             .overlay(alignment : .bottomTrailing) {
                                 if isEditMode {
@@ -79,6 +80,9 @@ struct CDListView: View {
         }
         .padding()
         .onAppear {
+            let notFirstVisit = UserDefaultsManager.shared.notFirstVisit
+            showOnboarding = !notFirstVisit
+            
             if let data = UserDefaultsManager.shared.recipes {
                 do {
                     let decoder = JSONDecoder()
@@ -93,37 +97,14 @@ struct CDListView: View {
                 }
             }
         }
-        .onChange(of: userRepositories) { newValue in
-            if let data = UserDefaultsManager.shared.recipes {
-                do {
-                    let decoder = JSONDecoder()
-                    
-                    userRepositories = try decoder.decode([MixedSound].self, from: data)
-                    userRepositoriesState = userRepositories
-                    
-                    // TODO: - 추후 다른 방식으로 수정
-                    musicViewModel.updateCDList(cdList: userRepositoriesState.map{mixedSound in mixedSound.name})
-                    
-                    print("help : \(userRepositories)")
-
-                } catch {
-                    print("Unable to Decode Note (\(error))")
-                }
+        .onChange(of: showOnboarding) { _ in
+            if !showOnboarding {
+                userRepositoriesState = userRepositories
             }
         }
-        .onChange(of: isShwoingMusicView) { newValue in
-            if isShwoingMusicView == false {
-                if let data = UserDefaultsManager.shared.recipes {
-                    do {
-                        let decoder = JSONDecoder()
-                        
-                        userRepositories = try decoder.decode([MixedSound].self, from: data)
-                        userRepositoriesState = userRepositories
-                    } catch {
-                        print("Unable to Decode Note (\(error))")
-                    }
-                }
-            }
+        .fullScreenCover(isPresented: $showOnboarding) {
+//            StudioView(rootIsActive: $showOnboarding)
+            OnboardingView(showOnboarding: $showOnboarding)
         }
         .onChange(of: isShwoingMusicView) { newValue in
             if isShwoingMusicView == false {
@@ -228,7 +209,7 @@ extension CDListView {
 struct CDListView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            CDListView(userRepositoriesState: [dummyMixedSound, dummyMixedSound1, dummyMixedSound2, dummyMixedSound3])
+            CDListView()
                 .navigationBarHidden(true)
         }
     }
