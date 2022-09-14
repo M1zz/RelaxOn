@@ -254,12 +254,12 @@ extension StudioView {
                 .font(.system(size: 24, weight: .regular))
                 .foregroundColor( ($selectedBaseSound.id == 0 && $selectedMelodySound.id == 10 && $selectedWhiteNoiseSound.id == 20) ? Color.gray : Color.relaxDimPurple )
                 .onTapGesture {
-//                    baseSound = selectedBaseSound
+                    baseSound = selectedBaseSound
                     melodySound = selectedMelodySound
                     whiteNoiseSound = selectedWhiteNoiseSound
                     
                     mixedSound = MixedSound(name: "",
-                                            baseSound: selectedBaseSound,
+                                            baseSound: baseSound,
                                             melodySound: melodySound,
                                             whiteNoiseSound: whiteNoiseSound,
                                             fileName: recipeRandomName.randomElement()!)
@@ -337,7 +337,7 @@ extension StudioView {
         }
         .opacity(($selectedBaseSound.id == 0 || $selectedMelodySound.id == 10 || $selectedWhiteNoiseSound.id == 20) ? 0 : 1)
         .simultaneousGesture(TapGesture().onEnded { _ in
-//            baseSound = selectedBaseSound
+            baseSound = selectedBaseSound
             melodySound = selectedMelodySound
             whiteNoiseSound = selectedWhiteNoiseSound
 

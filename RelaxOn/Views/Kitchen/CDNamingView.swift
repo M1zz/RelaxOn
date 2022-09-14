@@ -74,18 +74,14 @@ struct CDNamingView: View {
                         OnboardingSaveButton()
                     }
                 }
-
+                            .opacity(goToOnboardingFinishView ? 0 : 1)
             }
-            .opacity(goToOnboardingFinishView ? 0 : 1)
-            
-            
+
             
             if goToOnboardingFinishView {
                 OnboardingFinishView(showOnboarding: $goToPreviousView, mixedSound: mixedSound)
-                    .transition(.opacity.animation(.linear(duration: 1.0)))
+                    .transition(.opacity.animation(.linear(duration: 0.5)))
             }
-            
-            
         }
         .navigationBarHidden(true)
     }
@@ -129,19 +125,16 @@ extension CDNamingView {
     @ViewBuilder
     func OnboardingSaveButton() -> some View {
         Button {
-//            OnboardingFinishView(showOnboarding: $goToPreviousView, mixedSound: mixedSound)
+            mixedSound = MixedSound(name: soundName,
+                                    baseSound: baseSound,
+                                    melodySound: melodySound,
+                                    whiteNoiseSound: whiteNoiseSound,
+                                    fileName: recipeRandomName.randomElement()!)
+            withAnimation(.linear(duration: 1)) {
+                goToOnboardingFinishView = true
+            }
         } label: {
             SaveButton()
-                .onTapGesture {
-                    mixedSound = MixedSound(name: soundName,
-                                            baseSound: mixedSound.baseSound,
-                                            melodySound: melodySound,
-                                            whiteNoiseSound: whiteNoiseSound,
-                                            fileName: recipeRandomName.randomElement()!)
-                    withAnimation(.linear(duration: 1)) {
-                        goToOnboardingFinishView = true
-                    }
-                }
         }
         .opacity(soundName.isEmpty ? 0.5 : 1)
         .disabled(soundName.isEmpty)

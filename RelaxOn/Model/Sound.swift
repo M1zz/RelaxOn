@@ -19,25 +19,25 @@ struct Sound: Identifiable, Codable {
                      name: "Empty",
                      soundType: .base,
                      audioVolume: 0.8,
-                     fileName: "music")
+                     fileName: "")
     }
 }
 
-//var baseSound: Sound = Sound(id: 0,
-//                             name: "Empty",
-//                             soundType: .base,
-//                             audioVolume: 0.0,
-//                             fileName: "music")
+var baseSound: Sound = Sound(id: 0,
+                             name: "Empty",
+                             soundType: .base,
+                             audioVolume: 0.0,
+                             fileName: "")
 var melodySound: Sound = Sound(id: 3,
                                name: "Empty",
                                soundType: .base,
                                audioVolume: 0.0,
-                               fileName: "music")
+                               fileName: "")
 var whiteNoiseSound: Sound = Sound(id: 6,
                                 name: "Empty",
                                 soundType: .base,
                                 audioVolume: 0.0,
-                                fileName: "music")
+                                fileName: "")
 
 var mixedAudioSources: [Sound] = []
 var userRepositories: [MixedSound] = []
