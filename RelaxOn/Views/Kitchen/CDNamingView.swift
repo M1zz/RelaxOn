@@ -53,7 +53,6 @@ struct CDNamingView: View {
                     TextField("", text: $soundName)
                         .foregroundColor(.white)
                         .modifier(PlaceholderCustom(showPlaceHolder: soundName.isEmpty, placeHolder: "Make your own CD"))
-                        .keyboardType(.alphabet)
                         .padding(.horizontal)
                         .multilineTextAlignment(.leading)
 
