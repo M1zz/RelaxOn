@@ -87,7 +87,7 @@ struct CDListView: View {
                 do {
                     let decoder = JSONDecoder()
                     userRepositories = try decoder.decode([MixedSound].self, from: data)
-                    print("help : \(userRepositories)")
+//                    print("help : \(userRepositories)")
                     userRepositoriesState = userRepositories
                     
                     // TODO: - 추후 다른 방식으로 수정

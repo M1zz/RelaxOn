@@ -23,11 +23,11 @@ struct Sound: Identifiable, Codable {
     }
 }
 
-var baseSound: Sound = Sound(id: 0,
-                             name: "Empty",
-                             soundType: .base,
-                             audioVolume: 0.0,
-                             fileName: "music")
+//var baseSound: Sound = Sound(id: 0,
+//                             name: "Empty",
+//                             soundType: .base,
+//                             audioVolume: 0.0,
+//                             fileName: "music")
 var melodySound: Sound = Sound(id: 3,
                                name: "Empty",
                                soundType: .base,
