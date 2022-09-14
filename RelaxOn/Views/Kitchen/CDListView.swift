@@ -10,7 +10,7 @@ import SwiftUI
 struct CDListView: View {
     // MARK: - State Properties
     @State var isActive: Bool = false
-    @State var userRepositoriesState: [MixedSound] = []
+    @Binding var userRepositoriesState: [MixedSound]
     @State var selectedImageNames = (
         base: "",
         melody: "",
@@ -21,14 +21,13 @@ struct CDListView: View {
     @State private var showingActionSheet = false
     @State var isShwoingMusicView = false
     
-    @State var showOnboarding: Bool = false
-    
     // TODO: - 추후 다른 방식으로 수정
-    @StateObject var musicViewModel = MusicViewModel()
+    @EnvironmentObject var viewModel: MusicViewModel
     
     // MARK: - Life Cycles
-    init() {
+    init(userRepositoriesState: Binding<[MixedSound]>) {
         UINavigationBar.appearance().tintColor = UIColor.relaxDimPurple ?? .white
+        self._userRepositoriesState = userRepositoriesState
     }
     
     var body: some View {
@@ -79,33 +78,6 @@ struct CDListView: View {
             }
         }
         .padding()
-        .onAppear {
-            let notFirstVisit = UserDefaultsManager.shared.notFirstVisit
-            showOnboarding = !notFirstVisit
-            
-            if let data = UserDefaultsManager.shared.recipes {
-                do {
-                    let decoder = JSONDecoder()
-                    userRepositories = try decoder.decode([MixedSound].self, from: data)
-                    print("help : \(userRepositories)")
-                    userRepositoriesState = userRepositories
-                    
-                    // TODO: - 추후 다른 방식으로 수정
-                    musicViewModel.updateCDList(cdList: userRepositoriesState.map{mixedSound in mixedSound.name})
-                } catch {
-                    print("Unable to Decode Note (\(error))")
-                }
-            }
-        }
-        .onChange(of: showOnboarding) { _ in
-            if !showOnboarding {
-                userRepositoriesState = userRepositories
-            }
-        }
-        .fullScreenCover(isPresented: $showOnboarding) {
-//            StudioView(rootIsActive: $showOnboarding)
-            OnboardingView(showOnboarding: $showOnboarding)
-        }
         .onChange(of: isShwoingMusicView) { newValue in
             if isShwoingMusicView == false {
                 if let data = UserDefaultsManager.shared.recipes {
@@ -127,7 +99,7 @@ struct CDListView: View {
                     if let index = userRepositories.firstIndex(where: {$0.id == id}) {
                         userRepositories.remove(at: index)
                         // TODO: - 추후 다른 방식으로 수정
-                        musicViewModel.updateCDList(cdList: userRepositoriesState.map{mixedSound in mixedSound.name})
+                        viewModel.updateCDList(cdList: userRepositoriesState.map{mixedSound in mixedSound.name})
                     }
                 }
                 let data = getEncodedData(data: userRepositories)
@@ -205,12 +177,12 @@ extension CDListView {
         }
     }
 }
-
-struct CDListView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationView {
-            CDListView()
-                .navigationBarHidden(true)
-        }
-    }
-}
+//
+//struct CDListView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        NavigationView {
+//            CDListView(userRepositoriesState: [])
+//                .navigationBarHidden(true)
+//        }
+//    }
+//}

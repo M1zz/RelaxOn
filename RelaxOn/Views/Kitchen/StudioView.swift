@@ -37,6 +37,7 @@ struct StudioView: View {
     @State var volumes: [Float] = [0.5, 0.5, 0.5]
     @State var mixedSound: MixedSound?
     @Binding var rootIsActive: Bool
+    @EnvironmentObject var viewModel: MusicViewModel
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
     // MARK: - General Properties
@@ -78,6 +79,9 @@ struct StudioView: View {
             }
             .navigationBarItems(leading: Text("STUDIO").bold())
             .navigationBarHidden(true)
+            .onAppear {
+                viewModel.stop()
+            }
         }
     }
 }
