@@ -101,6 +101,9 @@
 		CC5AC134289D184A00FE847B /* CDWidgetEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5AC133289D184A00FE847B /* CDWidgetEntry.swift */; };
 		CC5AC138289D19C900FE847B /* Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5AC136289D199600FE847B /* Provider.swift */; };
 		CC5AC13B289D256100FE847B /* MixedSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5769AB2866F20A007CCAE9 /* MixedSound.swift */; };
+		CC5AC13D289D257B00FE847B /* DummyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5769AD2866F44E007CCAE9 /* DummyData.swift */; };
+		CC5AC13E289D258200FE847B /* Sound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61B1283A8E1700F25769 /* Sound.swift */; };
+		CC5AC191289D69E500FE847B /* WidgetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5AC190289D69E500FE847B /* WidgetManager.swift */; };
 		CC5AC141289D294800FE847B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58DE61862839C13A00F25769 /* Assets.xcassets */; };
 		CC5AC192289D6CD200FE847B /* WidgetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5AC190289D69E500FE847B /* WidgetManager.swift */; };
 		CCA7F51E2877501E00D6A239 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CCA7F5202877501E00D6A239 /* Localizable.strings */; };
@@ -820,7 +823,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CC5AC141289D294800FE847B /* Assets.xcassets in Resources */,
 				CC5AC10F289C033D00FE847B /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

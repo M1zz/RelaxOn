@@ -70,7 +70,7 @@ extension RelaxOnWidgetEntryView {
     func CurrentSoundWidget() -> some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(alignment: .top, spacing: 0) {
-                ZStack{
+                ZStack {
                     Image(entry.data.baseImageName)
                         .resizable()
                         .scaledToFit()
@@ -102,7 +102,7 @@ extension RelaxOnWidgetEntryView {
         }
         .padding(18)
         .background(
-            ZStack{
+            ZStack {
                 if entry.data.isRecentPlay {
                     Image("WidgetBackground")
                         .resizable()
