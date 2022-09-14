@@ -106,6 +106,7 @@
 		CC5AC191289D69E500FE847B /* WidgetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5AC190289D69E500FE847B /* WidgetManager.swift */; };
 		CC5AC192289D6CD200FE847B /* WidgetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5AC190289D69E500FE847B /* WidgetManager.swift */; };
 		CCA7F51E2877501E00D6A239 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CCA7F5202877501E00D6A239 /* Localizable.strings */; };
+		CCAE57CB28D1CFFB00AC3FEA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CCA7F5202877501E00D6A239 /* Localizable.strings */; };
 		E211ED052896D051002843EE /* MusicTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E211ED042896D051002843EE /* MusicTimer.swift */; };
 		E211ED072896D06A002843EE /* TimerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E211ED062896D06A002843EE /* TimerManager.swift */; };
 		E24F21E228ABE1A100371BA4 /* MultiPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24F21E128ABE1A000371BA4 /* MultiPreview.swift */; };
@@ -796,6 +797,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CC5AC141289D294800FE847B /* Assets.xcassets in Resources */,
+				CCAE57CB28D1CFFB00AC3FEA /* Localizable.strings in Resources */,
 				CC5AC10F289C033D00FE847B /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
