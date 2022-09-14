@@ -178,13 +178,14 @@ extension CDListView {
         VStack(alignment: .leading) {
             NavigationLink(destination: StudioView(rootIsActive: self.$isActive), isActive: self.$isActive) {
                 ZStack {
+                    RoundedRectangle(cornerRadius: 4)
+                        .fill(Color.relaxBlack)
+                    RoundedRectangle(cornerRadius: 4)
+                        .strokeBorder()
                     VStack {
                         Image(systemName: "plus")
                             .font(Font.system(size: 54, weight: .ultraLight))
                     }
-                    
-                    RoundedRectangle(cornerRadius: 4)
-                        .strokeBorder()
                 }
                 .frame(width: UIScreen.main.bounds.width * 0.43, height: UIScreen.main.bounds.width * 0.43)
                 .foregroundColor(.systemGrey3)
