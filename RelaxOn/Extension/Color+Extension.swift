@@ -9,6 +9,7 @@ import SwiftUI
 
 extension Color {
     // Main Color
+    static let backgroundColor = Color("BackgroundColor")
     static let relaxBlack = Color("RelaxBlack")
     static let relaxRealBlack = Color("RelaxRealBlack")
     static let relaxNightBlue = Color("RelaxNightBlue")
