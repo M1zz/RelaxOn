@@ -10,25 +10,25 @@ import SwiftUI
 struct CDListView: View {
     // MARK: - State Properties
     @State var isActive: Bool = false
-    @State var userRepositoriesState: [MixedSound] = []
+    @Binding var userRepositoriesState: [MixedSound]
     @State var selectedImageNames = (
         base: "",
         melody: "",
         natural: ""
     )
+    @State var showOnboarding: Bool = false
     @State private var isEditMode = false
     @State private var selectedMixedSoundIds: [Int] = []
     @State private var showingActionSheet = false
     @State var isShowingMusicView = false
     
-    @State var showOnboarding: Bool = false
-    
     // TODO: - 추후 다른 방식으로 수정
-    @StateObject var musicViewModel = MusicViewModel()
+    @EnvironmentObject var viewModel: MusicViewModel
     
     // MARK: - Life Cycles
-    init() {
+    init(userRepositoriesState: Binding<[MixedSound]>) {
         UINavigationBar.appearance().tintColor = UIColor.relaxDimPurple ?? .white
+        self._userRepositoriesState = userRepositoriesState
     }
     
     var body: some View {
@@ -43,7 +43,6 @@ struct CDListView: View {
                     ForEach(userRepositoriesState){ mixedSound in
                         CDCardView(isShowingMusicView: $isShowingMusicView,
                                    userRepositoriesState: $userRepositoriesState,
-                                   viewModel: musicViewModel,
                                    data: mixedSound)
                         .disabled(isEditMode)
                         .overlay(alignment : .bottomTrailing) {
@@ -92,7 +91,7 @@ struct CDListView: View {
                     userRepositoriesState = userRepositories
                     
                     // TODO: - 추후 다른 방식으로 수정
-                    musicViewModel.sendMessage(key: "list", userRepositoriesState.map{mixedSound in mixedSound.name})
+                    viewModel.sendMessage(key: "list", userRepositoriesState.map{mixedSound in mixedSound.name})
                 } catch {
                     print("Unable to Decode Note (\(error))")
                 }
@@ -129,7 +128,7 @@ struct CDListView: View {
                 selectedMixedSoundIds.forEach { id in
                     if let index = userRepositories.firstIndex(where: {$0.id == id}) {
                         userRepositories.remove(at: index)
-                        musicViewModel.sendMessage(key: "list", userRepositoriesState.map{mixedSound in mixedSound.name})
+                        viewModel.sendMessage(key: "list", userRepositoriesState.map{mixedSound in mixedSound.name})
                     }
                 }
                 let data = getEncodedData(data: userRepositories)
@@ -208,12 +207,12 @@ extension CDListView {
         }
     }
 }
-
-struct CDListView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationView {
-            CDListView()
-                .navigationBarHidden(true)
-        }
-    }
-}
+//
+//struct CDListView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        NavigationView {
+//            CDListView(userRepositoriesState: [])
+//                .navigationBarHidden(true)
+//        }
+//    }
+//}
