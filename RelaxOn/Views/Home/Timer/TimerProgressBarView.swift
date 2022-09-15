@@ -32,13 +32,16 @@ struct TimerProgressBarView: View {
                 .foregroundColor(.systemGrey1)
         }
     }
+}
+
+
+struct TimeTextView: View {
+    var remainedSecond: Int
+    var hour: Int { remainedSecond / 3600 }
+    var minute: Int { (remainedSecond % 3600) / 60 }
+    var seconds: Int { remainedSecond % 60 }
     
-    @ViewBuilder
-    func TimeTextView(remainedSecond: Int) -> some View {
-        let hour: Int = remainedSecond / 3600
-        let minute: Int = (remainedSecond % 3600) / 60
-        let seconds: Int = remainedSecond % 60
-        
+    var body: some View {
         if hour > 0 {
             Text("\(hour):\(minute, specifier: "%02d"):\(seconds, specifier: "%02d")")
         } else {
