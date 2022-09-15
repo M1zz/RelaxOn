@@ -4,7 +4,7 @@
 //
 //  Created by Minkyeong Ko on 2022/07/26.
 //
-    
+
 import SwiftUI
 
 struct CDListView: View {
@@ -39,11 +39,12 @@ struct CDListView: View {
                 LazyVGrid(columns: Array(repeating: GridItem(.flexible(), alignment: .top), count: 2), spacing: 18) {
                     PlusCDImage
                         .disabled(isEditMode)
-
+                    
                     ForEach(userRepositoriesState){ mixedSound in
-                        CDCardView(isShwoingMusicView: $isShwoingMusicView,
+                        CDCardView(isShowingMusicView: $isShowingMusicView,
                                    userRepositoriesState: $userRepositoriesState,
-                                   viewModel: musicViewModel, data: mixedSound)
+                                   viewModel: musicViewModel,
+                                   data: mixedSound)
                         .disabled(isEditMode)
                         .overlay(alignment : .bottomTrailing) {
                             if isEditMode {
@@ -87,7 +88,7 @@ struct CDListView: View {
                 do {
                     let decoder = JSONDecoder()
                     userRepositories = try decoder.decode([MixedSound].self, from: data)
-                    print("help : \(userRepositories)")
+                    //                    print("help : \(userRepositories)")
                     userRepositoriesState = userRepositories
                     
                     // TODO: - 추후 다른 방식으로 수정

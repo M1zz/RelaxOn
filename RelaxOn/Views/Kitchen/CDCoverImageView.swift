@@ -25,13 +25,17 @@ struct CDCoverImageView: View {
 // MARK: - ViewBuilder
 extension CDCoverImageView {
     @ViewBuilder
-    func toBlurBackground() -> some View {
+    func toBlurBackground(blurRadius: CGFloat = 30.0) -> some View {
         GeometryReader { proxy in
-            self
+            ZStack {
+                self
+                Rectangle()
+                    .fill(.black.opacity(0.3))
+            }
                 .scaledToFill()
                 .frame(width: proxy.size.width, height: proxy.size.height)
                 .clipped()
-                .blur(radius: 30)
+                .blur(radius: blurRadius)
         }
         .ignoresSafeArea()
     }

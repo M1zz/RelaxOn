@@ -30,48 +30,86 @@ struct CDNamingView: View {
     // MARK: - Life Cycles
     var body: some View {
         ZStack {
-            
-            CDCoverImageView(selectedImageNames: mixedSound.getImageName())
-                .toBlurBackground()
-            
-            VStack {
-                HStack {
-                    NamingBackButton()
-                        .padding(.horizontal)
+            Group {
+                CDCoverImageView(selectedImageNames: mixedSound.getImageName())
+                    .toBlurBackground()
+                VStack {
+                    HStack {
+                        NamingBackButton()
+                            .padding(.horizontal)
+                        Spacer()
+                    }
+                    
+                    HStack {
+                        Text("Please name this CD")
+                            .font(.system(size: 28, weight: .medium))
+                            .foregroundColor(.white)
+                        Spacer()
+                    }
+                    .padding(.horizontal)
+                    .padding(.top, deviceFrame.screenHeight * 0.04)
+                    
+                    VStack(alignment: .leading) {
+                        TextField("", text: $soundName)
+                            .foregroundColor(.white)
+                            .modifier(PlaceholderCustom(showPlaceHolder: soundName.isEmpty, placeHolder: "Make your own CD"))
+                            .padding(.horizontal)
+                            .multilineTextAlignment(.leading)
+                        
+                        Rectangle()
+                            .foregroundColor(.white)
+                            .frame(height: 4)
+                            .padding(.horizontal)
+                    }
                     Spacer()
-                }
-
-                HStack {
-                    Text("Please name this CD")
-                        .font(.system(size: 28, weight: .medium))
-                        .foregroundColor(.white)
-                    Spacer()
-                }
-                .padding(.horizontal)
-                .padding(.top, deviceFrame.screenHeight * 0.04)
-
-                VStack(alignment: .leading) {
-                    TextField("", text: $soundName)
-                        .foregroundColor(.white)
-                        .modifier(PlaceholderCustom(showPlaceHolder: soundName.isEmpty, placeHolder: "Make your own CD"))
+                    
+                    VStack {
+                        HStack {
+                            NamingBackButton()
+                                .padding(.horizontal)
+                            Spacer()
+                        }
+                        
+                        HStack {
+                            Text("Please name this CD")
+                                .font(.system(size: 28, weight: .medium))
+                                .foregroundColor(.white)
+                            Spacer()
+                        }
                         .padding(.horizontal)
-                        .multilineTextAlignment(.leading)
-
-                    Rectangle()
-                        .foregroundColor(.white)
-                        .frame(height: 4)
-                        .padding(.horizontal)
+                        .padding(.top, deviceFrame.screenHeight * 0.04)
+                        
+                        VStack(alignment: .leading) {
+                            TextField("", text: $soundName)
+                                .foregroundColor(.white)
+                                .modifier(PlaceholderCustom(showPlaceHolder: soundName.isEmpty, placeHolder: "Make your own CD"))
+                                .keyboardType(.alphabet)
+                                .padding(.horizontal)
+                                .multilineTextAlignment(.leading)
+                            
+                            Rectangle()
+                                .foregroundColor(.white)
+                                .frame(height: 4)
+                                .padding(.horizontal)
+                        }
+                        Spacer()
+                        
+                        switch previousView {
+                        case .music:
+                            RenameCDSaveButton()
+                        case .studio:
+                            NewCDSaveButton()
+                        case .onboarding:
+                            OnboardingSaveButton()
+                        }
+                    }
+                    .opacity(goToOnboardingFinishView ? 0 : 1)
                 }
-                Spacer()
-                
-                switch previousView {
-                case .music:
-                    RenameCDSaveButton()
-                case .studio:
-                    NewCDSaveButton()
-                case .onboarding:
-                    OnboardingSaveButton()
-                }
+            }
+            
+            if goToOnboardingFinishView {
+                OnboardingFinishView(showOnboarding: $goToPreviousView, mixedSound: mixedSound)
+                    .transition(.opacity.animation(.linear(duration: 0.5)))
             }
         }
         .navigationBarHidden(true)
@@ -98,7 +136,7 @@ extension CDNamingView {
             Spacer()
         }
     }
-
+    
     @ViewBuilder
     func SaveButton() -> some View {
         Text("SAVE")
@@ -115,18 +153,17 @@ extension CDNamingView {
     
     @ViewBuilder
     func OnboardingSaveButton() -> some View {
-        NavigationLink(isActive: $goToOnboardingFinishView) {
-            OnboardingFinishView(showOnboarding: $goToPreviousView, mixedSound: mixedSound)
+        Button {
+            mixedSound = MixedSound(name: soundName,
+                                    baseSound: baseSound,
+                                    melodySound: melodySound,
+                                    whiteNoiseSound: whiteNoiseSound,
+                                    fileName: recipeRandomName.randomElement()!)
+            withAnimation(.linear(duration: 1)) {
+                goToOnboardingFinishView = true
+            }
         } label: {
             SaveButton()
-                .onTapGesture {
-                    mixedSound = MixedSound(name: soundName,
-                                              baseSound: baseSound,
-                                              melodySound: melodySound,
-                                              whiteNoiseSound: whiteNoiseSound,
-                                              fileName: recipeRandomName.randomElement()!)
-                    goToOnboardingFinishView = true
-                }
         }
         .opacity(soundName.isEmpty ? 0.5 : 1)
         .disabled(soundName.isEmpty)
@@ -174,7 +211,7 @@ extension CDNamingView {
 struct PlaceholderCustom: ViewModifier {
     var showPlaceHolder: Bool
     var placeHolder: String
-
+    
     public func body(content: Content) -> some View {
         ZStack(alignment: .leading) {
             if showPlaceHolder {
