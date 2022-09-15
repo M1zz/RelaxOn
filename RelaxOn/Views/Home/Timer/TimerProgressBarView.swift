@@ -61,7 +61,6 @@ struct ProgressBar: View {
             // background line
             Circle()
                 .stroke(Color.relaxRealBlack, style: lineStyle)
-                
             
             // progress line
             Circle().trim(to:trimTo)

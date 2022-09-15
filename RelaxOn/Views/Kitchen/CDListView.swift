@@ -26,11 +26,6 @@ struct CDListView: View {
     // TODO: - 추후 다른 방식으로 수정
     @StateObject var musicViewModel = MusicViewModel()
     
-    // MARK: - Life Cycles
-    init() {
-        UINavigationBar.appearance().tintColor = UIColor.relaxDimPurple ?? .white
-    }
-    
     var body: some View {
         VStack {
             LibraryHeader

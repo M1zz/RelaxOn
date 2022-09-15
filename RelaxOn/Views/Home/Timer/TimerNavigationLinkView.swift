@@ -13,7 +13,7 @@ struct TimerNavigationLinkView: View {
     
     var body: some View {
         VStack(spacing: 6) {
-            NavigationLink(destination : TimerSettingView()) {
+            CustomNavigationLink(destination : TimerSettingView()) {
                 label
             }
             .navigationBarTitle("CD LIBRARY") // 백버튼 텍스트 내용
