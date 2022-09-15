@@ -1185,7 +1185,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = AJK25G55CT;
+				DEVELOPMENT_TEAM = JP5BCXZWJP;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LockScreenWidgetExtension/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = LockScreenWidgetExtension;
@@ -1216,7 +1216,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = AJK25G55CT;
+				DEVELOPMENT_TEAM = JP5BCXZWJP;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LockScreenWidgetExtension/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = LockScreenWidgetExtension;
@@ -1247,7 +1247,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = QGAQ3AY3R3;
+				DEVELOPMENT_TEAM = JP5BCXZWJP;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WatchOSLockScreenWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = WatchOSLockScreenWidget;
@@ -1280,7 +1280,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = QGAQ3AY3R3;
+				DEVELOPMENT_TEAM = JP5BCXZWJP;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WatchOSLockScreenWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = WatchOSLockScreenWidget;

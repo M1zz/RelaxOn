@@ -49,11 +49,14 @@ struct CDCardView: View {
             }
         }
         .onOpenURL { url in
+            if url != data.url {
+                selectedMixedSound = nil
+            }
             isPresent = (url == data.url)
         }
     }
 }
-//
+// 
 //struct CDCardView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        CDCardView(data: dummyMixedSound)

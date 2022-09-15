@@ -51,8 +51,8 @@ final class WidgetManager {
     static func setupTimerToLockScreendWidget(settedSeconds: Double) {
          if let UserDefaultsAppGroup = UserDefaults(suiteName: suiteName) {
              UserDefaultsAppGroup.set(settedSeconds, forKey: lockScreenWidgetData)
+             WidgetCenter.shared.reloadTimelines(ofKind: lockScreenwidgetName)
          }
-         WidgetCenter.shared.reloadTimelines(ofKind: lockScreenwidgetName)
      }
     
     static func getURL(id: Int) -> URL? {
