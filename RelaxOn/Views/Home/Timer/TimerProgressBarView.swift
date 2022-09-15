@@ -57,7 +57,8 @@ struct ProgressBar: View {
         ZStack {
             // background line
             Circle()
-                .stroke(style: lineStyle)
+                .stroke(Color.relaxRealBlack, style: lineStyle)
+                
             
             // progress line
             Circle().trim(to:trimTo)
