@@ -78,7 +78,7 @@ extension TimerSettingView {
         Button {
             timerManager.start(countDownDuration: seconds)
         } label: {
-            Text("SAVE")
+            Text("START")
                 .font(.system(size: 20, weight: .medium))
                 .frame(width: deviceFrame.screenWidth - 40, height: Layout.SaveButton.height)
                 .foregroundColor(.white)
