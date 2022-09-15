@@ -12,6 +12,8 @@ struct MusicView: View {
     @EnvironmentObject var viewModel: MusicViewModel
     @State private var isActive = false
     @State private var isFetchFirstData = true
+    
+    @StateObject var viewModel: MusicViewModel
     @State var animatedValue : CGFloat = 55
     @State var maxWidth = UIScreen.main.bounds.width / 2.2
     @State var showVolumeControl: Bool = false
@@ -27,8 +29,8 @@ struct MusicView: View {
     @State var audioVolumes: (baseVolume: Float, melodyVolume: Float, whiteNoiseVolume: Float) = (0, 0, 0)
     @State private var offsetYOfControlView = UIScreen.main.bounds.height * 0.83 {
         didSet {
-            if offsetYOfControlView < UIScreen.main.bounds.height * 0.5 {
-                offsetYOfControlView = UIScreen.main.bounds.height * 0.5
+            if offsetYOfControlView < UIScreen.main.bounds.height * 0.46 {
+                offsetYOfControlView = UIScreen.main.bounds.height * 0.46
             } else if offsetYOfControlView > UIScreen.main.bounds.height * 0.83 {
                 offsetYOfControlView = UIScreen.main.bounds.height * 0.83
             }
@@ -56,7 +58,7 @@ struct MusicView: View {
                     VStack(spacing: 0) {
                         if let selectedImageNames = viewModel.mixedSound?.getImageName() {
                             CDCoverImageView(selectedImageNames: selectedImageNames)
-                                .addWhiteBackground()
+                                .addDefaultBackground()
                                 .padding(.horizontal, 20)
                                 .frame(width: cdViewWidth, height: cdViewWidth - 40)
                                 .aspectRatio(1, contentMode: .fit)
@@ -68,7 +70,7 @@ struct MusicView: View {
                             .foregroundColor(.white)
                             .padding(.top, 30)
                         
-                        MusicContollerView()
+                        MusicControllerView()
                             .padding(.top, 54)
                     }
                     .frame(width: cdViewWidth, height: cdViewHeight)
@@ -115,7 +117,7 @@ struct MusicView: View {
                             withAnimation(.spring()) {
                                 let draggedHeight = value.predictedEndTranslation.height
                                 if draggedHeight < -30 {
-                                    offsetYOfControlView = UIScreen.main.bounds.height * 0.5
+                                    offsetYOfControlView = UIScreen.main.bounds.height * 0.46
                                     cdViewWidth = UIScreen.main.bounds.width * 0.46
                                     cdViewHeight = UIScreen.main.bounds.height * 0.33
                                     cdNameFontSize = 22.0
@@ -166,6 +168,7 @@ struct MusicView: View {
                    let whiteNoiseImageName = viewModel.mixedSound?.whiteNoiseSound?.fileName {
                     WidgetManager.addMainSoundToWidget(baseImageName: baseImageName, melodyImageName: melodyImageName, whiteNoiseImageName: whiteNoiseImageName, name: mixedSound.name, id: mixedSound.id, isPlaying: viewModel.isPlaying, isRecentPlay: false)
                 }
+                viewModel.isMusicViewPresented = true
             }
             .onReceive(viewModel.$mixedSound, perform: { mixedSound in
                 guard let changedMixedSound = mixedSound else { return }
@@ -175,6 +178,7 @@ struct MusicView: View {
             })
             .onDisappear {
                 userRepositoriesState = userRepositories
+                viewModel.isMusicViewPresented = false
                 UIApplication.shared.endReceivingRemoteControlEvents()
             }
             .navigationBarHidden(true)
@@ -185,7 +189,7 @@ struct MusicView: View {
 // MARK: ViewBuilder
 extension MusicView {
     @ViewBuilder
-    func MusicContollerView() -> some View {
+    func MusicControllerView() -> some View {
         HStack (spacing: 56) {
             Button {
                 viewModel.setupPreviousTrack(mixedSound: viewModel.mixedSound ?? emptyMixedSound)

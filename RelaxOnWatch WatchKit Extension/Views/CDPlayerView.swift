@@ -1,5 +1,5 @@
 //
-//  PlayerView.swift
+//  CDPlayerView.swift
 //  RelaxOnWatch WatchKit Extension
 //
 //  Created by Minkyeong Ko on 2022/08/10.
@@ -7,9 +7,10 @@
 
 import SwiftUI
 
-struct PlayerView: View {
-    @State var volume = 10.0
-    @State var currentCDName: String = ""
+struct CDPlayerView: View {
+    @ObservedObject var watchConnectivityManager: WatchConnectivityManager
+    @ObservedObject var cdPlayerManager = CDPlayerManager.shared
+    @State var volume = 50.0
     
     var body: some View {
         ZStack {
@@ -19,63 +20,65 @@ struct PlayerView: View {
                 .blur(radius: 10)
             
             VStack {
-                Text(currentCDName)
-                
-                Spacer()
+                Text(cdPlayerManager.currentCDName)
                 
                 HStack {
                     Button(action: {
-                        PlayerViewModel.shared.playPrevious()
+                        cdPlayerManager.playPrevious()
                     }) {
                         Image(systemName: "backward.end")
                             .font(.system(size: 20, weight: .medium))
                     }
+                    .disabled(cdPlayerManager.currentCDName == "")
                     .buttonStyle(.plain)
                     
                     Spacer()
                                     
                     Button(action: {
-                        PlayerViewModel.shared.playPause()
+                        cdPlayerManager.playPause()
                     }) {
                         ZStack {
                             Circle()
                                 .fill(.black)
                                 .frame(width: 50, height: 50)
-                            Image(systemName: PlayerViewModel.shared.cdinfos[0] == "false" ? "play.fill" : "pause.fill")
+                            Image(systemName: cdPlayerManager.isPlaying ? "pause.fill" : "play.fill")
                                 .font(.system(size: 30))
                         }
                     }
+                    .disabled(cdPlayerManager.currentCDName == "")
                     .buttonStyle(.plain)
                     
                     Spacer()
                     
                     Button(action: {
-                        PlayerViewModel.shared.playNext()
+                        cdPlayerManager.playNext()
                     }) {
                         Image(systemName: "forward.end")
                             .font(.system(size: 20, weight: .medium))
                     }
+                    .disabled(cdPlayerManager.currentCDName == "")
                     .buttonStyle(.plain)
                 }
                 .padding()
                 
-                Slider(
-                    value: $volume,
-                    in: 0...100,
-                    onEditingChanged: { _ in print("slider is editing")
+                Slider(value: Binding(
+                    get: {
+                        cdPlayerManager.volume
+                    },
+                    set: {(newValue) in
+                        cdPlayerManager.changeVolume(volume: newValue)
                     }
-                )
-                .tint(.white)
+                ))
             }
         }
         .onAppear {
-            currentCDName = PlayerViewModel.shared.currentCDName
+            cdPlayerManager.requestVolume()
         }
     }
 }
 
-struct PlayerView_Previews: PreviewProvider {
+struct CDPlayerView_Previews: PreviewProvider {
     static var previews: some View {
-        PlayerView()
+        CDPlayerView(watchConnectivityManager: WatchConnectivityManager.shared)
     }
 }
