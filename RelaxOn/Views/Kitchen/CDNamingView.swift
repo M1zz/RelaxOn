@@ -16,6 +16,7 @@ struct CDNamingView: View {
     
     @State var mixedSound: MixedSound
     
+    // MARK: - General Properties
     var musicModelDelegate: MusicViewDelegate?
     var previousView: PreviousView = .music
     

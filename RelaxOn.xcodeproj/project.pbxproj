@@ -12,7 +12,6 @@
 		10D26712288EF4C80056339A /* CustomSegmentControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D26711288EF4C80056339A /* CustomSegmentControlView.swift */; };
 		10D26714288EF4D20056339A /* RectPreference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D26713288EF4D20056339A /* RectPreference.swift */; };
 		10D26716288EF4DB0056339A /* StudioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D26715288EF4DB0056339A /* StudioView.swift */; };
-		10FB81AF28A138E7000168CC /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FB81AE28A138E7000168CC /* OnboardingView.swift */; };
 		10FB81B528A17468000168CC /* OnboardingFinishView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FB81B428A17468000168CC /* OnboardingFinishView.swift */; };
 		2125F1B928CE0299007BAB85 /* PageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2125F1B828CE0299007BAB85 /* PageView.swift */; };
 		2125F1BB28CE02BE007BAB85 /* CDPlayerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2125F1BA28CE02BD007BAB85 /* CDPlayerManager.swift */; };
@@ -190,7 +189,6 @@
 		10D26711288EF4C80056339A /* CustomSegmentControlView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSegmentControlView.swift; sourceTree = "<group>"; };
 		10D26713288EF4D20056339A /* RectPreference.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RectPreference.swift; sourceTree = "<group>"; };
 		10D26715288EF4DB0056339A /* StudioView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudioView.swift; sourceTree = "<group>"; };
-		10FB81AE28A138E7000168CC /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		10FB81B428A17468000168CC /* OnboardingFinishView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingFinishView.swift; sourceTree = "<group>"; };
 		2125F1B828CE0299007BAB85 /* PageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageView.swift; sourceTree = "<group>"; };
 		2125F1BA28CE02BD007BAB85 /* CDPlayerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDPlayerManager.swift; sourceTree = "<group>"; };
@@ -387,7 +385,6 @@
 		583AA0EF284E0344005A0677 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
-				10FB81AE28A138E7000168CC /* OnboardingView.swift */,
 				10FB81B428A17468000168CC /* OnboardingFinishView.swift */,
 			);
 			path = Onboarding;
@@ -915,7 +912,6 @@
 				E211ED052896D051002843EE /* MusicTimer.swift in Sources */,
 				C753494E28B7489D0055F7CA /* View+Extension.swift in Sources */,
 				58DE101C283CA87F002CDB9F /* SoundCardView.swift in Sources */,
-				10FB81AF28A138E7000168CC /* OnboardingView.swift in Sources */,
 				CC2820482880102400587334 /* ViewModifiers.swift in Sources */,
 				E2BF1057289173F100408B8C /* TimerPickerView.swift in Sources */,
 				58DE101E283DC913002CDB9F /* AudioManager.swift in Sources */,
