@@ -53,6 +53,7 @@ struct CDNamingView: View {
                         TextField("", text: $soundName)
                             .foregroundColor(.white)
                             .modifier(PlaceholderCustom(showPlaceHolder: soundName.isEmpty, placeHolder: "Make your own CD"))
+                            .keyboardType(.alphabet)
                             .padding(.horizontal)
                             .multilineTextAlignment(.leading)
                         
@@ -63,48 +64,16 @@ struct CDNamingView: View {
                     }
                     Spacer()
                     
-                    VStack {
-                        HStack {
-                            NamingBackButton()
-                                .padding(.horizontal)
-                            Spacer()
-                        }
-                        
-                        HStack {
-                            Text("Please name this CD")
-                                .font(.system(size: 28, weight: .medium))
-                                .foregroundColor(.white)
-                            Spacer()
-                        }
-                        .padding(.horizontal)
-                        .padding(.top, deviceFrame.screenHeight * 0.04)
-                        
-                        VStack(alignment: .leading) {
-                            TextField("", text: $soundName)
-                                .foregroundColor(.white)
-                                .modifier(PlaceholderCustom(showPlaceHolder: soundName.isEmpty, placeHolder: "Make your own CD"))
-                                .keyboardType(.alphabet)
-                                .padding(.horizontal)
-                                .multilineTextAlignment(.leading)
-                            
-                            Rectangle()
-                                .foregroundColor(.white)
-                                .frame(height: 4)
-                                .padding(.horizontal)
-                        }
-                        Spacer()
-                        
-                        switch previousView {
-                        case .music:
-                            RenameCDSaveButton()
-                        case .studio:
-                            NewCDSaveButton()
-                        case .onboarding:
-                            OnboardingSaveButton()
-                        }
+                    switch previousView {
+                    case .music:
+                        RenameCDSaveButton()
+                    case .studio:
+                        NewCDSaveButton()
+                    case .onboarding:
+                        OnboardingSaveButton()
                     }
-                    .opacity(goToOnboardingFinishView ? 0 : 1)
                 }
+                .opacity(goToOnboardingFinishView ? 0 : 1)
             }
             
             if goToOnboardingFinishView {
