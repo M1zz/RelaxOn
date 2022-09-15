@@ -4,7 +4,7 @@
 //
 //  Created by Minkyeong Ko on 2022/07/26.
 //
-
+    
 import SwiftUI
 
 struct CDListView: View {
@@ -43,7 +43,7 @@ struct CDListView: View {
                     ForEach(userRepositoriesState.reversed()){ mixedSound in
                         CDCardView(isShwoingMusicView: $isShwoingMusicView,
                                    userRepositoriesState: $userRepositoriesState,
-                                   data: mixedSound)
+                                   viewModel: musicViewModel, data: mixedSound)
                             .disabled(isEditMode)
                             .overlay(alignment : .bottomTrailing) {
                                 if isEditMode {
@@ -91,7 +91,7 @@ struct CDListView: View {
                     userRepositoriesState = userRepositories
                     
                     // TODO: - 추후 다른 방식으로 수정
-                    musicViewModel.updateCDList(cdList: userRepositoriesState.map{mixedSound in mixedSound.name})
+                    musicViewModel.sendMessage(key: "list", userRepositoriesState.map{mixedSound in mixedSound.name})
                 } catch {
                     print("Unable to Decode Note (\(error))")
                 }
@@ -126,8 +126,7 @@ struct CDListView: View {
                 selectedMixedSoundIds.forEach { id in
                     if let index = userRepositories.firstIndex(where: {$0.id == id}) {
                         userRepositories.remove(at: index)
-                        // TODO: - 추후 다른 방식으로 수정
-                        musicViewModel.updateCDList(cdList: userRepositoriesState.map{mixedSound in mixedSound.name})
+                        musicViewModel.sendMessage(key: "list", userRepositoriesState.map{mixedSound in mixedSound.name})
                     }
                 }
                 let data = getEncodedData(data: userRepositories)
