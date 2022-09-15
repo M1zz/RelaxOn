@@ -33,14 +33,13 @@ struct CDNamingView: View {
             Group {
                 CDCoverImageView(selectedImageNames: mixedSound.getImageName())
                     .toBlurBackground()
-                
                 VStack {
                     HStack {
                         NamingBackButton()
                             .padding(.horizontal)
                         Spacer()
                     }
-
+                    
                     HStack {
                         Text("Please name this CD")
                             .font(.system(size: 28, weight: .medium))
@@ -49,15 +48,14 @@ struct CDNamingView: View {
                     }
                     .padding(.horizontal)
                     .padding(.top, deviceFrame.screenHeight * 0.04)
-
+                    
                     VStack(alignment: .leading) {
                         TextField("", text: $soundName)
                             .foregroundColor(.white)
                             .modifier(PlaceholderCustom(showPlaceHolder: soundName.isEmpty, placeHolder: "Make your own CD"))
-                            .keyboardType(.alphabet)
                             .padding(.horizontal)
                             .multilineTextAlignment(.leading)
-
+                        
                         Rectangle()
                             .foregroundColor(.white)
                             .frame(height: 4)
@@ -65,18 +63,49 @@ struct CDNamingView: View {
                     }
                     Spacer()
                     
-                    switch previousView {
-                    case .music:
-                        RenameCDSaveButton()
-                    case .studio:
-                        NewCDSaveButton()
-                    case .onboarding:
-                        OnboardingSaveButton()
+                    VStack {
+                        HStack {
+                            NamingBackButton()
+                                .padding(.horizontal)
+                            Spacer()
+                        }
+                        
+                        HStack {
+                            Text("Please name this CD")
+                                .font(.system(size: 28, weight: .medium))
+                                .foregroundColor(.white)
+                            Spacer()
+                        }
+                        .padding(.horizontal)
+                        .padding(.top, deviceFrame.screenHeight * 0.04)
+                        
+                        VStack(alignment: .leading) {
+                            TextField("", text: $soundName)
+                                .foregroundColor(.white)
+                                .modifier(PlaceholderCustom(showPlaceHolder: soundName.isEmpty, placeHolder: "Make your own CD"))
+                                .keyboardType(.alphabet)
+                                .padding(.horizontal)
+                                .multilineTextAlignment(.leading)
+                            
+                            Rectangle()
+                                .foregroundColor(.white)
+                                .frame(height: 4)
+                                .padding(.horizontal)
+                        }
+                        Spacer()
+                        
+                        switch previousView {
+                        case .music:
+                            RenameCDSaveButton()
+                        case .studio:
+                            NewCDSaveButton()
+                        case .onboarding:
+                            OnboardingSaveButton()
+                        }
                     }
+                    .opacity(goToOnboardingFinishView ? 0 : 1)
                 }
-                            .opacity(goToOnboardingFinishView ? 0 : 1)
             }
-
             
             if goToOnboardingFinishView {
                 OnboardingFinishView(showOnboarding: $goToPreviousView, mixedSound: mixedSound)
@@ -107,7 +136,7 @@ extension CDNamingView {
             Spacer()
         }
     }
-
+    
     @ViewBuilder
     func SaveButton() -> some View {
         Text("SAVE")
@@ -182,7 +211,7 @@ extension CDNamingView {
 struct PlaceholderCustom: ViewModifier {
     var showPlaceHolder: Bool
     var placeHolder: String
-
+    
     public func body(content: Content) -> some View {
         ZStack(alignment: .leading) {
             if showPlaceHolder {

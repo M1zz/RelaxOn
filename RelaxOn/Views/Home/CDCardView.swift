@@ -11,8 +11,9 @@ struct CDCardView: View {
     // MARK: - State Properties
     @State var selectedMixedSound: MixedSound?
     @State private var isPresent = false
-    @Binding var isShwoingMusicView: Bool
+    @Binding var isShowingMusicView: Bool
     @Binding var userRepositoriesState: [MixedSound]
+    @StateObject var viewModel: MusicViewModel
     
     // MARK: - General Properties
     var data: MixedSound
@@ -22,7 +23,7 @@ struct CDCardView: View {
         VStack(alignment: .leading) {
             Button(action: {
                 self.selectedMixedSound = data
-                self.isShwoingMusicView.toggle()
+                self.isShowingMusicView.toggle()
             }, label: {
                 ZStack {
                     CDCoverImageView(selectedImageNames: data.getImageName())
@@ -30,15 +31,22 @@ struct CDCardView: View {
                                height: UIScreen.main.bounds.width * 0.43)
                 }
                 .fullScreenCover(item: $selectedMixedSound) { _ in
-                    MusicView(data: data, userRepositoriesState: $userRepositoriesState)
+                    MusicView(viewModel: viewModel, data: data, userRepositoriesState: $userRepositoriesState)
                 }
                 .fullScreenCover(isPresented: $isPresent) {
-                    MusicView(data: data, userRepositoriesState: $userRepositoriesState)
+                    MusicView(viewModel: viewModel, data: data, userRepositoriesState: $userRepositoriesState)
                 }
             })
             Text(data.name)
                 .font(.system(size: 17, weight: .regular))
                 .foregroundColor(.systemGrey1)
+        }
+        .onChange(of: viewModel.initiatedByWatch) { changedValue in
+            if viewModel.currentTitle == data.name && viewModel.initiatedByWatch {
+                isPresent = true
+                viewModel.isMusicViewPresented = true
+                viewModel.initiatedByWatch = false
+            }
         }
         .onOpenURL { url in
             isPresent = (url == data.url)

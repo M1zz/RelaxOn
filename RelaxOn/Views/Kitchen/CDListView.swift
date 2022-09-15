@@ -19,7 +19,7 @@ struct CDListView: View {
     @State private var isEditMode = false
     @State private var selectedMixedSoundIds: [Int] = []
     @State private var showingActionSheet = false
-    @State var isShwoingMusicView = false
+    @State var isShowingMusicView = false
     
     @State var showOnboarding: Bool = false
     
@@ -40,9 +40,10 @@ struct CDListView: View {
                     PlusCDImage
                         .disabled(isEditMode)
                     
-                    ForEach(userRepositoriesState.reversed()){ mixedSound in
-                        CDCardView(isShwoingMusicView: $isShwoingMusicView,
+                    ForEach(userRepositoriesState){ mixedSound in
+                        CDCardView(isShowingMusicView: $isShowingMusicView,
                                    userRepositoriesState: $userRepositoriesState,
+                                   viewModel: musicViewModel,
                                    data: mixedSound)
                         .disabled(isEditMode)
                         .overlay(alignment : .bottomTrailing) {
@@ -87,11 +88,11 @@ struct CDListView: View {
                 do {
                     let decoder = JSONDecoder()
                     userRepositories = try decoder.decode([MixedSound].self, from: data)
-//                    print("help : \(userRepositories)")
+                    //                    print("help : \(userRepositories)")
                     userRepositoriesState = userRepositories
                     
                     // TODO: - 추후 다른 방식으로 수정
-                    musicViewModel.updateCDList(cdList: userRepositoriesState.map{mixedSound in mixedSound.name})
+                    musicViewModel.sendMessage(key: "list", userRepositoriesState.map{mixedSound in mixedSound.name})
                 } catch {
                     print("Unable to Decode Note (\(error))")
                 }
@@ -108,8 +109,8 @@ struct CDListView: View {
             }
             //            OnboardingView(showOnboarding: $showOnboarding)
         }
-        .onChange(of: isShwoingMusicView) { newValue in
-            if isShwoingMusicView == false {
+        .onChange(of: isShowingMusicView) { newValue in
+            if isShowingMusicView == false {
                 if let data = UserDefaultsManager.shared.recipes {
                     do {
                         let decoder = JSONDecoder()
@@ -128,8 +129,7 @@ struct CDListView: View {
                 selectedMixedSoundIds.forEach { id in
                     if let index = userRepositories.firstIndex(where: {$0.id == id}) {
                         userRepositories.remove(at: index)
-                        // TODO: - 추후 다른 방식으로 수정
-                        musicViewModel.updateCDList(cdList: userRepositoriesState.map{mixedSound in mixedSound.name})
+                        musicViewModel.sendMessage(key: "list", userRepositoriesState.map{mixedSound in mixedSound.name})
                     }
                 }
                 let data = getEncodedData(data: userRepositories)
@@ -180,13 +180,14 @@ extension CDListView {
         VStack(alignment: .leading) {
             NavigationLink(destination: StudioView(rootIsActive: self.$isActive, viewType: .studio), isActive: self.$isActive) {
                 ZStack {
+                    RoundedRectangle(cornerRadius: 4)
+                        .fill(Color.relaxBlack)
+                    RoundedRectangle(cornerRadius: 4)
+                        .strokeBorder()
                     VStack {
                         Image(systemName: "plus")
                             .font(Font.system(size: 54, weight: .ultraLight))
                     }
-                    
-                    RoundedRectangle(cornerRadius: 4)
-                        .strokeBorder()
                 }
                 .frame(width: UIScreen.main.bounds.width * 0.43, height: UIScreen.main.bounds.width * 0.43)
                 .foregroundColor(.systemGrey3)

@@ -41,12 +41,13 @@ extension CDCoverImageView {
     }
     
     @ViewBuilder
-    func addWhiteBackground() -> some View {
+    func addDefaultBackground() -> some View {
         self
             .background {
-                RoundedRectangle(cornerRadius: 4)
-                    .fill(.white)
+                Rectangle()
+                    .fill(.white.opacity(0.2))
             }
+            .cornerRadius(4)
             .clipped()
     }
     
@@ -58,6 +59,7 @@ extension CDCoverImageView {
         } else {
             Image(imageName)
                 .resizable()
+                
         }
     }
 }
