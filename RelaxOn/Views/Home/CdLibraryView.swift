@@ -9,20 +9,34 @@ import SwiftUI
 import MediaPlayer
 
 struct CdLibraryView: View {
-    
+    @StateObject var viewModel = MusicViewModel()
+    @State var userRepositoriesState: [MixedSound] = []
+    @State private var isPresented = false
     var body: some View {
         NavigationView {
             VStack {
                 TimerNavigationLinkView()
                     .padding(.top, 56)
-                CDListView()
+                CDListView(userRepositoriesState: $userRepositoriesState)
                 Spacer()
+                CDLibraryMusicController()
+                    .onTapGesture {
+                        if viewModel.mixedSound != nil {
+                            self.isPresented.toggle()
+                        }
+                    }
+                    .fullScreenCover(isPresented: $isPresented) {
+                        if let selectedMixedSound = viewModel.mixedSound {
+                            MusicView(data: selectedMixedSound, userRepositoriesState: $userRepositoriesState)
+                        }
+                    }
             }
             .background(Color.relaxBlack)
             .navigationBarHidden(true)
         }
         .preferredColorScheme(.dark)
         .navigationViewStyle(.stack)
+        .environmentObject(viewModel)
         .onAppear {
             let session = AVAudioSession.sharedInstance()
                do{
@@ -31,6 +45,17 @@ struct CdLibraryView: View {
                } catch{
                    print(error.localizedDescription)
                }
+            
+            if let data = UserDefaultsManager.shared.recipes {
+                do {
+                    let decoder = JSONDecoder()
+                    userRepositories = try decoder.decode([MixedSound].self, from: data)
+                    print("help : \(userRepositories)")
+                    userRepositoriesState = userRepositories
+                } catch {
+                    print("Unable to Decode Note (\(error))")
+                }
+            }
         }
     }
 }

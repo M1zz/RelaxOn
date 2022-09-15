@@ -9,10 +9,9 @@ import SwiftUI
 
 struct MusicView: View {
     @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject var viewModel: MusicViewModel
     @State private var isActive = false
     @State private var isFetchFirstData = true
-    
-    @StateObject var viewModel: MusicViewModel
     @State var animatedValue : CGFloat = 55
     @State var maxWidth = UIScreen.main.bounds.width / 2.2
     @State var showVolumeControl: Bool = false
@@ -81,8 +80,7 @@ struct MusicView: View {
                 
                 VolumeControlView(showVolumeControl: $showVolumeControl,
                                   audioVolumes: $audioVolumes,
-                                  userRepositoriesState: $userRepositoriesState,
-                                  viewModel: viewModel)
+                                  userRepositoriesState: $userRepositoriesState)
                 .cornerRadius(20)
                 .offset(y: offsetYOfControlView)
                 .gesture(
@@ -177,7 +175,6 @@ struct MusicView: View {
                                 whiteNoiseVolume: changedMixedSound.whiteNoiseSound?.audioVolume ?? 0.12)
             })
             .onDisappear {
-                viewModel.stop()
                 userRepositoriesState = userRepositories
                 viewModel.isMusicViewPresented = false
                 UIApplication.shared.endReceivingRemoteControlEvents()

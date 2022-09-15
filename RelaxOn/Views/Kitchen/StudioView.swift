@@ -42,6 +42,7 @@ struct StudioView: View {
     @State var stepBarWidth = deviceFrame.screenWidth * 0.33
     
     @Binding var rootIsActive: Bool
+    @EnvironmentObject var viewModel: MusicViewModel
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     // MARK: - General Properties
@@ -87,6 +88,9 @@ struct StudioView: View {
                 }
             }
             .navigationBarHidden(true)
+            .onAppear {
+                viewModel.stop()
+            }
         }
     }
 }

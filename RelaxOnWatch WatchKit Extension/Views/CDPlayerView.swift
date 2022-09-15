@@ -69,6 +69,7 @@ struct CDPlayerView: View {
                         cdPlayerManager.changeVolume(volume: newValue)
                     }
                 ))
+                .tint(.white)
             }
         }
         .onAppear {
