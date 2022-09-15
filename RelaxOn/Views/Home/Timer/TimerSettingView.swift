@@ -17,18 +17,20 @@ struct TimerSettingView: View {
     @ObservedObject var timerManager = TimerManager.shared
     
     var body: some View {
-        VStack {
-            Spacer()
-            if timerManager.isOn {
-                TimerProgressBarView()
-            } else {
-                timePickerView()
+        ZStack{
+            Color.relaxBlack.ignoresSafeArea()
+            VStack {
+                Spacer()
+                if timerManager.isOn {
+                    TimerProgressBarView()
+                } else {
+                    timePickerView()
+                }
+                Spacer()
+                timerSettingButton()
             }
-            Spacer()
-            timerSettingButton()
         }
         .navigationBarTitleDisplayMode(.large)
-        .background(Color.relaxBlack)
     }
 }
 
