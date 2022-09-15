@@ -19,7 +19,7 @@ struct CDListView: View {
     @State private var isEditMode = false
     @State private var selectedMixedSoundIds: [Int] = []
     @State private var showingActionSheet = false
-    @State var isShwoingMusicView = false
+    @State var isShowingMusicView = false
     
     @State var showOnboarding: Bool = false
     
@@ -41,7 +41,7 @@ struct CDListView: View {
                         .disabled(isEditMode)
 
                     ForEach(userRepositoriesState.reversed()){ mixedSound in
-                        CDCardView(isShwoingMusicView: $isShwoingMusicView,
+                        CDCardView(isShowingMusicView: $isShowingMusicView,
                                    userRepositoriesState: $userRepositoriesState,
                                    viewModel: musicViewModel, data: mixedSound)
                             .disabled(isEditMode)
@@ -106,8 +106,8 @@ struct CDListView: View {
 //            StudioView(rootIsActive: $showOnboarding)
             OnboardingView(showOnboarding: $showOnboarding)
         }
-        .onChange(of: isShwoingMusicView) { newValue in
-            if isShwoingMusicView == false {
+        .onChange(of: isShowingMusicView) { newValue in
+            if isShowingMusicView == false {
                 if let data = UserDefaultsManager.shared.recipes {
                     do {
                         let decoder = JSONDecoder()
