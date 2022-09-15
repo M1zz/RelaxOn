@@ -60,7 +60,19 @@ struct CDPlayerView: View {
                     .buttonStyle(.plain)
                 }
                 .padding()
+                
+                Slider(value: Binding(
+                    get: {
+                        cdPlayerManager.volume
+                    },
+                    set: {(newValue) in
+                        cdPlayerManager.changeVolume(volume: newValue)
+                    }
+                ))
             }
+        }
+        .onAppear {
+            cdPlayerManager.requestVolume()
         }
     }
 }
