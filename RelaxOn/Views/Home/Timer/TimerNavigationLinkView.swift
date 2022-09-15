@@ -10,10 +10,10 @@ import SwiftUI
 struct TimerNavigationLinkView: View {
     
     @ObservedObject var timerManager = TimerManager.shared
-    
+    @State private var isPresentedByLockScreenWidget = false
     var body: some View {
         VStack(spacing: 6) {
-            NavigationLink(destination : TimerSettingView()) {
+            NavigationLink(destination : TimerSettingView(), isActive: $isPresentedByLockScreenWidget) {
                 label
             }
             .navigationBarTitle("CD LIBRARY") // 백버튼 텍스트 내용
@@ -28,6 +28,9 @@ struct TimerNavigationLinkView: View {
                 Spacer()
             }
         }.padding(.horizontal, 20)
+            .onOpenURL { url in
+                self.isPresentedByLockScreenWidget = url == URL(string: "RelaxOn:///TimerSettingView")
+            }
     }
     
     var label: some View {
