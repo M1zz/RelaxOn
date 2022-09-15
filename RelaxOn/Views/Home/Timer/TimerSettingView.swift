@@ -77,6 +77,7 @@ extension TimerSettingView {
     func timerSettingButton() -> some View {
         Button {
             timerManager.start(countDownDuration: seconds)
+            WidgetManager.setupTimerToLockScreendWidget(settedSeconds: seconds)
         } label: {
             Text("SAVE")
                 .font(.system(size: 20, weight: .medium))
