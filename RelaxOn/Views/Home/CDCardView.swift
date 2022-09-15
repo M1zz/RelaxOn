@@ -8,13 +8,16 @@
 import SwiftUI
 
 struct CDCardView: View {
-    var data: MixedSound
-    @Binding var isShwoingMusicView: Bool
-    @Binding var userRepositoriesState: [MixedSound]
+    // MARK: - State Properties
     @State var selectedMixedSound: MixedSound?
     @State private var isPresent = false
-    @StateObject var viewModel: MusicViewModel
+    @Binding var isShwoingMusicView: Bool
+    @Binding var userRepositoriesState: [MixedSound]
     
+    // MARK: - General Properties
+    var data: MixedSound
+    
+    // MARK: - Life Cycles
     var body: some View {
         VStack(alignment: .leading) {
             Button(action: {
@@ -22,44 +25,15 @@ struct CDCardView: View {
                 self.isShwoingMusicView.toggle()
             }, label: {
                 ZStack {
-                    if let baseSoundImageName = data.baseSound?.fileName {
-                        switch baseSoundImageName {
-                        case "music":
-                            EmptyView()
-                        default:
-                            Image(baseSoundImageName)
-                                .resizable()
-                                .frame(width: UIScreen.main.bounds.width * 0.43, height: UIScreen.main.bounds.width * 0.43)
-                        }
-                    }
-                    
-                    if let melodySoundImageName = data.melodySound?.fileName {
-                        switch melodySoundImageName {
-                        case "music":
-                            EmptyView()
-                        default:
-                            Image(melodySoundImageName)
-                                .resizable()
-                                .frame(width: UIScreen.main.bounds.width * 0.43, height: UIScreen.main.bounds.width * 0.43)
-                        }
-                    }
-                    
-                    if let whiteNoiseSoundImageName = data.whiteNoiseSound?.fileName {
-                        switch whiteNoiseSoundImageName {
-                        case "music":
-                            EmptyView()
-                        default:
-                            Image(whiteNoiseSoundImageName)
-                                .resizable()
-                                .frame(width: UIScreen.main.bounds.width * 0.43, height: UIScreen.main.bounds.width * 0.43)
-                        }
-                    }
+                    CDCoverImageView(selectedImageNames: data.getImageName())
+                        .frame(width: UIScreen.main.bounds.width * 0.43,
+                               height: UIScreen.main.bounds.width * 0.43)
                 }
                 .fullScreenCover(item: $selectedMixedSound) { _ in
-                    NewMusicView(viewModel: viewModel, data: data, userRepositoriesState: $userRepositoriesState)
+                    MusicView(data: data, userRepositoriesState: $userRepositoriesState)
                 }
                 .fullScreenCover(isPresented: $isPresent) {
-                    NewMusicView(viewModel: viewModel, data: data, userRepositoriesState: $userRepositoriesState)
+                    MusicView(data: data, userRepositoriesState: $userRepositoriesState)
                 }
             })
             Text(data.name)
@@ -74,7 +48,7 @@ struct CDCardView: View {
             }
         }
         .onOpenURL { url in
-            isPresent = url == data.url
+            isPresent = (url == data.url)
         }
     }
 }

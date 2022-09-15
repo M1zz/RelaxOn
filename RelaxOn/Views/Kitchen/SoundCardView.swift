@@ -36,17 +36,12 @@ struct SoundCardView: View {
                 if data.name == "Empty" {
                     ZStack {
                         Rectangle()
-                            .background(.black)
                             .frame(width: (deviceFrame.exceptPaddingWidth - 20 ) / 3 ,
                                    height: (deviceFrame.exceptPaddingWidth - 20 ) / 3,
                                    alignment: .center)
                             .border(selectedID == soundFileName ? .white : .clear, width: 2)
-                        Image(systemName: "moon.zzz.fill")
-                            .resizable()
-                            .frame(width: (deviceFrame.exceptPaddingWidth - 20 ) / 6,
-                                   height: (deviceFrame.exceptPaddingWidth - 20 ) / 6)
-                            .foregroundColor(.white)
-
+                            .cornerRadius(4)
+                            .clipped()
                     }
                 } else {
                     Image(data.fileName)
@@ -55,11 +50,12 @@ struct SoundCardView: View {
                                height: (deviceFrame.exceptPaddingWidth - 20 ) / 3,
                                alignment: .center)
                         .border(selectedID == soundFileName ? .white : .clear, width: 2)
+                        .cornerRadius(4)
+                        .clipped()
                 }
 
                 HStack {
-                    let name = LocalizedStringKey(data.name)
-                    Text(name)
+                    Text(LocalizedStringKey(data.name))
                         .fontWeight(.semibold)
                         .font(Font.system(size: 17))
                         .foregroundColor(Color.white)
@@ -79,10 +75,10 @@ struct SoundCardView: View {
 struct SoundCard_Previews: PreviewProvider {
     static var previews: some View {
         SoundCardView(soundFileName : "base_default",
-                       data: baseSounds[0],
+                      data: SoundType.base.soundList.first ?? Sound.empty(0),
                   callback: {_,_  in },
                   selectedID: "")
-        .background(ColorPalette.background.color)
+        .background(Color.backgroundColor)
     }
 }
 
