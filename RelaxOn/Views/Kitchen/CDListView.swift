@@ -39,9 +39,9 @@ struct CDListView: View {
                 LazyVGrid(columns: Array(repeating: GridItem(.flexible(), alignment: .top), count: 2), spacing: 18) {
                     PlusCDImage
                         .disabled(isEditMode)
-                    
-                    ForEach(userRepositoriesState.reversed()){ mixedSound in
-                        CDCardView(isShowingMusicView: $isShowingMusicView,
+
+                    ForEach(userRepositoriesState){ mixedSound in
+                        CDCardView(isShwoingMusicView: $isShwoingMusicView,
                                    userRepositoriesState: $userRepositoriesState,
                                    viewModel: musicViewModel, data: mixedSound)
                         .disabled(isEditMode)
