@@ -69,7 +69,7 @@ struct MusicView: View {
                             .foregroundColor(.white)
                             .padding(.top, 30)
                         
-                        MusicContollerView()
+                        MusicControllerView()
                             .padding(.top, 54)
                     }
                     .frame(width: cdViewWidth, height: cdViewHeight)
@@ -190,7 +190,7 @@ struct MusicView: View {
 // MARK: ViewBuilder
 extension MusicView {
     @ViewBuilder
-    func MusicContollerView() -> some View {
+    func MusicControllerView() -> some View {
         HStack (spacing: 56) {
             Button {
                 viewModel.setupPreviousTrack(mixedSound: viewModel.mixedSound ?? emptyMixedSound)

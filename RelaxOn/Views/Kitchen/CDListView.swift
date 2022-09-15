@@ -41,7 +41,7 @@ struct CDListView: View {
                         .disabled(isEditMode)
 
                     ForEach(userRepositoriesState.reversed()){ mixedSound in
-                        CDCardView(isShwoingMusicView: $isShwoingMusicView,
+                        CDCardView(isShowingMusicView: $isShowingMusicView,
                                    userRepositoriesState: $userRepositoriesState,
                                    viewModel: musicViewModel, data: mixedSound)
                             .disabled(isEditMode)

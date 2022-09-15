@@ -11,7 +11,7 @@ struct CDCardView: View {
     // MARK: - State Properties
     @State var selectedMixedSound: MixedSound?
     @State private var isPresent = false
-    @Binding var isShwoingMusicView: Bool
+    @Binding var isShowingMusicView: Bool
     @Binding var userRepositoriesState: [MixedSound]
     @StateObject var viewModel: MusicViewModel
     
