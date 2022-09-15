@@ -12,8 +12,6 @@ struct MusicView: View {
     @EnvironmentObject var viewModel: MusicViewModel
     @State private var isActive = false
     @State private var isFetchFirstData = true
-    
-    @StateObject var viewModel: MusicViewModel
     @State var animatedValue : CGFloat = 55
     @State var maxWidth = UIScreen.main.bounds.width / 2.2
     @State var showVolumeControl: Bool = false

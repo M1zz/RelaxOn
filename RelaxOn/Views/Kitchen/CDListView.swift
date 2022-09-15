@@ -16,6 +16,7 @@ struct CDListView: View {
         melody: "",
         natural: ""
     )
+    @State var showOnboarding: Bool = false
     @State private var isEditMode = false
     @State private var selectedMixedSoundIds: [Int] = []
     @State private var showingActionSheet = false
@@ -42,7 +43,6 @@ struct CDListView: View {
                     ForEach(userRepositoriesState){ mixedSound in
                         CDCardView(isShowingMusicView: $isShowingMusicView,
                                    userRepositoriesState: $userRepositoriesState,
-                                   viewModel: musicViewModel,
                                    data: mixedSound)
                         .disabled(isEditMode)
                         .overlay(alignment : .bottomTrailing) {
@@ -91,7 +91,7 @@ struct CDListView: View {
                     userRepositoriesState = userRepositories
                     
                     // TODO: - 추후 다른 방식으로 수정
-                    musicViewModel.sendMessage(key: "list", userRepositoriesState.map{mixedSound in mixedSound.name})
+                    viewModel.sendMessage(key: "list", userRepositoriesState.map{mixedSound in mixedSound.name})
                 } catch {
                     print("Unable to Decode Note (\(error))")
                 }

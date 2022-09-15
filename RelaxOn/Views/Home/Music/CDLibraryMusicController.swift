@@ -15,18 +15,21 @@ struct CDLibraryMusicController: View {
             HStack {
                 if let selectedImageNames = viewModel.mixedSound?.getImageName() {
                     CDCoverImageView(selectedImageNames: selectedImageNames)
-                        .addWhiteBackground()
                         .frame(width: cdCoverImageEdgeSize, height: cdCoverImageEdgeSize)
                         .aspectRatio(1, contentMode: .fit)
                         .padding(.leading, 16)
                 } else {
-                    Image("music")
+                    Image("placeholderImage")
                         .resizable()
+                        .cornerRadius(4)
                         .frame(width: cdCoverImageEdgeSize, height: cdCoverImageEdgeSize)
+                        .padding(.leading, 16)
+                        .opacity(0.6)
                 }
                 
                 Text(viewModel.mixedSound?.name.description ?? "재생 중이 아님")
                     .foregroundColor(.white)
+                    .padding(.leading, 10)
                 
                 Spacer()
                 
@@ -36,21 +39,21 @@ struct CDLibraryMusicController: View {
                     } label: {
                         Image(systemName: "backward.fill")
                             .tint(.white)
-                    }
+                    }.disabled(viewModel.mixedSound == nil)
                     
                     Button {
                         viewModel.playPause()
                     } label: {
                         Image(systemName: viewModel.isPlaying ? "pause.fill" : "play.fill")
                             .tint(.white)
-                    }
+                    }.disabled(viewModel.mixedSound == nil)
                     
                     Button {
                         viewModel.setupNextTrack(mixedSound: viewModel.mixedSound ?? emptyMixedSound)
                     } label: {
                         Image(systemName: "forward.fill")
                             .tint(.white)
-                    }
+                    }.disabled(viewModel.mixedSound == nil)
                 }
                 .padding(.horizontal, 17)
             }
@@ -60,7 +63,7 @@ struct CDLibraryMusicController: View {
         }
         .frame(height: deviceFrame.screenHeight * 0.1)
         .background(
-            Color.yellow
+            Color.relaxRealBlack
         )
         
     }

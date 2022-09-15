@@ -10,9 +10,8 @@ import MediaPlayer
 
 struct CdLibraryView: View {
     @StateObject var viewModel = MusicViewModel()
-    @State private var isPresented = false
     @State var userRepositoriesState: [MixedSound] = []
-    @State var showOnboarding: Bool = false
+    @State private var isPresented = false
     var body: some View {
         NavigationView {
             VStack {
@@ -20,7 +19,6 @@ struct CdLibraryView: View {
                     .padding(.top, 56)
                 CDListView(userRepositoriesState: $userRepositoriesState)
                 Spacer()
-                
                 CDLibraryMusicController()
                     .onTapGesture {
                         if viewModel.mixedSound != nil {
@@ -48,31 +46,16 @@ struct CdLibraryView: View {
                    print(error.localizedDescription)
                }
             
-            let notFirstVisit = UserDefaultsManager.shared.notFirstVisit
-            showOnboarding = !notFirstVisit
-            
             if let data = UserDefaultsManager.shared.recipes {
                 do {
                     let decoder = JSONDecoder()
                     userRepositories = try decoder.decode([MixedSound].self, from: data)
                     print("help : \(userRepositories)")
                     userRepositoriesState = userRepositories
-                    
-                    // TODO: - 추후 다른 방식으로 수정
-                    viewModel.updateCDList(cdList: userRepositoriesState.map{mixedSound in mixedSound.name})
                 } catch {
                     print("Unable to Decode Note (\(error))")
                 }
             }
-        }
-        .onChange(of: showOnboarding) { _ in
-            if !showOnboarding {
-                userRepositoriesState = userRepositories
-            }
-        }
-        .fullScreenCover(isPresented: $showOnboarding) {
-//            StudioView(rootIsActive: $showOnboarding)
-            OnboardingView(showOnboarding: $showOnboarding)
         }
     }
 }
