@@ -37,18 +37,14 @@ struct TimerNavigationLinkView: View {
                 .foregroundColor(.systemGrey1)
                 .padding(.bottom, 2)
             Spacer()
-            Text("\(timerManager.getRemainedMinute())")
-                .font(.system(size: 28, weight: .regular))
+            TimeTextView(remainedSecond : timerManager.getRemainedSecond())
+                .font(.system(size: 32, weight: .medium))
                 .foregroundColor(.relaxDimPurple)
-            Text("min")
-                .font(.system(size: 18, weight: .regular))
-                .foregroundColor(.relaxDimPurple)
-                .padding(.bottom, 3)
             Image(systemName: "chevron.forward")
-                .font(.system(size: 25))
+                .font(.system(size: 20))
                 .foregroundColor(.relaxDimPurple)
                 .opacity(0.6)
-                .padding(.bottom, 3)
+                .padding(.bottom, 8)
         }
     }
 }
