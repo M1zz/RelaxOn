@@ -26,6 +26,7 @@ final class WatchConnectivityManager: NSObject, ObservableObject {
     @Published var titleMessageKey = "title"
     @Published var cdList: [String] = []
     @Published var cdTitle = ""
+    @Published var volume: Float = 0.0
     
     private override init() {
         super.init()
@@ -71,6 +72,14 @@ extension WatchConnectivityManager: WCSessionDelegate {
         if let list = message[listMessageKey] as? [String] {
             DispatchQueue.main.async { [weak self] in
                 self?.cdList = list
+            }
+        }
+        
+        if let volume = message["volume"] as? Float {
+            print("볼륨 수신됨, \(volume)")
+            DispatchQueue.main.async { [weak self] in
+                self?.volume = volume
+                CDPlayerManager.shared.volume = volume
             }
         }
     }

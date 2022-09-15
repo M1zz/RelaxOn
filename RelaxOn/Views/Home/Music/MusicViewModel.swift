@@ -20,6 +20,7 @@ final class MusicViewModel: NSObject, ObservableObject {
     
     override init() {
         super.init()
+        subscribe()
         
         if WCSession.isSupported() {
             WCSession.default.delegate = self
@@ -244,6 +245,26 @@ final class MusicViewModel: NSObject, ObservableObject {
             self.sendMessage(key: self.titleMessageKey, previousSong.name)
         }
     }
+    
+    @Published var volume: Float = AVAudioSession.sharedInstance().outputVolume
+
+    private let audioSession = AVAudioSession.sharedInstance()
+
+    private var progressObserver: NSKeyValueObservation!
+
+    func subscribe() {
+        progressObserver = audioSession.observe(\.outputVolume) { [self] (audioSession, value) in
+            DispatchQueue.main.async {
+                self.volume = audioSession.outputVolume
+                self.sendMessage(key: "volume", audioSession.outputVolume)
+            }
+        }
+    }
+
+    // TODO: - 구독 해제하기
+    func unsubscribe() {
+        self.progressObserver.invalidate()
+    }
 }
 
 // MARK: - WCSessionDelegate
@@ -298,6 +319,19 @@ extension MusicViewModel: WCSessionDelegate {
                 } else {
                     self?.startPlayerFromWatch()
                 }
+            }
+        }
+        
+        if let volume = message["volume"] as? String {
+            DispatchQueue.main.async { [weak self] in
+                if let floatVolume = Float(volume) {
+                    MPVolumeView.setVolume(floatVolume)
+                }
+            }
+        }
+        if let volumeRequest = message["requestVolume"] as? String {
+            DispatchQueue.main.async { [weak self] in
+                self?.sendMessage(key: "volume", self?.volume)
             }
         }
     }
