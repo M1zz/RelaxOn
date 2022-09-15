@@ -34,8 +34,6 @@
 		21D3ED952892774F006E871F /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5769AF2866F6B5007CCAE9 /* UserDefaultsManager.swift */; };
 		21D897782892D48600A20FFE /* CDCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D897772892D48600A20FFE /* CDCardView.swift */; };
 		4A5769AC2866F20A007CCAE9 /* MixedSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5769AB2866F20A007CCAE9 /* MixedSound.swift */; };
-		4A5769AE2866F44E007CCAE9 /* DummyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5769AD2866F44E007CCAE9 /* DummyData.swift */; };
-		4A65733B289E6BBC00E6D5A0 /* MusicRenameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A65733A289E6BBC00E6D5A0 /* MusicRenameView.swift */; };
 		580CADAA28659BEF0091946C /* LongSun.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 580CADA928659BEF0091946C /* LongSun.mp3 */; };
 		580CADAC28659C990091946C /* SpaceMid.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 580CADAB28659C990091946C /* SpaceMid.mp3 */; };
 		580CADB028659CF50091946C /* SpaceLow.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 580CADAD28659CF50091946C /* SpaceLow.mp3 */; };
@@ -103,12 +101,9 @@
 		CC5AC134289D184A00FE847B /* CDWidgetEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5AC133289D184A00FE847B /* CDWidgetEntry.swift */; };
 		CC5AC138289D19C900FE847B /* Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5AC136289D199600FE847B /* Provider.swift */; };
 		CC5AC13B289D256100FE847B /* MixedSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5769AB2866F20A007CCAE9 /* MixedSound.swift */; };
-		CC5AC13D289D257B00FE847B /* DummyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5769AD2866F44E007CCAE9 /* DummyData.swift */; };
-		CC5AC13E289D258200FE847B /* Sound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61B1283A8E1700F25769 /* Sound.swift */; };
-		CC5AC191289D69E500FE847B /* WidgetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5AC190289D69E500FE847B /* WidgetManager.swift */; };
-		CC5AC141289D294800FE847B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58DE61862839C13A00F25769 /* Assets.xcassets */; };
 		CC5AC192289D6CD200FE847B /* WidgetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5AC190289D69E500FE847B /* WidgetManager.swift */; };
 		CCA7F51E2877501E00D6A239 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CCA7F5202877501E00D6A239 /* Localizable.strings */; };
+		E206D1A428D2B97500DDB4E7 /* TimerProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E206D1A328D2B97500DDB4E7 /* TimerProgressBarView.swift */; };
 		E211ED052896D051002843EE /* MusicTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E211ED042896D051002843EE /* MusicTimer.swift */; };
 		E211ED072896D06A002843EE /* TimerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E211ED062896D06A002843EE /* TimerManager.swift */; };
 		E24F21E228ABE1A100371BA4 /* MultiPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24F21E128ABE1A000371BA4 /* MultiPreview.swift */; };
@@ -212,7 +207,6 @@
 		21D897772892D48600A20FFE /* CDCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDCardView.swift; sourceTree = "<group>"; };
 		4A5769AB2866F20A007CCAE9 /* MixedSound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixedSound.swift; sourceTree = "<group>"; };
 		4A5769AF2866F6B5007CCAE9 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
-		4A65733A289E6BBC00E6D5A0 /* MusicRenameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicRenameView.swift; sourceTree = "<group>"; };
 		580CADA928659BEF0091946C /* LongSun.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = LongSun.mp3; sourceTree = "<group>"; };
 		580CADAB28659C990091946C /* SpaceMid.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = SpaceMid.mp3; sourceTree = "<group>"; };
 		580CADAD28659CF50091946C /* SpaceLow.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = SpaceLow.mp3; sourceTree = "<group>"; };
@@ -274,6 +268,7 @@
 		CC5AC190289D69E500FE847B /* WidgetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetManager.swift; sourceTree = "<group>"; };
 		CCA7F51F2877501E00D6A239 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CCA7F5212877504200D6A239 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
+		E206D1A328D2B97500DDB4E7 /* TimerProgressBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerProgressBarView.swift; sourceTree = "<group>"; };
 		E211ED042896D051002843EE /* MusicTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicTimer.swift; sourceTree = "<group>"; };
 		E211ED062896D06A002843EE /* TimerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerManager.swift; sourceTree = "<group>"; };
 		E24F21E128ABE1A000371BA4 /* MultiPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiPreview.swift; sourceTree = "<group>"; };
@@ -651,6 +646,7 @@
 				E2BF105328914E9E00408B8C /* TimerNavigationLinkView.swift */,
 				E2BF1056289173F100408B8C /* TimerPickerView.swift */,
 				E2BF105A28917CAC00408B8C /* TimerSettingView.swift */,
+				E206D1A328D2B97500DDB4E7 /* TimerProgressBarView.swift */,
 			);
 			path = Timer;
 			sourceTree = "<group>";
@@ -896,6 +892,7 @@
 				C753495628B75BD20055F7CA /* Float+Extension.swift in Sources */,
 				21D3ED952892774F006E871F /* UserDefaultsManager.swift in Sources */,
 				219BD67328900A28006FAF55 /* CDListView.swift in Sources */,
+				E206D1A428D2B97500DDB4E7 /* TimerProgressBarView.swift in Sources */,
 				CBFDC8F4289C23AC00386FB5 /* VolumeSlider.swift in Sources */,
 				58DE61B2283A8E1700F25769 /* Sound.swift in Sources */,
 				C7FDCA8C28D094E0008FA749 /* MusicViewDelegate.swift in Sources */,
