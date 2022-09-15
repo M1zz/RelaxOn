@@ -13,6 +13,11 @@
 		10D26714288EF4D20056339A /* RectPreference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D26713288EF4D20056339A /* RectPreference.swift */; };
 		10D26716288EF4DB0056339A /* StudioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D26715288EF4DB0056339A /* StudioView.swift */; };
 		10FB81B528A17468000168CC /* OnboardingFinishView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FB81B428A17468000168CC /* OnboardingFinishView.swift */; };
+		2125023E28D35E4B0017EBFB /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC5AC106289C033C00FE847B /* WidgetKit.framework */; };
+		2125023F28D35E4B0017EBFB /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC5AC108289C033C00FE847B /* SwiftUI.framework */; };
+		2125024228D35E4B0017EBFB /* LockScreenWidgetExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2125024128D35E4B0017EBFB /* LockScreenWidgetExtension.swift */; };
+		2125024428D35E4C0017EBFB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2125024328D35E4C0017EBFB /* Assets.xcassets */; };
+		2125024828D35E4C0017EBFB /* LockScreenWidgetExtensionExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 2125023D28D35E4B0017EBFB /* LockScreenWidgetExtensionExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		2125F1B928CE0299007BAB85 /* PageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2125F1B828CE0299007BAB85 /* PageView.swift */; };
 		2125F1BB28CE02BE007BAB85 /* CDPlayerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2125F1BA28CE02BD007BAB85 /* CDPlayerManager.swift */; };
 		2125F1BD28CE02D7007BAB85 /* WatchConnectivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2125F1BC28CE02D7007BAB85 /* WatchConnectivityManager.swift */; };
@@ -90,7 +95,6 @@
 		CC5AC107289C033C00FE847B /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC5AC106289C033C00FE847B /* WidgetKit.framework */; };
 		CC5AC109289C033C00FE847B /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC5AC108289C033C00FE847B /* SwiftUI.framework */; };
 		CC5AC10C289C033C00FE847B /* RelaxOnWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5AC10B289C033C00FE847B /* RelaxOnWidget.swift */; };
-		CC5AC10F289C033D00FE847B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC5AC10E289C033D00FE847B /* Assets.xcassets */; };
 		CC5AC111289C033D00FE847B /* RelaxOnWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = CC5AC10D289C033C00FE847B /* RelaxOnWidget.intentdefinition */; };
 		CC5AC112289C033D00FE847B /* RelaxOnWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = CC5AC10D289C033C00FE847B /* RelaxOnWidget.intentdefinition */; };
 		CC5AC115289C033D00FE847B /* RelaxOnWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = CC5AC104289C033C00FE847B /* RelaxOnWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -113,6 +117,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		2125024628D35E4C0017EBFB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 58DE61772839C13900F25769 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2125023C28D35E4B0017EBFB;
+			remoteInfo = LockScreenWidgetExtensionExtension;
+		};
 		21B7A65728A31DE700E90744 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 58DE61772839C13900F25769 /* Project object */;
@@ -173,6 +184,7 @@
 			dstSubfolderSpec = 13;
 			files = (
 				CC5AC115289C033D00FE847B /* RelaxOnWidgetExtension.appex in Embed App Extensions */,
+				2125024828D35E4C0017EBFB /* LockScreenWidgetExtensionExtension.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -186,6 +198,10 @@
 		10D26713288EF4D20056339A /* RectPreference.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RectPreference.swift; sourceTree = "<group>"; };
 		10D26715288EF4DB0056339A /* StudioView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudioView.swift; sourceTree = "<group>"; };
 		10FB81B428A17468000168CC /* OnboardingFinishView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingFinishView.swift; sourceTree = "<group>"; };
+		2125023D28D35E4B0017EBFB /* LockScreenWidgetExtensionExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LockScreenWidgetExtensionExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		2125024128D35E4B0017EBFB /* LockScreenWidgetExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockScreenWidgetExtension.swift; sourceTree = "<group>"; };
+		2125024328D35E4C0017EBFB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		2125024528D35E4C0017EBFB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2125F1B828CE0299007BAB85 /* PageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageView.swift; sourceTree = "<group>"; };
 		2125F1BA28CE02BD007BAB85 /* CDPlayerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDPlayerManager.swift; sourceTree = "<group>"; };
 		2125F1BC28CE02D7007BAB85 /* WatchConnectivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchConnectivityManager.swift; sourceTree = "<group>"; };
@@ -277,6 +293,15 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		2125023A28D35E4B0017EBFB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2125023F28D35E4B0017EBFB /* SwiftUI.framework in Frameworks */,
+				2125023E28D35E4B0017EBFB /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		21B7A65228A31DE700E90744 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -310,6 +335,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2125024028D35E4B0017EBFB /* LockScreenWidgetExtension */ = {
+			isa = PBXGroup;
+			children = (
+				2125024128D35E4B0017EBFB /* LockScreenWidgetExtension.swift */,
+				2125024328D35E4C0017EBFB /* Assets.xcassets */,
+				2125024528D35E4C0017EBFB /* Info.plist */,
+			);
+			path = LockScreenWidgetExtension;
+			sourceTree = "<group>";
+		};
 		2130E21628D01368009502F1 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -501,6 +536,7 @@
 				21B7A65928A31DE700E90744 /* RelaxOnWatch WatchKit Extension */,
 				CC5AC10A289C033C00FE847B /* RelaxOnWidget */,
 				C776B16F28B2620000A13052 /* RelaxOnUITests */,
+				2125024028D35E4B0017EBFB /* LockScreenWidgetExtension */,
 				CC5AC105289C033C00FE847B /* Frameworks */,
 				58DE61802839C13900F25769 /* Products */,
 			);
@@ -514,6 +550,7 @@
 				21B7A65528A31DE700E90744 /* RelaxOnWatch WatchKit Extension.appex */,
 				CC5AC104289C033C00FE847B /* RelaxOnWidgetExtension.appex */,
 				C776B16E28B2620000A13052 /* RelaxOnUITests.xctest */,
+				2125023D28D35E4B0017EBFB /* LockScreenWidgetExtensionExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -652,6 +689,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		2125023C28D35E4B0017EBFB /* LockScreenWidgetExtensionExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2125024B28D35E4C0017EBFB /* Build configuration list for PBXNativeTarget "LockScreenWidgetExtensionExtension" */;
+			buildPhases = (
+				2125023928D35E4B0017EBFB /* Sources */,
+				2125023A28D35E4B0017EBFB /* Frameworks */,
+				2125023B28D35E4B0017EBFB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LockScreenWidgetExtensionExtension;
+			productName = LockScreenWidgetExtensionExtension;
+			productReference = 2125023D28D35E4B0017EBFB /* LockScreenWidgetExtensionExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		21B7A64C28A31DE600E90744 /* RelaxOnWatch */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 21B7A67528A31DE800E90744 /* Build configuration list for PBXNativeTarget "RelaxOnWatch" */;
@@ -701,6 +755,7 @@
 			dependencies = (
 				21B7A66C28A31DE800E90744 /* PBXTargetDependency */,
 				CC5AC114289C033D00FE847B /* PBXTargetDependency */,
+				2125024728D35E4C0017EBFB /* PBXTargetDependency */,
 			);
 			name = RelaxOn;
 			productName = LullabyRecipe;
@@ -749,9 +804,12 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1330;
+				LastSwiftUpdateCheck = 1400;
 				LastUpgradeCheck = 1340;
 				TargetAttributes = {
+					2125023C28D35E4B0017EBFB = {
+						CreatedOnToolsVersion = 14.0;
+					};
 					21B7A64C28A31DE600E90744 = {
 						CreatedOnToolsVersion = 13.3;
 					};
@@ -789,11 +847,20 @@
 				21B7A65428A31DE700E90744 /* RelaxOnWatch WatchKit Extension */,
 				CC5AC103289C033C00FE847B /* RelaxOnWidgetExtension */,
 				C776B16D28B2620000A13052 /* RelaxOnUITests */,
+				2125023C28D35E4B0017EBFB /* LockScreenWidgetExtensionExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		2125023B28D35E4B0017EBFB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2125024428D35E4C0017EBFB /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		21B7A64B28A31DE600E90744 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -852,7 +919,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CC5AC141289D294800FE847B /* Assets.xcassets in Resources */,
 				CCAE57CB28D1CFFB00AC3FEA /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -860,6 +926,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		2125023928D35E4B0017EBFB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2125024228D35E4B0017EBFB /* LockScreenWidgetExtension.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		21B7A65128A31DE700E90744 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -961,6 +1035,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		2125024728D35E4C0017EBFB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2125023C28D35E4B0017EBFB /* LockScreenWidgetExtensionExtension */;
+			targetProxy = 2125024628D35E4C0017EBFB /* PBXContainerItemProxy */;
+		};
 		21B7A65828A31DE700E90744 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 21B7A65428A31DE700E90744 /* RelaxOnWatch WatchKit Extension */;
@@ -996,6 +1075,66 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		2125024928D35E4C0017EBFB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = AJK25G55CT;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LockScreenWidgetExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = LockScreenWidgetExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 2.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.LullabyRecipe.LockScreenWidgetExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		2125024A28D35E4C0017EBFB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = AJK25G55CT;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LockScreenWidgetExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = LockScreenWidgetExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 2.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.LullabyRecipe.LockScreenWidgetExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		21B7A66F28A31DE800E90744 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1413,6 +1552,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		2125024B28D35E4C0017EBFB /* Build configuration list for PBXNativeTarget "LockScreenWidgetExtensionExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2125024928D35E4C0017EBFB /* Debug */,
+				2125024A28D35E4C0017EBFB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		21B7A67428A31DE800E90744 /* Build configuration list for PBXNativeTarget "RelaxOnWatch WatchKit Extension" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
