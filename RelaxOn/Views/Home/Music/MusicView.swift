@@ -57,7 +57,7 @@ struct MusicView: View {
                     VStack(spacing: 0) {
                         if let selectedImageNames = viewModel.mixedSound?.getImageName() {
                             CDCoverImageView(selectedImageNames: selectedImageNames)
-                                .addWhiteBackground()
+                                .addDefaultBackground()
                                 .padding(.horizontal, 20)
                                 .frame(width: cdViewWidth, height: cdViewWidth - 40)
                                 .aspectRatio(1, contentMode: .fit)

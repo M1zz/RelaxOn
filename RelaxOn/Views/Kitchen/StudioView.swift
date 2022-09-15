@@ -70,7 +70,7 @@ struct StudioView: View {
                 }
                 
                 CDCoverImageView(selectedImageNames: selectedImageNames)
-                    .addWhiteBackground()
+                    .addDefaultBackground()
                     .DeviceFrame()
                 
                 CustomSegmentControlView(items: items, selection: $select)
