@@ -25,24 +25,29 @@ struct CDCoverImageView: View {
 // MARK: - ViewBuilder
 extension CDCoverImageView {
     @ViewBuilder
-    func toBlurBackground() -> some View {
+    func toBlurBackground(blurRadius: CGFloat = 30.0) -> some View {
         GeometryReader { proxy in
-            self
+            ZStack {
+                self
+                Rectangle()
+                    .fill(.black.opacity(0.3))
+            }
                 .scaledToFill()
                 .frame(width: proxy.size.width, height: proxy.size.height)
                 .clipped()
-                .blur(radius: 30)
+                .blur(radius: blurRadius)
         }
         .ignoresSafeArea()
     }
     
     @ViewBuilder
-    func addWhiteBackground() -> some View {
+    func addDefaultBackground() -> some View {
         self
             .background {
-                RoundedRectangle(cornerRadius: 4)
-                    .fill(.white)
+                Rectangle()
+                    .fill(.white.opacity(0.2))
             }
+            .cornerRadius(4)
             .clipped()
     }
     
@@ -54,6 +59,7 @@ extension CDCoverImageView {
         } else {
             Image(imageName)
                 .resizable()
+                
         }
     }
 }

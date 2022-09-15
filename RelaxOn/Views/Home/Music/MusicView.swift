@@ -28,8 +28,8 @@ struct MusicView: View {
     @State var audioVolumes: (baseVolume: Float, melodyVolume: Float, whiteNoiseVolume: Float) = (0, 0, 0)
     @State private var offsetYOfControlView = UIScreen.main.bounds.height * 0.83 {
         didSet {
-            if offsetYOfControlView < UIScreen.main.bounds.height * 0.5 {
-                offsetYOfControlView = UIScreen.main.bounds.height * 0.5
+            if offsetYOfControlView < UIScreen.main.bounds.height * 0.46 {
+                offsetYOfControlView = UIScreen.main.bounds.height * 0.46
             } else if offsetYOfControlView > UIScreen.main.bounds.height * 0.83 {
                 offsetYOfControlView = UIScreen.main.bounds.height * 0.83
             }
@@ -57,7 +57,7 @@ struct MusicView: View {
                     VStack(spacing: 0) {
                         if let selectedImageNames = viewModel.mixedSound?.getImageName() {
                             CDCoverImageView(selectedImageNames: selectedImageNames)
-                                .addWhiteBackground()
+                                .addDefaultBackground()
                                 .padding(.horizontal, 20)
                                 .frame(width: cdViewWidth, height: cdViewWidth - 40)
                                 .aspectRatio(1, contentMode: .fit)
@@ -69,7 +69,7 @@ struct MusicView: View {
                             .foregroundColor(.white)
                             .padding(.top, 30)
                         
-                        MusicContollerView()
+                        MusicControllerView()
                             .padding(.top, 54)
                     }
                     .frame(width: cdViewWidth, height: cdViewHeight)
@@ -117,7 +117,7 @@ struct MusicView: View {
                             withAnimation(.spring()) {
                                 let draggedHeight = value.predictedEndTranslation.height
                                 if draggedHeight < -30 {
-                                    offsetYOfControlView = UIScreen.main.bounds.height * 0.5
+                                    offsetYOfControlView = UIScreen.main.bounds.height * 0.46
                                     cdViewWidth = UIScreen.main.bounds.width * 0.46
                                     cdViewHeight = UIScreen.main.bounds.height * 0.33
                                     cdNameFontSize = 22.0
@@ -190,7 +190,7 @@ struct MusicView: View {
 // MARK: ViewBuilder
 extension MusicView {
     @ViewBuilder
-    func MusicContollerView() -> some View {
+    func MusicControllerView() -> some View {
         HStack (spacing: 56) {
             Button {
                 viewModel.setupPreviousTrack(mixedSound: viewModel.mixedSound ?? emptyMixedSound)

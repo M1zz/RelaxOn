@@ -4,7 +4,7 @@
 //
 //  Created by Minkyeong Ko on 2022/07/26.
 //
-    
+
 import SwiftUI
 
 struct CDListView: View {
@@ -19,7 +19,7 @@ struct CDListView: View {
     @State private var isEditMode = false
     @State private var selectedMixedSoundIds: [Int] = []
     @State private var showingActionSheet = false
-    @State var isShwoingMusicView = false
+    @State var isShowingMusicView = false
     
     @State var showOnboarding: Bool = false
     
@@ -35,45 +35,46 @@ struct CDListView: View {
         VStack {
             LibraryHeader
             ScrollView(.vertical, showsIndicators: false) {
-
+                
                 LazyVGrid(columns: Array(repeating: GridItem(.flexible(), alignment: .top), count: 2), spacing: 18) {
                     PlusCDImage
                         .disabled(isEditMode)
-
-                    ForEach(userRepositoriesState.reversed()){ mixedSound in
-                        CDCardView(isShwoingMusicView: $isShwoingMusicView,
+                    
+                    ForEach(userRepositoriesState){ mixedSound in
+                        CDCardView(isShowingMusicView: $isShowingMusicView,
                                    userRepositoriesState: $userRepositoriesState,
-                                   viewModel: musicViewModel, data: mixedSound)
-                            .disabled(isEditMode)
-                            .overlay(alignment : .bottomTrailing) {
-                                if isEditMode {
-                                    if selectedMixedSoundIds.firstIndex(where: {$0 == mixedSound.id}) != nil {
-                                        Image(systemName: "checkmark.circle.fill")
-                                            .resizable()
-                                            .frame(width: 24.0, height: 24.0)
-                                            .foregroundColor(.white)
-                                            .padding(.bottom, LayoutConstants.Padding.bottomOfRadioButton)
-                                            .padding(.trailing, LayoutConstants.Padding.trailingOfRadioButton)
-                                    } else {
-                                        Image(systemName: "circle")
-                                            .resizable()
-                                            .frame(width: 24.0, height: 24.0)
-                                            .foregroundColor(.white)
-                                            .background(Image(systemName: "circle.fill").foregroundColor(.gray).opacity(0.5))
-                                            .padding(.bottom, LayoutConstants.Padding.bottomOfRadioButton)
-                                            .padding(.trailing, LayoutConstants.Padding.trailingOfRadioButton)
-                                    }
+                                   viewModel: musicViewModel,
+                                   data: mixedSound)
+                        .disabled(isEditMode)
+                        .overlay(alignment : .bottomTrailing) {
+                            if isEditMode {
+                                if selectedMixedSoundIds.firstIndex(where: {$0 == mixedSound.id}) != nil {
+                                    Image(systemName: "checkmark.circle.fill")
+                                        .resizable()
+                                        .frame(width: 24.0, height: 24.0)
+                                        .foregroundColor(.white)
+                                        .padding(.bottom, LayoutConstants.Padding.bottomOfRadioButton)
+                                        .padding(.trailing, LayoutConstants.Padding.trailingOfRadioButton)
+                                } else {
+                                    Image(systemName: "circle")
+                                        .resizable()
+                                        .frame(width: 24.0, height: 24.0)
+                                        .foregroundColor(.white)
+                                        .background(Image(systemName: "circle.fill").foregroundColor(.gray).opacity(0.5))
+                                        .padding(.bottom, LayoutConstants.Padding.bottomOfRadioButton)
+                                        .padding(.trailing, LayoutConstants.Padding.trailingOfRadioButton)
                                 }
                             }
-                            .onTapGesture {
-                                if isEditMode {
-                                    if let index = selectedMixedSoundIds.firstIndex(where: {$0 == mixedSound.id}) {
-                                        selectedMixedSoundIds.remove(at: index)
-                                    } else {
-                                        selectedMixedSoundIds.append(mixedSound.id)
-                                    }
+                        }
+                        .onTapGesture {
+                            if isEditMode {
+                                if let index = selectedMixedSoundIds.firstIndex(where: {$0 == mixedSound.id}) {
+                                    selectedMixedSoundIds.remove(at: index)
+                                } else {
+                                    selectedMixedSoundIds.append(mixedSound.id)
                                 }
                             }
+                        }
                     }
                 }
             }
@@ -87,7 +88,7 @@ struct CDListView: View {
                 do {
                     let decoder = JSONDecoder()
                     userRepositories = try decoder.decode([MixedSound].self, from: data)
-                    print("help : \(userRepositories)")
+                    //                    print("help : \(userRepositories)")
                     userRepositoriesState = userRepositories
                     
                     // TODO: - 추후 다른 방식으로 수정
@@ -103,11 +104,13 @@ struct CDListView: View {
             }
         }
         .fullScreenCover(isPresented: $showOnboarding) {
-//            StudioView(rootIsActive: $showOnboarding)
-            OnboardingView(showOnboarding: $showOnboarding)
+            NavigationView {
+                StudioView(rootIsActive: $showOnboarding, viewType: .onboarding)
+            }
+            //            OnboardingView(showOnboarding: $showOnboarding)
         }
-        .onChange(of: isShwoingMusicView) { newValue in
-            if isShwoingMusicView == false {
+        .onChange(of: isShowingMusicView) { newValue in
+            if isShowingMusicView == false {
                 if let data = UserDefaultsManager.shared.recipes {
                     do {
                         let decoder = JSONDecoder()
@@ -149,7 +152,7 @@ extension CDListView {
                 .font(.title)
                 .fontWeight(.semibold)
                 .foregroundColor(.systemGrey1)
-                
+            
             Spacer()
             
             Button(action: {
@@ -159,7 +162,7 @@ extension CDListView {
                     showingActionSheet = true
                 }
             }) {
-
+                
                 if selectedMixedSoundIds.isEmpty {
                     Text(isEditMode ? "Done" : "Edit")
                         .foregroundColor(Color.gray)
@@ -175,7 +178,7 @@ extension CDListView {
     
     var PlusCDImage: some View {
         VStack(alignment: .leading) {
-            NavigationLink(destination: StudioView(rootIsActive: self.$isActive), isActive: self.$isActive) {
+            NavigationLink(destination: StudioView(rootIsActive: self.$isActive, viewType: .studio), isActive: self.$isActive) {
                 ZStack {
                     RoundedRectangle(cornerRadius: 4)
                         .fill(Color.relaxBlack)

@@ -16,6 +16,7 @@ final class CDPlayerManager: ObservableObject {
 
     @Published var isPlaying = false
     @Published var currentCDName = ""
+    @Published var volume: Float = 0.0
     
     func playPause() {
         if isPlaying {
@@ -33,5 +34,14 @@ final class CDPlayerManager: ObservableObject {
     
     func playNext() {
         WatchConnectivityManager.shared.sendMessage(key: "player", "next")
+    }
+    
+    func changeVolume(volume: Float) {
+        self.volume = volume
+        WatchConnectivityManager.shared.sendMessage(key: "volume", String(volume))
+    }
+    
+    func requestVolume() {
+        WatchConnectivityManager.shared.sendMessage(key: "requestVolume", "volume")
     }
 }
