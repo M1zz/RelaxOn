@@ -26,7 +26,7 @@ struct Provider: TimelineProvider {
         
         if var timerData = UserDefaults(suiteName: WidgetManager.suiteName)!.value(forKey: WidgetManager.lockScreenWidgetData) as? Double {
             let endDate = Calendar.current.date(byAdding: .second, value: Int(timerData), to: currentDate)
-            var addedSeconds: Double = -60
+            var addedSeconds: Double = 0
             
             while timerData >= 0 {
                 let entry = CDLockScreenWidgetEntry(date: currentDate + addedSeconds, startDate: currentDate, endDate: endDate ?? Date(), settedSeconds: timerData)
@@ -43,6 +43,7 @@ struct Provider: TimelineProvider {
             //                let timeline = Timeline(entries: [entry], policy: .never)
             //                completion(timeline)
             //            }
+            UserDefaults(suiteName: WidgetManager.suiteName)!.set(0, forKey: WidgetManager.lockScreenWidgetData)
         } else {
             let entry = CDLockScreenWidgetEntry()
             entries.append(entry)
@@ -78,10 +79,10 @@ struct RelaxOnLockScreenWidgetExtensionEntryView : View {
     var body: some View {
         switch family {
         case .accessoryRectangular:
-            ProgressView(timerInterval: entry.date...entry.endDate) {
+            ProgressView(timerInterval: entry.startDate...entry.endDate) {
                 HStack {
                     //TODO: river가 올려주신 R아이콘으로 바꿔야함
-                    Image("AppIcon")
+                    Image("WidgetLogo")
                     Spacer()
                     Text("\(Int(entry.settedSeconds / 60)) min")
                 }
