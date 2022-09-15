@@ -19,7 +19,11 @@ struct TimerSettingView: View {
     var body: some View {
         VStack {
             Spacer()
-            timePickerView()
+            if timerManager.isOn {
+                TimerProgressBarView()
+            } else {
+                timePickerView()
+            }
             Spacer()
             timerSettingButton()
         }
