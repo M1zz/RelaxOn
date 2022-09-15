@@ -4,7 +4,7 @@
 //
 //  Created by Minkyeong Ko on 2022/07/26.
 //
-
+    
 import SwiftUI
 
 struct CDListView: View {
@@ -19,7 +19,7 @@ struct CDListView: View {
     @State private var isEditMode = false
     @State private var selectedMixedSoundIds: [Int] = []
     @State private var showingActionSheet = false
-    @State var isShwoingMusicView = false
+    @State var isShowingMusicView = false
     
     @State var showOnboarding: Bool = false
     
@@ -35,7 +35,7 @@ struct CDListView: View {
         VStack {
             LibraryHeader
             ScrollView(.vertical, showsIndicators: false) {
-
+                
                 LazyVGrid(columns: Array(repeating: GridItem(.flexible(), alignment: .top), count: 2), spacing: 18) {
                     PlusCDImage
                         .disabled(isEditMode)
@@ -43,37 +43,37 @@ struct CDListView: View {
                     ForEach(userRepositoriesState){ mixedSound in
                         CDCardView(isShwoingMusicView: $isShwoingMusicView,
                                    userRepositoriesState: $userRepositoriesState,
-                                   data: mixedSound)
-                            .disabled(isEditMode)
-                            .overlay(alignment : .bottomTrailing) {
-                                if isEditMode {
-                                    if selectedMixedSoundIds.firstIndex(where: {$0 == mixedSound.id}) != nil {
-                                        Image(systemName: "checkmark.circle.fill")
-                                            .resizable()
-                                            .frame(width: 24.0, height: 24.0)
-                                            .foregroundColor(.white)
-                                            .padding(.bottom, LayoutConstants.Padding.bottomOfRadioButton)
-                                            .padding(.trailing, LayoutConstants.Padding.trailingOfRadioButton)
-                                    } else {
-                                        Image(systemName: "circle")
-                                            .resizable()
-                                            .frame(width: 24.0, height: 24.0)
-                                            .foregroundColor(.white)
-                                            .background(Image(systemName: "circle.fill").foregroundColor(.gray).opacity(0.5))
-                                            .padding(.bottom, LayoutConstants.Padding.bottomOfRadioButton)
-                                            .padding(.trailing, LayoutConstants.Padding.trailingOfRadioButton)
-                                    }
+                                   viewModel: musicViewModel, data: mixedSound)
+                        .disabled(isEditMode)
+                        .overlay(alignment : .bottomTrailing) {
+                            if isEditMode {
+                                if selectedMixedSoundIds.firstIndex(where: {$0 == mixedSound.id}) != nil {
+                                    Image(systemName: "checkmark.circle.fill")
+                                        .resizable()
+                                        .frame(width: 24.0, height: 24.0)
+                                        .foregroundColor(.white)
+                                        .padding(.bottom, LayoutConstants.Padding.bottomOfRadioButton)
+                                        .padding(.trailing, LayoutConstants.Padding.trailingOfRadioButton)
+                                } else {
+                                    Image(systemName: "circle")
+                                        .resizable()
+                                        .frame(width: 24.0, height: 24.0)
+                                        .foregroundColor(.white)
+                                        .background(Image(systemName: "circle.fill").foregroundColor(.gray).opacity(0.5))
+                                        .padding(.bottom, LayoutConstants.Padding.bottomOfRadioButton)
+                                        .padding(.trailing, LayoutConstants.Padding.trailingOfRadioButton)
                                 }
                             }
-                            .onTapGesture {
-                                if isEditMode {
-                                    if let index = selectedMixedSoundIds.firstIndex(where: {$0 == mixedSound.id}) {
-                                        selectedMixedSoundIds.remove(at: index)
-                                    } else {
-                                        selectedMixedSoundIds.append(mixedSound.id)
-                                    }
+                        }
+                        .onTapGesture {
+                            if isEditMode {
+                                if let index = selectedMixedSoundIds.firstIndex(where: {$0 == mixedSound.id}) {
+                                    selectedMixedSoundIds.remove(at: index)
+                                } else {
+                                    selectedMixedSoundIds.append(mixedSound.id)
                                 }
                             }
+                        }
                     }
                 }
             }
@@ -91,7 +91,7 @@ struct CDListView: View {
                     userRepositoriesState = userRepositories
                     
                     // TODO: - 추후 다른 방식으로 수정
-                    musicViewModel.updateCDList(cdList: userRepositoriesState.map{mixedSound in mixedSound.name})
+                    musicViewModel.sendMessage(key: "list", userRepositoriesState.map{mixedSound in mixedSound.name})
                 } catch {
                     print("Unable to Decode Note (\(error))")
                 }
@@ -103,11 +103,13 @@ struct CDListView: View {
             }
         }
         .fullScreenCover(isPresented: $showOnboarding) {
-//            StudioView(rootIsActive: $showOnboarding)
-            OnboardingView(showOnboarding: $showOnboarding)
+            NavigationView {
+                StudioView(rootIsActive: $showOnboarding, viewType: .onboarding)
+            }
+            //            OnboardingView(showOnboarding: $showOnboarding)
         }
-        .onChange(of: isShwoingMusicView) { newValue in
-            if isShwoingMusicView == false {
+        .onChange(of: isShowingMusicView) { newValue in
+            if isShowingMusicView == false {
                 if let data = UserDefaultsManager.shared.recipes {
                     do {
                         let decoder = JSONDecoder()
@@ -126,8 +128,7 @@ struct CDListView: View {
                 selectedMixedSoundIds.forEach { id in
                     if let index = userRepositories.firstIndex(where: {$0.id == id}) {
                         userRepositories.remove(at: index)
-                        // TODO: - 추후 다른 방식으로 수정
-                        musicViewModel.updateCDList(cdList: userRepositoriesState.map{mixedSound in mixedSound.name})
+                        musicViewModel.sendMessage(key: "list", userRepositoriesState.map{mixedSound in mixedSound.name})
                     }
                 }
                 let data = getEncodedData(data: userRepositories)
@@ -150,7 +151,7 @@ extension CDListView {
                 .font(.title)
                 .fontWeight(.semibold)
                 .foregroundColor(.systemGrey1)
-                
+            
             Spacer()
             
             Button(action: {
@@ -160,7 +161,7 @@ extension CDListView {
                     showingActionSheet = true
                 }
             }) {
-
+                
                 if selectedMixedSoundIds.isEmpty {
                     Text(isEditMode ? "Done" : "Edit")
                         .foregroundColor(Color.gray)
@@ -176,15 +177,16 @@ extension CDListView {
     
     var PlusCDImage: some View {
         VStack(alignment: .leading) {
-            NavigationLink(destination: StudioView(rootIsActive: self.$isActive), isActive: self.$isActive) {
+            NavigationLink(destination: StudioView(rootIsActive: self.$isActive, viewType: .studio), isActive: self.$isActive) {
                 ZStack {
+                    RoundedRectangle(cornerRadius: 4)
+                        .fill(Color.relaxBlack)
+                    RoundedRectangle(cornerRadius: 4)
+                        .strokeBorder()
                     VStack {
                         Image(systemName: "plus")
                             .font(Font.system(size: 54, weight: .ultraLight))
                     }
-                    
-                    RoundedRectangle(cornerRadius: 4)
-                        .strokeBorder()
                 }
                 .frame(width: UIScreen.main.bounds.width * 0.43, height: UIScreen.main.bounds.width * 0.43)
                 .foregroundColor(.systemGrey3)
