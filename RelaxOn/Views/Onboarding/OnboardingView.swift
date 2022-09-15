@@ -49,7 +49,7 @@ struct OnboardingView: View {
 
     // MARK: - Life Cycles
     var body: some View {
-        NavigationView{
+        NavigationView {
             ZStack {
                 Color.relaxBlack.ignoresSafeArea()
 
@@ -74,7 +74,8 @@ struct OnboardingView: View {
                             }
 
                             Spacer()
-                        }.padding()
+                        }
+                        .padding()
 
                         Spacer()
 
