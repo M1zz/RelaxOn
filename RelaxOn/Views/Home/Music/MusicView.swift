@@ -12,7 +12,7 @@ struct MusicView: View {
     @State private var isActive = false
     @State private var isFetchFirstData = true
     
-    @StateObject var viewModel = MusicViewModel()
+    @StateObject var viewModel: MusicViewModel
     @State var animatedValue : CGFloat = 55
     @State var maxWidth = UIScreen.main.bounds.width / 2.2
     @State var showVolumeControl: Bool = false
@@ -168,6 +168,7 @@ struct MusicView: View {
                    let whiteNoiseImageName = viewModel.mixedSound?.whiteNoiseSound?.fileName {
                     WidgetManager.addMainSoundToWidget(baseImageName: baseImageName, melodyImageName: melodyImageName, whiteNoiseImageName: whiteNoiseImageName, name: mixedSound.name, id: mixedSound.id, isPlaying: viewModel.isPlaying, isRecentPlay: false)
                 }
+                viewModel.isMusicViewPresented = true
             }
             .onReceive(viewModel.$mixedSound, perform: { mixedSound in
                 guard let changedMixedSound = mixedSound else { return }
@@ -178,6 +179,7 @@ struct MusicView: View {
             .onDisappear {
                 viewModel.stop()
                 userRepositoriesState = userRepositories
+                viewModel.isMusicViewPresented = false
                 UIApplication.shared.endReceivingRemoteControlEvents()
             }
             .navigationBarHidden(true)
