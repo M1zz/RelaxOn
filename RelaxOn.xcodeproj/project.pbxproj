@@ -18,6 +18,13 @@
 		2125024228D35E4B0017EBFB /* LockScreenWidgetExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2125024128D35E4B0017EBFB /* LockScreenWidgetExtension.swift */; };
 		2125024428D35E4C0017EBFB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2125024328D35E4C0017EBFB /* Assets.xcassets */; };
 		2125024828D35E4C0017EBFB /* LockScreenWidgetExtensionExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 2125023D28D35E4B0017EBFB /* LockScreenWidgetExtensionExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		2125024E28D361040017EBFB /* WidgetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5AC190289D69E500FE847B /* WidgetManager.swift */; };
+		2125025428D3625F0017EBFB /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC5AC106289C033C00FE847B /* WidgetKit.framework */; };
+		2125025528D3625F0017EBFB /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC5AC108289C033C00FE847B /* SwiftUI.framework */; };
+		2125025A28D362600017EBFB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2125025928D362600017EBFB /* Assets.xcassets */; };
+		2125025E28D362600017EBFB /* WatchOSLockScreenWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 2125025328D3625F0017EBFB /* WatchOSLockScreenWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		2125026328D3626D0017EBFB /* LockScreenWidgetExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2125024128D35E4B0017EBFB /* LockScreenWidgetExtension.swift */; };
+		2125026428D362850017EBFB /* WidgetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5AC190289D69E500FE847B /* WidgetManager.swift */; };
 		2125F1B928CE0299007BAB85 /* PageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2125F1B828CE0299007BAB85 /* PageView.swift */; };
 		2125F1BB28CE02BE007BAB85 /* CDPlayerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2125F1BA28CE02BD007BAB85 /* CDPlayerManager.swift */; };
 		2125F1BD28CE02D7007BAB85 /* WatchConnectivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2125F1BC28CE02D7007BAB85 /* WatchConnectivityManager.swift */; };
@@ -124,6 +131,13 @@
 			remoteGlobalIDString = 2125023C28D35E4B0017EBFB;
 			remoteInfo = LockScreenWidgetExtensionExtension;
 		};
+		2125025C28D362600017EBFB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 58DE61772839C13900F25769 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2125025228D3625F0017EBFB;
+			remoteInfo = WatchOSLockScreenWidgetExtension;
+		};
 		21B7A65728A31DE700E90744 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 58DE61772839C13900F25769 /* Project object */;
@@ -155,6 +169,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		2125026228D362600017EBFB /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				2125025E28D362600017EBFB /* WatchOSLockScreenWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		21B7A66E28A31DE800E90744 /* Embed Watch Content */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -202,6 +227,10 @@
 		2125024128D35E4B0017EBFB /* LockScreenWidgetExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockScreenWidgetExtension.swift; sourceTree = "<group>"; };
 		2125024328D35E4C0017EBFB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2125024528D35E4C0017EBFB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2125025328D3625F0017EBFB /* WatchOSLockScreenWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WatchOSLockScreenWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		2125025728D3625F0017EBFB /* WatchOSLockScreenWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchOSLockScreenWidget.swift; sourceTree = "<group>"; };
+		2125025928D362600017EBFB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		2125025B28D362600017EBFB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2125F1B828CE0299007BAB85 /* PageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageView.swift; sourceTree = "<group>"; };
 		2125F1BA28CE02BD007BAB85 /* CDPlayerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDPlayerManager.swift; sourceTree = "<group>"; };
 		2125F1BC28CE02D7007BAB85 /* WatchConnectivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchConnectivityManager.swift; sourceTree = "<group>"; };
@@ -302,6 +331,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		2125025028D3625F0017EBFB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2125025528D3625F0017EBFB /* SwiftUI.framework in Frameworks */,
+				2125025428D3625F0017EBFB /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		21B7A65228A31DE700E90744 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -343,6 +381,16 @@
 				2125024528D35E4C0017EBFB /* Info.plist */,
 			);
 			path = LockScreenWidgetExtension;
+			sourceTree = "<group>";
+		};
+		2125025628D3625F0017EBFB /* WatchOSLockScreenWidget */ = {
+			isa = PBXGroup;
+			children = (
+				2125025728D3625F0017EBFB /* WatchOSLockScreenWidget.swift */,
+				2125025928D362600017EBFB /* Assets.xcassets */,
+				2125025B28D362600017EBFB /* Info.plist */,
+			);
+			path = WatchOSLockScreenWidget;
 			sourceTree = "<group>";
 		};
 		2130E21628D01368009502F1 /* Views */ = {
@@ -537,6 +585,7 @@
 				CC5AC10A289C033C00FE847B /* RelaxOnWidget */,
 				C776B16F28B2620000A13052 /* RelaxOnUITests */,
 				2125024028D35E4B0017EBFB /* LockScreenWidgetExtension */,
+				2125025628D3625F0017EBFB /* WatchOSLockScreenWidget */,
 				CC5AC105289C033C00FE847B /* Frameworks */,
 				58DE61802839C13900F25769 /* Products */,
 			);
@@ -551,6 +600,7 @@
 				CC5AC104289C033C00FE847B /* RelaxOnWidgetExtension.appex */,
 				C776B16E28B2620000A13052 /* RelaxOnUITests.xctest */,
 				2125023D28D35E4B0017EBFB /* LockScreenWidgetExtensionExtension.appex */,
+				2125025328D3625F0017EBFB /* WatchOSLockScreenWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -706,6 +756,23 @@
 			productReference = 2125023D28D35E4B0017EBFB /* LockScreenWidgetExtensionExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
+		2125025228D3625F0017EBFB /* WatchOSLockScreenWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2125025F28D362600017EBFB /* Build configuration list for PBXNativeTarget "WatchOSLockScreenWidgetExtension" */;
+			buildPhases = (
+				2125024F28D3625F0017EBFB /* Sources */,
+				2125025028D3625F0017EBFB /* Frameworks */,
+				2125025128D3625F0017EBFB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WatchOSLockScreenWidgetExtension;
+			productName = WatchOSLockScreenWidgetExtension;
+			productReference = 2125025328D3625F0017EBFB /* WatchOSLockScreenWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		21B7A64C28A31DE600E90744 /* RelaxOnWatch */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 21B7A67528A31DE800E90744 /* Build configuration list for PBXNativeTarget "RelaxOnWatch" */;
@@ -730,10 +797,12 @@
 				21B7A65128A31DE700E90744 /* Sources */,
 				21B7A65228A31DE700E90744 /* Frameworks */,
 				21B7A65328A31DE700E90744 /* Resources */,
+				2125026228D362600017EBFB /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				2125025D28D362600017EBFB /* PBXTargetDependency */,
 			);
 			name = "RelaxOnWatch WatchKit Extension";
 			productName = "RelaxOnWatch WatchKit Extension";
@@ -810,6 +879,9 @@
 					2125023C28D35E4B0017EBFB = {
 						CreatedOnToolsVersion = 14.0;
 					};
+					2125025228D3625F0017EBFB = {
+						CreatedOnToolsVersion = 14.0;
+					};
 					21B7A64C28A31DE600E90744 = {
 						CreatedOnToolsVersion = 13.3;
 					};
@@ -848,6 +920,7 @@
 				CC5AC103289C033C00FE847B /* RelaxOnWidgetExtension */,
 				C776B16D28B2620000A13052 /* RelaxOnUITests */,
 				2125023C28D35E4B0017EBFB /* LockScreenWidgetExtensionExtension */,
+				2125025228D3625F0017EBFB /* WatchOSLockScreenWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -858,6 +931,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				2125024428D35E4C0017EBFB /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2125025128D3625F0017EBFB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2125025A28D362600017EBFB /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -931,6 +1012,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				2125024228D35E4B0017EBFB /* LockScreenWidgetExtension.swift in Sources */,
+				2125024E28D361040017EBFB /* WidgetManager.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2125024F28D3625F0017EBFB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2125026328D3626D0017EBFB /* LockScreenWidgetExtension.swift in Sources */,
+				2125026428D362850017EBFB /* WidgetManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1040,6 +1131,11 @@
 			target = 2125023C28D35E4B0017EBFB /* LockScreenWidgetExtensionExtension */;
 			targetProxy = 2125024628D35E4C0017EBFB /* PBXContainerItemProxy */;
 		};
+		2125025D28D362600017EBFB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2125025228D3625F0017EBFB /* WatchOSLockScreenWidgetExtension */;
+			targetProxy = 2125025C28D362600017EBFB /* PBXContainerItemProxy */;
+		};
 		21B7A65828A31DE700E90744 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 21B7A65428A31DE700E90744 /* RelaxOnWatch WatchKit Extension */;
@@ -1132,6 +1228,70 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		2125026028D362600017EBFB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = QGAQ3AY3R3;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WatchOSLockScreenWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = WatchOSLockScreenWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.LullabyRecipe.watchkitapp.watchkitextension.WatchOSLockScreenWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
+			};
+			name = Debug;
+		};
+		2125026128D362600017EBFB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = QGAQ3AY3R3;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WatchOSLockScreenWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = WatchOSLockScreenWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.LullabyRecipe.watchkitapp.watchkitextension.WatchOSLockScreenWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Release;
 		};
@@ -1557,6 +1717,15 @@
 			buildConfigurations = (
 				2125024928D35E4C0017EBFB /* Debug */,
 				2125024A28D35E4C0017EBFB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2125025F28D362600017EBFB /* Build configuration list for PBXNativeTarget "WatchOSLockScreenWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2125026028D362600017EBFB /* Debug */,
+				2125026128D362600017EBFB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

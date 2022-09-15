@@ -21,7 +21,7 @@ final class WidgetManager {
     static let suiteName = "group.relaxOn.widget.appGroup"
     static let smallWidgetData = "smallWidgetData"
     static let widgetName = "RelaxOnWidget"
-    static let lockScreenwidgetName = "RelaxOnLockScreenWidget"
+    static let lockScreenwidgetName = "RelaxOnLockScreenWidgetExtension"
     static let lockScreenWidgetData = "lockScreenWidgetData"
 
     
