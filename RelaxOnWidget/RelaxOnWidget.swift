@@ -70,7 +70,7 @@ extension RelaxOnWidgetEntryView {
     func CurrentSoundWidget() -> some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(alignment: .top, spacing: 0) {
-                ZStack{
+                ZStack {
                     Image(entry.data.baseImageName)
                         .resizable()
                         .scaledToFit()
@@ -102,7 +102,7 @@ extension RelaxOnWidgetEntryView {
         }
         .padding(18)
         .background(
-            ZStack{
+            ZStack {
                 if entry.data.isRecentPlay {
                     Image("WidgetBackground")
                         .resizable()
@@ -144,7 +144,7 @@ struct RelaxOnWidget: Widget {
 
 struct RelaxOnWidget_Previews: PreviewProvider {
     static var previews: some View {
-        RelaxOnWidgetEntryView(entry: CDWidgetEntry(date: Date(), isSample: false, data: SmallWidgetData(baseImageName: BaseAudioName.oxygen.fileName, melodyImageName: MelodyAudioName.garden.fileName, whiteNoiseImageName: WhiteNoiseAudioName.umbrellaRain.fileName, name: "Forest Relax", id: 1, isPlaying: false, isRecentPlay: false)))
+        RelaxOnWidgetEntryView(entry: CDWidgetEntry(date: Date(), isSample: false, data: SmallWidgetData(baseImageName: BaseSound.oxygen.fileName, melodyImageName: MelodySound.garden.fileName, whiteNoiseImageName: WhiteNoiseSound.umbrellaRain.fileName, name: "Forest Relax", id: 1, isPlaying: false, isRecentPlay: false)))
             .previewContext(WidgetPreviewContext(family: .systemSmall))
     }
 }

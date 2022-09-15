@@ -10,15 +10,12 @@ import MediaPlayer
 
 struct CdLibraryView: View {
     
-    @State var showOnboarding: Bool = false
-    @State var userRepositoriesData = userRepositories
-    
     var body: some View {
         NavigationView {
             VStack {
                 TimerNavigationLinkView()
                     .padding(.top, 56)
-                CDListView(userRepositoriesState: userRepositoriesData)
+                CDListView()
                 Spacer()
             }
             .background(Color.relaxBlack)
@@ -26,10 +23,7 @@ struct CdLibraryView: View {
         }
         .preferredColorScheme(.dark)
         .navigationViewStyle(.stack)
-        .onAppear() {
-            let notFirstVisit = UserDefaultsManager.shared.notFirstVisit
-            showOnboarding = notFirstVisit ? false : true
-            
+        .onAppear {
             let session = AVAudioSession.sharedInstance()
                do{
                    try session.setActive(true)
@@ -38,11 +32,6 @@ struct CdLibraryView: View {
                    print(error.localizedDescription)
                }
         }
-        .fullScreenCover(isPresented: $showOnboarding, onDismiss: {
-            userRepositoriesData = userRepositories
-        } ,content: {
-            OnboardingView(showOnboarding: $showOnboarding)
-        })
     }
 }
 
