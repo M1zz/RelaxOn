@@ -50,7 +50,11 @@ final class TimerManager: ObservableObject {
     }
     
     func getRemainedSecond() -> Int {
-        return musicTimer.remainedSecond
+        if musicTimer.timerOn {
+            return musicTimer.remainedSecond
+        } else {
+            return 0
+        }
     }
     
     func getRemainedMinute() -> Int {
