@@ -60,8 +60,9 @@ final class MusicViewModel: NSObject, ObservableObject {
     
     @Published var mixedSound: MixedSound? {
         didSet {
-            startPlayer()
-            
+            if oldValue?.name != mixedSound?.name {
+                startPlayer()
+            }
         }
     }
     

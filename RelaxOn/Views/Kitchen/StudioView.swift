@@ -191,6 +191,7 @@ extension StudioView {
             }.padding(.horizontal, 15)
         }
         .onAppear {
+            viewModel.isPlaying = false
             if self.viewType == .onboarding {
                 withAnimation(.default) {
                     stepBarWidth = deviceFrame.screenWidth * CGFloat( Double(select + 1) * 0.333 )
