@@ -21,6 +21,9 @@ final class WidgetManager {
     static let suiteName = "group.relaxOn.widget.appGroup"
     static let smallWidgetData = "smallWidgetData"
     static let widgetName = "RelaxOnWidget"
+    static let lockScreenwidgetName = "RelaxOnLockScreenWidgetExtension"
+    static let lockScreenWidgetData = "lockScreenWidgetData"
+
     
     static func addMainSoundToWidget(baseImageName: String, melodyImageName: String, whiteNoiseImageName: String, name: String, id: Int, isPlaying: Bool, isRecentPlay: Bool) {
         let data = SmallWidgetData(baseImageName: baseImageName, melodyImageName: melodyImageName, whiteNoiseImageName: whiteNoiseImageName, name: name, id: id, isPlaying: isPlaying, isRecentPlay: isRecentPlay)
@@ -44,6 +47,13 @@ final class WidgetManager {
             WidgetCenter.shared.reloadTimelines(ofKind: widgetName)
         }
     }
+    
+    static func setupTimerToLockScreendWidget(settedSeconds: Double) {
+         if let UserDefaultsAppGroup = UserDefaults(suiteName: suiteName) {
+             UserDefaultsAppGroup.set(settedSeconds, forKey: lockScreenWidgetData)
+             WidgetCenter.shared.reloadTimelines(ofKind: lockScreenwidgetName)
+         }
+     }
     
     static func getURL(id: Int) -> URL? {
         if let url = URL(string: "RelaxOn:///MixedSound\(id)") {

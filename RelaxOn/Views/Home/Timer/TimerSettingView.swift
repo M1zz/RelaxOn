@@ -10,6 +10,7 @@ import SwiftUI
 struct TimerSettingView: View {
 
     @State var seconds: Double = UserDefaults.standard.double(forKey: "lastSetDurationInSeconds")
+    @State private var isPresent = false
     var minute: Int {
         Int(seconds / 60)
     }
@@ -77,6 +78,7 @@ extension TimerSettingView {
     func timerSettingButton() -> some View {
         Button {
             timerManager.start(countDownDuration: seconds)
+            WidgetManager.setupTimerToLockScreendWidget(settedSeconds: seconds)
         } label: {
             Text("SAVE")
                 .font(.system(size: 20, weight: .medium))
