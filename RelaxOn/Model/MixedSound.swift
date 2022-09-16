@@ -41,9 +41,9 @@ extension MixedSound {
     }
     
     static let preview = MixedSound(name: "Preview",
-                                    baseSound: Sound.empty(0),
-                                    melodySound: Sound.empty(1),
-                                    whiteNoiseSound: Sound.empty(2),
+                                    baseSound: Sound.empty(0, .base),
+                                    melodySound: Sound.empty(1, .melody),
+                                    whiteNoiseSound: Sound.empty(2, .whiteNoise),
                                     fileName: "Recipe1")
     
     func getImageName() -> (String, String, String) {
@@ -56,8 +56,8 @@ extension MixedSound {
 }
 
 let emptyMixedSound = MixedSound(name: "empty",
-                                 baseSound: Sound.empty(0),
-                                 melodySound: Sound.empty(1),
-                                 whiteNoiseSound: Sound.empty(2),
+                                 baseSound: Sound.empty(0, .base),
+                                 melodySound: Sound.empty(1, .melody),
+                                 whiteNoiseSound: Sound.empty(2, .whiteNoise),
                                  fileName: "")
 

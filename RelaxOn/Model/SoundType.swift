@@ -13,7 +13,7 @@ enum SoundType: String, CaseIterable, Codable {
     case whiteNoise
     
     var soundList: [Sound] {
-        var soundList = [Sound.empty(self.index)]
+        var soundList = [Sound.empty(self.index, self)]
         switch self {
         case .base:
             soundList.append(contentsOf: BaseSound.soundList)

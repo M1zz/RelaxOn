@@ -27,7 +27,6 @@ struct Provider: TimelineProvider {
         if var timerData = UserDefaults(suiteName: WidgetManager.suiteName)!.value(forKey: WidgetManager.lockScreenWidgetData) as? Double {
             let endDate = Calendar.current.date(byAdding: .second, value: Int(timerData), to: currentDate)
             var addedSeconds: Double = 0
-            print("됐음둥1", timerData)
             while timerData >= 0 {
                 let entry = CDLockScreenWidgetEntry(date: currentDate + addedSeconds, startDate: currentDate, endDate: endDate ?? Date(), settedSeconds: timerData)
                 entries.append(entry)
@@ -49,7 +48,6 @@ struct Provider: TimelineProvider {
             entries.append(entry)
             let timeline = Timeline(entries: entries, policy: .never)
             completion(timeline)
-            print("안됐음둥")
         }
     }
 }

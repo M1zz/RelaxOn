@@ -14,11 +14,11 @@ struct Sound: Identifiable, Codable {
     var audioVolume: Float
     let fileName: String
     
-    static let empty: (Int) -> Sound = {
+    static let empty: (Int, SoundType) -> Sound = {
         return Sound(id: $0 * 10,
                      name: "Empty",
-                     soundType: .base,
-                     audioVolume: 0.8,
+                     soundType: $1,
+                     audioVolume: 0.5,
                      fileName: "")
     }
 }

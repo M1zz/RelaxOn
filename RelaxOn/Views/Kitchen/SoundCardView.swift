@@ -75,7 +75,7 @@ struct SoundCardView: View {
 struct SoundCard_Previews: PreviewProvider {
     static var previews: some View {
         SoundCardView(soundFileName : "base_default",
-                      data: SoundType.base.soundList.first ?? Sound.empty(0),
+                      data: SoundType.base.soundList.first ?? Sound.empty(0, .base),
                   callback: {_,_  in },
                   selectedID: "")
         .background(Color.backgroundColor)
