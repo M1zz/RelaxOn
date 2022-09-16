@@ -10,7 +10,7 @@ import SwiftUI
 struct TimerNavigationLinkView: View {
     
     @ObservedObject var timerManager = TimerManager.shared
-    
+    @State private var isPresentedByLockScreenWidget = false
     var body: some View {
         VStack(spacing: 6) {
             CustomNavigationLink(destination : TimerSettingView()) {
@@ -28,6 +28,9 @@ struct TimerNavigationLinkView: View {
                 Spacer()
             }
         }.padding(.horizontal, 20)
+            .onOpenURL { url in
+                self.isPresentedByLockScreenWidget = url == URL(string: "RelaxOn:///TimerSettingView")
+            }
     }
     
     var label: some View {
