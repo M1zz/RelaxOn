@@ -69,7 +69,6 @@
 		C776B17328B2620000A13052 /* RelaxOnUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C776B17228B2620000A13052 /* RelaxOnUITestsLaunchTests.swift */; };
 		C7A50DDC28D08FA000841BC6 /* MusicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A50DDB28D08FA000841BC6 /* MusicView.swift */; };
 		C7C4C25028C236D80048DCBA /* Sound.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7C4C24F28C236D80048DCBA /* Sound.xcassets */; };
-		C7C4C25228C237DA0048DCBA /* Widget.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7C4C25128C237DA0048DCBA /* Widget.xcassets */; };
 		C7C4C25428C238110048DCBA /* Color.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7C4C25328C238110048DCBA /* Color.xcassets */; };
 		C7C4C25828C242BB0048DCBA /* SoundType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C4C25728C242BB0048DCBA /* SoundType.swift */; };
 		C7C4C25928C243840048DCBA /* SoundType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C4C25728C242BB0048DCBA /* SoundType.swift */; };
@@ -247,7 +246,6 @@
 		C776B17228B2620000A13052 /* RelaxOnUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelaxOnUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		C7A50DDB28D08FA000841BC6 /* MusicView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicView.swift; sourceTree = "<group>"; };
 		C7C4C24F28C236D80048DCBA /* Sound.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Sound.xcassets; sourceTree = "<group>"; };
-		C7C4C25128C237DA0048DCBA /* Widget.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Widget.xcassets; sourceTree = "<group>"; };
 		C7C4C25328C238110048DCBA /* Color.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Color.xcassets; sourceTree = "<group>"; };
 		C7C4C25728C242BB0048DCBA /* SoundType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundType.swift; sourceTree = "<group>"; };
 		C7FDCA8B28D094E0008FA749 /* MusicViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicViewDelegate.swift; sourceTree = "<group>"; };
@@ -559,7 +557,6 @@
 			isa = PBXGroup;
 			children = (
 				58DE61862839C13A00F25769 /* Assets.xcassets */,
-				C7C4C25128C237DA0048DCBA /* Widget.xcassets */,
 				C7C4C24F28C236D80048DCBA /* Sound.xcassets */,
 				C7C4C25328C238110048DCBA /* Color.xcassets */,
 			);
@@ -785,7 +782,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C7C4C25228C237DA0048DCBA /* Widget.xcassets in Resources */,
 				580CADB828659FAF0091946C /* Relaxing.mp3 in Resources */,
 				580CADAC28659C990091946C /* SpaceMid.mp3 in Resources */,
 				58DE618A2839C13A00F25769 /* Preview Assets.xcassets in Resources */,
