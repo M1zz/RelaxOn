@@ -73,4 +73,8 @@ final class TimerManager: ObservableObject {
     func stop() {
         musicTimer.timerStop = true
     }
+    
+    func cancel() {
+        musicTimer.remainedSecond = -1
+    }
 }
