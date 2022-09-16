@@ -25,12 +25,6 @@ struct CDListView: View {
     // TODO: - 추후 다른 방식으로 수정
     @EnvironmentObject var viewModel: MusicViewModel
     
-    // MARK: - Life Cycles
-    init(userRepositoriesState: Binding<[MixedSound]>) {
-        UINavigationBar.appearance().tintColor = UIColor.relaxDimPurple ?? .white
-        self._userRepositoriesState = userRepositoriesState
-    }
-    
     var body: some View {
         VStack {
             LibraryHeader

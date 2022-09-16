@@ -18,42 +18,20 @@ struct TimerSettingView: View {
     @ObservedObject var timerManager = TimerManager.shared
     
     var body: some View {
-        VStack {
-            header
-            Spacer()
-            timePickerView()
-            Spacer()
-            timerSettingButton()
+        ZStack{
+            Color.relaxBlack.ignoresSafeArea()
+            VStack {
+                Spacer()
+                if timerManager.isOn {
+                    TimerProgressBarView()
+                } else {
+                    timePickerView()
+                }
+                Spacer()
+                timerSettingButton()
+            }
         }
         .navigationBarTitleDisplayMode(.large)
-        .background(Color.relaxBlack)
-    }
-    
-    var header: some View {
-        return VStack(spacing: 6) {
-            HStack(alignment: .bottom) {
-                Text("Relax for")
-                    .font(.system(size: 28, weight: .semibold))
-                    .foregroundColor(.systemGrey1)
-                    .padding(.bottom, 2)
-                Spacer()
-                Text("\(minute)")
-                    .font(.system(size: 28, weight: .regular))
-                    .foregroundColor(.relaxDimPurple)
-                Text("min")
-                    .font(.system(size: 18, weight: .regular))
-                    .foregroundColor(.relaxDimPurple)
-                    .padding(.bottom, 3)
-            }
-            Divider().background(.white)
-                .padding(.bottom, 5)
-            HStack() {
-                Text("After \(minute) minutes, Relax On will automatically end")
-                    .font(.system(size: 16))
-                    .foregroundColor(.systemGrey1)
-                Spacer()
-            }
-        }.padding(.horizontal, 20)
     }
 }
 
@@ -80,7 +58,7 @@ extension TimerSettingView {
             timerManager.start(countDownDuration: seconds)
             WidgetManager.setupTimerToLockScreendWidget(settedSeconds: seconds)
         } label: {
-            Text("SAVE")
+            Text("START")
                 .font(.system(size: 20, weight: .medium))
                 .frame(width: deviceFrame.screenWidth - 40, height: Layout.SaveButton.height)
                 .foregroundColor(.white)
