@@ -98,6 +98,7 @@
 		CBFDC8F4289C23AC00386FB5 /* VolumeSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBFDC8F3289C23AC00386FB5 /* VolumeSlider.swift */; };
 		CC04E26328BDA3F800509C60 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC04E26228BDA3F800509C60 /* AppDelegate.swift */; };
 		CC04E26528BDA45900509C60 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC04E26428BDA45900509C60 /* SceneDelegate.swift */; };
+		CC086BA428D4370200AE4AE7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC5AC10E289C033D00FE847B /* Assets.xcassets */; };
 		CC2820482880102400587334 /* ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC2820472880102400587334 /* ViewModifiers.swift */; };
 		CC5AC107289C033C00FE847B /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC5AC106289C033C00FE847B /* WidgetKit.framework */; };
 		CC5AC109289C033C00FE847B /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC5AC108289C033C00FE847B /* SwiftUI.framework */; };
@@ -1008,8 +1009,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CCAE57C928D1CEE400AC3FEA /* Localizable.strings in Resources */,
-				CC5AC10F289C033D00FE847B /* Assets.xcassets in Resources */,
+				CC086BA428D4370200AE4AE7 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
