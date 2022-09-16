@@ -83,7 +83,7 @@ enum MelodySound: String, CaseIterable {
         return self.allCases.enumerated().map {
             Sound(id: $0.offset + 1 + 10,
                   name: $0.element.displayName,
-                  soundType: .base,
+                  soundType: .melody,
                   audioVolume: 0.8,
                   fileName: $0.element.fileName)
         }
@@ -109,7 +109,7 @@ enum WhiteNoiseSound: String, CaseIterable {
         return self.allCases.enumerated().map {
             Sound(id: $0.offset + 1 + 20,
                   name: $0.element.displayName,
-                  soundType: .base,
+                  soundType: .whiteNoise,
                   audioVolume: 0.8,
                   fileName: $0.element.fileName)
         }
