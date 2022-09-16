@@ -49,7 +49,7 @@ extension TimerSettingView {
     func timePickerView() -> some View {
         TimePicker(seconds: $seconds)
             .environment(\.colorScheme, .dark) // 흰새 글씨로 바뀜
-            .background(.black)
+            .background(Color.relaxBlack)
     }
     
     @ViewBuilder
