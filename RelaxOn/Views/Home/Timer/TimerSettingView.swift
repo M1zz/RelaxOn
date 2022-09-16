@@ -55,10 +55,14 @@ extension TimerSettingView {
     @ViewBuilder
     func timerSettingButton() -> some View {
         Button {
-            timerManager.start(countDownDuration: seconds)
-            WidgetManager.setupTimerToLockScreendWidget(settedSeconds: seconds)
+            if timerManager.isOn {
+                timerManager.cancel()
+            } else {
+                timerManager.start(countDownDuration: seconds)
+                WidgetManager.setupTimerToLockScreendWidget(settedSeconds: seconds)
+            }
         } label: {
-            Text("START")
+            Text(timerManager.isOn ? "CANCEL" : "START")
                 .font(.system(size: 20, weight: .medium))
                 .frame(width: deviceFrame.screenWidth - 40, height: Layout.SaveButton.height)
                 .foregroundColor(.white)
