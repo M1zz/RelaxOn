@@ -57,6 +57,7 @@ extension TimerSettingView {
         Button {
             if timerManager.isOn {
                 timerManager.cancel()
+                WidgetManager.setupTimerToLockScreendWidget(settedSeconds: 0)
             } else {
                 timerManager.start(countDownDuration: seconds)
                 WidgetManager.setupTimerToLockScreendWidget(settedSeconds: seconds)
