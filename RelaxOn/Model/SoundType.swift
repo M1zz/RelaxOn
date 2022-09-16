@@ -58,7 +58,7 @@ enum BaseSound: String, CaseIterable {
             Sound(id: $0.offset + 1,
                   name: $0.element.displayName,
                   soundType: .base,
-                  audioVolume: 0.8,
+                  audioVolume: 0.5,
                   fileName: $0.element.fileName)
         }
     }
@@ -84,7 +84,7 @@ enum MelodySound: String, CaseIterable {
             Sound(id: $0.offset + 1 + 10,
                   name: $0.element.displayName,
                   soundType: .melody,
-                  audioVolume: 0.8,
+                  audioVolume: 0.5,
                   fileName: $0.element.fileName)
         }
     }
@@ -110,7 +110,7 @@ enum WhiteNoiseSound: String, CaseIterable {
             Sound(id: $0.offset + 1 + 20,
                   name: $0.element.displayName,
                   soundType: .whiteNoise,
-                  audioVolume: 0.8,
+                  audioVolume: 0.5,
                   fileName: $0.element.fileName)
         }
     }
