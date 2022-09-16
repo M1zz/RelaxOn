@@ -82,7 +82,6 @@
 		C776B17328B2620000A13052 /* RelaxOnUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C776B17228B2620000A13052 /* RelaxOnUITestsLaunchTests.swift */; };
 		C7A50DDC28D08FA000841BC6 /* MusicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A50DDB28D08FA000841BC6 /* MusicView.swift */; };
 		C7C4C25028C236D80048DCBA /* Sound.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7C4C24F28C236D80048DCBA /* Sound.xcassets */; };
-		C7C4C25228C237DA0048DCBA /* Widget.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7C4C25128C237DA0048DCBA /* Widget.xcassets */; };
 		C7C4C25428C238110048DCBA /* Color.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7C4C25328C238110048DCBA /* Color.xcassets */; };
 		C7C4C25828C242BB0048DCBA /* SoundType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C4C25728C242BB0048DCBA /* SoundType.swift */; };
 		C7C4C25928C243840048DCBA /* SoundType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C4C25728C242BB0048DCBA /* SoundType.swift */; };
@@ -115,7 +114,7 @@
 		CC5AC13B289D256100FE847B /* MixedSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5769AB2866F20A007CCAE9 /* MixedSound.swift */; };
 		CC5AC192289D6CD200FE847B /* WidgetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5AC190289D69E500FE847B /* WidgetManager.swift */; };
 		CCA7F51E2877501E00D6A239 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CCA7F5202877501E00D6A239 /* Localizable.strings */; };
-		CCAE57CB28D1CFFB00AC3FEA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CCA7F5202877501E00D6A239 /* Localizable.strings */; };
+		CCAE57C928D1CEE400AC3FEA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CCA7F5202877501E00D6A239 /* Localizable.strings */; };
 		E211ED052896D051002843EE /* MusicTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E211ED042896D051002843EE /* MusicTimer.swift */; };
 		E211ED072896D06A002843EE /* TimerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E211ED062896D06A002843EE /* TimerManager.swift */; };
 		E24F21E228ABE1A100371BA4 /* MultiPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24F21E128ABE1A000371BA4 /* MultiPreview.swift */; };
@@ -295,7 +294,6 @@
 		C776B17228B2620000A13052 /* RelaxOnUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelaxOnUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		C7A50DDB28D08FA000841BC6 /* MusicView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicView.swift; sourceTree = "<group>"; };
 		C7C4C24F28C236D80048DCBA /* Sound.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Sound.xcassets; sourceTree = "<group>"; };
-		C7C4C25128C237DA0048DCBA /* Widget.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Widget.xcassets; sourceTree = "<group>"; };
 		C7C4C25328C238110048DCBA /* Color.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Color.xcassets; sourceTree = "<group>"; };
 		C7C4C25728C242BB0048DCBA /* SoundType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundType.swift; sourceTree = "<group>"; };
 		C7FDCA8B28D094E0008FA749 /* MusicViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicViewDelegate.swift; sourceTree = "<group>"; };
@@ -684,7 +682,6 @@
 			isa = PBXGroup;
 			children = (
 				58DE61862839C13A00F25769 /* Assets.xcassets */,
-				C7C4C25128C237DA0048DCBA /* Widget.xcassets */,
 				C7C4C24F28C236D80048DCBA /* Sound.xcassets */,
 				C7C4C25328C238110048DCBA /* Color.xcassets */,
 			);
@@ -971,7 +968,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C7C4C25228C237DA0048DCBA /* Widget.xcassets in Resources */,
 				580CADB828659FAF0091946C /* Relaxing.mp3 in Resources */,
 				580CADAC28659C990091946C /* SpaceMid.mp3 in Resources */,
 				58DE618A2839C13A00F25769 /* Preview Assets.xcassets in Resources */,
@@ -1007,7 +1003,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CCAE57CB28D1CFFB00AC3FEA /* Localizable.strings in Resources */,
+				CCAE57C928D1CEE400AC3FEA /* Localizable.strings in Resources */,
+				CC5AC10F289C033D00FE847B /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
