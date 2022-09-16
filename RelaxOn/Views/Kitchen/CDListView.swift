@@ -122,9 +122,11 @@ struct CDListView: View {
                 selectedMixedSoundIds.forEach { id in
                     if let index = userRepositories.firstIndex(where: {$0.id == id}) {
                         userRepositories.remove(at: index)
+                        
                         viewModel.sendMessage(key: "list", userRepositoriesState.map{mixedSound in mixedSound.name})
                     }
                 }
+                userRepositoriesState = userRepositories
                 let data = getEncodedData(data: userRepositories)
                 UserDefaults.standard.set(data, forKey: "recipes")
                 selectedMixedSoundIds = []
