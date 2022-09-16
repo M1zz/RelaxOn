@@ -261,6 +261,7 @@ extension MusicView {
                     let data = getEncodedData(data: userRepositories)
                     UserDefaultsManager.shared.recipes = data
                     userRepositoriesState = userRepositories
+                    viewModel.mixedSound = nil
                     presentationMode.wrappedValue.dismiss()
                 } label: {
                     HStack{
