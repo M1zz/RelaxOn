@@ -21,6 +21,7 @@ struct MusicView: View {
     @State private var cdNameFontSize = 28.0
     @State private var musicControlButtonWidth = 49.0
     @State private var musicPlayButtonWidth = 44.0
+    @State private var isEditingVolume = false
     
     var timerManager = TimerManager.shared
     
@@ -80,61 +81,66 @@ struct MusicView: View {
                 
                 VolumeControlView(showVolumeControl: $showVolumeControl,
                                   audioVolumes: $audioVolumes,
-                                  userRepositoriesState: $userRepositoriesState)
+                                  userRepositoriesState: $userRepositoriesState,
+                                  isEditingVolume: $isEditingVolume)
                 .cornerRadius(20)
                 .offset(y: offsetYOfControlView)
                 .gesture(
                     DragGesture()
                         .onChanged { value in
-                            let draggedHeight = value.translation.height
-                            let deviceHalfHeight = UIScreen.main.bounds.height * 0.5
-                            let gradient = draggedHeight / deviceHalfHeight
-                            offsetYOfControlView += draggedHeight / 5
-                            
-                            if value.location.y > UIScreen.main.bounds.height * 0.82 {
-                                return
-                            } else if offsetYOfControlView == deviceHalfHeight {
-                                return
-                            } else {
-                                if value.translation.height > 0 {
-                                    cdViewWidth = UIScreen.main.bounds.width * 0.54 * gradient + UIScreen.main.bounds.width * 0.46
-                                    cdViewHeight = UIScreen.main.bounds.height * 0.3 * gradient + UIScreen.main.bounds.height * 0.33
-                                    cdNameFontSize = 6.0 * gradient + 22.0
-                                    musicPlayButtonWidth = 18 * gradient + 26.0
-                                    musicControlButtonWidth = 26 * gradient + 23
+                            if !isEditingVolume {
+                                let draggedHeight = value.translation.height
+                                let deviceHalfHeight = UIScreen.main.bounds.height * 0.5
+                                let gradient = draggedHeight / deviceHalfHeight
+                                offsetYOfControlView += draggedHeight / 5
+                                
+                                if value.location.y > UIScreen.main.bounds.height * 0.82 {
+                                    return
+                                } else if offsetYOfControlView == deviceHalfHeight {
+                                    return
                                 } else {
-                                    cdViewWidth = UIScreen.main.bounds.width * 0.54 * (gradient) + UIScreen.main.bounds.width
-                                    cdViewHeight = UIScreen.main.bounds.height * 0.3 * (gradient) + UIScreen.main.bounds.height * 0.63
-                                    cdNameFontSize = 6.0 * (gradient) + 28.0
-                                    musicPlayButtonWidth = 18.0 * (gradient) + 44
-                                    musicControlButtonWidth = 26 * (gradient) + 49
+                                    if value.translation.height > 0 {
+                                        cdViewWidth = UIScreen.main.bounds.width * 0.54 * gradient + UIScreen.main.bounds.width * 0.46
+                                        cdViewHeight = UIScreen.main.bounds.height * 0.3 * gradient + UIScreen.main.bounds.height * 0.33
+                                        cdNameFontSize = 6.0 * gradient + 22.0
+                                        musicPlayButtonWidth = 18 * gradient + 26.0
+                                        musicControlButtonWidth = 26 * gradient + 23
+                                    } else {
+                                        cdViewWidth = UIScreen.main.bounds.width * 0.54 * (gradient) + UIScreen.main.bounds.width
+                                        cdViewHeight = UIScreen.main.bounds.height * 0.3 * (gradient) + UIScreen.main.bounds.height * 0.63
+                                        cdNameFontSize = 6.0 * (gradient) + 28.0
+                                        musicPlayButtonWidth = 18.0 * (gradient) + 44
+                                        musicControlButtonWidth = 26 * (gradient) + 49
+                                    }
                                 }
                             }
                         }
                         .onEnded { value in
-                            withAnimation(.spring()) {
-                                let draggedHeight = value.predictedEndTranslation.height
-                                if draggedHeight < -30 {
-                                    offsetYOfControlView = UIScreen.main.bounds.height * 0.46
-                                    cdViewWidth = UIScreen.main.bounds.width * 0.46
-                                    cdViewHeight = UIScreen.main.bounds.height * 0.33
-                                    cdNameFontSize = 22.0
-                                    musicPlayButtonWidth = 26.0
-                                    musicControlButtonWidth = 23
-                                } else if draggedHeight > 30 {
-                                    offsetYOfControlView = UIScreen.main.bounds.height * 0.83
-                                    cdViewWidth = UIScreen.main.bounds.width
-                                    cdViewHeight = UIScreen.main.bounds.height * 0.63
-                                    cdNameFontSize = 28.0
-                                    musicPlayButtonWidth = 44
-                                    musicControlButtonWidth = 49
-                                } else {
-                                    offsetYOfControlView = UIScreen.main.bounds.height * 0.83
-                                    cdViewWidth = UIScreen.main.bounds.width
-                                    cdViewHeight = UIScreen.main.bounds.height * 0.63
-                                    cdNameFontSize = 28.0
-                                    musicPlayButtonWidth = 44
-                                    musicControlButtonWidth = 49
+                            if !isEditingVolume {
+                                withAnimation(.spring()) {
+                                    let draggedHeight = value.predictedEndTranslation.height
+                                    if draggedHeight < -30 {
+                                        offsetYOfControlView = UIScreen.main.bounds.height * 0.46
+                                        cdViewWidth = UIScreen.main.bounds.width * 0.46
+                                        cdViewHeight = UIScreen.main.bounds.height * 0.33
+                                        cdNameFontSize = 22.0
+                                        musicPlayButtonWidth = 26.0
+                                        musicControlButtonWidth = 23
+                                    } else if draggedHeight > 30 {
+                                        offsetYOfControlView = UIScreen.main.bounds.height * 0.83
+                                        cdViewWidth = UIScreen.main.bounds.width
+                                        cdViewHeight = UIScreen.main.bounds.height * 0.63
+                                        cdNameFontSize = 28.0
+                                        musicPlayButtonWidth = 44
+                                        musicControlButtonWidth = 49
+                                    } else {
+                                        offsetYOfControlView = UIScreen.main.bounds.height * 0.83
+                                        cdViewWidth = UIScreen.main.bounds.width
+                                        cdViewHeight = UIScreen.main.bounds.height * 0.63
+                                        cdNameFontSize = 28.0
+                                        musicPlayButtonWidth = 44
+                                        musicControlButtonWidth = 49
+                                    }
                                 }
                             }
                         }
