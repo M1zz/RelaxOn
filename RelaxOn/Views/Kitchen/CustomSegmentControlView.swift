@@ -15,18 +15,11 @@ public struct CustomSegmentControlView: View {
 
     // MARK: - General Properties
     private let items: [LocalizedStringKey]
-    
+
     private var selectedItemWidth: CGFloat {
         return itemTitleSizes.count > selection ? itemTitleSizes[selection].width : .zero
     }
-    
-//    private var xSpace: CGFloat {
-//        let itemWidthSum: CGFloat = itemTitleSizes.map { $0.width }.reduce(0, +).rounded()
-//        let space = (segmentSize.width - itemWidthSum) / CGFloat(items.count - 1)
-//        return max(space, 0)
-//
-//    }
-    
+
     // MARK: - Methods
     private func segmentItemView(for index: Int) -> some View {
         guard index < self.items.count else {
@@ -35,9 +28,8 @@ public struct CustomSegmentControlView: View {
 
         let isSelected = self.selection == index
 
-        return
-        Text(items[index])
-            .font(.body)
+        return Text(items[index])
+            .font(.caption)
             .foregroundColor(isSelected ? .white : .gray)
             .background(BackgroundGeometryReader())
             .onPreferenceChange(SizePreferenceKey.self) {
@@ -53,18 +45,11 @@ public struct CustomSegmentControlView: View {
     }
 
     private func selectedItemHorizontalOffset() -> CGFloat {
-        guard selectedItemWidth != .zero, selection != 0 else { return 20 }
-        // selected Item이전까지의 select된 title의 width값의 합
-        let result = itemTitleSizes
-            .enumerated()
-            .filter { $0.offset < selection }
-            .map { $0.element.width }
-            .reduce(0, +)
+        guard selectedItemWidth != .zero, selection != 0 else { return 30 }
 
-        return 20 + 36 * CGFloat(selection) + result
-//        return result + xSpace * CGFloat(selection)
+        return 30 + (deviceFrame.screenWidth * 0.295) * CGFloat(selection) + ( CGFloat(selection) == 2 ? deviceFrame.screenWidth * 0.03 : 0 )
     }
-    
+
     // MARK: - Life Cycles
     public init(items: [String],
                 selection: Binding<Int>) {
@@ -81,23 +66,22 @@ public struct CustomSegmentControlView: View {
                     HStack(spacing: 0) {
                         ForEach(0 ..< items.count, id: \.self) { index in
                             segmentItemView(for: index)
-                                .padding(.leading, index == 0 ? 20 : 36)
+                                .padding(.leading,
+                                         index == 0 ? 58 : ( index == 1 ? deviceFrame.screenWidth * 0.19 : deviceFrame.screenWidth * 0.16 ))
                         }
                     }
-                    .padding(.bottom, 2)
+                    .padding(.bottom, 5)
 
                     // 선택된 요소 밑줄
                     Rectangle()
                         .foregroundColor(.white)
-                        .frame(width: selectedItemWidth, height: 2)
+                        .frame(width: 88, height: 1)
                         .offset(x: selectedItemHorizontalOffset(), y: 0)
                         .animation(Animation.linear(duration: 0.3), value: selectedItemWidth)
 
                 }
-//                .padding(.horizontal, 36)
                 Spacer()
             }
-
         }
     }
 }

@@ -13,7 +13,8 @@ struct VolumeControlView: View {
     @Binding var showVolumeControl: Bool
     @Binding var audioVolumes: (baseVolume: Float, melodyVolume: Float, whiteNoiseVolume: Float)
     @Binding var userRepositoriesState: [MixedSound]
-    @ObservedObject var viewModel: MusicViewModel
+    @Binding var isEditingVolume: Bool
+    @EnvironmentObject var viewModel: MusicViewModel
     
     // MARK: - General Properties
     let baseAudioManager = AudioManager()
@@ -147,6 +148,9 @@ extension VolumeControlView {
                         Slider(value: $audioVolumes.baseVolume, in: 0...1) { editing in
                             if !editing {
                                 saveNewVolume()
+                                self.isEditingVolume = false
+                            } else {
+                                self.isEditingVolume = true
                             }
                         }
                         .background(.black)
@@ -154,7 +158,6 @@ extension VolumeControlView {
                         .accentColor(.white)
                         .padding(.horizontal, 20)
                         .onChange(of: audioVolumes.baseVolume) { newValue in
-                            print(newValue)
                             viewModel.baseAudioManager.changeVolume(track: item.fileName,
                                                                     volume: newValue)
                         }
@@ -164,6 +167,9 @@ extension VolumeControlView {
                         Slider(value: $audioVolumes.melodyVolume, in: 0...1) { editing in
                             if !editing {
                                 saveNewVolume()
+                                self.isEditingVolume = false
+                            } else {
+                                self.isEditingVolume = true
                             }
                         }
                         .background(.black)
@@ -171,7 +177,6 @@ extension VolumeControlView {
                         .accentColor(.white)
                         .padding(.horizontal, 20)
                         .onChange(of: audioVolumes.melodyVolume) { newValue in
-                            print(newValue)
                             viewModel.melodyAudioManager.changeVolume(track: item.fileName,
                                                                       volume: newValue)
                         }
@@ -181,6 +186,9 @@ extension VolumeControlView {
                         Slider(value: $audioVolumes.whiteNoiseVolume, in: 0...1) { editing in
                             if !editing {
                                 saveNewVolume()
+                                self.isEditingVolume = false
+                            } else {
+                                self.isEditingVolume = true
                             }
                         }
                         .background(.black)
@@ -188,7 +196,6 @@ extension VolumeControlView {
                         .accentColor(.white)
                         .padding(.horizontal, 20)
                         .onChange(of: audioVolumes.whiteNoiseVolume) { newValue in
-                            print(newValue)
                             viewModel.whiteNoiseAudioManager.changeVolume(track: item.fileName,
                                                                           volume: newValue)
                         }

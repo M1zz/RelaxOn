@@ -39,11 +39,25 @@ extension MixedSound {
         UserDefaultsManager.shared.lastMusicId = returnId
         return returnId
     }
+    
+    static let preview = MixedSound(name: "Preview",
+                                    baseSound: Sound.empty(0, .base),
+                                    melodySound: Sound.empty(1, .melody),
+                                    whiteNoiseSound: Sound.empty(2, .whiteNoise),
+                                    fileName: "Recipe1")
+    
+    func getImageName() -> (String, String, String) {
+        let baseImageName = baseSound?.fileName ?? ""
+        let melodyImageName = melodySound?.fileName ?? ""
+        let whiteNoiseImageName = whiteNoiseSound?.fileName ?? ""
+        
+        return (baseImageName, melodyImageName, whiteNoiseImageName)
+    }
 }
 
 let emptyMixedSound = MixedSound(name: "empty",
-                                 baseSound: emptySound,
-                                 melodySound: emptySound,
-                                 whiteNoiseSound: emptySound,
+                                 baseSound: Sound.empty(0, .base),
+                                 melodySound: Sound.empty(1, .melody),
+                                 whiteNoiseSound: Sound.empty(2, .whiteNoise),
                                  fileName: "")
 

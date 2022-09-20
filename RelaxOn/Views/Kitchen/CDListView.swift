@@ -10,123 +10,100 @@ import SwiftUI
 struct CDListView: View {
     // MARK: - State Properties
     @State var isActive: Bool = false
-    @State var userRepositoriesState: [MixedSound]
+    @Binding var userRepositoriesState: [MixedSound]
     @State var selectedImageNames = (
         base: "",
         melody: "",
         natural: ""
     )
+    @State var showOnboarding: Bool = false
     @State private var isEditMode = false
     @State private var selectedMixedSoundIds: [Int] = []
     @State private var showingActionSheet = false
-    @State var isShwoingMusicView = false
+    @State var isShowingMusicView = false
     
     // TODO: - 추후 다른 방식으로 수정
-    @StateObject var musicViewModel = MusicViewModel()
-    
-    // MARK: - Life Cycles
-    init(userRepositoriesState: [MixedSound]) {
-        UINavigationBar.appearance().tintColor = UIColor.relaxDimPurple ?? .white
-        self.userRepositoriesState = userRepositoriesState
-    }
+    @EnvironmentObject var viewModel: MusicViewModel
     
     var body: some View {
         VStack {
             LibraryHeader
             ScrollView(.vertical, showsIndicators: false) {
-
+                
                 LazyVGrid(columns: Array(repeating: GridItem(.flexible(), alignment: .top), count: 2), spacing: 18) {
                     PlusCDImage
                         .disabled(isEditMode)
-
-                    ForEach(userRepositoriesState.reversed()){ mixedSound in
-                        CDCardView(data: mixedSound,
-                                   isShwoingMusicView: $isShwoingMusicView,
-                                   userRepositoriesState: $userRepositoriesState)
-                            .disabled(isEditMode)
-                            .overlay(alignment : .bottomTrailing) {
-                                if isEditMode {
-                                    if selectedMixedSoundIds.firstIndex(where: {$0 == mixedSound.id}) != nil {
-                                        Image(systemName: "checkmark.circle.fill")
-                                            .resizable()
-                                            .frame(width: 24.0, height: 24.0)
-                                            .foregroundColor(.white)
-                                            .padding(.bottom, LayoutConstants.Padding.bottomOfRadioButton)
-                                            .padding(.trailing, LayoutConstants.Padding.trailingOfRadioButton)
-                                    } else {
-                                        Image(systemName: "circle")
-                                            .resizable()
-                                            .frame(width: 24.0, height: 24.0)
-                                            .foregroundColor(.white)
-                                            .background(Image(systemName: "circle.fill").foregroundColor(.gray).opacity(0.5))
-                                            .padding(.bottom, LayoutConstants.Padding.bottomOfRadioButton)
-                                            .padding(.trailing, LayoutConstants.Padding.trailingOfRadioButton)
-                                    }
+                    
+                    ForEach(userRepositoriesState){ mixedSound in
+                        CDCardView(isShowingMusicView: $isShowingMusicView,
+                                   userRepositoriesState: $userRepositoriesState,
+                                   data: mixedSound)
+                        .disabled(isEditMode)
+                        .overlay(alignment : .bottomTrailing) {
+                            if isEditMode {
+                                if selectedMixedSoundIds.firstIndex(where: {$0 == mixedSound.id}) != nil {
+                                    Image(systemName: "checkmark.circle.fill")
+                                        .resizable()
+                                        .frame(width: 24.0, height: 24.0)
+                                        .foregroundColor(.white)
+                                        .padding(.bottom, LayoutConstants.Padding.bottomOfRadioButton)
+                                        .padding(.trailing, LayoutConstants.Padding.trailingOfRadioButton)
+                                } else {
+                                    Image(systemName: "circle")
+                                        .resizable()
+                                        .frame(width: 24.0, height: 24.0)
+                                        .foregroundColor(.white)
+                                        .background(Image(systemName: "circle.fill").foregroundColor(.gray).opacity(0.5))
+                                        .padding(.bottom, LayoutConstants.Padding.bottomOfRadioButton)
+                                        .padding(.trailing, LayoutConstants.Padding.trailingOfRadioButton)
                                 }
                             }
-                            .onTapGesture {
-                                if isEditMode {
-                                    if let index = selectedMixedSoundIds.firstIndex(where: {$0 == mixedSound.id}) {
-                                        selectedMixedSoundIds.remove(at: index)
-                                    } else {
-                                        selectedMixedSoundIds.append(mixedSound.id)
-                                    }
+                        }
+                        .onTapGesture {
+                            if isEditMode {
+                                if let index = selectedMixedSoundIds.firstIndex(where: {$0 == mixedSound.id}) {
+                                    selectedMixedSoundIds.remove(at: index)
+                                } else {
+                                    selectedMixedSoundIds.append(mixedSound.id)
                                 }
                             }
+                        }
                     }
                 }
             }
         }
         .padding()
         .onAppear {
+            let notFirstVisit = UserDefaultsManager.shared.notFirstVisit
+            showOnboarding = !notFirstVisit
+            
             if let data = UserDefaultsManager.shared.recipes {
                 do {
                     let decoder = JSONDecoder()
                     userRepositories = try decoder.decode([MixedSound].self, from: data)
-                    print("help : \(userRepositories)")
+                    //                    print("help : \(userRepositories)")
                     userRepositoriesState = userRepositories
                     
                     // TODO: - 추후 다른 방식으로 수정
-                    musicViewModel.updateCDList(cdList: userRepositoriesState.map{mixedSound in mixedSound.name})
+                    viewModel.sendMessage(key: "list", userRepositoriesState.map{mixedSound in mixedSound.name})
                 } catch {
                     print("Unable to Decode Note (\(error))")
                 }
             }
         }
-        .onChange(of: userRepositories) { newValue in
-            if let data = UserDefaultsManager.shared.recipes {
-                do {
-                    let decoder = JSONDecoder()
-                    
-                    userRepositories = try decoder.decode([MixedSound].self, from: data)
-                    userRepositoriesState = userRepositories
-                    
-                    // TODO: - 추후 다른 방식으로 수정
-                    musicViewModel.updateCDList(cdList: userRepositoriesState.map{mixedSound in mixedSound.name})
-                    
-                    print("help : \(userRepositories)")
-
-                } catch {
-                    print("Unable to Decode Note (\(error))")
-                }
+        .onChange(of: showOnboarding) { _ in
+            if !showOnboarding {
+                userRepositoriesState = userRepositories
             }
         }
-        .onChange(of: isShwoingMusicView) { newValue in
-            if isShwoingMusicView == false {
-                if let data = UserDefaultsManager.shared.recipes {
-                    do {
-                        let decoder = JSONDecoder()
-                        
-                        userRepositories = try decoder.decode([MixedSound].self, from: data)
-                        userRepositoriesState = userRepositories
-                    } catch {
-                        print("Unable to Decode Note (\(error))")
-                    }
-                }
+        .fullScreenCover(isPresented: $showOnboarding) {
+            NavigationView {
+                StudioView(rootIsActive: $showOnboarding, viewType: .onboarding)
             }
+            //            OnboardingView(showOnboarding: $showOnboarding)
         }
-        .onChange(of: isShwoingMusicView) { newValue in
-            if isShwoingMusicView == false {
+        .onChange(of: isShowingMusicView) { newValue in
+            if isShowingMusicView == false {
                 if let data = UserDefaultsManager.shared.recipes {
                     do {
                         let decoder = JSONDecoder()
@@ -145,10 +122,15 @@ struct CDListView: View {
                 selectedMixedSoundIds.forEach { id in
                     if let index = userRepositories.firstIndex(where: {$0.id == id}) {
                         userRepositories.remove(at: index)
-                        // TODO: - 추후 다른 방식으로 수정
-                        musicViewModel.updateCDList(cdList: userRepositoriesState.map{mixedSound in mixedSound.name})
+                        if id == viewModel.mixedSound?.id {
+                            viewModel.mixedSound = nil
+                        }
+                        
+                        viewModel.sendMessage(key: "list", userRepositoriesState.map{mixedSound in mixedSound.name})
                     }
                 }
+                userRepositoriesState = userRepositories
+                
                 let data = getEncodedData(data: userRepositories)
                 UserDefaults.standard.set(data, forKey: "recipes")
                 selectedMixedSoundIds = []
@@ -169,7 +151,7 @@ extension CDListView {
                 .font(.title)
                 .fontWeight(.semibold)
                 .foregroundColor(.systemGrey1)
-                
+            
             Spacer()
             
             Button(action: {
@@ -179,7 +161,7 @@ extension CDListView {
                     showingActionSheet = true
                 }
             }) {
-
+                
                 if selectedMixedSoundIds.isEmpty {
                     Text(isEditMode ? "Done" : "Edit")
                         .foregroundColor(Color.gray)
@@ -195,15 +177,16 @@ extension CDListView {
     
     var PlusCDImage: some View {
         VStack(alignment: .leading) {
-            NavigationLink(destination: StudioView(rootIsActive: self.$isActive), isActive: self.$isActive) {
+            NavigationLink(destination: StudioView(rootIsActive: self.$isActive, viewType: .studio), isActive: self.$isActive) {
                 ZStack {
+                    RoundedRectangle(cornerRadius: 4)
+                        .fill(Color.relaxBlack)
+                    RoundedRectangle(cornerRadius: 4)
+                        .strokeBorder()
                     VStack {
                         Image(systemName: "plus")
                             .font(Font.system(size: 54, weight: .ultraLight))
                     }
-                    
-                    RoundedRectangle(cornerRadius: 4)
-                        .strokeBorder()
                 }
                 .frame(width: UIScreen.main.bounds.width * 0.43, height: UIScreen.main.bounds.width * 0.43)
                 .foregroundColor(.systemGrey3)
@@ -224,12 +207,12 @@ extension CDListView {
         }
     }
 }
-
-struct CDListView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationView {
-            CDListView(userRepositoriesState: [dummyMixedSound, dummyMixedSound1, dummyMixedSound2, dummyMixedSound3])
-                .navigationBarHidden(true)
-        }
-    }
-}
+//
+//struct CDListView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        NavigationView {
+//            CDListView(userRepositoriesState: [])
+//                .navigationBarHidden(true)
+//        }
+//    }
+//}

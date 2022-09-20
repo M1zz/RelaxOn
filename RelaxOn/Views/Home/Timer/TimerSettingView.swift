@@ -10,6 +10,7 @@ import SwiftUI
 struct TimerSettingView: View {
 
     @State var seconds: Double = UserDefaults.standard.double(forKey: "lastSetDurationInSeconds")
+    @State private var isPresent = false
     var minute: Int {
         Int(seconds / 60)
     }
@@ -17,42 +18,20 @@ struct TimerSettingView: View {
     @ObservedObject var timerManager = TimerManager.shared
     
     var body: some View {
-        VStack {
-            header
-            Spacer()
-            timePickerView()
-            Spacer()
-            timerSettingButton()
+        ZStack{
+            Color.relaxBlack.ignoresSafeArea()
+            VStack {
+                Spacer()
+                if timerManager.isOn {
+                    TimerProgressBarView()
+                } else {
+                    timePickerView()
+                }
+                Spacer()
+                timerSettingButton()
+            }
         }
         .navigationBarTitleDisplayMode(.large)
-        .background(Color.relaxBlack)
-    }
-    
-    var header: some View {
-        return VStack(spacing: 6) {
-            HStack(alignment: .bottom) {
-                Text("Relax for")
-                    .font(.system(size: 28, weight: .semibold))
-                    .foregroundColor(.systemGrey1)
-                    .padding(.bottom, 2)
-                Spacer()
-                Text("\(minute)")
-                    .font(.system(size: 28, weight: .regular))
-                    .foregroundColor(.relaxDimPurple)
-                Text("min")
-                    .font(.system(size: 18, weight: .regular))
-                    .foregroundColor(.relaxDimPurple)
-                    .padding(.bottom, 3)
-            }
-            Divider().background(.white)
-                .padding(.bottom, 5)
-            HStack() {
-                Text("After \(minute) minutes, Relax On will automatically end")
-                    .font(.system(size: 16))
-                    .foregroundColor(.systemGrey1)
-                Spacer()
-            }
-        }.padding(.horizontal, 20)
     }
 }
 
@@ -70,15 +49,21 @@ extension TimerSettingView {
     func timePickerView() -> some View {
         TimePicker(seconds: $seconds)
             .environment(\.colorScheme, .dark) // 흰새 글씨로 바뀜
-            .background(.black)
+            .background(Color.relaxBlack)
     }
     
     @ViewBuilder
     func timerSettingButton() -> some View {
         Button {
-            timerManager.start(countDownDuration: seconds)
+            if timerManager.isOn {
+                timerManager.cancel()
+                WidgetManager.setupTimerToLockScreendWidget(settedSeconds: 0)
+            } else {
+                timerManager.start(countDownDuration: seconds)
+                WidgetManager.setupTimerToLockScreendWidget(settedSeconds: seconds)
+            }
         } label: {
-            Text("SAVE")
+            Text(timerManager.isOn ? "CANCEL" : "START")
                 .font(.system(size: 20, weight: .medium))
                 .frame(width: deviceFrame.screenWidth - 40, height: Layout.SaveButton.height)
                 .foregroundColor(.white)
