@@ -1,6 +1,6 @@
 //
 //  TimerSettingView.swift
-//  LullabyRecipe
+//  RelaxOn
 //
 //  Created by hyo on 2022/07/27.
 //
@@ -8,16 +8,30 @@
 import SwiftUI
 
 struct TimerSettingView: View {
-    // TODO: @State var를 타이머 뷰모델로 교체 예정
-    @State var seconds: Double = 0
 
+    @State var seconds: Double = UserDefaults.standard.double(forKey: "lastSetDurationInSeconds")
+    @State private var isPresent = false
+    var minute: Int {
+        Int(seconds / 60)
+    }
+    
+    @ObservedObject var timerManager = TimerManager.shared
+    
     var body: some View {
-        VStack {
-            Spacer()
-            timePickerView()
-            Spacer()
-            timerSettingButton()
+        ZStack{
+            Color.relaxBlack.ignoresSafeArea()
+            VStack {
+                Spacer()
+                if timerManager.isOn {
+                    TimerProgressBarView()
+                } else {
+                    timePickerView()
+                }
+                Spacer()
+                timerSettingButton()
+            }
         }
+        .navigationBarTitleDisplayMode(.large)
     }
 }
 
@@ -25,6 +39,7 @@ struct TimerSettingView: View {
 struct TimerSettingView_Previews: PreviewProvider {
     static var previews: some View {
         TimerSettingView()
+            .preferredColorScheme(.dark)
     }
 }
 
@@ -34,19 +49,35 @@ extension TimerSettingView {
     func timePickerView() -> some View {
         TimePicker(seconds: $seconds)
             .environment(\.colorScheme, .dark) // 흰새 글씨로 바뀜
-            .background(.black)
+            .background(Color.relaxBlack)
     }
     
     @ViewBuilder
     func timerSettingButton() -> some View {
         Button {
-        // TODO: 타이머 모델에 값 넣는 함수 넣기
+            if timerManager.isOn {
+                timerManager.cancel()
+                WidgetManager.setupTimerToLockScreendWidget(settedSeconds: 0)
+            } else {
+                timerManager.start(countDownDuration: seconds)
+                WidgetManager.setupTimerToLockScreendWidget(settedSeconds: seconds)
+            }
         } label: {
-            Text("타이머 설정하기")
-                .font(.system(size: 17, weight: .medium))
-                .frame(width: deviceFrame().exceptPaddingWidth - 80, height: 44)
-                .background(.secondary)
-                .cornerRadius(8)
+            Text(timerManager.isOn ? "CANCEL" : "START")
+                .font(.system(size: 20, weight: .medium))
+                .frame(width: deviceFrame.screenWidth - 40, height: Layout.SaveButton.height)
+                .foregroundColor(.white)
+                .background(LinearGradient(gradient: Gradient(colors: [.relaxNightBlue, .relaxLavender]),
+                                           startPoint: .leading, endPoint: .trailing))
+                .cornerRadius(4)
         }.buttonStyle(.plain)
+    }
+}
+
+extension TimerSettingView {
+    private struct Layout {
+        enum SaveButton {
+            static let height: CGFloat = 60
+        }
     }
 }

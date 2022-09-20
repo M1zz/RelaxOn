@@ -1,6 +1,6 @@
 //
 //  ViewModifiers.swift
-//  LullabyRecipe
+//  RelaxOn
 //
 //  Created by 이가은 on 2022/07/14.
 //
@@ -17,6 +17,6 @@ extension View {
     
     func DeviceFrame() -> some View {
         self
-            .frame(width: deviceFrame().exceptPaddingWidth, height: deviceFrame().exceptPaddingWidth, alignment: .center)
+            .frame(width: deviceFrame.exceptPaddingWidth, height: deviceFrame.exceptPaddingWidth, alignment: .center)
     }
 }
