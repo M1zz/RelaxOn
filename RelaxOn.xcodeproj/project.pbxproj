@@ -104,6 +104,7 @@
 		C7FDCA8C28D094E0008FA749 /* MusicViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7FDCA8B28D094E0008FA749 /* MusicViewDelegate.swift */; };
 		CBFDC8F4289C23AC00386FB5 /* VolumeSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBFDC8F3289C23AC00386FB5 /* VolumeSlider.swift */; };
 		CC086BA428D4370200AE4AE7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC5AC10E289C033D00FE847B /* Assets.xcassets */; };
+		CC11C0A628DE035300853D62 /* CDCoverImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 101417F7289EB82200F40397 /* CDCoverImageView.swift */; };
 		CC2820482880102400587334 /* ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC2820472880102400587334 /* ViewModifiers.swift */; };
 		CC5AC107289C033C00FE847B /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC5AC106289C033C00FE847B /* WidgetKit.framework */; };
 		CC5AC109289C033C00FE847B /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC5AC108289C033C00FE847B /* SwiftUI.framework */; };
@@ -1154,6 +1155,7 @@
 				C7EC1CA128B783B8006A5860 /* String+Extension.swift in Sources */,
 				C7EC1CA428B783C7006A5860 /* Color+Extension.swift in Sources */,
 				C7EC1CA328B783C7006A5860 /* View+Extension.swift in Sources */,
+				CC11C0A628DE035300853D62 /* CDCoverImageView.swift in Sources */,
 				CC5AC111289C033D00FE847B /* RelaxOnWidget.intentdefinition in Sources */,
 				CC5AC10C289C033C00FE847B /* RelaxOnWidget.swift in Sources */,
 				CC5AC138289D19C900FE847B /* Provider.swift in Sources */,
