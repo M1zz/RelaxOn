@@ -47,7 +47,7 @@ struct CDNamingView: View {
                         Spacer()
                     }
                     .padding(.horizontal)
-                    .padding(.top, deviceFrame.screenHeight * 0.04)
+                    .padding(.top, DeviceFrame.screenHeight * 0.04)
                     
                     VStack(alignment: .leading) {
                         TextField("", text: $soundName)
@@ -111,8 +111,8 @@ extension CDNamingView {
         Text("SAVE")
             .foregroundColor(.white)
             .font(.system(size: 20, weight: .light))
-            .frame(width: deviceFrame.exceptPaddingWidth,
-                   height: deviceFrame.screenHeight * 0.07)
+            .frame(width: DeviceFrame.exceptPaddingWidth,
+                   height: DeviceFrame.screenHeight * 0.07)
             .background {
                 RoundedRectangle(cornerRadius: 4)
                     .foregroundColor(.relaxRealBlack)

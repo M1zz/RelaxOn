@@ -65,7 +65,7 @@ extension TimerSettingView {
         } label: {
             Text(timerManager.isOn ? "CANCEL" : "START")
                 .font(.system(size: 20, weight: .medium))
-                .frame(width: deviceFrame.screenWidth - 40, height: Layout.SaveButton.height)
+                .frame(width: DeviceFrame.screenWidth - 40, height: Layout.SaveButton.height)
                 .foregroundColor(.white)
                 .background(LinearGradient(gradient: Gradient(colors: [.relaxNightBlue, .relaxLavender]),
                                            startPoint: .leading, endPoint: .trailing))

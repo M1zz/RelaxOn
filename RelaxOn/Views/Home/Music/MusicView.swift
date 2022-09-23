@@ -170,7 +170,14 @@ struct MusicView: View {
                    let baseImageName = viewModel.mixedSound?.baseSound?.fileName,
                    let melodyImageName = viewModel.mixedSound?.melodySound?.fileName,
                    let whiteNoiseImageName = viewModel.mixedSound?.whiteNoiseSound?.fileName {
-                    WidgetManager.addMainSoundToWidget(baseImageName: baseImageName, melodyImageName: melodyImageName, whiteNoiseImageName: whiteNoiseImageName, name: mixedSound.name, id: mixedSound.id, isPlaying: viewModel.isPlaying, isRecentPlay: false)
+                    WidgetManager.addMainSoundToWidget(
+                        baseImageName: baseImageName,
+                        melodyImageName: melodyImageName,
+                        whiteNoiseImageName: whiteNoiseImageName,
+                        name: mixedSound.name,
+                        id: mixedSound.id,
+                        isPlaying: viewModel.isPlaying,
+                        isRecentPlay: false)
                 }
                 viewModel.isMusicViewPresented = true
             }
@@ -194,7 +201,7 @@ struct MusicView: View {
 extension MusicView {
     @ViewBuilder
     func MusicControllerView() -> some View {
-        HStack (spacing: 56) {
+        HStack(spacing: 56) {
             Button {
                 viewModel.setupPreviousTrack(mixedSound: viewModel.mixedSound ?? emptyMixedSound)
             } label: {
