@@ -171,13 +171,16 @@ struct MusicView: View {
                    let melodyImageName = viewModel.mixedSound?.melodySound?.fileName,
                    let whiteNoiseImageName = viewModel.mixedSound?.whiteNoiseSound?.fileName {
                     WidgetManager.addMainSoundToWidget(
-                        baseImageName: baseImageName,
-                        melodyImageName: melodyImageName,
-                        whiteNoiseImageName: whiteNoiseImageName,
-                        name: mixedSound.name,
-                        id: mixedSound.id,
-                        isPlaying: viewModel.isPlaying,
-                        isRecentPlay: false)
+                        data: SmallWidgetData(
+                            baseImageName: baseImageName,
+                            melodyImageName: melodyImageName,
+                            whiteNoiseImageName: whiteNoiseImageName,
+                            name: mixedSound.name,
+                            id: mixedSound.id,
+                            isPlaying: viewModel.isPlaying,
+                            isRecentPlay: false
+                        )
+                    )
                 }
                 viewModel.isMusicViewPresented = true
             }

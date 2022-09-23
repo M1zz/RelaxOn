@@ -31,7 +31,7 @@ final class MusicViewModel: NSObject, ObservableObject {
     
     func sendMessage(key: String, _ message: Any) {
         guard WCSession.default.activationState == .activated else {
-          return
+            return
         }
         
         guard WCSession.default.isWatchAppInstalled else {
@@ -54,13 +54,16 @@ final class MusicViewModel: NSObject, ObservableObject {
                let melodyImageName = mixedSound.melodySound?.fileName,
                let whiteNoiseImageName = mixedSound.whiteNoiseSound?.fileName {
                 WidgetManager.addMainSoundToWidget(
-                    baseImageName: baseImageName,
-                    melodyImageName: melodyImageName,
-                    whiteNoiseImageName: whiteNoiseImageName,
-                    name: mixedSound.name,
-                    id: mixedSound.id,
-                    isPlaying: isPlaying,
-                    isRecentPlay: false)
+                    data: SmallWidgetData(
+                        baseImageName: baseImageName,
+                        melodyImageName: melodyImageName,
+                        whiteNoiseImageName: whiteNoiseImageName,
+                        name: mixedSound.name,
+                        id: mixedSound.id,
+                        isPlaying: isPlaying,
+                        isRecentPlay: false
+                    )
+                )
             }
         }
     }
@@ -104,7 +107,7 @@ final class MusicViewModel: NSObject, ObservableObject {
         baseAudioManager.stop()
         melodyAudioManager.stop()
         whiteNoiseAudioManager.stop()
-     
+        
         self.sendMessage(key: playMessageKey, "pause")
         self.sendMessage(key: titleMessageKey, self.mixedSound?.name ?? "")
     }
@@ -127,7 +130,7 @@ final class MusicViewModel: NSObject, ObservableObject {
         let index = userRepositories.firstIndex { element in
             element.name == self.currentTitle
         }
-
+        
         guard let idx = index else { return }
         let mixedSound = userRepositories[idx]
         self.mixedSound = userRepositories[idx]
@@ -255,11 +258,11 @@ final class MusicViewModel: NSObject, ObservableObject {
     }
     
     @Published var volume: Float = AVAudioSession.sharedInstance().outputVolume
-
+    
     private let audioSession = AVAudioSession.sharedInstance()
-
+    
     private var progressObserver: NSKeyValueObservation!
-
+    
     func subscribe() {
         progressObserver = audioSession.observe(\.outputVolume) { [self] (audioSession, value) in
             DispatchQueue.main.async {
@@ -268,7 +271,7 @@ final class MusicViewModel: NSObject, ObservableObject {
             }
         }
     }
-
+    
     // TODO: - 구독 해제하기
     func unsubscribe() {
         self.progressObserver.invalidate()
@@ -277,25 +280,25 @@ final class MusicViewModel: NSObject, ObservableObject {
 
 // MARK: - WCSessionDelegate
 extension MusicViewModel: WCSessionDelegate {
-
+    
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
         if let state = message[playMessageKey] as? String {
             DispatchQueue.main.async { [weak self] in
                 print(state)
                 switch state {
-                case "play", "pause":
-                    if let isPresented = self?.isMusicViewPresented {
-                        if isPresented {
-                            self?.playPause()
-                        } else {
-                            self?.initiatedByWatch = true
-                            if (UIApplication.shared.applicationState == .background) {
+                    case "play", "pause":
+                        if let isPresented = self?.isMusicViewPresented {
+                            if isPresented {
                                 self?.playPause()
+                            } else {
+                                self?.initiatedByWatch = true
+                                if (UIApplication.shared.applicationState == .background) {
+                                    self?.playPause()
+                                }
                             }
+                        } else {
+                            self?.playPause()
                         }
-                    } else {
-                        self?.playPause()
-                    }
                     case "prev":
                         guard let mixedSound = self?.mixedSound else { return }
                         self?.setupPreviousTrack(mixedSound: mixedSound)
@@ -313,7 +316,7 @@ extension MusicViewModel: WCSessionDelegate {
                 self?.sendMessage(key: "list", userRepositories.map{mixedSound in mixedSound.name})
             }
         }
-
+        
         if let title = message[titleMessageKey] as? String {
             DispatchQueue.main.async { [weak self] in
                 self?.currentTitle = title
@@ -343,15 +346,15 @@ extension MusicViewModel: WCSessionDelegate {
             }
         }
     }
-
+    
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
-
+        
     }
-
+    
     func sessionDidBecomeInactive(_ session: WCSession) {
-
+        
     }
-
+    
     func sessionDidDeactivate(_ session: WCSession) {
         session.activate()
     }
