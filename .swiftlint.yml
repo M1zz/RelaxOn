@@ -15,11 +15,11 @@ opt_in_rules:
   # 강제 언래핑 안됨
  - force_unwrapping
   
-# Parameter 개수
-function_parameter_count:
- warning: 5
- error: 6
- ignores_default_parameters: true
+## Parameter 개수
+#function_parameter_count:
+# warning: 5
+# error: 6
+# ignores_default_parameters: true
 
 # 라인 글자수
 line_length:
