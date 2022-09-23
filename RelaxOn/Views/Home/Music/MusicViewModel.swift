@@ -46,27 +46,7 @@ final class MusicViewModel: NSObject, ObservableObject {
     @Published var baseAudioManager = AudioManager()
     @Published var melodyAudioManager = AudioManager()
     @Published var whiteNoiseAudioManager = AudioManager()
-    @Published var isPlaying: Bool = true {
-        // FIXME: addMainSoundToWidget()를 Sound가 재정렬 되었을 때 제일 위의 음악을 넣어야 합니다. (해당 로직이 안 짜진 거 같아 우선은, 여기로 뒀습니다.)
-        didSet {
-            if let mixedSound = mixedSound,
-               let baseImageName = mixedSound.baseSound?.fileName,
-               let melodyImageName = mixedSound.melodySound?.fileName,
-               let whiteNoiseImageName = mixedSound.whiteNoiseSound?.fileName {
-                WidgetManager.addMainSoundToWidget(
-                    data: SmallWidgetData(
-                        baseImageName: baseImageName,
-                        melodyImageName: melodyImageName,
-                        whiteNoiseImageName: whiteNoiseImageName,
-                        name: mixedSound.name,
-                        id: mixedSound.id,
-                        isPlaying: isPlaying,
-                        isRecentPlay: false
-                    )
-                )
-            }
-        }
-    }
+    @Published var isPlaying: Bool = true
     
     @Published var mixedSound: MixedSound? {
         didSet {
@@ -101,6 +81,7 @@ final class MusicViewModel: NSObject, ObservableObject {
         
         self.sendMessage(key: playMessageKey, self.isPlaying ? "play" : "pause")
         self.sendMessage(key: titleMessageKey, self.mixedSound?.name ?? "")
+        saveWidgetData()
     }
     
     func stop() {
@@ -110,6 +91,7 @@ final class MusicViewModel: NSObject, ObservableObject {
         
         self.sendMessage(key: playMessageKey, "pause")
         self.sendMessage(key: titleMessageKey, self.mixedSound?.name ?? "")
+        saveWidgetData()
     }
     
     func startPlayer() {
@@ -123,6 +105,7 @@ final class MusicViewModel: NSObject, ObservableObject {
         
         self.sendMessage(key: playMessageKey, "play")
         self.sendMessage(key: titleMessageKey, self.mixedSound?.name ?? "")
+        saveWidgetData()
     }
     
     func startPlayerFromWatch() {
@@ -275,6 +258,25 @@ final class MusicViewModel: NSObject, ObservableObject {
     // TODO: - 구독 해제하기
     func unsubscribe() {
         self.progressObserver.invalidate()
+    }
+    
+    private func saveWidgetData() {
+        if let mixedSound = mixedSound,
+           let baseImageName = mixedSound.baseSound?.fileName,
+           let melodyImageName = mixedSound.melodySound?.fileName,
+           let whiteNoiseImageName = mixedSound.whiteNoiseSound?.fileName {
+            WidgetManager.addMainSoundToWidget(
+                data: SmallWidgetData(
+                    baseImageName: baseImageName,
+                    melodyImageName: melodyImageName,
+                    whiteNoiseImageName: whiteNoiseImageName,
+                    name: mixedSound.name,
+                    id: mixedSound.id,
+                    isPlaying: isPlaying,
+                    isRecentPlay: false
+                )
+            )
+        }
     }
 }
 
