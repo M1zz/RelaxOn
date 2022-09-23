@@ -15,8 +15,8 @@ extension View {
             .foregroundColor(Color.white)
     }
     
-    func DeviceFrame() -> some View {
+    func DeviceFrameCenter() -> some View {
         self
-            .frame(width: deviceFrame.exceptPaddingWidth, height: deviceFrame.exceptPaddingWidth, alignment: .center)
+            .frame(width: DeviceFrame.exceptPaddingWidth, height: DeviceFrame.exceptPaddingWidth, alignment: .center)
     }
 }

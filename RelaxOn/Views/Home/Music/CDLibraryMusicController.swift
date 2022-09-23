@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CDLibraryMusicController: View {
     @EnvironmentObject var viewModel: MusicViewModel
-    private let cdCoverImageEdgeSize = deviceFrame.screenHeight * 0.06
+    private let cdCoverImageEdgeSize = DeviceFrame.screenHeight * 0.06
     var body: some View {
         VStack {
             HStack {
@@ -61,7 +61,7 @@ struct CDLibraryMusicController: View {
             
             Spacer()
         }
-        .frame(height: deviceFrame.screenHeight * 0.1)
+        .frame(height: DeviceFrame.screenHeight * 0.1)
         .background(
             Color.relaxRealBlack
         )

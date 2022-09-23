@@ -5,6 +5,10 @@ disabled_rules:
  - leading_whitespace
   # FILE_END Line
  - trailing_newline
+  # func 대문자 시작 ( ViewBuilder, ViewModifier 때문에 예외 처리)
+ -  identifier_name
+  # func 변수를 5개 이하로 제한 ( WidgetManager 수정 후 지우겠습니다 )
+ - function_parameter_count
 
 # Optional Rules
 opt_in_rules:

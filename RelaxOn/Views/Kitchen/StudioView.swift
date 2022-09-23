@@ -39,7 +39,7 @@ struct StudioView: View {
     @State var navigateActive = false
     @State var volumes: [Float] = [0.5, 0.5, 0.5]
     @State var mixedSound: MixedSound?
-    @State var stepBarWidth = deviceFrame.screenWidth * 0.33
+    @State var stepBarWidth = DeviceFrame.screenWidth * 0.33
     
     @Binding var rootIsActive: Bool
     @EnvironmentObject var viewModel: MusicViewModel
@@ -72,7 +72,7 @@ struct StudioView: View {
                 
                 CDCoverImageView(selectedImageNames: selectedImageNames)
                     .addDefaultBackground()
-                    .DeviceFrame()
+                    .DeviceFrameCenter()
                 
                 CustomSegmentControlView(items: items, selection: $select)
                 switch select {
@@ -194,7 +194,7 @@ extension StudioView {
             viewModel.isPlaying = false
             if self.viewType == .onboarding {
                 withAnimation(.default) {
-                    stepBarWidth = deviceFrame.screenWidth * CGFloat( Double(select + 1) * 0.333 )
+                    stepBarWidth = DeviceFrame.screenWidth * CGFloat( Double(select + 1) * 0.333 )
                 }
             }
             

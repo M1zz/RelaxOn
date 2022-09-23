@@ -144,7 +144,20 @@ struct RelaxOnWidget: Widget {
 
 struct RelaxOnWidget_Previews: PreviewProvider {
     static var previews: some View {
-        RelaxOnWidgetEntryView(entry: CDWidgetEntry(date: Date(), isSample: false, data: SmallWidgetData(baseImageName: BaseSound.oxygen.fileName, melodyImageName: MelodySound.garden.fileName, whiteNoiseImageName: WhiteNoiseSound.umbrellaRain.fileName, name: "Forest Relax", id: 1, isPlaying: false, isRecentPlay: false)))
+        RelaxOnWidgetEntryView(
+            entry: CDWidgetEntry(
+                date: Date(),
+                isSample: false,
+                data: SmallWidgetData(
+                    baseImageName: BaseSound.oxygen.fileName,
+                    melodyImageName: MelodySound.garden.fileName,
+                    whiteNoiseImageName: WhiteNoiseSound.umbrellaRain.fileName,
+                    name: "Forest Relax",
+                    id: 1,
+                    isPlaying: false,
+                    isRecentPlay: false)
+            )
+        )
             .previewContext(WidgetPreviewContext(family: .systemSmall))
     }
 }
