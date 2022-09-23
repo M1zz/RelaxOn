@@ -103,8 +103,6 @@
 		C7FDCA8928D093B4008FA749 /* Sound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61B1283A8E1700F25769 /* Sound.swift */; };
 		C7FDCA8C28D094E0008FA749 /* MusicViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7FDCA8B28D094E0008FA749 /* MusicViewDelegate.swift */; };
 		CBFDC8F4289C23AC00386FB5 /* VolumeSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBFDC8F3289C23AC00386FB5 /* VolumeSlider.swift */; };
-		CC04E26328BDA3F800509C60 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC04E26228BDA3F800509C60 /* AppDelegate.swift */; };
-		CC04E26528BDA45900509C60 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC04E26428BDA45900509C60 /* SceneDelegate.swift */; };
 		CC086BA428D4370200AE4AE7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC5AC10E289C033D00FE847B /* Assets.xcassets */; };
 		CC2820482880102400587334 /* ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC2820472880102400587334 /* ViewModifiers.swift */; };
 		CC5AC107289C033C00FE847B /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC5AC106289C033C00FE847B /* WidgetKit.framework */; };
@@ -308,8 +306,6 @@
 		C7C4C25728C242BB0048DCBA /* SoundType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundType.swift; sourceTree = "<group>"; };
 		C7FDCA8B28D094E0008FA749 /* MusicViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicViewDelegate.swift; sourceTree = "<group>"; };
 		CBFDC8F3289C23AC00386FB5 /* VolumeSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeSlider.swift; sourceTree = "<group>"; };
-		CC04E26228BDA3F800509C60 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		CC04E26428BDA45900509C60 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		CC2820472880102400587334 /* ViewModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModifiers.swift; sourceTree = "<group>"; };
 		CC5AC104289C033C00FE847B /* RelaxOnWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = RelaxOnWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC5AC106289C033C00FE847B /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
@@ -705,8 +701,6 @@
 			isa = PBXGroup;
 			children = (
 				58DE61822839C13900F25769 /* RelaxOnApp.swift */,
-				CC04E26228BDA3F800509C60 /* AppDelegate.swift */,
-				CC04E26428BDA45900509C60 /* SceneDelegate.swift */,
 				C7C4C25528C239FE0048DCBA /* Assets */,
 				58DE1022283DF536002CDB9F /* Resource */,
 			);
@@ -1093,7 +1087,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CC04E26328BDA3F800509C60 /* AppDelegate.swift in Sources */,
 				C7C4C25A28C256BF0048DCBA /* Color+Extension.swift in Sources */,
 				58DE1021283DD9DD002CDB9F /* MusicViewModel.swift in Sources */,
 				58DE61852839C13900F25769 /* CdLibraryView.swift in Sources */,
@@ -1113,7 +1106,6 @@
 				E2BF105428914E9E00408B8C /* TimerNavigationLinkView.swift in Sources */,
 				E211ED072896D06A002843EE /* TimerManager.swift in Sources */,
 				C7FDCA8728D09396008FA749 /* WidgetManager.swift in Sources */,
-				CC04E26528BDA45900509C60 /* SceneDelegate.swift in Sources */,
 				CC5AC134289D184A00FE847B /* CDWidgetEntry.swift in Sources */,
 				4AF70C4B28D1BC4300645D5D /* CDLibraryMusicController.swift in Sources */,
 				10D26712288EF4C80056339A /* CustomSegmentControlView.swift in Sources */,

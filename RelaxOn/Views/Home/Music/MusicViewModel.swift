@@ -27,6 +27,18 @@ final class MusicViewModel: NSObject, ObservableObject {
             
             WCSession.default.activate()
         }
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(appWillTerminate),
+            name: UIApplication.willTerminateNotification,
+            object: nil
+        )
+    }
+    
+    @objc func appWillTerminate() {
+        WidgetManager.closeApp()
+        WidgetManager.setupTimerToLockScreendWidget(settedSeconds: 0)
     }
     
     func sendMessage(key: String, _ message: Any) {
