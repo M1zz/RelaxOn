@@ -130,7 +130,7 @@ extension RelaxOnWidgetEntryView {
 
 @main
 struct RelaxOnWidget: Widget {
-    let kind: String = "RelaxOnWidget"
+    let kind: String = WidgetManager.widgetName
     
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: Provider(), content: { entry in
