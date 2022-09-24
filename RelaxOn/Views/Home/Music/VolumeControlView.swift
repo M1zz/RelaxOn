@@ -58,6 +58,7 @@ struct VolumeControlView: View {
         
         viewModel.userRepositoriesState.remove(at: index ?? -1)
         viewModel.userRepositoriesState.insert(newMixedSound, at: index ?? -1)
+        viewModel.mixedSound = newMixedSound
         
         let data = getEncodedData(data: viewModel.userRepositoriesState)
         UserDefaultsManager.shared.recipes = data

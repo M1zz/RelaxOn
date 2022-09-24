@@ -82,6 +82,7 @@ struct CDListView: View {
                 }
                 .fullScreenCover(isPresented: $isPresented) {
                     if let selectedMixedSound = viewModel.mixedSound {
+                        let _ = print(selectedMixedSound, "나여기")
                         MusicView(data: selectedMixedSound)
                     }
                 }
