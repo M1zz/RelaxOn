@@ -24,8 +24,6 @@ final class MusicViewModel: NSObject, ObservableObject {
         if let data = UserDefaultsManager.shared.recipes {
             do {
                 let decoder = JSONDecoder()
-//                userRepositories = try decoder.decode([MixedSound].self, from: data)
-                //                    print("help : \(userRepositories)")
                 self.userRepositoriesState = try decoder.decode([MixedSound].self, from: data)
                 
                 // TODO: - 추후 다른 방식으로 수정
@@ -137,13 +135,13 @@ final class MusicViewModel: NSObject, ObservableObject {
     
     func startPlayerFromWatch() {
         
-        let index = userRepositories.firstIndex { element in
+        let index = self.userRepositoriesState.firstIndex { element in
             element.name == self.currentTitle
         }
 
         guard let idx = index else { return }
-        let mixedSound = userRepositories[idx]
-        self.mixedSound = userRepositories[idx]
+        let mixedSound = self.userRepositoriesState[idx]
+        self.mixedSound = self.userRepositoriesState[idx]
         guard let mixedSound = self.mixedSound else { return }
         
         self.isPlaying = true
@@ -209,15 +207,15 @@ final class MusicViewModel: NSObject, ObservableObject {
     }
     
     func setupNextTrack(mixedSound: MixedSound) {
-        let count = userRepositories.count
+        let count = self.userRepositoriesState.count
         let id = mixedSound.id
-        let index = userRepositories.firstIndex { element in
+        let index = self.userRepositoriesState.firstIndex { element in
             element.name == mixedSound.name
         }
         self.isPlaying = true
         
         if index == count - 1 {
-            guard let firstSong = userRepositories.first else { return }
+            guard let firstSong = self.userRepositoriesState.first else { return }
             self.mixedSound = firstSong
             self.setupRemoteCommandInfoCenter(mixedSound: firstSong)
             self.setupRemoteCommandCenter()
@@ -226,7 +224,7 @@ final class MusicViewModel: NSObject, ObservableObject {
             self.sendMessage(key: self.titleMessageKey, firstSong.name)
             self.sendMessage(key: self.playMessageKey, "play")
         } else {
-            let nextSong = userRepositories[ userRepositories.firstIndex {
+            let nextSong = self.userRepositoriesState[ self.userRepositoriesState.firstIndex {
                 $0.id > id
             } ?? 0 ]
             self.mixedSound = nextSong
@@ -241,13 +239,13 @@ final class MusicViewModel: NSObject, ObservableObject {
     
     func setupPreviousTrack(mixedSound: MixedSound) {
         let id = mixedSound.id
-        let index = userRepositories.firstIndex { element in
+        let index = self.userRepositoriesState.firstIndex { element in
             element.name == mixedSound.name
         }
         self.isPlaying = true
         
         if index == 0 {
-            guard let lastSong = userRepositories.last else { return }
+            guard let lastSong = self.userRepositoriesState.last else { return }
             self.mixedSound = lastSong
             self.setupRemoteCommandInfoCenter(mixedSound: lastSong)
             self.setupRemoteCommandCenter()
@@ -255,7 +253,7 @@ final class MusicViewModel: NSObject, ObservableObject {
             self.currentTitle = lastSong.name
             self.sendMessage(key: self.titleMessageKey, lastSong.name)
         } else {
-            let previousSong = userRepositories[ userRepositories.lastIndex {
+            let previousSong = self.userRepositoriesState[ self.userRepositoriesState.lastIndex {
                 $0.id < id
             } ?? 0 ]
             self.mixedSound = previousSong
@@ -323,7 +321,8 @@ extension MusicViewModel: WCSessionDelegate {
         
         if let request = message["list"] as? String {
             DispatchQueue.main.async { [weak self] in
-                self?.sendMessage(key: "list", userRepositories.map{mixedSound in mixedSound.name})
+                self?.sendMessage(key: "list", self?.userRepositoriesState.map{mixedSound in mixedSound.name})
+// 원래 있던 친구        self?.sendMessage(key: "list", self.userRepositoriesState.map{mixedSound in mixedSound.name})
             }
         }
 

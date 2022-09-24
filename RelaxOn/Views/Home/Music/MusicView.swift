@@ -37,7 +37,6 @@ struct MusicView: View {
     }
     
     var data: MixedSound
-    @Binding var userRepositoriesState: [MixedSound]
     
     var body: some View {
         NavigationView {
@@ -81,7 +80,6 @@ struct MusicView: View {
                 
                 VolumeControlView(showVolumeControl: $showVolumeControl,
                                   audioVolumes: $audioVolumes,
-                                  userRepositoriesState: $userRepositoriesState,
                                   isEditingVolume: $isEditingVolume)
                 .cornerRadius(20)
                 .offset(y: offsetYOfControlView)
@@ -186,7 +184,6 @@ struct MusicView: View {
                                 whiteNoiseVolume: changedMixedSound.whiteNoiseSound?.audioVolume ?? 0.12)
             })
             .onDisappear {
-                userRepositoriesState = userRepositories
                 viewModel.isMusicViewPresented = false
                 UIApplication.shared.endReceivingRemoteControlEvents()
             }
@@ -257,15 +254,13 @@ extension MusicView {
                 }
                 
                 Button(role: .destructive) {
-                    let index = userRepositoriesState.firstIndex { mixedSound in
+                    let index = viewModel.userRepositoriesState.firstIndex { mixedSound in
                         mixedSound.name == viewModel.mixedSound?.name ?? ""
                     }
-                    userRepositories.remove(at: index ?? -1)
-                    userRepositoriesState.remove(at: index ?? -1)
+                    viewModel.userRepositoriesState.remove(at: index ?? -1)
                     
-                    let data = getEncodedData(data: userRepositories)
+                    let data = getEncodedData(data: viewModel.userRepositoriesState)
                     UserDefaultsManager.shared.recipes = data
-                    userRepositoriesState = userRepositories
                     viewModel.mixedSound = nil
                     presentationMode.wrappedValue.dismiss()
                 } label: {
@@ -291,7 +286,7 @@ extension MusicView {
 // MARK: - MusicVeiwDelegate
 extension MusicView: MusicViewDelegate {
     func renameMusic(renamedMixedSound: MixedSound) {
-        let firstIndex = userRepositoriesState.firstIndex { element in
+        let firstIndex = viewModel.userRepositoriesState.firstIndex { element in
             return element.id == viewModel.mixedSound?.id ?? -1
         }
         
@@ -299,12 +294,10 @@ extension MusicView: MusicViewDelegate {
             return
         }
         viewModel.mixedSound = renamedMixedSound
-        userRepositories.remove(at: index)
-        userRepositories.insert(renamedMixedSound, at: index)
-        userRepositoriesState.remove(at: index)
-        userRepositoriesState.insert(renamedMixedSound, at: index)
+        viewModel.userRepositoriesState.remove(at: index)
+        viewModel.userRepositoriesState.insert(renamedMixedSound, at: index)
         
-        let data = getEncodedData(data: userRepositories)
+        let data = getEncodedData(data: viewModel.userRepositoriesState)
         UserDefaultsManager.shared.recipes = data
     }
 }

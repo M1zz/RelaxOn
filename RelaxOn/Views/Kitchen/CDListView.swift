@@ -10,7 +10,6 @@ import SwiftUI
 struct CDListView: View {
     // MARK: - State Properties
     @State var isActive: Bool = false
-    @State var userRepositoriesState: [MixedSound] = []
     @State var selectedImageNames = (
         base: "",
         melody: "",
@@ -36,9 +35,8 @@ struct CDListView: View {
                         PlusCDImage
                             .disabled(isEditMode)
                         
-                        ForEach(userRepositoriesState){ mixedSound in
+                        ForEach(viewModel.userRepositoriesState){ mixedSound in
                             CDCardView(isShowingMusicView: $isShowingMusicView,
-                                       userRepositoriesState: $userRepositoriesState,
                                        data: mixedSound)
                             .disabled(isEditMode)
                             .overlay(alignment : .bottomTrailing) {
@@ -84,7 +82,7 @@ struct CDListView: View {
                 }
                 .fullScreenCover(isPresented: $isPresented) {
                     if let selectedMixedSound = viewModel.mixedSound {
-                        MusicView(data: selectedMixedSound, userRepositoriesState: $userRepositoriesState)
+                        MusicView(data: selectedMixedSound)
                     }
                 }
         }
@@ -95,12 +93,10 @@ struct CDListView: View {
             if let data = UserDefaultsManager.shared.recipes {
                 do {
                     let decoder = JSONDecoder()
-                    userRepositories = try decoder.decode([MixedSound].self, from: data)
-                    //                    print("help : \(userRepositories)")
-                    userRepositoriesState = userRepositories
+                    viewModel.userRepositoriesState = try decoder.decode([MixedSound].self, from: data)
                     
                     // TODO: - 추후 다른 방식으로 수정
-                    viewModel.sendMessage(key: "list", userRepositoriesState.map{mixedSound in mixedSound.name})
+                    viewModel.sendMessage(key: "list", viewModel.userRepositoriesState.map{mixedSound in mixedSound.name})
                 } catch {
                     print("Unable to Decode Note (\(error))")
                 }
@@ -108,7 +104,7 @@ struct CDListView: View {
         }
         .onChange(of: showOnboarding) { _ in
             if !showOnboarding {
-                userRepositoriesState = userRepositories
+//                viewModel.userRepositoriesState = viewModel.userRepositoriesState
             }
         }
         .fullScreenCover(isPresented: $showOnboarding) {
@@ -123,8 +119,7 @@ struct CDListView: View {
                     do {
                         let decoder = JSONDecoder()
                         
-                        userRepositories = try decoder.decode([MixedSound].self, from: data)
-                        userRepositoriesState = userRepositories
+                        viewModel.userRepositoriesState = try decoder.decode([MixedSound].self, from: data)
                     } catch {
                         print("Unable to Decode Note (\(error))")
                     }
@@ -135,18 +130,17 @@ struct CDListView: View {
                             isPresented: $showingActionSheet) {
             Button("Delete \(selectedMixedSoundIds.count) CDs", role: .destructive) {
                 selectedMixedSoundIds.forEach { id in
-                    if let index = userRepositories.firstIndex(where: {$0.id == id}) {
-                        userRepositories.remove(at: index)
+                    if let index = viewModel.userRepositoriesState.firstIndex(where: {$0.id == id}) {
+                        viewModel.userRepositoriesState.remove(at: index)
                         if id == viewModel.mixedSound?.id {
                             viewModel.mixedSound = nil
                         }
                         
-                        viewModel.sendMessage(key: "list", userRepositoriesState.map{mixedSound in mixedSound.name})
+                        viewModel.sendMessage(key: "list", viewModel.userRepositoriesState.map{mixedSound in mixedSound.name})
                     }
                 }
-                userRepositoriesState = userRepositories
                 
-                let data = getEncodedData(data: userRepositories)
+                let data = getEncodedData(data: viewModel.userRepositoriesState)
                 UserDefaults.standard.set(data, forKey: "recipes")
                 selectedMixedSoundIds = []
                 isEditMode = false

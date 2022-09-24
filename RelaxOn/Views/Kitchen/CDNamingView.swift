@@ -13,7 +13,7 @@ struct CDNamingView: View {
     @State var soundName = ""
     @Binding var goToPreviousView: Bool
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    
+    @EnvironmentObject var viewModel: MusicViewModel
     @State var mixedSound: MixedSound
     
     // MARK: - General Properties
@@ -147,8 +147,8 @@ extension CDNamingView {
                                       whiteNoiseSound: mixedSound.whiteNoiseSound,
                                       fileName: recipeRandomName.randomElement()!)
             
-            userRepositories.append(newSound)
-            let data = getEncodedData(data: userRepositories)
+            viewModel.userRepositoriesState.append(newSound)
+            let data = getEncodedData(data: viewModel.userRepositoriesState)
             UserDefaultsManager.shared.recipes = data
             self.goToPreviousView = false
         } label: {

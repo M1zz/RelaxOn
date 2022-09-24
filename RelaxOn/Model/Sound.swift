@@ -40,4 +40,4 @@ var whiteNoiseSound: Sound = Sound(id: 6,
                                 fileName: "")
 
 var mixedAudioSources: [Sound] = []
-var userRepositories: [MixedSound] = []
+//var viewModel.userRepositoriesState: [MixedSound] = []

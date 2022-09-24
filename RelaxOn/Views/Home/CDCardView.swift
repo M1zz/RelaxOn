@@ -12,7 +12,6 @@ struct CDCardView: View {
     @State var selectedMixedSound: MixedSound?
     @State private var isPresent = false
     @Binding var isShowingMusicView: Bool
-    @Binding var userRepositoriesState: [MixedSound]
     @EnvironmentObject var viewModel: MusicViewModel
     
     // MARK: - General Properties
@@ -31,10 +30,10 @@ struct CDCardView: View {
                                height: UIScreen.main.bounds.width * 0.43)
                 }
                 .fullScreenCover(item: $selectedMixedSound) { _ in
-                    MusicView(data: data, userRepositoriesState: $userRepositoriesState)
+                    MusicView(data: data)
                 }
                 .fullScreenCover(isPresented: $isPresent) {
-                    MusicView(data: data, userRepositoriesState: $userRepositoriesState)
+                    MusicView(data: data)
                 }
             })
             Text(data.name)
