@@ -10,7 +10,7 @@ import SwiftUI
 struct CDListView: View {
     // MARK: - State Properties
     @State var isActive: Bool = false
-    @Binding var userRepositoriesState: [MixedSound]
+    @State var userRepositoriesState: [MixedSound] = []
     @State var selectedImageNames = (
         base: "",
         melody: "",
@@ -21,58 +21,73 @@ struct CDListView: View {
     @State private var selectedMixedSoundIds: [Int] = []
     @State private var showingActionSheet = false
     @State var isShowingMusicView = false
+    @State private var isPresented = false
     
     // TODO: - 추후 다른 방식으로 수정
     @EnvironmentObject var viewModel: MusicViewModel
     
     var body: some View {
-        VStack {
-            LibraryHeader
-            ScrollView(.vertical, showsIndicators: false) {
-                
-                LazyVGrid(columns: Array(repeating: GridItem(.flexible(), alignment: .top), count: 2), spacing: 18) {
-                    PlusCDImage
-                        .disabled(isEditMode)
+        VStack(spacing: 0) {
+            VStack {
+                LibraryHeader
+                ScrollView(.vertical, showsIndicators: false) {
                     
-                    ForEach(userRepositoriesState){ mixedSound in
-                        CDCardView(isShowingMusicView: $isShowingMusicView,
-                                   userRepositoriesState: $userRepositoriesState,
-                                   data: mixedSound)
-                        .disabled(isEditMode)
-                        .overlay(alignment : .bottomTrailing) {
-                            if isEditMode {
-                                if selectedMixedSoundIds.firstIndex(where: {$0 == mixedSound.id}) != nil {
-                                    Image(systemName: "checkmark.circle.fill")
-                                        .resizable()
-                                        .frame(width: 24.0, height: 24.0)
-                                        .foregroundColor(.white)
-                                        .padding(.bottom, LayoutConstants.Padding.bottomOfRadioButton)
-                                        .padding(.trailing, LayoutConstants.Padding.trailingOfRadioButton)
-                                } else {
-                                    Image(systemName: "circle")
-                                        .resizable()
-                                        .frame(width: 24.0, height: 24.0)
-                                        .foregroundColor(.white)
-                                        .background(Image(systemName: "circle.fill").foregroundColor(.gray).opacity(0.5))
-                                        .padding(.bottom, LayoutConstants.Padding.bottomOfRadioButton)
-                                        .padding(.trailing, LayoutConstants.Padding.trailingOfRadioButton)
+                    LazyVGrid(columns: Array(repeating: GridItem(.flexible(), alignment: .top), count: 2), spacing: 18) {
+                        PlusCDImage
+                            .disabled(isEditMode)
+                        
+                        ForEach(userRepositoriesState){ mixedSound in
+                            CDCardView(isShowingMusicView: $isShowingMusicView,
+                                       userRepositoriesState: $userRepositoriesState,
+                                       data: mixedSound)
+                            .disabled(isEditMode)
+                            .overlay(alignment : .bottomTrailing) {
+                                if isEditMode {
+                                    if selectedMixedSoundIds.firstIndex(where: {$0 == mixedSound.id}) != nil {
+                                        Image(systemName: "checkmark.circle.fill")
+                                            .resizable()
+                                            .frame(width: 24.0, height: 24.0)
+                                            .foregroundColor(.white)
+                                            .padding(.bottom, LayoutConstants.Padding.bottomOfRadioButton)
+                                            .padding(.trailing, LayoutConstants.Padding.trailingOfRadioButton)
+                                    } else {
+                                        Image(systemName: "circle")
+                                            .resizable()
+                                            .frame(width: 24.0, height: 24.0)
+                                            .foregroundColor(.white)
+                                            .background(Image(systemName: "circle.fill").foregroundColor(.gray).opacity(0.5))
+                                            .padding(.bottom, LayoutConstants.Padding.bottomOfRadioButton)
+                                            .padding(.trailing, LayoutConstants.Padding.trailingOfRadioButton)
+                                    }
                                 }
                             }
-                        }
-                        .onTapGesture {
-                            if isEditMode {
-                                if let index = selectedMixedSoundIds.firstIndex(where: {$0 == mixedSound.id}) {
-                                    selectedMixedSoundIds.remove(at: index)
-                                } else {
-                                    selectedMixedSoundIds.append(mixedSound.id)
+                            .onTapGesture {
+                                if isEditMode {
+                                    if let index = selectedMixedSoundIds.firstIndex(where: {$0 == mixedSound.id}) {
+                                        selectedMixedSoundIds.remove(at: index)
+                                    } else {
+                                        selectedMixedSoundIds.append(mixedSound.id)
+                                    }
                                 }
                             }
                         }
                     }
                 }
             }
+            .padding([.top, .leading, .trailing])
+            
+            CDLibraryMusicController()
+                .onTapGesture {
+                    if viewModel.mixedSound != nil {
+                        self.isPresented.toggle()
+                    }
+                }
+                .fullScreenCover(isPresented: $isPresented) {
+                    if let selectedMixedSound = viewModel.mixedSound {
+                        MusicView(data: selectedMixedSound, userRepositoriesState: $userRepositoriesState)
+                    }
+                }
         }
-        .padding()
         .onAppear {
             let notFirstVisit = UserDefaultsManager.shared.notFirstVisit
             showOnboarding = !notFirstVisit

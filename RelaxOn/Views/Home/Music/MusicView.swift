@@ -199,7 +199,7 @@ struct MusicView: View {
 extension MusicView {
     @ViewBuilder
     func MusicControllerView() -> some View {
-        HStack (spacing: 56) {
+        HStack(spacing: 56) {
             Button {
                 viewModel.setupPreviousTrack(mixedSound: viewModel.mixedSound ?? emptyMixedSound)
             } label: {
