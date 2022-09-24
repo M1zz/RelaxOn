@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CDLibraryMusicController: View {
     @EnvironmentObject private var viewModel: MusicViewModel
+    @State var musicControlButtonWidth: Double = DeviceFrame.screenWidth * 0.04
     private let cdCoverImageEdgeSize = DeviceFrame.screenHeight * 0.06
     var body: some View {
         VStack {
@@ -33,28 +34,7 @@ struct CDLibraryMusicController: View {
                 
                 Spacer()
                 
-                HStack(spacing: 22) {
-                    Button {
-                        viewModel.setupPreviousTrack(mixedSound: viewModel.mixedSound ?? emptyMixedSound)
-                    } label: {
-                        Image(systemName: "backward.fill")
-                            .tint(.white)
-                    }.disabled(viewModel.mixedSound == nil)
-                    
-                    Button {
-                        viewModel.playPause()
-                    } label: {
-                        Image(systemName: viewModel.isPlaying ? "pause.fill" : "play.fill")
-                            .tint(.white)
-                    }.disabled(viewModel.mixedSound == nil)
-                    
-                    Button {
-                        viewModel.setupNextTrack(mixedSound: viewModel.mixedSound ?? emptyMixedSound)
-                    } label: {
-                        Image(systemName: "forward.fill")
-                            .tint(.white)
-                    }.disabled(viewModel.mixedSound == nil)
-                }
+                MusicController(musicControlButtonWidth: $musicControlButtonWidth, hstackSpacing: 22)
                 .padding(.horizontal, 17)
             }
             .padding(.top, 17)

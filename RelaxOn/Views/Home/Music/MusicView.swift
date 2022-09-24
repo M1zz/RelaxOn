@@ -12,7 +12,7 @@ struct MusicView: View {
     @EnvironmentObject private var viewModel: MusicViewModel
     @State private var isActive = false
     @State private var isFetchFirstData = true
-    @State var animatedValue : CGFloat = 55
+    @State var animatedValue: CGFloat = 55
     @State var maxWidth = UIScreen.main.bounds.width / 2.2
     @State var showVolumeControl: Bool = false
     @State private var cdViewPadding = 81.0
@@ -68,7 +68,7 @@ struct MusicView: View {
                             .foregroundColor(.white)
                             .padding(.top, 30)
                         
-                        MusicControllerView()
+                        MusicController(musicControlButtonWidth: $musicControlButtonWidth, hstackSpacing: 56)
                             .padding(.top, 54)
                     }
                     .frame(width: cdViewWidth, height: cdViewHeight)
@@ -197,37 +197,6 @@ struct MusicView: View {
 
 // MARK: ViewBuilder
 extension MusicView {
-    @ViewBuilder
-    func MusicControllerView() -> some View {
-        HStack(spacing: 56) {
-            Button {
-                viewModel.setupPreviousTrack(mixedSound: viewModel.mixedSound ?? emptyMixedSound)
-            } label: {
-                Image(systemName: "backward.fill")
-                    .resizable()
-                    .frame(width: musicControlButtonWidth, height: musicControlButtonWidth * 0.71)
-                    .tint(.white)
-            }
-            
-            Button {
-                viewModel.playPause()
-            } label: {
-                Image(systemName: viewModel.isPlaying ? "pause.fill" : "play.fill")
-                    .resizable()
-                    .frame(width: musicPlayButtonWidth, height: musicPlayButtonWidth * 1.25) //1.25
-                    .tint(.white)
-            }
-            
-            Button {
-                viewModel.setupNextTrack(mixedSound: viewModel.mixedSound ?? emptyMixedSound)
-            } label: {
-                Image(systemName: "forward.fill")
-                    .resizable()
-                    .frame(width: musicControlButtonWidth, height: musicControlButtonWidth * 0.71)
-                    .tint(.white)
-            }
-        }
-    }
     
     @ViewBuilder
     func CustomNavigationBar() -> some View {
@@ -250,7 +219,7 @@ extension MusicView {
                 Button {
                     self.isActive.toggle()
                 } label: {
-                    HStack{
+                    HStack {
                         Text("Rename")
                         Image(systemName: "pencil")
                     }
@@ -267,7 +236,7 @@ extension MusicView {
                     viewModel.mixedSound = nil
                     presentationMode.wrappedValue.dismiss()
                 } label: {
-                    HStack{
+                    HStack {
                         Text("Delete")
                             .foregroundColor(.red)
                         Image(systemName: "trash")

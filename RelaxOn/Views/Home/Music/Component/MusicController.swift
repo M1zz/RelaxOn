@@ -9,15 +9,10 @@ import SwiftUI
 
 struct MusicController: View {
     @EnvironmentObject private var viewModel: MusicViewModel
-    @State private var musicControlButtonWidth: CGFloat
-    @State private var musicPlayButtonWidth: CGFloat
-    
-    init(musicControlButtonWidth: CGFloat) {
-        self.musicControlButtonWidth = musicControlButtonWidth
-        self.musicPlayButtonWidth = musicControlButtonWidth * 0.9
-    }
+    @Binding var musicControlButtonWidth: Double
+    var hstackSpacing: Double
     var body: some View {
-        HStack(spacing: 56) {
+        HStack(spacing: hstackSpacing) {
             Button {
                 viewModel.setupPreviousTrack(mixedSound: viewModel.mixedSound ?? emptyMixedSound)
             } label: {
@@ -25,16 +20,16 @@ struct MusicController: View {
                     .resizable()
                     .frame(width: musicControlButtonWidth, height: musicControlButtonWidth * 0.71)
                     .tint(.white)
-            }
+            }.disabled(viewModel.mixedSound == nil)
 
             Button {
                 viewModel.playPause()
             } label: {
                 Image(systemName: viewModel.isPlaying ? "pause.fill" : "play.fill")
                     .resizable()
-                    .frame(width: musicPlayButtonWidth, height: musicPlayButtonWidth * 1.25) //1.25
+                    .frame(width: musicControlButtonWidth * 0.9, height: musicControlButtonWidth * 1.125)
                     .tint(.white)
-            }
+            }.disabled(viewModel.mixedSound == nil)
 
             Button {
                 viewModel.setupNextTrack(mixedSound: viewModel.mixedSound ?? emptyMixedSound)
@@ -43,13 +38,13 @@ struct MusicController: View {
                     .resizable()
                     .frame(width: musicControlButtonWidth, height: musicControlButtonWidth * 0.71)
                     .tint(.white)
-            }
+            }.disabled(viewModel.mixedSound == nil)
         }
     }
 }
-
-struct MusicController_Previews: PreviewProvider {
-    static var previews: some View {
-        MusicController()
-    }
-}
+//
+//struct MusicController_Previews: PreviewProvider {
+//    static var previews: some View {
+//        MusicController()
+//    }
+//}
