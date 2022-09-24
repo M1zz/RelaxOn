@@ -80,7 +80,6 @@ struct CDListView: View {
                 }
                 .fullScreenCover(isPresented: $isPresented) {
                     if let selectedMixedSound = viewModel.mixedSound {
-                        let _ = print(selectedMixedSound, "나여기")
                         MusicView(data: selectedMixedSound)
                     }
                 }
@@ -105,7 +104,6 @@ struct CDListView: View {
             NavigationView {
                 StudioView(rootIsActive: $showOnboarding, viewType: .onboarding)
             }
-            //            OnboardingView(showOnboarding: $showOnboarding)
         }
         .confirmationDialog("Are you sure?",
                             isPresented: $showingActionSheet) {

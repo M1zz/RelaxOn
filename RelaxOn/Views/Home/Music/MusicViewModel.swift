@@ -43,7 +43,7 @@ final class MusicViewModel: NSObject, ObservableObject {
     
     func sendMessage(key: String, _ message: Any) {
         guard WCSession.default.activationState == .activated else {
-          return
+            return
         }
         
         guard WCSession.default.isWatchAppInstalled else {
@@ -115,7 +115,7 @@ final class MusicViewModel: NSObject, ObservableObject {
         baseAudioManager.stop()
         melodyAudioManager.stop()
         whiteNoiseAudioManager.stop()
-     
+        
         self.sendMessage(key: playMessageKey, "pause")
         self.sendMessage(key: titleMessageKey, self.mixedSound?.name ?? "")
     }
@@ -138,7 +138,7 @@ final class MusicViewModel: NSObject, ObservableObject {
         let index = self.userRepositoriesState.firstIndex { element in
             element.name == self.currentTitle
         }
-
+        
         guard let idx = index else { return }
         let mixedSound = self.userRepositoriesState[idx]
         self.mixedSound = self.userRepositoriesState[idx]
@@ -266,11 +266,11 @@ final class MusicViewModel: NSObject, ObservableObject {
     }
     
     @Published var volume: Float = AVAudioSession.sharedInstance().outputVolume
-
+    
     private let audioSession = AVAudioSession.sharedInstance()
-
+    
     private var progressObserver: NSKeyValueObservation!
-
+    
     func subscribe() {
         progressObserver = audioSession.observe(\.outputVolume) { [self] (audioSession, value) in
             DispatchQueue.main.async {
@@ -279,7 +279,7 @@ final class MusicViewModel: NSObject, ObservableObject {
             }
         }
     }
-
+    
     // TODO: - 구독 해제하기
     func unsubscribe() {
         self.progressObserver.invalidate()
@@ -288,7 +288,7 @@ final class MusicViewModel: NSObject, ObservableObject {
 
 // MARK: - WCSessionDelegate
 extension MusicViewModel: WCSessionDelegate {
-
+    
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
         if let state = message[playMessageKey] as? String {
             DispatchQueue.main.async { [weak self] in
@@ -307,14 +307,14 @@ extension MusicViewModel: WCSessionDelegate {
                     } else {
                         self?.playPause()
                     }
-                    case "prev":
-                        guard let mixedSound = self?.mixedSound else { return }
-                        self?.setupPreviousTrack(mixedSound: mixedSound)
-                    case "next":
-                        guard let mixedSound = self?.mixedSound else { return }
-                        self?.setupNextTrack(mixedSound: mixedSound)
-                    default:
-                        print("해당 안됨")
+                case "prev":
+                    guard let mixedSound = self?.mixedSound else { return }
+                    self?.setupPreviousTrack(mixedSound: mixedSound)
+                case "next":
+                    guard let mixedSound = self?.mixedSound else { return }
+                    self?.setupNextTrack(mixedSound: mixedSound)
+                default:
+                    print("해당 안됨")
                 }
             }
         }
@@ -322,10 +322,10 @@ extension MusicViewModel: WCSessionDelegate {
         if let request = message["list"] as? String {
             DispatchQueue.main.async { [weak self] in
                 self?.sendMessage(key: "list", self?.userRepositoriesState.map{mixedSound in mixedSound.name})
-// 원래 있던 친구        self?.sendMessage(key: "list", self.userRepositoriesState.map{mixedSound in mixedSound.name})
+                // 원래 있던 친구        self?.sendMessage(key: "list", self.userRepositoriesState.map{mixedSound in mixedSound.name})
             }
         }
-
+        
         if let title = message[titleMessageKey] as? String {
             DispatchQueue.main.async { [weak self] in
                 self?.currentTitle = title
@@ -355,15 +355,15 @@ extension MusicViewModel: WCSessionDelegate {
             }
         }
     }
-
+    
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
-
+        
     }
-
+    
     func sessionDidBecomeInactive(_ session: WCSession) {
-
+        
     }
-
+    
     func sessionDidDeactivate(_ session: WCSession) {
         session.activate()
     }
