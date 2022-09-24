@@ -36,8 +36,8 @@ struct SoundCardView: View {
                 if data.name == "Empty" {
                     ZStack {
                         Rectangle()
-                            .frame(width: (deviceFrame.exceptPaddingWidth - 20 ) / 3 ,
-                                   height: (deviceFrame.exceptPaddingWidth - 20 ) / 3,
+                            .frame(width: (DeviceFrame.exceptPaddingWidth - 20 ) / 3 ,
+                                   height: (DeviceFrame.exceptPaddingWidth - 20 ) / 3,
                                    alignment: .center)
                             .border(selectedID == soundFileName ? .white : .clear, width: 2)
                             .cornerRadius(4)
@@ -46,8 +46,8 @@ struct SoundCardView: View {
                 } else {
                     Image(data.fileName)
                         .resizable()
-                        .frame(width: (deviceFrame.exceptPaddingWidth - 20 ) / 3,
-                               height: (deviceFrame.exceptPaddingWidth - 20 ) / 3,
+                        .frame(width: (DeviceFrame.exceptPaddingWidth - 20 ) / 3,
+                               height: (DeviceFrame.exceptPaddingWidth - 20 ) / 3,
                                alignment: .center)
                         .border(selectedID == soundFileName ? .white : .clear, width: 2)
                         .cornerRadius(4)
