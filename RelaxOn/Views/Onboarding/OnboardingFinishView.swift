@@ -23,8 +23,8 @@ struct OnboardingFinishView: View {
             VStack {
                 Spacer()
                 CDCoverImageView(selectedImageNames: mixedSound.getImageName())
-                    .frame(width: deviceFrame.screenWidth * 0.6,
-                           height: deviceFrame.screenWidth * 0.6)
+                    .frame(width: DeviceFrame.screenWidth * 0.6,
+                           height: DeviceFrame.screenWidth * 0.6)
                 
                 Text("\(mixedSound.name)")
                     .font(.system(size: 28, weight: .medium))
@@ -55,8 +55,8 @@ extension OnboardingFinishView {
             Text("START")
                 .foregroundColor(.white)
                 .font(.system(size: 20, weight: .light))
-                .frame(width: deviceFrame.exceptPaddingWidth,
-                       height: deviceFrame.screenHeight * 0.07)
+                .frame(width: DeviceFrame.exceptPaddingWidth,
+                       height: DeviceFrame.screenHeight * 0.07)
                 .background {
                     RoundedRectangle(cornerRadius: 4)
                         .foregroundColor(.relaxRealBlack)

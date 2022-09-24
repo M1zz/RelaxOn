@@ -38,6 +38,7 @@ struct CdLibraryView: View {
         .navigationViewStyle(.stack)
         .environmentObject(viewModel)
         .onAppear {
+            print("나생성", viewModel)
             let session = AVAudioSession.sharedInstance()
                do{
                    try session.setActive(true)

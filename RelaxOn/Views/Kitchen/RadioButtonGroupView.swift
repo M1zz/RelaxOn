@@ -12,7 +12,7 @@ struct RadioButtonGroupView: View {
     let items : [Sound] // sound 를 받아야 함
     let callback: (Sound) -> ()
     let columns = [
-        GridItem(.adaptive(minimum: (deviceFrame.exceptPaddingWidth - 20 ) / 3))
+        GridItem(.adaptive(minimum: (DeviceFrame.exceptPaddingWidth - 20 ) / 3))
     ]
 
     var body: some View {

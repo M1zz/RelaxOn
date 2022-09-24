@@ -47,7 +47,7 @@ public struct CustomSegmentControlView: View {
     private func selectedItemHorizontalOffset() -> CGFloat {
         guard selectedItemWidth != .zero, selection != 0 else { return 30 }
 
-        return 30 + (deviceFrame.screenWidth * 0.295) * CGFloat(selection) + ( CGFloat(selection) == 2 ? deviceFrame.screenWidth * 0.03 : 0 )
+        return 30 + (DeviceFrame.screenWidth * 0.295) * CGFloat(selection) + ( CGFloat(selection) == 2 ? DeviceFrame.screenWidth * 0.03 : 0 )
     }
 
     // MARK: - Life Cycles
@@ -67,7 +67,7 @@ public struct CustomSegmentControlView: View {
                         ForEach(0 ..< items.count, id: \.self) { index in
                             segmentItemView(for: index)
                                 .padding(.leading,
-                                         index == 0 ? 58 : ( index == 1 ? deviceFrame.screenWidth * 0.19 : deviceFrame.screenWidth * 0.16 ))
+                                         index == 0 ? 58 : ( index == 1 ? DeviceFrame.screenWidth * 0.19 : DeviceFrame.screenWidth * 0.16 ))
                         }
                     }
                     .padding(.bottom, 5)
