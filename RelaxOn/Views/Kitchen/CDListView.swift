@@ -19,7 +19,6 @@ struct CDListView: View {
     @State private var isEditMode = false
     @State private var selectedMixedSoundIds: [Int] = []
     @State private var showingActionSheet = false
-    @State var isShowingMusicView = false
     @State private var isPresented = false
     
     // TODO: - 추후 다른 방식으로 수정
@@ -36,8 +35,7 @@ struct CDListView: View {
                             .disabled(isEditMode)
                         
                         ForEach(viewModel.userRepositoriesState){ mixedSound in
-                            CDCardView(isShowingMusicView: $isShowingMusicView,
-                                       data: mixedSound)
+                            CDCardView(data: mixedSound)
                             .disabled(isEditMode)
                             .overlay(alignment : .bottomTrailing) {
                                 if isEditMode {
@@ -103,29 +101,11 @@ struct CDListView: View {
                 }
             }
         }
-        .onChange(of: showOnboarding) { _ in
-            if !showOnboarding {
-//                viewModel.userRepositoriesState = viewModel.userRepositoriesState
-            }
-        }
         .fullScreenCover(isPresented: $showOnboarding) {
             NavigationView {
                 StudioView(rootIsActive: $showOnboarding, viewType: .onboarding)
             }
             //            OnboardingView(showOnboarding: $showOnboarding)
-        }
-        .onChange(of: isShowingMusicView) { newValue in
-            if isShowingMusicView == false {
-                if let data = UserDefaultsManager.shared.recipes {
-                    do {
-                        let decoder = JSONDecoder()
-                        
-                        viewModel.userRepositoriesState = try decoder.decode([MixedSound].self, from: data)
-                    } catch {
-                        print("Unable to Decode Note (\(error))")
-                    }
-                }
-            }
         }
         .confirmationDialog("Are you sure?",
                             isPresented: $showingActionSheet) {

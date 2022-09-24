@@ -89,7 +89,7 @@ struct CDNamingView: View {
 extension CDNamingView {
     @ViewBuilder
     func NamingBackButton() -> some View {
-        HStack{
+        HStack {
             Button(action: {
                 presentationMode.wrappedValue.dismiss()
             }, label: {

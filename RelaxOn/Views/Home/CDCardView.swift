@@ -11,7 +11,6 @@ struct CDCardView: View {
     // MARK: - State Properties
     @State var selectedMixedSound: MixedSound?
     @State private var isPresent = false
-    @Binding var isShowingMusicView: Bool
     @EnvironmentObject var viewModel: MusicViewModel
     
     // MARK: - General Properties
@@ -22,7 +21,6 @@ struct CDCardView: View {
         VStack(alignment: .leading) {
             Button(action: {
                 self.selectedMixedSound = data
-                self.isShowingMusicView.toggle()
             }, label: {
                 ZStack {
                     CDCoverImageView(selectedImageNames: data.getImageName())
