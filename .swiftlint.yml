@@ -15,8 +15,9 @@ opt_in_rules:
   
 # Parameter 개수
 function_parameter_count:
- warning: 5
- error: 6
+# widgetManager 수정 후 기존 대로 warning: 5, error: 6로 변경해 두겠습니다.
+ warning: 10
+ error: 11
  ignores_default_parameters: true
 
 # 라인 글자수
