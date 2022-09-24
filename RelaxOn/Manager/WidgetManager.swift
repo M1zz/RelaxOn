@@ -24,7 +24,6 @@ final class WidgetManager {
     static let lockScreenwidgetName = "RelaxOnLockScreenWidgetExtension"
     static let lockScreenWidgetData = "lockScreenWidgetData"
 
-    
     static func addMainSoundToWidget(
         baseImageName: String,
         melodyImageName: String,
@@ -40,7 +39,8 @@ final class WidgetManager {
             name: name,
             id: id,
             isPlaying: isPlaying,
-            isRecentPlay: isRecentPlay)
+            isRecentPlay: isRecentPlay
+            )
         if let encodedData = try? JSONEncoder().encode(data),
            let UserDefaultsAppGroup = UserDefaults(suiteName: suiteName) {
             UserDefaultsAppGroup.set(encodedData, forKey: smallWidgetData)

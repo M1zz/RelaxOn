@@ -12,7 +12,7 @@ struct CDWidgetEntry: TimelineEntry {
     var url: URL?
     let isSample: Bool
     
-    let data : SmallWidgetData
+    let data: SmallWidgetData
     
     init(date: Date = Date(),
          isSample: Bool = false,
@@ -26,11 +26,17 @@ struct CDWidgetEntry: TimelineEntry {
 }
 
 extension CDWidgetEntry {
-    static var sample = CDWidgetEntry(date: Date(),
-                                      isSample: true,
-                                      data: SmallWidgetData(baseImageName: BaseSound.longSun.fileName, melodyImageName: MelodySound.ambient.fileName,
-                                                            whiteNoiseImageName:WhiteNoiseSound.dryGrass.fileName, name: "Listen to Music and Relax ON",
-                                                            id: 1,
-                                                            isPlaying: false,
-                                                            isRecentPlay: false))
+    static var sample = CDWidgetEntry(
+        date: Date(),
+        isSample: true,
+        data: SmallWidgetData(
+            baseImageName: BaseSound.longSun.fileName,
+            melodyImageName: MelodySound.ambient.fileName,
+            whiteNoiseImageName: WhiteNoiseSound.dryGrass.fileName,
+            name: "Listen to Music and Relax ON",
+            id: 1,
+            isPlaying: false,
+            isRecentPlay: false
+            )
+    )
 }
