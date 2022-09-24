@@ -13,7 +13,7 @@ struct VolumeControlView: View {
     @Binding var showVolumeControl: Bool
     @Binding var audioVolumes: (baseVolume: Float, melodyVolume: Float, whiteNoiseVolume: Float)
     @Binding var isEditingVolume: Bool
-    @EnvironmentObject var viewModel: MusicViewModel
+    @EnvironmentObject private var viewModel: MusicViewModel
     
     // MARK: - General Properties
     let baseAudioManager = AudioManager()

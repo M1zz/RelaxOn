@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CDLibraryMusicController: View {
-    @EnvironmentObject var viewModel: MusicViewModel
+    @EnvironmentObject private var viewModel: MusicViewModel
     private let cdCoverImageEdgeSize = DeviceFrame.screenHeight * 0.06
     var body: some View {
         VStack {

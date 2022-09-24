@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MusicView: View {
     @Environment(\.presentationMode) var presentationMode
-    @EnvironmentObject var viewModel: MusicViewModel
+    @EnvironmentObject private var viewModel: MusicViewModel
     @State private var isActive = false
     @State private var isFetchFirstData = true
     @State var animatedValue : CGFloat = 55
