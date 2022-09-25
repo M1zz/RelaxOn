@@ -36,7 +36,7 @@ struct MusicView: View {
         }
     }
     
-    var data: MixedSound
+    var song: MixedSound
     
     var body: some View {
         NavigationView {
@@ -160,7 +160,7 @@ struct MusicView: View {
                 UIApplication.shared.beginReceivingRemoteControlEvents()
                 
                 if isFetchFirstData {
-                    viewModel.fetchData(data: data)
+                    viewModel.fetchData(data: song)
                 }
                 self.isFetchFirstData = false
                 timerManager.currentMusicViewModel = self.viewModel
@@ -169,14 +169,16 @@ struct MusicView: View {
                    let melodyImageName = viewModel.mixedSound?.melodySound?.fileName,
                    let whiteNoiseImageName = viewModel.mixedSound?.whiteNoiseSound?.fileName {
                     WidgetManager.addMainSoundToWidget(
-                        baseImageName: baseImageName,
-                        melodyImageName: melodyImageName,
-                        whiteNoiseImageName: whiteNoiseImageName,
-                        name: mixedSound.name,
-                        id: mixedSound.id,
-                        isPlaying: viewModel.isPlaying,
-                        isRecentPlay: false
+                        data: SmallWidgetData(
+                            baseImageName: baseImageName,
+                            melodyImageName: melodyImageName,
+                            whiteNoiseImageName: whiteNoiseImageName,
+                            name: mixedSound.name,
+                            id: mixedSound.id,
+                            isPlaying: viewModel.isPlaying,
+                            isRecentPlay: false
                         )
+                    )
                 }
                 viewModel.isMusicViewPresented = true
             }

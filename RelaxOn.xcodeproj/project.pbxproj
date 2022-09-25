@@ -104,9 +104,8 @@
 		C7FDCA8928D093B4008FA749 /* Sound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61B1283A8E1700F25769 /* Sound.swift */; };
 		C7FDCA8C28D094E0008FA749 /* MusicViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7FDCA8B28D094E0008FA749 /* MusicViewDelegate.swift */; };
 		CBFDC8F4289C23AC00386FB5 /* VolumeSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBFDC8F3289C23AC00386FB5 /* VolumeSlider.swift */; };
-		CC04E26328BDA3F800509C60 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC04E26228BDA3F800509C60 /* AppDelegate.swift */; };
-		CC04E26528BDA45900509C60 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC04E26428BDA45900509C60 /* SceneDelegate.swift */; };
 		CC086BA428D4370200AE4AE7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC5AC10E289C033D00FE847B /* Assets.xcassets */; };
+		CC11C0A628DE035300853D62 /* CDCoverImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 101417F7289EB82200F40397 /* CDCoverImageView.swift */; };
 		CC2820482880102400587334 /* ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC2820472880102400587334 /* ViewModifiers.swift */; };
 		CC5AC107289C033C00FE847B /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC5AC106289C033C00FE847B /* WidgetKit.framework */; };
 		CC5AC109289C033C00FE847B /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC5AC108289C033C00FE847B /* SwiftUI.framework */; };
@@ -310,8 +309,6 @@
 		C7C4C25728C242BB0048DCBA /* SoundType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundType.swift; sourceTree = "<group>"; };
 		C7FDCA8B28D094E0008FA749 /* MusicViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicViewDelegate.swift; sourceTree = "<group>"; };
 		CBFDC8F3289C23AC00386FB5 /* VolumeSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeSlider.swift; sourceTree = "<group>"; };
-		CC04E26228BDA3F800509C60 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		CC04E26428BDA45900509C60 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		CC2820472880102400587334 /* ViewModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModifiers.swift; sourceTree = "<group>"; };
 		CC5AC104289C033C00FE847B /* RelaxOnWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = RelaxOnWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC5AC106289C033C00FE847B /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
@@ -716,8 +713,6 @@
 			isa = PBXGroup;
 			children = (
 				58DE61822839C13900F25769 /* RelaxOnApp.swift */,
-				CC04E26228BDA3F800509C60 /* AppDelegate.swift */,
-				CC04E26428BDA45900509C60 /* SceneDelegate.swift */,
 				C7C4C25528C239FE0048DCBA /* Assets */,
 				58DE1022283DF536002CDB9F /* Resource */,
 			);
@@ -1104,7 +1099,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CC04E26328BDA3F800509C60 /* AppDelegate.swift in Sources */,
 				C7C4C25A28C256BF0048DCBA /* Color+Extension.swift in Sources */,
 				58DE1021283DD9DD002CDB9F /* MusicViewModel.swift in Sources */,
 				58DE61852839C13900F25769 /* CdLibraryView.swift in Sources */,
@@ -1125,7 +1119,6 @@
 				E2BF105428914E9E00408B8C /* TimerNavigationLinkView.swift in Sources */,
 				E211ED072896D06A002843EE /* TimerManager.swift in Sources */,
 				C7FDCA8728D09396008FA749 /* WidgetManager.swift in Sources */,
-				CC04E26528BDA45900509C60 /* SceneDelegate.swift in Sources */,
 				CC5AC134289D184A00FE847B /* CDWidgetEntry.swift in Sources */,
 				4AF70C4B28D1BC4300645D5D /* CDLibraryMusicController.swift in Sources */,
 				10D26712288EF4C80056339A /* CustomSegmentControlView.swift in Sources */,
@@ -1174,6 +1167,7 @@
 				C7EC1CA128B783B8006A5860 /* String+Extension.swift in Sources */,
 				C7EC1CA428B783C7006A5860 /* Color+Extension.swift in Sources */,
 				C7EC1CA328B783C7006A5860 /* View+Extension.swift in Sources */,
+				CC11C0A628DE035300853D62 /* CDCoverImageView.swift in Sources */,
 				CC5AC111289C033D00FE847B /* RelaxOnWidget.intentdefinition in Sources */,
 				CC5AC10C289C033C00FE847B /* RelaxOnWidget.swift in Sources */,
 				CC5AC138289D19C900FE847B /* Provider.swift in Sources */,
@@ -1255,7 +1249,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.1.0;
+				MARKETING_VERSION = 2.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.LullabyRecipe.LockScreenWidgetExtension2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1277,8 +1271,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = QGAQ3AY3R3;
+				DEVELOPMENT_TEAM = QGAQ3AY3R3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LockScreenWidgetExtension/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = LockScreenWidgetExtension;
@@ -1289,7 +1282,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.1.0;
+				MARKETING_VERSION = 2.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.LullabyRecipe.LockScreenWidgetExtension2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1311,8 +1304,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=watchos*]" = QGAQ3AY3R3;
+				DEVELOPMENT_TEAM = QGAQ3AY3R3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WatchOSLockScreenWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = WatchOSLockScreenWidget;
@@ -1323,7 +1315,7 @@
 					"@executable_path/../../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 2.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.LullabyRecipe.watchkitapp.watchkitextension.WatchOSLockScreenWidget2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1347,8 +1339,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=watchos*]" = QGAQ3AY3R3;
+				DEVELOPMENT_TEAM = QGAQ3AY3R3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WatchOSLockScreenWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = WatchOSLockScreenWidget;
@@ -1359,7 +1350,7 @@
 					"@executable_path/../../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 2.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.LullabyRecipe.watchkitapp.watchkitextension.WatchOSLockScreenWidget2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1388,7 +1379,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = RelaxOnWatch;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.leeo.LullabyRecipe;
-				MARKETING_VERSION = 2.0.1;
+				MARKETING_VERSION = 2.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.LullabyRecipe.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = relaxOnWatch;
@@ -1416,7 +1407,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = RelaxOnWatch;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.leeo.LullabyRecipe;
-				MARKETING_VERSION = 2.0.1;
+				MARKETING_VERSION = 2.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.LullabyRecipe.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = relaxOnWatch;
@@ -1449,7 +1440,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.0.1;
+				MARKETING_VERSION = 2.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.LullabyRecipe.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				PROVISIONING_PROFILE_SPECIFIER = relaxOnWatchExtension;
@@ -1482,7 +1473,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.0.1;
+				MARKETING_VERSION = 2.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.LullabyRecipe.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				PROVISIONING_PROFILE_SPECIFIER = relaxOnWatchExtension;
@@ -1637,7 +1628,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.1;
+				MARKETING_VERSION = 2.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.LullabyRecipe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = LullabyRecipe;
@@ -1671,7 +1662,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.1;
+				MARKETING_VERSION = 2.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.LullabyRecipe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = LullabyRecipe;
@@ -1690,7 +1681,7 @@
 				DEVELOPMENT_TEAM = Z629PZ4XVL;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
-				MARKETING_VERSION = 2.0.1;
+				MARKETING_VERSION = 2.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.RelaxOnUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -1712,7 +1703,7 @@
 				DEVELOPMENT_TEAM = Z629PZ4XVL;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
-				MARKETING_VERSION = 2.0.1;
+				MARKETING_VERSION = 2.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.RelaxOnUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -1745,7 +1736,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.0.1;
+				MARKETING_VERSION = 2.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.LullabyRecipe.RelaxOnWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = relaxOnWidget;
@@ -1776,7 +1767,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.0.1;
+				MARKETING_VERSION = 2.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.LullabyRecipe.RelaxOnWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = relaxOnWidget;
