@@ -129,7 +129,6 @@ final class MusicViewModel: NSObject, ObservableObject {
         }
 
         guard let idx = index else { return }
-        let mixedSound = userRepositories[idx]
         self.mixedSound = userRepositories[idx]
         guard let mixedSound = self.mixedSound else { return }
         
@@ -308,7 +307,7 @@ extension MusicViewModel: WCSessionDelegate {
             }
         }
         
-        if let request = message["list"] as? String {
+        if message["list"] is String {
             DispatchQueue.main.async { [weak self] in
                 self?.sendMessage(key: "list", userRepositories.map{mixedSound in mixedSound.name})
             }
@@ -337,7 +336,7 @@ extension MusicViewModel: WCSessionDelegate {
                 }
             }
         }
-        if let volumeRequest = message["requestVolume"] as? String {
+        if message["requestVolume"] is String {
             DispatchQueue.main.async { [weak self] in
                 self?.sendMessage(key: "volume", self?.volume)
             }
