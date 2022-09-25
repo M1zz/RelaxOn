@@ -39,22 +39,14 @@ struct CDListView: View {
                             .disabled(isEditMode)
                             .overlay(alignment : .bottomTrailing) {
                                 if isEditMode {
-                                    if selectedMixedSoundIds.firstIndex(where: {$0 == mixedSound.id}) != nil {
-                                        Image(systemName: "checkmark.circle.fill")
+                                    let isInSelectedMixedSoundIds = selectedMixedSoundIds.contains(where: {$0 == mixedSound.id})
+                                        Image(systemName: isInSelectedMixedSoundIds ? "checkmark.circle.fill" : "circle")
                                             .resizable()
                                             .frame(width: 24.0, height: 24.0)
                                             .foregroundColor(.white)
+                                            .background(isInSelectedMixedSoundIds ? nil : Image(systemName: "circle.fill").foregroundColor(.gray).opacity(0.5))
                                             .padding(.bottom, LayoutConstants.Padding.bottomOfRadioButton)
                                             .padding(.trailing, LayoutConstants.Padding.trailingOfRadioButton)
-                                    } else {
-                                        Image(systemName: "circle")
-                                            .resizable()
-                                            .frame(width: 24.0, height: 24.0)
-                                            .foregroundColor(.white)
-                                            .background(Image(systemName: "circle.fill").foregroundColor(.gray).opacity(0.5))
-                                            .padding(.bottom, LayoutConstants.Padding.bottomOfRadioButton)
-                                            .padding(.trailing, LayoutConstants.Padding.trailingOfRadioButton)
-                                    }
                                 }
                             }
                             .onTapGesture {
