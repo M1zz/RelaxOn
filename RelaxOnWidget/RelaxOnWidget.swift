@@ -9,7 +9,7 @@ import Intents
 import WidgetKit
 import SwiftUI
 
-struct RelaxOnWidgetEntryView : View {
+struct RelaxOnWidgetEntryView: View {
     //    @Environment(\.widgetFamily) var family: WidgetFamily
     var entry: Provider.Entry
     
@@ -71,15 +71,7 @@ extension RelaxOnWidgetEntryView {
         VStack(alignment: .leading, spacing: 0) {
             HStack(alignment: .top, spacing: 0) {
                 ZStack {
-                    Image(entry.data.baseImageName)
-                        .resizable()
-                        .scaledToFit()
-                    Image(entry.data.melodyImageName)
-                        .resizable()
-                        .scaledToFit()
-                    Image(entry.data.whiteNoiseImageName)
-                        .resizable()
-                        .scaledToFit()
+                    CDCoverImageView(selectedImageNames: (base: entry.data.baseImageName, melody: entry.data.melodyImageName, whiteNoise: entry.data.whiteNoiseImageName))
                 }
                 .background(Color.white)
                 .cornerRadius(4)
@@ -108,19 +100,8 @@ extension RelaxOnWidgetEntryView {
                         .resizable()
                         .scaledToFit()
                 } else {
-                    Image(entry.data.baseImageName)
-                        .resizable()
-                        .scaledToFit()
-                        .blur(radius: 24)
-                    Image(entry.data.melodyImageName)
-                        .resizable()
-                        .scaledToFit()
-                        .blur(radius: 24)
-                    Image(entry.data.whiteNoiseImageName)
-                        .resizable()
-                        .scaledToFit()
-                        .blur(radius: 24)
-                    Color.black.opacity(0.3)
+                    CDCoverImageView(selectedImageNames: (base: entry.data.baseImageName, melody: entry.data.melodyImageName, whiteNoise: entry.data.whiteNoiseImageName))
+                        .toBlurBackground(blurRadius: 24)
                 }
             }
         )
@@ -130,7 +111,7 @@ extension RelaxOnWidgetEntryView {
 
 @main
 struct RelaxOnWidget: Widget {
-    let kind: String = "RelaxOnWidget"
+    let kind: String = WidgetManager.KeyString.widgetName
     
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: Provider(), content: { entry in
@@ -158,6 +139,6 @@ struct RelaxOnWidget_Previews: PreviewProvider {
                     isRecentPlay: false)
             )
         )
-            .previewContext(WidgetPreviewContext(family: .systemSmall))
+        .previewContext(WidgetPreviewContext(family: .systemSmall))
     }
 }

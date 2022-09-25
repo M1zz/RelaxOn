@@ -59,7 +59,7 @@ extension CDCoverImageView {
         } else {
             Image(imageName)
                 .resizable()
-                
+                .scaledToFit()
         }
     }
 }
