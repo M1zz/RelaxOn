@@ -12,7 +12,6 @@ struct VolumeControlView: View {
     @State var hasShowAlert: Bool = false
     @Binding var showVolumeControl: Bool
     @Binding var audioVolumes: (baseVolume: Float, melodyVolume: Float, whiteNoiseVolume: Float)
-    @Binding var userRepositoriesState: [MixedSound]
     @Binding var isEditingVolume: Bool
     @EnvironmentObject var viewModel: MusicViewModel
     
@@ -53,17 +52,15 @@ struct VolumeControlView: View {
                                        whiteNoiseSound: newWhiteNoiseSound,
                                        fileName: selectedMixedSound.fileName)
         
-        let index = userRepositoriesState.firstIndex { mixedSound in
+        let index = viewModel.userRepositoriesState.firstIndex { mixedSound in
             mixedSound.name == selectedMixedSound.name
         }
         
-        userRepositories.remove(at: index ?? -1)
-        userRepositories.insert(newMixedSound, at: index ?? -1)
+        viewModel.userRepositoriesState.remove(at: index ?? -1)
+        viewModel.userRepositoriesState.insert(newMixedSound, at: index ?? -1)
+        viewModel.mixedSound = newMixedSound
         
-        userRepositoriesState.remove(at: index ?? -1)
-        userRepositoriesState.insert(newMixedSound, at: index ?? -1)
-        
-        let data = getEncodedData(data: userRepositories)
+        let data = getEncodedData(data: viewModel.userRepositoriesState)
         UserDefaultsManager.shared.recipes = data
     }
     

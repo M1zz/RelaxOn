@@ -136,7 +136,8 @@ struct RelaxOnWidget_Previews: PreviewProvider {
                     name: "Forest Relax",
                     id: 1,
                     isPlaying: false,
-                    isRecentPlay: false)
+                    isRecentPlay: false
+                    )
             )
         )
         .previewContext(WidgetPreviewContext(family: .systemSmall))
