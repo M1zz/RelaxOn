@@ -25,18 +25,20 @@ final class WidgetManager {
         static let lockScreenwidgetName = "RelaxOnLockScreenWidgetExtension"
         static let lockScreenWidgetData = "lockScreenWidgetData"
     }
+    
+    static let userDefaultsAppGroup = UserDefaults(suiteName: KeyString.suiteName)
 
     static func addMainSoundToWidget(data: SmallWidgetData) {
         if let encodedData = try? JSONEncoder().encode(data),
-           let UserDefaultsAppGroup = UserDefaults(suiteName: KeyString.suiteName) {
-            UserDefaultsAppGroup.set(encodedData, forKey: KeyString.smallWidgetData)
+           let userDefaultsAppGroup {
+            userDefaultsAppGroup.set(encodedData, forKey: KeyString.smallWidgetData)
         }
         WidgetCenter.shared.reloadTimelines(ofKind: KeyString.widgetName)
     }
     
     static func closeApp() {
-        if let UserDefaultsAppGroup = UserDefaults(suiteName: KeyString.suiteName),
-           let savedData = UserDefaultsAppGroup.object(forKey: KeyString.smallWidgetData) as? Data,
+        if let userDefaultsAppGroup,
+           let savedData = userDefaultsAppGroup.object(forKey: KeyString.smallWidgetData) as? Data,
            let loadedData = try? JSONDecoder().decode(SmallWidgetData.self, from: savedData) {
             let savedSmallWidgetData = loadedData
             let data = SmallWidgetData(
@@ -47,19 +49,18 @@ final class WidgetManager {
                 id: savedSmallWidgetData.id,
                 isPlaying: savedSmallWidgetData.isPlaying,
                 isRecentPlay: true)
-            if let encodedData = try? JSONEncoder().encode(data),
-               let UserDefaultsAppGroup = UserDefaults(suiteName: KeyString.suiteName) {
-                UserDefaultsAppGroup.set(encodedData, forKey: KeyString.smallWidgetData)
+            if let encodedData = try? JSONEncoder().encode(data) {
+                userDefaultsAppGroup.set(encodedData, forKey: KeyString.smallWidgetData)
             }
             WidgetCenter.shared.reloadTimelines(ofKind: KeyString.widgetName)
         }
     }
     
     static func setupTimerToLockScreendWidget(settedSeconds: Double) {
-        if let UserDefaultsAppGroup = UserDefaults(suiteName: KeyString.suiteName) {
-            UserDefaultsAppGroup.set(settedSeconds, forKey: KeyString.lockScreenWidgetData)
-            WidgetCenter.shared.reloadTimelines(ofKind: KeyString.lockScreenwidgetName)
+        if let userDefaultsAppGroup {
+            userDefaultsAppGroup.set(settedSeconds, forKey: KeyString.lockScreenWidgetData)
          }
+        WidgetCenter.shared.reloadTimelines(ofKind: KeyString.lockScreenwidgetName)
      }
     
     static func getURL(id: Int) -> URL? {
