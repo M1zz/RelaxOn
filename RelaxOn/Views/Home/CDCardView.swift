@@ -14,42 +14,42 @@ struct CDCardView: View {
     @EnvironmentObject var viewModel: MusicViewModel
     
     // MARK: - General Properties
-    var data: MixedSound
+    var song: MixedSound
     
     // MARK: - Life Cycles
     var body: some View {
         VStack(alignment: .leading) {
             Button(action: {
-                self.selectedMixedSound = data
+                self.selectedMixedSound = song
             }, label: {
                 ZStack {
-                    CDCoverImageView(selectedImageNames: data.getImageName())
+                    CDCoverImageView(selectedImageNames: song.getImageName())
                         .frame(width: UIScreen.main.bounds.width * 0.43,
                                height: UIScreen.main.bounds.width * 0.43)
                 }
                 .fullScreenCover(item: $selectedMixedSound) { _ in
-                    MusicView(data: data)
+                    MusicView(song: song)
                 }
                 .fullScreenCover(isPresented: $isPresent) {
-                    MusicView(data: data)
+                    MusicView(song: song)
                 }
             })
-            Text(data.name)
+            Text(song.name)
                 .font(.system(size: 17, weight: .regular))
                 .foregroundColor(.systemGrey1)
         }
         .onChange(of: viewModel.initiatedByWatch) { changedValue in
-            if viewModel.currentTitle == data.name && viewModel.initiatedByWatch {
+            if viewModel.currentTitle == song.name && viewModel.initiatedByWatch {
                 isPresent = true
                 viewModel.isMusicViewPresented = true
                 viewModel.initiatedByWatch = false
             }
         }
         .onOpenURL { url in
-            if url != data.url {
+            if url != song.url {
                 selectedMixedSound = nil
             }
-            isPresent = (url == data.url)
+            isPresent = (url == song.url)
         }
     }
 }

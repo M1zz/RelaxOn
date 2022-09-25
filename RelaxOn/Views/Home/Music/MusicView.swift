@@ -36,7 +36,7 @@ struct MusicView: View {
         }
     }
     
-    var data: MixedSound
+    var song: MixedSound
     
     var body: some View {
         NavigationView {
@@ -160,7 +160,7 @@ struct MusicView: View {
                 UIApplication.shared.beginReceivingRemoteControlEvents()
                 
                 if isFetchFirstData {
-                    viewModel.fetchData(data: data)
+                    viewModel.fetchData(data: song)
                 }
                 self.isFetchFirstData = false
                 timerManager.currentMusicViewModel = self.viewModel

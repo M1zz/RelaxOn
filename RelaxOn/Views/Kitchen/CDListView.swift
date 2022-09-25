@@ -35,7 +35,7 @@ struct CDListView: View {
                             .disabled(isEditMode)
                         
                         ForEach(viewModel.userRepositoriesState){ mixedSound in
-                            CDCardView(data: mixedSound)
+                            CDCardView(song: mixedSound)
                             .disabled(isEditMode)
                             .overlay(alignment : .bottomTrailing) {
                                 if isEditMode {
@@ -72,7 +72,7 @@ struct CDListView: View {
                 }
                 .fullScreenCover(isPresented: $isPresented) {
                     if let selectedMixedSound = viewModel.mixedSound {
-                        MusicView(data: selectedMixedSound)
+                        MusicView(song: selectedMixedSound)
                     }
                 }
         }
