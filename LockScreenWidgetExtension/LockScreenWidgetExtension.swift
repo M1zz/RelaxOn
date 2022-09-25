@@ -24,7 +24,7 @@ struct Provider: TimelineProvider {
         var entries: [CDLockScreenWidgetEntry] = []
         let currentDate = Date()
         
-        if var timerData = UserDefaults(suiteName: WidgetManager.suiteName)!.value(forKey: WidgetManager.lockScreenWidgetData) as? Double {
+        if var timerData = UserDefaults(suiteName: WidgetManager.KeyString.suiteName)!.value(forKey: WidgetManager.KeyString.lockScreenWidgetData) as? Double {
             let endDate = Calendar.current.date(byAdding: .second, value: Int(timerData), to: currentDate)
             var addedSeconds: Double = 0
             while timerData >= 0 {
@@ -42,7 +42,7 @@ struct Provider: TimelineProvider {
             //                let timeline = Timeline(entries: [entry], policy: .never)
             //                completion(timeline)
             //            }
-            UserDefaults(suiteName: WidgetManager.suiteName)?.removeObject(forKey: WidgetManager.lockScreenWidgetData)
+            UserDefaults(suiteName: WidgetManager.KeyString.suiteName)?.removeObject(forKey: WidgetManager.KeyString.lockScreenWidgetData)
         } else {
             let entry = CDLockScreenWidgetEntry()
             entries.append(entry)
