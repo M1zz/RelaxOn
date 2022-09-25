@@ -11,7 +11,7 @@ struct CDCardView: View {
     // MARK: - State Properties
     @State var selectedMixedSound: MixedSound?
     @State private var isPresent = false
-    @EnvironmentObject var viewModel: MusicViewModel
+    @EnvironmentObject private var viewModel: MusicViewModel
     
     // MARK: - General Properties
     var song: MixedSound

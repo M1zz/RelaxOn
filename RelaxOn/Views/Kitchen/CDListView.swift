@@ -22,7 +22,7 @@ struct CDListView: View {
     @State private var isPresented = false
     
     // TODO: - 추후 다른 방식으로 수정
-    @EnvironmentObject var viewModel: MusicViewModel
+    @EnvironmentObject private var viewModel: MusicViewModel
     
     var body: some View {
         VStack(spacing: 0) {

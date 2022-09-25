@@ -13,7 +13,7 @@ struct CDNamingView: View {
     @State var soundName = ""
     @Binding var goToPreviousView: Bool
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    @EnvironmentObject var viewModel: MusicViewModel
+    @EnvironmentObject private var viewModel: MusicViewModel
     @State var mixedSound: MixedSound
     
     // MARK: - General Properties

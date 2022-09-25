@@ -10,7 +10,7 @@ import SwiftUI
 struct OnboardingFinishView: View {
     // MARK: - State Properties
     @Binding var showOnboarding: Bool
-    @EnvironmentObject var viewModel: MusicViewModel
+    @EnvironmentObject private var viewModel: MusicViewModel
     // MARK: - General Properties
     var mixedSound: MixedSound
     

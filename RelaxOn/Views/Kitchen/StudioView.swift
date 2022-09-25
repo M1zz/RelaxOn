@@ -42,7 +42,7 @@ struct StudioView: View {
     @State var stepBarWidth = DeviceFrame.screenWidth * 0.33
     
     @Binding var rootIsActive: Bool
-    @EnvironmentObject var viewModel: MusicViewModel
+    @EnvironmentObject private var viewModel: MusicViewModel
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     // MARK: - General Properties

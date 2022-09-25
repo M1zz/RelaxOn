@@ -46,6 +46,7 @@
 		21D3ED952892774F006E871F /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5769AF2866F6B5007CCAE9 /* UserDefaultsManager.swift */; };
 		21D897782892D48600A20FFE /* CDCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D897772892D48600A20FFE /* CDCardView.swift */; };
 		4A5769AC2866F20A007CCAE9 /* MixedSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5769AB2866F20A007CCAE9 /* MixedSound.swift */; };
+		4A78268128DF030200804EC8 /* MusicController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A78268028DF030200804EC8 /* MusicController.swift */; };
 		4AF70C4B28D1BC4300645D5D /* CDLibraryMusicController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF70C4A28D1BC4300645D5D /* CDLibraryMusicController.swift */; };
 		580CADAA28659BEF0091946C /* LongSun.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 580CADA928659BEF0091946C /* LongSun.mp3 */; };
 		580CADAC28659C990091946C /* SpaceMid.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 580CADAB28659C990091946C /* SpaceMid.mp3 */; };
@@ -260,6 +261,7 @@
 		21D897772892D48600A20FFE /* CDCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDCardView.swift; sourceTree = "<group>"; };
 		4A5769AB2866F20A007CCAE9 /* MixedSound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixedSound.swift; sourceTree = "<group>"; };
 		4A5769AF2866F6B5007CCAE9 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
+		4A78268028DF030200804EC8 /* MusicController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicController.swift; sourceTree = "<group>"; };
 		4AA37CA828D3656800B0F8FF /* LockScreenWidgetExtensionExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LockScreenWidgetExtensionExtension.entitlements; sourceTree = "<group>"; };
 		4AA37CA928D370E400B0F8FF /* WatchOSLockScreenWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WatchOSLockScreenWidgetExtension.entitlements; sourceTree = "<group>"; };
 		4AF70C4A28D1BC4300645D5D /* CDLibraryMusicController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDLibraryMusicController.swift; sourceTree = "<group>"; };
@@ -472,6 +474,14 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		4A78267F28DF02F200804EC8 /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				4A78268028DF030200804EC8 /* MusicController.swift */,
+			);
+			path = Component;
+			sourceTree = "<group>";
+		};
 		583AA0EF284E0344005A0677 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
@@ -483,6 +493,7 @@
 		58DE101F283DD9CA002CDB9F /* Music */ = {
 			isa = PBXGroup;
 			children = (
+				4A78267F28DF02F200804EC8 /* Component */,
 				58DE1020283DD9DD002CDB9F /* MusicViewModel.swift */,
 				58DE61C62843100100F25769 /* VolumeControlView.swift */,
 				C7A50DDB28D08FA000841BC6 /* MusicView.swift */,
@@ -1098,6 +1109,7 @@
 				21D3ED952892774F006E871F /* UserDefaultsManager.swift in Sources */,
 				219BD67328900A28006FAF55 /* CDListView.swift in Sources */,
 				E206D1A428D2B97500DDB4E7 /* TimerProgressBarView.swift in Sources */,
+				4A78268128DF030200804EC8 /* MusicController.swift in Sources */,
 				CBFDC8F4289C23AC00386FB5 /* VolumeSlider.swift in Sources */,
 				58DE61B2283A8E1700F25769 /* Sound.swift in Sources */,
 				C7FDCA8C28D094E0008FA749 /* MusicViewDelegate.swift in Sources */,
@@ -1223,9 +1235,10 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_ENTITLEMENTS = LockScreenWidgetExtensionExtension.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = QGAQ3AY3R3;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = QGAQ3AY3R3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LockScreenWidgetExtension/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = LockScreenWidgetExtension;
@@ -1239,6 +1252,8 @@
 				MARKETING_VERSION = 2.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.LullabyRecipe.LockScreenWidgetExtension2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = LockScreenWidgetExtension_provision;
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1254,7 +1269,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_ENTITLEMENTS = LockScreenWidgetExtensionExtension.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = QGAQ3AY3R3;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1270,6 +1285,8 @@
 				MARKETING_VERSION = 2.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.LullabyRecipe.LockScreenWidgetExtension2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = LockScreenWidgetExtension_provision;
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1285,7 +1302,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_ENTITLEMENTS = WatchOSLockScreenWidgetExtension.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = QGAQ3AY3R3;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1301,6 +1318,8 @@
 				MARKETING_VERSION = 2.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.LullabyRecipe.watchkitapp.watchkitextension.WatchOSLockScreenWidget2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=watchos*]" = WatchOSLockScreenWidget_provision;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1318,7 +1337,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_ENTITLEMENTS = WatchOSLockScreenWidgetExtension.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = QGAQ3AY3R3;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1334,6 +1353,8 @@
 				MARKETING_VERSION = 2.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.LullabyRecipe.watchkitapp.watchkitextension.WatchOSLockScreenWidget2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=watchos*]" = WatchOSLockScreenWidget_provision;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
