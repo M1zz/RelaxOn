@@ -5,7 +5,6 @@
 //  Created by Minkyeong Ko on 2022/09/27.
 //
 
-import Foundation
 import SwiftUI
 
 final class CDListViewModel: ObservableObject {

@@ -25,10 +25,7 @@ struct CDListView: View {
                             viewModel.selectCD(of: cdIndex)
                             tabSelection = 1
                         } label: {
-                            Text(viewModel.CDList[cdIndex])
-                                .foregroundColor(viewModel.getCDColor(cdIndex))
-                                .font(.system(size: 18))
-                                .padding(10)
+                            CDTitle(of: cdIndex)
                         }
                         .buttonStyle(.plain)
                         
@@ -42,6 +39,16 @@ struct CDListView: View {
         }
         .navigationTitle("Playlist")
         .navigationBarTitleDisplayMode(.inline)
+    }
+}
+
+extension CDListView {
+    @ViewBuilder
+    func CDTitle(of cdIndex: Int) -> some View {
+        Text(viewModel.CDList[cdIndex])
+            .foregroundColor(viewModel.getCDColor(cdIndex))
+            .font(.system(size: 18))
+            .padding(10)
     }
 }
 

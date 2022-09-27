@@ -8,16 +8,13 @@
 import SwiftUI
 
 struct PageView: View {
-    @ObservedObject var watchConnectivityManager = WatchConnectivityManager.shared
     @State var tabSelection = 0
     
     var body: some View {
         TabView(selection: $tabSelection) {
-            NavigationView {
-                CDListView(tabSelection: $tabSelection)
-            }
+            CDListView(tabSelection: $tabSelection)
             .tag(0)
-            CDPlayerView(watchConnectivityManager: watchConnectivityManager)
+            CDPlayerView()
             .tag(1)
         }
         .animation(Animation.easeInOut, value: tabSelection)
