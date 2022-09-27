@@ -118,7 +118,7 @@ struct CDListView: View {
             }
             Button("Cancel", role: .cancel) {}
         } message: {
-            Text("These CDs will be deleted from your library")
+            Text("These CDs will be deleted from your library.")
         }
     }
 }

@@ -30,7 +30,7 @@
 "Relax on as much as you want" = "원하는 시간만큼 플레이하세요";
 "Edit" = "편집";
 "Delete" = "삭제";
-"Delete 2 CDs" = "2개의 CD를 삭제하시겠어요?";
+"Delete %lld CDs" = "%lld개의 CD를 삭제하시겠어요?";
 "After 30 minutes, Relax On will automatically end" = "앞으로 30분 후, CD 재생이 자동으로 종료됩니다";
 "Rename" = "제목 변경";
 "Delete" = "삭제";
@@ -38,3 +38,4 @@
 "Leave Studio" = "스튜디오 나가기";
 "Recently Played" = "최근 플레이";
 "Quickly access recently played CDs." = "최근 재생한 CD에 빠르게 접근하세요.";
+"These CDs will be deleted from your library." = "선택하신 CD가 라이브러리에서 삭제됩니다.";
