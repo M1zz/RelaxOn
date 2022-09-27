@@ -14,11 +14,11 @@ struct PageView: View {
     var body: some View {
         TabView(selection: $tabSelection) {
             NavigationView {
-                CDListView(watchConnectivityManager: watchConnectivityManager, tabSelection: $tabSelection)
+                CDListView(tabSelection: $tabSelection)
             }
             .tag(0)
             CDPlayerView(watchConnectivityManager: watchConnectivityManager)
-                .tag(1)
+            .tag(1)
         }
         .animation(Animation.easeInOut, value: tabSelection)
         .transition(.slide)
