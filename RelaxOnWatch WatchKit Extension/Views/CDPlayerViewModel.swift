@@ -15,7 +15,7 @@ final class CDPlayerViewModel: ObservableObject {
         WatchConnectivityManager.shared.sendMessage(key: "requestVolume", "volume")
     }
     
-    func playPreviouse() {
+    func playPrevious() {
         WatchConnectivityManager.shared.sendMessage(key: "player", "prev")
     }
     

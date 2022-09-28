@@ -21,41 +21,32 @@ struct CDPlayerView: View {
                 Text(viewModel.currentCDName)
                 
                 HStack {
-                    Button {
-                        viewModel.playPreviouse()
-                    } label: {
-                        Image(systemName: "backward.end")
-                            .font(.system(size: 20, weight: .medium))
-                    }
-                    .disabled(viewModel.isPlayerEmpty())
-                    .buttonStyle(.plain)
-                    
-                    Spacer()
-                                    
-                    Button {
-                        viewModel.playPause()
-                    } label: {
-                        ZStack {
-                            Circle()
-                                .fill(.black)
-                                .frame(width: 50, height: 50)
-                            Image(systemName: viewModel.isPlaying ? "pause.fill" : "play.fill")
-                                .font(.system(size: 30))
-                        }
-                    }
-                    .disabled(viewModel.isPlayerEmpty())
-                    .buttonStyle(.plain)
+                    PlayControlButton(
+                        of: "backward.end",
+                        run: viewModel.playPrevious,
+                        isDisabled: viewModel.isPlayerEmpty()
+                    )
                     
                     Spacer()
                     
-                    Button {
-                        viewModel.playNext()
-                    } label: {
-                        Image(systemName: "forward.end")
-                            .font(.system(size: 20, weight: .medium))
+                    ZStack {
+                        Circle()
+                            .fill(.black)
+                            .frame(width: 50, height: 50)
+                        PlayControlButton(
+                            of: viewModel.isPlaying ? "pause.fill" : "play.fill",
+                            run: viewModel.playPause,
+                            isDisabled: viewModel.isPlayerEmpty()
+                        )
                     }
-                    .disabled(viewModel.isPlayerEmpty())
-                    .buttonStyle(.plain)
+                    
+                    Spacer()
+                    
+                    PlayControlButton(
+                        of: "forward.end",
+                        run: viewModel.playNext,
+                        isDisabled: viewModel.isPlayerEmpty()
+                    )
                 }
                 .padding()
                 
@@ -73,6 +64,19 @@ struct CDPlayerView: View {
         .onAppear {
             viewModel.getSystemVolume()
         }
+    }
+}
+
+extension CDPlayerView {
+    func PlayControlButton(of name: String, run action: @escaping () -> Void, isDisabled: Bool) -> some View {
+        Button {
+            action()
+        } label: {
+            Image(systemName: name)
+                .font(.system(size: 20, weight: .medium))
+        }
+        .disabled(isDisabled)
+        .buttonStyle(.plain)
     }
 }
 
