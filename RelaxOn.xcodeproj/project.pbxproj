@@ -28,6 +28,8 @@
 		2125F1B928CE0299007BAB85 /* PageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2125F1B828CE0299007BAB85 /* PageView.swift */; };
 		2125F1BB28CE02BE007BAB85 /* CDPlayerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2125F1BA28CE02BD007BAB85 /* CDPlayerManager.swift */; };
 		2125F1BD28CE02D7007BAB85 /* WatchConnectivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2125F1BC28CE02D7007BAB85 /* WatchConnectivityManager.swift */; };
+		214BE8D228E3208C009C853F /* CDListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 214BE8D128E3208C009C853F /* CDListViewModel.swift */; };
+		214BE8D428E32322009C853F /* CDPlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 214BE8D328E32322009C853F /* CDPlayerViewModel.swift */; };
 		216057DB28BD4DBF0032A5AC /* CDListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216057DA28BD4DBF0032A5AC /* CDListView.swift */; };
 		216057DD28BD4E760032A5AC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 216057DC28BD4E760032A5AC /* Assets.xcassets */; };
 		216057DE28BD4EA40032A5AC /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C753494F28B748C80055F7CA /* Color+Extension.swift */; };
@@ -243,6 +245,8 @@
 		2125F1B828CE0299007BAB85 /* PageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageView.swift; sourceTree = "<group>"; };
 		2125F1BA28CE02BD007BAB85 /* CDPlayerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDPlayerManager.swift; sourceTree = "<group>"; };
 		2125F1BC28CE02D7007BAB85 /* WatchConnectivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchConnectivityManager.swift; sourceTree = "<group>"; };
+		214BE8D128E3208C009C853F /* CDListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDListViewModel.swift; sourceTree = "<group>"; };
+		214BE8D328E32322009C853F /* CDPlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDPlayerViewModel.swift; sourceTree = "<group>"; };
 		216057DA28BD4DBF0032A5AC /* CDListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDListView.swift; sourceTree = "<group>"; };
 		216057DC28BD4E760032A5AC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2193315F28D2B1A5006D1E75 /* VolumeSliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeSliderView.swift; sourceTree = "<group>"; };
@@ -411,7 +415,9 @@
 			children = (
 				2125F1B828CE0299007BAB85 /* PageView.swift */,
 				216057DA28BD4DBF0032A5AC /* CDListView.swift */,
+				214BE8D128E3208C009C853F /* CDListViewModel.swift */,
 				21B7A65C28A31DE700E90744 /* CDPlayerView.swift */,
+				214BE8D328E32322009C853F /* CDPlayerViewModel.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1084,10 +1090,12 @@
 			files = (
 				21B7A65F28A31DE700E90744 /* NotificationController.swift in Sources */,
 				216057DE28BD4EA40032A5AC /* Color+Extension.swift in Sources */,
+				214BE8D428E32322009C853F /* CDPlayerViewModel.swift in Sources */,
 				21B7A65D28A31DE700E90744 /* CDPlayerView.swift in Sources */,
 				21B7A66328A31DE700E90744 /* ComplicationController.swift in Sources */,
 				21B7A65B28A31DE700E90744 /* RelaxOnApp.swift in Sources */,
 				2125F1BD28CE02D7007BAB85 /* WatchConnectivityManager.swift in Sources */,
+				214BE8D228E3208C009C853F /* CDListViewModel.swift in Sources */,
 				21B7A66128A31DE700E90744 /* NotificationView.swift in Sources */,
 				2125F1BB28CE02BE007BAB85 /* CDPlayerManager.swift in Sources */,
 				2125F1B928CE0299007BAB85 /* PageView.swift in Sources */,

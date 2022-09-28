@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct CDPlayerView: View {
-    @ObservedObject var watchConnectivityManager: WatchConnectivityManager
-    @ObservedObject var cdPlayerManager = CDPlayerManager.shared
+    @ObservedObject var viewModel = CDPlayerViewModel()
     @State var volume = 50.0
     
     var body: some View {
@@ -20,66 +19,66 @@ struct CDPlayerView: View {
                 .blur(radius: 10)
             
             VStack {
-                Text(cdPlayerManager.currentCDName)
+                Text(viewModel.currentCDName)
                 
                 HStack {
-                    Button(action: {
-                        cdPlayerManager.playPrevious()
-                    }) {
+                    Button {
+                        viewModel.playPreviouse()
+                    } label: {
                         Image(systemName: "backward.end")
                             .font(.system(size: 20, weight: .medium))
                     }
-                    .disabled(cdPlayerManager.currentCDName == "")
+                    .disabled(viewModel.isPlayerEmpty())
                     .buttonStyle(.plain)
                     
                     Spacer()
                                     
-                    Button(action: {
-                        cdPlayerManager.playPause()
-                    }) {
+                    Button {
+                        viewModel.playPause()
+                    } label: {
                         ZStack {
                             Circle()
                                 .fill(.black)
                                 .frame(width: 50, height: 50)
-                            Image(systemName: cdPlayerManager.isPlaying ? "pause.fill" : "play.fill")
+                            Image(systemName: viewModel.getIconName())
                                 .font(.system(size: 30))
                         }
                     }
-                    .disabled(cdPlayerManager.currentCDName == "")
+                    .disabled(viewModel.isPlayerEmpty())
                     .buttonStyle(.plain)
                     
                     Spacer()
                     
-                    Button(action: {
-                        cdPlayerManager.playNext()
-                    }) {
+                    Button {
+                        viewModel.playNext()
+                    } label: {
                         Image(systemName: "forward.end")
                             .font(.system(size: 20, weight: .medium))
                     }
-                    .disabled(cdPlayerManager.currentCDName == "")
+                    .disabled(viewModel.isPlayerEmpty())
                     .buttonStyle(.plain)
                 }
                 .padding()
                 
                 Slider(value: Binding(
                     get: {
-                        cdPlayerManager.volume
+                        CDPlayerManager.shared.volume
                     },
                     set: {(newValue) in
-                        cdPlayerManager.changeVolume(volume: newValue)
+                        CDPlayerManager.shared.changeVolume(volume: newValue)
                     }
                 ))
                 .tint(.white)
             }
         }
         .onAppear {
-            cdPlayerManager.requestVolume()
+            viewModel.getSystemVolume()
         }
     }
 }
 
 struct CDPlayerView_Previews: PreviewProvider {
     static var previews: some View {
-        CDPlayerView(watchConnectivityManager: WatchConnectivityManager.shared)
+        CDPlayerView()
     }
 }
