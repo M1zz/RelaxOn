@@ -2,9 +2,9 @@ name: iOS Build Action
 
 on:
   push:
-    branches: [ "main", "develop" ]
+    branches: [ "main", "develop", "release/2.3.0"]
   pull_request:
-    branches: [ "main", "develop" ]
+    branches: [ "main", "develop", "release/2.3.0"]
 
 jobs:
   build:
