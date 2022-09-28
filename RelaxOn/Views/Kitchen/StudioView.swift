@@ -60,7 +60,7 @@ struct StudioView: View {
     
     // MARK: - Life Cycles
     var body: some View {
-        ZStack{
+        ZStack {
             Color.relaxBlack.ignoresSafeArea()
             VStack {
                 switch viewType {
@@ -144,11 +144,9 @@ extension StudioView {
                         RadioButtonGroupView(selectedId: soundType.rawValue,
                                              items: SoundType.base.soundList) { baseSelected in
                             selectedBaseSound = baseSelected
-                            // play music
                             
                             if selectedBaseSound.name == "Empty" {
                                 baseAudioManager.stop()
-                                
                                 opacityAnimationValues[0] = 0.0
                             } else {
                                 baseAudioManager.startPlayer(track: selectedBaseSound.fileName, volume: volumes[select])
@@ -163,7 +161,6 @@ extension StudioView {
                             
                             if selectedMelodySound.name == "Empty" {
                                 melodyAudioManager.stop()
-                                
                                 opacityAnimationValues[1] = 0.0
                             } else {
                                 melodyAudioManager.startPlayer(track: selectedMelodySound.fileName, volume: volumes[select])
@@ -178,7 +175,6 @@ extension StudioView {
                             
                             if selectedWhiteNoiseSound.name == "Empty" {
                                 whiteNoiseAudioManager.stop()
-                                
                                 opacityAnimationValues[2] = 0.0
                             } else {
                                 whiteNoiseAudioManager.startPlayer(track: selectedWhiteNoiseSound.fileName, volume: volumes[select])
@@ -191,7 +187,6 @@ extension StudioView {
             }.padding(.horizontal, 15)
         }
         .onAppear {
-            viewModel.isPlaying = false
             if self.viewType == .onboarding {
                 withAnimation(.default) {
                     stepBarWidth = DeviceFrame.screenWidth * CGFloat( Double(select + 1) * 0.333 )
