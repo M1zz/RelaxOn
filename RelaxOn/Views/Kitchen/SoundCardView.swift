@@ -29,31 +29,26 @@ struct SoundCardView: View {
         self.callback = callback
         self.selectedID = selectedID
     }
-
+    
     var body: some View {
         ZStack {
             VStack(alignment: .center, spacing: 10) {
-                if data.name == "Empty" {
-                    ZStack {
+                Group {
+                    if data.name == "Empty" {
                         Rectangle()
-                            .frame(width: (DeviceFrame.exceptPaddingWidth - 20 ) / 3 ,
-                                   height: (DeviceFrame.exceptPaddingWidth - 20 ) / 3,
-                                   alignment: .center)
-                            .border(selectedID == soundFileName ? .white : .clear, width: 2)
-                            .cornerRadius(4)
-                            .clipped()
+                            .fill(.white)
+                    } else {
+                        Image(data.fileName)
+                            .resizable()
                     }
-                } else {
-                    Image(data.fileName)
-                        .resizable()
-                        .frame(width: (DeviceFrame.exceptPaddingWidth - 20 ) / 3,
-                               height: (DeviceFrame.exceptPaddingWidth - 20 ) / 3,
-                               alignment: .center)
-                        .border(selectedID == soundFileName ? .white : .clear, width: 2)
-                        .cornerRadius(4)
-                        .clipped()
                 }
-
+                .frame(width: (DeviceFrame.exceptPaddingWidth - 20 ) / 3,
+                       height: (DeviceFrame.exceptPaddingWidth - 20 ) / 3,
+                       alignment: .center)
+                .border(selectedID == soundFileName ? .white : .clear, width: 2)
+                .cornerRadius(4)
+                .clipped()
+                
                 HStack {
                     Text(LocalizedStringKey(data.name))
                         .fontWeight(.semibold)
@@ -75,12 +70,9 @@ struct SoundCardView: View {
 struct SoundCard_Previews: PreviewProvider {
     static var previews: some View {
         SoundCardView(soundFileName : "base_default",
-                      data: SoundType.base.soundList.first ?? Sound.empty(0, .base),
-                  callback: {_,_  in },
-                  selectedID: "")
+                      data: SoundType.soundList(.base).first ?? Sound.empty(.base),
+                      callback: {_, _  in },
+                      selectedID: "")
         .background(Color.backgroundColor)
     }
 }
-
-
-
