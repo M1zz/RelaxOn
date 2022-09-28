@@ -25,6 +25,14 @@ struct MixedSound: Identifiable, Codable, Equatable {
         self.fileName = fileName
         self.url = WidgetManager.getURL(id: id)
     }
+    
+    static var empty: MixedSound {
+        MixedSound(name: "Empty",
+                   baseSound: Sound.empty(.base),
+                   melodySound: Sound.empty(.melody),
+                   whiteNoiseSound: Sound.empty(.whiteNoise),
+                   fileName: "")
+    }
 }
 
 extension MixedSound {
@@ -55,9 +63,5 @@ extension MixedSound {
     }
 }
 
-let emptyMixedSound = MixedSound(name: "empty",
-                                 baseSound: Sound.empty(.base),
-                                 melodySound: Sound.empty(.melody),
-                                 whiteNoiseSound: Sound.empty(.whiteNoise),
-                                 fileName: "")
+
 

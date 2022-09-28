@@ -34,7 +34,7 @@ struct SoundCardView: View {
         ZStack {
             VStack(alignment: .center, spacing: 10) {
                 Group {
-                    if data.name == "Empty" {
+                    if data.fileName.isEmpty {
                         Rectangle()
                             .fill(.white)
                     } else {

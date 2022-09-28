@@ -53,7 +53,7 @@ extension CDCoverImageView {
     
     @ViewBuilder
     func IllustImage(imageName: String) -> some View {
-        if imageName == "Empty" {
+        if imageName.isEmpty {
             Rectangle()
                 .fill(.clear)
         } else {

@@ -146,7 +146,7 @@ extension StudioView {
                             selectedBaseSound = baseSelected
                             // play music
                             
-                            if selectedBaseSound.name == "Empty" {
+                            if selectedBaseSound.fileName.isEmpty {
                                 baseAudioManager.stop()
                                 
                                 opacityAnimationValues[0] = 0.0
@@ -161,7 +161,7 @@ extension StudioView {
                                              items: SoundType.soundList(.melody)) { melodySounds in
                             selectedMelodySound = melodySounds
                             
-                            if selectedMelodySound.name == "Empty" {
+                            if selectedMelodySound.fileName.isEmpty {
                                 melodyAudioManager.stop()
                                 
                                 opacityAnimationValues[1] = 0.0
@@ -176,7 +176,7 @@ extension StudioView {
                                              items: SoundType.soundList(.whiteNoise)) { whiteNoiseSounds in
                             selectedWhiteNoiseSound = whiteNoiseSounds
                             
-                            if selectedWhiteNoiseSound.name == "Empty" {
+                            if selectedWhiteNoiseSound.fileName.isEmpty {
                                 whiteNoiseAudioManager.stop()
                                 
                                 opacityAnimationValues[2] = 0.0
