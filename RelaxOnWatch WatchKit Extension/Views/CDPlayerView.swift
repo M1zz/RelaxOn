@@ -9,7 +9,6 @@ import SwiftUI
 
 struct CDPlayerView: View {
     @ObservedObject var viewModel = CDPlayerViewModel()
-    @State var volume = 50.0
     
     var body: some View {
         ZStack {
@@ -40,7 +39,7 @@ struct CDPlayerView: View {
                             Circle()
                                 .fill(.black)
                                 .frame(width: 50, height: 50)
-                            Image(systemName: viewModel.getIconName())
+                            Image(systemName: viewModel.isPlaying ? "pause.fill" : "play.fill")
                                 .font(.system(size: 30))
                         }
                     }
@@ -62,10 +61,10 @@ struct CDPlayerView: View {
                 
                 Slider(value: Binding(
                     get: {
-                        CDPlayerManager.shared.volume
+                        CDPlayer.shared.volume
                     },
                     set: {(newValue) in
-                        CDPlayerManager.shared.changeVolume(volume: newValue)
+                        viewModel.changeVolume(volume: newValue)
                     }
                 ))
                 .tint(.white)

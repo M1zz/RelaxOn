@@ -8,21 +8,29 @@
 import SwiftUI
 
 final class CDPlayerViewModel: ObservableObject {
-    @Published var currentCDName = CDPlayerManager.shared.currentCDName
-    @Published var isPlaying = CDPlayerManager.shared.isPlaying
-    
-    var cdPlayerManager = CDPlayerManager.shared
+    @Published var currentCDName = CDPlayer.shared.currentCDName
+    @Published var isPlaying = CDPlayer.shared.isPlaying
     
     func getSystemVolume() {
-        cdPlayerManager.requestVolume()
+        WatchConnectivityManager.shared.sendMessage(key: "requestVolume", "volume")
     }
     
     func playPreviouse() {
-        cdPlayerManager.playPrevious()
+        WatchConnectivityManager.shared.sendMessage(key: "player", "prev")
     }
     
     func playPause() {
-        cdPlayerManager.playPause()
+        isPlaying = !isPlaying
+        CDPlayer.shared.isPlaying = isPlaying
+        if isPlaying {
+            WatchConnectivityManager.shared.sendMessage(key: "player", "pause")
+        } else {
+            WatchConnectivityManager.shared.sendMessage(key: "player", "play")
+        }
+    }
+    
+    func playNext() {
+        WatchConnectivityManager.shared.sendMessage(key: "player", "next")
     }
     
     func isPlayerEmpty() -> Bool {
@@ -30,10 +38,11 @@ final class CDPlayerViewModel: ObservableObject {
     }
     
     func getIconName() -> String {
-        return cdPlayerManager.isPlaying ? "pause.fill" : "play.fill"
+        return isPlaying ? "pause.fill" : "play.fill"
     }
     
-    func playNext() {
-        cdPlayerManager.playNext()
+    func changeVolume(volume: Float) {
+        CDPlayer.shared.volume = volume
+        WatchConnectivityManager.shared.sendMessage(key: "volume", String(volume))
     }
 }

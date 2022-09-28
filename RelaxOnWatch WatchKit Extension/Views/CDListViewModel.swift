@@ -8,22 +8,24 @@
 import SwiftUI
 
 final class CDListViewModel: ObservableObject {
-    var cdManager = CDPlayerManager.shared
-    var wcManager = WatchConnectivityManager.shared
+    var WCManager = WatchConnectivityManager.shared
     
-    @Published var CDList: [String] = WatchConnectivityManager.shared.cdList
+    @Published var CDList: [String] = CDPlayer.shared.CDList
     
     func selectCD(of currentCDIndex: Int) {
-        cdManager.currentCDName = wcManager.cdList[currentCDIndex]
-        wcManager.sendMessage(key: "title", cdManager.currentCDName)
-        cdManager.isPlaying = true
+        let currentCDName = CDList[currentCDIndex]
+        
+        CDPlayer.shared.currentCDName = currentCDName
+        CDPlayer.shared.isPlaying = true
+        
+        WCManager.sendMessage(key: "title", currentCDName)
     }
     
     func getCDColor(_ currentCdIndex: Int) -> Color {
-        return wcManager.cdList[currentCdIndex] == cdManager.currentCDName ? Color.relaxDimPurple : .white
+        return CDList[currentCdIndex] == CDPlayer.shared.currentCDName ? Color.relaxDimPurple : .white
     }
     
     func getCDList() {
-        wcManager.sendMessage(key: "list", "request")
+        WCManager.sendMessage(key: "list", "request")
     }
 }
