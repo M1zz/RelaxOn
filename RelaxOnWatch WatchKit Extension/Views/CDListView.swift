@@ -37,7 +37,7 @@ struct CDListView: View {
         .onAppear {
             viewModel.getCDList()
         }
-        .navigationTitle("Playlist")
+        .navigationTitle(StringLiteral.playList)
         .navigationBarTitleDisplayMode(.inline)
     }
 }
