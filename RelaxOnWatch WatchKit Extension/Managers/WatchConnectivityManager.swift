@@ -6,27 +6,17 @@
 //
 
 import UIKit
-
 import WatchConnectivity
-
-struct NotificationMessage: Identifiable {
-    let id = UUID()
-    let text: String
-}
 
 final class WatchConnectivityManager: NSObject, ObservableObject {
     
     // MARK: - singleton
     static let shared = WatchConnectivityManager()
     
-    @Published var notificationMessage: NotificationMessage? = nil
     @Published var playMessageKey = "player"
     @Published var volumeMessageKey = "volume"
     @Published var listMessageKey = "list"
     @Published var titleMessageKey = "title"
-    @Published var cdList: [String] = []
-    @Published var cdTitle = ""
-    @Published var volume: Float = 0.0
     
     private override init() {
         super.init()
@@ -47,39 +37,35 @@ final class WatchConnectivityManager: NSObject, ObservableObject {
             return
         }
         
-        print("메시지 전송됨, key: \(key), message: \(message)")
-        WCSession.default.sendMessage([key : message], replyHandler: nil) { error in
+        WCSession.default.sendMessage([ key: message ], replyHandler: nil) { error in
             print("Cannot send play message: \(String(describing: error))")
         }
     }
 }
 
 extension WatchConnectivityManager: WCSessionDelegate {
-    func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
+    func session(_ session: WCSession, didReceiveMessage message: [ String: Any ]) {
         if let title = message[titleMessageKey] as? String {
-            DispatchQueue.main.async { [weak self] in
-                self?.cdTitle = title
-                CDPlayerManager.shared.currentCDName = title
+            DispatchQueue.main.async {
+                CDPlayer.shared.currentCDName = title
             }
         }
         
         if let state = message[playMessageKey] as? String {
-            DispatchQueue.main.async { [weak self] in
-                CDPlayerManager.shared.isPlaying = state == "play" ? true : false
+            DispatchQueue.main.async {
+                CDPlayer.shared.isPlaying = state == "play" ? true : false
             }
         }
         
         if let list = message[listMessageKey] as? [String] {
-            DispatchQueue.main.async { [weak self] in
-                self?.cdList = list
+            DispatchQueue.main.async {
+                CDPlayer.shared.CDList = list
             }
         }
         
         if let volume = message["volume"] as? Float {
-            print("볼륨 수신됨, \(volume)")
-            DispatchQueue.main.async { [weak self] in
-                self?.volume = volume
-                CDPlayerManager.shared.volume = volume
+            DispatchQueue.main.async {
+                CDPlayer.shared.volume = volume
             }
         }
     }
@@ -88,5 +74,3 @@ extension WatchConnectivityManager: WCSessionDelegate {
         
     }
 }
-
-

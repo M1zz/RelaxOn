@@ -8,33 +8,24 @@
 import SwiftUI
 
 struct CDListView: View {
-    @ObservedObject var watchConnectivityManager: WatchConnectivityManager
     @Binding var tabSelection: Int
-    @State var selectedCDIndex = -1
+    @ObservedObject var viewModel = CDListViewModel()
     
     var body: some View {
-        
         VStack {
             ScrollView {
-                VStack (alignment: .leading, spacing: 0) {
-                    
-                    ForEach(watchConnectivityManager.cdList.indices, id: \.self) { cdIndex in
+                VStack(alignment: .leading, spacing: 0) {
+                    ForEach(viewModel.CDList.indices, id: \.self) { cdIndex in
                         
                         if cdIndex == 0 {
                             Divider()
                         }
                         
-                        Button(action: {
-                            CDPlayerManager.shared.currentCDName = watchConnectivityManager.cdList[cdIndex]
-                            WatchConnectivityManager.shared.sendMessage(key: "title", CDPlayerManager.shared.currentCDName)
-                            CDPlayerManager.shared.isPlaying = true
-                            selectedCDIndex = cdIndex
+                        Button {
+                            viewModel.selectCD(of: cdIndex)
                             tabSelection = 1
-                        }) {
-                            Text(watchConnectivityManager.cdList[cdIndex])
-                                .foregroundColor(WatchConnectivityManager.shared.cdList[cdIndex] == CDPlayerManager.shared.currentCDName ? Color.relaxDimPurple : .white)
-                                .font(.system(size: 18))
-                                .padding(10)
+                        } label: {
+                            CDTitle(of: cdIndex)
                         }
                         .buttonStyle(.plain)
                         
@@ -44,15 +35,25 @@ struct CDListView: View {
             }
         }
         .onAppear {
-            WatchConnectivityManager.shared.sendMessage(key: "list", "request")
+            viewModel.getCDList()
         }
         .navigationTitle("Playlist")
         .navigationBarTitleDisplayMode(.inline)
     }
 }
 
+extension CDListView {
+    @ViewBuilder
+    func CDTitle(of cdIndex: Int) -> some View {
+        Text(viewModel.CDList[cdIndex])
+            .foregroundColor(viewModel.getCDColor(cdIndex))
+            .font(.system(size: 18))
+            .padding(10)
+    }
+}
+
 struct CDListView_Previews: PreviewProvider {
     static var previews: some View {
-        CDListView(watchConnectivityManager: WatchConnectivityManager.shared, tabSelection: .constant(0))
+        CDListView(tabSelection: .constant(0))
     }
 }
