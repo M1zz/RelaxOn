@@ -8,8 +8,8 @@
 import SwiftUI
 
 final class CDListViewModel: ObservableObject {
-    var cdManager = CDPlayerManager.shared
-    var wcManager = WatchConnectivityManager.shared
+    let cdManager = CDPlayerManager.shared
+    let wcManager = WatchConnectivityManager.shared
     
     @Published var CDList: [String] = WatchConnectivityManager.shared.cdList
     

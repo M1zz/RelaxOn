@@ -23,7 +23,7 @@ struct CDPlayerView: View {
                 
                 HStack {
                     Button {
-                        viewModel.playPreviouse()
+                        viewModel.playPrevious()
                     } label: {
                         Image(systemName: "backward.end")
                             .font(.system(size: 20, weight: .medium))

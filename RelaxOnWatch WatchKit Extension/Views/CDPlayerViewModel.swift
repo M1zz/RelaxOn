@@ -17,7 +17,7 @@ final class CDPlayerViewModel: ObservableObject {
         cdPlayerManager.requestVolume()
     }
     
-    func playPreviouse() {
+    func playPrevious() {
         cdPlayerManager.playPrevious()
     }
     
