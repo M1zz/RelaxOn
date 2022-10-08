@@ -18,7 +18,7 @@ struct VolumeSlider<Component: View>: View {
     var knobWidth: CGFloat?
     
     // MARK: - Methods
-    private func onDragChange(_ drag: DragGesture.Value,_ frame: CGRect) {
+    private func onDragChange(_ drag: DragGesture.Value, _ frame: CGRect) {
         let width = (knob: Float(knobWidth ?? frame.size.height), view: Float(frame.size.width))
         let xrange = (min: Float(0), max: Float(width.view - width.knob))
         var value = Float(drag.startLocation.x + drag.translation.width) // knob center x
@@ -44,7 +44,7 @@ struct VolumeSlider<Component: View>: View {
         let offsetX = self.getOffsetX(frame: frame)
         
         let knobSize = CGSize(width: knobWidth ?? frame.height, height: frame.height)
-        let barLeftSize = CGSize(width: CGFloat(offsetX + knobSize.width * 0.5), height:  frame.height)
+        let barLeftSize = CGSize(width: CGFloat(offsetX + knobSize.width * 0.5), height: frame.height)
         let barRightSize = CGSize(width: frame.width - barLeftSize.width, height: frame.height)
         
         let modifiers = CustomSliderComponents(
