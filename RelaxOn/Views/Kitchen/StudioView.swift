@@ -142,10 +142,10 @@ extension StudioView {
                     switch soundType {
                     case .base:
                         RadioButtonGroupView(selectedId: soundType.rawValue,
-                                             items: SoundType.base.soundList) { baseSelected in
+                                             items: SoundType.soundList(.base)) { baseSelected in
                             selectedBaseSound = baseSelected
                             
-                            if selectedBaseSound.name == "Empty" {
+                            if selectedBaseSound.fileName.isEmpty {
                                 baseAudioManager.stop()
                                 opacityAnimationValues[0] = 0.0
                             } else {
@@ -156,10 +156,10 @@ extension StudioView {
                         }
                     case .melody:
                         RadioButtonGroupView(selectedId: soundType.rawValue,
-                                             items: SoundType.melody.soundList) { melodySounds in
+                                             items: SoundType.soundList(.melody)) { melodySounds in
                             selectedMelodySound = melodySounds
                             
-                            if selectedMelodySound.name == "Empty" {
+                            if selectedMelodySound.fileName.isEmpty {
                                 melodyAudioManager.stop()
                                 opacityAnimationValues[1] = 0.0
                             } else {
@@ -170,10 +170,10 @@ extension StudioView {
                         }
                     case .whiteNoise:
                         RadioButtonGroupView(selectedId: soundType.rawValue,
-                                             items: SoundType.whiteNoise.soundList) { whiteNoiseSounds in
+                                             items: SoundType.soundList(.whiteNoise)) { whiteNoiseSounds in
                             selectedWhiteNoiseSound = whiteNoiseSounds
                             
-                            if selectedWhiteNoiseSound.name == "Empty" {
+                            if selectedWhiteNoiseSound.fileName.isEmpty {
                                 whiteNoiseAudioManager.stop()
                                 opacityAnimationValues[2] = 0.0
                             } else {
@@ -252,7 +252,7 @@ extension StudioView {
         } label: {
             Text("Mix")
                 .font(.system(size: 24, weight: .regular))
-                .foregroundColor( ($selectedBaseSound.id == 0 && $selectedMelodySound.id == 10 && $selectedWhiteNoiseSound.id == 20) ? Color.gray : Color.relaxDimPurple )
+                .foregroundColor( ($selectedBaseSound.id == 0 && $selectedMelodySound.id == 0 && $selectedWhiteNoiseSound.id == 0) ? Color.gray : Color.relaxDimPurple )
                 .onTapGesture {
                     baseSound = selectedBaseSound
                     melodySound = selectedMelodySound
@@ -270,7 +270,7 @@ extension StudioView {
                     navigateActive = true
                 }
         }
-        .disabled(($selectedBaseSound.id == 0 && $selectedMelodySound.id == 10 && $selectedWhiteNoiseSound.id == 20) ? true : false)
+        .disabled(($selectedBaseSound.id == 0 && $selectedMelodySound.id == 0 && $selectedWhiteNoiseSound.id == 0) ? true : false)
     }
 }
 
@@ -333,9 +333,9 @@ extension StudioView {
     } label: {
             Text("Mix")
                 .font(.system(size: 24, weight: .regular))
-                .foregroundColor( ($selectedBaseSound.id == 0 || $selectedMelodySound.id == 10 || $selectedWhiteNoiseSound.id == 20) ? Color.gray : Color.relaxDimPurple )
+                .foregroundColor( ($selectedBaseSound.id == 0 || $selectedMelodySound.id == 0 || $selectedWhiteNoiseSound.id == 0) ? Color.gray : Color.relaxDimPurple )
         }
-        .opacity(($selectedBaseSound.id == 0 || $selectedMelodySound.id == 10 || $selectedWhiteNoiseSound.id == 20) ? 0 : 1)
+        .opacity(($selectedBaseSound.id == 0 || $selectedMelodySound.id == 0 || $selectedWhiteNoiseSound.id == 0) ? 0 : 1)
         .simultaneousGesture(TapGesture().onEnded { _ in
             baseSound = selectedBaseSound
             melodySound = selectedMelodySound

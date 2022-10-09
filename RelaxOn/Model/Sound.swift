@@ -14,29 +14,16 @@ struct Sound: Identifiable, Codable {
     var audioVolume: Float
     let fileName: String
     
-    static let empty: (Int, SoundType) -> Sound = {
-        return Sound(id: $0 * 10,
-                     name: "Empty",
-                     soundType: $1,
-                     audioVolume: 0.5,
-                     fileName: "")
+    static let empty: (SoundType) -> Sound = { type in
+        Sound(id: 0,
+              name: "Empty",
+              soundType: type,
+              audioVolume: 0.5,
+              fileName: "")
     }
 }
 
-var baseSound: Sound = Sound(id: 0,
-                             name: "Empty",
-                             soundType: .base,
-                             audioVolume: 0.0,
-                             fileName: "")
-var melodySound: Sound = Sound(id: 3,
-                               name: "Empty",
-                               soundType: .base,
-                               audioVolume: 0.0,
-                               fileName: "")
-var whiteNoiseSound: Sound = Sound(id: 6,
-                                name: "Empty",
-                                soundType: .base,
-                                audioVolume: 0.0,
-                                fileName: "")
+var baseSound: Sound = Sound.empty(.base)
+var melodySound: Sound = Sound.empty(.melody)
+var whiteNoiseSound: Sound = Sound.empty(.whiteNoise)
 
-var mixedAudioSources: [Sound] = []

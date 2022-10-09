@@ -14,7 +14,7 @@ struct MusicController: View {
     var body: some View {
         HStack(spacing: hstackSpacing) {
             Button {
-                viewModel.setupPreviousTrack(mixedSound: viewModel.mixedSound ?? emptyMixedSound)
+                viewModel.setupPreviousTrack(mixedSound: viewModel.mixedSound ?? MixedSound.empty)
             } label: {
                 Image(systemName: "backward.fill")
                     .resizable()
@@ -32,7 +32,7 @@ struct MusicController: View {
             }.disabled(viewModel.mixedSound == nil)
 
             Button {
-                viewModel.setupNextTrack(mixedSound: viewModel.mixedSound ?? emptyMixedSound)
+                viewModel.setupNextTrack(mixedSound: viewModel.mixedSound ?? MixedSound.empty)
             } label: {
                 Image(systemName: "forward.fill")
                     .resizable()

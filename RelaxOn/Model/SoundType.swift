@@ -12,32 +12,17 @@ enum SoundType: String, CaseIterable, Codable {
     case melody
     case whiteNoise
     
-    var soundList: [Sound] {
-        var soundList = [Sound.empty(self.index, self)]
-        switch self {
-        case .base:
-            soundList.append(contentsOf: BaseSound.soundList)
-        case .melody:
-            soundList.append(contentsOf: MelodySound.soundList)
-        case .whiteNoise:
-            soundList.append(contentsOf: WhiteNoiseSound.soundList)
-        }
-        return soundList
-    }
-    
-    var index: Int {
-        switch self {
-        case .base:
-            return 0
-        case .melody:
-            return 1
-        case .whiteNoise:
-            return 2
+    static let soundList: (SoundType) -> [Sound] = { type in
+        switch type {
+        case .base: return BaseSound.soundList
+        case .melody: return MelodySound.soundList
+        case .whiteNoise: return WhiteNoiseSound.soundList
         }
     }
 }
 
 enum BaseSound: String, CaseIterable {
+    case empty
     case longSun
     case spaceMid
     case spaceLow
@@ -53,18 +38,18 @@ enum BaseSound: String, CaseIterable {
     }
     
     static var soundList: [Sound] {
-        
         return self.allCases.enumerated().map {
-            Sound(id: $0.offset + 1,
+            Sound(id: $0.offset,
                   name: $0.element.displayName,
                   soundType: .base,
                   audioVolume: 0.5,
-                  fileName: $0.element.fileName)
+                  fileName: $0.offset == 0 ? "" : $0.element.fileName)
         }
     }
 }
 
 enum MelodySound: String, CaseIterable {
+    case empty
     case ambient
     case garden
     case gymnopedie
@@ -81,16 +66,17 @@ enum MelodySound: String, CaseIterable {
     
     static var soundList: [Sound] {
         return self.allCases.enumerated().map {
-            Sound(id: $0.offset + 1 + 10,
+            Sound(id: $0.offset,
                   name: $0.element.displayName,
                   soundType: .melody,
                   audioVolume: 0.5,
-                  fileName: $0.element.fileName)
+                  fileName: $0.offset == 0 ? "" : $0.element.fileName)
         }
     }
 }
 
 enum WhiteNoiseSound: String, CaseIterable {
+    case empty
     case dryGrass
     case stream
     case summerField
@@ -107,11 +93,11 @@ enum WhiteNoiseSound: String, CaseIterable {
     
     static var soundList: [Sound] {
         return self.allCases.enumerated().map {
-            Sound(id: $0.offset + 1 + 20,
+            Sound(id: $0.offset,
                   name: $0.element.displayName,
                   soundType: .whiteNoise,
                   audioVolume: 0.5,
-                  fileName: $0.element.fileName)
+                  fileName: $0.offset == 0 ? "" : $0.element.fileName)
         }
     }
 }
