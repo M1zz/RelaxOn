@@ -25,19 +25,11 @@ struct MixedSound: Identifiable, Codable, Equatable {
         self.fileName = fileName
         self.url = WidgetManager.getURL(id: id)
     }
-    
-    static var empty: MixedSound {
-        MixedSound(name: "Empty",
-                   baseSound: Sound.empty(.base),
-                   melodySound: Sound.empty(.melody),
-                   whiteNoiseSound: Sound.empty(.whiteNoise),
-                   fileName: "")
-    }
 }
 
 extension MixedSound {
     static func == (lhs: MixedSound, rhs: MixedSound) -> Bool {
-        return true
+        return lhs.id == rhs.id
     }
     
     /// 마지막으로 생성된 id + 1 값을 반환
@@ -48,11 +40,21 @@ extension MixedSound {
         return returnId
     }
     
-    static let preview = MixedSound(name: "Preview",
-                                    baseSound: Sound.empty(.base),
-                                    melodySound: Sound.empty(.melody),
-                                    whiteNoiseSound: Sound.empty(.whiteNoise),
-                                    fileName: "Recipe1")
+    static var empty: MixedSound {
+        MixedSound(name: "Empty",
+                   baseSound: Sound.empty(.base),
+                   melodySound: Sound.empty(.melody),
+                   whiteNoiseSound: Sound.empty(.whiteNoise),
+                   fileName: "")
+    }
+    
+    static var preview: MixedSound {
+        MixedSound(name: "Preview",
+                   baseSound: Sound.empty(.base),
+                   melodySound: Sound.empty(.melody),
+                   whiteNoiseSound: Sound.empty(.whiteNoise),
+                   fileName: "Recipe1")
+    }
     
     func getImageName() -> (String, String, String) {
         let baseImageName = baseSound?.fileName ?? ""
@@ -62,6 +64,4 @@ extension MixedSound {
         return (baseImageName, melodyImageName, whiteNoiseImageName)
     }
 }
-
-
 
