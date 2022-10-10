@@ -33,7 +33,7 @@
 		216057DD28BD4E760032A5AC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 216057DC28BD4E760032A5AC /* Assets.xcassets */; };
 		216057DE28BD4EA40032A5AC /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C753494F28B748C80055F7CA /* Color+Extension.swift */; };
 		216057DF28BD4EAA0032A5AC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58DE61862839C13A00F25769 /* Assets.xcassets */; };
-		2193316028D2B1A5006D1E75 /* VolumeSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2193315F28D2B1A5006D1E75 /* VolumeSliderView.swift */; };
+		2193316028D2B1A5006D1E75 /* SystemVolumeControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2193315F28D2B1A5006D1E75 /* SystemVolumeControl.swift */; };
 		219BD67328900A28006FAF55 /* CDListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 219BD67228900A28006FAF55 /* CDListView.swift */; };
 		21B2F37828E42215000E0362 /* CDPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B2F37728E42215000E0362 /* CDPlayer.swift */; };
 		21B2F37B28E43C33000E0362 /* Literals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B2F37A28E43C33000E0362 /* Literals.swift */; };
@@ -91,12 +91,14 @@
 		C76BCFEC28DC585700635466 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = C76BCFE528DC585700635466 /* .swiftlint.yml */; };
 		C776B17128B2620000A13052 /* RelaxOnUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C776B17028B2620000A13052 /* RelaxOnUITests.swift */; };
 		C776B17328B2620000A13052 /* RelaxOnUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C776B17228B2620000A13052 /* RelaxOnUITestsLaunchTests.swift */; };
+		C781098D28E34A8400FB2840 /* SoundType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C4C25728C242BB0048DCBA /* SoundType.swift */; };
 		C7A50DDC28D08FA000841BC6 /* MusicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A50DDB28D08FA000841BC6 /* MusicView.swift */; };
 		C7C4C25028C236D80048DCBA /* Sound.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7C4C24F28C236D80048DCBA /* Sound.xcassets */; };
 		C7C4C25428C238110048DCBA /* Color.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7C4C25328C238110048DCBA /* Color.xcassets */; };
 		C7C4C25828C242BB0048DCBA /* SoundType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C4C25728C242BB0048DCBA /* SoundType.swift */; };
-		C7C4C25928C243840048DCBA /* SoundType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C4C25728C242BB0048DCBA /* SoundType.swift */; };
 		C7C4C25A28C256BF0048DCBA /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C753494F28B748C80055F7CA /* Color+Extension.swift */; };
+		C7E4496F28E9329C003A50CD /* SoundProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E4496E28E9329C003A50CD /* SoundProtocol.swift */; };
+		C7E4497028E93304003A50CD /* SoundProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E4496E28E9329C003A50CD /* SoundProtocol.swift */; };
 		C7EC1CA128B783B8006A5860 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C753495328B748E20055F7CA /* String+Extension.swift */; };
 		C7EC1CA228B783C7006A5860 /* Float+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C753495528B75BD20055F7CA /* Float+Extension.swift */; };
 		C7EC1CA328B783C7006A5860 /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C753494D28B7489D0055F7CA /* View+Extension.swift */; };
@@ -249,7 +251,7 @@
 		214BE8D328E32322009C853F /* CDPlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDPlayerViewModel.swift; sourceTree = "<group>"; };
 		216057DA28BD4DBF0032A5AC /* CDListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDListView.swift; sourceTree = "<group>"; };
 		216057DC28BD4E760032A5AC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		2193315F28D2B1A5006D1E75 /* VolumeSliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeSliderView.swift; sourceTree = "<group>"; };
+		2193315F28D2B1A5006D1E75 /* SystemVolumeControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemVolumeControl.swift; sourceTree = "<group>"; };
 		219BD67228900A28006FAF55 /* CDListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDListView.swift; sourceTree = "<group>"; };
 		21B2F37728E42215000E0362 /* CDPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDPlayer.swift; sourceTree = "<group>"; };
 		21B2F37A28E43C33000E0362 /* Literals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Literals.swift; sourceTree = "<group>"; };
@@ -313,6 +315,7 @@
 		C7C4C24F28C236D80048DCBA /* Sound.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Sound.xcassets; sourceTree = "<group>"; };
 		C7C4C25328C238110048DCBA /* Color.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Color.xcassets; sourceTree = "<group>"; };
 		C7C4C25728C242BB0048DCBA /* SoundType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundType.swift; sourceTree = "<group>"; };
+		C7E4496E28E9329C003A50CD /* SoundProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundProtocol.swift; sourceTree = "<group>"; };
 		C7FDCA8B28D094E0008FA749 /* MusicViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicViewDelegate.swift; sourceTree = "<group>"; };
 		CBFDC8F3289C23AC00386FB5 /* VolumeSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeSlider.swift; sourceTree = "<group>"; };
 		CC2820472880102400587334 /* ViewModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModifiers.swift; sourceTree = "<group>"; };
@@ -576,6 +579,7 @@
 		58DE1030283DF6DA002CDB9F /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				2193315F28D2B1A5006D1E75 /* SystemVolumeControl.swift */,
 				58DE1031283DF6E7002CDB9F /* Static.swift */,
 				CCA7F5202877501E00D6A239 /* Localizable.strings */,
 				CC2820472880102400587334 /* ViewModifiers.swift */,
@@ -607,7 +611,6 @@
 				CBFDC8F3289C23AC00386FB5 /* VolumeSlider.swift */,
 				101417F7289EB82200F40397 /* CDCoverImageView.swift */,
 				101417F9289EB9F300F40397 /* CDNamingView.swift */,
-				2193315F28D2B1A5006D1E75 /* VolumeSliderView.swift */,
 			);
 			path = Kitchen;
 			sourceTree = "<group>";
@@ -748,6 +751,7 @@
 			isa = PBXGroup;
 			children = (
 				C7FDCA8B28D094E0008FA749 /* MusicViewDelegate.swift */,
+				C7E4496E28E9329C003A50CD /* SoundProtocol.swift */,
 			);
 			path = Delegate;
 			sourceTree = "<group>";
@@ -1144,6 +1148,7 @@
 				101417F8289EB82200F40397 /* CDCoverImageView.swift in Sources */,
 				58DE61C72843100100F25769 /* VolumeControlView.swift in Sources */,
 				E206D1A828D3AD3400DDB4E7 /* CustomNavigationLink.swift in Sources */,
+				C7E4496F28E9329C003A50CD /* SoundProtocol.swift in Sources */,
 				E2BF105428914E9E00408B8C /* TimerNavigationLinkView.swift in Sources */,
 				E211ED072896D06A002843EE /* TimerManager.swift in Sources */,
 				C7FDCA8728D09396008FA749 /* WidgetManager.swift in Sources */,
@@ -1169,7 +1174,7 @@
 				21D897782892D48600A20FFE /* CDCardView.swift in Sources */,
 				C753495228B748D40055F7CA /* UIColor+Extension.swift in Sources */,
 				C753495428B748E20055F7CA /* String+Extension.swift in Sources */,
-				2193316028D2B1A5006D1E75 /* VolumeSliderView.swift in Sources */,
+				2193316028D2B1A5006D1E75 /* SystemVolumeControl.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1200,10 +1205,11 @@
 				CC5AC10C289C033C00FE847B /* RelaxOnWidget.swift in Sources */,
 				CC5AC138289D19C900FE847B /* Provider.swift in Sources */,
 				C7FDCA8828D093A7008FA749 /* CDWidgetEntry.swift in Sources */,
+				C7E4497028E93304003A50CD /* SoundProtocol.swift in Sources */,
 				CC5AC11F289D15EE00FE847B /* Static.swift in Sources */,
 				C7EC1CA228B783C7006A5860 /* Float+Extension.swift in Sources */,
 				CC5AC125289D160E00FE847B /* AudioManager.swift in Sources */,
-				C7C4C25928C243840048DCBA /* SoundType.swift in Sources */,
+				C781098D28E34A8400FB2840 /* SoundType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1644,6 +1650,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"RelaxOn/Preview Content\"";
 				DEVELOPMENT_TEAM = QGAQ3AY3R3;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = QGAQ3AY3R3;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RelaxOn/Info.plist;
@@ -1660,6 +1667,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.LullabyRecipe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = LullabyRecipe;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = LullabyRecipe;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1678,6 +1686,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"RelaxOn/Preview Content\"";
 				DEVELOPMENT_TEAM = QGAQ3AY3R3;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = QGAQ3AY3R3;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RelaxOn/Info.plist;
@@ -1694,6 +1703,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.LullabyRecipe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = LullabyRecipe;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = LullabyRecipe;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
