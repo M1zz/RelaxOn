@@ -12,7 +12,7 @@ struct CDPlayerView: View {
     
     var body: some View {
         ZStack {
-            Image("MusicBackground")
+            Image(ImageLiteral.musicBackground)
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .blur(radius: 10)
@@ -22,7 +22,7 @@ struct CDPlayerView: View {
                 
                 HStack {
                     PlayControlButton(
-                        of: "backward.end",
+                        of: StringLiteral.previousIcon,
                         run: viewModel.playPrevious,
                         isDisabled: viewModel.isPlayerEmpty()
                     )
@@ -34,7 +34,7 @@ struct CDPlayerView: View {
                             .fill(.black)
                             .frame(width: 50, height: 50)
                         PlayControlButton(
-                            of: viewModel.isPlaying ? "pause.fill" : "play.fill",
+                            of: viewModel.isPlaying ? StringLiteral.pauseIcon : StringLiteral.playIcon,
                             run: viewModel.playPause,
                             isDisabled: viewModel.isPlayerEmpty()
                         )
@@ -43,7 +43,7 @@ struct CDPlayerView: View {
                     Spacer()
                     
                     PlayControlButton(
-                        of: "forward.end",
+                        of: StringLiteral.nextIcon,
                         run: viewModel.playNext,
                         isDisabled: viewModel.isPlayerEmpty()
                     )

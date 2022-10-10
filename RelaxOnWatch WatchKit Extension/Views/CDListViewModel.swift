@@ -18,7 +18,7 @@ final class CDListViewModel: ObservableObject {
         CDPlayer.shared.currentCDName = currentCDName
         CDPlayer.shared.isPlaying = true
         
-        WCManager.sendMessage(key: "title", currentCDName)
+        WCManager.sendMessage(key: MessageKey.title, currentCDName)
     }
     
     func getCDColor(_ currentCdIndex: Int) -> Color {
@@ -26,6 +26,6 @@ final class CDListViewModel: ObservableObject {
     }
     
     func getCDList() {
-        WCManager.sendMessage(key: "list", "request")
+        WCManager.sendMessage(key: MessageKey.list, "request")
     }
 }

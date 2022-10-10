@@ -359,7 +359,7 @@ extension MusicViewModel: WCSessionDelegate {
             }
         }
         
-        if let volume = message["volume"] as? String {
+        if let volume = message["changeVolume"] as? String {
             DispatchQueue.main.async { [weak self] in
                 if let floatVolume = Float(volume) {
                     SystemVolumeControl.setVolume(volume: floatVolume)

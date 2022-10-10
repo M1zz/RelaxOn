@@ -13,11 +13,6 @@ final class WatchConnectivityManager: NSObject, ObservableObject {
     // MARK: - singleton
     static let shared = WatchConnectivityManager()
     
-    @Published var playMessageKey = "player"
-    @Published var volumeMessageKey = "volume"
-    @Published var listMessageKey = "list"
-    @Published var titleMessageKey = "title"
-    
     private override init() {
         super.init()
         
@@ -45,25 +40,25 @@ final class WatchConnectivityManager: NSObject, ObservableObject {
 
 extension WatchConnectivityManager: WCSessionDelegate {
     func session(_ session: WCSession, didReceiveMessage message: [ String: Any ]) {
-        if let title = message[titleMessageKey] as? String {
+        if let title = message[MessageKey.title] as? String {
             DispatchQueue.main.async {
                 CDPlayer.shared.currentCDName = title
             }
         }
         
-        if let state = message[playMessageKey] as? String {
+        if let state = message[MessageKey.player] as? String {
             DispatchQueue.main.async {
                 CDPlayer.shared.isPlaying = state == "play" ? true : false
             }
         }
         
-        if let list = message[listMessageKey] as? [String] {
+        if let list = message[MessageKey.list] as? [String] {
             DispatchQueue.main.async {
                 CDPlayer.shared.CDList = list
             }
         }
         
-        if let volume = message["volume"] as? Float {
+        if let volume = message[MessageKey.changeVolume] as? Float {
             DispatchQueue.main.async {
                 CDPlayer.shared.volume = volume
             }
