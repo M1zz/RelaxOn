@@ -18,7 +18,7 @@ struct RadioButtonGroupView: View {
     var body: some View {
         LazyVGrid(columns: columns) {
             ForEach(items) { item in
-                SoundCardView(soundFileName : item.name,
+                SoundCardView(soundFileName: item.name,
                           data: item,
                           callback: radioGroupCallback,
                           selectedID: selectedId)

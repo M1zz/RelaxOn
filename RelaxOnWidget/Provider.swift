@@ -25,8 +25,8 @@ struct Provider: TimelineProvider {
         
         let entry: CDWidgetEntry
         
-        if let userDefault = UserDefaults(suiteName: WidgetManager.suiteName),
-           let widgetData = userDefault.value(forKey: "smallWidgetData") as? Data,
+        if let userDefault = UserDefaults(suiteName: WidgetManager.KeyString.suiteName),
+           let widgetData = userDefault.value(forKey: WidgetManager.KeyString.smallWidgetData) as? Data,
            let data = try? JSONDecoder().decode(SmallWidgetData.self, from: widgetData) {
             entry = CDWidgetEntry(date: Date(), isSample: false, data: data)
         } else {

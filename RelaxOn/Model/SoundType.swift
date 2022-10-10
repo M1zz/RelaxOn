@@ -13,105 +13,37 @@ enum SoundType: String, CaseIterable, Codable {
     case whiteNoise
     
     var soundList: [Sound] {
-        var soundList = [Sound.empty(self.index, self)]
         switch self {
-        case .base:
-            soundList.append(contentsOf: BaseSound.soundList)
-        case .melody:
-            soundList.append(contentsOf: MelodySound.soundList)
-        case .whiteNoise:
-            soundList.append(contentsOf: WhiteNoiseSound.soundList)
-        }
-        return soundList
-    }
-    
-    var index: Int {
-        switch self {
-        case .base:
-            return 0
-        case .melody:
-            return 1
-        case .whiteNoise:
-            return 2
+        case .base: return BaseSound.soundList(type: self)
+        case .melody: return MelodySound.soundList(type: self)
+        case .whiteNoise: return WhiteNoiseSound.soundList(type: self)
         }
     }
 }
 
-enum BaseSound: String, CaseIterable {
+enum BaseSound: String, SoundProtocol {
+    case empty
     case longSun
     case spaceMid
     case spaceLow
     case spaceHigh
     case oxygen
-    
-    var fileName: String {
-        return self.displayName.components(separatedBy: " ").joined()
-    }
-    
-    var displayName: String {
-        self.rawValue.addSpaceBeforeUppercase.convertUppercaseFirstChar
-    }
-    
-    static var soundList: [Sound] {
-        
-        return self.allCases.enumerated().map {
-            Sound(id: $0.offset + 1,
-                  name: $0.element.displayName,
-                  soundType: .base,
-                  audioVolume: 0.5,
-                  fileName: $0.element.fileName)
-        }
-    }
 }
 
-enum MelodySound: String, CaseIterable {
+enum MelodySound: String, SoundProtocol {
+    case empty
     case ambient
     case garden
     case gymnopedie
     case relaxing
     case wisdom
-    
-    var fileName: String {
-        return self.displayName.components(separatedBy: " ").joined()
-    }
-    
-    var displayName: String {
-        self.rawValue.addSpaceBeforeUppercase.convertUppercaseFirstChar
-    }
-    
-    static var soundList: [Sound] {
-        return self.allCases.enumerated().map {
-            Sound(id: $0.offset + 1 + 10,
-                  name: $0.element.displayName,
-                  soundType: .melody,
-                  audioVolume: 0.5,
-                  fileName: $0.element.fileName)
-        }
-    }
 }
 
-enum WhiteNoiseSound: String, CaseIterable {
+enum WhiteNoiseSound: String, SoundProtocol {
+    case empty
     case dryGrass
     case stream
     case summerField
     case umbrellaRain
     case wave
-    
-    var fileName: String {
-        return self.displayName.components(separatedBy: " ").joined()
-    }
-    
-    var displayName: String {
-        self.rawValue.addSpaceBeforeUppercase.convertUppercaseFirstChar
-    }
-    
-    static var soundList: [Sound] {
-        return self.allCases.enumerated().map {
-            Sound(id: $0.offset + 1 + 20,
-                  name: $0.element.displayName,
-                  soundType: .whiteNoise,
-                  audioVolume: 0.5,
-                  fileName: $0.element.fileName)
-        }
-    }
 }

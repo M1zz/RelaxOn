@@ -36,6 +36,7 @@ extension CDWidgetEntry {
             name: "Listen to Music and Relax ON",
             id: 1,
             isPlaying: false,
-            isRecentPlay: false)
+            isRecentPlay: false
+            )
     )
 }

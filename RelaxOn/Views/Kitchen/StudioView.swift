@@ -42,7 +42,7 @@ struct StudioView: View {
     @State var stepBarWidth = DeviceFrame.screenWidth * 0.33
     
     @Binding var rootIsActive: Bool
-    @EnvironmentObject var viewModel: MusicViewModel
+    @EnvironmentObject private var viewModel: MusicViewModel
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     // MARK: - General Properties
@@ -60,7 +60,7 @@ struct StudioView: View {
     
     // MARK: - Life Cycles
     var body: some View {
-        ZStack{
+        ZStack {
             Color.relaxBlack.ignoresSafeArea()
             VStack {
                 switch viewType {
@@ -144,11 +144,9 @@ extension StudioView {
                         RadioButtonGroupView(selectedId: soundType.rawValue,
                                              items: SoundType.base.soundList) { baseSelected in
                             selectedBaseSound = baseSelected
-                            // play music
                             
-                            if selectedBaseSound.name == "Empty" {
+                            if selectedBaseSound.fileName.isEmpty {
                                 baseAudioManager.stop()
-                                
                                 opacityAnimationValues[0] = 0.0
                             } else {
                                 baseAudioManager.startPlayer(track: selectedBaseSound.fileName, volume: volumes[select])
@@ -161,9 +159,8 @@ extension StudioView {
                                              items: SoundType.melody.soundList) { melodySounds in
                             selectedMelodySound = melodySounds
                             
-                            if selectedMelodySound.name == "Empty" {
+                            if selectedMelodySound.fileName.isEmpty {
                                 melodyAudioManager.stop()
-                                
                                 opacityAnimationValues[1] = 0.0
                             } else {
                                 melodyAudioManager.startPlayer(track: selectedMelodySound.fileName, volume: volumes[select])
@@ -176,9 +173,8 @@ extension StudioView {
                                              items: SoundType.whiteNoise.soundList) { whiteNoiseSounds in
                             selectedWhiteNoiseSound = whiteNoiseSounds
                             
-                            if selectedWhiteNoiseSound.name == "Empty" {
+                            if selectedWhiteNoiseSound.fileName.isEmpty {
                                 whiteNoiseAudioManager.stop()
-                                
                                 opacityAnimationValues[2] = 0.0
                             } else {
                                 whiteNoiseAudioManager.startPlayer(track: selectedWhiteNoiseSound.fileName, volume: volumes[select])
@@ -191,7 +187,6 @@ extension StudioView {
             }.padding(.horizontal, 15)
         }
         .onAppear {
-            viewModel.isPlaying = false
             if self.viewType == .onboarding {
                 withAnimation(.default) {
                     stepBarWidth = DeviceFrame.screenWidth * CGFloat( Double(select + 1) * 0.333 )
@@ -257,7 +252,7 @@ extension StudioView {
         } label: {
             Text("Mix")
                 .font(.system(size: 24, weight: .regular))
-                .foregroundColor( ($selectedBaseSound.id == 0 && $selectedMelodySound.id == 10 && $selectedWhiteNoiseSound.id == 20) ? Color.gray : Color.relaxDimPurple )
+                .foregroundColor( ($selectedBaseSound.id == 0 && $selectedMelodySound.id == 0 && $selectedWhiteNoiseSound.id == 0) ? Color.gray : Color.relaxDimPurple )
                 .onTapGesture {
                     baseSound = selectedBaseSound
                     melodySound = selectedMelodySound
@@ -275,7 +270,7 @@ extension StudioView {
                     navigateActive = true
                 }
         }
-        .disabled(($selectedBaseSound.id == 0 && $selectedMelodySound.id == 10 && $selectedWhiteNoiseSound.id == 20) ? true : false)
+        .disabled(($selectedBaseSound.id == 0 && $selectedMelodySound.id == 0 && $selectedWhiteNoiseSound.id == 0) ? true : false)
     }
 }
 
@@ -338,9 +333,9 @@ extension StudioView {
     } label: {
             Text("Mix")
                 .font(.system(size: 24, weight: .regular))
-                .foregroundColor( ($selectedBaseSound.id == 0 || $selectedMelodySound.id == 10 || $selectedWhiteNoiseSound.id == 20) ? Color.gray : Color.relaxDimPurple )
+                .foregroundColor( ($selectedBaseSound.id == 0 || $selectedMelodySound.id == 0 || $selectedWhiteNoiseSound.id == 0) ? Color.gray : Color.relaxDimPurple )
         }
-        .opacity(($selectedBaseSound.id == 0 || $selectedMelodySound.id == 10 || $selectedWhiteNoiseSound.id == 20) ? 0 : 1)
+        .opacity(($selectedBaseSound.id == 0 || $selectedMelodySound.id == 0 || $selectedWhiteNoiseSound.id == 0) ? 0 : 1)
         .simultaneousGesture(TapGesture().onEnded { _ in
             baseSound = selectedBaseSound
             melodySound = selectedMelodySound

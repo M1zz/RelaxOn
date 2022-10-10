@@ -9,10 +9,10 @@ import SwiftUI
 
 struct MusicView: View {
     @Environment(\.presentationMode) var presentationMode
-    @EnvironmentObject var viewModel: MusicViewModel
+    @EnvironmentObject private var viewModel: MusicViewModel
     @State private var isActive = false
     @State private var isFetchFirstData = true
-    @State var animatedValue : CGFloat = 55
+    @State var animatedValue: CGFloat = 55
     @State var maxWidth = UIScreen.main.bounds.width / 2.2
     @State var showVolumeControl: Bool = false
     @State private var cdViewPadding = 81.0
@@ -36,8 +36,7 @@ struct MusicView: View {
         }
     }
     
-    var data: MixedSound
-    @Binding var userRepositoriesState: [MixedSound]
+    var song: MixedSound
     
     var body: some View {
         NavigationView {
@@ -69,7 +68,7 @@ struct MusicView: View {
                             .foregroundColor(.white)
                             .padding(.top, 30)
                         
-                        MusicControllerView()
+                        MusicController(musicControlButtonWidth: $musicControlButtonWidth, hstackSpacing: 56)
                             .padding(.top, 54)
                     }
                     .frame(width: cdViewWidth, height: cdViewHeight)
@@ -81,7 +80,6 @@ struct MusicView: View {
                 
                 VolumeControlView(showVolumeControl: $showVolumeControl,
                                   audioVolumes: $audioVolumes,
-                                  userRepositoriesState: $userRepositoriesState,
                                   isEditingVolume: $isEditingVolume)
                 .cornerRadius(20)
                 .offset(y: offsetYOfControlView)
@@ -162,7 +160,7 @@ struct MusicView: View {
                 UIApplication.shared.beginReceivingRemoteControlEvents()
                 
                 if isFetchFirstData {
-                    viewModel.fetchData(data: data)
+                    viewModel.fetchData(data: song)
                 }
                 self.isFetchFirstData = false
                 timerManager.currentMusicViewModel = self.viewModel
@@ -171,13 +169,16 @@ struct MusicView: View {
                    let melodyImageName = viewModel.mixedSound?.melodySound?.fileName,
                    let whiteNoiseImageName = viewModel.mixedSound?.whiteNoiseSound?.fileName {
                     WidgetManager.addMainSoundToWidget(
-                        baseImageName: baseImageName,
-                        melodyImageName: melodyImageName,
-                        whiteNoiseImageName: whiteNoiseImageName,
-                        name: mixedSound.name,
-                        id: mixedSound.id,
-                        isPlaying: viewModel.isPlaying,
-                        isRecentPlay: false)
+                        data: SmallWidgetData(
+                            baseImageName: baseImageName,
+                            melodyImageName: melodyImageName,
+                            whiteNoiseImageName: whiteNoiseImageName,
+                            name: mixedSound.name,
+                            id: mixedSound.id,
+                            isPlaying: viewModel.isPlaying,
+                            isRecentPlay: false
+                        )
+                    )
                 }
                 viewModel.isMusicViewPresented = true
             }
@@ -188,7 +189,6 @@ struct MusicView: View {
                                 whiteNoiseVolume: changedMixedSound.whiteNoiseSound?.audioVolume ?? 0.12)
             })
             .onDisappear {
-                userRepositoriesState = userRepositories
                 viewModel.isMusicViewPresented = false
                 UIApplication.shared.endReceivingRemoteControlEvents()
             }
@@ -199,37 +199,6 @@ struct MusicView: View {
 
 // MARK: ViewBuilder
 extension MusicView {
-    @ViewBuilder
-    func MusicControllerView() -> some View {
-        HStack(spacing: 56) {
-            Button {
-                viewModel.setupPreviousTrack(mixedSound: viewModel.mixedSound ?? emptyMixedSound)
-            } label: {
-                Image(systemName: "backward.fill")
-                    .resizable()
-                    .frame(width: musicControlButtonWidth, height: musicControlButtonWidth * 0.71)
-                    .tint(.white)
-            }
-            
-            Button {
-                viewModel.playPause()
-            } label: {
-                Image(systemName: viewModel.isPlaying ? "pause.fill" : "play.fill")
-                    .resizable()
-                    .frame(width: musicPlayButtonWidth, height: musicPlayButtonWidth * 1.25) //1.25
-                    .tint(.white)
-            }
-            
-            Button {
-                viewModel.setupNextTrack(mixedSound: viewModel.mixedSound ?? emptyMixedSound)
-            } label: {
-                Image(systemName: "forward.fill")
-                    .resizable()
-                    .frame(width: musicControlButtonWidth, height: musicControlButtonWidth * 0.71)
-                    .tint(.white)
-            }
-        }
-    }
     
     @ViewBuilder
     func CustomNavigationBar() -> some View {
@@ -252,26 +221,24 @@ extension MusicView {
                 Button {
                     self.isActive.toggle()
                 } label: {
-                    HStack{
+                    HStack {
                         Text("Rename")
                         Image(systemName: "pencil")
                     }
                 }
                 
                 Button(role: .destructive) {
-                    let index = userRepositoriesState.firstIndex { mixedSound in
+                    let index = viewModel.userRepositoriesState.firstIndex { mixedSound in
                         mixedSound.name == viewModel.mixedSound?.name ?? ""
                     }
-                    userRepositories.remove(at: index ?? -1)
-                    userRepositoriesState.remove(at: index ?? -1)
+                    viewModel.userRepositoriesState.remove(at: index ?? -1)
                     
-                    let data = getEncodedData(data: userRepositories)
+                    let data = getEncodedData(data: viewModel.userRepositoriesState)
                     UserDefaultsManager.shared.recipes = data
-                    userRepositoriesState = userRepositories
                     viewModel.mixedSound = nil
                     presentationMode.wrappedValue.dismiss()
                 } label: {
-                    HStack{
+                    HStack {
                         Text("Delete")
                             .foregroundColor(.red)
                         Image(systemName: "trash")
@@ -293,7 +260,7 @@ extension MusicView {
 // MARK: - MusicVeiwDelegate
 extension MusicView: MusicViewDelegate {
     func renameMusic(renamedMixedSound: MixedSound) {
-        let firstIndex = userRepositoriesState.firstIndex { element in
+        let firstIndex = viewModel.userRepositoriesState.firstIndex { element in
             return element.id == viewModel.mixedSound?.id ?? -1
         }
         
@@ -301,12 +268,10 @@ extension MusicView: MusicViewDelegate {
             return
         }
         viewModel.mixedSound = renamedMixedSound
-        userRepositories.remove(at: index)
-        userRepositories.insert(renamedMixedSound, at: index)
-        userRepositoriesState.remove(at: index)
-        userRepositoriesState.insert(renamedMixedSound, at: index)
+        viewModel.userRepositoriesState.remove(at: index)
+        viewModel.userRepositoriesState.insert(renamedMixedSound, at: index)
         
-        let data = getEncodedData(data: userRepositories)
+        let data = getEncodedData(data: viewModel.userRepositoriesState)
         UserDefaultsManager.shared.recipes = data
     }
 }
