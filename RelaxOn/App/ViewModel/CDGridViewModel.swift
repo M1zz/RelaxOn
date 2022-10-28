@@ -7,7 +7,7 @@
 
 import Foundation
 
-class CDGridViewModel: ObservableObject {
+final class CDGridViewModel: ObservableObject {
     let CDList : [CD]
     
     init(CDList: [CD]) {

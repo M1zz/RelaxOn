@@ -38,7 +38,6 @@ extension CDGridView {
     
     var PlusCDImage: some View {
         VStack(alignment: .leading) {
-//            NavigationLink(destination: StudioView(rootIsActive: self.$isActive, viewType: .studio), isActive: self.$isActive) {
                 ZStack {
                     RoundedRectangle(cornerRadius: 4)
                         .fill(Color.relaxBlack)
@@ -51,9 +50,6 @@ extension CDGridView {
                 }
                 .frame(width: UIScreen.main.bounds.width * 0.43, height: UIScreen.main.bounds.width * 0.43)
                 .foregroundColor(.systemGrey3)
-//            }
-//            .buttonStyle(.plain)
-//            .navigationBarTitleDisplayMode(.inline)
             
             Text("Studio")
         }

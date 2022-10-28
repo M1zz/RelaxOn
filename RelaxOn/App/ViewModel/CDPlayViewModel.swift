@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-class CDPlayViewModel: ObservableObject {
+final class CDPlayViewModel: ObservableObject {
     @Published var playingCD: CD?
     @Published var cdManager: CDManager?
 
