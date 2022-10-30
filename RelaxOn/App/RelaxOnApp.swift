@@ -12,7 +12,8 @@ struct RelaxOnApp: App {
     
     var body: some Scene {
         WindowGroup {
-            CdLibraryView()
+            MainView()
+                .environmentObject(CDManager())
         }
     }
 }

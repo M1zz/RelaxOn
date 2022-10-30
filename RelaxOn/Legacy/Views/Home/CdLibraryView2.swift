@@ -1,5 +1,5 @@
 //
-//  CdLibraryView.swift
+//  CdLibraryView2.swift
 //  RelaxOn
 //
 //  Created by hyunho lee on 2022/05/22.
@@ -35,7 +35,7 @@ struct CdLibraryView: View {
     }
 }
 
-struct CdLibraryView_Previews: PreviewProvider {
+struct CdLibraryView2_Previews: PreviewProvider {
     static var previews: some View {
         MultiPreview {
             CdLibraryView()
