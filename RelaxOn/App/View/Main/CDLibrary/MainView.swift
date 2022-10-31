@@ -9,14 +9,16 @@ import SwiftUI
 
 struct MainView: View {
     var body: some View {
-        VStack {
-            #warning("TimerNavigationLinkView 들어가야함")
-            HStack {
-                Text("CDLibrary")
-                Text("edit")
+        NavigationView {
+            VStack {
+                #warning("TimerNavigationLinkView 들어가야함")
+                HStack {
+                    Text("CDLibrary")
+                    Text("edit")
+                }
+                CDGridView()
+               
             }
-            CDGridView()
-           
         }
     }
 }

@@ -51,10 +51,10 @@ public struct CustomSegmentControlView: View {
     }
 
     // MARK: - Life Cycles
-    public init(items: [String],
+    init(items: [SoundType],
                 selection: Binding<Int>) {
         self._selection = selection
-        self.items = items.map{LocalizedStringKey($0)}
+        self.items = items.map{LocalizedStringKey($0.rawValue)}
         self._itemTitleSizes = State(initialValue: [CGSize](repeating: .zero, count: items.count))
     }
 

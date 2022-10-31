@@ -13,17 +13,21 @@ final class CDManager: ObservableObject {
     @Published var CDList: [CD] = []
     @Published var playingCD: CD?
     @Published var baseAudioManager = AudioManager()
-//    @Published var melodyAudioManager = AudioManager()
-//    @Published var whiteNoiseAudioManager = AudioManager()
+    @Published var melodyAudioManager = AudioManager()
+    @Published var whiteNoiseAudioManager = AudioManager()
     
     init(playingCD: CD? = nil) {
         self.playingCD = playingCD
-        self.baseAudioManager.startPlayer(track: "Stream")
+        self.baseAudioManager.startPlayer(track: BaseSound.longSun.fileName)
+        self.melodyAudioManager.startPlayer(track: MelodySound.garden.fileName)
+        self.whiteNoiseAudioManager.startPlayer(track: WhiteNoiseSound.dryGrass.fileName)
     }
     
     func playPause() {
         print(#function)
         baseAudioManager.playPause()
+        melodyAudioManager.playPause()
+        whiteNoiseAudioManager.playPause()
     }
 
     func playTempCD() {
@@ -50,3 +54,6 @@ final class CDManager: ObservableObject {
         print(#function)
     }
 }
+
+
+
