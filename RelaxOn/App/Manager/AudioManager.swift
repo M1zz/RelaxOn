@@ -60,26 +60,10 @@ final class AudioManager {
         }
     }
     
-    func changeVolume(track: String, volume: Float) {
-        
-        guard let url = getPathUrl(forResource: track, musicExtension: .mp3) else {
-            print("resource not found \(track)")
-            return
-        }
-        
-        if ((player?.isPlaying) != nil) {
+    func changeVolume(volume: Float) {
+        if player != nil {
             player?.volume = volume
-        } else {
-            do {
-                player = try AVAudioPlayer(contentsOf: url)
-                player?.volume = volume
-                player?.numberOfLoops = -1
-                player?.play()
-            } catch {
-                print("fail to initialize player")
-            }
         }
-        
     }
     
 }

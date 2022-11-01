@@ -13,6 +13,13 @@
 		10D26714288EF4D20056339A /* RectPreference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D26713288EF4D20056339A /* RectPreference.swift */; };
 		10D26716288EF4DB0056339A /* StudioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D26715288EF4DB0056339A /* StudioView.swift */; };
 		10FB81B528A17468000168CC /* OnboardingFinishView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FB81B428A17468000168CC /* OnboardingFinishView.swift */; };
+		210FD26A290FC8D800583F81 /* NewStudioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210FD269290FC8D800583F81 /* NewStudioView.swift */; };
+		210FD26C290FC8DD00583F81 /* NewCDMakingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210FD26B290FC8DD00583F81 /* NewCDMakingView.swift */; };
+		210FD26E290FC8E200583F81 /* NewCDCoverImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210FD26D290FC8E200583F81 /* NewCDCoverImageView.swift */; };
+		210FD270290FC8EA00583F81 /* NewCustomSegmentControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210FD26F290FC8EA00583F81 /* NewCustomSegmentControlView.swift */; };
+		210FD272290FC8EE00583F81 /* NewOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210FD271290FC8EE00583F81 /* NewOnboardingView.swift */; };
+		210FD274290FC8F300583F81 /* NewCDNamingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210FD273290FC8F300583F81 /* NewCDNamingView.swift */; };
+		210FD276290FC90700583F81 /* NewOnboardingFinishView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210FD275290FC90700583F81 /* NewOnboardingFinishView.swift */; };
 		2125023E28D35E4B0017EBFB /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC5AC106289C033C00FE847B /* WidgetKit.framework */; };
 		2125023F28D35E4B0017EBFB /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC5AC108289C033C00FE847B /* SwiftUI.framework */; };
 		2125024228D35E4B0017EBFB /* LockScreenWidgetExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2125024128D35E4B0017EBFB /* LockScreenWidgetExtension.swift */; };
@@ -48,6 +55,7 @@
 		21B7A66D28A31DE800E90744 /* RelaxOnWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 21B7A64D28A31DE600E90744 /* RelaxOnWatch.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		21D3ED952892774F006E871F /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5769AF2866F6B5007CCAE9 /* UserDefaultsManager.swift */; };
 		21D897782892D48600A20FFE /* CDCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D897772892D48600A20FFE /* CDCardView.swift */; };
+		21DC206E290FCF62006A4F13 /* VolumeSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21DC206D290FCF62006A4F13 /* VolumeSliderView.swift */; };
 		4A5769AC2866F20A007CCAE9 /* MixedSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5769AB2866F20A007CCAE9 /* MixedSound.swift */; };
 		4A78268128DF030200804EC8 /* MusicController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A78268028DF030200804EC8 /* MusicController.swift */; };
 		4AF70C4B28D1BC4300645D5D /* CDLibraryMusicController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF70C4A28D1BC4300645D5D /* CDLibraryMusicController.swift */; };
@@ -118,7 +126,7 @@
 		CC38131E29096065009DD5F3 /* CD.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC38131D29096065009DD5F3 /* CD.swift */; };
 		CC381320290960B2009DD5F3 /* Material.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC38131F290960B2009DD5F3 /* Material.swift */; };
 		CC38132329096105009DD5F3 /* CDGridViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC38132229096105009DD5F3 /* CDGridViewModel.swift */; };
-		CC3813252909637F009DD5F3 /* NEW_CDCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3813242909637F009DD5F3 /* NEW_CDCardView.swift */; };
+		CC3813252909637F009DD5F3 /* NEWCDCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3813242909637F009DD5F3 /* NEWCDCardView.swift */; };
 		CC381328290967BF009DD5F3 /* CDPlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC381327290967BF009DD5F3 /* CDPlayView.swift */; };
 		CC38132A2909701D009DD5F3 /* CDPlayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3813292909701D009DD5F3 /* CDPlayViewModel.swift */; };
 		CC5AC107289C033C00FE847B /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC5AC106289C033C00FE847B /* WidgetKit.framework */; };
@@ -245,6 +253,13 @@
 		10D26713288EF4D20056339A /* RectPreference.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RectPreference.swift; sourceTree = "<group>"; };
 		10D26715288EF4DB0056339A /* StudioView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudioView.swift; sourceTree = "<group>"; };
 		10FB81B428A17468000168CC /* OnboardingFinishView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingFinishView.swift; sourceTree = "<group>"; };
+		210FD269290FC8D800583F81 /* NewStudioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewStudioView.swift; sourceTree = "<group>"; };
+		210FD26B290FC8DD00583F81 /* NewCDMakingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCDMakingView.swift; sourceTree = "<group>"; };
+		210FD26D290FC8E200583F81 /* NewCDCoverImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCDCoverImageView.swift; sourceTree = "<group>"; };
+		210FD26F290FC8EA00583F81 /* NewCustomSegmentControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCustomSegmentControlView.swift; sourceTree = "<group>"; };
+		210FD271290FC8EE00583F81 /* NewOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewOnboardingView.swift; sourceTree = "<group>"; };
+		210FD273290FC8F300583F81 /* NewCDNamingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCDNamingView.swift; sourceTree = "<group>"; };
+		210FD275290FC90700583F81 /* NewOnboardingFinishView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewOnboardingFinishView.swift; sourceTree = "<group>"; };
 		2125023D28D35E4B0017EBFB /* LockScreenWidgetExtensionExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LockScreenWidgetExtensionExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		2125024128D35E4B0017EBFB /* LockScreenWidgetExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockScreenWidgetExtension.swift; sourceTree = "<group>"; };
 		2125024328D35E4C0017EBFB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -275,6 +290,7 @@
 		21B7A66928A31DE800E90744 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		21B7A66A28A31DE800E90744 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
 		21D897772892D48600A20FFE /* CDCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDCardView.swift; sourceTree = "<group>"; };
+		21DC206D290FCF62006A4F13 /* VolumeSliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeSliderView.swift; sourceTree = "<group>"; };
 		4A5769AB2866F20A007CCAE9 /* MixedSound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixedSound.swift; sourceTree = "<group>"; };
 		4A5769AF2866F6B5007CCAE9 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		4A78268028DF030200804EC8 /* MusicController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicController.swift; sourceTree = "<group>"; };
@@ -333,7 +349,7 @@
 		CC38131D29096065009DD5F3 /* CD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CD.swift; sourceTree = "<group>"; };
 		CC38131F290960B2009DD5F3 /* Material.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Material.swift; sourceTree = "<group>"; };
 		CC38132229096105009DD5F3 /* CDGridViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDGridViewModel.swift; sourceTree = "<group>"; };
-		CC3813242909637F009DD5F3 /* NEW_CDCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NEW_CDCardView.swift; sourceTree = "<group>"; };
+		CC3813242909637F009DD5F3 /* NEWCDCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NEWCDCardView.swift; sourceTree = "<group>"; };
 		CC381327290967BF009DD5F3 /* CDPlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDPlayView.swift; sourceTree = "<group>"; };
 		CC3813292909701D009DD5F3 /* CDPlayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDPlayViewModel.swift; sourceTree = "<group>"; };
 		CC5AC104289C033C00FE847B /* RelaxOnWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = RelaxOnWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -412,6 +428,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		210FD268290FC8CD00583F81 /* CDMaking */ = {
+			isa = PBXGroup;
+			children = (
+				210FD269290FC8D800583F81 /* NewStudioView.swift */,
+				210FD26B290FC8DD00583F81 /* NewCDMakingView.swift */,
+				210FD26F290FC8EA00583F81 /* NewCustomSegmentControlView.swift */,
+				210FD271290FC8EE00583F81 /* NewOnboardingView.swift */,
+				210FD273290FC8F300583F81 /* NewCDNamingView.swift */,
+				210FD275290FC90700583F81 /* NewOnboardingFinishView.swift */,
+			);
+			path = CDMaking;
+			sourceTree = "<group>";
+		};
+		210FD277290FC91E00583F81 /* UIComponent */ = {
+			isa = PBXGroup;
+			children = (
+				210FD26D290FC8E200583F81 /* NewCDCoverImageView.swift */,
+				21DC206D290FCF62006A4F13 /* VolumeSliderView.swift */,
+			);
+			path = UIComponent;
+			sourceTree = "<group>";
+		};
 		2125024028D35E4B0017EBFB /* LockScreenWidgetExtension */ = {
 			isa = PBXGroup;
 			children = (
@@ -522,6 +560,7 @@
 		4A78267F28DF02F200804EC8 /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				58DE61C62843100100F25769 /* VolumeControlView.swift */,
 				4A78268028DF030200804EC8 /* MusicController.swift */,
 			);
 			path = Component;
@@ -540,7 +579,6 @@
 			children = (
 				4A78267F28DF02F200804EC8 /* Component */,
 				58DE1020283DD9DD002CDB9F /* MusicViewModel.swift */,
-				58DE61C62843100100F25769 /* VolumeControlView.swift */,
 				C7A50DDB28D08FA000841BC6 /* MusicView.swift */,
 				4AF70C4A28D1BC4300645D5D /* CDLibraryMusicController.swift */,
 			);
@@ -787,6 +825,8 @@
 		CC38131429095E79009DD5F3 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				210FD277290FC91E00583F81 /* UIComponent */,
+				210FD268290FC8CD00583F81 /* CDMaking */,
 				CC38131529095E86009DD5F3 /* Main */,
 			);
 			path = View;
@@ -806,7 +846,7 @@
 			children = (
 				CC38131129095E12009DD5F3 /* CDGridView.swift */,
 				CC38131729095EC2009DD5F3 /* MainView.swift */,
-				CC3813242909637F009DD5F3 /* NEW_CDCardView.swift */,
+				CC3813242909637F009DD5F3 /* NEWCDCardView.swift */,
 			);
 			path = CDLibrary;
 			sourceTree = "<group>";
@@ -1223,7 +1263,7 @@
 			files = (
 				C7C4C25A28C256BF0048DCBA /* Color+Extension.swift in Sources */,
 				58DE1021283DD9DD002CDB9F /* MusicViewModel.swift in Sources */,
-				CC3813252909637F009DD5F3 /* NEW_CDCardView.swift in Sources */,
+				CC3813252909637F009DD5F3 /* NEWCDCardView.swift in Sources */,
 				58DE61852839C13900F25769 /* CdLibraryView2.swift in Sources */,
 				C7A50DDC28D08FA000841BC6 /* MusicView.swift in Sources */,
 				58DE1032283DF6E7002CDB9F /* Static.swift in Sources */,
@@ -1239,16 +1279,22 @@
 				58DE61B2283A8E1700F25769 /* Sound.swift in Sources */,
 				C7FDCA8C28D094E0008FA749 /* MusicViewDelegate.swift in Sources */,
 				101417F8289EB82200F40397 /* CDCoverImageView.swift in Sources */,
+				210FD270290FC8EA00583F81 /* NewCustomSegmentControlView.swift in Sources */,
 				58DE61C72843100100F25769 /* VolumeControlView.swift in Sources */,
 				E206D1A828D3AD3400DDB4E7 /* CustomNavigationLink.swift in Sources */,
+				21DC206E290FCF62006A4F13 /* VolumeSliderView.swift in Sources */,
 				C7E4496F28E9329C003A50CD /* SoundProtocol.swift in Sources */,
+				210FD26E290FC8E200583F81 /* NewCDCoverImageView.swift in Sources */,
 				E2BF105428914E9E00408B8C /* TimerNavigationLinkView.swift in Sources */,
 				CC38131829095EC2009DD5F3 /* MainView.swift in Sources */,
 				E211ED072896D06A002843EE /* TimerManager.swift in Sources */,
 				CC381320290960B2009DD5F3 /* Material.swift in Sources */,
 				C7FDCA8728D09396008FA749 /* WidgetManager.swift in Sources */,
+				210FD26A290FC8D800583F81 /* NewStudioView.swift in Sources */,
+				210FD272290FC8EE00583F81 /* NewOnboardingView.swift in Sources */,
 				CC38131A29096016009DD5F3 /* CDManager.swift in Sources */,
 				CC5AC134289D184A00FE847B /* CDWidgetEntry.swift in Sources */,
+				210FD276290FC90700583F81 /* NewOnboardingFinishView.swift in Sources */,
 				4AF70C4B28D1BC4300645D5D /* CDLibraryMusicController.swift in Sources */,
 				10D26712288EF4C80056339A /* CustomSegmentControlView.swift in Sources */,
 				CC38131E29096065009DD5F3 /* CD.swift in Sources */,
@@ -1264,6 +1310,7 @@
 				CC2820482880102400587334 /* ViewModifiers.swift in Sources */,
 				E2BF1057289173F100408B8C /* TimerPickerView.swift in Sources */,
 				58DE101E283DC913002CDB9F /* AudioManager.swift in Sources */,
+				210FD26C290FC8DD00583F81 /* NewCDMakingView.swift in Sources */,
 				10D26714288EF4D20056339A /* RectPreference.swift in Sources */,
 				CC38132329096105009DD5F3 /* CDGridViewModel.swift in Sources */,
 				E2BF105B28917CAC00408B8C /* TimerSettingView.swift in Sources */,
@@ -1271,6 +1318,7 @@
 				10FB81B528A17468000168CC /* OnboardingFinishView.swift in Sources */,
 				101417FA289EB9F300F40397 /* CDNamingView.swift in Sources */,
 				21D897782892D48600A20FFE /* CDCardView.swift in Sources */,
+				210FD274290FC8F300583F81 /* NewCDNamingView.swift in Sources */,
 				C753495228B748D40055F7CA /* UIColor+Extension.swift in Sources */,
 				C753495428B748E20055F7CA /* String+Extension.swift in Sources */,
 				2193316028D2B1A5006D1E75 /* SystemVolumeControl.swift in Sources */,

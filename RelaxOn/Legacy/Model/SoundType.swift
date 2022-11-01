@@ -19,6 +19,10 @@ enum SoundType: String, CaseIterable, Codable {
         case .whiteNoise: return WhiteNoiseSound.soundList(type: self)
         }
     }
+    
+    func capitalName(soundType: SoundType) -> String {
+        return soundType.rawValue.capitalized
+    }
 }
 
 enum BaseSound: String, SoundProtocol {

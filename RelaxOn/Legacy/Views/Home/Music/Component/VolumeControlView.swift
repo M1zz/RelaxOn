@@ -126,7 +126,7 @@ extension VolumeControlView {
                     )
             }
             
-            VStack (alignment: .leading){
+            VStack (alignment: .leading) {
                 HStack {
                     Text(LocalizedStringKey(item.soundType.rawValue.uppercased()))
                         .font(.system(size: 12, weight: .semibold, design: .default))
@@ -136,7 +136,7 @@ extension VolumeControlView {
                         .font(.system(size: 17, weight: .semibold, design: .default))
                         .foregroundColor(.systemGrey1)
                 }
-                HStack(spacing: 0){
+                HStack(spacing: 0) {
                     Image(systemName: "speaker.wave.1")
                         .tint(.systemGrey1)
                     
@@ -155,8 +155,8 @@ extension VolumeControlView {
                         .accentColor(.white)
                         .padding(.horizontal, 20)
                         .onChange(of: audioVolumes.baseVolume) { newValue in
-                            viewModel.baseAudioManager.changeVolume(track: item.fileName,
-                                                                    volume: newValue)
+//                            viewModel.baseAudioManager.changeVolume(track: item.fileName,
+//                                                                    volume: newValue)
                         }
                         Text(String(Int(audioVolumes.baseVolume * 100)))
                             .foregroundColor(.systemGrey1)
@@ -174,8 +174,8 @@ extension VolumeControlView {
                         .accentColor(.white)
                         .padding(.horizontal, 20)
                         .onChange(of: audioVolumes.melodyVolume) { newValue in
-                            viewModel.melodyAudioManager.changeVolume(track: item.fileName,
-                                                                      volume: newValue)
+//                            viewModel.melodyAudioManager.changeVolume(track: item.fileName,
+//                                                                      volume: newValue)
                         }
                         Text(String(Int(audioVolumes.melodyVolume * 100)))
                             .foregroundColor(.systemGrey1)
@@ -193,8 +193,8 @@ extension VolumeControlView {
                         .accentColor(.white)
                         .padding(.horizontal, 20)
                         .onChange(of: audioVolumes.whiteNoiseVolume) { newValue in
-                            viewModel.whiteNoiseAudioManager.changeVolume(track: item.fileName,
-                                                                          volume: newValue)
+//                            viewModel.whiteNoiseAudioManager.changeVolume(track: item.fileName,
+//                                                                          volume: newValue)
                         }
                         Text(String(Int(audioVolumes.whiteNoiseVolume * 100)))
                             .foregroundColor(.systemGrey1)

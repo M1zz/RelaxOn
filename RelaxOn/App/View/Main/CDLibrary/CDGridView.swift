@@ -16,7 +16,11 @@ struct CDGridView: View {
         ScrollView(.vertical, showsIndicators: false) {
             
             LazyVGrid(columns: Array(repeating: GridItem(.flexible(), alignment: .top), count: 2), spacing: 18) {
-                PlusCDImage
+                NavigationLink {
+                    NewStudioView()
+                } label: {
+                    PlusCDImage
+                }
                 
                 ForEach(cdGridViewModel.CDList) { cd in
                     Button {
