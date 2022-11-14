@@ -29,8 +29,7 @@ final class CDPlayViewModel: ObservableObject {
     func namingCD() {
     }
     
-    func setUp(playingCD: CD, cdManager: CDManager) {
-        self.playingCD = playingCD
+    func setUp(cdManager: CDManager) {
         self.cdManager = cdManager
     }
 }

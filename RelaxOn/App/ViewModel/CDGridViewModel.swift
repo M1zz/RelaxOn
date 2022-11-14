@@ -8,10 +8,13 @@
 import Foundation
 
 final class CDGridViewModel: ObservableObject {
-    let CDList : [CD]
+    #warning("CDManager 주솟값을 가지고 있겠지.....???? 부디 !!!")
+    @Published var cdManager: CDManager?
+    @Published var CDList : [CD]?
     
-    init(CDList: [CD]) {
-        self.CDList = CDList
+    func setUp(cdManager: CDManager) {
+        self.cdManager = cdManager
+        self.CDList = cdManager.CDList
     }
 
     func tabRemoveButton() {

@@ -233,8 +233,8 @@ extension MusicView {
                     }
                     viewModel.userRepositoriesState.remove(at: index ?? -1)
                     
-                    let data = getEncodedData(data: viewModel.userRepositoriesState)
-                    UserDefaultsManager.shared.recipes = data
+//                    let data = getEncodedData(data: viewModel.userRepositoriesState)
+//                    UserDefaultsManager.shared.CDList = data
                     viewModel.mixedSound = nil
                     presentationMode.wrappedValue.dismiss()
                 } label: {
@@ -271,8 +271,8 @@ extension MusicView: MusicViewDelegate {
         viewModel.userRepositoriesState.remove(at: index)
         viewModel.userRepositoriesState.insert(renamedMixedSound, at: index)
         
-        let data = getEncodedData(data: viewModel.userRepositoriesState)
-        UserDefaultsManager.shared.recipes = data
+//        let data = getEncodedData(data: viewModel.userRepositoriesState)
+//        UserDefaultsManager.shared.CDList = data
     }
 }
 

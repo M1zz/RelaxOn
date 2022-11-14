@@ -34,10 +34,10 @@ struct CDListView: View {
                         PlusCDImage
                             .disabled(isEditMode)
                         
-                        ForEach(viewModel.userRepositoriesState){ mixedSound in
+                        ForEach(viewModel.userRepositoriesState) { mixedSound in
                             CDCardView(song: mixedSound)
                             .disabled(isEditMode)
-                            .overlay(alignment : .bottomTrailing) {
+                            .overlay(alignment: .bottomTrailing) {
                                 if isEditMode {
                                     let isInSelectedMixedSoundIds = selectedMixedSoundIds.contains(where: {$0 == mixedSound.id})
                                         Image(systemName: isInSelectedMixedSoundIds ? "checkmark.circle.fill" : "circle")
@@ -80,17 +80,17 @@ struct CDListView: View {
             let notFirstVisit = UserDefaultsManager.shared.notFirstVisit
             showOnboarding = !notFirstVisit
             
-            if let data = UserDefaultsManager.shared.recipes {
-                do {
-                    let decoder = JSONDecoder()
-                    viewModel.userRepositoriesState = try decoder.decode([MixedSound].self, from: data)
-                    
-                    // TODO: - 추후 다른 방식으로 수정
-                    viewModel.sendMessage(key: "list", viewModel.userRepositoriesState.map{mixedSound in mixedSound.name})
-                } catch {
-                    print("Unable to Decode Note (\(error))")
-                }
-            }
+//            if let data = UserDefaultsManager.shared.CDList {
+//                do {
+//                    let decoder = JSONDecoder()
+//                    viewModel.userRepositoriesState = try decoder.decode([MixedSound].self, from: data)
+//
+//                    // TODO: - 추후 다른 방식으로 수정
+//                    viewModel.sendMessage(key: "list", viewModel.userRepositoriesState.map{mixedSound in mixedSound.name})
+//                } catch {
+//                    print("Unable to Decode Note (\(error))")
+//                }
+//            }
         }
         .fullScreenCover(isPresented: $showOnboarding) {
             NavigationView {
@@ -111,8 +111,8 @@ struct CDListView: View {
                     }
                 }
                 
-                let data = getEncodedData(data: viewModel.userRepositoriesState)
-                UserDefaults.standard.set(data, forKey: "recipes")
+//                let data = getEncodedData(data: viewModel.userRepositoriesState)
+//                UserDefaults.standard.set(data, forKey: "recipes")
                 selectedMixedSoundIds = []
                 isEditMode = false
             }

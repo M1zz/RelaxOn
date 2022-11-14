@@ -9,14 +9,14 @@ import SwiftUI
 
 struct NewStudioView: View {
     @State var selectedIndex: Int = 0
-    var items = SoundType.allCases
+    var items = MaterialType.allCases
     @EnvironmentObject var cdManager: CDManager
-    @State var trackName = BaseSound.oxygen.fileName
+    @State var trackName = Base.oxygen.fileName
     
     var body: some View {
         VStack {
             Text("스튜디오뷰")
-            CustomSegmentControlView(items: items, selection: $selectedIndex)
+            NewCustomSegmentControlView(items: items, selection: $selectedIndex)
                 .background(.black)
             switch selectedIndex {
             case 0:

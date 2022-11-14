@@ -4,12 +4,14 @@
 //
 //  Created by 이가은 on 2022/10/26.
 //
+//1. 음악볼륨을 바꿀 때 메테리얼 자체에 적용이 되고 있는가
+//2. 다음 곡이나 이전 곡을 재생하면 해당 메테리얼의 볼륨이 잘 적용되는지
 
 import SwiftUI
 
 struct CDPlayView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    @Binding var cd: CD?
+    //    @Binding var cd: CD?
     @StateObject var cdPlayViewModel = CDPlayViewModel()
     @EnvironmentObject var cdManager: CDManager
     
@@ -20,10 +22,14 @@ struct CDPlayView: View {
             } label: {
                 Text("닫기")
             }
-            Image("Garden")
-                .resizable()
-                .frame(width: 100, height: 100)
-            Text(cd?.name ?? "error")
+            ZStack {
+                if let baseFileName = cdManager.playingCD?.base?.fileName,
+                   let melodyFileName = cdManager.playingCD?.melody?.fileName,
+                   let whiteNoiseFileName = cdManager.playingCD?.whiteNoise?.fileName {
+                    NewCDCoverImageView(selectedImageNames: (baseFileName: baseFileName, melodyFileName: melodyFileName, whiteNoiseFileName: whiteNoiseFileName))
+                }
+            }
+            Text(cdManager.playingCD?.name ?? "error")
             HStack {
                 Button {
                     cdPlayViewModel.clickedPreCD()
@@ -33,7 +39,11 @@ struct CDPlayView: View {
                 Button {
                     cdPlayViewModel.clickedplayPause()
                 } label: {
-                    Text("멈추기")
+                    if cdManager.isPlaying {
+                        Text("멈추기")
+                    } else {
+                        Text("재생")
+                    }
                 }
                 Button {
                     cdPlayViewModel.clickedNextCD()
@@ -41,9 +51,27 @@ struct CDPlayView: View {
                     Text("다음")
                 }
             }
+            VStack {
+                
+#warning("리오에게 물어보기")
+                if let baseVolume = cdManager.baseAudioManager.player?.volume,
+                   let melodyVolume = cdManager.melodyAudioManager.player?.volume,
+                   let whiteNoiseVolume = cdManager.whiteNoiseAudioManager.player?.volume {
+                    VolumeSliderView(audioManager: $cdManager.baseAudioManager, volume: baseVolume)
+                    VolumeSliderView(audioManager: $cdManager.melodyAudioManager, volume: melodyVolume)
+                    VolumeSliderView(audioManager: $cdManager.whiteNoiseAudioManager, volume: whiteNoiseVolume)
+                }
+                
+                //                VolumeSliderView(audioManager: $cdManager.baseAudioManager, volume: cdManager.baseAudioManager.player?.volume ?? 0.0)
+                //                    .onAppear {
+                //                        print("volume22",  cdManager.baseAudioManager.player?.volume ?? 0.0)
+                //                    }
+                //                VolumeSliderView(audioManager: $cdManager.melodyAudioManager, volume: cdManager.melodyAudioManager.player?.volume ?? 0.0)
+                //                VolumeSliderView(audioManager: $cdManager.whiteNoiseAudioManager, volume: cdManager.whiteNoiseAudioManager.player?.volume ?? 0.0)
+            }
         }
         .onAppear {
-            cdPlayViewModel.setUp(playingCD: cd!, cdManager: cdManager)
+            cdPlayViewModel.setUp(cdManager: cdManager)
         }
     }
 }

@@ -19,9 +19,13 @@ struct VolumeSliderView: View {
             .padding(.horizontal, 20)
             .onChange(of: volume) { newValue in
                 audioManager.changeVolume(volume: newValue)
+                
             }
             Text(String(Int(volume * 100)))
                 .foregroundColor(.systemGrey1)
+                .onAppear {
+                    print("volume", volume)
+                }
     }
 }
 

@@ -148,8 +148,8 @@ extension CDNamingView {
                                       fileName: recipeRandomName.randomElement()!)
             
             viewModel.userRepositoriesState.append(newSound)
-            let data = getEncodedData(data: viewModel.userRepositoriesState)
-            UserDefaultsManager.shared.recipes = data
+//            let data = getEncodedData(data: viewModel.userRepositoriesState)
+//            UserDefaultsManager.shared.CDList = data
             self.goToPreviousView = false
         } label: {
             SaveButton()

@@ -21,17 +21,17 @@ final class MusicViewModel: NSObject, ObservableObject {
     
     override init() {
         super.init()
-        if let data = UserDefaultsManager.shared.recipes {
-            do {
-                let decoder = JSONDecoder()
-                self.userRepositoriesState = try decoder.decode([MixedSound].self, from: data)
-                
-                // TODO: - 추후 다른 방식으로 수정
-                self.sendMessage(key: "list", userRepositoriesState.map{mixedSound in mixedSound.name})
-            } catch {
-                print("Unable to Decode Note (\(error))")
-            }
-        }
+//        if let data = UserDefaultsManager.shared.CDList {
+//            do {
+//                let decoder = JSONDecoder()
+//                self.userRepositoriesState = try decoder.decode([MixedSound].self, from: data)
+//                
+//                // TODO: - 추후 다른 방식으로 수정
+//                self.sendMessage(key: "list", userRepositoriesState.map{mixedSound in mixedSound.name})
+//            } catch {
+//                print("Unable to Decode Note (\(error))")
+//            }
+//        }
         subscribe()
         
         if WCSession.isSupported() {

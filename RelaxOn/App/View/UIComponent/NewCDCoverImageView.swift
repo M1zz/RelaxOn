@@ -8,26 +8,26 @@
 import SwiftUI
 
 struct NewCDCoverImageView: View {
-    var selectedImageNames: (base: String, melody: String, whiteNoise: String)
+    var selectedImageNames: (baseFileName: String, melodyFileName: String, whiteNoiseFileName: String)
     
-    init() {
-        self.selectedImageNames = (base: BaseSound.longSun.fileName, melody: MelodySound.garden.fileName, whiteNoise: WhiteNoiseSound.dryGrass.fileName)
+    init(selectedImageNames: (baseFileName: String, melodyFileName: String, whiteNoiseFileName: String)) {
+        self.selectedImageNames = selectedImageNames
     }
     
     var body: some View {
         ZStack {
-            IllustImage(selectedImageNames.base)
-            IllustImage(selectedImageNames.melody)
-            IllustImage(selectedImageNames.whiteNoise)
+            IllustImage(selectedImageNames.baseFileName)
+            IllustImage(selectedImageNames.melodyFileName)
+            IllustImage(selectedImageNames.whiteNoiseFileName)
         }
     }
 }
 
-struct NewCDCoverImageView_Previews: PreviewProvider {
-    static var previews: some View {
-        NewCDCoverImageView()
-    }
-}
+//struct NewCDCoverImageView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        NewCDCoverImageView()
+//    }
+//}
 
 // MARK: - ViewBuilder
 extension NewCDCoverImageView {

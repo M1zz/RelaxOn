@@ -60,8 +60,8 @@ struct VolumeControlView: View {
         viewModel.userRepositoriesState.insert(newMixedSound, at: index ?? -1)
         viewModel.mixedSound = newMixedSound
         
-        let data = getEncodedData(data: viewModel.userRepositoriesState)
-        UserDefaultsManager.shared.recipes = data
+//        let data = getEncodedData(data: viewModel.userRepositoriesState)
+//        UserDefaultsManager.shared.CDList = data
     }
     
     // MARK: - Life Cycles

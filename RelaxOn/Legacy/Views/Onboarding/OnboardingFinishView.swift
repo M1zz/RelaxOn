@@ -45,8 +45,8 @@ extension OnboardingFinishView {
         Button {
             viewModel.userRepositoriesState.append(mixedSound)
             
-            let data = getEncodedData(data: viewModel.userRepositoriesState)
-            UserDefaultsManager.shared.recipes = data
+//            let data = getEncodedData(data: viewModel.userRepositoriesState)
+//            UserDefaultsManager.shared.CDList = data
             
             UserDefaultsManager.shared.notFirstVisit = true
             

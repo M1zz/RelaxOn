@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct CDGridView: View {
-    @StateObject var cdGridViewModel: CDGridViewModel = CDGridViewModel(CDList: CD.CDTempList)
+    @StateObject var cdGridViewModel: CDGridViewModel = CDGridViewModel()
+    @EnvironmentObject var cdManager: CDManager
     @State var selectedCD: CD?
     @State private var isPresent = false
     
@@ -22,7 +23,7 @@ struct CDGridView: View {
                     PlusCDImage
                 }
                 
-                ForEach(cdGridViewModel.CDList) { cd in
+                ForEach(cdGridViewModel.CDList ?? []) { cd in
                     Button {
                         isPresent = true
                         selectedCD = cd
@@ -32,8 +33,14 @@ struct CDGridView: View {
                 }
             }
         }
+        .onAppear {
+            cdGridViewModel.setUp(cdManager: cdManager)
+        }
         .fullScreenCover(isPresented: $isPresent, content: {
-            CDPlayView(cd: $selectedCD)
+            CDPlayView()
+                .onAppear {
+                    cdManager.startPlayer(CD: selectedCD)
+                }
         })
     }
 }

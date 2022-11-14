@@ -9,18 +9,33 @@ import SwiftUI
 import AVFoundation
 
 final class CDManager: ObservableObject {
-    @Published var isPlayed: Bool = false
-    @Published var CDList: [CD] = []
-    @Published var playingCD: CD?
+    @Published var isPlaying: Bool = false
+    @Published var CDList: [CD] = CD.CDTempList
+    //UserDefaultsManager.shared.getCDList()
+    @Published var playingCD: CD? {
+        didSet {
+            if oldValue?.id != playingCD?.id {
+                startPlayer(CD: playingCD)
+            }
+        }
+    }
     @Published var baseAudioManager = AudioManager()
     @Published var melodyAudioManager = AudioManager()
     @Published var whiteNoiseAudioManager = AudioManager()
     
     init(playingCD: CD? = nil) {
         self.playingCD = playingCD
-        self.baseAudioManager.startPlayer(track: BaseSound.longSun.fileName)
-        self.melodyAudioManager.startPlayer(track: MelodySound.garden.fileName)
-        self.whiteNoiseAudioManager.startPlayer(track: WhiteNoiseSound.dryGrass.fileName)
+    }
+    
+    func startPlayer(CD: CD?) {
+        playingCD = CD
+        baseAudioManager.startPlayer(track: CD?.base?.fileName ?? "base_default", volume: CD?.base?.audioVolume ?? 0.8)
+        melodyAudioManager.startPlayer(track: CD?.melody?.fileName ?? "base_default", volume: CD?.melody?.audioVolume ?? 0.8)
+        whiteNoiseAudioManager.startPlayer(track: CD?.whiteNoise?.fileName ?? "base_default", volume: CD?.whiteNoise?.audioVolume ?? 0.8)
+        print(CD?.base?.audioVolume)
+        print(CD?.melody?.audioVolume)
+        print(CD?.whiteNoise?.audioVolume)
+        isPlaying = true
     }
     
     func playPause() {
@@ -28,6 +43,7 @@ final class CDManager: ObservableObject {
         baseAudioManager.playPause()
         melodyAudioManager.playPause()
         whiteNoiseAudioManager.playPause()
+        isPlaying.toggle()
     }
 
     func playTempCD() {
@@ -35,11 +51,25 @@ final class CDManager: ObservableObject {
     }
 
     func playPreCD() {
-        print(#function)
+        if let playingCD = playingCD, let preCD = CDList.last(where: { $0.id < playingCD.id }) {
+            print("preCD", preCD)
+            startPlayer(CD: preCD)
+        } else {
+            let lastCD = CDList.last
+            print("lastCD", lastCD)
+            startPlayer(CD: lastCD)
+        }
     }
 
     func playNextCD() {
-        print(#function)
+        if let playingCD = playingCD, let nextCD = CDList.first(where: { $0.id > playingCD.id }) {
+            print("nextCD", nextCD)
+            startPlayer(CD: nextCD)
+        } else {
+            let firstCD = CDList.first
+            print("firstCD", firstCD)
+            startPlayer(CD: firstCD)
+        }
     }
 
     func addCD() {
