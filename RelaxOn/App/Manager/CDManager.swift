@@ -14,9 +14,7 @@ final class CDManager: ObservableObject {
     //UserDefaultsManager.shared.getCDList()
     @Published var playingCD: CD? {
         didSet {
-            if oldValue?.id != playingCD?.id {
-                startPlayer(CD: playingCD)
-            }
+            startPlayer(CD: playingCD)
         }
     }
     @Published var baseAudioManager = AudioManager()
@@ -27,8 +25,12 @@ final class CDManager: ObservableObject {
         self.playingCD = playingCD
     }
     
-    func startPlayer(CD: CD?) {
+    func changeCD(CD: CD?) {
+        print(CD)
         playingCD = CD
+    }
+    
+    func startPlayer(CD: CD?) {
         baseAudioManager.startPlayer(track: CD?.base?.fileName ?? "base_default", volume: CD?.base?.audioVolume ?? 0.8)
         melodyAudioManager.startPlayer(track: CD?.melody?.fileName ?? "base_default", volume: CD?.melody?.audioVolume ?? 0.8)
         whiteNoiseAudioManager.startPlayer(track: CD?.whiteNoise?.fileName ?? "base_default", volume: CD?.whiteNoise?.audioVolume ?? 0.8)
@@ -45,41 +47,41 @@ final class CDManager: ObservableObject {
         whiteNoiseAudioManager.playPause()
         isPlaying.toggle()
     }
-
+    
     func playTempCD() {
         print(#function)
     }
-
+    
     func playPreCD() {
         if let playingCD = playingCD, let preCD = CDList.last(where: { $0.id < playingCD.id }) {
             print("preCD", preCD)
-            startPlayer(CD: preCD)
+            changeCD(CD: preCD)
         } else {
             let lastCD = CDList.last
             print("lastCD", lastCD)
-            startPlayer(CD: lastCD)
+            changeCD(CD: lastCD)
         }
     }
-
+    
     func playNextCD() {
         if let playingCD = playingCD, let nextCD = CDList.first(where: { $0.id > playingCD.id }) {
             print("nextCD", nextCD)
-            startPlayer(CD: nextCD)
+            changeCD(CD: nextCD)
         } else {
             let firstCD = CDList.first
             print("firstCD", firstCD)
-            startPlayer(CD: firstCD)
+            changeCD(CD: firstCD)
         }
     }
-
+    
     func addCD() {
         print(#function)
     }
-
+    
     func removeCd() {
         print(#function)
     }
-
+    
     func namingCD() {
         print(#function)
     }

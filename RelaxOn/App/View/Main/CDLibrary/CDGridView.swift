@@ -39,7 +39,7 @@ struct CDGridView: View {
         .fullScreenCover(isPresented: $isPresent, content: {
             CDPlayView()
                 .onAppear {
-                    cdManager.startPlayer(CD: selectedCD)
+                    cdManager.changeCD(CD: selectedCD)
                 }
         })
     }
