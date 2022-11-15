@@ -54,13 +54,9 @@ struct CDPlayView: View {
             VStack {
                 
 #warning("리오에게 물어보기")
-                if let baseVolume = cdManager.baseAudioManager.player?.volume,
-                   let melodyVolume = cdManager.melodyAudioManager.player?.volume,
-                   let whiteNoiseVolume = cdManager.whiteNoiseAudioManager.player?.volume {
-                    VolumeSliderView(audioManager: $cdManager.baseAudioManager, volume: baseVolume)
-                    VolumeSliderView(audioManager: $cdManager.melodyAudioManager, volume: melodyVolume)
-                    VolumeSliderView(audioManager: $cdManager.whiteNoiseAudioManager, volume: whiteNoiseVolume)
-                }
+                    VolumeSliderView(audioManager: $cdManager.baseAudioManager)
+                    VolumeSliderView(audioManager: $cdManager.melodyAudioManager)
+                    VolumeSliderView(audioManager: $cdManager.whiteNoiseAudioManager)
                 
                 //                VolumeSliderView(audioManager: $cdManager.baseAudioManager, volume: cdManager.baseAudioManager.player?.volume ?? 0.0)
                 //                    .onAppear {

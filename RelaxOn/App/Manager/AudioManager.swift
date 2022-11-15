@@ -11,6 +11,12 @@ import AVKit
 final class AudioManager {
     var player: AVAudioPlayer?
     
+    @Published var volume: Float = 0 {
+           didSet {
+               player?.volume = volume
+           }
+       }
+    
     private enum MusicExtension: String {
         case mp3 = "mp3"
     }
@@ -30,7 +36,7 @@ final class AudioManager {
         do {
             try AVAudioSession.sharedInstance().setCategory(.playback)
             player = try AVAudioPlayer(contentsOf: url)
-            player?.volume = volume
+            self.volume = volume
             player?.numberOfLoops = -1
             player?.play()
         } catch {
@@ -62,7 +68,7 @@ final class AudioManager {
     
     func changeVolume(volume: Float) {
         if player != nil {
-            player?.volume = volume
+            self.volume = volume
         }
     }
     

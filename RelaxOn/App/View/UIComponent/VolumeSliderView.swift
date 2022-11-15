@@ -9,22 +9,21 @@ import SwiftUI
 
 struct VolumeSliderView: View {
     @Binding var audioManager: AudioManager
-    @State var volume: Float
 
     var body: some View {
-        Slider(value: $volume, in: 0...1)
+        Slider(value: $audioManager.volume, in: 0...1)
             .background(.black)
             .cornerRadius(4)
             .accentColor(.white)
             .padding(.horizontal, 20)
-            .onChange(of: volume) { newValue in
+            .onChange(of: audioManager.volume) { newValue in
                 audioManager.changeVolume(volume: newValue)
                 
             }
-            Text(String(Int(volume * 100)))
+            Text(String(Int(audioManager.volume * 100)))
                 .foregroundColor(.systemGrey1)
                 .onAppear {
-                    print("volume", volume)
+                    print("volume", audioManager.volume)
                 }
     }
 }

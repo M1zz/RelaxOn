@@ -20,11 +20,11 @@ struct NewStudioView: View {
                 .background(.black)
             switch selectedIndex {
             case 0:
-                VolumeSliderView(audioManager: $cdManager.baseAudioManager, volume: cdManager.baseAudioManager.player?.volume ?? 0.0)
+                VolumeSliderView(audioManager: $cdManager.baseAudioManager)
             case 1:
-                VolumeSliderView(audioManager: $cdManager.melodyAudioManager, volume: cdManager.melodyAudioManager.player?.volume ?? 0.0)
+                VolumeSliderView(audioManager: $cdManager.melodyAudioManager)
             default:
-                VolumeSliderView(audioManager: $cdManager.whiteNoiseAudioManager, volume: cdManager.whiteNoiseAudioManager.player?.volume ?? 0.0)
+                VolumeSliderView(audioManager: $cdManager.whiteNoiseAudioManager)
             }
             
         }
