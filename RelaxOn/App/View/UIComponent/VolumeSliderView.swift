@@ -8,28 +8,22 @@
 import SwiftUI
 
 struct VolumeSliderView: View {
-    @Binding var audioManager: AudioManager
-
+    @Binding var material: Material
+    
     var body: some View {
-        Slider(value: $audioManager.volume, in: 0...1)
+        Text("sklms")
+        Slider(value: $material.audioVolume, in: 0...1)
             .background(.black)
             .cornerRadius(4)
             .accentColor(.white)
             .padding(.horizontal, 20)
-            .onChange(of: audioManager.volume) { newValue in
-                audioManager.changeVolume(volume: newValue)
-                
+            .onChange(of: material.audioVolume) { newValue in
+                material.audioVolume = newValue
             }
-            Text(String(Int(audioManager.volume * 100)))
-                .foregroundColor(.systemGrey1)
-                .onAppear {
-                    print("volume", audioManager.volume)
-                }
+        Text(String(Int(material.audioVolume * 100)))
+            .foregroundColor(.systemGrey1)
+            .onAppear {
+                print("volume", material.audioVolume)
+            }
     }
 }
-
-//struct VolumeSliderView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        VolumeSliderView(audioManager: AudioManager(), trackName: BaseSound.longSun.fileName)
-//    }
-//}

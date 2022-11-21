@@ -52,18 +52,7 @@ struct CDPlayView: View {
                 }
             }
             VStack {
-                
-#warning("리오에게 물어보기")
-                    VolumeSliderView(audioManager: $cdManager.baseAudioManager)
-                    VolumeSliderView(audioManager: $cdManager.melodyAudioManager)
-                    VolumeSliderView(audioManager: $cdManager.whiteNoiseAudioManager)
-                
-                //                VolumeSliderView(audioManager: $cdManager.baseAudioManager, volume: cdManager.baseAudioManager.player?.volume ?? 0.0)
-                //                    .onAppear {
-                //                        print("volume22",  cdManager.baseAudioManager.player?.volume ?? 0.0)
-                //                    }
-                //                VolumeSliderView(audioManager: $cdManager.melodyAudioManager, volume: cdManager.melodyAudioManager.player?.volume ?? 0.0)
-                //                VolumeSliderView(audioManager: $cdManager.whiteNoiseAudioManager, volume: cdManager.whiteNoiseAudioManager.player?.volume ?? 0.0)
+//                VolumeSliderView(material: $cdManager.playingCD?.base)
             }
         }
         .onAppear {

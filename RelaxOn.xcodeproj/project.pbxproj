@@ -82,6 +82,7 @@
 		CC381328290967BF009DD5F3 /* CDPlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC381327290967BF009DD5F3 /* CDPlayView.swift */; };
 		CC38132A2909701D009DD5F3 /* CDPlayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3813292909701D009DD5F3 /* CDPlayViewModel.swift */; };
 		CCA7F51E2877501E00D6A239 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CCA7F5202877501E00D6A239 /* Localizable.strings */; };
+		CCE63C932923A95C0010AEB9 /* AudioMaterialManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCE63C922923A95C0010AEB9 /* AudioMaterialManager.swift */; };
 		E206D1A428D2B97500DDB4E7 /* TimerProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E206D1A328D2B97500DDB4E7 /* TimerProgressBarView.swift */; };
 		E206D1A828D3AD3400DDB4E7 /* CustomNavigationLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = E206D1A728D3AD3400DDB4E7 /* CustomNavigationLink.swift */; };
 		E211ED052896D051002843EE /* MusicTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E211ED042896D051002843EE /* MusicTimer.swift */; };
@@ -197,6 +198,7 @@
 		CC5AC190289D69E500FE847B /* WidgetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetManager.swift; sourceTree = "<group>"; };
 		CCA7F51F2877501E00D6A239 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CCA7F5212877504200D6A239 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
+		CCE63C922923A95C0010AEB9 /* AudioMaterialManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioMaterialManager.swift; sourceTree = "<group>"; };
 		E206D1A328D2B97500DDB4E7 /* TimerProgressBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerProgressBarView.swift; sourceTree = "<group>"; };
 		E206D1A728D3AD3400DDB4E7 /* CustomNavigationLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationLink.swift; sourceTree = "<group>"; };
 		E211ED042896D051002843EE /* MusicTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicTimer.swift; sourceTree = "<group>"; };
@@ -513,6 +515,7 @@
 			isa = PBXGroup;
 			children = (
 				CC38131929096016009DD5F3 /* CDManager.swift */,
+				CCE63C922923A95C0010AEB9 /* AudioMaterialManager.swift */,
 				4A5769AF2866F6B5007CCAE9 /* UserDefaultsManager.swift */,
 				58DE101D283DC913002CDB9F /* AudioManager.swift */,
 			);
@@ -696,6 +699,7 @@
 				CC3813252909637F009DD5F3 /* NEWCDCardView.swift in Sources */,
 				58DE61852839C13900F25769 /* CdLibraryView2.swift in Sources */,
 				C7A50DDC28D08FA000841BC6 /* MusicView.swift in Sources */,
+				CCE63C932923A95C0010AEB9 /* AudioMaterialManager.swift in Sources */,
 				58DE1032283DF6E7002CDB9F /* Static.swift in Sources */,
 				E24F21E228ABE1A100371BA4 /* MultiPreview.swift in Sources */,
 				CC381328290967BF009DD5F3 /* CDPlayView.swift in Sources */,

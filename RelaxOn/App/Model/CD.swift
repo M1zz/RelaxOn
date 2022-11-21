@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CD : Identifiable, Codable {
+struct CD: Identifiable, Codable {
     let id: Int
     let name: String
     var base: Material?

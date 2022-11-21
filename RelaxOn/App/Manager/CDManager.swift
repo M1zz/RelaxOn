@@ -11,15 +11,13 @@ import AVFoundation
 final class CDManager: ObservableObject {
     @Published var isPlaying: Bool = false
     @Published var CDList: [CD] = CD.CDTempList
-    //UserDefaultsManager.shared.getCDList()
+    // UserDefaultsManager.shared.getCDList()
     @Published var playingCD: CD? {
         didSet {
             startPlayer(CD: playingCD)
         }
     }
-    @Published var baseAudioManager = AudioManager()
-    @Published var melodyAudioManager = AudioManager()
-    @Published var whiteNoiseAudioManager = AudioManager()
+    @Published var audioMaterialManager = AudioMaterialManager()
     
     init(playingCD: CD? = nil) {
         self.playingCD = playingCD
@@ -31,20 +29,18 @@ final class CDManager: ObservableObject {
     }
     
     func startPlayer(CD: CD?) {
-        baseAudioManager.startPlayer(track: CD?.base?.fileName ?? "base_default", volume: CD?.base?.audioVolume ?? 0.8)
-        melodyAudioManager.startPlayer(track: CD?.melody?.fileName ?? "base_default", volume: CD?.melody?.audioVolume ?? 0.8)
-        whiteNoiseAudioManager.startPlayer(track: CD?.whiteNoise?.fileName ?? "base_default", volume: CD?.whiteNoise?.audioVolume ?? 0.8)
+        if let CD = CD {
+            audioMaterialManager.setUpMaterials(CD: CD)
+            isPlaying = true
+        }
         print(CD?.base?.audioVolume)
         print(CD?.melody?.audioVolume)
         print(CD?.whiteNoise?.audioVolume)
-        isPlaying = true
     }
     
     func playPause() {
         print(#function)
-        baseAudioManager.playPause()
-        melodyAudioManager.playPause()
-        whiteNoiseAudioManager.playPause()
+        audioMaterialManager.playPause()
         isPlaying.toggle()
     }
     

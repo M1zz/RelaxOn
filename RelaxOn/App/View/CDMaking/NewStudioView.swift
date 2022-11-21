@@ -18,14 +18,14 @@ struct NewStudioView: View {
             Text("스튜디오뷰")
             NewCustomSegmentControlView(items: items, selection: $selectedIndex)
                 .background(.black)
-            switch selectedIndex {
-            case 0:
-                VolumeSliderView(audioManager: $cdManager.baseAudioManager)
-            case 1:
-                VolumeSliderView(audioManager: $cdManager.melodyAudioManager)
-            default:
-                VolumeSliderView(audioManager: $cdManager.whiteNoiseAudioManager)
-            }
+//            switch selectedIndex {
+//                case 0:
+//                    VolumeSliderView(audioManager: $cdManager.audioMaterialManager.baseAudioManager)
+//                case 1:
+//                    VolumeSliderView(audioManager: $cdManager.audioMaterialManager.melodyAudioManager)
+//                default:
+//                    VolumeSliderView(audioManager: $cdManager.audioMaterialManager.whiteNoiseAudioManager)
+//            }
             
         }
     }
