@@ -8,19 +8,8 @@
 import SwiftUI
 
 struct ThirdView: View {
-    
     var body: some View {
-        VStack{
-            HStack{
-                Button {
-                    
-                } label: {
-                    Text("Cancel")
-                        .font(.system(size: 25))
-                }
-
-            }
-        }
+        Text("ThirdView")
     }
 }
 

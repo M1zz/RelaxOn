@@ -7,10 +7,17 @@
 
 import SwiftUI
 
+struct FileInfo: Hashable {
+    let name: String
+}
+
 struct MainView: View {
     var body: some View {
         NavigationStack {
-            Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+            NavigationLink("Water Drop", value: FileInfo(name: "Water Drop"))
+                .navigationDestination(for: FileInfo.self) { fileInfo in
+                    SecondView(fileInfo: fileInfo)
+                }
         }
     }
 }
