@@ -13,7 +13,7 @@ struct RelaxOnApp: App {
     
     var body: some Scene {
         WindowGroup {
-            MainView()
+            SoundListView()
         }
     }
 }
