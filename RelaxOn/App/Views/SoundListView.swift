@@ -14,10 +14,9 @@ struct FileInfo: Hashable {
 struct SoundListView: View {
     var body: some View {
         NavigationStack {
-            NavigationLink("Water Drop", value: FileInfo(name: "Water Drop"))
-                .navigationDestination(for: FileInfo.self) { fileInfo in
-                    SoundSelectView(fileInfo: fileInfo)
-                }
+            NavigationLink(destination: SoundDetailView(fileName: "첫번째")) {
+                Text("SoundSelectView")
+            }
         }
     }
 }
