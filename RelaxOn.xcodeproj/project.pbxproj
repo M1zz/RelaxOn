@@ -51,6 +51,7 @@
 		8F53BD1729B77875009AE6D1 /* SoundListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F53BD1629B77875009AE6D1 /* SoundListView.swift */; };
 		8F53BD1929B77A83009AE6D1 /* SoundDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F53BD1829B77A83009AE6D1 /* SoundDetailView.swift */; };
 		8F53BD1B29B77A92009AE6D1 /* SoundSaveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F53BD1A29B77A92009AE6D1 /* SoundSaveView.swift */; };
+		8F75A7EA29BB7767004CFD2C /* FileInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F75A7E929BB7766004CFD2C /* FileInfo.swift */; };
 		C753494E28B7489D0055F7CA /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C753494D28B7489D0055F7CA /* View+Extension.swift */; };
 		C753495228B748D40055F7CA /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C753495128B748D40055F7CA /* UIColor+Extension.swift */; };
 		C753495428B748E20055F7CA /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C753495328B748E20055F7CA /* String+Extension.swift */; };
@@ -172,6 +173,7 @@
 		8F53BD1629B77875009AE6D1 /* SoundListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundListView.swift; sourceTree = "<group>"; };
 		8F53BD1829B77A83009AE6D1 /* SoundDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundDetailView.swift; sourceTree = "<group>"; };
 		8F53BD1A29B77A92009AE6D1 /* SoundSaveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundSaveView.swift; sourceTree = "<group>"; };
+		8F75A7E929BB7766004CFD2C /* FileInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileInfo.swift; sourceTree = "<group>"; };
 		C753494D28B7489D0055F7CA /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
 		C753494F28B748C80055F7CA /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
 		C753495128B748D40055F7CA /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
@@ -514,6 +516,14 @@
 			path = Relax;
 			sourceTree = "<group>";
 		};
+		8F4E1B6B29B9BE240013599C /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				8F75A7E929BB7766004CFD2C /* FileInfo.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		8F53BD1529B775F8009AE6D1 /* Legacy */ = {
 			isa = PBXGroup;
 			children = (
@@ -581,6 +591,7 @@
 				58DE61822839C13900F25769 /* RelaxOnApp.swift */,
 				CC04E26228BDA3F800509C60 /* AppDelegate.swift */,
 				CC04E26428BDA45900509C60 /* SceneDelegate.swift */,
+				8F4E1B6B29B9BE240013599C /* Models */,
 				C7C4C25528C239FE0048DCBA /* Assets */,
 				58DE1022283DF536002CDB9F /* Resource */,
 				8F53BD1C29B77B55009AE6D1 /* Views */,
@@ -725,6 +736,7 @@
 				8F4E1B6329B9A5AE0013599C /* ListenListView.swift in Sources */,
 				CC04E26328BDA3F800509C60 /* AppDelegate.swift in Sources */,
 				C7C4C25A28C256BF0048DCBA /* Color+Extension.swift in Sources */,
+				8F75A7EA29BB7767004CFD2C /* FileInfo.swift in Sources */,
 				58DE1021283DD9DD002CDB9F /* MusicViewModel.swift in Sources */,
 				58DE61852839C13900F25769 /* CdLibraryView.swift in Sources */,
 				8F4E1B6129B9A48F0013599C /* RootView.swift in Sources */,
