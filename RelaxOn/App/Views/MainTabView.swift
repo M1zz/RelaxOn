@@ -1,5 +1,5 @@
 //
-//  RootView.swift
+//  MainTabView.swift
 //  RelaxOn
 //
 //  Created by Doyeon on 2023/03/09.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct RootView: View {
+struct MainTabView: View {
     var body: some View {
         TabView {
             SoundListView()
@@ -31,6 +31,6 @@ struct RootView: View {
 
 struct CustomTabBar_Previews: PreviewProvider {
     static var previews: some View {
-        RootView()
+        MainTabView()
     }
 }
