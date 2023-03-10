@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct SoundDetailView: View { // SoundDetail
-    var fileName: String?
+    var fileName: String
 
     var body: some View {
         VStack {
-            Text("\(self.fileName ?? "")")
-            NavigationLink(destination: SoundSaveView(fileInfo: FileInfo(name: fileName ?? ""))) {
+            Text(fileName)
+            NavigationLink(destination: SoundSaveView(fileInfo: FileInfo(name: fileName))) {
                 Text("SoundSaveView")
             }
         }

@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct SoundListView: View {
-    
+
     let columns = [
         GridItem(.flexible()),
         GridItem(.flexible())
     ]
-    
+
     let fileNames: [String] = ["Water Drop", "Gong", "Twitter", "Wind", "Wave1", "Wave2"]
-    
+
     var body: some View {
         NavigationStack {
             ScrollView {
