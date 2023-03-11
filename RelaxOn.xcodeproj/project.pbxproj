@@ -45,9 +45,13 @@
 		58DE61B2283A8E1700F25769 /* Sound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61B1283A8E1700F25769 /* Sound.swift */; };
 		58DE61C22841C20A00F25769 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 58DE61C12841C20A00F25769 /* Launch Screen.storyboard */; };
 		58DE61C72843100100F25769 /* VolumeControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61C62843100100F25769 /* VolumeControlView.swift */; };
+		8F4E1B6129B9A48F0013599C /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4E1B6029B9A48F0013599C /* MainTabView.swift */; };
+		8F4E1B6329B9A5AE0013599C /* ListenListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4E1B6229B9A5AE0013599C /* ListenListView.swift */; };
+		8F4E1B6529B9A67E0013599C /* RelaxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4E1B6429B9A67E0013599C /* RelaxView.swift */; };
 		8F53BD1729B77875009AE6D1 /* SoundListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F53BD1629B77875009AE6D1 /* SoundListView.swift */; };
-		8F53BD1929B77A83009AE6D1 /* SoundSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F53BD1829B77A83009AE6D1 /* SoundSelectView.swift */; };
+		8F53BD1929B77A83009AE6D1 /* SoundDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F53BD1829B77A83009AE6D1 /* SoundDetailView.swift */; };
 		8F53BD1B29B77A92009AE6D1 /* SoundSaveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F53BD1A29B77A92009AE6D1 /* SoundSaveView.swift */; };
+		8F75A7EA29BB7767004CFD2C /* FileInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F75A7E929BB7766004CFD2C /* FileInfo.swift */; };
 		C753494E28B7489D0055F7CA /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C753494D28B7489D0055F7CA /* View+Extension.swift */; };
 		C753495228B748D40055F7CA /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C753495128B748D40055F7CA /* UIColor+Extension.swift */; };
 		C753495428B748E20055F7CA /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C753495328B748E20055F7CA /* String+Extension.swift */; };
@@ -163,9 +167,13 @@
 		58DE61BE283E77E700F25769 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		58DE61C12841C20A00F25769 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		58DE61C62843100100F25769 /* VolumeControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeControlView.swift; sourceTree = "<group>"; };
+		8F4E1B6029B9A48F0013599C /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		8F4E1B6229B9A5AE0013599C /* ListenListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListenListView.swift; sourceTree = "<group>"; };
+		8F4E1B6429B9A67E0013599C /* RelaxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelaxView.swift; sourceTree = "<group>"; };
 		8F53BD1629B77875009AE6D1 /* SoundListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundListView.swift; sourceTree = "<group>"; };
-		8F53BD1829B77A83009AE6D1 /* SoundSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundSelectView.swift; sourceTree = "<group>"; };
+		8F53BD1829B77A83009AE6D1 /* SoundDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundDetailView.swift; sourceTree = "<group>"; };
 		8F53BD1A29B77A92009AE6D1 /* SoundSaveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundSaveView.swift; sourceTree = "<group>"; };
+		8F75A7E929BB7766004CFD2C /* FileInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileInfo.swift; sourceTree = "<group>"; };
 		C753494D28B7489D0055F7CA /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
 		C753494F28B748C80055F7CA /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
 		C753495128B748D40055F7CA /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
@@ -482,6 +490,40 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		8F4E1B6829B9B37C0013599C /* Create */ = {
+			isa = PBXGroup;
+			children = (
+				8F53BD1629B77875009AE6D1 /* SoundListView.swift */,
+				8F53BD1829B77A83009AE6D1 /* SoundDetailView.swift */,
+				8F53BD1A29B77A92009AE6D1 /* SoundSaveView.swift */,
+			);
+			path = Create;
+			sourceTree = "<group>";
+		};
+		8F4E1B6929B9B3890013599C /* Listen */ = {
+			isa = PBXGroup;
+			children = (
+				8F4E1B6229B9A5AE0013599C /* ListenListView.swift */,
+			);
+			path = Listen;
+			sourceTree = "<group>";
+		};
+		8F4E1B6A29B9B3900013599C /* Relax */ = {
+			isa = PBXGroup;
+			children = (
+				8F4E1B6429B9A67E0013599C /* RelaxView.swift */,
+			);
+			path = Relax;
+			sourceTree = "<group>";
+		};
+		8F4E1B6B29B9BE240013599C /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				8F75A7E929BB7766004CFD2C /* FileInfo.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		8F53BD1529B775F8009AE6D1 /* Legacy */ = {
 			isa = PBXGroup;
 			children = (
@@ -504,9 +546,10 @@
 		8F53BD1C29B77B55009AE6D1 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				8F53BD1629B77875009AE6D1 /* SoundListView.swift */,
-				8F53BD1829B77A83009AE6D1 /* SoundSelectView.swift */,
-				8F53BD1A29B77A92009AE6D1 /* SoundSaveView.swift */,
+				8F4E1B6029B9A48F0013599C /* MainTabView.swift */,
+				8F4E1B6829B9B37C0013599C /* Create */,
+				8F4E1B6929B9B3890013599C /* Listen */,
+				8F4E1B6A29B9B3900013599C /* Relax */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -548,6 +591,7 @@
 				58DE61822839C13900F25769 /* RelaxOnApp.swift */,
 				CC04E26228BDA3F800509C60 /* AppDelegate.swift */,
 				CC04E26428BDA45900509C60 /* SceneDelegate.swift */,
+				8F4E1B6B29B9BE240013599C /* Models */,
 				C7C4C25528C239FE0048DCBA /* Assets */,
 				58DE1022283DF536002CDB9F /* Resource */,
 				8F53BD1C29B77B55009AE6D1 /* Views */,
@@ -689,10 +733,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8F4E1B6329B9A5AE0013599C /* ListenListView.swift in Sources */,
 				CC04E26328BDA3F800509C60 /* AppDelegate.swift in Sources */,
 				C7C4C25A28C256BF0048DCBA /* Color+Extension.swift in Sources */,
+				8F75A7EA29BB7767004CFD2C /* FileInfo.swift in Sources */,
 				58DE1021283DD9DD002CDB9F /* MusicViewModel.swift in Sources */,
 				58DE61852839C13900F25769 /* CdLibraryView.swift in Sources */,
+				8F4E1B6129B9A48F0013599C /* MainTabView.swift in Sources */,
 				8F53BD1B29B77A92009AE6D1 /* SoundSaveView.swift in Sources */,
 				C7A50DDC28D08FA000841BC6 /* MusicView.swift in Sources */,
 				58DE1032283DF6E7002CDB9F /* Static.swift in Sources */,
@@ -710,7 +757,7 @@
 				E2BF105428914E9E00408B8C /* TimerNavigationLinkView.swift in Sources */,
 				E211ED072896D06A002843EE /* TimerManager.swift in Sources */,
 				C7FDCA8728D09396008FA749 /* WidgetManager.swift in Sources */,
-				8F53BD1929B77A83009AE6D1 /* SoundSelectView.swift in Sources */,
+				8F53BD1929B77A83009AE6D1 /* SoundDetailView.swift in Sources */,
 				CC04E26528BDA45900509C60 /* SceneDelegate.swift in Sources */,
 				CC5AC134289D184A00FE847B /* CDWidgetEntry.swift in Sources */,
 				4AF70C4B28D1BC4300645D5D /* CDLibraryMusicController.swift in Sources */,
@@ -736,6 +783,7 @@
 				C753495228B748D40055F7CA /* UIColor+Extension.swift in Sources */,
 				C753495428B748E20055F7CA /* String+Extension.swift in Sources */,
 				2193316028D2B1A5006D1E75 /* VolumeSliderView.swift in Sources */,
+				8F4E1B6529B9A67E0013599C /* RelaxView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
