@@ -9,14 +9,14 @@ import SwiftUI
 
 struct CDCardView: View {
     // MARK: - State Properties
-    @State var selectedMixedSound: MixedSound?
+    @State var selectedMixedSound: OldMixedSound?
     @State private var isPresent = false
     @Binding var isShowingMusicView: Bool
-    @Binding var userRepositoriesState: [MixedSound]
+    @Binding var userRepositoriesState: [OldMixedSound]
     @EnvironmentObject var viewModel: MusicViewModel
     
     // MARK: - General Properties
-    var data: MixedSound
+    var data: OldMixedSound
     
     // MARK: - Life Cycles
     var body: some View {

@@ -23,7 +23,7 @@ struct MusicView: View {
     @State private var musicPlayButtonWidth = 44.0
     @State private var isEditingVolume = false
     
-    var timerManager = TimerManager.shared
+    var timerManager = OldTimerManager.shared
     
     @State var audioVolumes: (baseVolume: Float, melodyVolume: Float, whiteNoiseVolume: Float) = (0, 0, 0)
     @State private var offsetYOfControlView = UIScreen.main.bounds.height * 0.83 {
@@ -36,8 +36,8 @@ struct MusicView: View {
         }
     }
     
-    var data: MixedSound
-    @Binding var userRepositoriesState: [MixedSound]
+    var data: OldMixedSound
+    @Binding var userRepositoriesState: [OldMixedSound]
     
     var body: some View {
         NavigationView {
@@ -259,7 +259,7 @@ extension MusicView {
                     userRepositoriesState.remove(at: index ?? -1)
                     
                     let data = getEncodedData(data: userRepositories)
-                    UserDefaultsManager.shared.recipes = data
+                    OldUserDefaultsManager.shared.recipes = data
                     userRepositoriesState = userRepositories
                     viewModel.mixedSound = nil
                     presentationMode.wrappedValue.dismiss()
@@ -285,7 +285,7 @@ extension MusicView {
 
 // MARK: - MusicVeiwDelegate
 extension MusicView: MusicViewDelegate {
-    func renameMusic(renamedMixedSound: MixedSound) {
+    func renameMusic(renamedMixedSound: OldMixedSound) {
         let firstIndex = userRepositoriesState.firstIndex { element in
             return element.id == viewModel.mixedSound?.id ?? -1
         }
@@ -300,7 +300,7 @@ extension MusicView: MusicViewDelegate {
         userRepositoriesState.insert(renamedMixedSound, at: index)
         
         let data = getEncodedData(data: userRepositories)
-        UserDefaultsManager.shared.recipes = data
+        OldUserDefaultsManager.shared.recipes = data
     }
 }
 

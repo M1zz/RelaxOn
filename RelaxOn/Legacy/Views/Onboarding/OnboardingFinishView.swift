@@ -12,7 +12,7 @@ struct OnboardingFinishView: View {
     @Binding var showOnboarding: Bool
     
     // MARK: - General Properties
-    var mixedSound: MixedSound
+    var mixedSound: OldMixedSound
     
     // MARK: - Life Cycles
     var body: some View {
@@ -46,9 +46,9 @@ extension OnboardingFinishView {
             userRepositories.append(mixedSound)
             
             let data = getEncodedData(data: userRepositories)
-            UserDefaultsManager.shared.recipes = data
+            OldUserDefaultsManager.shared.recipes = data
             
-            UserDefaultsManager.shared.notFirstVisit = true
+            OldUserDefaultsManager.shared.notFirstVisit = true
             
             showOnboarding = false
         } label: {

@@ -10,7 +10,7 @@ import MediaPlayer
 
 struct CdLibraryView: View {
     @StateObject var viewModel = MusicViewModel()
-    @State var userRepositoriesState: [MixedSound] = []
+    @State var userRepositoriesState: [OldMixedSound] = []
     @State private var isPresented = false
     var body: some View {
         NavigationView {
@@ -46,10 +46,10 @@ struct CdLibraryView: View {
                    print(error.localizedDescription)
                }
             
-            if let data = UserDefaultsManager.shared.recipes {
+            if let data = OldUserDefaultsManager.shared.recipes {
                 do {
                     let decoder = JSONDecoder()
-                    userRepositories = try decoder.decode([MixedSound].self, from: data)
+                    userRepositories = try decoder.decode([OldMixedSound].self, from: data)
                     print("help : \(userRepositories)")
                     userRepositoriesState = userRepositories
                 } catch {

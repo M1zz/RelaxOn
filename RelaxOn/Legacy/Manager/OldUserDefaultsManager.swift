@@ -7,8 +7,8 @@
 
 import Foundation
 
-final class UserDefaultsManager {
-    static let shared = UserDefaultsManager()
+final class OldUserDefaultsManager {
+    static let shared = OldUserDefaultsManager()
     
     private let standard = UserDefaults.standard
     
@@ -18,7 +18,7 @@ final class UserDefaultsManager {
 }
 
 /// Data Get, Set Properties
-extension UserDefaultsManager {
+extension OldUserDefaultsManager {
     var recipes: Data? {
         get {
             return standard.data(forKey: RECIPES_KEY)
