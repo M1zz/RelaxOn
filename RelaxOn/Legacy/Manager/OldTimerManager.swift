@@ -8,9 +8,9 @@
 import Foundation
 import Combine
 
-final class TimerManager: ObservableObject {
+final class OldTimerManager: ObservableObject {
     
-    static let shared = TimerManager()
+    static let shared = OldTimerManager()
     
     @Published var musicTimer = MusicTimer()
     

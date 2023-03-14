@@ -8,7 +8,7 @@
 import Foundation
 import AVKit
 
-final class AudioManager {
+final class OldAudioManager {
     var player: AVAudioPlayer?
     
     private enum MusicExtension: String {

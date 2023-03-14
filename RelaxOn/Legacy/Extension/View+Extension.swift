@@ -8,7 +8,7 @@
 import SwiftUI
 
 extension View {
-    func getEncodedData(data: [MixedSound]) -> Data? {
+    func getEncodedData(data: [OldMixedSound]) -> Data? {
         do {
             let encoder = JSONEncoder()
             let encodedData = try encoder.encode(data)

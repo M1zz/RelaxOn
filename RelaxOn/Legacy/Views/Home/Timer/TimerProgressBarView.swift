@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TimerProgressBarView: View {
-    @ObservedObject var timerManager = TimerManager.shared
+    @ObservedObject var timerManager = OldTimerManager.shared
     
     var trimTo: Double {Double(timerManager.getRemainedSecond()) / timerManager.lastSetDurationInSeconds}
     

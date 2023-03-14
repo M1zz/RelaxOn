@@ -9,7 +9,7 @@ import SwiftUI
 
 struct TimerNavigationLinkView: View {
     
-    @ObservedObject var timerManager = TimerManager.shared
+    @ObservedObject var timerManager = OldTimerManager.shared
     @State private var isPresentedByLockScreenWidget = false
     var body: some View {
         VStack(spacing: 6) {

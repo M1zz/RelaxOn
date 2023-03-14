@@ -10,7 +10,7 @@ import SwiftUI
 struct CDListView: View {
     // MARK: - State Properties
     @State var isActive: Bool = false
-    @Binding var userRepositoriesState: [MixedSound]
+    @Binding var userRepositoriesState: [OldMixedSound]
     @State var selectedImageNames = (
         base: "",
         melody: "",
@@ -74,13 +74,13 @@ struct CDListView: View {
         }
         .padding()
         .onAppear {
-            let notFirstVisit = UserDefaultsManager.shared.notFirstVisit
+            let notFirstVisit = OldUserDefaultsManager.shared.notFirstVisit
             showOnboarding = !notFirstVisit
             
-            if let data = UserDefaultsManager.shared.recipes {
+            if let data = OldUserDefaultsManager.shared.recipes {
                 do {
                     let decoder = JSONDecoder()
-                    userRepositories = try decoder.decode([MixedSound].self, from: data)
+                    userRepositories = try decoder.decode([OldMixedSound].self, from: data)
                     //                    print("help : \(userRepositories)")
                     userRepositoriesState = userRepositories
                     
@@ -104,11 +104,11 @@ struct CDListView: View {
         }
         .onChange(of: isShowingMusicView) { newValue in
             if isShowingMusicView == false {
-                if let data = UserDefaultsManager.shared.recipes {
+                if let data = OldUserDefaultsManager.shared.recipes {
                     do {
                         let decoder = JSONDecoder()
                         
-                        userRepositories = try decoder.decode([MixedSound].self, from: data)
+                        userRepositories = try decoder.decode([OldMixedSound].self, from: data)
                         userRepositoriesState = userRepositories
                     } catch {
                         print("Unable to Decode Note (\(error))")

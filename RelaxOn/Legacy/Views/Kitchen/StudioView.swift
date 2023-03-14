@@ -11,19 +11,19 @@ struct StudioView: View {
     // MARK: - State Properties
     @State var select: Int = 0
     @State var showingConfirm = false
-    @State var selectedBaseSound: Sound = Sound(id: 0,
+    @State var selectedBaseSound: OldSound = OldSound(id: 0,
                                                 name: "Empty",
                                                 soundType: .base,
                                                 audioVolume: 0.5,
                                                 fileName: "")
     
-    @State var selectedMelodySound: Sound = Sound(id: 10,
+    @State var selectedMelodySound: OldSound = OldSound(id: 10,
                                                   name: "Empty",
                                                   soundType: .melody,
                                                   audioVolume: 0.5,
                                                   fileName: "")
     
-    @State var selectedWhiteNoiseSound: Sound = Sound(id: 20,
+    @State var selectedWhiteNoiseSound: OldSound = OldSound(id: 20,
                                                       name: "Empty",
                                                       soundType: .whiteNoise,
                                                       audioVolume: 0.5,
@@ -38,7 +38,7 @@ struct StudioView: View {
     @State var opacityAnimationValues = [0.0, 0.0, 0.0]
     @State var navigateActive = false
     @State var volumes: [Float] = [0.5, 0.5, 0.5]
-    @State var mixedSound: MixedSound?
+    @State var mixedSound: OldMixedSound?
     @State var stepBarWidth = deviceFrame.screenWidth * 0.33
     
     @Binding var rootIsActive: Bool
@@ -46,9 +46,9 @@ struct StudioView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     // MARK: - General Properties
-    let baseAudioManager = AudioManager()
-    let melodyAudioManager = AudioManager()
-    let whiteNoiseAudioManager = AudioManager()
+    let baseAudioManager = OldAudioManager()
+    let melodyAudioManager = OldAudioManager()
+    let whiteNoiseAudioManager = OldAudioManager()
     var items = ["BASE", "MELODY", "WHITE NOISE"]
     var viewType: ViewType = .onboarding
     
@@ -263,7 +263,7 @@ extension StudioView {
                     melodySound = selectedMelodySound
                     whiteNoiseSound = selectedWhiteNoiseSound
                     
-                    mixedSound = MixedSound(name: "",
+                    mixedSound = OldMixedSound(name: "",
                                             baseSound: baseSound,
                                             melodySound: melodySound,
                                             whiteNoiseSound: whiteNoiseSound,
@@ -327,7 +327,7 @@ extension StudioView {
     @ViewBuilder
     func OnboardingMixButton() -> some View {
         NavigationLink {
-            let mixedSound = MixedSound(name: "",
+            let mixedSound = OldMixedSound(name: "",
                                         baseSound: selectedBaseSound,
                                         melodySound: selectedMelodySound,
                                         whiteNoiseSound: selectedWhiteNoiseSound,

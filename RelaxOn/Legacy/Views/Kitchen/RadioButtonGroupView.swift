@@ -9,8 +9,8 @@ import SwiftUI
 
 struct RadioButtonGroupView: View {
     @State var selectedId = ""
-    let items : [Sound] // sound 를 받아야 함
-    let callback: (Sound) -> ()
+    let items : [OldSound] // sound 를 받아야 함
+    let callback: (OldSound) -> ()
     let columns = [
         GridItem(.adaptive(minimum: (deviceFrame.exceptPaddingWidth - 20 ) / 3))
     ]
@@ -26,7 +26,7 @@ struct RadioButtonGroupView: View {
         }
     }
 
-    func radioGroupCallback(id: String, audio: Sound) {
+    func radioGroupCallback(id: String, audio: OldSound) {
         selectedId = id
         callback(audio)
     }

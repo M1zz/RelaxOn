@@ -12,8 +12,8 @@ enum SoundType: String, CaseIterable, Codable {
     case melody
     case whiteNoise
     
-    var soundList: [Sound] {
-        var soundList = [Sound.empty(self.index, self)]
+    var soundList: [OldSound] {
+        var soundList = [OldSound.empty(self.index, self)]
         switch self {
         case .base:
             soundList.append(contentsOf: BaseSound.soundList)
@@ -52,10 +52,10 @@ enum BaseSound: String, CaseIterable {
         self.rawValue.addSpaceBeforeUppercase.convertUppercaseFirstChar
     }
     
-    static var soundList: [Sound] {
+    static var soundList: [OldSound] {
         
         return self.allCases.enumerated().map {
-            Sound(id: $0.offset + 1,
+            OldSound(id: $0.offset + 1,
                   name: $0.element.displayName,
                   soundType: .base,
                   audioVolume: 0.5,
@@ -79,9 +79,9 @@ enum MelodySound: String, CaseIterable {
         self.rawValue.addSpaceBeforeUppercase.convertUppercaseFirstChar
     }
     
-    static var soundList: [Sound] {
+    static var soundList: [OldSound] {
         return self.allCases.enumerated().map {
-            Sound(id: $0.offset + 1 + 10,
+            OldSound(id: $0.offset + 1 + 10,
                   name: $0.element.displayName,
                   soundType: .melody,
                   audioVolume: 0.5,
@@ -105,9 +105,9 @@ enum WhiteNoiseSound: String, CaseIterable {
         self.rawValue.addSpaceBeforeUppercase.convertUppercaseFirstChar
     }
     
-    static var soundList: [Sound] {
+    static var soundList: [OldSound] {
         return self.allCases.enumerated().map {
-            Sound(id: $0.offset + 1 + 20,
+            OldSound(id: $0.offset + 1 + 20,
                   name: $0.element.displayName,
                   soundType: .whiteNoise,
                   audioVolume: 0.5,

@@ -12,14 +12,14 @@ struct VolumeControlView: View {
     @State var hasShowAlert: Bool = false
     @Binding var showVolumeControl: Bool
     @Binding var audioVolumes: (baseVolume: Float, melodyVolume: Float, whiteNoiseVolume: Float)
-    @Binding var userRepositoriesState: [MixedSound]
+    @Binding var userRepositoriesState: [OldMixedSound]
     @Binding var isEditingVolume: Bool
     @EnvironmentObject var viewModel: MusicViewModel
     
     // MARK: - General Properties
-    let baseAudioManager = AudioManager()
-    let melodyAudioManager = AudioManager()
-    let whiteNoiseAudioManager = AudioManager()
+    let baseAudioManager = OldAudioManager()
+    let melodyAudioManager = OldAudioManager()
+    let whiteNoiseAudioManager = OldAudioManager()
     
     // MARK: - Methods
     private func saveNewVolume() {
@@ -28,25 +28,25 @@ struct VolumeControlView: View {
               let localMelodySound = viewModel.mixedSound?.melodySound,
               let localWhiteNoiseSound = viewModel.mixedSound?.whiteNoiseSound else { return }
         
-        let newBaseSound = Sound(id: localBaseSound.id,
+        let newBaseSound = OldSound(id: localBaseSound.id,
                                  name: localBaseSound.name,
                                  soundType: localBaseSound.soundType,
                                  audioVolume: audioVolumes.baseVolume,
                                  fileName: localBaseSound.fileName)
         
-        let newMelodySound = Sound(id: localMelodySound.id,
+        let newMelodySound = OldSound(id: localMelodySound.id,
                                    name: localMelodySound.name,
                                    soundType: localMelodySound.soundType,
                                    audioVolume: audioVolumes.melodyVolume,
                                    fileName: localMelodySound.fileName)
         
-        let newWhiteNoiseSound = Sound(id: localWhiteNoiseSound.id,
+        let newWhiteNoiseSound = OldSound(id: localWhiteNoiseSound.id,
                                        name: localWhiteNoiseSound.name,
                                        soundType: localWhiteNoiseSound.soundType,
                                        audioVolume: audioVolumes.whiteNoiseVolume,
                                        fileName: localWhiteNoiseSound.fileName)
         
-        let newMixedSound = MixedSound(id: selectedMixedSound.id,
+        let newMixedSound = OldMixedSound(id: selectedMixedSound.id,
                                        name: selectedMixedSound.name,
                                        baseSound: newBaseSound,
                                        melodySound: newMelodySound,
@@ -64,7 +64,7 @@ struct VolumeControlView: View {
         userRepositoriesState.insert(newMixedSound, at: index ?? -1)
         
         let data = getEncodedData(data: userRepositories)
-        UserDefaultsManager.shared.recipes = data
+        OldUserDefaultsManager.shared.recipes = data
     }
     
     // MARK: - Life Cycles
@@ -116,7 +116,7 @@ extension VolumeControlView {
     }
     
     @ViewBuilder
-    func SoundControlSlider(item: Sound) -> some View {
+    func SoundControlSlider(item: OldSound) -> some View {
         HStack {
             VStack {
                 Image(item.fileName)

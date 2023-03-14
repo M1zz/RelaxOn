@@ -8,5 +8,5 @@
 import Foundation
 
 protocol MusicViewDelegate {
-    func renameMusic(renamedMixedSound: MixedSound) -> ()
+    func renameMusic(renamedMixedSound: OldMixedSound) -> ()
 }

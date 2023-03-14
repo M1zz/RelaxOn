@@ -7,15 +7,15 @@
 
 import Foundation
 
-struct Sound: Identifiable, Codable {
+struct OldSound: Identifiable, Codable {
     let id: Int // = UUID()
     let name: String
     var soundType: SoundType
     var audioVolume: Float
     let fileName: String
     
-    static let empty: (Int, SoundType) -> Sound = {
-        return Sound(id: $0 * 10,
+    static let empty: (Int, SoundType) -> OldSound = {
+        return OldSound(id: $0 * 10,
                      name: "Empty",
                      soundType: $1,
                      audioVolume: 0.5,
@@ -23,21 +23,21 @@ struct Sound: Identifiable, Codable {
     }
 }
 
-var baseSound: Sound = Sound(id: 0,
+var baseSound: OldSound = OldSound(id: 0,
                              name: "Empty",
                              soundType: .base,
                              audioVolume: 0.0,
                              fileName: "")
-var melodySound: Sound = Sound(id: 3,
+var melodySound: OldSound = OldSound(id: 3,
                                name: "Empty",
                                soundType: .base,
                                audioVolume: 0.0,
                                fileName: "")
-var whiteNoiseSound: Sound = Sound(id: 6,
+var whiteNoiseSound: OldSound = OldSound(id: 6,
                                 name: "Empty",
                                 soundType: .base,
                                 audioVolume: 0.0,
                                 fileName: "")
 
-var mixedAudioSources: [Sound] = []
-var userRepositories: [MixedSound] = []
+var mixedAudioSources: [OldSound] = []
+var userRepositories: [OldMixedSound] = []

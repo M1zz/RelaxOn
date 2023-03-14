@@ -14,7 +14,7 @@ struct CDNamingView: View {
     @Binding var goToPreviousView: Bool
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
-    @State var mixedSound: MixedSound
+    @State var mixedSound: OldMixedSound
     
     // MARK: - General Properties
     var musicModelDelegate: MusicViewDelegate?
@@ -123,7 +123,7 @@ extension CDNamingView {
     @ViewBuilder
     func OnboardingSaveButton() -> some View {
         Button {
-            mixedSound = MixedSound(name: soundName,
+            mixedSound = OldMixedSound(name: soundName,
                                     baseSound: baseSound,
                                     melodySound: melodySound,
                                     whiteNoiseSound: whiteNoiseSound,
@@ -141,7 +141,7 @@ extension CDNamingView {
     @ViewBuilder
     func NewCDSaveButton() -> some View {
         Button {
-            let newSound = MixedSound(name: self.soundName,
+            let newSound = OldMixedSound(name: self.soundName,
                                       baseSound: mixedSound.baseSound,
                                       melodySound: mixedSound.melodySound,
                                       whiteNoiseSound: mixedSound.whiteNoiseSound,
@@ -149,7 +149,7 @@ extension CDNamingView {
             
             userRepositories.append(newSound)
             let data = getEncodedData(data: userRepositories)
-            UserDefaultsManager.shared.recipes = data
+            OldUserDefaultsManager.shared.recipes = data
             self.goToPreviousView = false
         } label: {
             SaveButton()
@@ -161,7 +161,7 @@ extension CDNamingView {
     @ViewBuilder
     func RenameCDSaveButton() -> some View {
         Button {
-            let newSound = MixedSound(id: mixedSound.id,
+            let newSound = OldMixedSound(id: mixedSound.id,
                                       name: self.soundName,
                                       baseSound: mixedSound.baseSound,
                                       melodySound: mixedSound.melodySound,

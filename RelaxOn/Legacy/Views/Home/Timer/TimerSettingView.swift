@@ -15,7 +15,7 @@ struct TimerSettingView: View {
         Int(seconds / 60)
     }
     
-    @ObservedObject var timerManager = TimerManager.shared
+    @ObservedObject var timerManager = OldTimerManager.shared
     
     var body: some View {
         ZStack{

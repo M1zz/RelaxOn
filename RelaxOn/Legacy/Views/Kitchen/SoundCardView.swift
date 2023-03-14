@@ -15,14 +15,14 @@ struct SoundCardView: View {
     
     // MARK: - General Properties
     let soundFileName: String
-    let callback: ((String, Sound)->())?
+    let callback: ((String, OldSound)->())?
     let selectedID: String?
-    var data: Sound
+    var data: OldSound
     
     // MARK: - Life Cycles
     init(soundFileName: String,
-         data: Sound,
-         callback: ((String, Sound)->())? = nil,
+         data: OldSound,
+         callback: ((String, OldSound)->())? = nil,
          selectedID: String? = nil) {
         self.soundFileName = soundFileName
         self.data = data
@@ -75,7 +75,7 @@ struct SoundCardView: View {
 struct SoundCard_Previews: PreviewProvider {
     static var previews: some View {
         SoundCardView(soundFileName : "base_default",
-                      data: SoundType.base.soundList.first ?? Sound.empty(0, .base),
+                      data: SoundType.base.soundList.first ?? OldSound.empty(0, .base),
                   callback: {_,_  in },
                   selectedID: "")
         .background(Color.backgroundColor)
