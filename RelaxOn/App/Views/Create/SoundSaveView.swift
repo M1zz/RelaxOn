@@ -8,15 +8,16 @@
 import SwiftUI
 
 struct SoundSaveView: View {
-    var createdSound: MixedSound
+
+    @Binding var volume: Float
+    
     var body: some View {
-        Text("SoundSaveView \(createdSound.name)")
-        Text("\(createdSound.audioVolume ?? 0.0)")
+        Text("\(volume)")
     }
 }
-//
+
 //struct ThirdView_Previews: PreviewProvider {
 //    static var previews: some View {
-//        SoundSaveView(fileInfo: CreatedSound(name: "세번째"))
+//        SoundSaveView(volume: @Binding변수)
 //    }
 //}
