@@ -10,8 +10,11 @@ import SwiftUI
 struct SoundSaveView: View {
     
     @FocusState private var isFocused: Bool
-    @State var soundSavedName: String = ""
     @Binding var volume: Float
+    @State var soundSavedName: String = ""
+    @State var imageFileNumber: Int = 0
+    var imageFiles: [String?] = ["Recipe1", "Recipe2", "Recipe3", "Recipe4", "Recipe5",
+                                 "Recipe6", "Recipe7", "Recipe8", "Recipe9", "Recipe10"]
     
     var body: some View {
         VStack{
@@ -51,10 +54,15 @@ struct SoundSaveView: View {
                 .keyboardType(.default)
                 .autocorrectionDisabled(true)
                 .focused($isFocused)
-               .font(.title)
+                .font(.title)
                 .underline(true)
             
+            //앨범 이미지
+            Image(imageFiles[imageFileNumber]!)
+                .resizable()
+                .frame(width: 300, height: 300)
         }
+        
     }
 }
 
