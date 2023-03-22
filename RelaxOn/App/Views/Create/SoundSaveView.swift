@@ -10,6 +10,7 @@ import SwiftUI
 struct SoundSaveView: View {
     
     @FocusState private var isFocused: Bool
+    @State var soundSavedName: String = ""
     @Binding var volume: Float
     
     var body: some View {
@@ -40,6 +41,19 @@ struct SoundSaveView: View {
                         .padding(10)
                 }.offset(x: 0, y: -70)
             }
+            
+            //제목 입력
+            TextField("\(volume)", text: $soundSavedName)
+                .frame(minWidth: 150, idealWidth: 150, maxWidth: 300,
+                       minHeight: 80, idealHeight: 80, maxHeight: 80,
+                       alignment: .center)
+                .padding(EdgeInsets(top: 100, leading: 150, bottom: 100, trailing: 150))
+                .keyboardType(.default)
+                .autocorrectionDisabled(true)
+                .focused($isFocused)
+               .font(.title)
+                .underline(true)
+            
         }
     }
 }
