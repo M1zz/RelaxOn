@@ -76,7 +76,7 @@ struct SoundDetailView: View {
                     .bold()
                     .font(.system(size: 20))
             }
-            .sheet(isPresented: $isShowingSheet) {
+            .fullScreenCover(isPresented: $isShowingSheet) {
                 SoundSaveView(volume: $volume)
             }
         }
