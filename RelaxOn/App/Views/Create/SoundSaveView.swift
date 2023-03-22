@@ -19,6 +19,7 @@ struct SoundSaveView: View {
     var body: some View {
         VStack{
             HStack{
+                
                 //취소 버튼
                 Button {
                     print("cancel")
@@ -56,13 +57,32 @@ struct SoundSaveView: View {
                 .focused($isFocused)
                 .font(.title)
                 .underline(true)
-            
-            //앨범 이미지
-            Image(imageFiles[imageFileNumber]!)
-                .resizable()
-                .frame(width: 300, height: 300)
+            ZStack{
+                
+                //앨범 이미지
+                Image(imageFiles[imageFileNumber]!)
+                    .resizable()
+                    .frame(width: 300, height: 300)
+                
+                //이미지변경 버튼
+                Button {
+                    if imageFileNumber >= 9 {
+                        imageFileNumber = 0
+                    } else {
+                        imageFileNumber += 1
+                    }
+                } label: {
+                    Image(systemName: "arrow.triangle.2.circlepath")
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                        .foregroundColor(.black)
+                        .bold()
+                    
+                }.offset(x: 120, y: -120)
+            }
+        }.onAppear {
+            isFocused = true
         }
-        
     }
 }
 
