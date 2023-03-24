@@ -42,25 +42,6 @@ struct SoundDetailView: View {
                 .padding(.horizontal, 20)
                 .padding(.vertical, 10)
                 .foregroundColor(.yellow)
-            
-            HStack {
-                Button(action: {
-                    playAudio()
-                }) {
-                    Image(systemName: "play.fill")
-                        .resizable()
-                        .frame(width: 25, height: 25)
-                        .foregroundColor(.systemGrey3)
-                }
-                Button(action: {
-                    stopAudio()
-                }) {
-                    Image(systemName: "stop.fill")
-                        .resizable()
-                        .frame(width: 25, height: 25)
-                        .foregroundColor(.systemGrey3)
-                }
-            }//HStack
         }//VStack
         
         .navigationBarTitle(fileName, displayMode: .inline)
@@ -83,10 +64,12 @@ struct SoundDetailView: View {
         
         // MARK: - Life Cycle
         .onAppear() {
+            //TODO: 자동으로 음악이 무한 반복 재생(한 곡이 완전히 재생되면 다시 맨 처음부터 재생하는 기능)
             isPlaying = true
             audioPlayer?.play() // 노래가 끝났는지 안끝났는지 확인해서 재생시키기
         }
         .onDisappear() {
+            //TODO: 화면이 전환될 때 자동으로 반복되는 음악을 정지
             audioPlayer?.stop()
             isPlaying = false
         }
