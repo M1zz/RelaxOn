@@ -19,7 +19,7 @@ class AudioManager: ObservableObject {
         Bundle.main.url(forResource: forResource, withExtension: musicExtension.rawValue) ?? nil
     }
     
-    /// MixedSound타입의 객체를 재생
+    /// MixedSound타입의 객체를 반복 재생
     func playAudio(mixedSound: MixedSound) {
         if let url = getPathUrl(forResource: mixedSound.fileName, musicExtension: .mp3) {
             do {
@@ -29,7 +29,6 @@ class AudioManager: ObservableObject {
                 audioPlayer?.numberOfLoops = -1 // 오디오 파일이 무한 루프로 반복되는 횟수를 설정 (-1: 무한반복, 0: 반복안함, 1: 1번만 반복)
                 audioPlayer?.play()
             } catch {
-                print(#function)
                 print("Audio playback error: \(error.localizedDescription)")
             }
         }
@@ -38,5 +37,9 @@ class AudioManager: ObservableObject {
     func stopAudio() {
         audioPlayer?.stop()
         audioPlayer?.currentTime = 0 // currentTime을 0으로 설정하지 않으면 오디오 플레이어가 중지된 지점부터 play()됨
+    }
+    
+    func updateVolume(_ volume: Float) {
+        audioPlayer?.volume = volume
     }
 }

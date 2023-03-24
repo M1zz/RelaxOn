@@ -10,12 +10,10 @@ import AVFoundation
 
 struct SoundDetailView: View {
     // MARK: - Properties
-    var fileName: String // SoundListView에서 전달받은 파일 이름
-    
     @State var volume: Float = 0.5
     @State var isShowingSheet: Bool = false
-    @State private var audioPlayer: AVAudioPlayer?
-    @State private var isPlaying = false
+    @State var mixedSound: MixedSound
+    @ObservedObject var audioManager = AudioManager()
     
     var body: some View {
         VStack {
@@ -34,17 +32,17 @@ struct SoundDetailView: View {
             }//ZStack
             .padding(24)
             
-            // State 변수 값을 변경하고 전달하기 위한 임시 슬라이더 텍스트
             Text("Volume Slider")
                 .font(.title3)
-            // State 변수 값을 변경하고 전달하기 위한 임시 슬라이더
-            Slider(value: $volume, in: 0.0 ... 1.0)
+            // 변경되는 volume 값을 전달하기 위한 임시 슬라이더
+            Slider(value: $volume, in: 0.0 ... 1.0, onEditingChanged: { _ in
+                audioManager.updateVolume(volume)
+            })
                 .padding(.horizontal, 20)
                 .padding(.vertical, 10)
-                .foregroundColor(.yellow)
         }//VStack
         
-        .navigationBarTitle(fileName, displayMode: .inline)
+        .navigationBarTitle(mixedSound.fileName, displayMode: .inline)
         .font(.system(size: 24, weight: .bold))
         
         .toolbar {
@@ -64,43 +62,16 @@ struct SoundDetailView: View {
         
         // MARK: - Life Cycle
         .onAppear() {
-            //TODO: 자동으로 음악이 무한 반복 재생(한 곡이 완전히 재생되면 다시 맨 처음부터 재생하는 기능)
-            isPlaying = true
-            audioPlayer?.play() // 노래가 끝났는지 안끝났는지 확인해서 재생시키기
+            audioManager.playAudio(mixedSound: mixedSound)
         }
         .onDisappear() {
-            //TODO: 화면이 전환될 때 자동으로 반복되는 음악을 정지
-            audioPlayer?.stop()
-            isPlaying = false
+            audioManager.stopAudio()
         }
-        .onChange(of: volume) { value in
-            audioPlayer?.volume = value
-        }
-    }
-    
-    // MARK: - functions
-    func playAudio() {
-        if let url = Bundle.main.url(forResource: "Garden", withExtension: ".mp3") {
-            do {
-                audioPlayer = try AVAudioPlayer(contentsOf: url)
-                audioPlayer?.prepareToPlay()
-                audioPlayer?.play()
-                isPlaying = true
-            } catch {
-                print("오디오 재생 Error : \(error.localizedDescription)")
-            }
-        }
-    }
-    
-    func stopAudio() {
-        audioPlayer?.stop()
-        audioPlayer?.currentTime = 0
-        isPlaying = false
     }
 }
 
-struct SecondView_Previews: PreviewProvider {
-    static var previews: some View {
-        SoundDetailView(fileName: "Water Drop")
-    }
-}
+//struct SecondView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        SoundDetailView(fileName: "Water Drop")
+//    }
+//}

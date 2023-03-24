@@ -13,9 +13,9 @@ struct SoundListView: View {
         GridItem(.flexible()),
         GridItem(.flexible())
     ]
-
-    let fileNames: [String] = ["Water Drop", "Gong", "Twitter", "Wind", "Wave1", "Wave2"]
-
+    
+    let fileNames: [String] = ["Garden", "Water Drop", "Gong", "Twitter", "Wind", "Wave1", "Wave2"]
+    
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -28,7 +28,7 @@ struct SoundListView: View {
     private func gridView() -> some View {
         LazyVGrid(columns: columns) {
             ForEach(fileNames, id: \.self) { fileName in
-                NavigationLink(destination: SoundDetailView(fileName: fileName)) {
+                NavigationLink(destination: SoundDetailView(mixedSound: MixedSound(fileName: fileName, volume: 0.5))) {
                     gridViewItem(fileName)
                 }
             }
