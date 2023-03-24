@@ -53,7 +53,7 @@ struct SoundListView: View {
     }
 }
 
-struct MainView_Previews: PreviewProvider {
+struct SoundListView_Previews: PreviewProvider {
     static var previews: some View {
         SoundListView()
     }

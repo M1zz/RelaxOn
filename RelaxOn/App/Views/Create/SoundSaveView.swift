@@ -16,8 +16,8 @@ struct SoundSaveView: View {
     }
 }
 
-//struct ThirdView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        SoundSaveView(volume: @Binding변수)
-//    }
-//}
+struct SoundSaveView_Previews: PreviewProvider {
+    static var previews: some View {
+        SoundSaveView(volume: .constant(Float()))
+    }
+}

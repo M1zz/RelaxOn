@@ -70,8 +70,8 @@ struct SoundDetailView: View {
     }
 }
 
-//struct SecondView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        SoundDetailView(fileName: "Water Drop")
-//    }
-//}
+struct SoundDetailView_Previews: PreviewProvider {
+    static var previews: some View {
+        SoundDetailView(mixedSound: MixedSound(fileName: "Water Drop", volume: 0.5))
+    }
+}
