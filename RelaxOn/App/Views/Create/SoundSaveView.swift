@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct SoundSaveView: View {
-    
+    @State var num: Int = 0
     @FocusState private var isFocused: Bool
     @Binding var volume: Float
     @State var soundSavedName: String = ""
-    @State var imageFileNumber: Int = 0
-    var imageFiles: [String?] = ["Recipe1", "Recipe2", "Recipe3", "Recipe4", "Recipe5",
+    @State var randomImageFileNumber = 1
+    var imageFiles: [String] = ["Recipe1", "Recipe2", "Recipe3", "Recipe4", "Recipe5",
                                  "Recipe6", "Recipe7", "Recipe8", "Recipe9", "Recipe10"]
     
     var body: some View {
@@ -60,17 +60,13 @@ struct SoundSaveView: View {
             ZStack{
                 
                 //앨범 이미지
-                Image(imageFiles[imageFileNumber]!)
+                Image(imageFiles[randomImageFileNumber])
                     .resizable()
                     .frame(width: 300, height: 300)
                 
                 //이미지변경 버튼
                 Button {
-                    if imageFileNumber >= 9 {
-                        imageFileNumber = 0
-                    } else {
-                        imageFileNumber += 1
-                    }
+                    randomImageFileNumber = Int(getRandomAlbumImage(from: imageFiles))
                 } label: {
                     Image(systemName: "arrow.triangle.2.circlepath")
                         .resizable()
@@ -90,4 +86,10 @@ struct ThirdView_Previews: PreviewProvider {
     static var previews: some View {
         SoundSaveView(volume: .constant(Float()))
     }
+}
+
+func getRandomAlbumImage(from array: [String])-> Int {
+    
+    let randomIndex = Int.random(in: 0..<array.count)
+    return randomIndex
 }
