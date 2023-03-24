@@ -7,9 +7,13 @@
 
 import Foundation
 import AVFoundation
+import SwiftUI
+import Combine
 
 class AudioManager: ObservableObject {
-    var audioPlayer: AVAudioPlayer?
+    @Published var audioPlayer: AVAudioPlayer?
+    @Published var volume: Float = 0.5
+    
     
     private enum MusicExtension: String {
         case mp3 = "mp3"
@@ -17,6 +21,18 @@ class AudioManager: ObservableObject {
     
     private func getPathUrl(forResource: String, musicExtension: MusicExtension) -> URL? {
         Bundle.main.url(forResource: forResource, withExtension: musicExtension.rawValue) ?? nil
+    }
+    
+    var currentVolume: Binding<Float> {
+        Binding<Float>(
+            get: {
+                self.audioPlayer?.volume ?? self.volume
+            },
+            set: { newValue in
+                self.volume = newValue
+                self.audioPlayer?.volume = newValue
+            }
+        )
     }
     
     /// MixedSound타입의 객체를 반복 재생
@@ -38,8 +54,5 @@ class AudioManager: ObservableObject {
         audioPlayer?.stop()
         audioPlayer?.currentTime = 0 // currentTime을 0으로 설정하지 않으면 오디오 플레이어가 중지된 지점부터 play()됨
     }
-    
-    func updateVolume(_ volume: Float) {
-        audioPlayer?.volume = volume
-    }
+
 }

@@ -10,7 +10,7 @@ import AVFoundation
 
 struct SoundDetailView: View {
     // MARK: - Properties
-    @State var volume: Float = 0.5
+    //@State var volume: Float = 0.5
     @State var isShowingSheet: Bool = false
     @State var mixedSound: MixedSound
     @ObservedObject var audioManager = AudioManager()
@@ -35,9 +35,7 @@ struct SoundDetailView: View {
             Text("Volume Slider")
                 .font(.title3)
             // 변경되는 volume 값을 전달하기 위한 임시 슬라이더
-            Slider(value: $volume, in: 0.0 ... 1.0, onEditingChanged: { _ in
-                audioManager.updateVolume(volume)
-            })
+            Slider(value: audioManager.currentVolume, in: 0.0 ... 1.0)
                 .padding(.horizontal, 20)
                 .padding(.vertical, 10)
         }//VStack
@@ -56,7 +54,7 @@ struct SoundDetailView: View {
                     .font(.system(size: 20))
             }
             .sheet(isPresented: $isShowingSheet) {
-                SoundSaveView(volume: $volume)
+                SoundSaveView(volume: audioManager.currentVolume)
             }
         }
         
