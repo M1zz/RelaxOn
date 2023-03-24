@@ -54,6 +54,7 @@
 		8F53BD1729B77875009AE6D1 /* SoundListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F53BD1629B77875009AE6D1 /* SoundListView.swift */; };
 		8F53BD1929B77A83009AE6D1 /* SoundDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F53BD1829B77A83009AE6D1 /* SoundDetailView.swift */; };
 		8F53BD1B29B77A92009AE6D1 /* SoundSaveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F53BD1A29B77A92009AE6D1 /* SoundSaveView.swift */; };
+		8FF7603329CD304D002FF43B /* AudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FF7603229CD304D002FF43B /* AudioManager.swift */; };
 		C753494E28B7489D0055F7CA /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C753494D28B7489D0055F7CA /* View+Extension.swift */; };
 		C753495228B748D40055F7CA /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C753495128B748D40055F7CA /* UIColor+Extension.swift */; };
 		C753495428B748E20055F7CA /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C753495328B748E20055F7CA /* String+Extension.swift */; };
@@ -177,6 +178,7 @@
 		8F53BD1629B77875009AE6D1 /* SoundListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundListView.swift; sourceTree = "<group>"; };
 		8F53BD1829B77A83009AE6D1 /* SoundDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundDetailView.swift; sourceTree = "<group>"; };
 		8F53BD1A29B77A92009AE6D1 /* SoundSaveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundSaveView.swift; sourceTree = "<group>"; };
+		8FF7603229CD304D002FF43B /* AudioManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
 		C753494D28B7489D0055F7CA /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
 		C753494F28B748C80055F7CA /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
 		C753495128B748D40055F7CA /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
@@ -557,6 +559,14 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		8FF7603129CD3036002FF43B /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				8FF7603229CD304D002FF43B /* AudioManager.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
 		C753494C28B748710055F7CA /* Extension */ = {
 			isa = PBXGroup;
 			children = (
@@ -594,6 +604,7 @@
 				58DE61822839C13900F25769 /* RelaxOnApp.swift */,
 				CC04E26228BDA3F800509C60 /* AppDelegate.swift */,
 				CC04E26428BDA45900509C60 /* SceneDelegate.swift */,
+				8FF7603129CD3036002FF43B /* Manager */,
 				8F4E1B6B29B9BE240013599C /* Models */,
 				C7C4C25528C239FE0048DCBA /* Assets */,
 				58DE1022283DF536002CDB9F /* Resource */,
@@ -736,6 +747,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8FF7603329CD304D002FF43B /* AudioManager.swift in Sources */,
 				8F4E1B6329B9A5AE0013599C /* ListenListView.swift in Sources */,
 				CC04E26328BDA3F800509C60 /* AppDelegate.swift in Sources */,
 				C7C4C25A28C256BF0048DCBA /* Color+Extension.swift in Sources */,
