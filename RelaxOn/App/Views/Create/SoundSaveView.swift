@@ -8,13 +8,15 @@
 import SwiftUI
 
 struct SoundSaveView: View {
-    @State var num: Int = 0
+    
     @FocusState private var isFocused: Bool
     @Binding var volume: Float
+    var soundName: String = "Sound Name"
     @State var soundSavedName: String = ""
     @State var randomImageFileNumber = 1
     var imageFiles: [String] = ["Recipe1", "Recipe2", "Recipe3", "Recipe4", "Recipe5",
                                 "Recipe6", "Recipe7", "Recipe8", "Recipe9", "Recipe10"]
+    @State var randomIndex: Int = 0
     
     var body: some View {
         ZStack{
@@ -48,7 +50,7 @@ struct SoundSaveView: View {
                 }
                 
                 //제목 입력
-                TextField("\(volume)", text: $soundSavedName)
+                TextField("\(soundName)", text: $soundSavedName)
                     .frame(minWidth: 150, idealWidth: 150, maxWidth: 300,
                            minHeight: 80, idealHeight: 80, maxHeight: 80,
                            alignment: .center)
@@ -61,13 +63,13 @@ struct SoundSaveView: View {
                 
                 ZStack{
                     //앨범 이미지
-                    Image(imageFiles[randomImageFileNumber])
+                    Image(imageFiles[randomIndex])
                         .resizable()
                         .frame(width: 300, height: 300)
                     
                     //이미지변경 버튼
                     Button {
-                        randomImageFileNumber = Int(getRandomAlbumImage(from: imageFiles))
+                        randomIndex = Int.random(in: 0..<imageFiles.count)
                     } label: {
                         Image(systemName: "arrow.triangle.2.circlepath")
                             .resizable()
@@ -93,10 +95,4 @@ struct ThirdView_Previews: PreviewProvider {
     static var previews: some View {
         SoundSaveView(volume: .constant(Float()))
     }
-}
-
-func getRandomAlbumImage(from array: [String])-> Int {
-    
-    let randomIndex = Int.random(in: 0..<array.count)
-    return randomIndex
 }
