@@ -9,7 +9,7 @@ import AVFoundation
 import SwiftUI
 import Combine
 
-class AudioManager: ObservableObject {
+final class AudioManager: ObservableObject {
     @Published var audioPlayer: AVAudioPlayer?
     @Published var volume: Float = 0.5
     
