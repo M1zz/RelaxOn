@@ -15,7 +15,7 @@ final class AudioManager: ObservableObject {
     
     
     private enum MusicExtension: String {
-        case mp3 = "mp3"
+        case mp3
     }
     
     private func getPathUrl(forResource: String, musicExtension: MusicExtension) -> URL? {
