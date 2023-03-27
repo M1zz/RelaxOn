@@ -10,12 +10,9 @@ import AVFoundation
 
 struct SoundDetailView: View {
     // MARK: - Properties
-    var fileName: String // SoundListView에서 전달받은 파일 이름
-    
-    @State var volume: Float = 0.5
     @State var isShowingSheet: Bool = false
-    @State private var audioPlayer: AVAudioPlayer?
-    @State private var isPlaying = false
+    @State var mixedSound: MixedSound
+    @ObservedObject var audioManager = AudioManager()
     
     var body: some View {
         VStack {
@@ -34,36 +31,15 @@ struct SoundDetailView: View {
             }//ZStack
             .padding(24)
             
-            // State 변수 값을 변경하고 전달하기 위한 임시 슬라이더 텍스트
             Text("Volume Slider")
                 .font(.title3)
-            // State 변수 값을 변경하고 전달하기 위한 임시 슬라이더
-            Slider(value: $volume, in: 0.0 ... 1.0)
+            // 변경되는 volume 값을 전달하기 위한 임시 슬라이더
+            Slider(value: audioManager.currentVolume, in: 0.0 ... 1.0)
                 .padding(.horizontal, 20)
                 .padding(.vertical, 10)
-                .foregroundColor(.yellow)
-            
-            HStack {
-                Button(action: {
-                    playAudio()
-                }) {
-                    Image(systemName: "play.fill")
-                        .resizable()
-                        .frame(width: 25, height: 25)
-                        .foregroundColor(.systemGrey3)
-                }
-                Button(action: {
-                    stopAudio()
-                }) {
-                    Image(systemName: "stop.fill")
-                        .resizable()
-                        .frame(width: 25, height: 25)
-                        .foregroundColor(.systemGrey3)
-                }
-            }//HStack
         }//VStack
         
-        .navigationBarTitle(fileName, displayMode: .inline)
+        .navigationBarTitle(mixedSound.fileName, displayMode: .inline)
         .font(.system(size: 24, weight: .bold))
         
         .toolbar {
@@ -76,48 +52,25 @@ struct SoundDetailView: View {
                     .bold()
                     .font(.system(size: 20))
             }
+
             .fullScreenCover(isPresented: $isShowingSheet) {
-                SoundSaveView(volume: $volume)
+                SoundSaveView(volume: audioManager.currentVolume)
+                
             }
         }
         
         // MARK: - Life Cycle
         .onAppear() {
-            isPlaying = true
-            audioPlayer?.play() // 노래가 끝났는지 안끝났는지 확인해서 재생시키기
+            audioManager.playAudio(mixedSound: mixedSound)
         }
         .onDisappear() {
-            audioPlayer?.stop()
-            isPlaying = false
+            audioManager.stopAudio()
         }
-        .onChange(of: volume) { value in
-            audioPlayer?.volume = value
-        }
-    }
-    
-    // MARK: - functions
-    func playAudio() {
-        if let url = Bundle.main.url(forResource: "Garden", withExtension: ".mp3") {
-            do {
-                audioPlayer = try AVAudioPlayer(contentsOf: url)
-                audioPlayer?.prepareToPlay()
-                audioPlayer?.play()
-                isPlaying = true
-            } catch {
-                print("오디오 재생 Error : \(error.localizedDescription)")
-            }
-        }
-    }
-    
-    func stopAudio() {
-        audioPlayer?.stop()
-        audioPlayer?.currentTime = 0
-        isPlaying = false
     }
 }
 
-struct SecondView_Previews: PreviewProvider {
+struct SoundDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        SoundDetailView(fileName: "Water Drop")
+        SoundDetailView(mixedSound: MixedSound(fileName: "Water Drop", volume: 0.5))
     }
 }

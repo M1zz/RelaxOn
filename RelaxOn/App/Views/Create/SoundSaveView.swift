@@ -91,7 +91,8 @@ struct SoundSaveView: View {
     }
 }
 
-struct ThirdView_Previews: PreviewProvider {
+
+struct SoundSaveView_Previews: PreviewProvider {
     static var previews: some View {
         SoundSaveView(volume: .constant(Float()))
     }
