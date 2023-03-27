@@ -10,7 +10,6 @@ import AVFoundation
 
 struct SoundDetailView: View {
     // MARK: - Properties
-    //@State var volume: Float = 0.5
     @State var isShowingSheet: Bool = false
     @State var mixedSound: MixedSound
     @ObservedObject var audioManager = AudioManager()
