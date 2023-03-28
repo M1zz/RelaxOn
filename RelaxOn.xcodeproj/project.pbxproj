@@ -48,6 +48,7 @@
 		8F0FC49B29C1DD5D00F923A5 /* OldAudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0FC49829C1DD5D00F923A5 /* OldAudioManager.swift */; };
 		8F0FC49C29C1DD5D00F923A5 /* OldTimerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0FC49929C1DD5D00F923A5 /* OldTimerManager.swift */; };
 		8F0FC49D29C1DD5D00F923A5 /* OldUserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0FC49A29C1DD5D00F923A5 /* OldUserDefaultsManager.swift */; };
+		8F4B080729D1B38C0011995F /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4B080629D1B38C0011995F /* UserDefaultsManager.swift */; };
 		8F4E1B6129B9A48F0013599C /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4E1B6029B9A48F0013599C /* MainTabView.swift */; };
 		8F4E1B6329B9A5AE0013599C /* ListenListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4E1B6229B9A5AE0013599C /* ListenListView.swift */; };
 		8F4E1B6529B9A67E0013599C /* RelaxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4E1B6429B9A67E0013599C /* RelaxView.swift */; };
@@ -172,6 +173,7 @@
 		8F0FC49829C1DD5D00F923A5 /* OldAudioManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OldAudioManager.swift; sourceTree = "<group>"; };
 		8F0FC49929C1DD5D00F923A5 /* OldTimerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OldTimerManager.swift; sourceTree = "<group>"; };
 		8F0FC49A29C1DD5D00F923A5 /* OldUserDefaultsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OldUserDefaultsManager.swift; sourceTree = "<group>"; };
+		8F4B080629D1B38C0011995F /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		8F4E1B6029B9A48F0013599C /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		8F4E1B6229B9A5AE0013599C /* ListenListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListenListView.swift; sourceTree = "<group>"; };
 		8F4E1B6429B9A67E0013599C /* RelaxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelaxView.swift; sourceTree = "<group>"; };
@@ -563,6 +565,7 @@
 			isa = PBXGroup;
 			children = (
 				8FF7603229CD304D002FF43B /* AudioManager.swift */,
+				8F4B080629D1B38C0011995F /* UserDefaultsManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -793,6 +796,7 @@
 				E2BF105B28917CAC00408B8C /* TimerSettingView.swift in Sources */,
 				8F0FC49C29C1DD5D00F923A5 /* OldTimerManager.swift in Sources */,
 				CC5AC112289C033D00FE847B /* RelaxOnWidget.intentdefinition in Sources */,
+				8F4B080729D1B38C0011995F /* UserDefaultsManager.swift in Sources */,
 				10FB81B528A17468000168CC /* OnboardingFinishView.swift in Sources */,
 				101417FA289EB9F300F40397 /* CDNamingView.swift in Sources */,
 				21D897782892D48600A20FFE /* CDCardView.swift in Sources */,
