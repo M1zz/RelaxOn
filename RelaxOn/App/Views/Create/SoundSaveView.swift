@@ -9,12 +9,6 @@ import SwiftUI
 
 struct SoundSaveView: View {
     
-    //var soundName: String = "Sound Name"
-    //@Binding var volume: Float
-
-    //@State var randomImageFileNumber = 1
-    //@State var randomIndex: Int = 0
-    
     @FocusState private var isFocused: Bool
     @State var soundSavedName: String = ""
     @State var mixedSound: MixedSound
