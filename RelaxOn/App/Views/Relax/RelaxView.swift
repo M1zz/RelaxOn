@@ -38,7 +38,36 @@ struct RelaxView: View {
                        .background(Color("SystemGrey2"))
                        .cornerRadius(10)
                        .padding(30)
+           HStack{
+                          //Cancel Button
+                          Button {
 
+                          } label: {
+                              Text("Cacel")
+                                  .fontWeight(.medium)
+                                  .foregroundColor(.white)
+                                  .frame(width: 70, height: 70)
+                                  .background(Color("SystemGrey2"))
+                                  .cornerRadius(50)
+                          }
+                          .padding(15)
+
+                          Spacer()
+
+                          //Start Button
+                          Button {
+
+                          } label: {
+                              Text("Start")
+                                  .fontWeight(.medium)
+                                  .foregroundColor(.purple)
+                                  .frame(width: 70, height: 70)
+                                  .background(Color("RelaxDimPurple"))
+                                  .cornerRadius(50)
+                          }
+                          .padding(15)
+
+                      }.frame(width: 300, height: 50, alignment: .center)
        }
     }
 }
