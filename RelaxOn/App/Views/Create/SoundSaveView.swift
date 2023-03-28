@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SoundSaveView: View {
     
+    @Environment(\.presentationMode) var presentationMode
     @FocusState private var isFocused: Bool
     @State var soundSavedName: String = ""
     @State var mixedSound: MixedSound
@@ -20,7 +21,7 @@ struct SoundSaveView: View {
             VStack{
                 HStack{
                     Button {
-                        print("cancel")
+                        presentationMode.wrappedValue.dismiss()
                     } label: {
                         Text("Cancel")
                             .foregroundColor(.black)
