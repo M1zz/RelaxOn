@@ -20,6 +20,25 @@ struct RelaxView: View {
            TimePicker(seconds: $timerTime)
 
            // TODO: 3) 플레이 리스트 뷰 - 플레이 리스트 버튼을 누르는 경우 모달 프레젠트
+           //Sound Select Button
+                       Button {
+                           
+                       } label: {
+                           HStack{
+                               Text("Choose your relaxing sound")
+                                   .foregroundColor(.white)
+                                   .padding(15)
+                                   Spacer()
+                               Image(systemName: "chevron.right")
+                                   .foregroundColor(.white)
+                                   .padding(17)
+                           }
+                       }
+                       .frame(width: 300, height: 50, alignment: .center)
+                       .background(Color("SystemGrey2"))
+                       .cornerRadius(10)
+                       .padding(30)
+
        }
     }
 }
