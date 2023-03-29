@@ -33,7 +33,6 @@ struct SoundSaveView: View {
                     Spacer()
 
                     Button {
-                        print("save")
                         isFocused = false
                     } label: {
                         Text("Save")
