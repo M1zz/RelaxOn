@@ -9,7 +9,7 @@ import Foundation
 
 struct MixedSound: Hashable, Codable {
     let id: UUID            // 생성된 MixedSound의 고유 아이디
-    var fileName: String    // Original Sound의 fileName
+    var fileName: String    // 생성된 MixedSound의 fileName
     var volume: Float       // 저장할 볼륨 값
     var imageName: String   // 저장할 이미지
     

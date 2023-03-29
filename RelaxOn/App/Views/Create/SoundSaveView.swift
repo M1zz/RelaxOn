@@ -33,7 +33,14 @@ struct SoundSaveView: View {
                     Spacer()
 
                     Button {
+                        print("save")
                         isFocused = false
+                        let newMixedSound = MixedSound(fileName: soundSavedName, imageName: mixedSound.imageName)
+                        do {
+                            try UserFileManager.shared.saveMixedSound(newMixedSound)
+                        } catch {
+                            print(error.localizedDescription)
+                        }
                     } label: {
                         Text("Save")
                             .foregroundColor(.black)

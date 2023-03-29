@@ -9,16 +9,15 @@ import SwiftUI
 
 struct ListenListView: View {
     
-    @State private var items = ["My Water Drop", "Peaceful Water Sound"]
+    
+    @State private var items: [MixedSound] = []
     
     // MARK: - Body
     var body: some View {
-        // TODO: 1. 커스텀 셀 구현 - 이미지 + 제목 + 재생/정지 버튼
-        // TODO: 2. 밀어서 Remove
         NavigationView {
             List {
-                ForEach(items, id: \.self) { item in
-                    ListenListCell(title: item, ImageName: "photo")
+                ForEach(items, id: \.id) { item in
+                    ListenListCell(title: item.fileName, ImageName: item.imageName)
                 }
                 .onDelete { indexSet in
                     items.remove(atOffsets: indexSet)
@@ -26,8 +25,18 @@ struct ListenListView: View {
             }
             .navigationTitle("Listen")
             .navigationBarTitleDisplayMode(.large)
+            .onAppear {
+                loadMixedSounds()
+            }
         }
-        
+    }
+    
+    private func loadMixedSounds() {
+        do {
+            items = try UserFileManager.shared.loadAllMixedSounds()
+        } catch {
+            print(error.localizedDescription)
+        }
     }
 }
 
