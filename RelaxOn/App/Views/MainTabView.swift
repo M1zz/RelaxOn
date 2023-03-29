@@ -20,12 +20,14 @@ struct MainTabView: View {
                     Image(systemName: "star.fill")
                     Text("Listen")
                 }
-            RelaxView(timerTime: 60.0)
+            RelaxView()
+                .environmentObject(Time())
                 .tabItem {
                     Image(systemName: "star.fill")
                     Text("Relax")
                 }
         }
+        
     }
 }
 
