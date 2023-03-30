@@ -6,6 +6,7 @@ struct RelaxView: View {
     @State private var hours : [Int] = Array(1...24)
     @State private var seconds : [Int] = Array(0...59)
     @State private var minutes : [Int] = Array(0...59)
+    @State var isShowingSheet: Bool = false
     
     var body: some View {
         
@@ -69,7 +70,7 @@ struct RelaxView: View {
             // TODO: 3) 플레이 리스트 뷰 - 플레이 리스트 버튼을 누르는 경우 모달 프레젠트
             //Sound Select Button
             Button {
-                
+                isShowingSheet.toggle()
             } label: {
                 HStack{
                     Text("Choose your relaxing sound")
@@ -80,6 +81,9 @@ struct RelaxView: View {
                         .foregroundColor(.white)
                         .padding(17)
                 }
+            }
+            .sheet(isPresented: $isShowingSheet) {
+                ListenListView()
             }
             .frame(width: 300, height: 50, alignment: .center)
             .background(Color("SystemGrey2"))
