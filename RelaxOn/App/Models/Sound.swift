@@ -12,7 +12,7 @@ struct Sound {
     var volume: Float
     let imageName: String
     
-    init(name: String, volume: Float = 0.5, imageName: String = recipeRandomName.randomElement()!) {
+    init(name: String, volume: Float = 0.5, imageName: String = "photo") {
         self.name = name
         self.volume = volume
         self.imageName = imageName

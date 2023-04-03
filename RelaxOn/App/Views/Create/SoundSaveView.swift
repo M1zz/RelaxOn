@@ -37,7 +37,7 @@ struct SoundSaveView: View {
                     Button {
                         print("save")
                         isFocused = false
-                        let newMixedSound = MixedSound(fileName: soundSavedName, imageName: mixedSound.imageName)
+                        let newMixedSound = MixedSound(name: soundSavedName, imageName: mixedSound.imageName)
                         do {
                             try UserFileManager.shared.saveMixedSound(newMixedSound)
                             presentationMode.wrappedValue.dismiss() // 성공적으로 저장되면 dismiss
@@ -55,7 +55,7 @@ struct SoundSaveView: View {
                     }.offset(x: 0, y: -70)
                 }
 
-                TextField("\(mixedSound.fileName)", text: $soundSavedName)
+                TextField("\(mixedSound.name)", text: $soundSavedName)
                     .frame(minWidth: 150, idealWidth: 150, maxWidth: 300,
                            minHeight: 80, idealHeight: 80, maxHeight: 80,
                            alignment: .center)
@@ -99,6 +99,6 @@ struct SoundSaveView: View {
 
 struct SoundSaveView_Previews: PreviewProvider {
     static var previews: some View {
-        SoundSaveView(mixedSound: MixedSound(fileName: "Water Drop"))
+        SoundSaveView(mixedSound: MixedSound(name: "Water Drop"))
     }
 }

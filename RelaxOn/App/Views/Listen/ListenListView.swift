@@ -16,7 +16,7 @@ struct ListenListView: View {
         NavigationView {
             List {
                 ForEach(items, id: \.id) { item in
-                    ListenListCell(title: item.fileName, ImageName: item.imageName)
+                    ListenListCell(title: item.name, ImageName: item.imageName)
                 }
                 .onDelete { indexSet in
                     items.remove(atOffsets: indexSet)

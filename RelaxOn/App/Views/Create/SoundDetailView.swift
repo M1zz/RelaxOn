@@ -56,7 +56,7 @@ struct SoundDetailView: View {
             
             .fullScreenCover(isPresented: $isShowingSheet) {
                 SoundSaveView(mixedSound: MixedSound(
-                    fileName: originalSound.name,
+                    name: originalSound.name,
                     volume: audioManager.volume,
                     imageName: originalSound.imageName)
                 )
