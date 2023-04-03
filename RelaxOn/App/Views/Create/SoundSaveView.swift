@@ -53,11 +53,10 @@ struct SoundSaveView: View {
                     }.offset(x: 0, y: -70)
                 }
 
-                TextField("\(mixedSound.name)", text: $soundSavedName)
-                    .frame(minWidth: 150, idealWidth: 150, maxWidth: 300,
-                           minHeight: 80, idealHeight: 80, maxHeight: 80,
-                           alignment: .center)
-                    .padding(EdgeInsets(top: 100, leading: 180, bottom: 100, trailing: 150))
+                TextField(mixedSound.name, text: $soundSavedName)
+                    .frame(width: 300, height: 80, alignment: .center)
+                    .multilineTextAlignment(.center)
+                    .padding(EdgeInsets(top: 0, leading: 30, bottom: 0, trailing: 30))
                     .keyboardType(.default)
                     .autocorrectionDisabled(true)
                     .focused($isFocused)
