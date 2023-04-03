@@ -72,13 +72,13 @@ struct SoundSaveView: View {
                         .frame(width: 300, height: 300)
                     Button {
                         print("이미지 변경 버튼")
+                        mixedSound.imageName = recipeRandomName.randomElement()!
                     } label: {
                         Image(systemName: "arrow.triangle.2.circlepath")
                             .resizable()
                             .frame(width: 24, height: 24)
                             .foregroundColor(.black)
                             .bold()
-                        
                     }.offset(x: 120, y: -120)
                 }
             }

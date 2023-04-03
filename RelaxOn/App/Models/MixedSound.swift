@@ -13,7 +13,7 @@ struct MixedSound: Hashable, Codable {
     var volume: Float       // 저장할 볼륨 값
     var imageName: String   // 저장할 이미지
     
-    init(name: String, volume: Float = 0.5, imageName: String = "photo") {
+    init(name: String, volume: Float = 0.5, imageName: String = "placeholderImage") {
         self.id = UUID()
         self.name = name
         self.volume = volume
