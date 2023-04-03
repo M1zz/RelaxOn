@@ -9,7 +9,6 @@ import SwiftUI
 
 struct ListenListView: View {
     
-    
     @State private var items: [MixedSound] = []
     
     // MARK: - Body
@@ -26,16 +25,12 @@ struct ListenListView: View {
             .navigationTitle("Listen")
             .navigationBarTitleDisplayMode(.large)
             .onAppear {
-                loadMixedSounds()
+                do {
+                    items = try UserFileManager.shared.loadAllMixedSounds()
+                } catch {
+                    print(error.localizedDescription)
+                }
             }
-        }
-    }
-    
-    private func loadMixedSounds() {
-        do {
-            items = try UserFileManager.shared.loadAllMixedSounds()
-        } catch {
-            print(error.localizedDescription)
         }
     }
 }
