@@ -11,6 +11,8 @@ struct SoundSaveView: View {
     
     @Environment(\.presentationMode) var presentationMode
     @FocusState private var isFocused: Bool
+    @State private var isShowingAlert = false
+    @State private var alertMessage = ""
     @State var soundSavedName: String = ""
     @State var mixedSound: MixedSound
     var imageFiles: [String] = ["Recipe1", "Recipe2", "Recipe3", "Recipe4", "Recipe5",
@@ -38,8 +40,11 @@ struct SoundSaveView: View {
                         let newMixedSound = MixedSound(fileName: soundSavedName, imageName: mixedSound.imageName)
                         do {
                             try UserFileManager.shared.saveMixedSound(newMixedSound)
+                            presentationMode.wrappedValue.dismiss() // 성공적으로 저장되면 dismiss
                         } catch {
                             print(error.localizedDescription)
+                            isShowingAlert = true
+                            alertMessage = "저장에 실패했습니다. \(error.localizedDescription)"
                         }
                     } label: {
                         Text("Save")
@@ -84,6 +89,9 @@ struct SoundSaveView: View {
         .background(Color.white)
         .onTapGesture {
             isFocused = false
+        }
+        .alert(isPresented: $isShowingAlert) {
+            Alert(title: Text("Error"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
         }
     }
 }
