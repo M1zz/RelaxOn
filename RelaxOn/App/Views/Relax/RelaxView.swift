@@ -3,10 +3,8 @@ import SwiftUI
 struct RelaxView: View {
     
     @EnvironmentObject var timeData: Time
-    @State private var hours : [Int] = Array(1...24)
-    @State private var seconds : [Int] = Array(0...59)
-    @State private var minutes : [Int] = Array(0...59)
     @State var isShowingSheet: Bool = false
+    @State var seconds: Double
     
     var body: some View {
         
@@ -20,52 +18,9 @@ struct RelaxView: View {
             
             // TODO: 1) 타이머 세팅 뷰 - 타이머 세팅이 되어있지 않은 경우
             // TODO: 2) 타이머 뷰 - 타이머 세팅 되어있는 경우
+            
             //TimePiker
-            HStack{
-                //시간
-                Picker("select time", selection: $timeData.selectedTimeIndexHours, content: {
-                    
-                    ForEach(0..<24, content: {
-                        index in
-                        Text("\(minutes[index]) hour").tag(index)
-                    })
-                    
-                })
-                .pickerStyle(.wheel)
-                .padding()
-                .frame(width: 130)
-                .clipped()
-                
-                //minutes-Picker
-                Picker("select time", selection: $timeData.selectedTimeIndexMinutes, content: {
-                    
-                    ForEach(0..<60, content: {
-                        index in
-                        Text("\(minutes[index]) min").tag(index)
-                    })
-                    
-                })
-                .pickerStyle(.wheel)
-                .padding()
-                .frame(width: 120)
-                .clipped()
-                
-                //seconds-Picker
-                Picker("select time", selection: $timeData.selectedTimeIndexSecond, content: {
-                    
-                    ForEach(0..<60, content: {
-                        index in
-                        Text("\(seconds[index]) sec").tag(index)
-                    })
-                })
-                .pickerStyle(.wheel)
-                .padding()
-                .frame(width: 120)
-                .clipped()
-                
-                Spacer()
-                
-            }
+            TimePicker(seconds: $seconds)
             
             // TODO: 3) 플레이 리스트 뷰 - 플레이 리스트 버튼을 누르는 경우 모달 프레젠트
             //Sound Select Button
@@ -125,7 +80,7 @@ struct RelaxView: View {
 
 struct RelaxView_Previews: PreviewProvider {
     static var previews: some View {
-        RelaxView()
+        RelaxView(seconds: 60.0)
             .environmentObject(Time())
     }
 }
