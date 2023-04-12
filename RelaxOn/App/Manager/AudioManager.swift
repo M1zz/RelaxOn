@@ -13,7 +13,6 @@ final class AudioManager: ObservableObject {
     @Published var audioPlayer: AVAudioPlayer?
     @Published var volume: Float = 0.5
     
-    
     private enum MusicExtension: String {
         case mp3
     }
