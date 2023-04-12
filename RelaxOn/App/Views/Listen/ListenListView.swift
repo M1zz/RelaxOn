@@ -9,27 +9,23 @@ import SwiftUI
 
 struct ListenListView: View {
     
-    @State private var items: [MixedSound] = []
+    @ObservedObject private var viewModel = MixedSoundsViewModel()
     
     // MARK: - Body
     var body: some View {
         NavigationView {
             List {
-                ForEach(items, id: \.id) { item in
-                    ListenListCell(title: item.name, ImageName: item.imageName)
+                ForEach(viewModel.mixedSounds, id: \.id) { mixedSound in
+                    ListenListCell(title: mixedSound.name, ImageName: mixedSound.imageName)
                 }
                 .onDelete { indexSet in
-                    items.remove(atOffsets: indexSet)
+                    viewModel.mixedSounds.remove(atOffsets: indexSet)
                 }
             }
             .navigationTitle("Listen")
             .navigationBarTitleDisplayMode(.large)
             .onAppear {
-                do {
-                    items = try UserFileManager.shared.loadAllMixedSounds()
-                } catch {
-                    print(error.localizedDescription)
-                }
+                viewModel.loadMixedSound()
             }
         }
     }
