@@ -8,24 +8,27 @@
 import SwiftUI
 
 struct MainTabView: View {
+    @StateObject var appState = AppState()
+    
     var body: some View {
-        TabView {
+        TabView(selection: $appState.selectedTab) {
             SoundListView()
-            .tabItem {
-                Image(systemName: "star.fill")
-                Text("Create")
-            }
+                .tabItem {
+                    Image(systemName: "star.fill")
+                    Text("Create")
+                }.tag(0)
             ListenListView()
                 .tabItem {
                     Image(systemName: "star.fill")
                     Text("Listen")
-                }
+                }.tag(1)
             RelaxView()
                 .tabItem {
                     Image(systemName: "star.fill")
                     Text("Relax")
-                }
+                }.tag(2)
         }
+        .environmentObject(appState)
     }
 }
 

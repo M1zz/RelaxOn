@@ -10,6 +10,7 @@ import SwiftUI
 struct SoundSaveView: View {
     
     @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject var appState: AppState
     @FocusState private var isFocused: Bool
     @State private var isShowingAlert = false
     @State private var alertMessage = ""
@@ -32,12 +33,12 @@ struct SoundSaveView: View {
                 Spacer()
                 
                 Button {
-                    print("save")
                     isFocused = false
                     let newMixedSound = MixedSound(name: soundSavedName, imageName: mixedSound.imageName)
                     do {
                         try UserFileManager.shared.saveMixedSound(newMixedSound)
-                        presentationMode.wrappedValue.dismiss() // 성공적으로 저장되면 dismiss
+                        appState.selectedTab = 1 // ListenListView 탭으로 이동
+                        presentationMode.wrappedValue.dismiss()
                     } catch {
                         print(error.localizedDescription)
                         isShowingAlert = true
@@ -55,7 +56,7 @@ struct SoundSaveView: View {
             TextField(mixedSound.name, text: $soundSavedName)
                 .frame(width: 300, height: 80, alignment: .center)
                 .multilineTextAlignment(.center)
-                .padding(EdgeInsets(top: 0, leading: 30, bottom: 0, trailing: 30))
+                .padding(.horizontal, 30)
                 .keyboardType(.default)
                 .autocorrectionDisabled(true)
                 .focused($isFocused)
@@ -67,7 +68,7 @@ struct SoundSaveView: View {
                     .resizable()
                     .frame(width: 300, height: 300)
                 Button {
-                    print("이미지 변경 버튼")
+                    print("이미지 변경 버튼 탭")
                     mixedSound.imageName = recipeRandomName.randomElement()!
                 } label: {
                     Image(systemName: "arrow.triangle.2.circlepath")
@@ -78,9 +79,7 @@ struct SoundSaveView: View {
                 }.offset(x: 120, y: -120)
             }
         }
-        .onAppear {
-            isFocused = true
-        }
+        .onAppear { isFocused = true }
         .background(Color.white)
         .onTapGesture {
             UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
