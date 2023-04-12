@@ -43,7 +43,7 @@ struct ListenListCell: View {
     
     var body: some View {
         HStack {
-            Image(systemName: ImageName)
+            Image(ImageName)
                 .frame(width: 60, height: 60)
                 .background(.foreground.opacity(0.08)).cornerRadius(10)
                 .offset(x: -10, y: 0)
