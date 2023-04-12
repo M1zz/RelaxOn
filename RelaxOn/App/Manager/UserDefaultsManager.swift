@@ -37,7 +37,7 @@ extension UserDefaultsManager {
         }
     }
     
-    private func removeMixedSound(_ mixedSound: MixedSound) {
+    func removeMixedSound(_ mixedSound: MixedSound) {
         var mixedSoundArray = mixedSounds
         /// 전달 받은 mixedSound의 id값과 동일한 mixedSound 삭제
         mixedSoundArray.removeAll { $0.id == mixedSound.id }
