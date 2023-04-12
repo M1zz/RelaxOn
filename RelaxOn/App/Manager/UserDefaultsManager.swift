@@ -17,7 +17,7 @@ final class UserDefaultsManager {
 extension UserDefaultsManager {
 
     /// 유저가 저장한 MixedSounds 의 정보를 UserDefaults에 저장하기 위한 프로퍼티
-    private var mixedSounds: [MixedSound] {
+    var mixedSounds: [MixedSound] {
         get {
             /// mixedSounds 조회시 저장된 데이터가 없다면 빈 배열 전달
             guard let data = standard.data(forKey: MIXED_SOUND_KEY) else { return [] }

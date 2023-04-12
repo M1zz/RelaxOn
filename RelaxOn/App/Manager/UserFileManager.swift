@@ -36,6 +36,11 @@ final class UserFileManager {
         
         // 파일에 데이터 저장하기
         try data.write(to: fileURL)
+        
+        // UserDefaultsManager를 사용하여 MixedSound 정보 저장하기
+        var mixedSounds = UserDefaultsManager.shared.mixedSounds
+        mixedSounds.append(mixedSound)
+        UserDefaultsManager.shared.mixedSounds = mixedSounds
     }
     
     /// 앱의 문서 디렉토리에서 MixedSound 오브젝트의 JSON 파일을 삭제합니다.
