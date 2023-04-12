@@ -4,7 +4,6 @@ struct RelaxView: View {
     
     @EnvironmentObject var timeData: Time
     @State private var hours : [Int] = Array(1...24)
-    @State private var seconds : [Int] = Array(0...59)
     @State private var minutes : [Int] = Array(0...59)
     @State var isShowingSheet: Bool = false
     
