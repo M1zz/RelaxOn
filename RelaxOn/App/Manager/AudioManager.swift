@@ -52,5 +52,22 @@ final class AudioManager: ObservableObject {
         audioPlayer?.stop()
         audioPlayer?.currentTime = 0 // currentTime을 0으로 설정하지 않으면 오디오 플레이어가 중지된 지점부터 play()됨
     }
+    
+    func playMixedSound(_ mixedSound: MixedSound) {
+        guard let fileURL = URL(string: mixedSound.audioFileURL) else {
+            print("파일의 URL을 가져올 수 없습니다.")
+            return
+        }
+        
+        do {
+            audioPlayer = try AVAudioPlayer(contentsOf: fileURL)
+            audioPlayer?.prepareToPlay()
+            audioPlayer?.volume = mixedSound.volume
+            audioPlayer?.numberOfLoops = -1
+            audioPlayer?.play()
+        } catch {
+            print("Audio playback error: \(error.localizedDescription)")
+        }
+    }
 
 }
