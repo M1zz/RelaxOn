@@ -19,7 +19,9 @@ struct ListenListView: View {
                     ListenListCell(title: mixedSound.name, ImageName: mixedSound.imageName)
                 }
                 .onDelete { indexSet in
-                    viewModel.mixedSounds.remove(atOffsets: indexSet)
+                    for index in indexSet {
+                        viewModel.removeMixedSound(at: index)
+                    }
                 }
             }
             .navigationTitle("Listen")
