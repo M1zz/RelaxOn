@@ -8,13 +8,41 @@
 import SwiftUI
 
 struct TimerProgressView: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+    
+    @State var timer: Timer?
+    @EnvironmentObject var timeData: Time
+    @State private var hours : [Int] = Array(1...24)
+    @State private var minutes : [Int] = Array(0...59)
+    @State var remainingSeconds: Int = 0
+    @State var isShowingTimerProgressView: Bool = false
+    
+    
+    func startTimer() {
+        remainingSeconds = timeData.selectedTimeIndexHours * 3600 + timeData.selectedTimeIndexMinutes * 60
+        
+        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
+            remainingSeconds -= 1
+            
+            if remainingSeconds <= 0 {
+                timer.invalidate()
+                remainingSeconds = 0
+            }
+            
+            if remainingSeconds == 0 {
+                isShowingTimerProgressView = false
+                return
+            }
+            
+        }
     }
-}
-
-struct TimerProgressView_Previews: PreviewProvider {
-    static var previews: some View {
-        TimerProgressView()
+    
+    var body: some View {
+        Text(String(format: "%02d:%02d:%02d", max(remainingSeconds / 3600, 0), max((remainingSeconds % 3600) / 60, 0), max(remainingSeconds % 60, 0)))
+            .font(.system(size: 50))
+            .fontWeight(.semibold)
+            .padding()
+            .onAppear {
+                startTimer()
+            }
     }
 }

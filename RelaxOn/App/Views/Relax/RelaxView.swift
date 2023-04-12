@@ -5,7 +5,9 @@ struct RelaxView: View {
     @EnvironmentObject var timeData: Time
     @State private var hours : [Int] = Array(1...24)
     @State private var minutes : [Int] = Array(0...59)
-    @State var isShowingSheet: Bool = false
+    @State var isShowingListenListView: Bool = false
+    @State var isShowingTimerProgressView: Bool = false
+    
     
     var body: some View {
         
@@ -53,7 +55,7 @@ struct RelaxView: View {
             // TODO: 3) 플레이 리스트 뷰 - 플레이 리스트 버튼을 누르는 경우 모달 프레젠트
             //Sound Select Button
             Button {
-                isShowingSheet.toggle()
+                isShowingListenListView.toggle()
             } label: {
                 HStack{
                     Text("Choose your relaxing sound")
@@ -65,7 +67,7 @@ struct RelaxView: View {
                         .padding(17)
                 }
             }
-            .sheet(isPresented: $isShowingSheet) {
+            .sheet(isPresented: $isShowingListenListView) {
                 ListenListView()
             }
             .frame(width: 300, height: 50, alignment: .center)
@@ -90,7 +92,7 @@ struct RelaxView: View {
                 
                 //Start Button
                 Button {
-                    
+                    isShowingTimerProgressView = true
                 } label: {
                     Text("Start")
                         .fontWeight(.medium)
@@ -100,15 +102,17 @@ struct RelaxView: View {
                         .cornerRadius(50)
                 }
                 .padding(15)
-                
+                .fullScreenCover(isPresented: $isShowingTimerProgressView) {
+                    TimerProgressView(isShowingTimerProgressView: isShowingTimerProgressView)
+                }
             }.frame(width: 300, height: 50, alignment: .center)
         }
     }
-}
-
-struct RelaxView_Previews: PreviewProvider {
-    static var previews: some View {
-        RelaxView()
-            .environmentObject(Time())
+    
+    struct RelaxView_Previews: PreviewProvider {
+        static var previews: some View {
+            RelaxView()
+                .environmentObject(Time())
+        }
     }
 }
