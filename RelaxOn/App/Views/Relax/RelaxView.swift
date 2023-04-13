@@ -14,7 +14,7 @@ struct RelaxView: View {
         VStack{
             
             //Title
-            Text("Relax Time")
+            Text("Timer")
                 .font(.system(size: 30))
                 .bold()
                 .offset(x: -100, y: -130)
@@ -31,12 +31,14 @@ struct RelaxView: View {
                         Text("\(minutes[index])").tag(index)
                             .font(.system(size: 25))
                     })
-                    
                 })
                 .pickerStyle(.wheel)
                 .frame(width: 75)
                 .clipped()
-                Text("Hour")
+                
+                //시간 단위
+                Text("hours")
+                    .bold()
                 
                 //minutes-Picker
                 Picker("select time", selection: $timeData.selectedTimeIndexMinutes, content: {
@@ -51,7 +53,9 @@ struct RelaxView: View {
                 .pickerStyle(.wheel)
                 .frame(width: 75)
                 .clipped()
-                Text("Min")
+                
+                // 분 단위
+                Text("min")
             }
             
             // TODO: 3) 플레이 리스트 뷰 - 플레이 리스트 버튼을 누르는 경우 모달 프레젠트
@@ -60,7 +64,7 @@ struct RelaxView: View {
                 isShowingListenListView.toggle()
             } label: {
                 HStack{
-                    Text("Choose your relaxing sound")
+                    Text("당신의 소리를 선택해주세요")
                         .foregroundColor(.white)
                         .padding(15)
                     Spacer()
@@ -76,18 +80,23 @@ struct RelaxView: View {
             .background(Color("SystemGrey2"))
             .cornerRadius(10)
             .padding(30)
+            
             HStack{
                 //Cancel Button
                 Button {
                     
                 } label: {
-                    Text("Cancel")
-                        .fontWeight(.medium)
-                        .foregroundColor(.white)
-                        .frame(width: 70, height: 70)
-                        .background(Color("SystemGrey2"))
-                        .cornerRadius(50)
-                }
+                    ZStack {
+                        Text("Reset")
+                            .fontWeight(.medium)
+                            .foregroundColor(.white)
+                            .frame(width: 70, height: 70)
+                            .background(Color("SystemGrey2"))
+                            .cornerRadius(50)
+                        Circle()
+                            .stroke(Color.white, lineWidth: 1)
+                            .frame(width: 60, height: 60)
+                    }}
                 .padding(15)
                 
                 Spacer()
@@ -96,12 +105,17 @@ struct RelaxView: View {
                 Button {
                     isShowingTimerProgressView = true
                 } label: {
-                    Text("Start")
-                        .fontWeight(.medium)
-                        .foregroundColor(.purple)
-                        .frame(width: 70, height: 70)
-                        .background(Color("RelaxDimPurple"))
-                        .cornerRadius(50)
+                    ZStack {
+                        Text("Start")
+                            .fontWeight(.medium)
+                            .foregroundColor(.purple)
+                            .frame(width: 70, height: 70)
+                            .background(Color("RelaxDimPurple"))
+                            .cornerRadius(50)
+                        Circle()
+                            .stroke(Color.white, lineWidth: 1)
+                            .frame(width: 60, height: 60)
+                    }
                 }
                 .padding(15)
                 .fullScreenCover(isPresented: $isShowingTimerProgressView) {
