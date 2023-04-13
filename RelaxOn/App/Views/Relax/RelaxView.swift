@@ -28,28 +28,30 @@ struct RelaxView: View {
                     
                     ForEach(0..<24, content: {
                         index in
-                        Text("\(minutes[index]) hour").tag(index)
+                        Text("\(minutes[index])").tag(index)
+                            .font(.system(size: 25))
                     })
                     
                 })
                 .pickerStyle(.wheel)
-                .padding()
-                .frame(width: 130)
+                .frame(width: 75)
                 .clipped()
+                Text("Hour")
                 
                 //minutes-Picker
                 Picker("select time", selection: $timeData.selectedTimeIndexMinutes, content: {
                     
                     ForEach(0..<60, content: {
                         index in
-                        Text("\(minutes[index]) min").tag(index)
+                        Text("\(minutes[index]) ").tag(index)
+                            .font(.system(size: 25))
                     })
                     
                 })
                 .pickerStyle(.wheel)
-                .padding()
-                .frame(width: 120)
+                .frame(width: 75)
                 .clipped()
+                Text("Min")
             }
             
             // TODO: 3) 플레이 리스트 뷰 - 플레이 리스트 버튼을 누르는 경우 모달 프레젠트
