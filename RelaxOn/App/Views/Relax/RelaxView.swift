@@ -22,40 +22,43 @@ struct RelaxView: View {
             // TODO: 1) 타이머 세팅 뷰 - 타이머 세팅이 되어있지 않은 경우
             // TODO: 2) 타이머 뷰 - 타이머 세팅 되어있는 경우
             
-            HStack{
-                //시간
-                Picker("select time", selection: $timeData.selectedTimeIndexHours, content: {
-                    
-                    ForEach(0..<24, content: {
-                        index in
-                        Text("\(minutes[index])").tag(index)
-                            .font(.system(size: 25))
+            if isShowingTimerProgressView == false {
+                HStack{
+                    //시간
+                    Picker("select time", selection: $timeData.selectedTimeIndexHours, content: {
+                        
+                        ForEach(0..<24, content: {
+                            index in
+                            Text("\(minutes[index])").tag(index)
+                                .font(.system(size: 25))
+                        })
                     })
-                })
-                .pickerStyle(.wheel)
-                .frame(width: 75)
-                .clipped()
-                
-                //시간 단위
-                Text("hours")
-                    .bold()
-                
-                //minutes-Picker
-                Picker("select time", selection: $timeData.selectedTimeIndexMinutes, content: {
+                    .pickerStyle(.wheel)
+                    .frame(width: 75)
+                    .clipped()
                     
-                    ForEach(0..<60, content: {
-                        index in
-                        Text("\(minutes[index]) ").tag(index)
-                            .font(.system(size: 25))
+                    //시간 단위
+                    Text("hours")
+                    
+                    //minutes-Picker
+                    Picker("select time", selection: $timeData.selectedTimeIndexMinutes, content: {
+                        
+                        ForEach(0..<60, content: {
+                            index in
+                            Text("\(minutes[index]) ").tag(index)
+                                .font(.system(size: 25))
+                        })
+                        
                     })
+                    .pickerStyle(.wheel)
+                    .frame(width: 75)
+                    .clipped()
                     
-                })
-                .pickerStyle(.wheel)
-                .frame(width: 75)
-                .clipped()
-                
-                // 분 단위
-                Text("min")
+                    // 분 단위
+                    Text("min")
+                }
+            } else {
+                TimerProgressView()
             }
             
             // TODO: 3) 플레이 리스트 뷰 - 플레이 리스트 버튼을 누르는 경우 모달 프레젠트
@@ -84,7 +87,7 @@ struct RelaxView: View {
             HStack{
                 //Cancel Button
                 Button {
-                    
+                    isShowingTimerProgressView = false
                 } label: {
                     ZStack {
                         Text("Reset")
@@ -118,9 +121,7 @@ struct RelaxView: View {
                     }
                 }
                 .padding(15)
-                .fullScreenCover(isPresented: $isShowingTimerProgressView) {
-                    TimerProgressView(isShowingTimerProgressView: isShowingTimerProgressView)
-                }
+                
             }.frame(width: 300, height: 50, alignment: .center)
         }
     }
