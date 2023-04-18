@@ -10,6 +10,7 @@ import SwiftUI
 struct SoundSaveView: View {
     
     @Environment(\.presentationMode) var presentationMode
+    @ObservedObject var viewModel = MixedSoundsViewModel()
     @EnvironmentObject var appState: AppState
     @FocusState private var isFocused: Bool
     @State private var isShowingAlert = false
@@ -35,14 +36,24 @@ struct SoundSaveView: View {
                 Button {
                     isFocused = false
                     let newMixedSound = MixedSound(name: soundSavedName, imageName: mixedSound.imageName)
-                    do {
-                        try UserFileManager.shared.saveMixedSound(newMixedSound)
-                        appState.selectedTab = 1 // ListenListView 탭으로 이동
-                        presentationMode.wrappedValue.dismiss()
-                    } catch {
-                        print(error.localizedDescription)
-                        isShowingAlert = true
-                        alertMessage = "저장에 실패했습니다. \(error.localizedDescription)"
+                    viewModel.saveMixedSound(newMixedSound) { result in
+                        switch result {
+                        case .success:
+                            appState.selectedTab = 1 // ListenListView 탭으로 이동
+                            presentationMode.wrappedValue.dismiss()
+                        case .failure(let error):
+                            switch error {
+                            case .fileSaveFailed:
+                                isShowingAlert = true
+                                alertMessage = "저장에 실패했습니다."
+                            case .invalidData:
+                                isShowingAlert = true
+                                alertMessage = "잘못된 데이터입니다."
+                            case .decodingFailed:
+                                isShowingAlert = true
+                                alertMessage = "디코딩에 실패했습니다."
+                            }
+                        }
                     }
                 } label: {
                     Text("Save")

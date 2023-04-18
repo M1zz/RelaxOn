@@ -35,7 +35,11 @@ final class UserFileManager {
         try fileManager.createDirectory(at: documentsDirectory, withIntermediateDirectories: true, attributes: nil)
         
         // 파일에 데이터 저장하기
-        try data.write(to: fileURL)
+        do {
+            try data.write(to: fileURL)
+        } catch {
+            throw MixedSoundError.fileSaveFailed
+        }
         
         // UserDefaultsManager를 사용하여 MixedSound 정보 저장하기
         var mixedSounds = UserDefaultsManager.shared.mixedSounds

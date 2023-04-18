@@ -29,4 +29,23 @@ final class MixedSoundsViewModel: ObservableObject {
             print("MixedSound 파일을 삭제하지 못했습니다: \(error.localizedDescription)")
         }
     }
+    
+    func saveMixedSound(_ mixedSound: MixedSound, completion: @escaping (Result<Void, MixedSoundError>) -> Void) {
+        do {
+            try UserFileManager.shared.saveMixedSound(mixedSound)
+            completion(.success(()))
+        } catch {
+            if let mixedSoundError = error as? MixedSoundError {
+                completion(.failure(mixedSoundError))
+            } else {
+                completion(.failure(.fileSaveFailed))
+            }
+        }
+    }
+}
+
+enum MixedSoundError: Error {
+    case fileSaveFailed
+    case invalidData
+    case decodingFailed
 }
