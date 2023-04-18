@@ -3,10 +3,11 @@ import SwiftUI
 struct RelaxView: View {
     
     @EnvironmentObject var timeData: Time
-    @State private var hours : [Int] = Array(1...24)
+    @State private var hours : [Int] = Array(0...23)
     @State private var minutes : [Int] = Array(0...59)
     @State var isShowingListenListView: Bool = false
     @State var isShowingTimerProgressView: Bool = false
+    @Binding var progress: Double
     
     
     var body: some View {
@@ -15,9 +16,9 @@ struct RelaxView: View {
             
             //Title
             Text("Timer")
-                .font(.system(size: 30))
+                .font(.system(size: 24))
                 .bold()
-                .offset(x: -100, y: -130)
+                .offset(x: -130, y: -100)
             
             // TODO: 1) 타이머 세팅 뷰 - 타이머 세팅이 되어있지 않은 경우
             // TODO: 2) 타이머 뷰 - 타이머 세팅 되어있는 경우
@@ -29,7 +30,7 @@ struct RelaxView: View {
                         
                         ForEach(0..<24, content: {
                             index in
-                            Text("\(minutes[index])").tag(index)
+                            Text("\(hours[index])").tag(index)
                                 .font(.system(size: 25))
                         })
                     })
@@ -56,9 +57,9 @@ struct RelaxView: View {
                     
                     // 분 단위
                     Text("min")
-                }
+                }.frame(width: 300, height: 300)
             } else {
-                TimerProgressView()
+                TimerProgressView(isShowingTimerProgressView: isShowingTimerProgressView, progress: $progress)
             }
             
             // TODO: 3) 플레이 리스트 뷰 - 플레이 리스트 버튼을 누르는 경우 모달 프레젠트
@@ -85,7 +86,7 @@ struct RelaxView: View {
             .padding(30)
             
             HStack{
-                //Cancel Button
+                //Reset Button
                 Button {
                     isShowingTimerProgressView = false
                 } label: {
@@ -108,16 +109,30 @@ struct RelaxView: View {
                 Button {
                     isShowingTimerProgressView = true
                 } label: {
-                    ZStack {
-                        Text("Start")
-                            .fontWeight(.medium)
-                            .foregroundColor(.purple)
-                            .frame(width: 70, height: 70)
-                            .background(Color("RelaxDimPurple"))
-                            .cornerRadius(50)
-                        Circle()
-                            .stroke(Color.white, lineWidth: 1)
-                            .frame(width: 60, height: 60)
+                    if isShowingTimerProgressView == false {
+                        ZStack {
+                            Text("Start")
+                                .fontWeight(.medium)
+                                .foregroundColor(.purple)
+                                .frame(width: 70, height: 70)
+                                .background(Color("RelaxDimPurple"))
+                                .cornerRadius(50)
+                            Circle()
+                                .stroke(Color.white, lineWidth: 1)
+                                .frame(width: 60, height: 60)
+                        }
+                    }else {
+                        ZStack {
+                            Text("Pause")
+                                .fontWeight(.medium)
+                                .foregroundColor(.purple)
+                                .frame(width: 70, height: 70)
+                                .background(Color("RelaxDimPurple"))
+                                .cornerRadius(50)
+                            Circle()
+                                .stroke(Color.white, lineWidth: 1)
+                                .frame(width: 60, height: 60)
+                        }
                     }
                 }
                 .padding(15)
@@ -128,7 +143,7 @@ struct RelaxView: View {
     
     struct RelaxView_Previews: PreviewProvider {
         static var previews: some View {
-            RelaxView()
+            RelaxView(progress: .constant(1.0))
                 .environmentObject(Time())
         }
     }
