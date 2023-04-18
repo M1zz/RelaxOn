@@ -7,10 +7,6 @@
 
 import Foundation
 
-enum UserFileManagerError: Error {
-    case fileNotFound
-}
-
 final class UserFileManager {
     static let shared = UserFileManager()
     

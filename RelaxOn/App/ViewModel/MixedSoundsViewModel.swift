@@ -43,9 +43,3 @@ final class MixedSoundsViewModel: ObservableObject {
         }
     }
 }
-
-enum MixedSoundError: Error {
-    case fileSaveFailed
-    case invalidData
-    case decodingFailed
-}
