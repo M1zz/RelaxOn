@@ -530,7 +530,6 @@
 			children = (
 				8F0FC48E29C1D9D500F923A5 /* MixedSound.swift */,
 				8F0FC49029C1D9F500F923A5 /* Sound.swift */,
-				595A957729D435A6002EA9A1 /* Times.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -569,6 +568,7 @@
 			isa = PBXGroup;
 			children = (
 				8FF7603229CD304D002FF43B /* AudioManager.swift */,
+				595A957729D435A6002EA9A1 /* Times.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";

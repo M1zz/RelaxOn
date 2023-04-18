@@ -11,6 +11,5 @@ class Time: ObservableObject {
     
     @Published var selectedTimeIndexHours: Int = 0
     @Published var selectedTimeIndexMinutes: Int = 0
-    @Published var selectedTimeIndexSecond: Int = 0
     
 }
