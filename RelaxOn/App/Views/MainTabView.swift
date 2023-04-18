@@ -12,21 +12,14 @@ struct MainTabView: View {
     
     var body: some View {
         TabView(selection: $appState.selectedTab) {
-            SoundListView()
-                .tabItem {
-                    Image(systemName: "star.fill")
-                    Text("Create")
-                }.tag(0)
-            ListenListView()
-                .tabItem {
-                    Image(systemName: "star.fill")
-                    Text("Listen")
-                }.tag(1)
-            RelaxView()
-                .tabItem {
-                    Image(systemName: "star.fill")
-                    Text("Relax")
-                }.tag(2)
+            ForEach(appState.tabItems) { item in
+                item.view
+                    .tabItem {
+                        Image(systemName: item.imageName.rawValue)
+                            .foregroundColor(.black)
+                        Text(item.title.rawValue)
+                    }.tag(item.id)
+            }
         }
         .environmentObject(appState)
     }
