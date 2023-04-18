@@ -57,6 +57,7 @@
 		8F53BD1929B77A83009AE6D1 /* SoundDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F53BD1829B77A83009AE6D1 /* SoundDetailView.swift */; };
 		8F53BD1B29B77A92009AE6D1 /* SoundSaveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F53BD1A29B77A92009AE6D1 /* SoundSaveView.swift */; };
 		8FF7603329CD304D002FF43B /* AudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FF7603229CD304D002FF43B /* AudioManager.swift */; };
+		8FFCCCDD29EE45B400079DCC /* UserDefaults+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FFCCCDC29EE45B400079DCC /* UserDefaults+Extension.swift */; };
 		8FFDBC7029E6471E008C674B /* MixedSoundsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FFDBC6F29E6471E008C674B /* MixedSoundsViewModel.swift */; };
 		C753494E28B7489D0055F7CA /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C753494D28B7489D0055F7CA /* View+Extension.swift */; };
 		C753495228B748D40055F7CA /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C753495128B748D40055F7CA /* UIColor+Extension.swift */; };
@@ -184,6 +185,7 @@
 		8F53BD1829B77A83009AE6D1 /* SoundDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundDetailView.swift; sourceTree = "<group>"; };
 		8F53BD1A29B77A92009AE6D1 /* SoundSaveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundSaveView.swift; sourceTree = "<group>"; };
 		8FF7603229CD304D002FF43B /* AudioManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
+		8FFCCCDC29EE45B400079DCC /* UserDefaults+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Extension.swift"; sourceTree = "<group>"; };
 		8FFDBC6F29E6471E008C674B /* MixedSoundsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixedSoundsViewModel.swift; sourceTree = "<group>"; };
 		C753494D28B7489D0055F7CA /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
 		C753494F28B748C80055F7CA /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
@@ -575,6 +577,14 @@
 			path = Manager;
 			sourceTree = "<group>";
 		};
+		8FFCCCDB29EE459400079DCC /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				8FFCCCDC29EE45B400079DCC /* UserDefaults+Extension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		8FFDBC6E29E646F5008C674B /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -620,6 +630,7 @@
 				58DE61822839C13900F25769 /* RelaxOnApp.swift */,
 				CC04E26228BDA3F800509C60 /* AppDelegate.swift */,
 				CC04E26428BDA45900509C60 /* SceneDelegate.swift */,
+				8FFCCCDB29EE459400079DCC /* Extensions */,
 				8FFDBC6E29E646F5008C674B /* ViewModel */,
 				8FF7603129CD3036002FF43B /* Manager */,
 				8F4E1B6B29B9BE240013599C /* Models */,
@@ -813,6 +824,7 @@
 				CC5AC112289C033D00FE847B /* RelaxOnWidget.intentdefinition in Sources */,
 				8F4B080729D1B38C0011995F /* UserDefaultsManager.swift in Sources */,
 				10FB81B528A17468000168CC /* OnboardingFinishView.swift in Sources */,
+				8FFCCCDD29EE45B400079DCC /* UserDefaults+Extension.swift in Sources */,
 				101417FA289EB9F300F40397 /* CDNamingView.swift in Sources */,
 				21D897782892D48600A20FFE /* CDCardView.swift in Sources */,
 				C753495228B748D40055F7CA /* UIColor+Extension.swift in Sources */,

@@ -10,7 +10,7 @@ import Foundation
 final class UserDefaultsManager {
     static let shared = UserDefaultsManager()
     private let standard = UserDefaults.standard
-    private let MIXED_SOUND_KEY = "mixedSound"
+    private let MIXED_SOUND_KEY = UserDefaults.Keys.mixedSound
 }
 
 // MARK: - Data Get, Set Properties
