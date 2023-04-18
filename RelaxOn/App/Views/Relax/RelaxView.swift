@@ -20,12 +20,9 @@ struct RelaxView: View {
                 .bold()
                 .offset(x: -130, y: -100)
             
-            // TODO: 1) 타이머 세팅 뷰 - 타이머 세팅이 되어있지 않은 경우
-            // TODO: 2) 타이머 뷰 - 타이머 세팅 되어있는 경우
-            
             if isShowingTimerProgressView == false {
                 HStack{
-                    //시간
+                    //시간 피커
                     Picker("select time", selection: $timeData.selectedTimeIndexHours, content: {
                         
                         ForEach(0..<24, content: {
@@ -41,7 +38,7 @@ struct RelaxView: View {
                     //시간 단위
                     Text("hours")
                     
-                    //minutes-Picker
+                    //분 피커
                     Picker("select time", selection: $timeData.selectedTimeIndexMinutes, content: {
                         
                         ForEach(0..<60, content: {
