@@ -9,25 +9,27 @@ import SwiftUI
 
 struct ListenListView: View {
     
-    @State private var items = ["My Water Drop", "Peaceful Water Sound"]
+    @ObservedObject private var viewModel = MixedSoundsViewModel()
     
     // MARK: - Body
     var body: some View {
-        // TODO: 1. 커스텀 셀 구현 - 이미지 + 제목 + 재생/정지 버튼
-        // TODO: 2. 밀어서 Remove
         NavigationView {
             List {
-                ForEach(items, id: \.self) { item in
-                    ListenListCell(title: item, ImageName: "photo")
+                ForEach(viewModel.mixedSounds, id: \.id) { mixedSound in
+                    ListenListCell(title: mixedSound.name, ImageName: mixedSound.imageName)
                 }
                 .onDelete { indexSet in
-                    items.remove(atOffsets: indexSet)
+                    for index in indexSet {
+                        viewModel.removeMixedSound(at: index)
+                    }
                 }
             }
             .navigationTitle("Listen")
             .navigationBarTitleDisplayMode(.large)
+            .onAppear {
+                viewModel.loadMixedSound()
+            }
         }
-        
     }
 }
 
@@ -41,7 +43,7 @@ struct ListenListCell: View {
     
     var body: some View {
         HStack {
-            Image(systemName: ImageName)
+            Image(ImageName)
                 .frame(width: 60, height: 60)
                 .background(.foreground.opacity(0.08)).cornerRadius(10)
                 .offset(x: -10, y: 0)
