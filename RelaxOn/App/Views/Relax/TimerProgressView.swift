@@ -10,23 +10,10 @@ import SwiftUI
 struct TimerProgressView: View {
     
     @State var timer: Timer?
-    @EnvironmentObject var timeData: Time
-    @State private var hours : [Int] = Array(1...24)
-    @State private var minutes : [Int] = Array(0...59)
+    @ObservedObject var timeData = Time()
     @State var remainingSeconds: Int = 0
     @State var isShowingTimerProgressView: Bool = false
     @Binding var progress: Double
-    //설정한 시간
-    var totalDurationInSeconds: Double { Double(timeData.selectedTimeIndexHours * 3600 + timeData.selectedTimeIndexMinutes * 60)}
-    //시작한 시간
-//    var startTime = Date()
-//    //경과 시간
-//    var currentTime = Date()
-//    //남은 시간
-//    var elapsedTime = currentTime.timeIntervalSince(startTime)
-//    //남은 시간 퍼센트
-//    var elapsedTimePercentage =
-    
     
     func startTimer() {
         remainingSeconds = timeData.selectedTimeIndexHours * 3600 + timeData.selectedTimeIndexMinutes * 60

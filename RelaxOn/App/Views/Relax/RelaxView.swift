@@ -2,12 +2,12 @@ import SwiftUI
 
 struct RelaxView: View {
     
-    @EnvironmentObject var timeData: Time
+    @ObservedObject var timeData = Time()
     @State private var hours : [Int] = Array(0...23)
     @State private var minutes : [Int] = Array(0...59)
     @State var isShowingListenListView: Bool = false
     @State var isShowingTimerProgressView: Bool = false
-    @Binding var progress: Double
+    @State var progress: Double = 0.5
     
     
     var body: some View {
@@ -140,8 +140,7 @@ struct RelaxView: View {
     
     struct RelaxView_Previews: PreviewProvider {
         static var previews: some View {
-            RelaxView(progress: .constant(1.0))
-                .environmentObject(Time())
+            RelaxView()
         }
     }
 }
