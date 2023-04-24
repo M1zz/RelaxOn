@@ -9,9 +9,10 @@ import SwiftUI
 import AVFoundation
 
 struct SoundDetailView: View {
+    
     // MARK: - Properties
     @State var isShowingSheet: Bool = false
-    @State var mixedSound: MixedSound
+    @State var originalSound: Sound
     @ObservedObject var audioManager = AudioManager()
     
     var body: some View {
@@ -33,13 +34,13 @@ struct SoundDetailView: View {
             
             Text("Volume Slider")
                 .font(.title3)
-            // 변경되는 volume 값을 전달하기 위한 임시 슬라이더
+            
             Slider(value: audioManager.currentVolume, in: 0.0 ... 1.0)
                 .padding(.horizontal, 20)
                 .padding(.vertical, 10)
         }//VStack
         
-        .navigationBarTitle(mixedSound.fileName, displayMode: .inline)
+        .navigationBarTitle(originalSound.name, displayMode: .inline)
         .font(.system(size: 24, weight: .bold))
         
         .toolbar {
@@ -52,16 +53,20 @@ struct SoundDetailView: View {
                     .bold()
                     .font(.system(size: 20))
             }
-
+            
             .fullScreenCover(isPresented: $isShowingSheet) {
-                SoundSaveView(volume: audioManager.currentVolume)
+                SoundSaveView(mixedSound: MixedSound(
+                    name: originalSound.name,
+                    volume: audioManager.volume,
+                    imageName: originalSound.imageName)
+                )
                 
             }
         }
         
         // MARK: - Life Cycle
         .onAppear() {
-            audioManager.playAudio(mixedSound: mixedSound)
+            audioManager.playAudio(sound: originalSound)
         }
         .onDisappear() {
             audioManager.stopAudio()
@@ -71,6 +76,6 @@ struct SoundDetailView: View {
 
 struct SoundDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        SoundDetailView(mixedSound: MixedSound(fileName: "Water Drop", volume: 0.5))
+        SoundDetailView(originalSound: Sound(name: "Water Drop"))
     }
 }

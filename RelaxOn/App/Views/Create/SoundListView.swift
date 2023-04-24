@@ -28,7 +28,7 @@ struct SoundListView: View {
     private func gridView() -> some View {
         LazyVGrid(columns: columns) {
             ForEach(fileNames, id: \.self) { fileName in
-                NavigationLink(destination: SoundDetailView(mixedSound: MixedSound(fileName: fileName, volume: 0.5))) {
+                NavigationLink(destination: SoundDetailView(originalSound: Sound(name: fileName))) {
                     gridViewItem(fileName)
                 }
             }
