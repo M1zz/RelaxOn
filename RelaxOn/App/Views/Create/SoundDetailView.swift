@@ -60,7 +60,6 @@ struct SoundDetailView: View {
                     volume: audioManager.volume,
                     imageName: originalSound.imageName)
                 )
-                
             }
         }
         
