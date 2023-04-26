@@ -24,6 +24,7 @@ struct SoundPlayerView: View {
             // Sound의 이미지를 받아온다
             Image("placeholderImage")
                 .resizable()
+                .cornerRadius(12)
                 .frame(width: 300, height: 300)
             
             Spacer()
@@ -32,7 +33,7 @@ struct SoundPlayerView: View {
                 Button {
                     
                 } label: {
-                    Image(systemName: "stop.fill")
+                    Image(systemName: "backward.fill")
                         .resizable()
                         .frame(width: 40, height: 40)
                         .foregroundColor(Color.black)
@@ -54,7 +55,7 @@ struct SoundPlayerView: View {
                 Button {
                     
                 } label: {
-                    Image(systemName: "pause.fill")
+                    Image(systemName: "forward.fill")
                         .resizable()
                         .frame(width: 40, height: 40)
                         .foregroundColor(Color.black)
