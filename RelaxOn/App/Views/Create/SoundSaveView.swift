@@ -20,11 +20,10 @@ struct SoundSaveView: View {
     
     var body: some View {
         VStack{
-            HStack{
+            HStack(alignment: .center){
                 Button {
                     presentationMode.wrappedValue.dismiss()
                 } label: {
-                    // Text"Cancel" -> Image
                     Image(systemName: "chevron.backward")
                         .resizable()
                         .frame(width: 10, height: 20)
@@ -32,8 +31,6 @@ struct SoundSaveView: View {
                         .foregroundColor(.gray)
                 }
                 .offset(x: 15, y: -70)
-                // 각 UI에 크기를 제한하여 제목이 중앙에 오도록 유도
-                .frame(width: 30)
                 
                 Spacer()
                 
@@ -67,16 +64,12 @@ struct SoundSaveView: View {
                         }
                     }
                 } label: {
-                    // Save -> 저장
                     Text("저장")
                         .foregroundColor(.black)
                         .font(.system(size: 15))
                         .bold()
-                }
-                .offset(x: -10, y: -70)
-                .frame(width: 30)
+                }.offset(x: -10, y: -70)
                 
-            //HStack에 크기를 제한함
             }.frame(width: 400)
             
             TextField(mixedSound.name, text: $soundSavedName)
@@ -93,7 +86,6 @@ struct SoundSaveView: View {
                 Image(mixedSound.imageName)
                     .resizable()
                     .frame(width: 300, height: 300)
-                // 사진에 굴곡 추가
                     .cornerRadius(12)
                 Button {
                     print("이미지 변경 버튼 탭")
