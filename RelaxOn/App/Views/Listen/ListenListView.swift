@@ -49,27 +49,23 @@ struct PlayerBar: View {
         
         HStack {
             Spacer(minLength: 80)
-            //선택한 사운드의 사진을 표시한다
             Image(systemName: "play.fill")
                 .frame(width: 60, height: 60)
                 .background(.foreground.opacity(0.08)).cornerRadius(10)
                 .padding()
             
             Spacer()
-            //선택한 사운드의 제목을 표시한다
             Text("Title")
                 .frame(width: 210,alignment: .leading)
                 .font(.title)
             
             Spacer()
             
-            // 재생 혹은 정지 버튼을 보여준다
             Button {
                 
             } label: {
                 Image(systemName: "play.fill")
                     .frame(width: 60, height: 60)
-                    //.offset(x: -30)
                     .foregroundColor(Color.black)
             }
             Spacer(minLength: 80)
