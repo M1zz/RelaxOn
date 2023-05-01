@@ -7,21 +7,17 @@
 
 import SwiftUI
 
-// ListenListView에서 Sound를 선택한다
-// 선택한 Sound의 제목이 표시된다
-// 선택한 Sound의 이미지가 표시된다
-// 사운드 멈춤 재생 정지 버튼이 표시된다
 struct SoundPlayerView: View {
     
     var body: some View {
         VStack {
-            // Sound의 제목을 받아온다
+            // Todo: 선택사운드 제목 받아 표시하기
             Text("Title")
                 .font(.largeTitle)
             
             Spacer()
             
-            // Sound의 이미지를 받아온다
+            // Todo: 선택사운드 이미지 받아 표시하기
             Image("placeholderImage")
                 .resizable()
                 .cornerRadius(12)
@@ -31,34 +27,34 @@ struct SoundPlayerView: View {
             
             HStack {
                 Button {
-                    
+                    //ToDo : 뒤로가기 작동
                 } label: {
                     Image(systemName: "backward.fill")
                         .resizable()
                         .frame(width: 40, height: 40)
-                        .foregroundColor(Color.black)
+                        .foregroundColor(.black)
                 }
                 
                 Spacer()
                 
                 Button {
-                    
+                    // ToDo : 재생하기 작동
                 } label: {
                     Image(systemName: "play.fill")
                         .resizable()
                         .frame(width: 40, height: 40)
-                        .foregroundColor(Color.black)
+                        .foregroundColor(.black)
                 }
                 
                 Spacer()
                 
                 Button {
-                    
+                    // ToDo : 앞으로 가기
                 } label: {
                     Image(systemName: "forward.fill")
                         .resizable()
                         .frame(width: 40, height: 40)
-                        .foregroundColor(Color.black)
+                        .foregroundColor(.black)
                 }
             }.frame(width: 230)
         }.frame(height: 445)
