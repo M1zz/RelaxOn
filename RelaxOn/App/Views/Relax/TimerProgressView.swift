@@ -21,9 +21,7 @@ struct TimerProgressView: View {
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
             remainingSeconds -= 1
 
-            // 리셋 버튼을 누르면 타이머가 invalidate가 되게 한다면?
             if remainingSeconds <= 0 {
-                //invalidate = 타이머를 중지하고 메모리에서 제거
                 timer.invalidate()
                 remainingSeconds = 0
                 isShowingTimerProgressView = false
@@ -70,12 +68,12 @@ struct CircleProgressBar: View {
             Circle()
                 .stroke(lineWidth: 20.0)
                 .opacity(0.3)
-                .foregroundColor(Color.gray)
+                .foregroundColor(.gray)
 
             Circle()
                 .trim(from: 0.0, to: CGFloat(min(progress, 1.0)))
                 .stroke(style: StrokeStyle(lineWidth: 20.0, lineCap: .round, lineJoin: .round))
-                .foregroundColor(Color.black)
+                .foregroundColor(.black)
                 .rotationEffect(Angle(degrees: 270.0))
 
         }

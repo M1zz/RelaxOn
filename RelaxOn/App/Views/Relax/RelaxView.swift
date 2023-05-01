@@ -19,7 +19,6 @@ struct RelaxView: View {
     var body: some View {
         VStack{
             
-            //Title
             Text("Timer")
                 .font(.system(size: 24))
                 .bold()
@@ -27,45 +26,36 @@ struct RelaxView: View {
             
             if isShowingTimerProgressView == false {
                 HStack{
-                    //시간 피커
                     Picker("select time", selection: $timeData.selectedTimeIndexHours, content: {
-                        
-                        ForEach(0..<24, content: {
+                        ForEach(hours, id: \.self) {
                             index in
                             Text("\(hours[index])").tag(index)
                                 .font(.system(size: 25))
-                        })
+                        }
                     })
                     .pickerStyle(.wheel)
                     .frame(width: 75)
                     .clipped()
                     
-                    //시간 단위
                     Text("hours")
                     
-                    //분 피커
                     Picker("select time", selection: $timeData.selectedTimeIndexMinutes, content: {
-                        
-                        ForEach(0..<60, content: {
+                        ForEach(minutes, id: \.self) {
                             index in
-                            Text("\(minutes[index]) ").tag(index)
+                            Text("\(minutes[index])").tag(index)
                                 .font(.system(size: 25))
-                        })
-                        
+                        }
                     })
                     .pickerStyle(.wheel)
                     .frame(width: 75)
                     .clipped()
                     
-                    // 분 단위
                     Text("min")
                 }.frame(width: 300, height: 300)
             } else {
                 TimerProgressView(isShowingTimerProgressView: isShowingTimerProgressView, progress: $progress)
             }
             
-            // TODO: 3) 플레이 리스트 뷰 - 플레이 리스트 버튼을 누르는 경우 모달 프레젠트
-            //Sound Select Button
             Button {
                 isShowingListenListView.toggle()
             } label: {
@@ -88,7 +78,6 @@ struct RelaxView: View {
             .padding(30)
             
             HStack{
-                //Reset Button
                 Button {
                     isShowingTimerProgressView = false
                 } label: {
@@ -107,7 +96,6 @@ struct RelaxView: View {
                 
                 Spacer()
                 
-                //Start Button
                 Button {
                     isShowingTimerProgressView = true
                 } label: {
