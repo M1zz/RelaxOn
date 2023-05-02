@@ -27,6 +27,7 @@ struct SoundDetailView: View {
                     .font(.title3)
             }
             ZStack {
+
                 
                 Circle()
                     .frame(width: 300)
@@ -41,7 +42,6 @@ struct SoundDetailView: View {
                 
             }
             .padding(24)
-            
         }
         
         .navigationBarTitle(originalSound.name, displayMode: .inline)
@@ -64,7 +64,6 @@ struct SoundDetailView: View {
                     volume: audioManager.volume,
                     imageName: originalSound.imageName)
                 )
-                
             }
         }
         
