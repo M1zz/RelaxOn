@@ -17,27 +17,30 @@ struct SoundDetailView: View {
     
     var body: some View {
         VStack {
-            Text("Drag to find your sound")
-                .foregroundColor(.black)
-                .font(.title)
-            
+            VStack {
+                Text("당신이 원하는 소리를 찾아가보세요")
+                    .foregroundColor(.black)
+                    .font(.title2)
+                    .padding(8)
+                Text("자유롭게 이동하며 실험해보세요")
+                    .foregroundColor(.black)
+                    .font(.title3)
+            }
             ZStack {
-                Image("CustomSoundSpace")
-                    .zIndex(0)
-                Text("💧")
-                    .font(.system(size: 34))
-                    .frame(width: 30, height: 30)
-                    .offset(x: -15, y: 10)
-                    .zIndex(1)
+                
+                Circle()
+                    .frame(width: 300)
+                    .foregroundColor(Color("SystemGrey1"))
+                
+                // width는 원하는 원의 크기
+                CircleSlider(width: 300)
+                CircleSlider(width: 210)
+                CircleSlider(width: 120)
+                
+                Image(systemName: "headphones")
+                
             }
             .padding(24)
-            
-            Text("Volume Slider")
-                .font(.title3)
-            
-            Slider(value: audioManager.currentVolume, in: 0.0 ... 1.0)
-                .padding(.horizontal, 20)
-                .padding(.vertical, 10)
         }
         
         .navigationBarTitle(originalSound.name, displayMode: .inline)
@@ -60,7 +63,6 @@ struct SoundDetailView: View {
                     volume: audioManager.volume,
                     imageName: originalSound.imageName)
                 )
-                
             }
         }
         
@@ -77,5 +79,54 @@ struct SoundDetailView: View {
 struct SoundDetailView_Previews: PreviewProvider {
     static var previews: some View {
         SoundDetailView(originalSound: Sound(name: "Water Drop"))
+    }
+}
+
+
+struct CircleSlider: View {
+    
+    
+    @State var angle: Double = 0
+    @State var width: CGFloat
+    
+    init(width: CGFloat) {
+        self.width = width
+    }
+    
+    var body: some View {
+        
+        
+        VStack {
+            ZStack {
+                
+                Circle()
+                    .stroke(Color("SystemGrey2"), style: StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
+                    .rotationEffect(.init(degrees: -90))
+                    .frame(width: width)
+                
+                Image(systemName: "circle.fill")
+                    .resizable()
+                    .frame(width: 20, height: 20)
+                    .foregroundColor(Color("SystemGrey3"))
+                    .offset(x: width / 2)
+                    .rotationEffect(.init(degrees: angle))
+                    .gesture(
+                        DragGesture()
+                            .onChanged({ value in
+                                onDrag(value: value)
+                            })
+                    )
+            }
+        }
+    }
+    func onDrag(value: DragGesture.Value) {
+        
+        let vector = CGVector(dx: value.location.x, dy: value.location.y)
+        let radians = atan2(vector.dy - 15, vector.dx - 15)
+        var angle = radians * 180 / .pi
+        if angle < 0 { angle = 360 + angle }
+        withAnimation(Animation.linear(duration: 0.15)) {
+            self.angle = Double(angle)
+        }
     }
 }
