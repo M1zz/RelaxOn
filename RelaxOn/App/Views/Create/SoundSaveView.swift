@@ -34,7 +34,6 @@ struct SoundSaveView: View {
                 
                 Spacer()
                 
-                // 선택한 사운드의 제목
                 Text(mixedSound.name)
                     .font(.system(size: 24, weight: .bold))
                     .offset(y: -70)
