@@ -39,7 +39,7 @@ struct SoundSaveView: View {
                     viewModel.saveMixedSound(newMixedSound) { result in
                         switch result {
                         case .success:
-                            appState.moveToTab(.listen) // ListenListView 탭으로 이동
+                            appState.moveToTab(.listen)
                             presentationMode.wrappedValue.dismiss()
                         case .failure(let error):
                             switch error {

@@ -115,7 +115,6 @@ struct ListenListCell: View {
             Image(ImageName)
                 .frame(width: 60, height: 60)
                 .background(.foreground.opacity(0.08)).cornerRadius(10)
-                .offset(x: 0, y: 0)
             Text(title)
                 .font(.body)
                 .bold()

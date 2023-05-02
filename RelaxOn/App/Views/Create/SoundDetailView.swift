@@ -29,7 +29,7 @@ struct SoundDetailView: View {
                     .frame(width: 30, height: 30)
                     .offset(x: -15, y: 10)
                     .zIndex(1)
-            }//ZStack
+            }
             .padding(24)
             
             Text("Volume Slider")
@@ -38,7 +38,7 @@ struct SoundDetailView: View {
             Slider(value: audioManager.currentVolume, in: 0.0 ... 1.0)
                 .padding(.horizontal, 20)
                 .padding(.vertical, 10)
-        }//VStack
+        }
         
         .navigationBarTitle(originalSound.name, displayMode: .inline)
         .font(.system(size: 24, weight: .bold))
