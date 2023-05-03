@@ -49,7 +49,7 @@ struct PlayerBar: View {
         
         HStack {
             Spacer(minLength: 80)
-            
+            // TODO: 재생하는 사운드의 이미지 가져오기
             Image(systemName: "play.fill")
                 .frame(width: 60, height: 60)
                 .background(.foreground.opacity(0.08)).cornerRadius(10)
@@ -57,6 +57,7 @@ struct PlayerBar: View {
             
             Spacer()
             
+            // TODO: 선택한 사운드 제목 가져오기
             Text("Title")
                 .frame(width: 210,alignment: .leading)
                 .font(.title)
@@ -64,7 +65,7 @@ struct PlayerBar: View {
             Spacer()
             
             Button {
-                
+                // TODO: 선택한 사운드를 재생
             } label: {
                 Image(systemName: "play.fill")
                     .frame(width: 60, height: 60)
@@ -77,6 +78,7 @@ struct PlayerBar: View {
     }
 }
 
+// TODO: 검색기능 구현
 struct SearchBar: View {
     
     @Binding var text: String
