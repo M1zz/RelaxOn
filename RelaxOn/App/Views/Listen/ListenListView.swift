@@ -49,14 +49,14 @@ struct PlayerBar: View {
         
         HStack {
             Spacer(minLength: 80)
-            // Todo: 선택한 사운드의 사진을 표시한다
+            
             Image(systemName: "play.fill")
                 .frame(width: 60, height: 60)
                 .background(.foreground.opacity(0.08)).cornerRadius(10)
                 .padding()
             
             Spacer()
-            // Todo: 선택한 사운드의 제목을 표시한다
+            
             Text("Title")
                 .frame(width: 210,alignment: .leading)
                 .font(.title)
@@ -76,7 +76,7 @@ struct PlayerBar: View {
         .ignoresSafeArea()
     }
 }
-//Todo : 검색기능 구현하기
+
 struct SearchBar: View {
     
     @Binding var text: String

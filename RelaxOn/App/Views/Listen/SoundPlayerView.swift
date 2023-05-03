@@ -11,13 +11,13 @@ struct SoundPlayerView: View {
     
     var body: some View {
         VStack {
-            // Todo: 선택사운드 제목 받아 표시하기
+            
             Text("Title")
                 .font(.largeTitle)
             
             Spacer()
             
-            // Todo: 선택사운드 이미지 받아 표시하기
+            
             Image("placeholderImage")
                 .resizable()
                 .cornerRadius(12)
@@ -27,7 +27,7 @@ struct SoundPlayerView: View {
             
             HStack {
                 Button {
-                    //ToDo : 뒤로가기 작동
+                    
                 } label: {
                     Image(systemName: "backward.fill")
                         .resizable()
@@ -38,7 +38,7 @@ struct SoundPlayerView: View {
                 Spacer()
                 
                 Button {
-                    // ToDo : 재생하기 작동
+                    
                 } label: {
                     Image(systemName: "play.fill")
                         .resizable()
@@ -49,7 +49,7 @@ struct SoundPlayerView: View {
                 Spacer()
                 
                 Button {
-                    // ToDo : 앞으로 가기
+                    
                 } label: {
                     Image(systemName: "forward.fill")
                         .resizable()
