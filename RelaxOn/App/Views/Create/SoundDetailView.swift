@@ -27,7 +27,6 @@ struct SoundDetailView: View {
                     .font(.title3)
             }
             ZStack {
-
                 
                 Circle()
                     .frame(width: 300)
