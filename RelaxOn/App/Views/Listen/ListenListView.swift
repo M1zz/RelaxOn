@@ -49,6 +49,7 @@ struct PlayerBar: View {
         
         HStack {
             Spacer(minLength: 80)
+
             // TODO: 재생하는 사운드의 이미지 가져오기
             Image(systemName: "play.fill")
                 .frame(width: 60, height: 60)
