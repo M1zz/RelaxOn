@@ -90,7 +90,7 @@ struct SoundDetailView_Previews: PreviewProvider {
 struct CircleSlider: View {
     
     
-    @State var angle: Double = Double(Int.random(in: 0..<361))
+    @State var angle: Double = Double.random(in: 0...360)
     @State var width: CGFloat
     
     init(width: CGFloat) {
