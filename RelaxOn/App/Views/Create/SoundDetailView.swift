@@ -37,7 +37,11 @@ struct SoundDetailView: View {
                 CircleSlider(width: 210)
                 CircleSlider(width: 120)
                 
+                Circle()
+                    .stroke(Color("SystemGrey2"), style: StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
+                    .frame(width: 80)
                 Image(systemName: "headphones")
+                
                 
             }
             .padding(24)
@@ -86,7 +90,7 @@ struct SoundDetailView_Previews: PreviewProvider {
 struct CircleSlider: View {
     
     
-    @State var angle: Double = 0
+    @State var angle: Double = Double.random(in: 0...360)
     @State var width: CGFloat
     
     init(width: CGFloat) {
