@@ -87,7 +87,7 @@ struct SearchBar: View {
     var body: some View {
         HStack {
             Image(systemName: "magnifyingglass")
-            TextField("Search", text: $text)
+            TextField("저장한 나만의 소리를 검색해보세요", text: $text)
                 .foregroundColor(.primary)
 
             if !text.isEmpty {
