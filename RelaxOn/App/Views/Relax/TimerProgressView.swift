@@ -10,7 +10,7 @@ import SwiftUI
 struct TimerProgressView: View {
 
     @State var timer: Timer?
-    @ObservedObject var timeData = Time()
+    @ObservedObject var timeData: Time
     @State var remainingSeconds: Int = 0
     @State var isShowingTimerProgressView: Bool = false
     @Binding var progress: Double
