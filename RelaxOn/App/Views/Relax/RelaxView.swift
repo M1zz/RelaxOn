@@ -53,7 +53,7 @@ struct RelaxView: View {
                     Text("min")
                 }.frame(width: 300, height: 300)
             } else {
-                TimerProgressView(isShowingTimerProgressView: isShowingTimerProgressView, progress: $progress)
+                TimerProgressView(timeData: timeData, isShowingTimerProgressView: isShowingTimerProgressView, progress: $progress)
             }
             
             Button {
