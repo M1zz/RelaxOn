@@ -10,7 +10,7 @@ import SwiftUI
 struct TimerProgressView: View {
     
     @State var timer: Timer?
-    @ObservedObject var timeData = Time()
+    @ObservedObject var timeData: Time
     @State var remainingSeconds: Int = 0
     @State var isShowingTimerProgressView: Bool = false
     @Binding var progress: Double
@@ -43,7 +43,7 @@ struct TimerProgressView: View {
         ZStack {
             CircleProgressBar(progress: $progress)
             Text(String(format: "%02d:%02d:%02d", max(remainingSeconds / 3600, 0), max((remainingSeconds % 3600) / 60, 0), max(remainingSeconds % 60, 0)))
-                .font(.system(size: 50))
+                .font(.system(size: 40))
                 .fontWeight(.semibold)
                 .padding()
                 .onAppear {

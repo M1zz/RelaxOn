@@ -30,11 +30,6 @@ struct SoundSaveView: View {
                 
                 Spacer()
                 
-                Text(mixedSound.name)
-                    .padding()
-                
-                Spacer()
-                
                 Button {
                     isFocused = false
                     let newMixedSound = MixedSound(name: soundSavedName, imageName: mixedSound.imageName)
@@ -64,7 +59,6 @@ struct SoundSaveView: View {
                 
             }
             
-            ZStack{
                 TextField(mixedSound.name, text: $soundSavedName)
                     .multilineTextAlignment(.center)
                     .keyboardType(.default)
@@ -78,7 +72,8 @@ struct SoundSaveView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(maxWidth: .infinity)
-                        .cornerRadius(12)
+                        .cornerRadius(15)
+                        .padding()
                     Button {
                         print("이미지 변경 버튼 탭")
                         mixedSound.imageName = recipeRandomName.randomElement()!
@@ -86,12 +81,12 @@ struct SoundSaveView: View {
                         Image(systemName: "arrow.triangle.2.circlepath")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 30, alignment: .topLeading)
+                            .frame(width: 30)
                             .foregroundColor(.black)
-                            .padding()
+                            .padding(30)
                     }
-                }.padding(30)
-            }
+                }.frame(maxWidth: .infinity)
+                .padding(.horizontal, 30)
             Spacer()
         }
         .onAppear { isFocused = true }
@@ -102,6 +97,7 @@ struct SoundSaveView: View {
         .alert(isPresented: $isShowingAlert) {
             Alert(title: Text("Error"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
         }
+        .ignoresSafeArea(.keyboard)
     }
 }
 

@@ -58,7 +58,7 @@ struct RelaxView: View {
                     }
                     .padding()
                 } else {
-                    TimerProgressView(isShowingTimerProgressView: isShowingTimerProgressView, progress: $progress)
+                    TimerProgressView(timeData: timeData, isShowingTimerProgressView: isShowingTimerProgressView, progress: $progress)
                 }
             }.padding(.horizontal, 10)
             Spacer()
