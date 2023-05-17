@@ -52,6 +52,8 @@
 		8F0FC49C29C1DD5D00F923A5 /* OldTimerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0FC49929C1DD5D00F923A5 /* OldTimerManager.swift */; };
 		8F0FC49D29C1DD5D00F923A5 /* OldUserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0FC49A29C1DD5D00F923A5 /* OldUserDefaultsManager.swift */; };
 		8F31407D29D428B900BB5410 /* UserFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F31407C29D428B900BB5410 /* UserFileManager.swift */; };
+		8F36BFD22A151E4A00514BBE /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F36BFD12A151E4A00514BBE /* Enums.swift */; };
+		8F36BFD42A151E6D00514BBE /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F36BFD32A151E6D00514BBE /* Common.swift */; };
 		8F4B080729D1B38C0011995F /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4B080629D1B38C0011995F /* UserDefaultsManager.swift */; };
 		8F4E1B6129B9A48F0013599C /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4E1B6029B9A48F0013599C /* MainTabView.swift */; };
 		8F4E1B6329B9A5AE0013599C /* ListenListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4E1B6229B9A5AE0013599C /* ListenListView.swift */; };
@@ -185,6 +187,8 @@
 		8F0FC49929C1DD5D00F923A5 /* OldTimerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OldTimerManager.swift; sourceTree = "<group>"; };
 		8F0FC49A29C1DD5D00F923A5 /* OldUserDefaultsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OldUserDefaultsManager.swift; sourceTree = "<group>"; };
 		8F31407C29D428B900BB5410 /* UserFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFileManager.swift; sourceTree = "<group>"; };
+		8F36BFD12A151E4A00514BBE /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
+		8F36BFD32A151E6D00514BBE /* Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
 		8F4B080629D1B38C0011995F /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		8F4E1B6029B9A48F0013599C /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		8F4E1B6229B9A5AE0013599C /* ListenListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListenListView.swift; sourceTree = "<group>"; };
@@ -623,6 +627,8 @@
 			isa = PBXGroup;
 			children = (
 				8FFCCCE329EE686B00079DCC /* Errors.swift */,
+				8F36BFD12A151E4A00514BBE /* Enums.swift */,
+				8F36BFD32A151E6D00514BBE /* Common.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -830,6 +836,7 @@
 				591570B429F93A5400507DEA /* TimerProgressView.swift in Sources */,
 				E24F21E228ABE1A100371BA4 /* MultiPreview.swift in Sources */,
 				C753495628B75BD20055F7CA /* Float+Extension.swift in Sources */,
+				8F36BFD42A151E6D00514BBE /* Common.swift in Sources */,
 				219BD67328900A28006FAF55 /* CDListView.swift in Sources */,
 				E206D1A428D2B97500DDB4E7 /* TimerProgressBarView.swift in Sources */,
 				8F31407D29D428B900BB5410 /* UserFileManager.swift in Sources */,
@@ -839,6 +846,7 @@
 				C7FDCA8C28D094E0008FA749 /* MusicViewDelegate.swift in Sources */,
 				101417F8289EB82200F40397 /* CDCoverImageView.swift in Sources */,
 				58DE61C72843100100F25769 /* VolumeControlView.swift in Sources */,
+				8F36BFD22A151E4A00514BBE /* Enums.swift in Sources */,
 				E206D1A828D3AD3400DDB4E7 /* CustomNavigationLink.swift in Sources */,
 				8FFCCCE429EE686B00079DCC /* Errors.swift in Sources */,
 				E2BF105428914E9E00408B8C /* TimerNavigationLinkView.swift in Sources */,
