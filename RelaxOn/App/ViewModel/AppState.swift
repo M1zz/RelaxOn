@@ -7,16 +7,6 @@
 
 import SwiftUI
 
-enum TabItems: String {
-    case create = "Create"
-    case listen = "Listen"
-    case relax = "Relax"
-}
-
-enum StarTabBarIcon: String {
-    case starFill = "star.fill"
-}
-
 struct TabItemInfo: Identifiable {
     let id = UUID()
     let view: AnyView
