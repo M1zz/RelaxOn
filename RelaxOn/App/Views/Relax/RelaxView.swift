@@ -9,7 +9,7 @@ import SwiftUI
 
 struct RelaxView: View {
     
-    @ObservedObject var timeData = Time()
+    @ObservedObject var timeData = TimerManager()
     @State private var hours : [Int] = Array(0...23)
     @State private var minutes : [Int] = Array(0...59)
     @State var isShowingListenListView: Bool = false
