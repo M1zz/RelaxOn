@@ -18,43 +18,50 @@ struct RelaxView: View {
     
     var body: some View {
         VStack{
-            
-            Text("Timer")
-                .font(.system(size: 24))
-                .bold()
-                .offset(x: -130, y: -100)
-            
-            if isShowingTimerProgressView == false {
-                HStack{
-                    Picker("select time", selection: $timeData.selectedTimeIndexHours, content: {
-                        ForEach(hours, id: \.self) {
-                            index in
-                            Text("\(hours[index])").tag(index)
-                                .font(.system(size: 25))
-                        }
-                    })
-                    .pickerStyle(.wheel)
-                    .frame(width: 75)
-                    .clipped()
-                    
-                    Text("hours")
-                    
-                    Picker("select time", selection: $timeData.selectedTimeIndexMinutes, content: {
-                        ForEach(minutes, id: \.self) {
-                            index in
-                            Text("\(minutes[index])").tag(index)
-                                .font(.system(size: 25))
-                        }
-                    })
-                    .pickerStyle(.wheel)
-                    .frame(width: 75)
-                    .clipped()
-                    
-                    Text("min")
-                }.frame(width: 300, height: 300)
-            } else {
-                TimerProgressView(isShowingTimerProgressView: isShowingTimerProgressView, progress: $progress)
+            HStack {
+                Text("Timer")
+                    .font(.largeTitle)
+                    .padding()
+                    .bold()
+                Spacer()
             }
+            
+            Spacer()
+            
+            VStack {
+                if isShowingTimerProgressView == false {
+                    HStack(alignment: .center){
+                        Picker("select time", selection: $timeData.selectedTimeIndexHours, content: {
+                            ForEach(hours, id: \.self) {
+                                index in
+                                Text("\(hours[index])").tag(index)
+                            }
+                        })
+                        .pickerStyle(.wheel)
+                        .padding()
+                        .clipped()
+                        
+                        Text("hours")
+                        
+                        Picker("select time", selection: $timeData.selectedTimeIndexMinutes, content: {
+                            ForEach(minutes, id: \.self) {
+                                index in
+                                Text("\(minutes[index])").tag(index)
+                            }
+                        })
+                        .pickerStyle(.wheel)
+                        .padding()
+                        .clipped()
+                        
+                        Text("min")
+                            .padding()
+                    }
+                    .padding()
+                } else {
+                    TimerProgressView(isShowingTimerProgressView: isShowingTimerProgressView, progress: $progress)
+                }
+            }.padding(.horizontal, 10)
+            Spacer()
             
             Button {
                 isShowingListenListView.toggle()
@@ -62,72 +69,72 @@ struct RelaxView: View {
                 HStack{
                     Text("나만의 소리를 선택해주세요")
                         .foregroundColor(.white)
-                        .padding(15)
+                        .padding()
                     Spacer()
                     Image(systemName: "chevron.right")
                         .foregroundColor(.white)
-                        .padding(17)
+                        .padding()
                 }
             }
             .sheet(isPresented: $isShowingListenListView) {
                 ListenListView()
             }
-            .frame(width: 300, height: 50, alignment: .center)
-            .background(Color("SystemGrey2"))
+            .background(Color.systemGrey2)
             .cornerRadius(10)
-            .padding(30)
+            .padding(20)
+            
+            Spacer(minLength: 50)
             
             HStack{
+                Spacer()
                 Button {
                     isShowingTimerProgressView = false
                 } label: {
                     ZStack {
+                        Circle()
+                            .foregroundColor(Color.systemGrey3)
+                        Circle()
+                            .stroke(Color.white, lineWidth: 1)
+                            .padding(10)
                         Text("Reset")
                             .fontWeight(.medium)
                             .foregroundColor(.white)
-                            .frame(width: 70, height: 70)
-                            .background(Color("SystemGrey2"))
-                            .cornerRadius(50)
-                        Circle()
-                            .stroke(Color.white, lineWidth: 1)
-                            .frame(width: 60, height: 60)
-                    }}
-                .padding(15)
+                        
+                    }
+                }
                 
-                Spacer()
+                Spacer(minLength: 180)
                 
                 Button {
                     isShowingTimerProgressView = true
                 } label: {
                     if isShowingTimerProgressView == false {
                         ZStack {
-                            Text("Start")
-                                .fontWeight(.medium)
-                                .foregroundColor(.purple)
-                                .frame(width: 70, height: 70)
-                                .background(Color("RelaxDimPurple"))
-                                .cornerRadius(50)
+                            Circle()
+                                .foregroundColor(Color.relaxDimPurple)
                             Circle()
                                 .stroke(Color.white, lineWidth: 1)
-                                .frame(width: 60, height: 60)
+                                .padding(10)
+                            Text("Start")
+                                .fontWeight(.medium)
+                                .foregroundColor(.white)
                         }
                     }else {
                         ZStack {
-                            Text("Pause")
-                                .fontWeight(.medium)
-                                .foregroundColor(.purple)
-                                .frame(width: 70, height: 70)
-                                .background(Color("RelaxDimPurple"))
-                                .cornerRadius(50)
+                            Circle()
+                                .foregroundColor(Color.relaxDimPurple)
                             Circle()
                                 .stroke(Color.white, lineWidth: 1)
-                                .frame(width: 60, height: 60)
+                                .padding(10)
+                            Text("Pause")
+                                .fontWeight(.medium)
+                                .foregroundColor(.white)
                         }
                     }
                 }
-                .padding(15)
-                
-            }.frame(width: 300, height: 50, alignment: .center)
+                Spacer(minLength: 10)
+            }.padding()
+            Spacer(minLength: 50)
         }
     }
 }

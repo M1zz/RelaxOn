@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SoundListView: View {
-
+    
     let columns = [
         GridItem(.flexible()),
         GridItem(.flexible())
@@ -26,6 +26,7 @@ struct SoundListView: View {
     
     @ViewBuilder
     private func gridView() -> some View {
+        
         LazyVGrid(columns: columns) {
             ForEach(fileNames, id: \.self) { fileName in
                 NavigationLink(destination: SoundDetailView(originalSound: Sound(name: fileName))) {
@@ -39,6 +40,7 @@ struct SoundListView: View {
     
     @ViewBuilder
     private func gridViewItem(_ fileName: String) -> some View {
+        
         VStack(alignment: .leading) {
             Text(fileName)
                 .font(.title2)

@@ -20,23 +20,18 @@ struct SoundSaveView: View {
     
     var body: some View {
         VStack{
-            HStack(alignment: .center){
+            HStack {
                 Button {
                     presentationMode.wrappedValue.dismiss()
                 } label: {
                     Image(systemName: "chevron.backward")
-                        .resizable()
-                        .frame(width: 10, height: 20)
-                        .bold()
-                        .foregroundColor(.gray)
+                        .padding()
                 }
-                .offset(x: 15, y: -70)
                 
                 Spacer()
                 
                 Text(mixedSound.name)
-                    .font(.system(size: 24, weight: .bold))
-                    .offset(y: -70)
+                    .padding()
                 
                 Spacer()
                 
@@ -64,27 +59,24 @@ struct SoundSaveView: View {
                     }
                 } label: {
                     Text("저장")
-                        .foregroundColor(.black)
-                        .font(.system(size: 15))
-                        .bold()
-                }.offset(x: -10, y: -70)
+                        .padding()
+                }
                 
-            }.frame(width: 400)
+            }
             
             TextField(mixedSound.name, text: $soundSavedName)
-                .frame(width: 160, height: 80, alignment: .center)
                 .multilineTextAlignment(.center)
-                .padding(.horizontal, 30)
+                .padding(30)
                 .keyboardType(.default)
                 .autocorrectionDisabled(true)
                 .focused($isFocused)
                 .font(.title)
                 .underline(true)
             
-            ZStack{
+            ZStack(alignment: .topTrailing){
                 Image(mixedSound.imageName)
                     .resizable()
-                    .frame(width: 300, height: 300)
+                    .scaledToFit()
                     .cornerRadius(12)
                 Button {
                     print("이미지 변경 버튼 탭")
@@ -92,11 +84,12 @@ struct SoundSaveView: View {
                 } label: {
                     Image(systemName: "arrow.triangle.2.circlepath")
                         .resizable()
-                        .frame(width: 24, height: 24)
+                        .scaledToFit()
+                        .frame(width: 30, alignment: .topLeading)
                         .foregroundColor(.black)
-                        .bold()
-                }.offset(x: 120, y: -120)
-            }
+                        .padding()
+                }
+            }.padding(30)
         }
         .onAppear { isFocused = true }
         .background(Color.white)

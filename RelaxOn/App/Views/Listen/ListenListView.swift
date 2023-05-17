@@ -19,7 +19,7 @@ struct ListenListView: View {
             
             VStack {
                 SearchBar(text: $searchText)
-                    .frame(width: 350, height: 80)
+                    .padding()
                 List {
                     ForEach(viewModel.mixedSounds, id: \.id) { mixedSound in
                         ListenListCell(title: mixedSound.name, ImageName: mixedSound.imageName)
@@ -33,7 +33,7 @@ struct ListenListView: View {
                 .listStyle(PlainListStyle())
                 .navigationTitle("Listen")
                 .navigationBarTitleDisplayMode(.large)
-                .frame(width: 360)
+                .padding()
                 .onAppear {
                     viewModel.loadMixedSound()
                 }
@@ -48,19 +48,14 @@ struct PlayerBar: View {
     var body: some View {
         
         HStack {
-            Spacer(minLength: 80)
-
+            
             // TODO: 재생하는 사운드의 이미지 가져오기
             Image(systemName: "play.fill")
-                .frame(width: 60, height: 60)
                 .background(.foreground.opacity(0.08)).cornerRadius(10)
-                .padding()
-            
-            Spacer()
+                .padding(30)
             
             // TODO: 선택한 사운드 제목 가져오기
             Text("Title")
-                .frame(width: 210,alignment: .leading)
                 .font(.title)
             
             Spacer()
@@ -69,10 +64,10 @@ struct PlayerBar: View {
                 // TODO: 선택한 사운드를 재생
             } label: {
                 Image(systemName: "play.fill")
-                    .frame(width: 60, height: 60)
                     .foregroundColor(Color.black)
+                    .padding(30)
+                
             }
-            Spacer(minLength: 80)
         }
         .background(Color.systemGrey1)
         .ignoresSafeArea()
@@ -83,13 +78,13 @@ struct PlayerBar: View {
 struct SearchBar: View {
     
     @Binding var text: String
-
+    
     var body: some View {
         HStack {
             Image(systemName: "magnifyingglass")
             TextField("저장한 나만의 소리를 검색해보세요", text: $text)
                 .foregroundColor(.primary)
-
+            
             if !text.isEmpty {
                 Button(action: {
                     self.text = ""
@@ -112,12 +107,18 @@ struct ListenListCell: View {
     
     var PlayButtonImageName: String = "play.fill"
     var PauseButtonImageName: String = "pause.fill"
+    @State var isPlayerBarShowing: Bool = false
     
     var body: some View {
         HStack {
-            Image(ImageName)
-                .frame(width: 60, height: 60)
-                .background(.foreground.opacity(0.08)).cornerRadius(10)
+            Button {
+                isPlayerBarShowing = true
+            } label: {
+                Image(ImageName)
+                    .frame(maxWidth: 60, maxHeight: 60)
+                    .background(.foreground.opacity(0.08)).cornerRadius(10)
+            }
+            
             Text(title)
                 .font(.body)
                 .bold()
@@ -126,9 +127,12 @@ struct ListenListCell: View {
                 // TODO: Implement play/pause functionality
             }) {
                 Image(systemName: PauseButtonImageName)
-                    .frame(width: 32, height: 32)
                     .foregroundColor(.black)
+                    .padding()
             }
+        }.sheet(isPresented: $isPlayerBarShowing) {
+            SoundPlayerView()
+                .navigationBarTitleDisplayMode(.inline)
         }
     }
 }
