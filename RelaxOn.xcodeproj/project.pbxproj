@@ -354,14 +354,14 @@
 			path = Music;
 			sourceTree = "<group>";
 		};
-		58DE1022283DF536002CDB9F /* Resource */ = {
+		58DE1022283DF536002CDB9F /* LegacyResource */ = {
 			isa = PBXGroup;
 			children = (
 				58DE1025283DF54F002CDB9F /* Natural */,
 				58DE1024283DF54A002CDB9F /* Melody */,
 				58DE1023283DF53F002CDB9F /* Base */,
 			);
-			path = Resource;
+			path = LegacyResource;
 			sourceTree = "<group>";
 		};
 		58DE1023283DF53F002CDB9F /* Base */ = {
@@ -521,6 +521,16 @@
 			path = Applications;
 			sourceTree = "<group>";
 		};
+		8F36BFD02A14F9C900514BBE /* LegacyAssets */ = {
+			isa = PBXGroup;
+			children = (
+				58DE61862839C13A00F25769 /* Assets.xcassets */,
+				C7C4C24F28C236D80048DCBA /* Sound.xcassets */,
+				C7C4C25328C238110048DCBA /* Color.xcassets */,
+			);
+			path = LegacyAssets;
+			sourceTree = "<group>";
+		};
 		8F4E1B6829B9B37C0013599C /* Create */ = {
 			isa = PBXGroup;
 			children = (
@@ -562,6 +572,8 @@
 		8F53BD1529B775F8009AE6D1 /* Legacy */ = {
 			isa = PBXGroup;
 			children = (
+				8F36BFD02A14F9C900514BBE /* LegacyAssets */,
+				58DE1022283DF536002CDB9F /* LegacyResource */,
 				21B7A64E28A31DE600E90744 /* RelaxOnWatch */,
 				21B7A65928A31DE700E90744 /* RelaxOnWatch WatchKit Extension */,
 				CC5AC10A289C033C00FE847B /* RelaxOnWidget */,
@@ -648,9 +660,6 @@
 		C7C4C25528C239FE0048DCBA /* Assets */ = {
 			isa = PBXGroup;
 			children = (
-				58DE61862839C13A00F25769 /* Assets.xcassets */,
-				C7C4C24F28C236D80048DCBA /* Sound.xcassets */,
-				C7C4C25328C238110048DCBA /* Color.xcassets */,
 			);
 			path = Assets;
 			sourceTree = "<group>";
@@ -666,7 +675,6 @@
 				8FF7603129CD3036002FF43B /* Manager */,
 				8F4E1B6B29B9BE240013599C /* Models */,
 				C7C4C25528C239FE0048DCBA /* Assets */,
-				58DE1022283DF536002CDB9F /* Resource */,
 				8F53BD1C29B77B55009AE6D1 /* Views */,
 			);
 			path = App;
