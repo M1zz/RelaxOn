@@ -64,32 +64,35 @@ struct SoundSaveView: View {
                 
             }
             
-            TextField(mixedSound.name, text: $soundSavedName)
-                .multilineTextAlignment(.center)
-                .padding(30)
-                .keyboardType(.default)
-                .autocorrectionDisabled(true)
-                .focused($isFocused)
-                .font(.title)
-                .underline(true)
-            
-            ZStack(alignment: .topTrailing){
-                Image(mixedSound.imageName)
-                    .resizable()
-                    .scaledToFit()
-                    .cornerRadius(12)
-                Button {
-                    print("이미지 변경 버튼 탭")
-                    mixedSound.imageName = recipeRandomName.randomElement()!
-                } label: {
-                    Image(systemName: "arrow.triangle.2.circlepath")
+            ZStack{
+                TextField(mixedSound.name, text: $soundSavedName)
+                    .multilineTextAlignment(.center)
+                    .keyboardType(.default)
+                    .autocorrectionDisabled(true)
+                    .focused($isFocused)
+                    .font(.title)
+                    .underline(true)
+                
+                ZStack(alignment: .topTrailing){
+                    Image(mixedSound.imageName)
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 30, alignment: .topLeading)
-                        .foregroundColor(.black)
-                        .padding()
-                }
-            }.padding(30)
+                        .frame(maxWidth: .infinity)
+                        .cornerRadius(12)
+                    Button {
+                        print("이미지 변경 버튼 탭")
+                        mixedSound.imageName = recipeRandomName.randomElement()!
+                    } label: {
+                        Image(systemName: "arrow.triangle.2.circlepath")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 30, alignment: .topLeading)
+                            .foregroundColor(.black)
+                            .padding()
+                    }
+                }.padding(30)
+            }
+            Spacer()
         }
         .onAppear { isFocused = true }
         .background(Color.white)
