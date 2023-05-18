@@ -17,14 +17,6 @@ final class AudioManager: ObservableObject {
     @Published var audioPlayer: AVAudioPlayer?
     @Published var volume: Float = 0.5
     
-    private enum MusicExtension: String {
-        case mp3
-    }
-    
-    private func getPathUrl(forResource: String, musicExtension: MusicExtension) -> URL? {
-        Bundle.main.url(forResource: forResource, withExtension: musicExtension.rawValue) ?? nil
-    }
-    
     var currentVolume: Binding<Float> {
         Binding<Float>(
             get: {

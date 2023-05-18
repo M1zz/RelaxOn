@@ -11,4 +11,9 @@
 
 import Foundation
 
-// TODO: getPathUrl() 전역 함수로 가져오기
+/**
+ Bundle에 있는 mp3 파일 경로 불러오는 기능
+ */
+func getPathUrl(forResource: String, musicExtension: MusicExtension) -> URL? {
+    Bundle.main.url(forResource: forResource, withExtension: musicExtension.rawValue) ?? nil
+}

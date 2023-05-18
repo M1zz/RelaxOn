@@ -33,4 +33,6 @@ enum TabBarIcon: String {
     case timerTabIcon = "timer_tab_icon"
 }
 
-// TODO: MusicExtension enum 전역으로 추가, Legacy에서도 중복된 코드 삭제하기
+enum MusicExtension: String {
+    case mp3
+}
