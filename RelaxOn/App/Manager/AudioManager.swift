@@ -9,17 +9,13 @@ import AVFoundation
 import SwiftUI
 import Combine
 
+// TODO: AVAudioEngineManager 객체 추가 후 삭제 예정
+/**
+ AVAudioPlayer 를 통한 오디오 파일 재생  & 정지 기능
+ */
 final class AudioManager: ObservableObject {
     @Published var audioPlayer: AVAudioPlayer?
     @Published var volume: Float = 0.5
-    
-    private enum MusicExtension: String {
-        case mp3
-    }
-    
-    private func getPathUrl(forResource: String, musicExtension: MusicExtension) -> URL? {
-        Bundle.main.url(forResource: forResource, withExtension: musicExtension.rawValue) ?? nil
-    }
     
     var currentVolume: Binding<Float> {
         Binding<Float>(

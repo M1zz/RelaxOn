@@ -7,8 +7,12 @@
 
 import Foundation
 
+/**
+ View와 직접적으로 사운드 데이터 바인딩하는 ViewModel 객체
+ */
 final class MixedSoundsViewModel: ObservableObject {
     
+    /// UserDefaults에 저장된 음원 목록
     @Published var mixedSounds: [MixedSound] = [] {
         didSet {
             UserDefaultsManager.shared.mixedSounds = mixedSounds

@@ -7,16 +7,9 @@
 
 import SwiftUI
 
-enum TabItems: String {
-    case create = "Create"
-    case listen = "Listen"
-    case relax = "Relax"
-}
-
-enum StarTabBarIcon: String {
-    case starFill = "star.fill"
-}
-
+/**
+ 탭 아이템을 정의하는 구조체
+ */
 struct TabItemInfo: Identifiable {
     let id = UUID()
     let view: AnyView
@@ -30,9 +23,9 @@ final class AppState: ObservableObject {
     @Published var selectedTab: UUID = UUID()
     
     let tabItems = [
-        TabItemInfo(view: AnyView(SoundListView()), imageName: .starFill, title: .create),
+        TabItemInfo(view: AnyView(SoundListView()), imageName: .starFill, title: .home),
         TabItemInfo(view: AnyView(ListenListView()), imageName: .starFill, title: .listen),
-        TabItemInfo(view: AnyView(RelaxView()), imageName: .starFill, title: .relax)
+        TabItemInfo(view: AnyView(TimerMainView()), imageName: .starFill, title: .timer)
     ]
     
     func moveToTab(_ tab: TabItems) {
