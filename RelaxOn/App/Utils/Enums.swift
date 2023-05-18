@@ -11,7 +11,6 @@
 
 import Foundation
 
-// TODO: 네이밍, 값 변경 필요 create -> home, relax -> timer
 /// 탭 바 아이템
 enum TabItems: String {
     case home = "홈"
