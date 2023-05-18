@@ -25,7 +25,7 @@ final class AppState: ObservableObject {
     let tabItems = [
         TabItemInfo(view: AnyView(SoundListView()), imageName: .starFill, title: .create),
         TabItemInfo(view: AnyView(ListenListView()), imageName: .starFill, title: .listen),
-        TabItemInfo(view: AnyView(RelaxView()), imageName: .starFill, title: .relax)
+        TabItemInfo(view: AnyView(TimerMainView()), imageName: .starFill, title: .relax)
     ]
     
     func moveToTab(_ tab: TabItems) {

@@ -1,5 +1,5 @@
 //
-//  RelaxView.swift
+//  TimerMainView.swift
 //  RelaxOn
 //
 //  Created by Doyeon on 2023/03/09.
@@ -9,9 +9,10 @@ import SwiftUI
 
 /**
  타이머 View
+ 타이머를 설정하기 전의 View
  설정한 시간만큼 특정 음원을 반복 재생하는 기능
  */
-struct RelaxView: View {
+struct TimerMainView: View {
     
     @ObservedObject var timeData = TimerManager()
     @State private var hours : [Int] = Array(0...23)
@@ -139,6 +140,6 @@ struct RelaxView: View {
 
 struct RelaxView_Previews: PreviewProvider {
     static var previews: some View {
-        RelaxView()
+        TimerMainView()
     }
 }
