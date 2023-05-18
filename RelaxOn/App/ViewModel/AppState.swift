@@ -23,9 +23,9 @@ final class AppState: ObservableObject {
     @Published var selectedTab: UUID = UUID()
     
     let tabItems = [
-        TabItemInfo(view: AnyView(SoundListView()), imageName: .starFill, title: .create),
+        TabItemInfo(view: AnyView(SoundListView()), imageName: .starFill, title: .home),
         TabItemInfo(view: AnyView(ListenListView()), imageName: .starFill, title: .listen),
-        TabItemInfo(view: AnyView(TimerMainView()), imageName: .starFill, title: .relax)
+        TabItemInfo(view: AnyView(TimerMainView()), imageName: .starFill, title: .timer)
     ]
     
     func moveToTab(_ tab: TabItems) {

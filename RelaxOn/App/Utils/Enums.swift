@@ -14,9 +14,9 @@ import Foundation
 // TODO: 네이밍, 값 변경 필요 create -> home, relax -> timer
 /// 탭 바 아이템
 enum TabItems: String {
-    case create = "Create"
-    case listen = "Listen"
-    case relax = "Relax"
+    case home = "홈"
+    case listen = "듣기"
+    case timer = "타이머"
 }
 
 // TODO: TabBarIcon으로 대체 후 삭제해야함
