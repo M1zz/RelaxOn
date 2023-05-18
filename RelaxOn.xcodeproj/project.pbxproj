@@ -64,6 +64,8 @@
 		8F5A0EC12A15FC2F0061F42C /* ListenListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5A0EC02A15FC2F0061F42C /* ListenListCell.swift */; };
 		8F5A0EC32A15FD750061F42C /* CircleProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5A0EC22A15FD750061F42C /* CircleProgressView.swift */; };
 		8F5A0EC52A160B3A0061F42C /* AudioEngineManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5A0EC42A160B3A0061F42C /* AudioEngineManager.swift */; };
+		8F7904862A16598700BE2BAC /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7904852A16598700BE2BAC /* OnboardingView.swift */; };
+		8F7904882A1659A400BE2BAC /* TutorialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7904872A1659A400BE2BAC /* TutorialView.swift */; };
 		8FCB23E92A15F70200188024 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FCB23E82A15F70200188024 /* UIColor+Extension.swift */; };
 		8FCB23EB2A15F71500188024 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FCB23EA2A15F71500188024 /* Color+Extension.swift */; };
 		8FCB23ED2A15F72800188024 /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FCB23EC2A15F72800188024 /* View+Extension.swift */; };
@@ -208,6 +210,8 @@
 		8F5A0EC02A15FC2F0061F42C /* ListenListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListenListCell.swift; sourceTree = "<group>"; };
 		8F5A0EC22A15FD750061F42C /* CircleProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleProgressView.swift; sourceTree = "<group>"; };
 		8F5A0EC42A160B3A0061F42C /* AudioEngineManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioEngineManager.swift; sourceTree = "<group>"; };
+		8F7904852A16598700BE2BAC /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		8F7904872A1659A400BE2BAC /* TutorialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialView.swift; sourceTree = "<group>"; };
 		8FCB23E82A15F70200188024 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		8FCB23EA2A15F71500188024 /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
 		8FCB23EC2A15F72800188024 /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
@@ -613,6 +617,7 @@
 		8F53BD1C29B77B55009AE6D1 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				8F7904832A16596700BE2BAC /* Onboarding */,
 				8FCB23F02A15F80D00188024 /* Components */,
 				8F4E1B6029B9A48F0013599C /* MainTabView.swift */,
 				8F4E1B6829B9B37C0013599C /* Home */,
@@ -620,6 +625,15 @@
 				8F4E1B6A29B9B3900013599C /* Timer */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		8F7904832A16596700BE2BAC /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				8F7904852A16598700BE2BAC /* OnboardingView.swift */,
+				8F7904872A1659A400BE2BAC /* TutorialView.swift */,
+			);
+			path = Onboarding;
 			sourceTree = "<group>";
 		};
 		8FCB23F02A15F80D00188024 /* Components */ = {
@@ -863,6 +877,7 @@
 				58DE61852839C13900F25769 /* CdLibraryView.swift in Sources */,
 				8F0FC49D29C1DD5D00F923A5 /* OldUserDefaultsManager.swift in Sources */,
 				8FCB23EF2A15F73500188024 /* String+Extension.swift in Sources */,
+				8F7904882A1659A400BE2BAC /* TutorialView.swift in Sources */,
 				8F4E1B6129B9A48F0013599C /* MainTabView.swift in Sources */,
 				8F53BD1B29B77A92009AE6D1 /* SoundSaveView.swift in Sources */,
 				C7A50DDC28D08FA000841BC6 /* MusicView.swift in Sources */,
@@ -918,6 +933,7 @@
 				8F0FC49C29C1DD5D00F923A5 /* OldTimerManager.swift in Sources */,
 				CC5AC112289C033D00FE847B /* RelaxOnWidget.intentdefinition in Sources */,
 				8F4B080729D1B38C0011995F /* UserDefaultsManager.swift in Sources */,
+				8F7904862A16598700BE2BAC /* OnboardingView.swift in Sources */,
 				10FB81B528A17468000168CC /* OnboardingFinishView.swift in Sources */,
 				8FFCCCDD29EE45B400079DCC /* UserDefaults+Extension.swift in Sources */,
 				101417FA289EB9F300F40397 /* CDNamingView.swift in Sources */,
