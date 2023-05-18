@@ -7,6 +7,9 @@
 
 import SwiftUI
 
+/**
+ 탭 아이템을 정의하는 구조체
+ */
 struct TabItemInfo: Identifiable {
     let id = UUID()
     let view: AnyView

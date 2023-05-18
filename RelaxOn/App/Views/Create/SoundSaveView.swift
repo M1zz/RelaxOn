@@ -7,6 +7,9 @@
 
 import SwiftUI
 
+/**
+ 이전 화면에서 커스텀 했던 음원에 이름과 이미지를 지정하여 파일로 저장하는 기능이 있는 View
+ */
 struct SoundSaveView: View {
     
     @Environment(\.presentationMode) var presentationMode
@@ -30,17 +33,20 @@ struct SoundSaveView: View {
                         .bold()
                         .foregroundColor(.gray)
                 }
+                // TODO: OFFSET 지양하기
                 .offset(x: 15, y: -70)
                 
                 Spacer()
                 
                 Text(mixedSound.name)
                     .font(.system(size: 24, weight: .bold))
+                    // TODO: OFFSET 지양하기
                     .offset(y: -70)
                 
                 Spacer()
                 
                 Button {
+                    // TODO: View에 있는 Action은 최대한 간소화 할 것
                     isFocused = false
                     let newMixedSound = MixedSound(name: soundSavedName, imageName: mixedSound.imageName)
                     viewModel.saveMixedSound(newMixedSound) { result in
@@ -67,10 +73,13 @@ struct SoundSaveView: View {
                         .foregroundColor(.black)
                         .font(.system(size: 15))
                         .bold()
-                }.offset(x: -10, y: -70)
+                }
+                // TODO: OFFSET 지양하기
+                .offset(x: -10, y: -70)
                 
             }.frame(width: 400)
             
+            // TODO: 출시 Sprint Backlog 이미지에 맞게 수정 필요
             TextField(mixedSound.name, text: $soundSavedName)
                 .frame(width: 160, height: 80, alignment: .center)
                 .multilineTextAlignment(.center)
@@ -95,7 +104,9 @@ struct SoundSaveView: View {
                         .frame(width: 24, height: 24)
                         .foregroundColor(.black)
                         .bold()
-                }.offset(x: 120, y: -120)
+                }
+                // TODO: OFFSET 지양하기
+                .offset(x: 120, y: -120)
             }
         }
         .onAppear { isFocused = true }

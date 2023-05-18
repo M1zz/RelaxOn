@@ -7,6 +7,9 @@
 
 import SwiftUI
 
+/**
+ 타이머가 작동되는 동안의 View
+ */
 struct TimerProgressView: View {
 
     @State var timer: Timer?
@@ -15,6 +18,7 @@ struct TimerProgressView: View {
     @State var isShowingTimerProgressView: Bool = false
     @Binding var progress: Double
 
+    // TODO: 타이머 작동 관련 로직이 TimerManager에서 관리되고, View에서는 최대한 보이지 않도록 하는게 좋을 것 같습니다.
     func startTimer() {
         remainingSeconds = timeData.selectedTimeIndexHours * 3600 + timeData.selectedTimeIndexMinutes * 60
 
@@ -42,6 +46,7 @@ struct TimerProgressView: View {
     var body: some View {
         ZStack {
             CircleProgressBar(progress: $progress)
+            // TODO: View 파일 내에서는 계산식이 보이지 않도록 수정 필요
             Text(String(format: "%02d:%02d:%02d", max(remainingSeconds / 3600, 0), max((remainingSeconds % 3600) / 60, 0), max(remainingSeconds % 60, 0)))
                 .font(.system(size: 50))
                 .fontWeight(.semibold)
@@ -56,6 +61,11 @@ struct TimerProgressView: View {
     }
 }
 
+/**
+ 원형 프로그래스 바 View
+ 타이머가 작동되고 있는 동안 남아있는 시간을 시각적으로 보여주는 기능
+ */
+// TODO: CircleProgressBarView 로 네이밍 수정 -> 모델 객체로 보일 수 있음
 struct CircleProgressBar: View {
 
     @Binding var progress: Double

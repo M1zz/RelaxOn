@@ -7,6 +7,10 @@
 
 import SwiftUI
 
+/**
+ 타이머 View
+ 설정한 시간만큼 특정 음원을 반복 재생하는 기능
+ */
 struct RelaxView: View {
     
     @ObservedObject var timeData = TimerManager()
@@ -22,6 +26,7 @@ struct RelaxView: View {
             Text("Timer")
                 .font(.system(size: 24))
                 .bold()
+                // TODO: OFFSET 지양
                 .offset(x: -130, y: -100)
             
             if isShowingTimerProgressView == false {

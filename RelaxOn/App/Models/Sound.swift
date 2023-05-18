@@ -7,6 +7,12 @@
 
 import Foundation
 
+// TODO: OriginalSound로 이름 변경
+// TODO: 내부 구조 변경
+
+/**
+ 앱 번들에 있는 원본 사운드를 불러오기 위한 구조체
+ */
 struct Sound {
     let name: String
     var volume: Float

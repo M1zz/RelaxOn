@@ -7,6 +7,9 @@
 
 import Foundation
 
+/**
+ Timer의 시간을 감지하는 객체
+ */
 class TimerManager: ObservableObject {
 
     @Published var selectedTimeIndexHours: Int = 0

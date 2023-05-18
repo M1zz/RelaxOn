@@ -7,6 +7,10 @@
 
 import SwiftUI
 
+/**
+ 커스텀 음원 목록이 노출되는 View
+ 하단 플레이어 바를 통해 음원 재생, 정지 기능
+ */
 struct ListenListView: View {
     
     @ObservedObject private var viewModel = MixedSoundsViewModel()
@@ -43,6 +47,10 @@ struct ListenListView: View {
     }
 }
 
+/**
+ 앱 내부 하단에 위치한 플레이어 바 형태의 View
+ */
+// TODO: BottomSoundPlayerBarView 로 네이밍 수정
 struct PlayerBar: View {
     
     var body: some View {
@@ -79,9 +87,12 @@ struct PlayerBar: View {
     }
 }
 
-// TODO: 검색기능 구현
+/**
+ 검색창 View
+ */
+// TODO: SearchBarView 로 네이밍 수정 -> Model 객체처럼 보일 수 있음
 struct SearchBar: View {
-    
+    // TODO: 검색기능 구현
     @Binding var text: String
 
     var body: some View {
@@ -105,11 +116,17 @@ struct SearchBar: View {
     }
 }
 
+/**
+ 커스텀 음원의 각 정보가 셀 안에 노출되는 View
+ */
 struct ListenListCell: View {
     // MARK: - Properties
+    
+    // TODO: 삭제 예정 -> viewModel로 관리
     var title: String
     var ImageName: String
     
+    // TODO: 삭제 예정 -> enum으로 관리
     var PlayButtonImageName: String = "play.fill"
     var PauseButtonImageName: String = "pause.fill"
     
@@ -123,7 +140,7 @@ struct ListenListCell: View {
                 .bold()
             Spacer()
             Button(action: {
-                // TODO: Implement play/pause functionality
+                // TODO: 재생 & 정지 토글 기능
             }) {
                 Image(systemName: PauseButtonImageName)
                     .frame(width: 32, height: 32)
