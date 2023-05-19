@@ -51,6 +51,7 @@
 		8F0FC49C29C1DD5D00F923A5 /* OldTimerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0FC49929C1DD5D00F923A5 /* OldTimerManager.swift */; };
 		8F0FC49D29C1DD5D00F923A5 /* OldUserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0FC49A29C1DD5D00F923A5 /* OldUserDefaultsManager.swift */; };
 		8F31407D29D428B900BB5410 /* UserFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F31407C29D428B900BB5410 /* UserFileManager.swift */; };
+		8F36BFCE2A14F57F00514BBE /* RenewAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8F36BFCD2A14F57F00514BBE /* RenewAssets.xcassets */; };
 		8F36BFD22A151E4A00514BBE /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F36BFD12A151E4A00514BBE /* Enums.swift */; };
 		8F36BFD42A151E6D00514BBE /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F36BFD32A151E6D00514BBE /* Common.swift */; };
 		8F4B080729D1B38C0011995F /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4B080629D1B38C0011995F /* UserDefaultsManager.swift */; };
@@ -197,6 +198,7 @@
 		8F0FC49929C1DD5D00F923A5 /* OldTimerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OldTimerManager.swift; sourceTree = "<group>"; };
 		8F0FC49A29C1DD5D00F923A5 /* OldUserDefaultsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OldUserDefaultsManager.swift; sourceTree = "<group>"; };
 		8F31407C29D428B900BB5410 /* UserFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFileManager.swift; sourceTree = "<group>"; };
+		8F36BFCD2A14F57F00514BBE /* RenewAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = RenewAssets.xcassets; sourceTree = "<group>"; };
 		8F36BFD12A151E4A00514BBE /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
 		8F36BFD32A151E6D00514BBE /* Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
 		8F4B080629D1B38C0011995F /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
@@ -715,6 +717,7 @@
 		C7C4C25528C239FE0048DCBA /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				8F36BFCD2A14F57F00514BBE /* RenewAssets.xcassets */,
 			);
 			path = Assets;
 			sourceTree = "<group>";
@@ -840,6 +843,7 @@
 			files = (
 				580CADB828659FAF0091946C /* Relaxing.mp3 in Resources */,
 				580CADAC28659C990091946C /* SpaceMid.mp3 in Resources */,
+				8F36BFCE2A14F57F00514BBE /* RenewAssets.xcassets in Resources */,
 				58DE618A2839C13A00F25769 /* Preview Assets.xcassets in Resources */,
 				C7C4C25028C236D80048DCBA /* Sound.xcassets in Resources */,
 				C7C4C25428C238110048DCBA /* Color.xcassets in Resources */,
