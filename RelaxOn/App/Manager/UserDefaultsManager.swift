@@ -7,10 +7,17 @@
 
 import Foundation
 
+/**
+ UserDefaults에 사용자가 저장한 사운드 정보 & 온보딩 여부 & 마지막 재생 사운드 정보
+ */
 final class UserDefaultsManager {
     static let shared = UserDefaultsManager()
+    
     private let standard = UserDefaults.standard
+    // TODO: 앱 번들에 저장된 original sound file KEY
     private let MIXED_SOUND_KEY = UserDefaults.Keys.mixedSound
+    // TODO: 온보딩 + 튜토리얼 여부 KEY
+    // TODO: 마지막 재생 사운드 정보 KEY
 }
 
 // MARK: - Data Get, Set Properties

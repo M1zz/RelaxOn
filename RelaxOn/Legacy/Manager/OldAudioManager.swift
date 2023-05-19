@@ -11,14 +11,6 @@ import AVKit
 final class OldAudioManager {
     var player: AVAudioPlayer?
     
-    private enum MusicExtension: String {
-        case mp3 = "mp3"
-    }
-    
-    private func getPathUrl(forResource: String, musicExtension: MusicExtension) -> URL? {
-        Bundle.main.url(forResource: forResource, withExtension: musicExtension.rawValue) ?? nil
-    }
-    
     func startPlayer(track: String, volume: Float? = 1.0) {
         guard let url = getPathUrl(forResource: track, musicExtension: .mp3),
               let volume = volume else {
