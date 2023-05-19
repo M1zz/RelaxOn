@@ -31,6 +31,7 @@ struct SoundListView: View {
     
     @ViewBuilder
     private func gridView() -> some View {
+        
         LazyVGrid(columns: columns) {
             // TODO: fileNames 배열 삭제 -> OriginalSounds로 각 그리드뷰의 타이틀 지정
             ForEach(fileNames, id: \.self) { fileName in
@@ -46,6 +47,7 @@ struct SoundListView: View {
     
     @ViewBuilder
     private func gridViewItem(_ fileName: String) -> some View {
+        
         VStack(alignment: .leading) {
             
             // TODO: OriginalSound의 fileName이나 Category로 title 설정

@@ -23,25 +23,13 @@ struct SoundSaveView: View {
     
     var body: some View {
         VStack{
-            HStack(alignment: .center){
+            HStack {
                 Button {
                     presentationMode.wrappedValue.dismiss()
                 } label: {
                     Image(systemName: "chevron.backward")
-                        .resizable()
-                        .frame(width: 10, height: 20)
-                        .bold()
-                        .foregroundColor(.gray)
+                        .padding()
                 }
-                // TODO: OFFSET 지양하기
-                .offset(x: 15, y: -70)
-                
-                Spacer()
-                
-                Text(mixedSound.name)
-                    .font(.system(size: 24, weight: .bold))
-                    // TODO: OFFSET 지양하기
-                    .offset(y: -70)
                 
                 Spacer()
                 
@@ -70,44 +58,41 @@ struct SoundSaveView: View {
                     }
                 } label: {
                     Text("저장")
-                        .foregroundColor(.black)
-                        .font(.system(size: 15))
-                        .bold()
+                        .padding()
                 }
-                // TODO: OFFSET 지양하기
-                .offset(x: -10, y: -70)
-                
-            }.frame(width: 400)
+            }
             
             // TODO: 출시 Sprint Backlog 이미지에 맞게 수정 필요
+            
             TextField(mixedSound.name, text: $soundSavedName)
-                .frame(width: 160, height: 80, alignment: .center)
                 .multilineTextAlignment(.center)
-                .padding(.horizontal, 30)
                 .keyboardType(.default)
                 .autocorrectionDisabled(true)
                 .focused($isFocused)
                 .font(.title)
                 .underline(true)
             
-            ZStack{
+            ZStack(alignment: .topTrailing){
                 Image(mixedSound.imageName)
                     .resizable()
-                    .frame(width: 300, height: 300)
-                    .cornerRadius(12)
+                    .scaledToFit()
+                    .frame(maxWidth: .infinity)
+                    .cornerRadius(15)
+                    .padding()
                 Button {
                     print("이미지 변경 버튼 탭")
                     mixedSound.imageName = recipeRandomName.randomElement()!
                 } label: {
                     Image(systemName: "arrow.triangle.2.circlepath")
                         .resizable()
-                        .frame(width: 24, height: 24)
+                        .scaledToFit()
+                        .frame(width: 30)
                         .foregroundColor(.black)
-                        .bold()
+                        .padding(30)
                 }
-                // TODO: OFFSET 지양하기
-                .offset(x: 120, y: -120)
-            }
+            }.frame(maxWidth: .infinity)
+                .padding(.horizontal, 30)
+            Spacer()
         }
         .onAppear { isFocused = true }
         .background(Color.white)
@@ -117,6 +102,7 @@ struct SoundSaveView: View {
         .alert(isPresented: $isShowingAlert) {
             Alert(title: Text("Error"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
         }
+        .ignoresSafeArea(.keyboard)
     }
 }
 

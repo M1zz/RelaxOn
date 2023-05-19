@@ -23,7 +23,7 @@ struct ListenListView: View {
             
             VStack {
                 SearchBar(text: $searchText)
-                    .frame(width: 350, height: 80)
+                    .padding()
                 List {
                     ForEach(viewModel.mixedSounds, id: \.id) { mixedSound in
                         ListenListCell(title: mixedSound.name, ImageName: mixedSound.imageName)
@@ -37,7 +37,7 @@ struct ListenListView: View {
                 .listStyle(PlainListStyle())
                 .navigationTitle("Listen")
                 .navigationBarTitleDisplayMode(.large)
-                .frame(width: 360)
+                .padding()
                 .onAppear {
                     viewModel.loadMixedSound()
                 }

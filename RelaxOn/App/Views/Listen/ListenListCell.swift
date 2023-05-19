@@ -24,7 +24,7 @@ struct ListenListCell: View {
     var body: some View {
         HStack {
             Image(ImageName)
-                .frame(width: 60, height: 60)
+                .padding(30)
                 .background(.foreground.opacity(0.08)).cornerRadius(10)
             Text(title)
                 .font(.body)
@@ -34,7 +34,7 @@ struct ListenListCell: View {
                 // TODO: 재생 & 정지 토글 기능
             }) {
                 Image(systemName: PauseButtonImageName)
-                    .frame(width: 32, height: 32)
+                    .padding()
                     .foregroundColor(.black)
             }
         }
