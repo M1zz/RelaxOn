@@ -8,10 +8,7 @@
 import Foundation
 
 extension String {
-    var localized: String {
-        return NSLocalizedString(self, tableName: "localizable", value: self, comment: "")
-    }
-    
+
     var addSpaceBeforeUppercase: String {
         var string = self
         for (index, char) in string.enumerated() {

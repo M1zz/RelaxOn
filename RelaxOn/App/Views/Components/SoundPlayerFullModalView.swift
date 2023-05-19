@@ -1,13 +1,16 @@
 //
-//  SoundPlayerView.swift
+//  SoundPlayerFullModalView.swift
 //  RelaxOn
 //
-//  Created by 황석현 on 2023/04/19.
+//  Created by Doyeon on 2023/05/18.
 //
 
 import SwiftUI
 
-struct SoundPlayerView: View {
+/**
+ 풀 모달 화면으로 보여지는 음원 플레이어 VIew
+ */
+struct SoundPlayerFullModalView: View {
     
     var body: some View {
         VStack {
@@ -30,7 +33,8 @@ struct SoundPlayerView: View {
             HStack(alignment: .center) {
                 Spacer(minLength: 80)
                 Button {
-                    // TODO: 선택한 사운드 뒤로가기 기능
+
+                    // TODO: 저장된 음원 목록 중 뒤쪽 음원으로 이동
                 } label: {
                     Image(systemName: "backward.fill")
                         .resizable()
@@ -42,8 +46,9 @@ struct SoundPlayerView: View {
                 Spacer()
                 
                 Button {
-                    // TODO: 선택한 사운드 재생/일시정지 기능
+                    // TODO: 선택한 사운드 재생/일시정지 토글
                 } label: {
+                    // TODO: 음원 재생 여부에 따라 토글되도록 설정, 하드코딩 금지
                     Image(systemName: "play.fill")
                         .resizable()
                         .scaledToFit()
@@ -53,7 +58,7 @@ struct SoundPlayerView: View {
                 
                 
                 Button {
-                    // TODO: 선택한 사운드 앞으로 가기 기능
+                    // TODO: 저장된 음원 목록 중 앞쪽 음원으로 이동
                 } label: {
                     Image(systemName: "forward.fill")
                         .resizable()
@@ -68,8 +73,8 @@ struct SoundPlayerView: View {
     }
 }
 
-struct SoundPlayerView_Previews: PreviewProvider {
+struct FullModalSoundPlayerView_Previews: PreviewProvider {
     static var previews: some View {
-        SoundPlayerView()
+        SoundPlayerFullModalView()
     }
 }

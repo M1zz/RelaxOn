@@ -7,10 +7,12 @@
 
 import Foundation
 
+/// UserFileManager 에서 발생하는 에러
 enum UserFileManagerError: Error {
     case fileNotFound
 }
 
+/// MixedSound 객체 관련 에러
 enum MixedSoundError: Error {
     case fileSaveFailed
     case invalidData

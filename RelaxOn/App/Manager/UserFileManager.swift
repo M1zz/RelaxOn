@@ -7,6 +7,9 @@
 
 import Foundation
 
+/**
+ FileManager에 오디오 데이터를 파일로 저장 & 불러오기 & (파일이름)수정 & 파일 삭제 기능
+ */
 final class UserFileManager {
     static let shared = UserFileManager()
     
@@ -18,7 +21,16 @@ final class UserFileManager {
     
     private init() {}
     
-    /// MixedSound 오브젝트를 앱의 문서 디렉터리에 JSON 파일로 저장합니다.
+    // TODO: 오디오 데이터를 mp3 파일로 저장하는 기능
+    
+    // TODO: 특정 mp3 파일을 불러오는 기능
+    
+    // TODO: 저장된 파일의 이름 수정 기능
+    
+    // TODO: 저장된 파일 삭제 기능
+    
+    // TODO: 삭제 예정
+    /// MixedSound 오브젝트를 앱의 문서 디렉터리에 파일로 저장합니다.
     /// - Parameter mixedSound: 저장할 MixedSound 오브젝트입니다.
     /// - Throws: 인코딩 또는 파일 쓰기에 실패한 경우 오류입니다.
     func saveMixedSound(_ mixedSound: MixedSound) throws {
@@ -43,6 +55,7 @@ final class UserFileManager {
         UserDefaultsManager.shared.mixedSounds = mixedSounds
     }
     
+    // TODO: 삭제 예정
     /// 앱의 문서 디렉토리에서 MixedSound 오브젝트의 JSON 파일을 삭제합니다.
     /// - Parameter mixedSound: 삭제할 MixedSound 객체입니다.
     /// - Throws: 파일을 찾을 수 없거나 제거에 실패한 경우 오류입니다.
@@ -59,6 +72,7 @@ final class UserFileManager {
         try fileManager.removeItem(at: fileURL)
     }
     
+    // TODO: 삭제 예정
     /// 앱의 문서 디렉토리에서 모든 MixedSound 오브젝트를 로드합니다.
     /// - Returns: MixedSound 오브젝트의 배열입니다.
     /// - Throws: 디렉터리 읽기, 디코딩 또는 파일 로딩에 실패하면 오류가 발생합니다.

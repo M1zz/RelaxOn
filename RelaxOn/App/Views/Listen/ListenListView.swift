@@ -7,6 +7,10 @@
 
 import SwiftUI
 
+/**
+ 커스텀 음원 목록이 노출되는 View
+ 하단 플레이어 바를 통해 음원 재생, 정지 기능
+ */
 struct ListenListView: View {
     
     @ObservedObject private var viewModel = MixedSoundsViewModel()
@@ -37,102 +41,8 @@ struct ListenListView: View {
                 .onAppear {
                     viewModel.loadMixedSound()
                 }
-                PlayerBar()
+                SoundPlayerBottomView()
             }
-        }
-    }
-}
-
-struct PlayerBar: View {
-    
-    var body: some View {
-        
-        HStack {
-            
-            // TODO: 재생하는 사운드의 이미지 가져오기
-            Image(systemName: "play.fill")
-                .background(.foreground.opacity(0.08)).cornerRadius(10)
-                .padding(30)
-            
-            // TODO: 선택한 사운드 제목 가져오기
-            Text("Title")
-                .font(.title)
-            
-            Spacer()
-            
-            Button {
-                // TODO: 선택한 사운드를 재생
-            } label: {
-                Image(systemName: "play.fill")
-                    .foregroundColor(Color.black)
-                    .padding(30)
-                
-            }
-        }
-        .background(Color.systemGrey1)
-        .ignoresSafeArea()
-    }
-}
-
-// TODO: 검색기능 구현
-struct SearchBar: View {
-    
-    @Binding var text: String
-    
-    var body: some View {
-        HStack {
-            Image(systemName: "magnifyingglass")
-            TextField("저장한 나만의 소리를 검색해보세요", text: $text)
-                .foregroundColor(.primary)
-            
-            if !text.isEmpty {
-                Button(action: {
-                    self.text = ""
-                }) {
-                    Image(systemName: "xmark.circle.fill")
-                        .foregroundColor(.primary)
-                }
-            }
-        }
-        .padding(EdgeInsets(top: 8, leading: 6, bottom: 8, trailing: 6))
-        .background(Color(.secondarySystemBackground))
-        .cornerRadius(10.0)
-    }
-}
-
-struct ListenListCell: View {
-    // MARK: - Properties
-    var title: String
-    var ImageName: String
-    
-    var PlayButtonImageName: String = "play.fill"
-    var PauseButtonImageName: String = "pause.fill"
-    @State var isPlayerBarShowing: Bool = false
-    
-    var body: some View {
-        HStack {
-            Button {
-                isPlayerBarShowing = true
-            } label: {
-                Image(ImageName)
-                    .frame(maxWidth: 60, maxHeight: 60)
-                    .background(.foreground.opacity(0.08)).cornerRadius(10)
-            }
-            
-            Text(title)
-                .font(.body)
-                .bold()
-            Spacer()
-            Button(action: {
-                // TODO: Implement play/pause functionality
-            }) {
-                Image(systemName: PauseButtonImageName)
-                    .foregroundColor(.black)
-                    .padding()
-            }
-        }.sheet(isPresented: $isPlayerBarShowing) {
-            SoundPlayerView()
-                .navigationBarTitleDisplayMode(.inline)
         }
     }
 }
