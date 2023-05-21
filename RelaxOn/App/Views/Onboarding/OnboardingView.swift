@@ -25,14 +25,17 @@ struct OnboardingView: View {
             }.tabViewStyle(.page(indexDisplayMode: .never))
             
             Button {
-                if currentStep < onboardingImages.count  { self.currentStep += 1
+                if currentStep < onboardingImages.count - 1 { self.currentStep += 1
                     print(currentStep)
                 } else {
+                    // TODO: TutorialView로 이동
                 }
             } label: {
-                Text(currentStep == onboardingImages.count ? "계속" : "시작하기")
+                Text(currentStep == onboardingImages.count - 1 ? "시작하기" : "계속")
                     .padding(12)
                     .frame(maxWidth: .infinity)
+                    .foregroundColor(.white)
+                    .bold()
                     .background(Color.purple)
                     .cornerRadius(15)
                     .padding(30)
