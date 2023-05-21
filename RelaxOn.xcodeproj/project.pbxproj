@@ -51,7 +51,7 @@
 		594012612A17DCEB00221DE7 /* Cave.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5940125D2A17DCEA00221DE7 /* Cave.mp3 */; };
 		594012622A17DCEB00221DE7 /* Pipe.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5940125E2A17DCEB00221DE7 /* Pipe.mp3 */; };
 		594012692A17DD3B00221DE7 /* Vibration.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 594012642A17DD3B00221DE7 /* Vibration.mp3 */; };
-		5940126A2A17DD3B00221DE7 /* SingingBallDefault.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 594012652A17DD3B00221DE7 /* SingingBallDefault.mp3 */; };
+		5940126A2A17DD3B00221DE7 /* SingingBowlDefault.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 594012652A17DD3B00221DE7 /* SingingBowlDefault.mp3 */; };
 		5940126B2A17DD3B00221DE7 /* Empty.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 594012662A17DD3B00221DE7 /* Empty.mp3 */; };
 		5940126C2A17DD3B00221DE7 /* Training.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 594012672A17DD3B00221DE7 /* Training.mp3 */; };
 		5940126D2A17DD3B00221DE7 /* Focus.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 594012682A17DD3B00221DE7 /* Focus.mp3 */; };
@@ -212,7 +212,7 @@
 		5940125D2A17DCEA00221DE7 /* Cave.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Cave.mp3; sourceTree = "<group>"; };
 		5940125E2A17DCEB00221DE7 /* Pipe.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Pipe.mp3; sourceTree = "<group>"; };
 		594012642A17DD3B00221DE7 /* Vibration.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Vibration.mp3; sourceTree = "<group>"; };
-		594012652A17DD3B00221DE7 /* SingingBallDefault.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = SingingBallDefault.mp3; sourceTree = "<group>"; };
+		594012652A17DD3B00221DE7 /* SingingBowlDefault.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = SingingBowlDefault.mp3; sourceTree = "<group>"; };
 		594012662A17DD3B00221DE7 /* Empty.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Empty.mp3; sourceTree = "<group>"; };
 		594012672A17DD3B00221DE7 /* Training.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Training.mp3; sourceTree = "<group>"; };
 		594012682A17DD3B00221DE7 /* Focus.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Focus.mp3; sourceTree = "<group>"; };
@@ -572,7 +572,7 @@
 			isa = PBXGroup;
 			children = (
 				5940126E2A17DD6B00221DE7 /* Bird */,
-				594012632A17DD1400221DE7 /* SingingBall */,
+				594012632A17DD1400221DE7 /* SingingBowl */,
 				594012562A17DB0400221DE7 /* WaterDrop */,
 			);
 			path = Sound;
@@ -590,16 +590,16 @@
 			path = WaterDrop;
 			sourceTree = "<group>";
 		};
-		594012632A17DD1400221DE7 /* SingingBall */ = {
+		594012632A17DD1400221DE7 /* SingingBowl */ = {
 			isa = PBXGroup;
 			children = (
 				594012662A17DD3B00221DE7 /* Empty.mp3 */,
 				594012682A17DD3B00221DE7 /* Focus.mp3 */,
-				594012652A17DD3B00221DE7 /* SingingBallDefault.mp3 */,
+				594012652A17DD3B00221DE7 /* SingingBowlDefault.mp3 */,
 				594012672A17DD3B00221DE7 /* Training.mp3 */,
 				594012642A17DD3B00221DE7 /* Vibration.mp3 */,
 			);
-			path = SingingBall;
+			path = SingingBowl;
 			sourceTree = "<group>";
 		};
 		5940126E2A17DD6B00221DE7 /* Bird */ = {
@@ -915,7 +915,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5940126A2A17DD3B00221DE7 /* SingingBallDefault.mp3 in Resources */,
+				5940126A2A17DD3B00221DE7 /* SingingBowlDefault.mp3 in Resources */,
 				580CADB828659FAF0091946C /* Relaxing.mp3 in Resources */,
 				580CADAC28659C990091946C /* SpaceMid.mp3 in Resources */,
 				5940125F2A17DCEB00221DE7 /* Basement.mp3 in Resources */,
