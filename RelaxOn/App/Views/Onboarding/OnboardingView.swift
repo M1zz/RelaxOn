@@ -15,27 +15,47 @@ import SwiftUI
 struct OnboardingView: View {
     
     @State var currentStep = 0
+    private let onboarding = [OnboardItem(imageName:OnboardInfo.lamp.rawValue,
+                                          description:OnboardInfo.lampText.rawValue),
+                              OnboardItem(imageName:OnboardInfo.equalizerbutton.rawValue,
+                                          description: OnboardInfo.equlizerbuttonText.rawValue),
+                              OnboardItem(imageName: OnboardInfo.musicplayer.rawValue,
+                                          description: OnboardInfo.musicplayerText.rawValue),
+                              OnboardItem(imageName: OnboardInfo.headphone.rawValue,
+                                          description: OnboardInfo.headphoneText.rawValue)]
     
     var body: some View {
         
         ZStack(alignment: .bottom) {
             TabView(selection: $currentStep) {
                 ForEach(0..<4) { num in
-                    Image("lamp")
-                        .resizable()
-                        .frame(maxWidth: .infinity)
-                        .ignoresSafeArea()
+                    VStack{
+                        Image(onboarding[num].imageName)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(maxWidth: .infinity)
+                            .padding(.horizontal, 80)
+                        Text(onboarding[num].description)
+                            .frame(maxWidth:.infinity)
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal, 50)
+                        
+                    }
                 }
             }.tabViewStyle(.page(indexDisplayMode: .never))
             
             Button {
-                
+                if currentStep < onboarding.count - 1 { self.currentStep += 1
+                    print(currentStep)
+                } else {
+                    // TODO: TutorialView로 이동
+                }
             } label: {
                 Text(currentStep == 3 ? "시작하기" : "계속")
-                    .padding(12)
+                    .bold()
+                    .padding(14)
                     .frame(maxWidth: .infinity)
                     .foregroundColor(.white)
-                    .bold()
                     .background(Color.relaxDimPurple)
                     .cornerRadius(12)
                     .padding(30)
