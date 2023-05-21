@@ -17,3 +17,15 @@ import Foundation
 func getPathUrl(forResource: String, musicExtension: MusicExtension) -> URL? {
     Bundle.main.url(forResource: forResource, withExtension: musicExtension.rawValue) ?? nil
 }
+
+/**
+ 온보딩화면 이미지 프로퍼티
+ */
+var onBoardingImagesLight: [String] = ["1-light",
+                                       "2-light",
+                                       "3-light",
+                                       "4-light"]
+var onBoadingImageDark: [String] = ["1-dark",
+                                    "2-dark",
+                                    "3-dark",
+                                    "4-dark"]
