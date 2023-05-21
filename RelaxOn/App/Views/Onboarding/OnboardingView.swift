@@ -21,7 +21,7 @@ struct OnboardingView: View {
         ZStack(alignment: .bottom) {
             TabView(selection: $currentStep) {
                 ForEach(0..<4) { num in
-                    Image(onBoadingImageDark[num])
+                    Image(onBoardingImageDark[num])
                         .resizable()
                         .frame(maxWidth: .infinity)
                         .ignoresSafeArea()
@@ -29,13 +29,13 @@ struct OnboardingView: View {
             }.tabViewStyle(.page(indexDisplayMode: .never))
             
             Button {
-                if currentStep < onBoadingImageDark.count - 1 { self.currentStep += 1
+                if currentStep < onBoardingImageDark.count - 1 { self.currentStep += 1
                     print(currentStep)
                 } else {
                     // TODO: TutorialView로 이동
                 }
             } label: {
-                Text(currentStep == onBoadingImageDark.count - 1 ? "시작하기" : "계속")
+                Text(currentStep == onBoardingImageDark.count - 1 ? "시작하기" : "계속")
                     .padding(12)
                     .frame(maxWidth: .infinity)
                     .foregroundColor(.white)

@@ -25,7 +25,7 @@ var onBoardingImagesLight: [String] = ["1-light",
                                        "2-light",
                                        "3-light",
                                        "4-light"]
-var onBoadingImageDark: [String] = ["1-dark",
+var onBoardingImageDark: [String] = ["1-dark",
                                     "2-dark",
                                     "3-dark",
                                     "4-dark"]
