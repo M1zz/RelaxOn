@@ -21,11 +21,7 @@ func getPathUrl(forResource: String, musicExtension: MusicExtension) -> URL? {
 /**
  온보딩화면 이미지 프로퍼티
  */
-var onBoardingImagesLight: [String] = ["1-light",
-                                       "2-light",
-                                       "3-light",
-                                       "4-light"]
-var onBoardingImageDark: [String] = ["1-dark",
-                                    "2-dark",
-                                    "3-dark",
-                                    "4-dark"]
+struct OnboardItem {
+    var imageName: String
+    var description: String
+}

@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "4-light.png",
+      "filename" : "equalizerbutton.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "4-light@2x.png",
+      "filename" : "equalizerbutton@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "4-light@3x.png",
+      "filename" : "equalizerbutton@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
