@@ -18,9 +18,6 @@ struct SoundListView: View {
         GridItem(.flexible())
     ]
     
-    // TODO: 앱 번들에 저장되어있는 mp3 파일을 기준으로 Original Sounds가 존재하도록 하고 배열 삭제해야함
-    let fileNames: [String] = ["Garden", "Water Drop", "Gong", "Twitter", "Wind", "Wave1", "Wave2"]
-    
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -33,10 +30,9 @@ struct SoundListView: View {
     private func gridView() -> some View {
         
         LazyVGrid(columns: columns) {
-            // TODO: fileNames 배열 삭제 -> OriginalSounds로 각 그리드뷰의 타이틀 지정
-            ForEach(fileNames, id: \.self) { fileName in
-                NavigationLink(destination: SoundDetailView(originalSound: Sound(name: fileName))) {
-                    gridViewItem(fileName)
+            ForEach(originalSounds, id: \.self) { originalSound in
+                NavigationLink(destination: SoundDetailView(originalSound: originalSound)) {
+                    gridViewItem(originalSound)
                 }
             }
         }
@@ -44,23 +40,20 @@ struct SoundListView: View {
         .padding(.top, 10)
     }
     
-    
     @ViewBuilder
-    private func gridViewItem(_ fileName: String) -> some View {
-        
+    private func gridViewItem(_ originalSound: OriginalSound) -> some View {
+                    
         VStack(alignment: .leading) {
             
-            // TODO: OriginalSound의 fileName이나 Category로 title 설정
-            Text(fileName)
+            Text(originalSound.name)
                 .font(.title2)
                 .bold()
             
-            // TODO: OriginalSound의 defaultImage로 설정
-            Image(systemName: "photo")
-                .frame(width: 160, height: 160)
-                .background {
-                    Color.systemGrey1
-                }
+            Image(originalSound.imageName)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(height: 140)
+            
         }
         .foregroundColor(.black)
     }

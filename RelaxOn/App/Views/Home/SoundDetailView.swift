@@ -15,7 +15,7 @@ struct SoundDetailView: View {
     
     // MARK: - Properties
     @State var isShowingSheet: Bool = false
-    @State var originalSound: Sound
+    @State var originalSound: OriginalSound
     @ObservedObject var audioManager = AudioManager()
     
     var body: some View {
@@ -78,7 +78,7 @@ struct SoundDetailView: View {
         
         // MARK: - Life Cycle
         .onAppear() {
-            audioManager.playAudio(sound: originalSound)
+            //audioManager.playAudio(sound: originalSound)
         }
         .onDisappear() {
             audioManager.stopAudio()
@@ -86,11 +86,11 @@ struct SoundDetailView: View {
     }
 }
 
-struct SoundDetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        SoundDetailView(originalSound: Sound(name: "Water Drop"))
-    }
-}
+//struct SoundDetailView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        SoundDetailView(originalSound: Sound(name: "Water Drop"))
+//    }
+//}
 
 /**
  원하는 width 크기만큼의 원형 슬라이더를 만드는 View 객체
