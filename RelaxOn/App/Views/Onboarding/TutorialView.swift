@@ -13,12 +13,14 @@
 import SwiftUI
 
 struct TutorialView: View {
+    
     var body: some View {
         ZStack {
+            // TODO: AudioManager를 활용해서 음악 끄기
+            SoundDetailView(originalSound: Sound(name:"Garden"))
             Color.black
                 .opacity(0.5)
-            // TODO: image 파라미터 형식 변경하기
-            Image("TutorialGesture")
+            Image(tutorialImage)
                 .resizable()
                 .scaledToFit()
                 .frame(maxWidth: .infinity)
