@@ -12,12 +12,11 @@ import SwiftUI
  */
 struct SoundListView: View {
     
-    // TODO: Common 파일에서 퍼블릭하게 사용해야할 필요가 있는지 고민
     let columns = [
         GridItem(.flexible()),
         GridItem(.flexible())
     ]
-    
+
     var body: some View {
         NavigationStack {
             ScrollView {
