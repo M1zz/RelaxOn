@@ -93,6 +93,12 @@ struct AudioVariation: Codable {
     var volume: Float
     var pitch: Float
     var speed: Float
+    
+    init(volume: Float, pitch: Float, speed: Float) {
+        self.volume = volume
+        self.pitch = pitch
+        self.speed = speed
+    }
 }
 
 /**
