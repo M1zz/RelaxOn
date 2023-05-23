@@ -37,12 +37,12 @@ struct CustomSound: Identifiable, Codable {
     var audioVariation: AudioVariation
     var audioFilter: AudioFilter
     
-    init(name: String, volume: Float = 0.5, pitch: Float = 0.0, speed: Float = 1.0, category: SoundCategory, filter: AudioFilter) {
+    init(fileName: String, category: SoundCategory, audioVariation: AudioVariation, audioFilter: AudioFilter) {
         self.id = UUID()
-        self.fileName = name
+        self.fileName = fileName
         self.category = category
-        self.audioVariation = AudioVariation(volume: volume, pitch: pitch, speed: speed)
-        self.audioFilter = filter
+        self.audioVariation = audioVariation
+        self.audioFilter = audioFilter
     }
 }
 
