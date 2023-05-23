@@ -29,13 +29,13 @@ struct Sound {
 struct OriginalSound: Equatable, Hashable {
     let name: String
     var filter: AudioFilter
-    let imageName: String
+    let category: SoundCategory
     let defaultColor: String
     
-    init(name: String, filter: AudioFilter, imageName: String, defaultColor: String) {
+    init(name: String, filter: AudioFilter, category: SoundCategory, defaultColor: String) {
         self.name = name
         self.filter = filter
-        self.imageName = imageName
+        self.category = category
         self.defaultColor = defaultColor
     }
 }
