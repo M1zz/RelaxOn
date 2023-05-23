@@ -14,25 +14,25 @@ import SwiftUI
 
 struct TimeText: View {
     
-    @ObservedObject var timeData: TimerManager
+    @ObservedObject var timerManager: TimerManager
     
     var body: some View {
         
-        Text(String(format: "%02d:%02d:%02d", max(timeData.remainingSeconds / 3600, 0), max((timeData.remainingSeconds % 3600) / 60, 0), max(timeData.remainingSeconds % 60, 0)))
+        Text(String(format: "%02d:%02d:%02d", max(timerManager.remainingSeconds / 3600, 0), max((timerManager.remainingSeconds % 3600) / 60, 0), max(timerManager.remainingSeconds % 60, 0)))
             .font(.system(size: 40))
             .fontWeight(.semibold)
             .padding()
             .onAppear {
-                timeData.startTimer(manager: timeData, timer: timeData.timer)
+                timerManager.startTimer(timerManager: timerManager)
             }
             .onDisappear {
-                timeData.stopTimer(manager: timeData, timer: timeData.timer)
+                timerManager.stopTimer(timerManager: timerManager)
             }
     }
 }
 
 struct TimeTextView_Previews: PreviewProvider {
     static var previews: some View {
-        TimeText(timeData: TimerManager())
+        TimeText(timerManager: TimerManager())
     }
 }

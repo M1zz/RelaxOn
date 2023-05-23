@@ -12,14 +12,13 @@ import SwiftUI
  */
 struct TimerProgressView: View {
     
-    @ObservedObject var timeData: TimerManager
-    @Binding var progress: Double
+    @ObservedObject var timerManager: TimerManager
+    @State var progress: Double = 1.0
     
     var body: some View {
         ZStack {
-            // TODO: CircleProgressView값 바꿔주기
-            CircleProgressView(progress: $progress)
-            TimeText(timeData: timeData)
+            CircleProgressView(timerManager: timerManager)
+            TimeText(timerManager: timerManager)
         }
     }
 }
@@ -27,6 +26,6 @@ struct TimerProgressView: View {
 
 struct TimerProgressView_Previews: PreviewProvider {
     static var previews: some View {
-        TimerProgressView(timeData: TimerManager(), progress: .constant(0.5))
+        TimerProgressView(timerManager: TimerManager())
     }
 }

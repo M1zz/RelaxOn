@@ -14,7 +14,7 @@ import SwiftUI
  */
 struct TimerMainView: View {
     
-    @ObservedObject var timeData = TimerManager()
+    @ObservedObject var timerManager = TimerManager()
     @State private var hours : [Int] = Array(0...23)
     @State private var minutes : [Int] = Array(0...59)
     @State var isShowingListenListView: Bool = false
@@ -37,7 +37,7 @@ struct TimerMainView: View {
                 if isShowingTimerProgressView == false {
                     // TimePicker
                     HStack(alignment: .center){
-                        Picker("select time", selection: $timeData.selectedTimeIndexHours, content: {
+                        Picker("select time", selection: $timerManager.selectedTimeIndexHours, content: {
                             ForEach(hours, id: \.self) {
                                 index in
                                 Text("\(hours[index])").tag(index)
@@ -49,7 +49,7 @@ struct TimerMainView: View {
                         
                         Text("hours")
                         
-                        Picker("select time", selection: $timeData.selectedTimeIndexMinutes, content: {
+                        Picker("select time", selection: $timerManager.selectedTimeIndexMinutes, content: {
                             ForEach(minutes, id: \.self) {
                                 index in
                                 Text("\(minutes[index])").tag(index)
@@ -64,7 +64,7 @@ struct TimerMainView: View {
                     }
                     .padding()
                 } else {
-                    TimerProgressView(timeData: timeData, progress: $progress)
+                    TimerProgressView(timerManager: timerManager, progress: progress)
                 }
             }.padding(.horizontal, 10)
             Spacer()

@@ -16,32 +16,46 @@ class TimerManager: ObservableObject {
     @Published var selectedTimeIndexMinutes: Int = 0
     @Published var remainingSeconds: Int = 0
     @Published var timer: Timer?
+    @Published var progress: Double = 1.0
     
-    func startTimer(manager: TimerManager, timer: Timer?) {
+    func startTimer(timerManager: TimerManager) {
         
-        manager.remainingSeconds = getTime(manager: manager)
+        timerManager.remainingSeconds = getTime(timerManager: timerManager)
         Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
-            manager.remainingSeconds -= 1
+            timerManager.remainingSeconds -= 1
             
-            if manager.remainingSeconds <= 0 {
-                timer.invalidate()
-                manager.remainingSeconds = 0
+            if timerManager.remainingSeconds <= 0 {
+                timerManager.stopTimer(timerManager: timerManager)
             }
-        }
-        func getTime(manager: TimerManager) -> Int {
-            let manager = manager
-            var hour = manager.selectedTimeIndexHours
-            var minute = manager.selectedTimeIndexMinutes
-            
-            hour = hour * 3600
-            minute = minute * 60
-            
-            return hour + minute
         }
     }
     
-    func stopTimer(manager: TimerManager, timer: Timer?) {
-        timer?.invalidate()
-        manager.remainingSeconds = 0
+    func getTime(timerManager: TimerManager) -> Int {
+        var hour = timerManager.selectedTimeIndexHours
+        var minute = timerManager.selectedTimeIndexMinutes
+        
+        hour = hour * 3600
+        minute = minute * 60
+        
+        return hour + minute
+    }
+    
+    func stopTimer(timerManager: TimerManager) {
+        timerManager.timer?.invalidate()
+        timerManager.remainingSeconds = 0
+        timerManager.progress = 1.0
+    }
+    
+    func getTimeprogressBar(timerManager: TimerManager) {
+        let settingTime: Double = Double(timerManager.getTime(timerManager: timerManager))
+        var secondPercetage: Double = 0
+        secondPercetage = Double((1 / settingTime) * 1.0)
+        
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
+            timerManager.progress -= secondPercetage
+            if timerManager.progress <= 0 {
+                timerManager.stopTimer(timerManager: timerManager)
+            }
+        }
     }
 }
