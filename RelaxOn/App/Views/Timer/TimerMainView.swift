@@ -19,7 +19,7 @@ struct TimerMainView: View {
     @State private var minutes : [Int] = Array(0...59)
     @State var isShowingListenListView: Bool = false
     @State var isShowingTimerProgressView: Bool = false
-    @State var progress: Double = 0.5
+    @State var progress: Double = 1.0
     
     var body: some View {
         VStack{
@@ -35,6 +35,7 @@ struct TimerMainView: View {
             
             VStack {
                 if isShowingTimerProgressView == false {
+                    // TimePicker
                     HStack(alignment: .center){
                         Picker("select time", selection: $timeData.selectedTimeIndexHours, content: {
                             ForEach(hours, id: \.self) {
@@ -63,7 +64,7 @@ struct TimerMainView: View {
                     }
                     .padding()
                 } else {
-                    TimerProgressView(timeData: timeData, isShowingTimerProgressView: isShowingTimerProgressView, progress: $progress)
+                    TimerProgressView(timeData: timeData, progress: $progress)
                 }
             }.padding(.horizontal, 10)
             Spacer()
