@@ -14,7 +14,7 @@ import SwiftUI
 
 struct OnboardingView: View {
     
-    @State var currentStep = 0
+    @State var pageNumber = 0
     private let onboarding = [OnboardItem(imageName:OnboardInfo.IconName.lamp.rawValue,
                                           description:OnboardInfo.IconText.lamp.rawValue),
                               OnboardItem(imageName:OnboardInfo.IconName.equalizerbutton.rawValue,
@@ -27,7 +27,7 @@ struct OnboardingView: View {
     var body: some View {
         
         ZStack(alignment: .bottom) {
-            TabView(selection: $currentStep) {
+            TabView(selection: $pageNumber) {
                 ForEach(0..<4) { num in
                     VStack{
                         Image(onboarding[num].imageName)
@@ -45,13 +45,13 @@ struct OnboardingView: View {
             }.tabViewStyle(.page(indexDisplayMode: .never))
             
             Button {
-                if currentStep < onboarding.count - 1 { self.currentStep += 1
-                    print(currentStep)
+                if pageNumber < onboarding.count - 1 { self.pageNumber += 1
+                    print(pageNumber)
                 } else {
                     // TODO: TutorialView로 이동
                 }
             } label: {
-                Text(currentStep == 3 ? "시작하기" : "계속")
+                Text(pageNumber == 3 ? "시작하기" : "계속")
                     .bold()
                     .padding(14)
                     .frame(maxWidth: .infinity)
