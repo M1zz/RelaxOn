@@ -15,14 +15,14 @@ import SwiftUI
 struct OnboardingView: View {
     
     @State var currentStep = 0
-    private let onboarding = [OnboardItem(imageName:OnboardInfo.lamp.rawValue,
-                                          description:OnboardInfo.lampText.rawValue),
-                              OnboardItem(imageName:OnboardInfo.equalizerbutton.rawValue,
-                                          description: OnboardInfo.equlizerbuttonText.rawValue),
-                              OnboardItem(imageName: OnboardInfo.musicplayer.rawValue,
-                                          description: OnboardInfo.musicplayerText.rawValue),
-                              OnboardItem(imageName: OnboardInfo.headphone.rawValue,
-                                          description: OnboardInfo.headphoneText.rawValue)]
+    private let onboarding = [OnboardItem(imageName:OnboardInfo.IconName.lamp.rawValue,
+                                          description:OnboardInfo.IconText.lamp.rawValue),
+                              OnboardItem(imageName:OnboardInfo.IconName.equalizerbutton.rawValue,
+                                          description: OnboardInfo.IconText.equlizerbutton.rawValue),
+                              OnboardItem(imageName: OnboardInfo.IconName.musicplayer.rawValue,
+                                          description: OnboardInfo.IconText.musicplayer.rawValue),
+                              OnboardItem(imageName: OnboardInfo.IconName.headphone.rawValue,
+                                          description: OnboardInfo.IconText.headphone.rawValue)]
     
     var body: some View {
         
