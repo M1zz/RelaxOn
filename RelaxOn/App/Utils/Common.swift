@@ -17,3 +17,8 @@ import Foundation
 func getPathUrl(forResource: String, musicExtension: MusicExtension) -> URL? {
     Bundle.main.url(forResource: forResource, withExtension: musicExtension.rawValue) ?? nil
 }
+
+/**
+튜토리얼 이미지
+ */
+var tutorialImage = "TutorialGesture"
