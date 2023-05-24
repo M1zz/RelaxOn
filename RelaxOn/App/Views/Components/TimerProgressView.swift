@@ -18,7 +18,7 @@ struct TimerProgressView: View {
     var body: some View {
         ZStack {
             CircleProgressView(timerManager: timerManager)
-            TimeText(timerManager: timerManager)
+            timerManager.getTimeText(timerManager: timerManager)
         }
     }
 }

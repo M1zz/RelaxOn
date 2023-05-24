@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 /**
  Timer의 시간을 감지하는 객체
@@ -57,5 +58,18 @@ class TimerManager: ObservableObject {
                 timerManager.stopTimer(timerManager: timerManager)
             }
         }
+    }
+    
+    func getTimeText(timerManager: TimerManager) -> some View {
+        Text(String(format: "%02d:%02d:%02d", max(timerManager.remainingSeconds / 3600, 0), max((timerManager.remainingSeconds % 3600) / 60, 0), max(timerManager.remainingSeconds % 60, 0)))
+            .font(.system(size: 40))
+            .fontWeight(.semibold)
+            .padding()
+            .onAppear {
+                timerManager.startTimer(timerManager: timerManager)
+            }
+            .onDisappear {
+                timerManager.stopTimer(timerManager: timerManager)
+            }
     }
 }
