@@ -135,7 +135,11 @@ struct CircleSlider: View {
         let vector = CGVector(dx: value.location.x, dy: value.location.y)
         let radians = atan2(vector.dy - 15, vector.dx - 15)
         var angle = radians * 180 / .pi
-        if angle < 0 { angle = 360 + angle }
+        if angle > 180 {
+            angle -= 360
+        } else if angle < -180 {
+            angle += 360
+        }
         self.angle = Double(angle)
     }
 }
