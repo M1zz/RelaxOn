@@ -47,8 +47,13 @@ struct CircularSlider: View {
         }
     }
     
+/**
+ 슬라이더의 각도를 구하는 함수
+ 수평선을 기준으로 상단은 + 180, 하단은 -180
+ SnappedAngle은 정해진 각도로만 이동하기위한 함수
+ */
+    // TODO: 각도별로 이동하는 기능과 슬라이딩으로 이동하는 기능 각각 구현
     func onDrag(value: DragGesture.Value) {
-        
         let vector = CGVector(dx: value.location.x, dy: value.location.y)
         let radians = atan2(vector.dy, vector.dx)
         let angle = radians * 180 / .pi

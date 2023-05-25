@@ -20,6 +20,7 @@ class TimerManager: ObservableObject {
     @Published var progressTimer: Timer?
     @Published var progress: Double = 1.0
     
+    // 타이머객체 실행
     func startTimer(timerManager: TimerManager) {
         timerManager.remainingSeconds = getTime(timerManager: timerManager)
         
@@ -32,7 +33,7 @@ class TimerManager: ObservableObject {
             }
         }
     }
-    
+    // 설정한 시간을 초로 변환
     func getTime(timerManager: TimerManager) -> Int {
         var hour = timerManager.selectedTimeIndexHours
         var minute = timerManager.selectedTimeIndexMinutes
@@ -42,14 +43,14 @@ class TimerManager: ObservableObject {
         
         return hour + minute
     }
-    
+    // 타이머 중지
     func stopTimer(timerManager: TimerManager) {
         timerManager.textTimer?.invalidate()
         timerManager.progressTimer?.invalidate()
         timerManager.remainingSeconds = 0
         timerManager.progress = 1.0
     }
-    
+    // 타이머 진행바 실행
     func startTimeprogressBar(timerManager: TimerManager) {
         let settingTime: Double = Double(timerManager.getTime(timerManager: timerManager))
         var secondPercetage: Double = 0
@@ -63,7 +64,7 @@ class TimerManager: ObservableObject {
             }
         }
     }
-    
+    // 타이머 시간 뷰
     func getTimeText(timerManager: TimerManager) -> some View {
         
         Text(String(format: "%02d:%02d:%02d", max(timerManager.remainingSeconds / 3600, 0), max((timerManager.remainingSeconds % 3600) / 60, 0), max(timerManager.remainingSeconds % 60, 0)))
@@ -78,7 +79,7 @@ class TimerManager: ObservableObject {
                 timerManager.stopTimer(timerManager: timerManager)
             }
     }
-    
+    // 타이머 원형바 뷰
     func getCircularProgressBar(timerManager: TimerManager) -> some View {
         ZStack {
             Circle()
