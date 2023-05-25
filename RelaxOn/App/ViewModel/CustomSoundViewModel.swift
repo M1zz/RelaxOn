@@ -6,6 +6,7 @@
 //
 
 import AVFoundation
+import SwiftUI
 
 /**
  View와 직접적으로 사운드 데이터 바인딩하는 ViewModel 객체
@@ -68,7 +69,7 @@ extension CustomSoundViewModel {
 // MARK: - Methods for Model
 extension CustomSoundViewModel {
     
-    func save(with originalSound: OriginalSound, audioVariation: AudioVariation, fileName: String, color: CustomSoundImageBackgroundColor) {
+    func save(with originalSound: OriginalSound, audioVariation: AudioVariation, fileName: String, color: Color) {
         // TODO: FileManager에 커스텀 이미지 저장
         
         // TODO: FileManager에 커스텀 오디오파일 저장
