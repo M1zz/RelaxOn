@@ -68,8 +68,14 @@ extension CustomSoundViewModel {
 // MARK: - Methods for Model
 extension CustomSoundViewModel {
     
-    func save(with customSound: CustomSound) {
+    func save(with originalSound: OriginalSound, audioVariation: AudioVariation, fileName: String, color: CustomSoundImageBackgroundColor) {
+        // TODO: FileManager에 커스텀 이미지 저장
         
+        // TODO: FileManager에 커스텀 오디오파일 저장
+        
+        // TODO: FileManager에 커스텀 오디오 정보 JSON 저장
+        
+        // TODO: UserDefaults에 [인덱스: 파일명] 업데이트
     }
     
 }

@@ -22,6 +22,7 @@ struct SoundSaveView: View {
     @EnvironmentObject var viewModel: CustomSoundViewModel
     @State var originalSound: OriginalSound
     @State var audioVariation: AudioVariation
+    @State var color: CustomSoundImageBackgroundColor?
     
     var body: some View {
         VStack{
@@ -36,7 +37,7 @@ struct SoundSaveView: View {
                 Spacer()
                 
                 Button {
-                    // TODO: 저장 로직 구현 (UserDefaults, FileManager - 이미지, 정보, wav 파일)
+                    viewModel.save(with: originalSound, audioVariation: audioVariation, fileName: soundSavedName, color: color)
                 } label: {
                     Text("저장")
                         .padding()

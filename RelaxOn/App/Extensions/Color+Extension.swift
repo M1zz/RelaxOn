@@ -14,10 +14,30 @@ enum CustomColor: String {
     case TextFieldUnderLine
 }
 
+enum CustomSoundImageBackgroundColor: String, CaseIterable {
+    case Azalea
+    case Cornflower
+    case Drover
+    case DullLavender
+    case Flesh
+    case Gossip
+    case LinkWater
+    case MossGreen
+    case SilverChalice
+    case TitanWhite
+}
+
 // MARK: - CustomColor를 사용하여 init 하는 기능
 extension Color {
     init(_ customColor: CustomColor) {
         self.init(customColor.rawValue)
+    }
+}
+
+// MARK: - CustomColor를 사용하여 init 하는 기능
+extension Color {
+    init(_ customSoundImageBackgroundColor: CustomSoundImageBackgroundColor) {
+        self.init(customSoundImageBackgroundColor.rawValue)
     }
 }
 
