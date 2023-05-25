@@ -13,13 +13,15 @@ import SwiftUI
 struct SoundSaveView: View {
     
     @Environment(\.presentationMode) var presentationMode
-    @ObservedObject var viewModel = MixedSoundsViewModel()
     @EnvironmentObject var appState: AppState
     @FocusState private var isFocused: Bool
     @State private var isShowingAlert = false
     @State private var alertMessage = ""
     @State var soundSavedName: String = ""
-    @State var mixedSound: MixedSound
+    
+    @EnvironmentObject var viewModel: CustomSoundViewModel
+    @State var originalSound: OriginalSound
+    @State var audioVariation: AudioVariation
     
     var body: some View {
         VStack{
@@ -34,28 +36,7 @@ struct SoundSaveView: View {
                 Spacer()
                 
                 Button {
-                    // TODO: View에 있는 Action은 최대한 간소화 할 것
-                    isFocused = false
-                    let newMixedSound = MixedSound(name: soundSavedName, imageName: mixedSound.imageName)
-                    viewModel.saveMixedSound(newMixedSound) { result in
-                        switch result {
-                        case .success:
-                            appState.moveToTab(.listen)
-                            presentationMode.wrappedValue.dismiss()
-                        case .failure(let error):
-                            switch error {
-                            case .fileSaveFailed:
-                                isShowingAlert = true
-                                alertMessage = "저장에 실패했습니다."
-                            case .invalidData:
-                                isShowingAlert = true
-                                alertMessage = "잘못된 데이터입니다."
-                            case .decodingFailed:
-                                isShowingAlert = true
-                                alertMessage = "디코딩에 실패했습니다."
-                            }
-                        }
-                    }
+                    // TODO: 저장 로직 구현 (UserDefaults, FileManager - 이미지, 정보, wav 파일)
                 } label: {
                     Text("저장")
                         .padding()
@@ -63,8 +44,7 @@ struct SoundSaveView: View {
             }
             
             // TODO: 출시 Sprint Backlog 이미지에 맞게 수정 필요
-            
-            TextField(mixedSound.name, text: $soundSavedName)
+            TextField(originalSound.name, text: $soundSavedName)
                 .multilineTextAlignment(.center)
                 .keyboardType(.default)
                 .autocorrectionDisabled(true)
@@ -73,17 +53,16 @@ struct SoundSaveView: View {
                 .underline(true)
             
             ZStack(alignment: .topTrailing){
-                Image(mixedSound.imageName)
+                Image(originalSound.category.imageName)
                     .resizable()
                     .scaledToFit()
                     .frame(maxWidth: .infinity)
                     .cornerRadius(15)
                     .padding()
                 Button {
-                    print("이미지 변경 버튼 탭")
-                    mixedSound.imageName = recipeRandomName.randomElement()!
+                    print("이미지 배경 색상 변경 버튼")
                 } label: {
-                    Image(systemName: "arrow.triangle.2.circlepath")
+                    Image("repeat-light")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 30)
@@ -109,6 +88,6 @@ struct SoundSaveView: View {
 
 struct SoundSaveView_Previews: PreviewProvider {
     static var previews: some View {
-        SoundSaveView(mixedSound: MixedSound(name: "Water Drop"))
+        SoundSaveView(originalSound: OriginalSound(name: "물소리", filter: .waterDrop, category: .waterDrop, defaultColor: ""), audioVariation: AudioVariation())
     }
 }

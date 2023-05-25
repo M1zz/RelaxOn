@@ -16,7 +16,7 @@ struct SoundDetailView: View {
     // MARK: - Properties
     @State var isShowingSheet: Bool = false
     @State var originalSound: OriginalSound
-    @ObservedObject var viewModel = CustomSoundViewModel()
+    @EnvironmentObject var viewModel: CustomSoundViewModel
     
     var body: some View {
         VStack {
@@ -71,7 +71,7 @@ struct SoundDetailView: View {
             .fullScreenCover(isPresented: $isShowingSheet, onDismiss: {
                 // TODO: Modal이 Dismiss됐을 때 소리 다시 재생하는 기능
             }) {
-                SoundDetailView(originalSound: OriginalSound(name: "물소리", filter: .waterDrop, category: .waterDrop, defaultColor: "DCE8F5"))
+                SoundSaveView(originalSound: originalSound, audioVariation: AudioVariation(volume: viewModel.volume, pitch: viewModel.pitch, speed: viewModel.speed))
             }
         }
         
