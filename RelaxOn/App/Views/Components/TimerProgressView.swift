@@ -13,12 +13,14 @@ import SwiftUI
 struct TimerProgressView: View {
     
     @ObservedObject var timerManager: TimerManager
-    @State var progress: Double = 1.0
     
     var body: some View {
         ZStack {
-            CircleProgressView(timerManager: timerManager)
+            timerManager.getCircularProgressBar(timerManager: timerManager)
+                .frame(maxWidth: .infinity)
             timerManager.getTimeText(timerManager: timerManager)
+                .frame(maxWidth: .infinity)
+                .padding()
         }
     }
 }

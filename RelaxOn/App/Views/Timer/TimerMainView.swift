@@ -64,7 +64,7 @@ struct TimerMainView: View {
                     }
                     .padding()
                 } else {
-                    TimerProgressView(timerManager: timerManager, progress: progress)
+                    TimerProgressView(timerManager: timerManager)
                 }
             }.padding(.horizontal, 10)
             Spacer()
@@ -94,6 +94,7 @@ struct TimerMainView: View {
             HStack{
                 Spacer()
                 Button {
+                    timerManager.stopTimer(timerManager: timerManager)
                     isShowingTimerProgressView = false
                 } label: {
                     ZStack {

@@ -37,9 +37,9 @@ struct SoundDetailView: View {
                 
                 // TODO: 슬라이더 총 4개 필요
                 // TODO: 각 슬라이더의 기능별 이미지 추가
-                CircleSlider(width: 300)
-                CircleSlider(width: 210)
-                CircleSlider(width: 120)
+                CircularSlider(width: 300)
+                CircularSlider(width: 210)
+                CircularSlider(width: 120)
                 
                 // TODO: 컬러 설정 변경 필요
                 Circle()
@@ -92,54 +92,3 @@ struct SoundDetailView_Previews: PreviewProvider {
     }
 }
 
-/**
- 원하는 width 크기만큼의 원형 슬라이더를 만드는 View 객체
- */
-struct CircleSlider: View {
-
-    @State var angle: Double = Double.random(in: 0...360)
-    @State var width: CGFloat
-    
-    init(width: CGFloat) {
-        self.width = width
-    }
-    
-    var body: some View {
-
-        VStack {
-            ZStack {
-                
-                Circle()
-                    .stroke(Color("SystemGrey2"), style: StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
-                    .rotationEffect(.init(degrees: -90))
-                    .frame(width: width)
-                
-                Image(systemName: "circle.fill")
-                    .resizable()
-                    .frame(width: 20, height: 20)
-                    .foregroundColor(Color("SystemGrey3"))
-                    .offset(x: width / 2)
-                    .rotationEffect(.init(degrees: angle))
-                    .gesture(
-                        DragGesture()
-                            .onChanged({ value in
-                                onDrag(value: value)
-                            })
-                    )
-            }
-        }
-    }
-    
-    func onDrag(value: DragGesture.Value) {
-        
-        let vector = CGVector(dx: value.location.x, dy: value.location.y)
-        let radians = atan2(vector.dy - 15, vector.dx - 15)
-        var angle = radians * 180 / .pi
-        if angle > 180 {
-            angle -= 360
-        } else if angle < -180 {
-            angle += 360
-        }
-        self.angle = Double(angle)
-    }
-}

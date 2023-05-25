@@ -18,17 +18,17 @@ struct CircleProgressView: View {
     var body: some View {
         ZStack {
             Circle()
-                .stroke(lineWidth: 20.0)
+                .stroke(lineWidth: 7)
                 .opacity(0.3)
                 .foregroundColor(.gray)
             
             Circle()
                 .trim(from: 0.0, to: CGFloat(min(timerManager.progress, 1.0)))
-                .stroke(style: StrokeStyle(lineWidth: 20.0, lineCap: .round, lineJoin: .round))
-                .foregroundColor(.black)
+                .stroke(style: StrokeStyle(lineWidth: 7, lineCap: .round, lineJoin: .round))
+                .foregroundColor(.purple)
                 .rotationEffect(Angle(degrees: 270.0))
         }.onAppear {
-            timerManager.getTimeprogressBar(timerManager: timerManager)
+            timerManager.startTimeprogressBar(timerManager: timerManager)
         }
         .onDisappear {
             timerManager.stopTimer(timerManager: timerManager)
