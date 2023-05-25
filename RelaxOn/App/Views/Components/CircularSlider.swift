@@ -13,9 +13,10 @@ SoundDetailView의 원형 슬라이더로
 import SwiftUI
 
 struct CircularSlider: View {
-    @State var angle: Double = Double.random(in: 0...360)
+    @State var angle: Double = 90//Double.random(in: 0...360)
     @State var width: CGFloat
     var countItem = 5
+    @State var rotationAngle: Angle = .zero
     
     init(width: CGFloat) {
         self.width = width
@@ -30,19 +31,21 @@ struct CircularSlider: View {
                     .stroke(Color.systemGrey2, style: StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
                     .rotationEffect(.init(degrees: -90))
                     .frame(width: width)
-                
-                Image(systemName: "circle.fill")
-                    .resizable()
-                    .frame(width: 20, height: 20)
-                    .foregroundColor(Color.systemGrey3)
-                    .offset(x: width / 2)
-                    .rotationEffect(.init(degrees: angle))
-                    .gesture(
-                        DragGesture()
-                            .onChanged({ value in
-                                onDrag(value: value)
-                    })
-                )
+                VStack {
+                    Image(systemName: "moon.fill")
+                        .resizable()
+                        .frame(width: 20, height: 20)
+                        .foregroundColor(Color.systemGrey3)
+                        .rotationEffect(.init(degrees: -angle))
+                        .offset(x: width / 2)
+                        .rotationEffect(.init(degrees: angle))
+                        .gesture(
+                            DragGesture()
+                                .onChanged({ value in
+                                    onDrag(value: value)
+                                })
+                        )
+                }
             }
         }
     }
@@ -57,8 +60,8 @@ struct CircularSlider: View {
         let vector = CGVector(dx: value.location.x, dy: value.location.y)
         let radians = atan2(vector.dy, vector.dx)
         let angle = radians * 180 / .pi
-        let snappedAngle = round(angle / 72) * 72
-        self.angle = Double(snappedAngle)
+//        let snappedAngle = round(angle / 72) * 72
+        self.angle = angle//Double(snappedAngle)
         print("\(angle)")
     }
 }
