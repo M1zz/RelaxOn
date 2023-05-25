@@ -29,7 +29,7 @@ struct SoundListView: View {
     private func gridView() -> some View {
         
         LazyVGrid(columns: columns) {
-            ForEach(originalSounds, id: \.self) { originalSound in
+            ForEach(SoundListView.originalSounds, id: \.self) { originalSound in
                 NavigationLink(destination: SoundDetailView(originalSound: originalSound)) {
                     gridViewItem(originalSound)
                 }
