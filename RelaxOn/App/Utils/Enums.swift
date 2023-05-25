@@ -27,9 +27,9 @@ enum StarTabBarIcon: String {
 // TODO: 아직 어떤 이름으로 추가될 지 모르겠으나 되도록 오른쪽 String에 맞춰서 저장하면 좋을 것 같습니다.
 /// 탭 바 아이콘 파일 이름
 enum TabBarIcon: String {
-    case homeTabIcon = "home_tab_icon"
-    case listenTabIcon = "listen_tab_icon"
-    case timerTabIcon = "timer_tab_icon"
+    case home = "home"
+    case listen = "headphones"
+    case timer = "alarm"
 }
 
 enum MusicExtension: String {
