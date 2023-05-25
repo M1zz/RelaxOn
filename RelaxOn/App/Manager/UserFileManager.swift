@@ -12,8 +12,6 @@ import Foundation
  */
 final class UserFileManager {
     static let shared = UserFileManager()
-    
-    private let fileExtension = "json"
     private let fileManager = FileManager.default
     
     private var documentsDirectory: URL {
@@ -39,7 +37,7 @@ extension UserFileManager {
     func saveMixedSound(_ mixedSound: MixedSound) throws {
         let encoder = JSONEncoder()
         let data = try encoder.encode(mixedSound)
-        let fileName = "\(mixedSound.id.uuidString).\(fileExtension)"
+        let fileName = "\(mixedSound.id.uuidString).\(FileExtension.json)"
         let fileURL = documentsDirectory.appendingPathComponent(fileName)
         
         try fileManager.createDirectory(at: documentsDirectory, withIntermediateDirectories: true, attributes: nil)
@@ -56,7 +54,7 @@ extension UserFileManager {
     }
 
     func deleteMixedSound(_ mixedSound: MixedSound) throws {
-        let fileName = "\(mixedSound.id.uuidString).\(fileExtension)"
+        let fileName = "\(mixedSound.id.uuidString).\(FileExtension.json)"
         let fileURL = documentsDirectory.appendingPathComponent(fileName)
 
         guard fileManager.fileExists(atPath: fileURL.path) else {
@@ -72,7 +70,7 @@ extension UserFileManager {
         var mixedSounds: [MixedSound] = []
         
         for fileURL in contents {
-            if fileURL.pathExtension == fileExtension {
+            if fileURL.pathExtension == FileExtension.json.rawValue {
                 let data = try Data(contentsOf: fileURL)
                 let mixedSound = try decoder.decode(MixedSound.self, from: data)
                 mixedSounds.append(mixedSound)

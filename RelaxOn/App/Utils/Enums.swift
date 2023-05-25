@@ -38,6 +38,14 @@ enum MusicExtension: String {
     case wav
 }
 
+/// 파일 확장자를 하드코딩하지 않기 위해 생성한 객체
+enum FileExtension: String {
+    case json
+    case png
+    case jpg
+    case jpeg
+}
+
 /// 오디오 필터 관리를 위한 열거형
 enum AudioFilter: String, Codable {
     case waterDrop, basement, cave, pipe, sink
