@@ -1,17 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "alarm-dark.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "alarm-dark@2x.png",
+      "filename" : "alarm.svg",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "alarm-dark@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
