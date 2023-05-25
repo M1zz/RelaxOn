@@ -1,17 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "volume.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "volume@2x.png",
+      "filename" : "1filter.svg",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "volume@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
