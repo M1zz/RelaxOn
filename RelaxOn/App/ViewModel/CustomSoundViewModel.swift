@@ -1,0 +1,75 @@
+//
+//  CustomSoundViewModel.swift
+//  RelaxOn
+//
+//  Created by Doyeon on 2023/05/25.
+//
+
+import AVFoundation
+
+/**
+ View와 직접적으로 사운드 데이터 바인딩하는 ViewModel 객체
+ */
+final class CustomSoundViewModel: ObservableObject {
+    
+    // MARK: - Properties
+    private var audioEngineManager = AudioEngineManager()
+    
+    @Published var nowPlayingCustomSound: CustomSound?
+
+    @Published var speed = Float() {
+        didSet {
+            audioEngineManager.updateAudioVariation(volume: volume, pitch: pitch, speed: speed)
+        }
+    }
+    
+    @Published var pitch = Float() {
+        didSet {
+            audioEngineManager.updateAudioVariation(volume: volume, pitch: pitch, speed: speed)
+        }
+    }
+    
+    @Published var volume = Float() {
+        didSet {
+            audioEngineManager.updateAudioVariation(volume: volume, pitch: pitch, speed: speed)
+        }
+    }
+    
+    @Published var filter: AudioFilter {
+        didSet {
+            nowPlayingCustomSound?.audioFilter = filter
+        }
+    }
+    
+    init(customSound: CustomSound? = nil, filter: AudioFilter = .waterDrop) {
+        self.nowPlayingCustomSound = customSound
+        self.filter = filter
+        
+        pitch = Float.random(in: -5.0...5.0) // 0부터 1씩 증가하거나 감소
+        speed = Float.random(in: 0.2...1.0)
+        volume = Float.random(in: 0.2...1.0)
+    }
+    
+}
+
+// MARK: - Methods for View
+extension CustomSoundViewModel {
+
+    func playSound(originSound: OriginalSound) {
+        audioEngineManager.play(with: originSound)
+    }
+    
+    func stopSound() {
+        audioEngineManager.stop()
+    }
+
+}
+
+// MARK: - Methods for Model
+extension CustomSoundViewModel {
+    
+    func save(with customSound: CustomSound) {
+        
+    }
+    
+}

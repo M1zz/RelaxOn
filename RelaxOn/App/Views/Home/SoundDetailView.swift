@@ -16,7 +16,7 @@ struct SoundDetailView: View {
     // MARK: - Properties
     @State var isShowingSheet: Bool = false
     @State var originalSound: OriginalSound
-    @ObservedObject var audioManager = AudioManager()
+    @ObservedObject var viewModel = CustomSoundViewModel()
     
     var body: some View {
         VStack {
@@ -37,6 +37,7 @@ struct SoundDetailView: View {
                 
                 // TODO: 슬라이더 총 4개 필요
                 // TODO: 각 슬라이더의 기능별 이미지 추가
+                // TODO: 예시 - Slider(value: $viewModel.speed, in: 0.0...1.0, step: 0.1)
                 CircleSlider(width: 300)
                 CircleSlider(width: 210)
                 CircleSlider(width: 120)
@@ -67,27 +68,25 @@ struct SoundDetailView: View {
                     .font(.system(size: 20))
             }
             
-            .fullScreenCover(isPresented: $isShowingSheet) {
-                SoundSaveView(mixedSound: MixedSound(
-                    name: originalSound.name,
-                    volume: audioManager.volume,
-                    imageName: originalSound.imageName)
-                )
+            .fullScreenCover(isPresented: $isShowingSheet, onDismiss: {
+                // TODO: Modal이 Dismiss됐을 때 소리 다시 재생하는 기능
+            }) {
+                SoundDetailView(originalSound: OriginalSound(name: "물소리", filter: .waterDrop, category: .waterDrop, defaultColor: "DCE8F5"))
             }
         }
         
         // MARK: - Life Cycle
         .onAppear() {
-            // TODO: 오디오 반복 재생
+            viewModel.playSound(originSound: originalSound)
         }
         .onDisappear() {
-            // TODO: 오디오 재생 멈춤
+            viewModel.stopSound()
         }
     }
 }
 
 struct SoundDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        SoundDetailView(originalSound: OriginalSound(name: "물방울", filter: .waterDrop, imageName: "WaterDrop", defaultColor: "DCE8F5"))
+        SoundDetailView(originalSound: OriginalSound(name: "물소리", filter: .waterDrop, category: .waterDrop, defaultColor: "DCE8F5"))
     }
 }

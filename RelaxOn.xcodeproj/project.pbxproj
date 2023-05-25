@@ -93,6 +93,8 @@
 		8FFF99E52A1F4E0600E2474C /* SingingBowl.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8FFF99E42A1F4E0600E2474C /* SingingBowl.mp3 */; };
 		8FFF99E72A1F4E0F00E2474C /* Bird.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8FFF99E62A1F4E0F00E2474C /* Bird.mp3 */; };
 		8FFF99E92A1F4E1600E2474C /* WaterDrop.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8FFF99E82A1F4E1600E2474C /* WaterDrop.mp3 */; };
+		8FFF99EB2A1F4FD700E2474C /* CustomSoundViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FFF99EA2A1F4FD700E2474C /* CustomSoundViewModel.swift */; };
+		8FFF99ED2A1F51F100E2474C /* AudioVariation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FFF99EC2A1F51F100E2474C /* AudioVariation.swift */; };
 		C753494E28B7489D0055F7CA /* OldView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C753494D28B7489D0055F7CA /* OldView+Extension.swift */; };
 		C753495228B748D40055F7CA /* OldUIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C753495128B748D40055F7CA /* OldUIColor+Extension.swift */; };
 		C753495428B748E20055F7CA /* OldString+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C753495328B748E20055F7CA /* OldString+Extension.swift */; };
@@ -255,6 +257,8 @@
 		8FFF99E42A1F4E0600E2474C /* SingingBowl.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = SingingBowl.mp3; path = ../../../../../../../Repo/RelaxOn/RelaxOn/App/Assets/Sound/SingingBowl/SingingBowl.mp3; sourceTree = "<group>"; };
 		8FFF99E62A1F4E0F00E2474C /* Bird.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Bird.mp3; path = ../../../../../../../Repo/RelaxOn/RelaxOn/App/Assets/Sound/Bird/Bird.mp3; sourceTree = "<group>"; };
 		8FFF99E82A1F4E1600E2474C /* WaterDrop.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = WaterDrop.mp3; path = ../../../../../../../Repo/RelaxOn/RelaxOn/App/Assets/Sound/WaterDrop/WaterDrop.mp3; sourceTree = "<group>"; };
+		8FFF99EA2A1F4FD700E2474C /* CustomSoundViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSoundViewModel.swift; sourceTree = "<group>"; };
+		8FFF99EC2A1F51F100E2474C /* AudioVariation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioVariation.swift; sourceTree = "<group>"; };
 		C753494D28B7489D0055F7CA /* OldView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OldView+Extension.swift"; sourceTree = "<group>"; };
 		C753494F28B748C80055F7CA /* OldColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OldColor+Extension.swift"; sourceTree = "<group>"; };
 		C753495128B748D40055F7CA /* OldUIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OldUIColor+Extension.swift"; sourceTree = "<group>"; };
@@ -666,6 +670,7 @@
 			children = (
 				8F0FC48E29C1D9D500F923A5 /* CustomSound.swift */,
 				8F0FC49029C1D9F500F923A5 /* OriginalSound.swift */,
+				8FFF99EC2A1F51F100E2474C /* AudioVariation.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -765,6 +770,7 @@
 			children = (
 				8FFDBC6F29E6471E008C674B /* MixedSoundsViewModel.swift */,
 				8FFCCCDE29EE55DD00079DCC /* AppState.swift */,
+				8FFF99EA2A1F4FD700E2474C /* CustomSoundViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1008,6 +1014,7 @@
 				4AF70C4B28D1BC4300645D5D /* CDLibraryMusicController.swift in Sources */,
 				10D26712288EF4C80056339A /* CustomSegmentControlView.swift in Sources */,
 				58DE61832839C13900F25769 /* RelaxOnApp.swift in Sources */,
+				8FFF99ED2A1F51F100E2474C /* AudioVariation.swift in Sources */,
 				10D26716288EF4DB0056339A /* StudioView.swift in Sources */,
 				4A5769AC2866F20A007CCAE9 /* OldMixedSound.swift in Sources */,
 				C7C4C25828C242BB0048DCBA /* SoundType.swift in Sources */,
@@ -1032,6 +1039,7 @@
 				8F7904862A16598700BE2BAC /* OnboardingView.swift in Sources */,
 				10FB81B528A17468000168CC /* OnboardingFinishView.swift in Sources */,
 				8FFCCCDD29EE45B400079DCC /* UserDefaults+Extension.swift in Sources */,
+				8FFF99EB2A1F4FD700E2474C /* CustomSoundViewModel.swift in Sources */,
 				101417FA289EB9F300F40397 /* CDNamingView.swift in Sources */,
 				21D897782892D48600A20FFE /* CDCardView.swift in Sources */,
 				C753495228B748D40055F7CA /* OldUIColor+Extension.swift in Sources */,

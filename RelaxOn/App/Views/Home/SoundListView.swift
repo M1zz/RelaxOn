@@ -16,7 +16,7 @@ struct SoundListView: View {
         GridItem(.flexible()),
         GridItem(.flexible())
     ]
-
+    
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -41,14 +41,14 @@ struct SoundListView: View {
     
     @ViewBuilder
     private func gridViewItem(_ originalSound: OriginalSound) -> some View {
-                    
+        
         VStack(alignment: .leading) {
             
-            Text(originalSound.name)
+            Text(originalSound.category.displayName)
                 .font(.title2)
                 .bold()
             
-            Image(originalSound.imageName)
+            Image(originalSound.category.imageName)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(height: 140)
