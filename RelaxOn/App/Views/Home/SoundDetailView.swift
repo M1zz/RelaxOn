@@ -22,32 +22,18 @@ struct SoundDetailView: View {
         VStack {
             VStack {
                 Text("당신이 원하는 소리를 찾아가보세요")
+                    .bold()
                     .foregroundColor(.black)
-                    .font(.title2)
                     .padding(8)
                 Text("자유롭게 이동하며 실험해보세요")
+                    .font(.system(size: 18))
                     .foregroundColor(.black)
-                    .font(.title3)
             }
             ZStack {
-                
-                Circle()
-                    .frame(width: 300)
-                    .foregroundColor(Color("SystemGrey1"))
-                
-                // TODO: 슬라이더 총 4개 필요
-                // TODO: 각 슬라이더의 기능별 이미지 추가
-                CircularSlider(width: 300)
-                CircularSlider(width: 210)
-                CircularSlider(width: 120)
-                
-                // TODO: 컬러 설정 변경 필요
-                Circle()
-                    .stroke(Color("SystemGrey2"), style: StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
-                    .frame(width: 80)
-                
-                // TODO: Figma에 있는 이미지와 다름 -> Figma와 동일한 이미지로 Asset 추가하고 변경 필요
-                Image(systemName: "headphones")
+                backgroundCircle()
+                ForEach(0..<circleWidth.count) { index in
+                    CircularSlider(width: circleWidth[index], imageName: featureIcon[index])
+                }
                 
             }
             .padding(24)

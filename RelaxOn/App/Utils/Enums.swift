@@ -28,3 +28,12 @@ enum TabBarIcon: String {
 enum MusicExtension: String {
     case mp3
 }
+
+enum FeatureIcon: String {
+    case filter = "filter"
+    case volume = "volume"
+    case fitch = "fitch"
+    case interval = "interval"
+    // SoundDetailView에서만 쓰이는 이미지
+    case headset = "headset"
+}
