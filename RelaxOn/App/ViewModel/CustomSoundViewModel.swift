@@ -81,7 +81,7 @@ extension CustomSoundViewModel {
             return
         }
         
-        fileManager.save(originalSound, audioVariation, fileName, color)
+        fileManager.save(originalSound, audioVariation, fileName, color, audioEngineManager)
         
         /// UserDefaults에 [인덱스: 파일명] 업데이트
         let index = customSoundDic.count

@@ -113,4 +113,11 @@ extension AudioEngineManager {
         }
     }
     
+    /**
+     현재 Buffer를 추출
+     */
+    func getAudioBuffer() -> AVAudioPCMBuffer? {
+        return audioBuffer
+    }
+    
 }

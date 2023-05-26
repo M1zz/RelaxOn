@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import AVFAudio
 
 /**
  FileManager에 오디오 데이터를 파일로 저장 & 불러오기 & (파일이름)수정 & 파일 삭제 기능
@@ -52,10 +53,10 @@ final class UserFileManager {
 // MARK: - CRUD
 extension UserFileManager {
     
-    func save(_ originalSound: OriginalSound, _ audioVariation: AudioVariation, _ fileName: String, _ color: Color) {
+    func save(_ originalSound: OriginalSound, _ audioVariation: AudioVariation, _ fileName: String, _ color: Color, _ audioEngineManager: AudioEngineManager) {
         
         // TODO: FileManager에 커스텀 오디오파일 저장
-        saveAudio(originalSound, audioVariation, fileName)
+        saveAudio(audioEngineManager, fileName)
         
         // TODO: FileManager에 커스텀 오디오 정보 JSON 저장
         saveJSON(originalSound, audioVariation, fileName)
@@ -70,19 +71,57 @@ extension UserFileManager {
 // MARK: - About Audio File CRUD
 extension UserFileManager {
     
-    // TODO: 오디오 데이터를 mp3 파일로 저장하는 기능
-    func saveAudio(_ originalSound: OriginalSound, _ audioVariation: AudioVariation, _ fileName: String) {
+    func saveAudio(_ audioEngineManager: AudioEngineManager, _ fileName: String) {
+        guard let buffer = audioEngineManager.getAudioBuffer() else {
+            print("Failed to get audio buffer")
+            return
+        }
         
+        let fileURL = musicDirectory.appendingPathComponent("\(fileName).wav")
+        do {
+            let audioFile = try AVAudioFile(forWriting: fileURL, settings: buffer.format.settings)
+            try audioFile.write(from: buffer)
+            print("Audio saved successfully.")
+        } catch {
+            print("Failed to save audio with error: \(error)")
+        }
     }
     
-    // TODO: 특정 mp3 파일을 불러오는 기능
+    func loadAudio(_ fileName: String) -> AVAudioFile? {
+        let fileURL = musicDirectory.appendingPathComponent("\(fileName).wav")
+        
+        do {
+            let audioFile = try AVAudioFile(forReading: fileURL)
+            print("Audio loaded successfully.")
+            return audioFile
+        } catch {
+            print("Failed to load audio with error: \(error)")
+            return nil
+        }
+    }
     
+    func modifyAudioName(currentName: String, newName: String) {
+        let currentURL = musicDirectory.appendingPathComponent("\(currentName).wav")
+        let newURL = musicDirectory.appendingPathComponent("\(newName).wav")
+        
+        do {
+            try fileManager.moveItem(at: currentURL, to: newURL)
+            print("Audio name modified successfully.")
+        } catch {
+            print("Failed to modify audio name with error: \(error)")
+        }
+    }
     
-    // TODO: 저장된 파일의 이름 수정 기능
-    
-    
-    // TODO: 저장된 파일 삭제 기능
-    
+    func removeAudio(_ fileName: String) {
+        let fileURL = musicDirectory.appendingPathComponent("\(fileName).wav")
+        
+        do {
+            try fileManager.removeItem(at: fileURL)
+            print("Audio removed successfully.")
+        } catch {
+            print("Failed to remove audio with error: \(error)")
+        }
+    }
     
 }
 
