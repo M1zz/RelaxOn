@@ -77,7 +77,7 @@ extension UserFileManager {
             return
         }
         
-        let fileURL = musicDirectory.appendingPathComponent("\(fileName).wav")
+        let fileURL = musicDirectory.appendingPathComponent("\(fileName).\(MusicExtension.wav)")
         do {
             let audioFile = try AVAudioFile(forWriting: fileURL, settings: buffer.format.settings)
             try audioFile.write(from: buffer)
@@ -88,7 +88,7 @@ extension UserFileManager {
     }
     
     func loadAudio(_ fileName: String) -> AVAudioFile? {
-        let fileURL = musicDirectory.appendingPathComponent("\(fileName).wav")
+        let fileURL = musicDirectory.appendingPathComponent("\(fileName).\(MusicExtension.wav)")
         
         do {
             let audioFile = try AVAudioFile(forReading: fileURL)
@@ -101,8 +101,8 @@ extension UserFileManager {
     }
     
     func modifyAudioName(currentName: String, newName: String) {
-        let currentURL = musicDirectory.appendingPathComponent("\(currentName).wav")
-        let newURL = musicDirectory.appendingPathComponent("\(newName).wav")
+        let currentURL = musicDirectory.appendingPathComponent("\(currentName).\(MusicExtension.wav)")
+        let newURL = musicDirectory.appendingPathComponent("\(newName).\(MusicExtension.wav)")
         
         do {
             try fileManager.moveItem(at: currentURL, to: newURL)
@@ -113,7 +113,7 @@ extension UserFileManager {
     }
     
     func removeAudio(_ fileName: String) {
-        let fileURL = musicDirectory.appendingPathComponent("\(fileName).wav")
+        let fileURL = musicDirectory.appendingPathComponent("\(fileName).\(MusicExtension.wav)")
         
         do {
             try fileManager.removeItem(at: fileURL)
