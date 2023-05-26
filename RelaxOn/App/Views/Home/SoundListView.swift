@@ -47,7 +47,7 @@ struct SoundListView: View {
     private func gridView() -> some View {
         
         LazyVGrid(columns: columns) {
-            ForEach(SoundListView.originalSounds, id: \.self) { originalSound in
+            ForEach(filteredSounds(), id: \.self) { originalSound in
                 NavigationLink(destination: SoundDetailView(originalSound: originalSound)) {
                     gridViewItem(originalSound)
                 }
@@ -75,6 +75,14 @@ struct SoundListView: View {
             
         }
         .foregroundColor(.black)
+    }
+    
+    private func filteredSounds() -> [OriginalSound] {
+        if searchText.isEmpty {
+            return SoundListView.originalSounds
+        } else {
+            return SoundListView.originalSounds.filter { $0.name.lowercased().contains(searchText.lowercased()) }
+        }
     }
 }
 
