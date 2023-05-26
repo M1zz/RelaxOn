@@ -89,19 +89,57 @@ extension UserFileManager {
 // MARK: - About JSON Info File CRUD
 extension UserFileManager {
     
-    // TODO: 오디오 데이터를 JSON 파일로 저장하는 기능
     func saveJSON(_ originalSound: OriginalSound, _ audioVariation: AudioVariation, _ fileName: String) {
-        
+        let customSound = CustomSound(
+            fileName: fileName,
+            category: originalSound.category,
+            audioVariation: audioVariation,
+            audioFilter: originalSound.filter
+        )
+        let fileURL = infoDirectory.appendingPathComponent("\(fileName).json")
+        let encoder = JSONEncoder()
+        do {
+            let data = try encoder.encode(customSound)
+            try data.write(to: fileURL)
+            print("JSON saved successfully.")
+        } catch {
+            print("Failed to save JSON with error: \(error)")
+        }
     }
     
-    // TODO: 특정 JSON 파일을 불러오는 기능
+    func loadJSON(fileName: String) -> CustomSound? {
+        let fileURL = infoDirectory.appendingPathComponent("\(fileName).json")
+        let decoder = JSONDecoder()
+        do {
+            let data = try Data(contentsOf: fileURL)
+            let customSound = try decoder.decode(CustomSound.self, from: data)
+            return customSound
+        } catch {
+            print("Failed to load JSON with error: \(error)")
+            return nil
+        }
+    }
     
-    
-    // TODO: 저장된 JSON 파일의 이름 수정 기능
-    
-    
-    // TODO: 저장된 JSON 파일 삭제 기능
-    
+    func modifyJSONName(oldFileName: String, newFileName: String) {
+        let oldFileURL = infoDirectory.appendingPathComponent("\(oldFileName).json")
+        let newFileURL = infoDirectory.appendingPathComponent("\(newFileName).json")
+        do {
+            try fileManager.moveItem(at: oldFileURL, to: newFileURL)
+            print("JSON renamed successfully.")
+        } catch {
+            print("Failed to rename JSON with error: \(error)")
+        }
+    }
+
+    func removeJSON(fileName: String) {
+        let fileURL = infoDirectory.appendingPathComponent("\(fileName).json")
+        do {
+            try fileManager.removeItem(at: fileURL)
+            print("JSON deleted successfully.")
+        } catch {
+            print("Failed to delete JSON with error: \(error)")
+        }
+    }
     
 }
 
