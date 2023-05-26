@@ -94,6 +94,10 @@ struct SoundDetailView: View {
             .onDisappear() {
                 viewModel.stopSound()
             }
+            
+            .fullScreenCover(isPresented: $isShowingSheet) {
+                SoundSaveView(originalSound: originalSound, audioVariation: AudioVariation())
+            }
         }
     }
 }
