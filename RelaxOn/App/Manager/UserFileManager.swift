@@ -201,13 +201,17 @@ extension UserFileManager {
         }
     }
     
-    func loadImage(fileName: String) -> UIImage? {
+    func loadImage(fileName: String) -> UIImage {
         let fileURL = imageDirectory.appendingPathComponent("\(fileName).png")
-        guard let data = try? Data(contentsOf: fileURL) else {
-            print("Failed to load image with name: \(fileName)")
-            return nil
+        do {
+            let imageData = try Data(contentsOf: fileURL)
+            if let image = UIImage(data: imageData) {
+                return image
+            }
+        } catch {
+            print("Error loading image : \(error)")
         }
-        return UIImage(data: data)
+        return UIImage(systemName: "photo") ?? UIImage()
     }
     
     func modifyImageName(oldFileName: String, newFileName: String) {
