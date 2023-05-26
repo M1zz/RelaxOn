@@ -146,7 +146,7 @@ extension UserFileManager {
         }
     }
     
-    func loadJSON(fileName: String) -> CustomSound? {
+    func loadCustomSoundInfoFromJSON(fileName: String) -> CustomSound? {
         let fileURL = infoDirectory.appendingPathComponent("\(fileName).json")
         let decoder = JSONDecoder()
         do {
