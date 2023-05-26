@@ -22,7 +22,7 @@ struct SoundSaveView: View {
     @EnvironmentObject var viewModel: CustomSoundViewModel
     @State var originalSound: OriginalSound
     @State var audioVariation: AudioVariation
-    @State var color: Color?
+    @State var backgroundColor: Color = .white
     
     var body: some View {
         VStack{
@@ -37,14 +37,13 @@ struct SoundSaveView: View {
                 Spacer()
                 
                 Button {
-                    viewModel.save(with: originalSound, audioVariation: audioVariation, fileName: soundSavedName, color: color ?? Color(hex: originalSound.defaultColor))
+                    viewModel.save(with: originalSound, audioVariation: audioVariation, fileName: soundSavedName, color: backgroundColor)
                 } label: {
                     Text("저장")
                         .padding()
                 }
             }
-            
-            // TODO: 출시 Sprint Backlog 이미지에 맞게 수정 필요
+
             TextField(originalSound.name, text: $soundSavedName)
                 .multilineTextAlignment(.center)
                 .keyboardType(.default)
@@ -53,28 +52,38 @@ struct SoundSaveView: View {
                 .font(.title)
                 .underline(true)
             
-            ZStack(alignment: .topTrailing){
-                Image(originalSound.category.imageName)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(maxWidth: .infinity)
-                    .cornerRadius(15)
-                    .padding()
-                Button {
-                    print("이미지 배경 색상 변경 버튼")
-                } label: {
-                    Image("repeat-light")
+            GeometryReader { geometry in
+                ZStack(alignment: .topTrailing){
+                    Image(originalSound.category.imageName)
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 30)
-                        .foregroundColor(.black)
-                        .padding(30)
+                        .frame(width: geometry.size.width, height: geometry.size.height)
+                        .cornerRadius(15)
+                        .padding()
+                        .background(backgroundColor) // setting the background color
+                    Button {
+                        let randomColor = CustomSoundImageBackgroundColor.allCases.randomElement() ?? .TitanWhite
+                        backgroundColor = Color(randomColor)
+                    } label: {
+                        Image("repeat-light")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 30)
+                            .foregroundColor(.black)
+                            .padding(30)
+                    }
                 }
-            }.frame(maxWidth: .infinity)
+                .frame(width: geometry.size.width, height: geometry.size.height)
                 .padding(.horizontal, 30)
+            }
+            
             Spacer()
+
         }
-        .onAppear { isFocused = true }
+        .onAppear {
+            isFocused = true
+            backgroundColor = Color(hex: originalSound.defaultColor)
+        }
         .background(Color.white)
         .onTapGesture {
             UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)

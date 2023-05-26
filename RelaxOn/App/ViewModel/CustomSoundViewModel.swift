@@ -81,12 +81,7 @@ extension CustomSoundViewModel {
             return
         }
         
-        // TODO: FileManager에 커스텀 이미지 저장
-        
-        // TODO: FileManager에 커스텀 오디오파일 저장
-        
-        // TODO: FileManager에 커스텀 오디오 정보 JSON 저장
-        
+        fileManager.save(originalSound, audioVariation, fileName, color)
         
         /// UserDefaults에 [인덱스: 파일명] 업데이트
         let index = customSoundDic.count

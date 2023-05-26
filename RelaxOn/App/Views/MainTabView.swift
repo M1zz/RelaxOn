@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct MainTabView: View {
-    @StateObject var appState = AppState()
-    @StateObject var customSoundViewModel = CustomSoundViewModel()
+    @EnvironmentObject var appState: AppState
     
     var body: some View {
         TabView(selection: $appState.selectedTab) {
@@ -22,8 +21,6 @@ struct MainTabView: View {
                     }.tag(item.id)
             }
         }
-        .environmentObject(appState)
-        .environmentObject(customSoundViewModel)
     }
 }
 
