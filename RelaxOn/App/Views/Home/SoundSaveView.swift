@@ -44,6 +44,9 @@ struct SoundSaveView: View {
                 Spacer()
                 
                 Button {
+                    // FIXME: viewModel에 loopSpeed 값을 변경 후 저장하는 로직 테스트
+                    viewModel.testForUpdateLoopSpeed()
+                    
                     viewModel.save(with: originalSound, audioVariation: audioVariation, fileName: soundSavedName, color: backgroundColor)
                 } label: {
                     Text("저장")

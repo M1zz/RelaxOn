@@ -13,7 +13,7 @@ import SwiftUI
  */
 struct ListenListView: View {
     
-    @ObservedObject private var viewModel = MixedSoundsViewModel()
+    @EnvironmentObject var viewModel: CustomSoundViewModel
     @State private var searchText = ""
     
     // MARK: - Body
@@ -25,12 +25,14 @@ struct ListenListView: View {
                 SearchBar(text: $searchText)
                     .padding()
                 List {
-                    ForEach(viewModel.mixedSounds, id: \.id) { mixedSound in
-                        ListenListCell(title: mixedSound.name, ImageName: mixedSound.imageName)
+                    ForEach(Array(viewModel.customSounds.keys).sorted(), id: \.self) { index in
+                        if let fileName = viewModel.customSounds[index] {
+                            ListenListCell(fileName: fileName)
+                        }
                     }
                     .onDelete { indexSet in
                         for index in indexSet {
-                            viewModel.removeMixedSound(at: index)
+                            viewModel.remove(at: index)
                         }
                     }
                 }
@@ -39,7 +41,7 @@ struct ListenListView: View {
                 .navigationBarTitleDisplayMode(.large)
                 .padding()
                 .onAppear {
-                    viewModel.loadMixedSound()
+                    viewModel.loadSound()
                 }
                 SoundPlayerBottomView()
             }

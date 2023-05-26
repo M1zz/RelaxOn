@@ -17,8 +17,12 @@ final class CustomSoundViewModel: ObservableObject {
     private var audioEngineManager = AudioEngineManager()
     private var fileManager = UserFileManager.shared
     private var userDefaults = UserDefaultsManager.shared
+
+    @Published var customSounds = [Int: String]()
     
     @Published var nowPlayingCustomSound: CustomSound?
+    
+    @Published var isPlaying = false
 
     @Published var speed = Float() {
         didSet {
@@ -44,6 +48,10 @@ final class CustomSoundViewModel: ObservableObject {
         }
     }
     
+    var playPauseStatusImage: String {
+        isPlaying ? PlayPauseButton.pause.rawValue : PlayPauseButton.play.rawValue
+    }
+    
     init(customSound: CustomSound? = nil, filter: AudioFilter = .waterDrop) {
         self.nowPlayingCustomSound = customSound
         self.filter = filter
@@ -62,8 +70,20 @@ extension CustomSoundViewModel {
         audioEngineManager.play(with: originSound)
     }
     
+    func playSound(customSound: CustomSound) {
+        audioEngineManager.play(with: customSound)
+    }
+    
     func stopSound() {
         audioEngineManager.stop()
+    }
+    
+    func loadSound() {
+        customSounds = userDefaults.customSoundsDic
+    }
+    
+    func testForUpdateLoopSpeed() {
+        audioEngineManager.loopSpeed = 2.0
     }
 
 }
@@ -72,10 +92,7 @@ extension CustomSoundViewModel {
 extension CustomSoundViewModel {
     
     func save(with originalSound: OriginalSound, audioVariation: AudioVariation, fileName: String, color: Color) {
-        
-        /// 이미 저장된 파일명인지 확인
         let customSoundDic = userDefaults.customSoundsDic
-        
         if customSoundDic.values.contains(fileName) {
             print("이미 이 파일이 존재합니다 다른 로직을 수행할 수 없습니다. 라고 유저에게 알리기")
             return
@@ -86,6 +103,19 @@ extension CustomSoundViewModel {
         /// UserDefaults에 [인덱스: 파일명] 업데이트
         let index = customSoundDic.count
         userDefaults.customSoundsDic[index] = fileName
+        loadSound()
     }
     
+    func remove(at index: Int) {
+        customSounds.removeValue(forKey: index)
+        loadSound()
+    }
+    
+}
+
+// MARK: - Image
+extension CustomSoundViewModel {
+    func loadImage(_ fileName: String) -> UIImage {
+        return fileManager.loadImage(fileName: fileName)
+    }
 }
