@@ -90,3 +90,8 @@ enum SoundCategory: String, Codable {
         }
     }
 }
+
+enum PlayPauseButton: String {
+    case play = "play.fill"
+    case pause = "pause.fill"
+}
