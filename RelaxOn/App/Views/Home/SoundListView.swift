@@ -52,9 +52,9 @@ struct SoundListView: View {
                     gridViewItem(originalSound)
                 }
             }
+            .padding(.bottom, 30)
         }
-        .padding(20)
-        .padding(.top, 10)
+        .padding(24)
     }
     
     @ViewBuilder
@@ -63,8 +63,8 @@ struct SoundListView: View {
         VStack(alignment: .leading) {
             
             Text(originalSound.category.displayName)
-                .font(.title2)
-                .bold()
+                .font(.system(size: 16, weight: .bold))
+                .foregroundColor(Color(.Text))
             
             Image(originalSound.category.imageName)
                 .resizable()
@@ -72,9 +72,7 @@ struct SoundListView: View {
                 .frame(height: 140)
                 .background(Color(hex: originalSound.defaultColor))
                 .cornerRadius(8)
-            
         }
-        .foregroundColor(.black)
     }
     
     private func filteredSounds() -> [OriginalSound] {
