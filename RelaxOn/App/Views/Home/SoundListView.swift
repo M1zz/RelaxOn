@@ -17,11 +17,29 @@ struct SoundListView: View {
         GridItem(.flexible())
     ]
     
+    @State private var searchText = ""
+    
     var body: some View {
         NavigationStack {
-            ScrollView {
-                gridView()
+            
+            VStack(alignment: .leading) {
+                ZStack {
+                    Text(TabItems.home.rawValue)
+                        .foregroundColor(Color(.TitleText))
+                        .font(.system(size: 24, weight: .bold))
+                }
+                .padding(.horizontal, 24)
+                .padding(.vertical, 4)
+                
+                SearchBar(text: $searchText)
+                    .padding(.horizontal, 24)
+                    .padding(.vertical, 16)
+                
+                ScrollView {
+                    gridView()
+                }
             }
+            
         }
     }
     
@@ -52,6 +70,8 @@ struct SoundListView: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(height: 140)
+                .background(Color(hex: originalSound.defaultColor))
+                .cornerRadius(8)
             
         }
         .foregroundColor(.black)

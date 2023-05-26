@@ -14,6 +14,7 @@ enum CustomColor: String {
     case TextFieldUnderLine
     case Text
     case ChevronBack
+    case TitleText
 }
 
 enum CustomSoundImageBackgroundColor: String, CaseIterable {
