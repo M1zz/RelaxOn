@@ -1,17 +1,29 @@
 {
   "images" : [
     {
+<<<<<<< HEAD
       "filename" : "headphones-selected.png",
+=======
+      "filename" : "MovingGestures-dark.png",
+>>>>>>> develop/renew
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+<<<<<<< HEAD
       "filename" : "headphones-selected@2x.png",
+=======
+      "filename" : "MovingGestures-dark@2x.png",
+>>>>>>> develop/renew
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+<<<<<<< HEAD
       "filename" : "headphones-selected@3x.png",
+=======
+      "filename" : "MovingGestures-dark@3x.png",
+>>>>>>> develop/renew
       "idiom" : "universal",
       "scale" : "3x"
     }

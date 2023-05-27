@@ -56,6 +56,7 @@
 		594012732A17DD7900221DE7 /* Woodpecker.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5940126F2A17DD7800221DE7 /* Woodpecker.mp3 */; };
 		594012752A17DD7900221DE7 /* Owl.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 594012712A17DD7800221DE7 /* Owl.mp3 */; };
 		594012762A17DD7900221DE7 /* Forest.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 594012722A17DD7900221DE7 /* Forest.mp3 */; };
+		5958296E2A1E8E930009D761 /* CircularSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5958296D2A1E8E930009D761 /* CircularSlider.swift */; };
 		8F0FC48F29C1D9D500F923A5 /* CustomSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0FC48E29C1D9D500F923A5 /* CustomSound.swift */; };
 		8F0FC49129C1D9F500F923A5 /* OriginalSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0FC49029C1D9F500F923A5 /* OriginalSound.swift */; };
 		8F0FC49B29C1DD5D00F923A5 /* OldAudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0FC49829C1DD5D00F923A5 /* OldAudioManager.swift */; };
@@ -123,6 +124,20 @@
 		E2BF1057289173F100408B8C /* TimerPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2BF1056289173F100408B8C /* TimerPickerView.swift */; };
 		E2BF105B28917CAC00408B8C /* TimerSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2BF105A28917CAC00408B8C /* TimerSettingView.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXBuildRule section */
+		5958296F2A1F21140009D761 /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			fileType = image.png;
+			inputFiles = (
+			);
+			isEditable = 1;
+			outputFiles = (
+			);
+			script = "# copypng\n";
+		};
+/* End PBXBuildRule section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		21B7A66E28A31DE800E90744 /* Embed Watch Content */ = {
@@ -221,6 +236,7 @@
 		5940126F2A17DD7800221DE7 /* Woodpecker.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Woodpecker.mp3; sourceTree = "<group>"; };
 		594012712A17DD7800221DE7 /* Owl.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Owl.mp3; sourceTree = "<group>"; };
 		594012722A17DD7900221DE7 /* Forest.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Forest.mp3; sourceTree = "<group>"; };
+		5958296D2A1E8E930009D761 /* CircularSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularSlider.swift; sourceTree = "<group>"; };
 		8F0FC48E29C1D9D500F923A5 /* CustomSound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSound.swift; sourceTree = "<group>"; };
 		8F0FC49029C1D9F500F923A5 /* OriginalSound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OriginalSound.swift; sourceTree = "<group>"; };
 		8F0FC49829C1DD5D00F923A5 /* OldAudioManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OldAudioManager.swift; sourceTree = "<group>"; };
@@ -724,11 +740,16 @@
 			isa = PBXGroup;
 			children = (
 				591570B329F93A5400507DEA /* TimerProgressView.swift */,
+				8F5A0EC22A15FD750061F42C /* CircleProgressView.swift */,
 				8FCB23F12A15F83900188024 /* SearchBar.swift */,
 				8FCB23F32A15F85200188024 /* SoundPlayerBottomView.swift */,
 				8F5A0EBE2A15FBDD0061F42C /* SoundPlayerFullModalView.swift */,
 				8F5A0EC22A15FD750061F42C /* CircleProgressView.swift */,
 				8F1542062A1B850A00717B8E /* CircleSlider.swift */,
+<<<<<<< HEAD
+=======
+				5958296D2A1E8E930009D761 /* CircularSlider.swift */,
+>>>>>>> develop/renew
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -880,6 +901,7 @@
 				CC5AC116289C033D00FE847B /* Embed App Extensions */,
 			);
 			buildRules = (
+				5958296F2A1F21140009D761 /* PBXBuildRule */,
 			);
 			dependencies = (
 			);
@@ -1013,6 +1035,7 @@
 				8FFCCCDF29EE55DD00079DCC /* AppState.swift in Sources */,
 				8F53BD1929B77A83009AE6D1 /* SoundDetailView.swift in Sources */,
 				CC04E26528BDA45900509C60 /* SceneDelegate.swift in Sources */,
+				5958296E2A1E8E930009D761 /* CircularSlider.swift in Sources */,
 				CC5AC134289D184A00FE847B /* CDWidgetEntry.swift in Sources */,
 				4AF70C4B28D1BC4300645D5D /* CDLibraryMusicController.swift in Sources */,
 				10D26712288EF4C80056339A /* CustomSegmentControlView.swift in Sources */,

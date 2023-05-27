@@ -15,12 +15,16 @@ struct MainTabView: View {
             ForEach(appState.tabItems) { item in
                 item.view
                     .tabItem {
-                        Image(systemName: item.imageName.rawValue)
-                            .foregroundColor(.black)
+                        Image(item.imageName.rawValue)
+                            .renderingMode(.template)
+                            .resizable()
+                            .frame(width: 24, height: 24)
                         Text(item.title.rawValue)
                     }.tag(item.id)
+                    
             }
-        }
+        }.accentColor(.relaxDimPurple)
+        .environmentObject(appState)
     }
 }
 
