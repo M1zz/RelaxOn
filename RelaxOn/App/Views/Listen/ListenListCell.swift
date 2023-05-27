@@ -28,6 +28,7 @@ struct ListenListCell: View {
                 Text(fileName)
                     .font(.system(size: 18, weight: .bold))
                     .padding(.leading, 20)
+                    .foregroundColor(Color(.Text))
                 
                 Spacer()
                 
@@ -35,8 +36,8 @@ struct ListenListCell: View {
                     viewModel.isPlaying.toggle()
                 }) {
                     Image(systemName: viewModel.playPauseStatusImage)
-                        .padding()
-                        .foregroundColor(.black)
+                        .padding(.trailing, 20)
+                        .foregroundColor(Color(.Text))
                 }
             }
             
