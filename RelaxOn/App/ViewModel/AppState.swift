@@ -13,7 +13,7 @@ import SwiftUI
 struct TabItemInfo: Identifiable {
     let id = UUID()
     let view: AnyView
-    let imageName: StarTabBarIcon
+    let imageName: TabBarIcon
     let title: TabItems
 }
 
@@ -23,9 +23,9 @@ final class AppState: ObservableObject {
     @Published var selectedTab: UUID = UUID()
     
     let tabItems = [
-        TabItemInfo(view: AnyView(SoundListView()), imageName: .starFill, title: .home),
-        TabItemInfo(view: AnyView(ListenListView()), imageName: .starFill, title: .listen),
-        TabItemInfo(view: AnyView(TimerMainView()), imageName: .starFill, title: .timer)
+        TabItemInfo(view: AnyView(SoundListView()), imageName: TabBarIcon.home, title: .home),
+        TabItemInfo(view: AnyView(ListenListView()), imageName: TabBarIcon.listen, title: .listen),
+        TabItemInfo(view: AnyView(TimerMainView()), imageName: TabBarIcon.timer, title: .timer)
     ]
     
     func moveToTab(_ tab: TabItems) {

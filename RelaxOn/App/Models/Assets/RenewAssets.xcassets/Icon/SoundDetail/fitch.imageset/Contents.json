@@ -1,11 +1,11 @@
 {
   "images" : [
     {
-      "filename" : "alarm.svg",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "fitch.svg",
       "idiom" : "universal",
       "scale" : "2x"
     },

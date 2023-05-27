@@ -20,7 +20,7 @@ struct TutorialView: View {
             SoundDetailView(originalSound: Sound(name:"Garden"))
             Color.black
                 .opacity(0.5)
-            Image(tutorialImage)
+            Image(OnboardInfo.Tutorial.tutorialImage.rawValue)
                 .resizable()
                 .scaledToFit()
                 .frame(maxWidth: .infinity)

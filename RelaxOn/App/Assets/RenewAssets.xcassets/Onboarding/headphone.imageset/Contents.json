@@ -1,15 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "alarm.svg",
+      "filename" : "headphone.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "headphone@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "headphone@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
