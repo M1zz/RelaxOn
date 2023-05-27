@@ -1,29 +1,17 @@
 {
   "images" : [
     {
-<<<<<<< HEAD
       "filename" : "home-selected.png",
-=======
-      "filename" : "lamp.png",
->>>>>>> develop/renew
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-<<<<<<< HEAD
       "filename" : "home-selected@2x.png",
-=======
-      "filename" : "lamp@2x.png",
->>>>>>> develop/renew
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-<<<<<<< HEAD
       "filename" : "home-selected@3x.png",
-=======
-      "filename" : "lamp@3x.png",
->>>>>>> develop/renew
       "idiom" : "universal",
       "scale" : "3x"
     }

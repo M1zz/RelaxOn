@@ -746,10 +746,7 @@
 				8F5A0EBE2A15FBDD0061F42C /* SoundPlayerFullModalView.swift */,
 				8F5A0EC22A15FD750061F42C /* CircleProgressView.swift */,
 				8F1542062A1B850A00717B8E /* CircleSlider.swift */,
-<<<<<<< HEAD
-=======
 				5958296D2A1E8E930009D761 /* CircularSlider.swift */,
->>>>>>> develop/renew
 			);
 			path = Components;
 			sourceTree = "<group>";

@@ -5,11 +5,7 @@
       "scale" : "1x"
     },
     {
-<<<<<<< HEAD
-      "filename" : "filter.svg",
-=======
-      "filename" : "headset.svg",
->>>>>>> develop/renew
+      "filename" : "pitch.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
