@@ -17,6 +17,8 @@ enum CustomColor: String {
     case TitleText
     case ListenListCellUnderLine
     case SoundPlayerBottom
+    case TimerMyListText
+    case TimerMyListBackground
 }
 
 enum CustomSoundImageBackgroundColor: String, CaseIterable {

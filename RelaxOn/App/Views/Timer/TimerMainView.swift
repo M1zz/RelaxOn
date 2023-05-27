@@ -22,133 +22,98 @@ struct TimerMainView: View {
     @State var progress: Double = 1.0
     
     var body: some View {
-        VStack{
-            HStack {
-                Text("Timer")
-                    .font(.largeTitle)
-                    .padding()
-                    .bold()
-                Spacer()
-            }
+        
+        ZStack {
+            Color(.DefaultBackground)
+                .ignoresSafeArea()
             
-            Spacer()
-            
-            VStack {
-                if isShowingTimerProgressView == false {
-                    // TimePicker
-                    HStack(alignment: .center){
-                        Picker("select time", selection: $timerManager.selectedTimeIndexHours, content: {
-                            ForEach(hours, id: \.self) {
-                                index in
-                                Text("\(hours[index])").tag(index)
-                            }
-                        })
-                        .pickerStyle(.wheel)
-                        .padding()
-                        .clipped()
-                        
-                        Text("hours")
-                        
-                        Picker("select time", selection: $timerManager.selectedTimeIndexMinutes, content: {
-                            ForEach(minutes, id: \.self) {
-                                index in
-                                Text("\(minutes[index])").tag(index)
-                            }
-                        })
-                        .pickerStyle(.wheel)
-                        .padding()
-                        .clipped()
-                        
-                        Text("min")
-                            .padding()
-                    }
-                    .padding()
-                } else {
-                    TimerProgressView(timerManager: timerManager)
-                }
-            }.padding(.horizontal, 10)
-            Spacer()
-            
-            Button {
-                isShowingListenListView.toggle()
-            } label: {
-                HStack{
-                    Text("나만의 소리를 선택해주세요")
-                        .foregroundColor(.white)
-                        .padding()
-                    Spacer()
-                    Image(systemName: "chevron.right")
-                        .foregroundColor(.white)
-                        .padding()
-                }
-            }
-            .sheet(isPresented: $isShowingListenListView) {
-                ListenListView()
-            }
-            .background(Color.systemGrey2)
-            .cornerRadius(10)
-            .padding(20)
-            
-            Spacer(minLength: 50)
-            
-            HStack{
-                Spacer()
-                Button {
-                    timerManager.stopTimer(timerManager: timerManager)
-                    isShowingTimerProgressView = false
-                } label: {
-                    ZStack {
-                        Circle()
-                            .foregroundColor(Color.systemGrey3)
-                        Circle()
-                            .stroke(Color.white, lineWidth: 1)
-                            .padding(10)
-                        Text("Reset")
-                            .fontWeight(.medium)
-                            .foregroundColor(.white)
-                        
-                    }
-                }
+            VStack(alignment: .leading) {
+                Text(TabItems.timer.rawValue)
+                    .foregroundColor(Color(.TitleText))
+                    .font(.system(size: 24, weight: .bold))
+                    .padding(.horizontal, 24)
+                    .padding(.vertical, 4)
                 
-                Spacer(minLength: 180)
+                Spacer()
                 
-                Button {
-                    isShowingTimerProgressView = true
-                } label: {
+                VStack(spacing: 80) {
                     if isShowingTimerProgressView == false {
-                        ZStack {
-                            Circle()
-                                .foregroundColor(Color.relaxDimPurple)
-                            Circle()
-                                .stroke(Color.white, lineWidth: 1)
-                                .padding(10)
-                            Text("Start")
-                                .fontWeight(.medium)
-                                .foregroundColor(.white)
-                        }
-                    }else {
-                        ZStack {
-                            Circle()
-                                .foregroundColor(Color.relaxDimPurple)
-                            Circle()
-                                .stroke(Color.white, lineWidth: 1)
-                                .padding(10)
-                            Text("Pause")
-                                .fontWeight(.medium)
-                                .foregroundColor(.white)
-                        }
+                        TimePickerView(hours: $hours,
+                                       minutes: $minutes,
+                                       selectedTimeIndexHours: $timerManager.selectedTimeIndexHours,
+                                       selectedTimeIndexMinutes: $timerManager.selectedTimeIndexMinutes)
+                    } else {
+                        TimerProgressView(timerManager: timerManager)
                     }
+                    
+                    VStack(spacing: 50) {
+                        Button {
+                            isShowingListenListView.toggle()
+                        } label: {
+                            selectSoundButton()
+                                .cornerRadius(10)
+                                .padding(.horizontal, 38)
+                        }
+                        
+                        .sheet(isPresented: $isShowingListenListView) {
+                            ListenListView()
+                        }
+                        
+                        HStack {
+                            Button {
+                                timerManager.stopTimer(timerManager: timerManager)
+                                isShowingTimerProgressView = false
+                            } label: {
+                                Image("button_reset-deactivated")
+                                    .resizable()
+                                    .frame(width: 80, height: 80)
+                            }
+                            
+                            Spacer ()
+                            
+                            Button {
+                                isShowingTimerProgressView = true
+                            } label: {
+                                if isShowingTimerProgressView == false {
+                                    Image("button_start")
+                                        .resizable()
+                                        .frame(width: 80, height: 80)
+                                } else {
+                                    Image("button_resume")
+                                        .resizable()
+                                        .frame(width: 80, height: 80)
+                                }
+                            }
+                        }
+                        .padding(.horizontal, 40)
+                    }
+                    Spacer()
                 }
-                Spacer(minLength: 10)
-            }.padding()
-            Spacer(minLength: 50)
+            }
         }
     }
     
-    
-    struct RelaxView_Previews: PreviewProvider {
-        static var previews: some View {
-            TimerMainView()
+    @ViewBuilder
+    private func selectSoundButton() -> some View {
+        HStack {
+            Text("나만의 소리를 선택해주세요")
+                .foregroundColor(Color(.TimerMyListText))
+            
+            Spacer()
+            
+            Image(systemName: "chevron.right")
+                .foregroundColor(Color(.TimerMyListText))
         }
+        .padding(.horizontal, 24)
+        .padding(.vertical, 15)
+        .background(Color(.TimerMyListBackground))
+    }
+    
+}
+
+struct RelaxView_Previews: PreviewProvider {
+    static var previews: some View {
+        TimerMainView()
     }
 }
+
