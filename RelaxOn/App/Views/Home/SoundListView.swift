@@ -21,25 +21,28 @@ struct SoundListView: View {
     
     var body: some View {
         NavigationStack {
-            
-            VStack(alignment: .leading) {
-                ZStack {
-                    Text(TabItems.home.rawValue)
-                        .foregroundColor(Color(.TitleText))
-                        .font(.system(size: 24, weight: .bold))
-                }
-                .padding(.horizontal, 24)
-                .padding(.vertical, 4)
+            ZStack {
+                Color(.DefaultBackground)
+                    .ignoresSafeArea()
                 
-                SearchBar(text: $searchText)
+                VStack(alignment: .leading) {
+                    ZStack {
+                        Text(TabItems.home.rawValue)
+                            .foregroundColor(Color(.TitleText))
+                            .font(.system(size: 24, weight: .bold))
+                    }
                     .padding(.horizontal, 24)
-                    .padding(.vertical, 16)
-                
-                ScrollView {
-                    gridView()
+                    .padding(.vertical, 4)
+                    
+                    SearchBar(text: $searchText)
+                        .padding(.horizontal, 24)
+                        .padding(.vertical, 16)
+                    
+                    ScrollView {
+                        gridView()
+                    }
                 }
             }
-            
         }
     }
     

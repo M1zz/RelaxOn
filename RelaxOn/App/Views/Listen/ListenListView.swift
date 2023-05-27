@@ -27,37 +27,42 @@ struct ListenListView: View {
     var body: some View {
         
         NavigationView {
-            
-            VStack(alignment: .leading) {
-                ZStack {
-                    Text(TabItems.listen.rawValue)
-                        .foregroundColor(Color(.TitleText))
-                        .font(.system(size: 24, weight: .bold))
-                }
-                .padding(.horizontal, 24)
-                .padding(.vertical, 4)
-                
-                SearchBar(text: $searchText)
-                    .padding(.horizontal, 24)
-                    .padding(.vertical, 16)
-                
-                List {
-//                    ForEach(Array(viewModel.customSounds.keys).sorted(), id: \.self) { index in
-//                        if let fileName = viewModel.customSounds[index] {
-//                            ListenListCell(fileName: fileName)
-//                        }
-//                    }
-                    ForEach(sample) { file in
-                        ListenListCell(fileName: file.fileName)
+            ZStack {
+                Color(.DefaultBackground)
+                    .ignoresSafeArea()
+                VStack(alignment: .leading) {
+                    ZStack {
+                        Text(TabItems.listen.rawValue)
+                            .foregroundColor(Color(.TitleText))
+                            .font(.system(size: 24, weight: .bold))
                     }
-                    .onDelete { indexSet in
-                        for index in indexSet {
-                            viewModel.remove(at: index)
+                    .padding(.horizontal, 24)
+                    .padding(.vertical, 4)
+                    
+                    SearchBar(text: $searchText)
+                        .padding(.horizontal, 24)
+                        .padding(.vertical, 16)
+                    
+                    List {
+                        //                    ForEach(Array(viewModel.customSounds.keys).sorted(), id: \.self) { index in
+                        //                        if let fileName = viewModel.customSounds[index] {
+                        //                            ListenListCell(fileName: fileName)
+                        //                        }
+                        //                    }
+                        ForEach(sample) { file in
+                            ListenListCell(fileName: file.fileName)
+                        }
+                        
+                        .onDelete { indexSet in
+                            for index in indexSet {
+                                viewModel.remove(at: index)
+                            }
                         }
                     }
+                    .background(Color(.DefaultBackground))
                 }
                 .listStyle(PlainListStyle())
-                
+
                 .onAppear {
                     viewModel.loadSound()
                 }
