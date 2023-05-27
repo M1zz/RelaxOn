@@ -16,19 +16,39 @@ struct ListenListView: View {
     @EnvironmentObject var viewModel: CustomSoundViewModel
     @State private var searchText = ""
     
+    // UI 확인용
+    let sample = [
+        CustomSound(fileName: "나의 물방울 소리", category: .waterDrop, audioVariation: .init(), audioFilter: .waterDrop),
+        CustomSound(fileName: "빠른 물방울 소리", category: .waterDrop, audioVariation: .init(), audioFilter: .waterDrop),
+        CustomSound(fileName: "조용한 물방울 소리", category: .waterDrop, audioVariation: .init(), audioFilter: .waterDrop),
+    ]
+    
     // MARK: - Body
     var body: some View {
         
         NavigationView {
             
-            VStack {
+            VStack(alignment: .leading) {
+                ZStack {
+                    Text(TabItems.listen.rawValue)
+                        .foregroundColor(Color(.TitleText))
+                        .font(.system(size: 24, weight: .bold))
+                }
+                .padding(.horizontal, 24)
+                .padding(.vertical, 4)
+                
                 SearchBar(text: $searchText)
-                    .padding()
+                    .padding(.horizontal, 24)
+                    .padding(.vertical, 16)
+                
                 List {
-                    ForEach(Array(viewModel.customSounds.keys).sorted(), id: \.self) { index in
-                        if let fileName = viewModel.customSounds[index] {
-                            ListenListCell(fileName: fileName)
-                        }
+//                    ForEach(Array(viewModel.customSounds.keys).sorted(), id: \.self) { index in
+//                        if let fileName = viewModel.customSounds[index] {
+//                            ListenListCell(fileName: fileName)
+//                        }
+//                    }
+                    ForEach(sample) { file in
+                        ListenListCell(fileName: file.fileName)
                     }
                     .onDelete { indexSet in
                         for index in indexSet {
@@ -37,12 +57,11 @@ struct ListenListView: View {
                     }
                 }
                 .listStyle(PlainListStyle())
-                .navigationTitle("Listen")
-                .navigationBarTitleDisplayMode(.large)
-                .padding()
+                
                 .onAppear {
                     viewModel.loadSound()
                 }
+                
                 SoundPlayerBottomView()
             }
         }

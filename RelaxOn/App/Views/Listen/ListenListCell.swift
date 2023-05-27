@@ -16,25 +16,36 @@ struct ListenListCell: View {
     var fileName: String
 
     var body: some View {
-        HStack {
-            
-            Image(uiImage: viewModel.loadImage(fileName))
-                .frame(width: 60, height: 60)
-            
-            Text(fileName)
-                .font(.body)
-                .bold()
-            
-            Spacer()
-            
-            Button(action: {
-                viewModel.isPlaying.toggle()
-            }) {
-                Image(systemName: viewModel.playPauseStatusImage)
-                    .padding()
-                    .foregroundColor(.black)
+        VStack {
+            HStack {
+                Image("WaterDrop")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 60, height: 60)
+                    .background(Color(hex: "DCE8F5"))
+                    .cornerRadius(8)
+                
+                Text(fileName)
+                    .font(.system(size: 18, weight: .bold))
+                    .padding(.leading, 20)
+                
+                Spacer()
+                
+                Button(action: {
+                    viewModel.isPlaying.toggle()
+                }) {
+                    Image(systemName: viewModel.playPauseStatusImage)
+                        .padding()
+                        .foregroundColor(.black)
+                }
             }
+            
+            Rectangle()
+                .frame(height: 1)
+                .foregroundColor(Color(.ListenListCellUnderLine))
+                .padding(.vertical, 2)
         }
+        
     }
 }
 
