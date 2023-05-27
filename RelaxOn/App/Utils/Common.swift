@@ -19,8 +19,12 @@ func getPathUrl(forResource: String, musicExtension: MusicExtension) -> URL? {
 }
 
 /**
-튜토리얼 이미지
+ 온보딩화면 이미지 프로퍼티
  */
+struct OnboardItem {
+    var imageName: String
+    var description: String
+}
 var tutorialImage = "TutorialGesture"
 
 /**
@@ -32,5 +36,4 @@ var featureIcon: [String] = [FeatureIcon.interval.rawValue,
                              FeatureIcon.volume.rawValue,
                              FeatureIcon.fitch.rawValue,
                              FeatureIcon.filter.rawValue]
-
 
