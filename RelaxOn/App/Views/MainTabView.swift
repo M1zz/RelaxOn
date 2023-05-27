@@ -21,9 +21,9 @@ struct MainTabView: View {
                             .frame(width: 24, height: 24)
                         Text(item.title.rawValue)
                     }.tag(item.id)
-                    
             }
-        }.accentColor(.relaxDimPurple)
+        }
+        .accentColor(Color(.PrimaryPurple))
         .environmentObject(appState)
     }
 }
