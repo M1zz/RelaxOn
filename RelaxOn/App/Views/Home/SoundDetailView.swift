@@ -15,8 +15,8 @@ struct SoundDetailView: View {
     
     // MARK: - Properties
     @State var isShowingSheet: Bool = false
-    @State var originalSound: Sound
-    @ObservedObject var audioManager = AudioManager()
+    @State var originalSound: OriginalSound
+    @EnvironmentObject var viewModel: CustomSoundViewModel
     
     var body: some View {
         VStack {
@@ -53,28 +53,25 @@ struct SoundDetailView: View {
                     .font(.system(size: 20))
             }
             
-            .fullScreenCover(isPresented: $isShowingSheet) {
-                SoundSaveView(mixedSound: MixedSound(
-                    name: originalSound.name,
-                    volume: audioManager.volume,
-                    imageName: originalSound.imageName)
-                )
+            .fullScreenCover(isPresented: $isShowingSheet, onDismiss: {
+                // TODO: Modal이 Dismiss됐을 때 소리 다시 재생하는 기능
+            }) {
+                SoundSaveView(originalSound: originalSound, audioVariation: AudioVariation(volume: viewModel.volume, pitch: viewModel.pitch, speed: viewModel.speed))
             }
         }
         
         // MARK: - Life Cycle
         .onAppear() {
-            audioManager.playAudio(sound: originalSound)
+            viewModel.playSound(originSound: originalSound)
         }
         .onDisappear() {
-            audioManager.stopAudio()
+            viewModel.stopSound()
         }
     }
 }
 
 struct SoundDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        SoundDetailView(originalSound: Sound(name: "Water Drop"))
+        SoundDetailView(originalSound: OriginalSound(name: "물소리", filter: .waterDrop, category: .waterDrop, defaultColor: "DCE8F5"))
     }
 }
-

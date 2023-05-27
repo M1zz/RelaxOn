@@ -18,6 +18,10 @@ func getPathUrl(forResource: String, musicExtension: MusicExtension) -> URL? {
     Bundle.main.url(forResource: forResource, withExtension: musicExtension.rawValue) ?? nil
 }
 
+func getPathNSURL(forResource: String, musicExtension: MusicExtension) -> NSURL? {
+    return Bundle.main.url(forResource: forResource, withExtension: musicExtension.rawValue) as NSURL?
+}
+
 /**
  온보딩화면 이미지 프로퍼티
  */

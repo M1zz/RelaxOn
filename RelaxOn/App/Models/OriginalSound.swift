@@ -26,12 +26,16 @@ struct Sound {
 /**
  앱 번들에 있는 원본 사운드를 불러오기 위한 구조체
  */
-struct OriginalSound {
+struct OriginalSound: Equatable, Hashable {
     let name: String
-    let imageName: String
+    var filter: AudioFilter
+    let category: SoundCategory
+    let defaultColor: String
     
-    init(name: String, imageName: String) {
+    init(name: String, filter: AudioFilter, category: SoundCategory, defaultColor: String) {
         self.name = name
-        self.imageName = imageName
+        self.filter = filter
+        self.category = category
+        self.defaultColor = defaultColor
     }
 }

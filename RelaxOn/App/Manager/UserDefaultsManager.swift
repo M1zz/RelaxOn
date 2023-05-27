@@ -14,13 +14,38 @@ final class UserDefaultsManager {
     static let shared = UserDefaultsManager()
     
     private let standard = UserDefaults.standard
-    // TODO: 앱 번들에 저장된 original sound file KEY
     private let MIXED_SOUND_KEY = UserDefaults.Keys.mixedSound
-    // TODO: 온보딩 + 튜토리얼 여부 KEY
-    // TODO: 마지막 재생 사운드 정보 KEY
+    private let CUSTOM_SOUND_KEY = UserDefaults.Keys.customSound
 }
 
 // MARK: - Data Get, Set Properties
+extension UserDefaultsManager {
+    
+    var customSoundsDic: [Int: String] {
+        get {
+            guard let customSoundsDictionary = standard.dictionary(forKey: CUSTOM_SOUND_KEY) as? [Int: String] else {
+                return [:]
+            }
+            return customSoundsDictionary
+        }
+        
+        set {
+            standard.set(newValue, forKey: CUSTOM_SOUND_KEY)
+        }
+    }
+    
+    func removeOneCustomSounds(at index: Int) {
+        var customSoundsDictionary = customSoundsDic
+        customSoundsDictionary.removeValue(forKey: index)
+        customSoundsDic = customSoundsDictionary
+    }
+    
+    func removeAllCustomSounds() {
+        standard.removeObject(forKey: CUSTOM_SOUND_KEY)
+    }
+}
+
+// MARK: - 삭제 예정
 extension UserDefaultsManager {
 
     /// 유저가 저장한 MixedSounds 의 정보를 UserDefaults에 저장하기 위한 프로퍼티

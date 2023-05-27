@@ -37,36 +37,11 @@ struct CustomSound: Identifiable, Codable {
     var audioVariation: AudioVariation
     var audioFilter: AudioFilter
     
-    init(name: String, volume: Float = 0.5, pitch: Float = 0.0, speed: Float = 1.0, category: SoundCategory, filter: AudioFilter) {
+    init(fileName: String, category: SoundCategory, audioVariation: AudioVariation, audioFilter: AudioFilter) {
         self.id = UUID()
-        self.fileName = name
+        self.fileName = fileName
         self.category = category
-        self.audioVariation = AudioVariation(volume: volume, pitch: pitch, speed: speed)
-        self.audioFilter = filter
+        self.audioVariation = audioVariation
+        self.audioFilter = audioFilter
     }
-}
-
-/**
- 원본 사운드 유형 관리를 위한 열거형
- */
-enum SoundCategory: String, Codable {
-    case waterDrop, singingBowl, bird
-}
-
-/**
- 오디오 변형 관리를 위한 구조체
- */
-struct AudioVariation: Codable {
-    var volume: Float
-    var pitch: Float
-    var speed: Float
-}
-
-/**
- 오디오 필터 관리를 위한 열거형
- */
-enum AudioFilter: String, Codable {
-    case waterDrop, basement, cave, pipe, sink
-    case singingBowl, focus, training, emptiness, vibration
-    case bird, owl, woodpecker, forest
 }
