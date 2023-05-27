@@ -92,7 +92,8 @@ enum FeatureIcon: String {
     case interval = "interval"
     // SoundDetailView에서만 쓰이는 이미지
     case headset = "headset"
-  
+}
+
   // 온보딩 관련
 enum OnboardInfo {
     // 아이콘 파일이름

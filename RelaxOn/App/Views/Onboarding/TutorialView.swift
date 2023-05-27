@@ -17,7 +17,7 @@ struct TutorialView: View {
     var body: some View {
         ZStack {
             // TODO: AudioManager를 활용해서 음악 끄기
-            SoundDetailView(originalSound: Sound(name:"Garden"))
+            SoundDetailView(originalSound: OriginalSound(name: "물방울", filter: .waterDrop, category: .waterDrop, defaultColor: ""))
             Color.black
                 .opacity(0.5)
             Image(OnboardInfo.Tutorial.tutorialImage.rawValue)
