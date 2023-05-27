@@ -14,12 +14,12 @@ import SwiftUI
  */
 struct TimerMainView: View {
     
-    @ObservedObject var timeData = TimerManager()
+    @ObservedObject var timerManager = TimerManager()
     @State private var hours : [Int] = Array(0...23)
     @State private var minutes : [Int] = Array(0...59)
     @State var isShowingListenListView: Bool = false
     @State var isShowingTimerProgressView: Bool = false
-    @State var progress: Double = 0.5
+    @State var progress: Double = 1.0
     
     var body: some View {
         VStack{
@@ -35,8 +35,9 @@ struct TimerMainView: View {
             
             VStack {
                 if isShowingTimerProgressView == false {
+                    // TimePicker
                     HStack(alignment: .center){
-                        Picker("select time", selection: $timeData.selectedTimeIndexHours, content: {
+                        Picker("select time", selection: $timerManager.selectedTimeIndexHours, content: {
                             ForEach(hours, id: \.self) {
                                 index in
                                 Text("\(hours[index])").tag(index)
@@ -48,7 +49,7 @@ struct TimerMainView: View {
                         
                         Text("hours")
                         
-                        Picker("select time", selection: $timeData.selectedTimeIndexMinutes, content: {
+                        Picker("select time", selection: $timerManager.selectedTimeIndexMinutes, content: {
                             ForEach(minutes, id: \.self) {
                                 index in
                                 Text("\(minutes[index])").tag(index)
@@ -63,7 +64,7 @@ struct TimerMainView: View {
                     }
                     .padding()
                 } else {
-                    TimerProgressView(timeData: timeData, isShowingTimerProgressView: isShowingTimerProgressView, progress: $progress)
+                    TimerProgressView(timerManager: timerManager)
                 }
             }.padding(.horizontal, 10)
             Spacer()
@@ -93,6 +94,7 @@ struct TimerMainView: View {
             HStack{
                 Spacer()
                 Button {
+                    timerManager.stopTimer(timerManager: timerManager)
                     isShowingTimerProgressView = false
                 } label: {
                     ZStack {

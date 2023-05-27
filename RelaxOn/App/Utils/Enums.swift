@@ -18,25 +18,27 @@ enum TabItems: String {
     case timer = "타이머"
 }
 
-// TODO: TabBarIcon으로 대체 후 삭제해야함
-/// Sprint 4까지 사용하던 탭 바 아이콘
-enum StarTabBarIcon: String {
-    case starFill = "star.fill"
-}
-
-// TODO: 아직 어떤 이름으로 추가될 지 모르겠으나 되도록 오른쪽 String에 맞춰서 저장하면 좋을 것 같습니다.
 /// 탭 바 아이콘 파일 이름
 enum TabBarIcon: String {
-    case homeTabIcon = "home_tab_icon"
-    case listenTabIcon = "listen_tab_icon"
-    case timerTabIcon = "timer_tab_icon"
+    case home = "home"
+    case listen = "headphones"
+    case timer = "alarm"
 }
 
 enum MusicExtension: String {
     case mp3
 }
 
-// 온보딩 관련
+// CircularSlider에 쓰이는 Icon
+enum FeatureIcon: String {
+    case filter = "filter"
+    case volume = "volume"
+    case fitch = "fitch"
+    case interval = "interval"
+    // SoundDetailView에서만 쓰이는 이미지
+    case headset = "headset"
+  
+  // 온보딩 관련
 enum OnboardInfo {
     // 아이콘 파일이름
     enum IconName: String {
