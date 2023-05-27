@@ -67,11 +67,10 @@ class TimerManager: ObservableObject {
     // 타이머 시간 뷰
     func getTimeText(timerManager: TimerManager) -> some View {
         
-        Text(String(format: "%02d:%02d:%02d", max(timerManager.remainingSeconds / 3600, 0), max((timerManager.remainingSeconds % 3600) / 60, 0), max(timerManager.remainingSeconds % 60, 0)))
+        Text(String(format: "%02d:%02d", max((timerManager.remainingSeconds % 3600) / 60, 0), max(timerManager.remainingSeconds % 60, 0)))
             .frame(maxWidth: .infinity)
             .padding()
-            .font(.system(size: 60))
-            .fontWeight(.semibold)
+            .font(.system(size: 60, weight: .light))
             .onAppear {
                 timerManager.startTimer(timerManager: timerManager)
             }
@@ -90,7 +89,7 @@ class TimerManager: ObservableObject {
             Circle()
                 .trim(from: 0.0, to: CGFloat(min(timerManager.progress, 1.0)))
                 .stroke(style: StrokeStyle(lineWidth: 7, lineCap: .round, lineJoin: .round))
-                .foregroundColor(.purple)
+                .foregroundColor(Color(.TimerMyListBackground))
                 .rotationEffect(Angle(degrees: 270.0))
                 .onAppear {
                     timerManager.startTimeprogressBar(timerManager: timerManager)

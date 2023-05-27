@@ -44,6 +44,7 @@ struct TimerMainView: View {
                                        selectedTimeIndexMinutes: $timerManager.selectedTimeIndexMinutes)
                     } else {
                         TimerProgressView(timerManager: timerManager)
+                            .padding(.top, 60)
                     }
                     
                     VStack(spacing: 50) {
