@@ -19,6 +19,9 @@ func getPathUrl(forResource: String, musicExtension: MusicExtension) -> URL? {
 }
 
 /**
-튜토리얼 이미지
+ 온보딩화면 이미지 프로퍼티
  */
-var tutorialImage = "TutorialGesture"
+struct OnboardItem {
+    var imageName: String
+    var description: String
+}
