@@ -66,17 +66,31 @@ class TimerManager: ObservableObject {
     }
     // 타이머 시간 뷰
     func getTimeText(timerManager: TimerManager) -> some View {
-        
-        Text(String(format: "%02d:%02d", max((timerManager.remainingSeconds % 3600) / 60, 0), max(timerManager.remainingSeconds % 60, 0)))
-            .frame(maxWidth: .infinity)
-            .padding()
-            .font(.system(size: 60, weight: .light))
-            .onAppear {
-                timerManager.startTimer(timerManager: timerManager)
-            }
-            .onDisappear {
-                timerManager.stopTimer(timerManager: timerManager)
-            }
+        if remainingSeconds > 3599 {
+            return AnyView (
+            Text(String(format: "%02d:%02d:%02d", max(timerManager.remainingSeconds / 3600, 0), max((timerManager.remainingSeconds % 3600) / 60, 0), max(timerManager.remainingSeconds % 60, 0)))
+                .font(.system(size: 40))
+                .fontWeight(.semibold)
+                .padding()
+                .onAppear {
+                    timerManager.startTimer(timerManager: timerManager)
+                }
+                .onDisappear {
+                    timerManager.stopTimer(timerManager: timerManager)
+                })
+        } else {
+            return AnyView (
+                Text(String(format: "%02d:%02d", max((timerManager.remainingSeconds % 3600) / 60, 0), max(timerManager.remainingSeconds % 60, 0)))
+                    .font(.system(size: 40))
+                    .fontWeight(.semibold)
+                    .padding()
+                    .onAppear {
+                        timerManager.startTimer(timerManager: timerManager)
+                    }
+                    .onDisappear {
+                        timerManager.stopTimer(timerManager: timerManager)
+                    })
+        }
     }
     // 타이머 원형바 뷰
     func getCircularProgressBar(timerManager: TimerManager) -> some View {
