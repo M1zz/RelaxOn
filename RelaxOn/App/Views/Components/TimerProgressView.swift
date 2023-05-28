@@ -19,7 +19,6 @@ struct TimerProgressView: View {
             timerManager.getCircularProgressBar(timerManager: timerManager)
                 .frame(maxWidth: .infinity)
             timerManager.getTimeText(timerManager: timerManager)
-                //.frame(maxWidth: .infinity)
                 .padding()
         }
     }

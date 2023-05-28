@@ -16,11 +16,17 @@ struct CircularSlider: View {
     @State var angle: Double = Double.random(in: 0...360)
     @State var width: CGFloat
     var imageName: String
+    // 버튼 움직임 타입: 2가지 (슬라이드, 이동)
+    var gestureType: Bool = true
+    var angleChanged: (Double) -> Void
     
-    init(width: CGFloat, imageName: String) {
-        self.width = width
-        self.imageName = imageName
-    }
+    // 슬라이더의 angle값을 반환
+    init(width: CGFloat, imageName: String, gestureType: Bool, angleChanged: @escaping (Double) -> Void) {
+            self.width = width
+            self.imageName = imageName
+            self.gestureType = gestureType
+            self.angleChanged = angleChanged
+        }
     
     var body: some View {
         Image(imageName)
@@ -34,7 +40,11 @@ struct CircularSlider: View {
             .gesture(
                 DragGesture()
                     .onChanged({ value in
-                        onDrag(value: value)
+                        if gestureType {
+                            onDrag(value: value)
+                        } else {
+                            onMove(value: value)
+                        }
                     })
             )
     }
@@ -44,16 +54,28 @@ struct CircularSlider: View {
      수평선을 기준으로 상단은 + 180, 하단은 -180
      SnappedAngle은 정해진 각도로만 이동하기위한 함수
      */
-    // TODO: 각도별로 이동하는 기능과 슬라이딩으로 이동하는 기능 각각 구현
+    // 슬라이드형 움직임
     func onDrag(value: DragGesture.Value) {
         let vector = CGVector(dx: value.location.x, dy: value.location.y)
         let radians = atan2(vector.dy, vector.dx)
         let angle = radians * 180 / .pi
-        //        let snappedAngle = round(angle / 72) * 72
-        self.angle = angle//Double(snappedAngle)
+        self.angle = angle
+        angleChanged(angle)
+        print("\(angle)")
+    }
+    // 이동형 움직임
+    func onMove(value: DragGesture.Value) {
+        let vector = CGVector(dx: value.location.x, dy: value.location.y)
+        let radians = atan2(vector.dy, vector.dx)
+        let angle = radians * 180 / .pi
+        let snappedAngle = round(angle / 72) * 72
+        self.angle = Double(snappedAngle)
+        angleChanged(angle)
         print("\(angle)")
     }
 }
+
+// 배경으로 쓰이는 원 + 원형 라인 + 이동 포인트
 @ViewBuilder
 func backgroundCircle() -> some View {
     
@@ -87,6 +109,9 @@ func backgroundCircle() -> some View {
 }
 struct CircularSlider_Previews: PreviewProvider {
     static var previews: some View {
-        CircularSlider(width: 300, imageName: "filter")
+        CircularSlider(width: 300, imageName: "filter", gestureType: true) { angle in
+            // 해당 예시처럼 값을 활용해볼 예정
+            print("Selected angle: \(angle / 10)")
+        }
     }
 }
