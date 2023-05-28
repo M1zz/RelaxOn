@@ -25,11 +25,14 @@ struct CircleProgressView: View {
             Circle()
                 .trim(from: 0.0, to: CGFloat(min(timerManager.progress, 1.0)))
                 .stroke(style: StrokeStyle(lineWidth: 7, lineCap: .round, lineJoin: .round))
-                .foregroundColor(.purple)
+                .foregroundColor(Color(.TimerMyListBackground))
                 .rotationEffect(Angle(degrees: 270.0))
-        }.onAppear {
+        }
+        
+        .onAppear {
             timerManager.startTimeprogressBar(timerManager: timerManager)
         }
+        
         .onDisappear {
             timerManager.stopTimer(timerManager: timerManager)
         }

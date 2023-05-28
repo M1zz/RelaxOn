@@ -15,29 +15,35 @@ struct SoundPlayerBottomView: View {
     var body: some View {
         
         HStack {
-            // TODO: 재생하는 사운드의 이미지 가져오기
-            Image(systemName: "play.fill")
-                .background(.foreground.opacity(0.08)).cornerRadius(10)
-                .padding(30)
+            Image("WaterDrop")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 60, height: 60)
+                .background(Color(hex: "DCE8F5"))
+                .cornerRadius(8)
+            
+            Text("나의 물방울 소리")
+                .font(.system(size: 18, weight: .bold))
+                .padding(.leading, 20)
+                .foregroundColor(Color(.Text))
             
             Spacer()
             
-            // TODO: 선택한 사운드 제목 가져오기
-            Text("Title")
-                .font(.title)
-            
-            Spacer()
-            
-            Button {
-                // TODO: 선택한 사운드를 재생
-            } label: {
-                Image(systemName: "play.fill")
-                    .foregroundColor(Color.black)
-                    .padding(30)
+            Button(action: {
+                
+            }) {
+                Image(PlayerButton.play.rawValue)
+                    .resizable()
+                    .renderingMode(.template)
+                    .foregroundColor(Color(.Text))
+                    .frame(width: 20, height: 20)
+                    .scaledToFit()
             }
         }
-        .background(Color.systemGrey1)
-        .ignoresSafeArea()
+        .padding(.horizontal, 20)
+        .padding(.vertical, 10)
+        .background(Color(.SoundPlayerBottom))
+        
     }
 }
 

@@ -1,17 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "button_reset-deactivated.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "button_reset-Deactivated@2x.png",
+      "filename" : "button_reset-deactivated.svg",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "button_reset-Deactivated@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

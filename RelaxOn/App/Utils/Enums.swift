@@ -84,6 +84,13 @@ enum SoundCategory: String, Codable {
     }
 }
 
+enum PlayerButton: String {
+    case play = "play"
+    case pause = "pause"
+    case fastForward = "fast_forward"
+    case fastRewind = "fast_rewind"
+}
+
 // CircularSlider에 쓰이는 Icon
 enum FeatureIcon: String {
     case filter = "filter"
@@ -114,4 +121,9 @@ enum OnboardInfo {
     enum Tutorial: String {
         case tutorialImage = "tutorialGesture"
     }
+}
+
+enum SelectSound: String {
+    case checked_circle
+    case unchecked_circle
 }

@@ -47,7 +47,30 @@ extension AudioEngineManager {
             scheduleNextBuffer()
             
         } catch {
-            print("An error occurred: \(error)")
+            print("An error occurred: \(error.localizedDescription)")
+        }
+    }
+    
+    func play(with customSound: CustomSound) {
+        print(#function)
+        
+        guard let fileURL = getPathNSURL(forResource: customSound.category.fileName, musicExtension: .wav) else {
+            print("File not found")
+            return
+        }
+        
+        do {
+            audioFile = try AVAudioFile(forReading: fileURL as URL)
+            engine.attach(player)
+            if let audioFile = audioFile {
+                engine.connect(player, to: engine.mainMixerNode, format: audioFile.processingFormat)
+            }
+            try engine.start()
+            audioBuffer = prepareBuffer()
+            scheduleNextBuffer()
+            
+        } catch {
+            print("An error occurred: \(error.localizedDescription)")
         }
     }
     

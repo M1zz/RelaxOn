@@ -21,23 +21,36 @@ final class UserDefaultsManager {
 // MARK: - Data Get, Set Properties
 extension UserDefaultsManager {
     
-    var customSoundsDic: [Int: String] {
+    var customSounds: [CustomSound] {
         get {
-            guard let customSoundsDictionary = standard.dictionary(forKey: CUSTOM_SOUND_KEY) as? [Int: String] else {
-                return [:]
+            guard let customSoundsData = standard.data(forKey: CUSTOM_SOUND_KEY) else {
+                return []
             }
-            return customSoundsDictionary
+            do {
+                let decoder = JSONDecoder()
+                let customSounds = try decoder.decode([CustomSound].self, from: customSoundsData)
+                return customSounds
+            } catch {
+                print("Error decoding custom sounds: \(error)")
+                return []
+            }
         }
         
         set {
-            standard.set(newValue, forKey: CUSTOM_SOUND_KEY)
+            do {
+                let encoder = JSONEncoder()
+                let customSoundsData = try encoder.encode(newValue)
+                standard.set(customSoundsData, forKey: CUSTOM_SOUND_KEY)
+            } catch {
+                print("Error encoding custom sounds: \(error)")
+            }
         }
     }
     
-    func removeOneCustomSounds(at index: Int) {
-        var customSoundsDictionary = customSoundsDic
-        customSoundsDictionary.removeValue(forKey: index)
-        customSoundsDic = customSoundsDictionary
+    func removeOneCustomSound(at index: Int) {
+        var customSounds = self.customSounds
+        customSounds.remove(at: index)
+        self.customSounds = customSounds
     }
     
     func removeAllCustomSounds() {

@@ -17,10 +17,31 @@ struct SoundListView: View {
         GridItem(.flexible())
     ]
     
+    @State private var searchText = ""
+    
     var body: some View {
         NavigationStack {
-            ScrollView {
-                gridView()
+            ZStack {
+                Color(.DefaultBackground)
+                    .ignoresSafeArea()
+                
+                VStack(alignment: .leading) {
+                    ZStack {
+                        Text(TabItems.home.rawValue)
+                            .foregroundColor(Color(.TitleText))
+                            .font(.system(size: 24, weight: .bold))
+                    }
+                    .padding(.horizontal, 24)
+                    .padding(.vertical, 4)
+                    
+                    SearchBar(text: $searchText)
+                        .padding(.horizontal, 24)
+                        .padding(.vertical, 16)
+                    
+                    ScrollView {
+                        gridView()
+                    }
+                }
             }
         }
     }
@@ -29,14 +50,14 @@ struct SoundListView: View {
     private func gridView() -> some View {
         
         LazyVGrid(columns: columns) {
-            ForEach(SoundListView.originalSounds, id: \.self) { originalSound in
+            ForEach(filteredSounds(), id: \.self) { originalSound in
                 NavigationLink(destination: SoundDetailView(originalSound: originalSound)) {
                     gridViewItem(originalSound)
                 }
             }
+            .padding(.bottom, 30)
         }
-        .padding(20)
-        .padding(.top, 10)
+        .padding(24)
     }
     
     @ViewBuilder
@@ -45,16 +66,24 @@ struct SoundListView: View {
         VStack(alignment: .leading) {
             
             Text(originalSound.category.displayName)
-                .font(.title2)
-                .bold()
+                .font(.system(size: 16, weight: .bold))
+                .foregroundColor(Color(.Text))
             
             Image(originalSound.category.imageName)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(height: 140)
-            
+                .background(Color(hex: originalSound.defaultColor))
+                .cornerRadius(8)
         }
-        .foregroundColor(.black)
+    }
+    
+    private func filteredSounds() -> [OriginalSound] {
+        if searchText.isEmpty {
+            return SoundListView.originalSounds
+        } else {
+            return SoundListView.originalSounds.filter { $0.name.lowercased().contains(searchText.lowercased()) }
+        }
     }
 }
 

@@ -30,7 +30,8 @@ struct MixedSound: Identifiable, Codable {
 /**
  사용자가 커스텀한 사운드 정보를 저장하고 불러오기 위한 구조체
  */
-struct CustomSound: Identifiable, Codable {
+struct CustomSound: Identifiable, Codable, Equatable {
+    
     let id: UUID
     var fileName: String
     var category: SoundCategory
@@ -44,4 +45,9 @@ struct CustomSound: Identifiable, Codable {
         self.audioVariation = audioVariation
         self.audioFilter = audioFilter
     }
+    
+    static func ==(lhs: CustomSound, rhs: CustomSound) -> Bool {
+        return lhs.id == rhs.id
+    }
+    
 }

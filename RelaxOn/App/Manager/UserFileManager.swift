@@ -135,7 +135,7 @@ extension UserFileManager {
             audioVariation: audioVariation,
             audioFilter: originalSound.filter
         )
-        let fileURL = infoDirectoryURL.appendingPathComponent("\(fileName).json")
+        let fileURL = infoDirectoryURL.appendingPathComponent("\(fileName).\(FileExtension.json)")
         let encoder = JSONEncoder()
         do {
             let data = try encoder.encode(customSound)
@@ -147,7 +147,7 @@ extension UserFileManager {
     }
     
     func loadCustomSoundInfoFromJSON(fileName: String) -> CustomSound? {
-        let fileURL = infoDirectoryURL.appendingPathComponent("\(fileName).json")
+        let fileURL = infoDirectoryURL.appendingPathComponent("\(fileName).\(FileExtension.json)")
         let decoder = JSONDecoder()
         do {
             let data = try Data(contentsOf: fileURL)
@@ -160,8 +160,8 @@ extension UserFileManager {
     }
     
     func modifyJSONName(oldFileName: String, newFileName: String) {
-        let oldFileURL = infoDirectoryURL.appendingPathComponent("\(oldFileName).json")
-        let newFileURL = infoDirectoryURL.appendingPathComponent("\(newFileName).json")
+        let oldFileURL = infoDirectoryURL.appendingPathComponent("\(oldFileName).\(FileExtension.json)")
+        let newFileURL = infoDirectoryURL.appendingPathComponent("\(newFileName).\(FileExtension.json)")
         do {
             try fileManager.moveItem(at: oldFileURL, to: newFileURL)
             print("JSON renamed successfully.")
@@ -171,7 +171,7 @@ extension UserFileManager {
     }
 
     func removeJSON(fileName: String) {
-        let fileURL = infoDirectoryURL.appendingPathComponent("\(fileName).json")
+        let fileURL = infoDirectoryURL.appendingPathComponent("\(fileName).\(FileExtension.json)")
         do {
             try fileManager.removeItem(at: fileURL)
             print("JSON deleted successfully.")
@@ -188,7 +188,7 @@ extension UserFileManager {
     // FIXME: Image + BackgroundColor 파일로 저장하는 기능
     func saveImage(_ fileName: String, _ color: Color, _ category: SoundCategory) {
         if let image = UIImage(named: category.imageName) {
-            let fileURL = imageDirectoryURL.appendingPathComponent("\(fileName).png")
+            let fileURL = imageDirectoryURL.appendingPathComponent("\(fileName).\(FileExtension.png)")
             if let pngData = image.pngData() {
                 do {
                     try pngData.write(to: fileURL)
@@ -201,18 +201,22 @@ extension UserFileManager {
         }
     }
     
-    func loadImage(fileName: String) -> UIImage? {
-        let fileURL = imageDirectoryURL.appendingPathComponent("\(fileName).png")
-        guard let data = try? Data(contentsOf: fileURL) else {
-            print("Failed to load image with name: \(fileName)")
-            return nil
+    func loadImage(fileName: String) -> UIImage {
+        let fileURL = imageDirectoryURL.appendingPathComponent("\(fileName).\(FileExtension.png)")
+        do {
+            let imageData = try Data(contentsOf: fileURL)
+            if let image = UIImage(data: imageData) {
+                return image
+            }
+        } catch {
+            print("Error loading image : \(error)")
         }
-        return UIImage(data: data)
+        return UIImage(systemName: "photo") ?? UIImage()
     }
     
     func modifyImageName(oldFileName: String, newFileName: String) {
-        let oldFileURL = imageDirectoryURL.appendingPathComponent("\(oldFileName).png")
-        let newFileURL = imageDirectoryURL.appendingPathComponent("\(newFileName).png")
+        let oldFileURL = imageDirectoryURL.appendingPathComponent("\(oldFileName).\(FileExtension.png)")
+        let newFileURL = imageDirectoryURL.appendingPathComponent("\(newFileName).\(FileExtension.png)")
         do {
             try fileManager.moveItem(at: oldFileURL, to: newFileURL)
             print("Image renamed successfully.")
@@ -222,7 +226,7 @@ extension UserFileManager {
     }
 
     func removeImage(fileName: String) {
-        let fileURL = imageDirectoryURL.appendingPathComponent("\(fileName).png")
+        let fileURL = imageDirectoryURL.appendingPathComponent("\(fileName).\(FileExtension.png)")
         do {
             try fileManager.removeItem(at: fileURL)
             print("Image deleted successfully.")
@@ -241,7 +245,6 @@ extension UserFileManager {
         //        let data = try encoder.encode(mixedSound)
         //        let fileName = "\(mixedSound.id.uuidString).\(FileExtension.json)"
         //        let fileURL = documentsDirectory.appendingPathComponent(fileName)
-        
         //        try fileManager.createDirectory(at: documentsDirectory, withIntermediateDirectories: true, attributes: nil)
         
         //        do {

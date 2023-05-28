@@ -13,36 +13,72 @@ import SwiftUI
  */
 struct ListenListView: View {
     
-    @ObservedObject private var viewModel = MixedSoundsViewModel()
+    @EnvironmentObject var viewModel: CustomSoundViewModel
     @State private var searchText = ""
+    
+    // UI 확인용
+    let sample = [
+        CustomSound(fileName: "나의 물방울 소리", category: .waterDrop, audioVariation: .init(), audioFilter: .waterDrop),
+        CustomSound(fileName: "빠른 물방울 소리", category: .waterDrop, audioVariation: .init(), audioFilter: .waterDrop),
+        CustomSound(fileName: "조용한 물방울 소리", category: .waterDrop, audioVariation: .init(), audioFilter: .waterDrop),
+    ]
+    
+    @State private var selectedFile: CustomSound? = nil
+    @State private var isShowingSheet = false
     
     // MARK: - Body
     var body: some View {
         
-        NavigationView {
+        VStack(alignment: .leading) {
+            ZStack {
+                Text(TabItems.listen.rawValue)
+                    .foregroundColor(Color(.TitleText))
+                    .font(.system(size: 24, weight: .bold))
+            }
+            .padding(.horizontal, 24)
+            .padding(.vertical, 4)
             
-            VStack {
-                SearchBar(text: $searchText)
-                    .padding()
-                List {
-                    ForEach(viewModel.mixedSounds, id: \.id) { mixedSound in
-                        ListenListCell(title: mixedSound.name, ImageName: mixedSound.imageName)
-                    }
-                    .onDelete { indexSet in
-                        for index in indexSet {
-                            viewModel.removeMixedSound(at: index)
+            SearchBar(text: $searchText)
+                .padding(.horizontal, 24)
+                .padding(.vertical, 16)
+            
+            List {
+                ForEach(sample) { file in
+                    ListenListCell(fileName: file.fileName)
+                        .onTapGesture {
+                            selectedFile = file
                         }
+                }
+                .onDelete { indexSet in
+                    for index in indexSet {
+                        viewModel.remove(at: index)
                     }
                 }
-                .listStyle(PlainListStyle())
-                .navigationTitle("Listen")
-                .navigationBarTitleDisplayMode(.large)
-                .padding()
-                .onAppear {
-                    viewModel.loadMixedSound()
-                }
+                .listRowBackground(Color(.DefaultBackground))
+                .listRowSeparator(.hidden)
+            }
+            .sheet(item: $selectedFile) { file in
+                SoundPlayerFullModalView(file: file)
+            }
+            
+            Button {
+                isShowingSheet = true
+            } label: {
                 SoundPlayerBottomView()
             }
+            .sheet(isPresented: $isShowingSheet, onDismiss: {
+                isShowingSheet = false
+            }) {
+                // FIXME: ViewModel now playing sound로 수정하기
+                SoundPlayerFullModalView(file: sample.first!)
+            }
+
+        }
+        .listStyle(PlainListStyle())
+        .background(Color(.DefaultBackground))
+        
+        .onAppear {
+            viewModel.loadSound()
         }
     }
 }

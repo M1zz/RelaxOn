@@ -11,37 +11,46 @@ import SwiftUI
  커스텀 음원의 각 정보가 셀 안에 노출되는 View
  */
 struct ListenListCell: View {
-    // MARK: - Properties
     
-    // TODO: 삭제 예정 -> viewModel로 관리
-    var title: String
-    var ImageName: String
-    
-    // TODO: 삭제 예정 -> enum으로 관리
-    var PlayButtonImageName: String = "play.fill"
-    var PauseButtonImageName: String = "pause.fill"
+    @EnvironmentObject var viewModel: CustomSoundViewModel
+    @State private var isPresenting = false
+    var fileName: String
     
     var body: some View {
-        HStack {
-            Image(ImageName)
-                .padding(30)
-                .background(.foreground.opacity(0.08)).cornerRadius(10)
-            Text(title)
-                .font(.body)
-                .bold()
-            Spacer()
-            Button(action: {
-                // TODO: 재생 & 정지 토글 기능
-            }) {
-                Image(systemName: PauseButtonImageName)
-                    .padding()
-                    .foregroundColor(.black)
+        VStack {
+            Button {
+                isPresenting.toggle()
+            } label: {
+                HStack {
+                    Image("WaterDrop")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 60, height: 60)
+                        .background(Color(hex: "DCE8F5"))
+                        .cornerRadius(8)
+                    
+                    Text(fileName)
+                        .font(.system(size: 18, weight: .bold))
+                        .padding(.leading, 20)
+                        .foregroundColor(Color(.Text))
+                    
+                    Spacer()
+                }
+                
+                Rectangle()
+                    .frame(height: 1)
+                    .foregroundColor(Color(.ListenListCellUnderLine))
+                    .padding(.vertical, 2)
+                    .background(Color(.DefaultBackground))
             }
         }
+        .background(Color(.DefaultBackground))
+        
     }
 }
+
 struct ListenListCell_Previews: PreviewProvider {
     static var previews: some View {
-        ListenListCell(title: "타이틀", ImageName: "play.fill")
+        ListenListCell(fileName: "임시 타이틀")
     }
 }
