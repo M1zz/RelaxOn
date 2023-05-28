@@ -23,6 +23,9 @@ struct ListenListView: View {
         CustomSound(fileName: "조용한 물방울 소리", category: .waterDrop, audioVariation: .init(), audioFilter: .waterDrop),
     ]
     
+    @State private var selectedFile: CustomSound? = nil
+    @State private var isShowingSheet = false
+    
     // MARK: - Body
     var body: some View {
         
@@ -42,6 +45,9 @@ struct ListenListView: View {
             List {
                 ForEach(sample) { file in
                     ListenListCell(fileName: file.fileName)
+                        .onTapGesture {
+                            selectedFile = file
+                        }
                 }
                 .onDelete { indexSet in
                     for index in indexSet {
@@ -49,9 +55,24 @@ struct ListenListView: View {
                     }
                 }
                 .listRowBackground(Color(.DefaultBackground))
+                .listRowSeparator(.hidden)
+            }
+            .sheet(item: $selectedFile) { file in
+                SoundPlayerFullModalView(file: file)
             }
             
-            SoundPlayerBottomView()
+            Button {
+                isShowingSheet = true
+            } label: {
+                SoundPlayerBottomView()
+            }
+            .sheet(isPresented: $isShowingSheet, onDismiss: {
+                isShowingSheet = false
+            }) {
+                // FIXME: ViewModel now playing sound로 수정하기
+                SoundPlayerFullModalView(file: sample.first!)
+            }
+
         }
         .listStyle(PlainListStyle())
         .background(Color(.DefaultBackground))

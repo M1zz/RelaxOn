@@ -13,13 +13,14 @@ import SwiftUI
 struct ListenListCell: View {
     
     @EnvironmentObject var viewModel: CustomSoundViewModel
+    @State private var isPresenting = false
     var fileName: String
     
     var body: some View {
-        ZStack {
-            Color(.DefaultBackground)
-                .ignoresSafeArea()
-            VStack {
+        VStack {
+            Button {
+                isPresenting.toggle()
+            } label: {
                 HStack {
                     Image("WaterDrop")
                         .resizable()
@@ -34,14 +35,6 @@ struct ListenListCell: View {
                         .foregroundColor(Color(.Text))
                     
                     Spacer()
-                    
-                    Button(action: {
-                        viewModel.isPlaying.toggle()
-                    }) {
-                        Image(systemName: viewModel.playPauseStatusImage)
-                            .padding(.trailing, 20)
-                            .foregroundColor(Color(.Text))
-                    }
                 }
                 
                 Rectangle()
@@ -50,8 +43,9 @@ struct ListenListCell: View {
                     .padding(.vertical, 2)
                     .background(Color(.DefaultBackground))
             }
-            .background(Color(.DefaultBackground))
         }
+        .background(Color(.DefaultBackground))
+        
     }
 }
 

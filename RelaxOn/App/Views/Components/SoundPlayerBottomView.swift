@@ -32,9 +32,12 @@ struct SoundPlayerBottomView: View {
             Button(action: {
                 
             }) {
-                Image(systemName: PlayPauseButton.play.rawValue)
-                    .padding(.trailing, 20)
+                Image(PlayerButton.play.rawValue)
+                    .resizable()
+                    .renderingMode(.template)
                     .foregroundColor(Color(.Text))
+                    .frame(width: 20, height: 20)
+                    .scaledToFit()
             }
         }
         .padding(.horizontal, 20)

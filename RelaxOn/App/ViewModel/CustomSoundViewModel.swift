@@ -49,7 +49,7 @@ final class CustomSoundViewModel: ObservableObject {
     }
     
     var playPauseStatusImage: String {
-        isPlaying ? PlayPauseButton.pause.rawValue : PlayPauseButton.play.rawValue
+        isPlaying ? PlayerButton.pause.rawValue : PlayerButton.play.rawValue
     }
     
     init(customSound: CustomSound? = nil, filter: AudioFilter = .waterDrop) {

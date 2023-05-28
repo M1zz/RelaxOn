@@ -12,69 +12,80 @@ import SwiftUI
  */
 struct SoundPlayerFullModalView: View {
     
+    /// UI 확인용
+    var file: CustomSound
+    @State private var isPlaying: Bool = false
+    
+    @EnvironmentObject var viewModel: CustomSoundViewModel
+    
     var body: some View {
         VStack {
-            Spacer(minLength: 100)
+            Spacer()
             
-            // TODO: 선택한 사운드 이미지 가져오기
-            Image("placeholderImage")
+            Image(file.category.imageName)
                 .resizable()
-                .scaledToFill()
+                .scaledToFit()
+                .background(Color(hex: "DCE8F5"))
+                .cornerRadius(12)
                 .frame(maxWidth: .infinity)
-                .padding(30)
-            
-            // TODO: 선택한 사운드 제목 가져오기
-            Text("Title")
-                .font(.largeTitle)
-                .padding()
+                .padding(.horizontal, 8)
             
             Spacer()
             
-            HStack(alignment: .center) {
-                Spacer(minLength: 80)
+            Text(file.fileName)
+                .font(.system(size: 24, weight: .bold))
+                .foregroundColor(Color(.Text))
+            
+            HStack(alignment: .center, spacing: 40) {
+                
                 Button {
-
                     // TODO: 저장된 음원 목록 중 뒤쪽 음원으로 이동
                 } label: {
-                    Image(systemName: "backward.fill")
+                    Image(PlayerButton.fastRewind.rawValue)
                         .resizable()
+                        .renderingMode(.template)
+                        .foregroundColor(Color(.Text))
+                        .frame(width: 40, height: 40)
                         .scaledToFit()
-                        .foregroundColor(.black)
-                        .padding()
                 }
-                
-                Spacer()
                 
                 Button {
                     // TODO: 선택한 사운드 재생/일시정지 토글
+                    isPlaying.toggle()
                 } label: {
-                    // TODO: 음원 재생 여부에 따라 토글되도록 설정, 하드코딩 금지
-                    Image(systemName: "play.fill")
+                    Image(isPlaying ? PlayerButton.pause.rawValue : PlayerButton.play.rawValue)
                         .resizable()
+                        .renderingMode(.template)
+                        .foregroundColor(Color(.Text))
+                        .frame(width: 40, height: 40)
                         .scaledToFit()
-                        .foregroundColor(.black)
-                        .padding()
                 }
-                
                 
                 Button {
                     // TODO: 저장된 음원 목록 중 앞쪽 음원으로 이동
                 } label: {
-                    Image(systemName: "forward.fill")
+                    Image(PlayerButton.fastForward.rawValue)
                         .resizable()
+                        .renderingMode(.template)
+                        .foregroundColor(Color(.Text))
+                        .frame(width: 40, height: 40)
                         .scaledToFit()
-                        .foregroundColor(.black)
-                        .padding()
                 }
-                Spacer(minLength: 80)
             }
-            Spacer(minLength: 100)
+            .frame(minWidth: 200, maxWidth: .infinity)
+            .padding(.top, 32)
+            
+            Spacer()
+            
         }
+        .padding(.horizontal, 24)
+        .padding(.vertical, 32)
+        .background(Color(.DefaultBackground))
     }
 }
 
 struct FullModalSoundPlayerView_Previews: PreviewProvider {
     static var previews: some View {
-        SoundPlayerFullModalView()
+        SoundPlayerFullModalView(file: .init(fileName: "나의 물방울 소리", category: .waterDrop, audioVariation: AudioVariation(), audioFilter: .waterDrop))
     }
 }
