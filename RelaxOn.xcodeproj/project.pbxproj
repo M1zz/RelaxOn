@@ -59,6 +59,7 @@
 		5958296E2A1E8E930009D761 /* CircularSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5958296D2A1E8E930009D761 /* CircularSlider.swift */; };
 		8F00A2392A2332530062B816 /* TimerSoundSelectModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F00A2382A2332530062B816 /* TimerSoundSelectModalView.swift */; };
 		8F00A23B2A2348C20062B816 /* TimerSoundListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F00A23A2A2348C20062B816 /* TimerSoundListCell.swift */; };
+		8F00A23D2A235E5F0062B816 /* OnboardItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F00A23C2A235E5F0062B816 /* OnboardItem.swift */; };
 		8F0FC48F29C1D9D500F923A5 /* CustomSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0FC48E29C1D9D500F923A5 /* CustomSound.swift */; };
 		8F0FC49129C1D9F500F923A5 /* OriginalSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0FC49029C1D9F500F923A5 /* OriginalSound.swift */; };
 		8F0FC49B29C1DD5D00F923A5 /* OldAudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0FC49829C1DD5D00F923A5 /* OldAudioManager.swift */; };
@@ -242,6 +243,7 @@
 		5958296D2A1E8E930009D761 /* CircularSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularSlider.swift; sourceTree = "<group>"; };
 		8F00A2382A2332530062B816 /* TimerSoundSelectModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerSoundSelectModalView.swift; sourceTree = "<group>"; };
 		8F00A23A2A2348C20062B816 /* TimerSoundListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerSoundListCell.swift; sourceTree = "<group>"; };
+		8F00A23C2A235E5F0062B816 /* OnboardItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardItem.swift; sourceTree = "<group>"; };
 		8F0FC48E29C1D9D500F923A5 /* CustomSound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSound.swift; sourceTree = "<group>"; };
 		8F0FC49029C1D9F500F923A5 /* OriginalSound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OriginalSound.swift; sourceTree = "<group>"; };
 		8F0FC49829C1DD5D00F923A5 /* OldAudioManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OldAudioManager.swift; sourceTree = "<group>"; };
@@ -695,6 +697,7 @@
 				8F0FC48E29C1D9D500F923A5 /* CustomSound.swift */,
 				8F0FC49029C1D9F500F923A5 /* OriginalSound.swift */,
 				8FFF99EC2A1F51F100E2474C /* AudioVariation.swift */,
+				8F00A23C2A235E5F0062B816 /* OnboardItem.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1060,6 +1063,7 @@
 				E2BF1057289173F100408B8C /* TimerPickerView.swift in Sources */,
 				8F0FC49129C1D9F500F923A5 /* OriginalSound.swift in Sources */,
 				8FCB23E92A15F70200188024 /* UIColor+Extension.swift in Sources */,
+				8F00A23D2A235E5F0062B816 /* OnboardItem.swift in Sources */,
 				8FCB23F22A15F83900188024 /* SearchBar.swift in Sources */,
 				8F0FC48F29C1D9D500F923A5 /* CustomSound.swift in Sources */,
 				10D26714288EF4D20056339A /* RectPreference.swift in Sources */,

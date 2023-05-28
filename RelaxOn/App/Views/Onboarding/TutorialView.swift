@@ -22,18 +22,19 @@ struct TutorialView: View {
         ZStack {
             SoundDetailView(isTutorial: true, originalSound: OriginalSound(name: "물방울", filter: .waterDrop, category: .waterDrop, defaultColor: "DCE8F5"))
             
-            Color.black
-                .opacity(0.5)
-                .ignoresSafeArea()
-            
             Image(OnboardInfo.Tutorial.tutorialImage.rawValue)
                 .resizable()
                 .scaledToFit()
                 .frame(maxWidth: .infinity)
                 .padding(50)
+            
+            Color.black
+                .opacity(0.5)
+                .ignoresSafeArea()
         }
 
         .onTapGesture {
+            isFirstVisit = false
             UserDefaultsManager.shared.isFirstVisit = false
             presentationMode.wrappedValue.dismiss()
             appState.moveToTab(.home)
