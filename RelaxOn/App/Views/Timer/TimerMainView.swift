@@ -68,9 +68,15 @@ struct TimerMainView: View {
                                 timerManager.stopTimer(timerManager: timerManager)
                                 isShowingTimerProgressView = false
                             } label: {
-                                Image("button_reset-deactivated")
-                                    .resizable()
-                                    .frame(width: 80, height: 80)
+                                if isShowingTimerProgressView {
+                                    Image("button_reset-activated")
+                                        .resizable()
+                                        .frame(width: 80, height: 80)
+                                } else {
+                                    Image("button_reset-deactivated")
+                                        .resizable()
+                                        .frame(width: 80, height: 80)
+                                }
                             }
                             
                             Spacer ()
