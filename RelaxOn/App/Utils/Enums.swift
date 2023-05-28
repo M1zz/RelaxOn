@@ -122,3 +122,8 @@ enum OnboardInfo {
         case tutorialImage = "tutorialGesture"
     }
 }
+
+enum SelectSound: String {
+    case checked_circle
+    case unchecked_circle
+}

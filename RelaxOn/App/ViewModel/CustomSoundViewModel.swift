@@ -18,10 +18,9 @@ final class CustomSoundViewModel: ObservableObject {
     private var fileManager = UserFileManager.shared
     private var userDefaults = UserDefaultsManager.shared
 
-    @Published var customSounds = [Int: String]()
-    
-    @Published var nowPlayingCustomSound: CustomSound?
-    
+    @Published var customSounds: [CustomSound] = []
+    @Published var selectedSound: CustomSound? = nil
+    @Published var searchText = ""
     @Published var isPlaying = false
 
     @Published var speed = Float() {
@@ -44,7 +43,7 @@ final class CustomSoundViewModel: ObservableObject {
     
     @Published var filter: AudioFilter {
         didSet {
-            nowPlayingCustomSound?.audioFilter = filter
+            selectedSound?.audioFilter = filter
         }
     }
     
@@ -52,8 +51,16 @@ final class CustomSoundViewModel: ObservableObject {
         isPlaying ? PlayerButton.pause.rawValue : PlayerButton.play.rawValue
     }
     
+    var filteredSounds: [CustomSound] {
+        if searchText.isEmpty {
+            return customSounds
+        } else {
+            return customSounds.filter { $0.fileName.contains(searchText) }
+        }
+    }
+    
     init(customSound: CustomSound? = nil, filter: AudioFilter = .waterDrop) {
-        self.nowPlayingCustomSound = customSound
+        self.selectedSound = customSound
         self.filter = filter
         
         pitch = Float.random(in: -5.0...5.0) // 0부터 1씩 증가하거나 감소
@@ -79,7 +86,7 @@ extension CustomSoundViewModel {
     }
     
     func loadSound() {
-        customSounds = userDefaults.customSoundsDic
+        customSounds = userDefaults.customSounds
     }
     
     func testForUpdateLoopSpeed() {
@@ -92,22 +99,25 @@ extension CustomSoundViewModel {
 extension CustomSoundViewModel {
     
     func save(with originalSound: OriginalSound, audioVariation: AudioVariation, fileName: String, color: Color) {
-        let customSoundDic = userDefaults.customSoundsDic
-        if customSoundDic.values.contains(fileName) {
-            print("이미 이 파일이 존재합니다 다른 로직을 수행할 수 없습니다. 라고 유저에게 알리기")
+        var customSounds = userDefaults.customSounds
+        if customSounds.contains(where: { $0.fileName == fileName }) {
+            print("이미 이 파일이 존재합니다. 다른 로직을 수행할 수 없습니다.")
+            // 유저에게 알리는 로직 추가
             return
         }
         
+        let customSound = CustomSound(fileName: fileName, category: originalSound.category, audioVariation: audioVariation, audioFilter: originalSound.filter)
         fileManager.save(originalSound, audioVariation, fileName, color, audioEngineManager)
         
-        /// UserDefaults에 [인덱스: 파일명] 업데이트
-        let index = customSoundDic.count
-        userDefaults.customSoundsDic[index] = fileName
+        customSounds.append(customSound)
+        userDefaults.customSounds = customSounds
         loadSound()
     }
     
     func remove(at index: Int) {
-        customSounds.removeValue(forKey: index)
+        var customSounds = userDefaults.customSounds
+        customSounds.remove(at: index)
+        userDefaults.customSounds = customSounds
         loadSound()
     }
     
@@ -117,5 +127,12 @@ extension CustomSoundViewModel {
 extension CustomSoundViewModel {
     func loadImage(_ fileName: String) -> UIImage {
         return fileManager.loadImage(fileName: fileName)
+    }
+}
+
+// MARK: - for UI Test
+extension CustomSoundViewModel {
+    func setTimerMainViewSelectedSound(_ selectedSound: CustomSound) {
+        self.selectedSound = selectedSound
     }
 }

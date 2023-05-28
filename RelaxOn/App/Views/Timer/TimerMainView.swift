@@ -14,12 +14,14 @@ import SwiftUI
  */
 struct TimerMainView: View {
     
+    @EnvironmentObject var viewModel: CustomSoundViewModel
     @ObservedObject var timerManager = TimerManager()
     @State private var hours : [Int] = Array(0...23)
     @State private var minutes : [Int] = Array(0...59)
-    @State var isShowingListenListView: Bool = false
+    @State var isShowingSelectorView: Bool = false
     @State var isShowingTimerProgressView: Bool = false
     @State var progress: Double = 1.0
+    @State private var selectedSoundText: String = ""
     
     var body: some View {
         
@@ -49,15 +51,16 @@ struct TimerMainView: View {
                     
                     VStack(spacing: 50) {
                         Button {
-                            isShowingListenListView.toggle()
+                            isShowingSelectorView.toggle()
                         } label: {
                             selectSoundButton()
                                 .cornerRadius(10)
                                 .padding(.horizontal, 38)
                         }
                         
-                        .sheet(isPresented: $isShowingListenListView) {
-                            ListenListView()
+                        .sheet(isPresented: $isShowingSelectorView) {
+                            TimerSoundSelectModalView()
+                                .presentationDetents([.fraction(0.88)])
                         }
                         
                         HStack {
@@ -97,7 +100,7 @@ struct TimerMainView: View {
     @ViewBuilder
     private func selectSoundButton() -> some View {
         HStack {
-            Text("나만의 소리를 선택해주세요")
+            Text(viewModel.selectedSound?.fileName ?? "나만의 소리를 선택해주세요")
                 .foregroundColor(Color(.TimerMyListText))
             
             Spacer()
