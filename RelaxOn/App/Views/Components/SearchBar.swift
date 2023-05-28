@@ -11,8 +11,8 @@ import SwiftUI
  검색창 View
  */
 struct SearchBar: View {
-
     @Binding var text: String
+    @State private var isEditing: Bool = false
     
     var body: some View {
         HStack {
@@ -20,14 +20,39 @@ struct SearchBar: View {
                 .foregroundColor(Color(.SearchBarText))
                 .padding(.horizontal, 6)
             
-            TextField("저장한 나만의 소리를 검색해보세요", text: $text)
-                .font(.system(size: 14, weight: .regular))
-                .foregroundColor(Color(.SearchBarText))
-                .layoutPriority(1)
+            if isEditing {
+                TextField("", text: $text)
+                    .font(.system(size: 14, weight: .regular))
+                    .foregroundColor(Color(.SearchBarText))
+                    .layoutPriority(1)
+                    .textFieldStyle(.plain)
+                    .transition(.opacity)
+
+            } else {
+                Button(action: {
+                    withAnimation {
+                        isEditing.toggle()
+                    }
+                }) {
+                    HStack {
+                        Text("저장한 나만의 소리를 검색해보세요")
+                            .font(.system(size: 14))
+                            .foregroundColor(Color(.SearchBarText))
+                            .frame(minHeight: 40)
+                        
+                        Spacer()
+                    }
+                }
+                .transition(.opacity)
+                .frame(maxWidth: .infinity)
+            }
             
             if !text.isEmpty {
                 Button(action: {
-                    self.text = ""
+                    text = ""
+                    withAnimation {
+                        isEditing.toggle()
+                    }
                 }) {
                     Image(systemName: "xmark.circle.fill")
                         .foregroundColor(Color(.SearchBarText))
