@@ -34,7 +34,6 @@ struct SoundDetailView: View {
                         .foregroundColor(Color(.Text))
                         .font(.system(size: 18, weight: .regular))
                 }
-                
                 ZStack {
                     backgroundCircle()
                     CircularSlider(width: circleWidth[0], imageName: featureIcon[0], gestureType: true) { angle in }
