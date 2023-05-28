@@ -105,10 +105,10 @@ enum FeatureIcon: String {
 enum OnboardInfo {
     // 아이콘 파일이름
     enum IconName: String {
-        case equalizerbutton = "equalizerbutton"
-        case headphone = "headphone"
-        case lamp = "lamp"
-        case musicplayer = "musicplayer"
+        case equalizerbutton = "Equalizer"
+        case headphone = "Headphone"
+        case lamp = "Lamp"
+        case musicplayer = "MusicPlayer"
     }
     // 설명 문구
     enum IconText: String {

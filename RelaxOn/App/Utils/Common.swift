@@ -22,13 +22,6 @@ func getPathNSURL(forResource: String, musicExtension: MusicExtension) -> NSURL?
     return Bundle.main.url(forResource: forResource, withExtension: musicExtension.rawValue) as NSURL?
 }
 
-/**
- 온보딩화면 이미지 프로퍼티
- */
-struct OnboardItem {
-    var imageName: String
-    var description: String
-}
 var tutorialImage = "TutorialGesture"
 
 /**
