@@ -53,11 +53,11 @@ class TimerManager: ObservableObject {
     // 타이머 진행바 실행
     func startTimeprogressBar(timerManager: TimerManager) {
         let settingTime: Double = Double(timerManager.getTime(timerManager: timerManager))
-        var secondPercetage: Double = 0
-        secondPercetage = Double((1 / settingTime) * 1.0)
+        var secondPercentage: Double = 0
+        secondPercentage = Double((1 / settingTime) * 1.0)
         
         timerManager.progressTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
-            timerManager.progress -= secondPercetage
+            timerManager.progress -= secondPercentage
             if timerManager.progress <= 0 {
                 timer.invalidate()
                 timerManager.progress = 1.0
@@ -66,17 +66,31 @@ class TimerManager: ObservableObject {
     }
     // 타이머 시간 뷰
     func getTimeText(timerManager: TimerManager) -> some View {
-        
-        Text(String(format: "%02d:%02d", max((timerManager.remainingSeconds % 3600) / 60, 0), max(timerManager.remainingSeconds % 60, 0)))
-            .frame(maxWidth: .infinity)
-            .padding()
-            .font(.system(size: 60, weight: .light))
-            .onAppear {
-                timerManager.startTimer(timerManager: timerManager)
-            }
-            .onDisappear {
-                timerManager.stopTimer(timerManager: timerManager)
-            }
+        if remainingSeconds > 3599 {
+            return AnyView (
+                Text(String(format: "%02d:%02d:%02d", max(timerManager.remainingSeconds / 3600, 0), max((timerManager.remainingSeconds % 3600) / 60, 0), max(timerManager.remainingSeconds % 60, 0)))
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .font(.system(size: 60, weight: .light))
+                    .onAppear {
+                        timerManager.startTimer(timerManager: timerManager)
+                    }
+                    .onDisappear {
+                        timerManager.stopTimer(timerManager: timerManager)
+                    })
+        } else {
+            return AnyView (
+                Text(String(format: "%02d:%02d", max((timerManager.remainingSeconds % 3600) / 60, 0), max(timerManager.remainingSeconds % 60, 0)))
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .font(.system(size: 60, weight: .light))
+                    .onAppear {
+                        timerManager.startTimer(timerManager: timerManager)
+                    }
+                    .onDisappear {
+                        timerManager.stopTimer(timerManager: timerManager)
+                    })
+        }
     }
     // 타이머 원형바 뷰
     func getCircularProgressBar(timerManager: TimerManager) -> some View {
