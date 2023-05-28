@@ -1,17 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "musicplayer.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "musicplayer@2x.png",
+      "filename" : "MusicPlayer.svg",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "musicplayer@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
