@@ -84,9 +84,11 @@ enum SoundCategory: String, Codable {
     }
 }
 
-enum PlayPauseButton: String {
-    case play = "play.fill"
-    case pause = "pause.fill"
+enum PlayerButton: String {
+    case play = "play"
+    case pause = "pause"
+    case fastForward = "fast_forward"
+    case fastRewind = "fast_rewind"
 }
 
 // CircularSlider에 쓰이는 Icon
