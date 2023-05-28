@@ -53,11 +53,11 @@ class TimerManager: ObservableObject {
     // 타이머 진행바 실행
     func startTimeprogressBar(timerManager: TimerManager) {
         let settingTime: Double = Double(timerManager.getTime(timerManager: timerManager))
-        var secondPercetage: Double = 0
-        secondPercetage = Double((1 / settingTime) * 1.0)
+        var secondPercentage: Double = 0
+        secondPercentage = Double((1 / settingTime) * 1.0)
         
         timerManager.progressTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
-            timerManager.progress -= secondPercetage
+            timerManager.progress -= secondPercentage
             if timerManager.progress <= 0 {
                 timer.invalidate()
                 timerManager.progress = 1.0
