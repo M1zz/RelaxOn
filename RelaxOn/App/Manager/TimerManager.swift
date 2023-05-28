@@ -14,7 +14,7 @@ import SwiftUI
 class TimerManager: ObservableObject {
     
     @Published var selectedTimeIndexHours: Int = 0
-    @Published var selectedTimeIndexMinutes: Int = 0
+    @Published var selectedTimeIndexMinutes: Int = 15
     @Published var remainingSeconds: Int = 0
     @Published var textTimer: Timer?
     @Published var progressTimer: Timer?
