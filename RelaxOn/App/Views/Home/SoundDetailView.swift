@@ -14,6 +14,7 @@ import AVFoundation
 struct SoundDetailView: View {
     
     // MARK: - Properties
+    let isTutorial: Bool
     @State var isShowingSheet: Bool = false
     @State var originalSound: OriginalSound
     @EnvironmentObject var viewModel: CustomSoundViewModel
@@ -72,16 +73,20 @@ struct SoundDetailView: View {
             }
             .navigationBarBackButtonHidden(true)
             
-            // MARK: - Life Cycle
-            .onAppear() {
-                viewModel.playSound(originSound: originalSound)
-            }
-            .onDisappear() {
-                viewModel.stopSound()
-            }
-            
             .fullScreenCover(isPresented: $isShowingSheet) {
                 SoundSaveView(originalSound: originalSound, audioVariation: AudioVariation())
+            }
+            
+            // MARK: - Life Cycle
+            .onAppear() {
+                if isTutorial == false {
+                    viewModel.playSound(originSound: originalSound)
+                }
+            }
+            .onDisappear() {
+                if isTutorial == false {
+                    viewModel.stopSound()
+                }
             }
         }
     }
@@ -89,6 +94,6 @@ struct SoundDetailView: View {
 
 struct SoundDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        SoundDetailView(originalSound: OriginalSound(name: "물방울", filter: .waterDrop, category: .waterDrop, defaultColor: "DCE8F5"))
+        SoundDetailView(isTutorial: true, originalSound: OriginalSound(name: "물방울", filter: .waterDrop, category: .waterDrop, defaultColor: "DCE8F5"))
     }
 }
