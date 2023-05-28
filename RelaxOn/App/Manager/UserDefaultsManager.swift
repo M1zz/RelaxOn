@@ -16,6 +16,7 @@ final class UserDefaultsManager {
     private let standard = UserDefaults.standard
     private let MIXED_SOUND_KEY = UserDefaults.Keys.mixedSound
     private let CUSTOM_SOUND_KEY = UserDefaults.Keys.customSound
+    private let IS_ONBOARDING_KEY = UserDefaults.Keys.isOnboarding
 }
 
 // MARK: - Data Get, Set Properties
@@ -44,6 +45,15 @@ extension UserDefaultsManager {
             } catch {
                 print("Error encoding custom sounds: \(error)")
             }
+        }
+    }
+    
+    var isOnboarded: Bool {
+        get {
+            standard.bool(forKey: IS_ONBOARDING_KEY)
+        }
+        set {
+            standard.set(newValue, forKey: IS_ONBOARDING_KEY)
         }
     }
     

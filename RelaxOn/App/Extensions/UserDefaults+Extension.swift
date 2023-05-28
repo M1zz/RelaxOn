@@ -13,6 +13,7 @@ import Foundation
 extension UserDefaults {
     struct Keys {
         static let customSound = "CUSTOM_SOUND_KEY"
+        static let isOnboarding = "IS_ONBOARDING_KEY"
         static let mixedSound = "mixedSound"
     }
 }
