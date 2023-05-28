@@ -16,7 +16,7 @@ final class UserDefaultsManager {
     private let standard = UserDefaults.standard
     private let MIXED_SOUND_KEY = UserDefaults.Keys.mixedSound
     private let CUSTOM_SOUND_KEY = UserDefaults.Keys.customSound
-    private let IS_ONBOARDING_KEY = UserDefaults.Keys.isOnboarding
+    private let IS_FIRST_VISIT = UserDefaults.Keys.isFirstVisit
 }
 
 // MARK: - Data Get, Set Properties
@@ -48,12 +48,16 @@ extension UserDefaultsManager {
         }
     }
     
-    var isOnboarded: Bool {
+    var isFirstVisit: Bool {
         get {
-            standard.bool(forKey: IS_ONBOARDING_KEY)
+            if standard.object(forKey: IS_FIRST_VISIT) == nil {
+                return true
+            } else {
+                return standard.bool(forKey: IS_FIRST_VISIT)
+            }
         }
         set {
-            standard.set(newValue, forKey: IS_ONBOARDING_KEY)
+            standard.set(newValue, forKey: IS_FIRST_VISIT)
         }
     }
     
