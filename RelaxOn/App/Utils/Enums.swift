@@ -95,7 +95,7 @@ enum PlayerButton: String {
 enum FeatureIcon: String {
     case filter = "filter"
     case volume = "volume"
-    case fitch = "pitch"
+    case pitch = "pitch"
     case interval = "interval"
     // SoundDetailView에서만 쓰이는 이미지
     case headset = "headset"
