@@ -19,14 +19,17 @@ struct CircularSlider: View {
     // 버튼 움직임 타입: 2가지 (슬라이드, 이동)
     var gestureType: Bool = true
     var angleChanged: (Double) -> Void
+    var range: [Float]
     
     // 슬라이더의 angle값을 반환
-    init(width: CGFloat, imageName: String, gestureType: Bool, angleChanged: @escaping (Double) -> Void) {
-            self.width = width
-            self.imageName = imageName
-            self.gestureType = gestureType
-            self.angleChanged = angleChanged
-        }
+    init(width: CGFloat, imageName: String, gestureType: Bool, range: [Float], angleChanged: @escaping (Double) -> Void) {
+        self.width = width
+        self.imageName = imageName
+        self.gestureType = gestureType
+        self.range = range
+        self.angleChanged = angleChanged
+        
+    }
     
     var body: some View {
         Image(imageName)
@@ -109,7 +112,7 @@ func backgroundCircle() -> some View {
 }
 struct CircularSlider_Previews: PreviewProvider {
     static var previews: some View {
-        CircularSlider(width: 300, imageName: "filter", gestureType: true) { angle in
+        CircularSlider(width: 300, imageName: "filter", gestureType: true, range: [1.0]) { angle in
             // 해당 예시처럼 값을 활용해볼 예정
             print("Selected angle: \(angle / 10)")
         }

@@ -16,6 +16,7 @@ final class AudioEngineManager: ObservableObject {
     private var engine = AVAudioEngine()
     private var player = AVAudioPlayerNode()
     private var pitchEffect = AVAudioUnitTimePitch()
+    private var volumeEffect = AVAudioMixerNode()
     private var audioFile: AVAudioFile?
     private var audioBuffer: AVAudioPCMBuffer?
     
@@ -39,10 +40,12 @@ extension AudioEngineManager {
             
             engine.attach(player)
             engine.attach(pitchEffect)
+            engine.attach(volumeEffect)
             
             if let audioFile = audioFile {
                 engine.connect(player, to: pitchEffect, format: audioFile.processingFormat)
                 engine.connect(pitchEffect, to: engine.mainMixerNode, format: audioFile.processingFormat)
+                engine.connect(volumeEffect, to: engine.mainMixerNode, format: audioFile.processingFormat)
             }
             
             try engine.start()
@@ -87,6 +90,9 @@ extension AudioEngineManager {
     
     func updateAudioVariation(volume: Float, pitch: Float, speed: Float) {
         // Update your engine configuration here
+        self.pitchEffect.pitch = pitch
+        self.player.volume = volume
+        self.loopSpeed = Double(speed)
     }
     
     /**
@@ -138,6 +144,7 @@ extension AudioEngineManager {
         if !player.isPlaying {
             player.play()
         }
+        player.rate = Float(loopSpeed)
     }
     
     /**
