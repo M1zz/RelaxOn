@@ -22,8 +22,6 @@ func getPathNSURL(forResource: String, musicExtension: MusicExtension) -> NSURL?
     return Bundle.main.url(forResource: forResource, withExtension: musicExtension.rawValue) as NSURL?
 }
 
-var tutorialImage = "TutorialGesture"
-
 /**
  SoundDetailView의 프로퍼티
  */

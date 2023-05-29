@@ -119,7 +119,7 @@ enum OnboardInfo {
     }
     // 튜토리얼 관련
     enum Tutorial: String {
-        case tutorialImage = "tutorialGesture"
+        case image = "TutorialGesture"
     }
 }
 

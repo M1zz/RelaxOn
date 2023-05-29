@@ -22,15 +22,15 @@ struct TutorialView: View {
         ZStack {
             SoundDetailView(isTutorial: true, originalSound: OriginalSound(name: "물방울", filter: .waterDrop, category: .waterDrop, defaultColor: "DCE8F5"))
             
-            Image(OnboardInfo.Tutorial.tutorialImage.rawValue)
+            Color.black
+                .opacity(0.5)
+                .ignoresSafeArea()
+            
+            Image(OnboardInfo.Tutorial.image.rawValue)
                 .resizable()
                 .scaledToFit()
                 .frame(maxWidth: .infinity)
                 .padding(50)
-            
-            Color.black
-                .opacity(0.5)
-                .ignoresSafeArea()
         }
 
         .onTapGesture {
