@@ -14,7 +14,7 @@ import SwiftUI
 class TimerManager: ObservableObject {
     
     @Published var selectedTimeIndexHours: Int = 0
-    @Published var selectedTimeIndexMinutes: Int = 0
+    @Published var selectedTimeIndexMinutes: Int = 15
     @Published var remainingSeconds: Int = 0
     @Published var textTimer: Timer?
     @Published var progressTimer: Timer?
@@ -49,6 +49,24 @@ class TimerManager: ObservableObject {
         timerManager.progressTimer?.invalidate()
         timerManager.remainingSeconds = 0
         timerManager.progress = 1.0
+    }
+    func pauseTimer(timerManager: TimerManager) {
+        timerManager.textTimer?.invalidate()
+        timerManager.textTimer = nil
+        timerManager.progressTimer?.invalidate()
+        timerManager.progressTimer = nil
+    }
+    // 타이머 재개
+    func resumeTimer(timerManager: TimerManager) {
+        timerManager.textTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
+            timerManager.remainingSeconds -= 1
+            
+            if timerManager.remainingSeconds <= 0 {
+                timer.invalidate()
+                timerManager.remainingSeconds = 0
+            }
+        }
+        startTimeprogressBar(timerManager: timerManager)
     }
     // 타이머 진행바 실행
     func startTimeprogressBar(timerManager: TimerManager) {
@@ -114,4 +132,3 @@ class TimerManager: ObservableObject {
         }
     }
 }
-
