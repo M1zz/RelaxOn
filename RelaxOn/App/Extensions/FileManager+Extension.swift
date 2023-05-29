@@ -18,9 +18,13 @@ extension FileManager {
         
         let urls = self.urls(for: directory, in: .userDomainMask)
         
-        if let url = urls.first?.appendingPathComponent(fileName).appendingPathExtension(fileExtension) {
+        if let url = urls.first?.appendingPathComponent("relaxOn") {
             do {
-                try encodedData.write(to: url)
+                if !fileExists(atPath: url.path) {
+                    try createDirectory(at: url, withIntermediateDirectories: true)
+                }
+                let fileURL = url.appendingPathComponent(fileName).appendingPathExtension(fileExtension)
+                try encodedData.write(to: fileURL)
             } catch {
                 fatalError("[ERROR] \(fileName) 저장 실패: \(error)")
             }
@@ -28,10 +32,12 @@ extension FileManager {
             fatalError("[ERROR] \(fileName) 저장 경로를 찾을 수 없음")
         }
     }
+
     
     func decode<T: Decodable>(_ fileType: T.Type, from fileName: String, fileExtension: String = "json", directory: FileManager.SearchPathDirectory = .documentDirectory) -> T {
         let urls = self.urls(for: directory, in: .userDomainMask)
-        guard let url = urls.first?.appendingPathComponent(fileName).appendingPathExtension(fileExtension) else {
+        
+        guard let url = urls.first?.appendingPathComponent("relaxOn").appendingPathComponent(fileName).appendingPathExtension(fileExtension) else {
             fatalError("[ERROR] \(fileName) 로드 실패: 파일 경로를 찾을 수 없음")
         }
         
@@ -46,4 +52,5 @@ extension FileManager {
         
         return loadedData
     }
+
 }
