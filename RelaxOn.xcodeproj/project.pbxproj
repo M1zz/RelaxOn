@@ -83,6 +83,9 @@
 		8F5A0EC52A160B3A0061F42C /* AudioEngineManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5A0EC42A160B3A0061F42C /* AudioEngineManager.swift */; };
 		8F7904862A16598700BE2BAC /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7904852A16598700BE2BAC /* OnboardingView.swift */; };
 		8F7904882A1659A400BE2BAC /* TutorialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7904872A1659A400BE2BAC /* TutorialView.swift */; };
+		8F8B0F4F2A2476CF009A1757 /* Cuckoo.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8F8B0F4E2A2476CF009A1757 /* Cuckoo.mp3 */; };
+		8F8B0F512A248983009A1757 /* Bundle+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8B0F502A248983009A1757 /* Bundle+Extension.swift */; };
+		8F8B0F532A248B9B009A1757 /* FileManager+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8B0F522A248B9A009A1757 /* FileManager+Extension.swift */; };
 		8F95E45B2A1F85EC00CDB8D2 /* SoundListView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F95E45A2A1F85EC00CDB8D2 /* SoundListView+Extension.swift */; };
 		8FCB23E92A15F70200188024 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FCB23E82A15F70200188024 /* UIColor+Extension.swift */; };
 		8FCB23EB2A15F71500188024 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FCB23EA2A15F71500188024 /* Color+Extension.swift */; };
@@ -94,7 +97,6 @@
 		8FFCCCDD29EE45B400079DCC /* UserDefaults+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FFCCCDC29EE45B400079DCC /* UserDefaults+Extension.swift */; };
 		8FFCCCDF29EE55DD00079DCC /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FFCCCDE29EE55DD00079DCC /* AppState.swift */; };
 		8FFCCCE429EE686B00079DCC /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FFCCCE329EE686B00079DCC /* Errors.swift */; };
-		8FFDBC7029E6471E008C674B /* MixedSoundsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FFDBC6F29E6471E008C674B /* MixedSoundsViewModel.swift */; };
 		8FFF99E52A1F4E0600E2474C /* SingingBowl.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8FFF99E42A1F4E0600E2474C /* SingingBowl.mp3 */; };
 		8FFF99E72A1F4E0F00E2474C /* Bird.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8FFF99E62A1F4E0F00E2474C /* Bird.mp3 */; };
 		8FFF99E92A1F4E1600E2474C /* WaterDrop.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8FFF99E82A1F4E1600E2474C /* WaterDrop.mp3 */; };
@@ -266,6 +268,9 @@
 		8F5A0EC42A160B3A0061F42C /* AudioEngineManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioEngineManager.swift; sourceTree = "<group>"; };
 		8F7904852A16598700BE2BAC /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		8F7904872A1659A400BE2BAC /* TutorialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialView.swift; sourceTree = "<group>"; };
+		8F8B0F4E2A2476CF009A1757 /* Cuckoo.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Cuckoo.mp3; sourceTree = "<group>"; };
+		8F8B0F502A248983009A1757 /* Bundle+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Extension.swift"; sourceTree = "<group>"; };
+		8F8B0F522A248B9A009A1757 /* FileManager+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+Extension.swift"; sourceTree = "<group>"; };
 		8F95E45A2A1F85EC00CDB8D2 /* SoundListView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SoundListView+Extension.swift"; sourceTree = "<group>"; };
 		8FCB23E82A15F70200188024 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		8FCB23EA2A15F71500188024 /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
@@ -277,7 +282,6 @@
 		8FFCCCDC29EE45B400079DCC /* UserDefaults+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Extension.swift"; sourceTree = "<group>"; };
 		8FFCCCDE29EE55DD00079DCC /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		8FFCCCE329EE686B00079DCC /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
-		8FFDBC6F29E6471E008C674B /* MixedSoundsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixedSoundsViewModel.swift; sourceTree = "<group>"; };
 		8FFF99E42A1F4E0600E2474C /* SingingBowl.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = SingingBowl.mp3; path = ../../../../../../../Repo/RelaxOn/RelaxOn/App/Assets/Sound/SingingBowl/SingingBowl.mp3; sourceTree = "<group>"; };
 		8FFF99E62A1F4E0F00E2474C /* Bird.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Bird.mp3; path = ../../../../../../../Repo/RelaxOn/RelaxOn/App/Assets/Sound/Bird/Bird.mp3; sourceTree = "<group>"; };
 		8FFF99E82A1F4E1600E2474C /* WaterDrop.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = WaterDrop.mp3; path = ../../../../../../../Repo/RelaxOn/RelaxOn/App/Assets/Sound/WaterDrop/WaterDrop.mp3; sourceTree = "<group>"; };
@@ -635,6 +639,7 @@
 		5940126E2A17DD6B00221DE7 /* Bird */ = {
 			isa = PBXGroup;
 			children = (
+				8F8B0F4E2A2476CF009A1757 /* Cuckoo.mp3 */,
 				8FFF99E62A1F4E0F00E2474C /* Bird.mp3 */,
 				594012722A17DD7900221DE7 /* Forest.mp3 */,
 				594012712A17DD7800221DE7 /* Owl.mp3 */,
@@ -780,6 +785,8 @@
 				8FCB23EC2A15F72800188024 /* View+Extension.swift */,
 				8FCB23EE2A15F73500188024 /* String+Extension.swift */,
 				8F95E45A2A1F85EC00CDB8D2 /* SoundListView+Extension.swift */,
+				8F8B0F502A248983009A1757 /* Bundle+Extension.swift */,
+				8F8B0F522A248B9A009A1757 /* FileManager+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -797,7 +804,6 @@
 		8FFDBC6E29E646F5008C674B /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				8FFDBC6F29E6471E008C674B /* MixedSoundsViewModel.swift */,
 				8FFCCCDE29EE55DD00079DCC /* AppState.swift */,
 				8FFF99EA2A1F4FD700E2474C /* CustomSoundViewModel.swift */,
 			);
@@ -963,6 +969,7 @@
 				5940125A2A17DCC400221DE7 /* Sink.mp3 in Resources */,
 				C7C4C25028C236D80048DCBA /* Sound.xcassets in Resources */,
 				C7C4C25428C238110048DCBA /* Color.xcassets in Resources */,
+				8F8B0F4F2A2476CF009A1757 /* Cuckoo.mp3 in Resources */,
 				594012752A17DD7900221DE7 /* Owl.mp3 in Resources */,
 				58DE61872839C13A00F25769 /* Assets.xcassets in Resources */,
 				594012622A17DCEB00221DE7 /* Pipe.mp3 in Resources */,
@@ -1011,6 +1018,7 @@
 				8FCB23EF2A15F73500188024 /* String+Extension.swift in Sources */,
 				8F7904882A1659A400BE2BAC /* TutorialView.swift in Sources */,
 				8F4E1B6129B9A48F0013599C /* MainTabView.swift in Sources */,
+				8F8B0F532A248B9B009A1757 /* FileManager+Extension.swift in Sources */,
 				8F53BD1B29B77A92009AE6D1 /* SoundSaveView.swift in Sources */,
 				C7A50DDC28D08FA000841BC6 /* MusicView.swift in Sources */,
 				58DE1032283DF6E7002CDB9F /* Static.swift in Sources */,
@@ -1043,6 +1051,7 @@
 				CC04E26528BDA45900509C60 /* SceneDelegate.swift in Sources */,
 				5958296E2A1E8E930009D761 /* CircularSlider.swift in Sources */,
 				CC5AC134289D184A00FE847B /* CDWidgetEntry.swift in Sources */,
+				8F8B0F512A248983009A1757 /* Bundle+Extension.swift in Sources */,
 				4AF70C4B28D1BC4300645D5D /* CDLibraryMusicController.swift in Sources */,
 				10D26712288EF4C80056339A /* CustomSegmentControlView.swift in Sources */,
 				58DE61832839C13900F25769 /* RelaxOnApp.swift in Sources */,
@@ -1077,7 +1086,6 @@
 				101417FA289EB9F300F40397 /* CDNamingView.swift in Sources */,
 				21D897782892D48600A20FFE /* CDCardView.swift in Sources */,
 				C753495228B748D40055F7CA /* OldUIColor+Extension.swift in Sources */,
-				8FFDBC7029E6471E008C674B /* MixedSoundsViewModel.swift in Sources */,
 				8FCB23ED2A15F72800188024 /* View+Extension.swift in Sources */,
 				C753495428B748E20055F7CA /* OldString+Extension.swift in Sources */,
 				2193316028D2B1A5006D1E75 /* VolumeSliderView.swift in Sources */,
