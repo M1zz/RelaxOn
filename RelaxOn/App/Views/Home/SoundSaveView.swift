@@ -47,10 +47,15 @@ struct SoundSaveView: View {
                     Spacer()
                     
                     Button {
-                        // FIXME: viewModel에 loopSpeed 값을 변경 후 저장하는 로직 테스트
-                        viewModel.testForUpdateLoopSpeed()
+                        let success = viewModel.save(with: originalSound, audioVariation: audioVariation, fileName: soundSavedName, color: "")
                         
-                        viewModel.save(with: originalSound, audioVariation: audioVariation, fileName: soundSavedName, color: backgroundColor)
+                        if success {
+                            appState.moveToTab(.listen)
+                        } else {
+                            alertMessage = "동일한 파일명이 존재합니다.\n다른 파일이름으로 시도해보세요."
+                            isShowingAlert = true
+                        }
+                        
                     } label: {
                         Text("저장")
                             .foregroundColor(Color(.PrimaryPurple))
@@ -100,6 +105,9 @@ struct SoundSaveView: View {
             }
         }
         .onAppear {
+            if viewModel.isPlaying {
+                viewModel.stopSound()
+            }
             isFocused = true
             backgroundColor = Color(hex: originalSound.color)
         }
@@ -108,7 +116,7 @@ struct SoundSaveView: View {
             UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
         }
         .alert(isPresented: $isShowingAlert) {
-            Alert(title: Text("Error"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
+            Alert(title: Text("저장 실패"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
         }
         .ignoresSafeArea(.keyboard)
     }

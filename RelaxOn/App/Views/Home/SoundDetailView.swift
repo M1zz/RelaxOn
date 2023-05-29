@@ -74,13 +74,17 @@ struct SoundDetailView: View {
             
             // MARK: - Life Cycle
             .onAppear() {
-                viewModel.playSound(originSound: originalSound)
+                if !viewModel.isPlaying {
+                    viewModel.playSound(originSound: originalSound)
+                }
             }
             .onDisappear() {
-                viewModel.stopSound()
+                if viewModel.isPlaying {
+                    viewModel.stopSound()
+                }
             }
-            
             .fullScreenCover(isPresented: $isShowingSheet) {
+                // TODO: 값을 넘겨주기 전에 변경된 값으로 AudioVariation 만들어서 보내야함
                 SoundSaveView(originalSound: originalSound, audioVariation: AudioVariation())
             }
         }

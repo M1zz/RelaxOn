@@ -44,9 +44,6 @@ struct SoundListView: View {
                 }
             }
         }
-        .onAppear {
-//            UserFileManager.shared.SAVE()
-        }
     }
     
     @ViewBuilder

@@ -14,15 +14,20 @@ import SwiftUI
 final class CustomSoundViewModel: ObservableObject {
     
     // MARK: - Properties
-    private var audioEngineManager = AudioEngineManager()
+    private var audioEngineManager = AudioEngineManager.shared
     private var fileManager = UserFileManager.shared
     private var userDefaults = UserDefaultsManager.shared
-
-    @Published var customSounds: [CustomSound] = []
-    @Published var selectedSound: CustomSound? = nil
+    
     @Published var searchText = ""
     @Published var isPlaying = false
-
+    @Published var selectedSound: CustomSound? = nil
+    
+    @Published var customSounds: [CustomSound] = [] {
+        didSet {
+            UserDefaultsManager.shared.customSounds = customSounds
+        }
+    }
+    
     @Published var speed = Float() {
         didSet {
             audioEngineManager.updateAudioVariation(volume: volume, pitch: pitch, speed: speed)
@@ -43,7 +48,7 @@ final class CustomSoundViewModel: ObservableObject {
     
     @Published var filter: AudioFilter {
         didSet {
-            selectedSound?.audioFilter = filter
+            selectedSound?.filter = filter
         }
     }
     
@@ -55,11 +60,11 @@ final class CustomSoundViewModel: ObservableObject {
         if searchText.isEmpty {
             return customSounds
         } else {
-            return customSounds.filter { $0.fileName.contains(searchText) }
+            return customSounds.filter { $0.title.contains(searchText) }
         }
     }
     
-    init(customSound: CustomSound? = nil, filter: AudioFilter = .waterDrop) {
+    init(customSound: CustomSound? = nil, filter: AudioFilter = .WaterDrop) {
         self.selectedSound = customSound
         self.filter = filter
         
@@ -72,7 +77,7 @@ final class CustomSoundViewModel: ObservableObject {
 
 // MARK: - Methods for View
 extension CustomSoundViewModel {
-
+    
     func playSound(originSound: OriginalSound) {
         audioEngineManager.play(with: originSound)
     }
@@ -89,30 +94,30 @@ extension CustomSoundViewModel {
         customSounds = userDefaults.customSounds
     }
     
-    func testForUpdateLoopSpeed() {
-        audioEngineManager.loopSpeed = 2.0
-    }
-
 }
 
 // MARK: - Methods for Model
 extension CustomSoundViewModel {
     
-    func save(with originalSound: OriginalSound, audioVariation: AudioVariation, fileName: String, color: Color) {
+    func save(with originalSound: OriginalSound, audioVariation: AudioVariation, fileName: String, color: String) -> Bool {
         var customSounds = userDefaults.customSounds
-        if customSounds.contains(where: { $0.fileName == fileName }) {
+        if customSounds.contains(where: { $0.title == fileName }) {
             print("이미 이 파일이 존재합니다. 다른 로직을 수행할 수 없습니다.")
-            // 유저에게 알리는 로직 추가
-            return
+            return false
         }
         
-        let customSound = CustomSound(fileName: fileName, category: originalSound.category, audioVariation: audioVariation, audioFilter: originalSound.filter)
-        fileManager.save(originalSound, audioVariation, fileName, color, audioEngineManager)
+        let customSound = makeCustomSound(fileName, originalSound, audioVariation, color)
+        if !fileManager.saveToJSONFile(customSound) {
+            return false
+        }
         
         customSounds.append(customSound)
         userDefaults.customSounds = customSounds
         loadSound()
+        
+        return true
     }
+    
     
     func remove(at index: Int) {
         var customSounds = userDefaults.customSounds
@@ -123,16 +128,20 @@ extension CustomSoundViewModel {
     
 }
 
-// MARK: - Image
+// MARK: - for UI
 extension CustomSoundViewModel {
-    func loadImage(_ fileName: String) -> UIImage {
-        return fileManager.loadImage(fileName: fileName)
-    }
-}
-
-// MARK: - for UI Test
-extension CustomSoundViewModel {
+    
     func setTimerMainViewSelectedSound(_ selectedSound: CustomSound) {
         self.selectedSound = selectedSound
     }
+    
+}
+
+// MARK: - make
+extension CustomSoundViewModel {
+    
+    func makeCustomSound(_ title: String, _ sound: OriginalSound, _ variation: AudioVariation, _ color: String) -> CustomSound {
+        return CustomSound(fileName: title, category: sound.category, audioVariation: variation, audioFilter: sound.filter, color: color)
+    }
+    
 }

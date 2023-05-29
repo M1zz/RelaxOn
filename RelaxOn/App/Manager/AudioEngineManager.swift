@@ -11,6 +11,8 @@ import AVFoundation
  AVAudioEngine 객체를 이용한 음원 커스텀 & 재생 & 정지 기능
  */
 final class AudioEngineManager: ObservableObject {
+    static let shared = AudioEngineManager()
+    
     private var engine = AVAudioEngine()
     private var player = AVAudioPlayerNode()
     private var pitchEffect = AVAudioUnitTimePitch()
@@ -18,6 +20,11 @@ final class AudioEngineManager: ObservableObject {
     private var audioBuffer: AVAudioPCMBuffer?
     
     @Published var loopSpeed: Double = 1.0
+    @Published var pitch: Double = 0
+    @Published var volume: Float = 1.0
+    @Published var audioVariation: AudioVariation = AudioVariation()
+    
+    private init () {}
 }
 
 extension AudioEngineManager {
@@ -39,6 +46,8 @@ extension AudioEngineManager {
             if let audioFile = audioFile {
                 engine.connect(player, to: pitchEffect, format: audioFile.processingFormat)
                 engine.connect(pitchEffect, to: engine.mainMixerNode, format: audioFile.processingFormat)
+                player.volume = volume
+                pitchEffect.pitch = Float(pitch * 100)
             }
             
             try engine.start()
@@ -54,7 +63,8 @@ extension AudioEngineManager {
     func play(with customSound: CustomSound) {
         print(#function)
         
-        guard let fileURL = getPathNSURL(forResource: customSound.category.fileName, musicExtension: .wav) else {
+        // 파일매니저에 저장된 해당 json 객체 가져오기
+        guard let fileURL = getPathNSURL(forResource: customSound.filter.rawValue, musicExtension: .mp3) else {
             print("File not found")
             return
         }
@@ -63,11 +73,14 @@ extension AudioEngineManager {
             audioFile = try AVAudioFile(forReading: fileURL as URL)
             engine.attach(player)
             if let audioFile = audioFile {
-                engine.connect(player, to: engine.mainMixerNode, format: audioFile.processingFormat)
+                engine.connect(player, to: pitchEffect, format: audioFile.processingFormat)
+                engine.connect(pitchEffect, to: engine.mainMixerNode, format: audioFile.processingFormat)
+                player.volume = customSound.audioVariation.volume
+                pitchEffect.pitch = Float(customSound.audioVariation.pitch * 100)
             }
             try engine.start()
             audioBuffer = prepareBuffer()
-            scheduleNextBuffer()
+            scheduleNextBuffer(loopSpeed: Double(customSound.audioVariation.speed))
             
         } catch {
             print("An error occurred: \(error.localizedDescription)")
@@ -82,7 +95,13 @@ extension AudioEngineManager {
     }
     
     func updateAudioVariation(volume: Float, pitch: Float, speed: Float) {
-        // Update your engine configuration here
+        audioVariation.volume = volume
+        audioVariation.pitch = pitch
+        audioVariation.speed = speed
+        
+        player.volume = volume
+        pitchEffect.pitch = pitch * 100 // pitch in cents
+        loopSpeed = Double(speed)
     }
     
     /**
@@ -136,11 +155,29 @@ extension AudioEngineManager {
         }
     }
     
-    /**
-     현재 Buffer를 추출
-     */
-    func getAudioBuffer() -> AVAudioPCMBuffer? {
-        return audioBuffer
+    private func scheduleNextBuffer(loopSpeed: Double = 1.0) {
+        guard let buffer = audioBuffer else {
+            print("Failed to prepare buffer")
+            return
+        }
+        
+        player.scheduleBuffer(buffer, completionHandler: { [weak self] in
+            DispatchQueue.main.asyncAfter(deadline: .now() + (loopSpeed)) {
+                self?.scheduleNextBuffer()
+            }
+        })
+        
+        if !player.isPlaying {
+            player.play()
+        }
+    }
+    
+    func getAudioVariation() -> AudioVariation {
+        let speed = Float(loopSpeed)
+        let pitch = Float(self.pitch)
+        let volume = self.volume
+        
+        return AudioVariation(volume: volume, pitch: pitch, speed: speed)
     }
     
 }

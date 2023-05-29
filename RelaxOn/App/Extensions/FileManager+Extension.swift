@@ -9,11 +9,12 @@ import Foundation
 
 extension FileManager {
     
-    func encode<T: Encodable>(data: T, to fileName: String, fileExtension: String = "json", directory: FileManager.SearchPathDirectory = .documentDirectory) {
+    func encode<T: Encodable>(data: T, to fileName: String, fileExtension: String = "json", directory: FileManager.SearchPathDirectory = .documentDirectory) -> Bool {
         let encoder = JSONEncoder()
         
         guard let encodedData = try? encoder.encode(data) else {
-            fatalError("[ERROR] \(fileName) 인코딩 실패")
+            print("[ERROR] \(fileName) 인코딩 실패")
+            return false
         }
         
         let urls = self.urls(for: directory, in: .userDomainMask)
@@ -26,28 +27,34 @@ extension FileManager {
                 let fileURL = url.appendingPathComponent(fileName).appendingPathExtension(fileExtension)
                 try encodedData.write(to: fileURL)
             } catch {
-                fatalError("[ERROR] \(fileName) 저장 실패: \(error)")
+                print("[ERROR] \(fileName) 저장 실패: \(error)")
+                return false
             }
         } else {
-            fatalError("[ERROR] \(fileName) 저장 경로를 찾을 수 없음")
+            print("[ERROR] \(fileName) 저장 경로를 찾을 수 없음")
+            return false
         }
+        return true
     }
 
     
-    func decode<T: Decodable>(_ fileType: T.Type, from fileName: String, fileExtension: String = "json", directory: FileManager.SearchPathDirectory = .documentDirectory) -> T {
+    func decode<T: Decodable>(_ fileType: T.Type, from fileName: String, fileExtension: String = "json", directory: FileManager.SearchPathDirectory = .documentDirectory) -> T? {
         let urls = self.urls(for: directory, in: .userDomainMask)
         
         guard let url = urls.first?.appendingPathComponent("relaxOn").appendingPathComponent(fileName).appendingPathExtension(fileExtension) else {
-            fatalError("[ERROR] \(fileName) 로드 실패: 파일 경로를 찾을 수 없음")
+            print("[ERROR] \(fileName) 로드 실패: 파일 경로를 찾을 수 없음")
+            return nil
         }
         
         guard let data = try? Data(contentsOf: url) else {
-            fatalError("[ERROR] \(fileName) 로드 실패: 데이터를 불러올 수 없음")
+            print("[ERROR] \(fileName) 로드 실패: 데이터를 불러올 수 없음")
+            return nil
         }
         
         let decoder = JSONDecoder()
         guard let loadedData = try? decoder.decode(T.self, from: data) else {
-            fatalError("[ERROR] \(fileName) 디코딩 실패")
+            print("[ERROR] \(fileName) 디코딩 실패")
+            return nil
         }
         
         return loadedData
