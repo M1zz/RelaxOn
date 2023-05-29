@@ -14,23 +14,36 @@ import SwiftUI
 
 struct TutorialView: View {
     
+    @EnvironmentObject var appState: AppState
+    @Environment(\.presentationMode) var presentationMode
+    @Binding var isFirstVisit: Bool
+
     var body: some View {
         ZStack {
-            // TODO: AudioManager를 활용해서 음악 끄기
-            SoundDetailView(originalSound: OriginalSound(name: "물방울", filter: .waterDrop, category: .waterDrop, defaultColor: ""))
+            SoundDetailView(isTutorial: true, originalSound: OriginalSound(name: "물방울", filter: .waterDrop, category: .waterDrop, defaultColor: "DCE8F5"))
+            
             Color.black
                 .opacity(0.5)
-            Image(OnboardInfo.Tutorial.tutorialImage.rawValue)
+                .ignoresSafeArea()
+            
+            Image(OnboardInfo.Tutorial.image.rawValue)
                 .resizable()
                 .scaledToFit()
                 .frame(maxWidth: .infinity)
                 .padding(50)
-        }.ignoresSafeArea()
+        }
+
+        .onTapGesture {
+            isFirstVisit = false
+            UserDefaultsManager.shared.isFirstVisit = false
+            presentationMode.wrappedValue.dismiss()
+            appState.moveToTab(.home)
+        }
     }
 }
 
 struct TutorialView_Previews: PreviewProvider {
     static var previews: some View {
-        TutorialView()
+        TutorialView(isFirstVisit: .constant(true))
     }
 }

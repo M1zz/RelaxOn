@@ -11,6 +11,8 @@ import AVFoundation
  AVAudioEngine 객체를 이용한 음원 커스텀 & 재생 & 정지 기능
  */
 final class AudioEngineManager: ObservableObject {
+    static let shared = AudioEngineManager()
+
     private var engine = AVAudioEngine()
     private var player = AVAudioPlayerNode()
     private var pitchEffect = AVAudioUnitTimePitch()
@@ -18,6 +20,8 @@ final class AudioEngineManager: ObservableObject {
     private var audioBuffer: AVAudioPCMBuffer?
     
     @Published var loopSpeed: Double = 1.0
+    
+    private init() { }
 }
 
 extension AudioEngineManager {

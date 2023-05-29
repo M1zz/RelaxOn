@@ -21,6 +21,8 @@ enum CustomColor: String {
     case TimerMyListBackground
     case SearchBarText
     case SearchBarBackground
+    case SelectedPage
+    case UnselectedPage
 }
 
 enum CustomSoundImageBackgroundColor: String, CaseIterable {

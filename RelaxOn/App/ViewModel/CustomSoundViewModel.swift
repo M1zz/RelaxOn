@@ -14,7 +14,7 @@ import SwiftUI
 final class CustomSoundViewModel: ObservableObject {
     
     // MARK: - Properties
-    private var audioEngineManager = AudioEngineManager()
+    private var audioEngineManager = AudioEngineManager.shared
     private var fileManager = UserFileManager.shared
     private var userDefaults = UserDefaultsManager.shared
 
