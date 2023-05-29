@@ -169,7 +169,7 @@ extension UserFileManager {
             print("Failed to rename JSON with error: \(error)")
         }
     }
-
+    
     func removeJSON(fileName: String) {
         let fileURL = infoDirectoryURL.appendingPathComponent("\(fileName).\(FileExtension.json)")
         do {
@@ -224,7 +224,7 @@ extension UserFileManager {
             print("Failed to rename image with error: \(error)")
         }
     }
-
+    
     func removeImage(fileName: String) {
         let fileURL = imageDirectoryURL.appendingPathComponent("\(fileName).\(FileExtension.png)")
         do {
@@ -233,55 +233,6 @@ extension UserFileManager {
         } catch {
             print("Failed to delete image with error: \(error)")
         }
-    }
-    
-}
-
-// MARK: - 삭제 예정
-extension UserFileManager {
-    
-    func saveMixedSound(_ mixedSound: MixedSound) throws {
-        //        let encoder = JSONEncoder()
-        //        let data = try encoder.encode(mixedSound)
-        //        let fileName = "\(mixedSound.id.uuidString).\(FileExtension.json)"
-        //        let fileURL = documentsDirectory.appendingPathComponent(fileName)
-        //        try fileManager.createDirectory(at: documentsDirectory, withIntermediateDirectories: true, attributes: nil)
-        
-        //        do {
-        //            try data.write(to: fileURL)
-        //        } catch {
-        //            throw MixedSoundError.fileSaveFailed
-        //        }
-        //
-        //        var mixedSounds = UserDefaultsManager.shared.mixedSounds
-        //        mixedSounds.append(mixedSound)
-        //        UserDefaultsManager.shared.mixedSounds = mixedSounds
-    }
-    
-    func deleteMixedSound(_ mixedSound: MixedSound) throws {
-        //        let fileName = "\(mixedSound.id.uuidString).\(FileExtension.json)"
-        //        let fileURL = documentsDirectory.appendingPathComponent(fileName)
-        
-        //        guard fileManager.fileExists(atPath: fileURL.path) else {
-        //            throw UserFileManagerError.fileNotFound
-        //        }
-        //
-        //        try fileManager.removeItem(at: fileURL)
-    }
-    
-    func loadAllMixedSounds() throws -> [MixedSound] {
-        //        let contents = try fileManager.contentsOfDirectory(at: documentsDirectory, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
-        //        let decoder = JSONDecoder()
-        //        var mixedSounds: [MixedSound] = []
-        //
-        //        for fileURL in contents {
-        //            if fileURL.pathExtension == FileExtension.json.rawValue {
-        //                let data = try Data(contentsOf: fileURL)
-        //                let mixedSound = try decoder.decode(MixedSound.self, from: data)
-        //                mixedSounds.append(mixedSound)
-        //            }
-        //        }
-        return [MixedSound]()
     }
     
 }
