@@ -32,7 +32,7 @@ struct SoundPlayerFullModalView: View {
             
             Spacer()
             
-            Text(file.fileName)
+            Text(file.title)
                 .font(.system(size: 24, weight: .bold))
                 .foregroundColor(Color(.Text))
             
@@ -86,6 +86,6 @@ struct SoundPlayerFullModalView: View {
 
 struct FullModalSoundPlayerView_Previews: PreviewProvider {
     static var previews: some View {
-        SoundPlayerFullModalView(file: .init(fileName: "나의 물방울 소리", category: .waterDrop, audioVariation: AudioVariation(), audioFilter: .waterDrop))
+        SoundPlayerFullModalView(file: .init(fileName: "나의 물방울 소리", category: .waterDrop, audioVariation: AudioVariation(), audioFilter: .WaterDrop))
     }
 }

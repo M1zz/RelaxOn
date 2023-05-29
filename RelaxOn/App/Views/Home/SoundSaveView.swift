@@ -101,7 +101,7 @@ struct SoundSaveView: View {
         }
         .onAppear {
             isFocused = true
-            backgroundColor = Color(hex: originalSound.defaultColor)
+            backgroundColor = Color(hex: originalSound.color)
         }
         .background(Color(.DefaultBackground))
         .onTapGesture {
@@ -117,6 +117,6 @@ struct SoundSaveView: View {
 
 struct SoundSaveView_Previews: PreviewProvider {
     static var previews: some View {
-        SoundSaveView(originalSound: OriginalSound(name: "물방울", filter: .waterDrop, category: .waterDrop, defaultColor: ""), audioVariation: AudioVariation())
+        SoundSaveView(originalSound: OriginalSound(name: "물방울", filter: .WaterDrop, category: .waterDrop), audioVariation: AudioVariation())
     }
 }

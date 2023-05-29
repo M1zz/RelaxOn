@@ -22,7 +22,7 @@ struct TimerSoundListCell: View {
                     .frame(width: 60, height: 60)
                     .cornerRadius(8)
                 
-                Text(file.fileName)
+                Text(file.title)
                     .font(.system(size: 18, weight: .bold))
                     .foregroundColor(Color(.Text))
                     .padding(.leading, 20)
@@ -48,6 +48,6 @@ struct TimerSoundListCell: View {
 
 struct TimerSoundListCell_Previews: PreviewProvider {
     static var previews: some View {
-        TimerSoundListCell(file: CustomSound(fileName: "나의 물방울 소리", category: .waterDrop, audioVariation: AudioVariation(), audioFilter: .waterDrop))
+        TimerSoundListCell(file: CustomSound(fileName: "나의 물방울 소리", category: .waterDrop, audioVariation: AudioVariation(), audioFilter: .WaterDrop))
     }
 }

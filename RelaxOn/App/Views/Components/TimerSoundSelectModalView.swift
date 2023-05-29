@@ -14,16 +14,16 @@ struct TimerSoundSelectModalView: View {
     
     // UI 확인용
     let sample = [
-        CustomSound(fileName: "나의 물방울 소리", category: .waterDrop, audioVariation: .init(), audioFilter: .waterDrop),
-        CustomSound(fileName: "빠른 물방울 소리", category: .waterDrop, audioVariation: .init(), audioFilter: .waterDrop),
-        CustomSound(fileName: "조용한 물방울 소리", category: .waterDrop, audioVariation: .init(), audioFilter: .waterDrop),
+        CustomSound(fileName: "나의 물방울 소리", category: .waterDrop, audioVariation: .init(), audioFilter: .WaterDrop),
+        CustomSound(fileName: "빠른 물방울 소리", category: .waterDrop, audioVariation: .init(), audioFilter: .WaterDrop),
+        CustomSound(fileName: "조용한 물방울 소리", category: .waterDrop, audioVariation: .init(), audioFilter: .WaterDrop),
     ]
     
     var filteredSounds: [CustomSound] {
         if viewModel.searchText.isEmpty {
             return sample
         } else {
-            return sample.filter { $0.fileName.contains(viewModel.searchText) }
+            return sample.filter { $0.title.contains(viewModel.searchText) }
         }
     }
     

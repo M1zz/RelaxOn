@@ -89,6 +89,6 @@ struct SoundDetailView: View {
 
 struct SoundDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        SoundDetailView(originalSound: OriginalSound(name: "물방울", filter: .waterDrop, category: .waterDrop, defaultColor: "DCE8F5"))
+        SoundDetailView(originalSound: OriginalSound(name: "물방울", filter: .WaterDrop, category: .waterDrop))
     }
 }

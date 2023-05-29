@@ -18,9 +18,9 @@ struct ListenListView: View {
     
     // UI 확인용
     let sample = [
-        CustomSound(fileName: "나의 물방울 소리", category: .waterDrop, audioVariation: .init(), audioFilter: .waterDrop),
-        CustomSound(fileName: "빠른 물방울 소리", category: .waterDrop, audioVariation: .init(), audioFilter: .waterDrop),
-        CustomSound(fileName: "조용한 물방울 소리", category: .waterDrop, audioVariation: .init(), audioFilter: .waterDrop),
+        CustomSound(fileName: "나의 물방울 소리", category: .waterDrop, audioVariation: .init(), audioFilter: .WaterDrop),
+        CustomSound(fileName: "빠른 물방울 소리", category: .waterDrop, audioVariation: .init(), audioFilter: .WaterDrop),
+        CustomSound(fileName: "조용한 물방울 소리", category: .waterDrop, audioVariation: .init(), audioFilter: .WaterDrop),
     ]
     
     @State private var selectedFile: CustomSound? = nil
@@ -44,7 +44,7 @@ struct ListenListView: View {
             
             List {
                 ForEach(sample) { file in
-                    ListenListCell(fileName: file.fileName)
+                    ListenListCell(fileName: file.title)
                         .onTapGesture {
                             selectedFile = file
                         }

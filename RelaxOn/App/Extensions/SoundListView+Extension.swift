@@ -11,13 +11,13 @@ extension SoundListView {
     
     /// 오리지널 사운드 리스트
     static let originalSounds = [
-        OriginalSound(name: "물방울", filter: .waterDrop, category: .waterDrop, defaultColor: "DCE8F5"),
+        OriginalSound(name: "물방울", filter: .WaterDrop, category: .waterDrop),
         
-        // TODO: 이미지 완성되면 imageName, defaultColor 수정 해야함
-        OriginalSound(name: "싱잉볼", filter: .singingBowl, category: .singingBowl, defaultColor: "DCE8F5"),
+        // FIXME: 이미지 업데이트 후 수정
+        OriginalSound(name: "싱잉볼", filter: .SingingBowl, category: .singingBowl),
         
-        // TODO: 이미지 완성되면 imageName, defaultColor 수정 해야함
-        OriginalSound(name: "새소리", filter: .bird, category: .bird, defaultColor: "DCE8F5")
+        // FIXME: 이미지 업데이트 후 수정
+        OriginalSound(name: "새소리", filter: .Bird, category: .bird)
     ]
     
 }
