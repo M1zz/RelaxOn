@@ -12,9 +12,10 @@ import Foundation
  */
 final class UserDefaultsManager {
     static let shared = UserDefaultsManager()
-    
     private let standard = UserDefaults.standard
     private let CUSTOM_SOUND_KEY = UserDefaults.Keys.customSound
+    private let IS_FIRST_VISIT = UserDefaults.Keys.isFirstVisit
+    private let LAST_SOUND_KEY = UserDefaults.Keys.lastPlayedSoundKey
 }
 
 // MARK: - Data Get, Set Properties
@@ -43,6 +44,33 @@ extension UserDefaultsManager {
             } catch {
                 print("Error encoding custom sounds: \(error)")
             }
+        }
+    }
+    
+    var isFirstVisit: Bool {
+        get {
+            if standard.object(forKey: IS_FIRST_VISIT) == nil {
+                return true
+            } else {
+                return standard.bool(forKey: IS_FIRST_VISIT)
+            }
+        }
+        set {
+            standard.set(newValue, forKey: IS_FIRST_VISIT)
+        }
+    }
+
+    var lastPlayedSound: CustomSound {
+        get {
+            if customSounds.isEmpty {
+                return CustomSound()
+            } else {
+                return customSounds.first ?? CustomSound()
+            }
+        }
+        set(newSound) {
+            let data = try? JSONEncoder().encode(newSound)
+            standard.set(data, forKey: LAST_SOUND_KEY)
         }
     }
     
