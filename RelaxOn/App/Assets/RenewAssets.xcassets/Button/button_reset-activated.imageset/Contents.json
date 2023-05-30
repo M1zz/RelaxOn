@@ -1,11 +1,11 @@
 {
   "images" : [
     {
-      "filename" : "button_reset-activated.svg",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "button_reset-activated.svg",
       "idiom" : "universal",
       "scale" : "2x"
     },
