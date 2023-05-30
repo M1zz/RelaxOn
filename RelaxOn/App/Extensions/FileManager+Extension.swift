@@ -9,7 +9,7 @@ import Foundation
 
 extension FileManager {
     
-    func encode<T: Encodable>(data: T, to fileName: String, fileExtension: String = "json", directory: FileManager.SearchPathDirectory = .documentDirectory) -> Bool {
+    func encode<T: Encodable>(data: T, to fileName: String, directory: FileManager.SearchPathDirectory = .documentDirectory) -> Bool {
         let encoder = JSONEncoder()
         
         guard let encodedData = try? encoder.encode(data) else {
@@ -24,7 +24,7 @@ extension FileManager {
                 if !fileExists(atPath: url.path) {
                     try createDirectory(at: url, withIntermediateDirectories: true)
                 }
-                let fileURL = url.appendingPathComponent(fileName).appendingPathExtension(fileExtension)
+                let fileURL = url.appendingPathComponent(fileName).appendingPathExtension(FileExtension.json.rawValue)
                 try encodedData.write(to: fileURL)
             } catch {
                 print("[ERROR] \(fileName) 저장 실패: \(error)")
@@ -38,10 +38,10 @@ extension FileManager {
     }
 
     
-    func decode<T: Decodable>(_ fileType: T.Type, from fileName: String, fileExtension: String = "json", directory: FileManager.SearchPathDirectory = .documentDirectory) -> T? {
+    func decode<T: Decodable>(_ fileType: T.Type, from fileName: String, directory: FileManager.SearchPathDirectory = .documentDirectory) -> T? {
         let urls = self.urls(for: directory, in: .userDomainMask)
         
-        guard let url = urls.first?.appendingPathComponent("relaxOn").appendingPathComponent(fileName).appendingPathExtension(fileExtension) else {
+        guard let url = urls.first?.appendingPathComponent("relaxOn").appendingPathComponent(fileName).appendingPathExtension(FileExtension.json.rawValue) else {
             print("[ERROR] \(fileName) 로드 실패: 파일 경로를 찾을 수 없음")
             return nil
         }
