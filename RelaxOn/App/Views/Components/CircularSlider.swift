@@ -13,20 +13,24 @@
 import SwiftUI
 
 struct CircularSlider: View {
+    
     @State var angle: Double = Double.random(in: 0...360)
     @State var width: CGFloat
     var imageName: String
+    
     // 버튼 움직임 타입: 2가지 (슬라이드, 이동)
     var gestureType: Bool = true
     var angleChanged: (Double) -> Void
+    var range: [Float]
     
     // 슬라이더의 angle값을 반환
-    init(width: CGFloat, imageName: String, gestureType: Bool, angleChanged: @escaping (Double) -> Void) {
-            self.width = width
-            self.imageName = imageName
-            self.gestureType = gestureType
-            self.angleChanged = angleChanged
-        }
+    init(width: CGFloat, imageName: String, gestureType: Bool, range: [Float], angleChanged: @escaping (Double) -> Void) {
+        self.width = width
+        self.imageName = imageName
+        self.gestureType = gestureType
+        self.range = range
+        self.angleChanged = angleChanged
+    }
     
     var body: some View {
         Image(imageName)
@@ -63,6 +67,7 @@ struct CircularSlider: View {
         angleChanged(angle)
         print("\(angle)")
     }
+    
     // 이동형 움직임
     func onMove(value: DragGesture.Value) {
         let vector = CGVector(dx: value.location.x, dy: value.location.y)
@@ -75,41 +80,9 @@ struct CircularSlider: View {
     }
 }
 
-// 배경으로 쓰이는 원 + 원형 라인 + 이동 포인트
-@ViewBuilder
-func backgroundCircle() -> some View {
-    
-    ZStack {
-        Circle()
-            .fill(Color.relaxDimPurple)
-            .frame(width: 300)
-            .opacity(0.3)
-        Circle()
-            .stroke(style: .init(lineWidth: 1))
-            .foregroundColor(.relaxDimPurple)
-            .frame(width: 80)
-        Image(FeatureIcon.headset.rawValue)
-            .resizable()
-            .scaledToFit()
-            .frame(width: 26)
-        ForEach(0..<circleWidth.count) { index in
-            Circle()
-                .stroke(style: .init(lineWidth: 1))
-                .foregroundColor(.relaxDimPurple)
-                .frame(width: circleWidth[index])
-        }
-        ForEach(0..<pointAngle.count) { index in
-            Circle()
-                .frame(width: 6)
-                .foregroundColor(.purple)
-                .offset(x: 300 / 2)
-                .rotationEffect(.init(degrees: pointAngle[index]))
-        }
-    }
-}
 struct CircularSlider_Previews: PreviewProvider {
     static var previews: some View {
-        CircularSlider(width: 300, imageName: "filter", gestureType: true) { angle in
+        CircularSlider(width: 300, imageName: "filter", gestureType: true, range: [1.0]) { angle in
             // 해당 예시처럼 값을 활용해볼 예정
             print("Selected angle: \(angle / 10)")
         }
