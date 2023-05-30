@@ -13,18 +13,16 @@ import Foundation
 final class UserFileManager {
     static let shared = UserFileManager()
     private let fileManager = FileManager.default
-    private init() {}
 }
 
 extension UserFileManager {
     
-    func saveToJSONFile(_ customSound: CustomSound) -> Bool {
-        print(#function)
-        
-        if fileManager.encode(data: customSound, to: customSound.title) {
-            return true
-        }
-        return false
+    func saveCustomSound(_ customSound: CustomSound) -> Bool {
+        fileManager.encode(data: customSound, to: customSound.title)
+    }
+    
+    func loadCustomSound(title: String) -> CustomSound? {
+        return fileManager.decode(CustomSound.self, from: title)
     }
     
 }
