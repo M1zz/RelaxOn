@@ -22,7 +22,8 @@ struct SoundSaveView: View {
     @EnvironmentObject var viewModel: CustomSoundViewModel
     @State var originalSound: OriginalSound
     @State var audioVariation: AudioVariation
-    @State var backgroundColor: Color = .white
+    @State var audioFilter: AudioFilter
+    @State var backgroundColor: String
     
     var body: some View {
         ZStack {
@@ -50,6 +51,8 @@ struct SoundSaveView: View {
                         let success = viewModel.save(with: originalSound, audioVariation: audioVariation, fileName: soundSavedName, color: "")
                         
                         if success {
+                            presentationMode.wrappedValue.dismiss()
+                            presentationMode.wrappedValue.dismiss()
                             appState.moveToTab(.listen)
                         } else {
                             alertMessage = "동일한 파일명이 존재합니다.\n다른 파일이름으로 시도해보세요."
@@ -84,12 +87,12 @@ struct SoundSaveView: View {
                         Image(originalSound.category.imageName)
                             .resizable()
                             .scaledToFit()
-                            .background(backgroundColor) // setting the background color
+                            .background(Color(hex: backgroundColor))
                         Button {
-                            let randomColor = CustomSoundImageBackgroundColor.allCases.randomElement() ?? .TitanWhite
-                            backgroundColor = Color(randomColor)
+                            let randomColor = CustomSoundImageBackgroundColor.allCases.randomElement()?.rawValue
+                            backgroundColor = randomColor ?? originalSound.color
                         } label: {
-                            Image("repeat-light")
+                            Image("repeat")
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 20)
@@ -105,11 +108,13 @@ struct SoundSaveView: View {
             }
         }
         .onAppear {
-            if viewModel.isPlaying {
-                viewModel.stopSound()
-            }
+            viewModel.stopSound()
             isFocused = true
-            backgroundColor = Color(hex: originalSound.color)
+            backgroundColor = originalSound.color
+        }
+        .onDisappear {
+            viewModel.stopSound()
+            presentationMode.wrappedValue.dismiss()
         }
         .background(Color(.DefaultBackground))
         .onTapGesture {
@@ -125,6 +130,6 @@ struct SoundSaveView: View {
 
 struct SoundSaveView_Previews: PreviewProvider {
     static var previews: some View {
-        SoundSaveView(originalSound: OriginalSound(name: "물방울", filter: .WaterDrop, category: .waterDrop), audioVariation: AudioVariation())
+        SoundSaveView(originalSound: OriginalSound(name: "물방울", filter: .WaterDrop, category: .waterDrop), audioVariation: AudioVariation(), audioFilter: .WaterDrop, backgroundColor: "FFFFFF")
     }
 }
