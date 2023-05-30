@@ -21,19 +21,21 @@ enum CustomColor: String {
     case TimerMyListBackground
     case SearchBarText
     case SearchBarBackground
+    case SelectedPage
+    case UnselectedPage
 }
 
 enum CustomSoundImageBackgroundColor: String, CaseIterable {
-    case Azalea
-    case Cornflower
-    case Drover
-    case DullLavender
-    case Flesh
-    case Gossip
-    case LinkWater
-    case MossGreen
-    case SilverChalice
-    case TitanWhite
+    case A = "8BBBE7"
+    case B = "A399E0"
+    case C = "ACACAC"
+    case D = "ACD6A6"
+    case E = "C9F4AE"
+    case F = "DCE8F5"
+    case G = "F3F1FF"
+    case H = "F6CECE"
+    case I = "FCEFAD"
+    case J = "FDD0A8"
 }
 
 // MARK: - CustomColor를 사용하여 init 하는 기능
