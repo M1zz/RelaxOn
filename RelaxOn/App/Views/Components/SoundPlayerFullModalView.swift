@@ -11,35 +11,31 @@ import SwiftUI
  풀 모달 화면으로 보여지는 음원 플레이어 VIew
  */
 struct SoundPlayerFullModalView: View {
-    
-    /// UI 확인용
-    var file: CustomSound
-    @State private var isPlaying: Bool = false
-    
+
     @EnvironmentObject var viewModel: CustomSoundViewModel
     
     var body: some View {
         VStack {
             Spacer()
             
-            Image(file.category.imageName)
+            Image(viewModel.selectedSound?.category.imageName ?? viewModel.lastSound.category.imageName)
                 .resizable()
                 .scaledToFit()
-                .background(Color(hex: "DCE8F5"))
+                .background(Color(hex: viewModel.selectedSound?.color ?? viewModel.lastSound.color))
                 .cornerRadius(12)
                 .frame(maxWidth: .infinity)
                 .padding(.horizontal, 8)
             
             Spacer()
             
-            Text(file.title)
+            Text(viewModel.selectedSound?.title ?? viewModel.lastSound.title)
                 .font(.system(size: 24, weight: .bold))
                 .foregroundColor(Color(.Text))
             
             HStack(alignment: .center, spacing: 40) {
                 
                 Button {
-                    // TODO: 저장된 음원 목록 중 뒤쪽 음원으로 이동
+                    viewModel.playPreviousSound()
                 } label: {
                     Image(PlayerButton.fastRewind.rawValue)
                         .resizable()
@@ -50,10 +46,13 @@ struct SoundPlayerFullModalView: View {
                 }
                 
                 Button {
-                    // TODO: 선택한 사운드 재생/일시정지 토글
-                    isPlaying.toggle()
+                    if viewModel.isPlaying == true {
+                        viewModel.playSound(customSound: viewModel.selectedSound ?? viewModel.lastSound)
+                    } else {
+                        viewModel.stopSound()
+                    }
                 } label: {
-                    Image(isPlaying ? PlayerButton.pause.rawValue : PlayerButton.play.rawValue)
+                    Image(viewModel.isPlaying ? PlayerButton.play.rawValue : PlayerButton.pause.rawValue)
                         .resizable()
                         .renderingMode(.template)
                         .foregroundColor(Color(.Text))
@@ -62,7 +61,7 @@ struct SoundPlayerFullModalView: View {
                 }
                 
                 Button {
-                    // TODO: 저장된 음원 목록 중 앞쪽 음원으로 이동
+                    viewModel.playNextSound()
                 } label: {
                     Image(PlayerButton.fastForward.rawValue)
                         .resizable()
@@ -81,11 +80,25 @@ struct SoundPlayerFullModalView: View {
         .padding(.horizontal, 24)
         .padding(.vertical, 32)
         .background(Color(.DefaultBackground))
+        
+        .onAppear {
+            if let selectedSound = viewModel.selectedSound {
+                viewModel.lastSound = selectedSound
+            }
+            if viewModel.isPlaying == true {
+                viewModel.playSound(customSound: viewModel.selectedSound!)
+            }
+        }
+        .onDisappear {
+            if let selectedSound = viewModel.selectedSound {
+                viewModel.lastSound = selectedSound
+            }
+        }
     }
 }
 
 struct FullModalSoundPlayerView_Previews: PreviewProvider {
     static var previews: some View {
-        SoundPlayerFullModalView(file: .init(fileName: "나의 물방울 소리", category: .waterDrop, audioVariation: AudioVariation(), audioFilter: .WaterDrop))
+        SoundPlayerFullModalView()
     }
 }
