@@ -68,14 +68,29 @@ struct TimerMainView: View {
                                 timerManager.stopTimer(timerManager: timerManager)
                                 isShowingTimerProgressView = false
                             } label: {
-                                Image("button_reset-deactivated")
-                                    .resizable()
-                                    .frame(width: 80, height: 80)
+                                if isShowingTimerProgressView {
+                                    Image("button_reset-activated")
+                                        .resizable()
+                                        .frame(width: 80, height: 80)
+                                } else {
+                                    Image("button_reset-deactivated")
+                                        .resizable()
+                                        .frame(width: 80, height: 80)
+                                }
                             }
                             
                             Spacer ()
                             
                             Button {
+                                if isShowingTimerProgressView {
+                                    if let timer = timerManager.textTimer {
+                                        if timer.isValid {
+                                            timerManager.pauseTimer(timerManager: timerManager)
+                                        }
+                                    } else {
+                                        timerManager.resumeTimer(timerManager: timerManager)
+                                    }
+                                }
                                 isShowingTimerProgressView = true
                             } label: {
                                 if isShowingTimerProgressView == false {
@@ -83,9 +98,18 @@ struct TimerMainView: View {
                                         .resizable()
                                         .frame(width: 80, height: 80)
                                 } else {
-                                    Image("button_resume")
-                                        .resizable()
-                                        .frame(width: 80, height: 80)
+                                    if let timer = timerManager.textTimer {
+                                        if timer.isValid {
+                                            Image("button_pause")
+                                                .resizable()
+                                                .frame(width: 80, height: 80)
+                                        }
+                                    } else {
+                                        Image("button_resume")
+                                            .resizable()
+                                            .frame(width: 80, height: 80)
+                                    }
+                                    
                                 }
                             }
                         }
