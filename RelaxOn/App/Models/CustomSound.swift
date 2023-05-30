@@ -19,6 +19,15 @@ struct CustomSound: Identifiable, Codable, Equatable {
     var filter: AudioFilter
     var color: String
     
+    init() {
+        self.id = UUID()
+        self.title = "저장된 음원이 없습니다."
+        self.category = .none
+        self.audioVariation = AudioVariation()
+        self.filter = .none
+        self.color = SoundCategory.none.defaultColor
+    }
+    
     init(fileName: String, category: SoundCategory, audioVariation: AudioVariation, audioFilter: AudioFilter, color: String = "") {
         self.id = UUID()
         self.title = fileName
@@ -33,9 +42,9 @@ struct CustomSound: Identifiable, Codable, Equatable {
     }
 }
 
-// TODO: Enum 파일에 옮길거임
 /// 오디오 필터 관리를 위한 열거형
 enum AudioFilter: String, Codable {
+    case none
     case WaterDrop, Basement, Cave, Pipe, Sink
     case SingingBowl, Focus, Training, Emptiness, Vibration
     case Bird, Owl, Woodpecker, Forest
@@ -43,10 +52,13 @@ enum AudioFilter: String, Codable {
 
 /// 원본 사운드 유형 관리를 위한 열거형
 enum SoundCategory: String, Codable {
+    case none
     case waterDrop, singingBowl, bird
     
     var displayName: String {
         switch self {
+        case .none:
+            return "없음"
         case .waterDrop:
             return "물방울"
         case .singingBowl:
@@ -58,6 +70,8 @@ enum SoundCategory: String, Codable {
     
     var fileName: String {
         switch self {
+        case .none:
+            return "없음"
         case .waterDrop:
             return "WaterDrop"
         case .singingBowl:
@@ -69,6 +83,8 @@ enum SoundCategory: String, Codable {
     
     var imageName: String {
         switch self {
+        case .none:
+            return "없음"
         case .waterDrop:
             return "WaterDrop"
         case .singingBowl:
@@ -80,6 +96,8 @@ enum SoundCategory: String, Codable {
     
     var defaultColor: String {
         switch self {
+        case .none:
+            return "없음"
         case .waterDrop:
             return "DCE8F5"
         case .singingBowl:
