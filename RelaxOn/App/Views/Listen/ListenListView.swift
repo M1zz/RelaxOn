@@ -16,14 +16,7 @@ struct ListenListView: View {
     @EnvironmentObject var viewModel: CustomSoundViewModel
     @State private var searchText = ""
     
-    // UI 확인용
-    let sample = [
-        CustomSound(fileName: "나의 물방울 소리", category: .waterDrop, audioVariation: .init(), audioFilter: .WaterDrop),
-        CustomSound(fileName: "빠른 물방울 소리", category: .waterDrop, audioVariation: .init(), audioFilter: .WaterDrop),
-        CustomSound(fileName: "조용한 물방울 소리", category: .waterDrop, audioVariation: .init(), audioFilter: .WaterDrop),
-    ]
-    
-    @State private var selectedFile: CustomSound? = nil
+    @State private var selectedFile = CustomSound()
     @State private var isShowingSheet = false
     
     // MARK: - Body
@@ -38,15 +31,16 @@ struct ListenListView: View {
             .padding(.horizontal, 24)
             .padding(.vertical, 4)
             
-            SearchBar(text: $searchText)
+            SearchBar(text: $viewModel.searchText)
                 .padding(.horizontal, 24)
                 .padding(.vertical, 16)
             
             List {
-                ForEach(sample) { file in
-                    ListenListCell(fileName: file.title)
+                ForEach(viewModel.filteredSounds) { file in
+                    ListenListCell(customSound: file)
                         .onTapGesture {
-                            selectedFile = file
+                            viewModel.selectedSound = file
+                            isShowingSheet = true
                         }
                 }
                 .onDelete { indexSet in
@@ -57,8 +51,10 @@ struct ListenListView: View {
                 .listRowBackground(Color(.DefaultBackground))
                 .listRowSeparator(.hidden)
             }
-            .sheet(item: $selectedFile) { file in
-                SoundPlayerFullModalView(file: file)
+            .sheet(isPresented: $isShowingSheet, onDismiss: {
+                isShowingSheet = false
+            }) {
+                SoundPlayerFullModalView()
             }
             
             Button {
@@ -69,8 +65,7 @@ struct ListenListView: View {
             .sheet(isPresented: $isShowingSheet, onDismiss: {
                 isShowingSheet = false
             }) {
-                // FIXME: ViewModel now playing sound로 수정하기
-                SoundPlayerFullModalView(file: sample.first!)
+                SoundPlayerFullModalView()
             }
 
         }
@@ -78,6 +73,7 @@ struct ListenListView: View {
         .background(Color(.DefaultBackground))
         
         .onAppear {
+            selectedFile = viewModel.lastSound
             viewModel.loadSound()
         }
     }
