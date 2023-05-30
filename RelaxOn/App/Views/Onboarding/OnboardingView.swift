@@ -14,58 +14,74 @@ import SwiftUI
 
 struct OnboardingView: View {
     
-    @State var pageNumber = 0
-    private let onboarding = [OnboardItem(imageName:OnboardInfo.IconName.lamp.rawValue,
-                                          description:OnboardInfo.IconText.lamp.rawValue),
-                              OnboardItem(imageName:OnboardInfo.IconName.equalizerbutton.rawValue,
-                                          description: OnboardInfo.IconText.equlizerbutton.rawValue),
-                              OnboardItem(imageName: OnboardInfo.IconName.musicplayer.rawValue,
-                                          description: OnboardInfo.IconText.musicplayer.rawValue),
-                              OnboardItem(imageName: OnboardInfo.IconName.headphone.rawValue,
-                                          description: OnboardInfo.IconText.headphone.rawValue)]
+    @EnvironmentObject var viewModel: CustomSoundViewModel
+    @EnvironmentObject var appState: AppState
+    
+    @State private var pageNumber = 0
+    @State private var showTutorial: Bool = false
+    @Binding var isFirstVisit: Bool
+    
+    private let onboardingItems = OnboardItem.getAll()
     
     var body: some View {
-        
         ZStack(alignment: .bottom) {
             TabView(selection: $pageNumber) {
-                ForEach(0..<4) { num in
-                    VStack{
-                        Image(onboarding[num].imageName)
+                ForEach(onboardingItems.indices, id: \.self) { index in
+                    VStack {
+                        Image(onboardingItems[index].imageName)
                             .resizable()
                             .scaledToFit()
                             .frame(maxWidth: .infinity)
                             .padding(.horizontal, 80)
-                        Text(onboarding[num].description)
-                            .frame(maxWidth:.infinity)
+                        
+                        Text(onboardingItems[index].description)
+                            .frame(maxWidth: .infinity)
                             .multilineTextAlignment(.center)
                             .padding(.horizontal, 50)
-                        
+                    }
+                    .tag(index)
+                }
+            }
+            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+            .ignoresSafeArea()
+            
+            VStack(spacing: 10) {
+                HStack {
+                    ForEach(onboardingItems.indices, id: \.self) { index in
+                        Circle()
+                            .frame(width: 7, height: 7)
+                            .foregroundColor(pageNumber == index ? Color(.SelectedPage) : Color(.UnselectedPage))
                     }
                 }
-            }.tabViewStyle(.page(indexDisplayMode: .never))
-            
-            Button {
-                if pageNumber < onboarding.count - 1 { self.pageNumber += 1
-                    print(pageNumber)
-                } else {
-                    // TODO: TutorialView로 이동
-                }
-            } label: {
-                Text(pageNumber == 3 ? "시작하기" : "계속")
-                    .bold()
-                    .padding(14)
-                    .frame(maxWidth: .infinity)
-                    .foregroundColor(.white)
-                    .background(Color.relaxDimPurple)
-                    .cornerRadius(12)
-                    .padding(30)
                 
+                Button {
+                    if pageNumber < onboardingItems.count - 1 {
+                        pageNumber += 1
+                    } else {
+                        showTutorial = true
+                    }
+                } label: {
+                    Text(pageNumber == onboardingItems.count - 1 ? "시작하기" : "계속")
+                        .bold()
+                        .padding(14)
+                        .frame(maxWidth: .infinity)
+                        .foregroundColor(.white)
+                        .background(Color(.PrimaryPurple))
+                        .cornerRadius(12)
+                        .padding(30)
+                }
             }
-        }.ignoresSafeArea()
+            
+            if showTutorial {
+                TutorialView(isFirstVisit: $isFirstVisit)
+            }
+        }
     }
 }
+
+
 struct OnboardingView_Previews: PreviewProvider {
     static var previews: some View {
-        OnboardingView()
+        OnboardingView(isFirstVisit: .constant(true))
     }
 }
