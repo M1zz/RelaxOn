@@ -66,6 +66,7 @@ struct TimerMainView: View {
                         HStack {
                             Button {
                                 timerManager.stopTimer(timerManager: timerManager)
+                                viewModel.stopSound()
                                 isShowingTimerProgressView = false
                             } label: {
                                 if isShowingTimerProgressView {
@@ -86,12 +87,20 @@ struct TimerMainView: View {
                                     if let timer = timerManager.textTimer {
                                         if timer.isValid {
                                             timerManager.pauseTimer(timerManager: timerManager)
+                                            viewModel.stopSound()
                                         }
                                     } else {
                                         timerManager.resumeTimer(timerManager: timerManager)
+                                        if let sound = viewModel.selectedSound {
+                                            viewModel.playSound(customSound: sound)
+                                        }
                                     }
+                                } else {
+                                    if let sound = viewModel.selectedSound {
+                                        viewModel.playSound(customSound: sound)
+                                    }
+                                    isShowingTimerProgressView = true
                                 }
-                                isShowingTimerProgressView = true
                             } label: {
                                 if isShowingTimerProgressView == false {
                                     Image("button_start")
@@ -109,7 +118,6 @@ struct TimerMainView: View {
                                             .resizable()
                                             .frame(width: 80, height: 80)
                                     }
-                                    
                                 }
                             }
                         }

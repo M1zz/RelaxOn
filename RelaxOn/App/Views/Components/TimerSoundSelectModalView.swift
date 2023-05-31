@@ -47,6 +47,9 @@ struct TimerSoundSelectModalView: View {
                 .listStyle(PlainListStyle())
             }
         }
+        .onAppear {
+            viewModel.loadSound()
+        }
     }
 }
 
