@@ -15,7 +15,7 @@ import SwiftUI
 struct TimerMainView: View {
     
     @EnvironmentObject var viewModel: CustomSoundViewModel
-    @ObservedObject var timerManager = TimerManager()
+    @ObservedObject var timerManager = TimerManager(viewModel: CustomSoundViewModel())
     @State private var hours : [Int] = Array(0...23)
     @State private var minutes : [Int] = Array(0...59)
     @State var isShowingSelectorView: Bool = false
@@ -66,7 +66,6 @@ struct TimerMainView: View {
                         HStack {
                             Button {
                                 timerManager.stopTimer(timerManager: timerManager)
-                                viewModel.stopSound()
                                 isShowingTimerProgressView = false
                             } label: {
                                 if isShowingTimerProgressView {
@@ -87,7 +86,6 @@ struct TimerMainView: View {
                                     if let timer = timerManager.textTimer {
                                         if timer.isValid {
                                             timerManager.pauseTimer(timerManager: timerManager)
-                                            viewModel.stopSound()
                                         }
                                     } else {
                                         timerManager.resumeTimer(timerManager: timerManager)
@@ -125,6 +123,12 @@ struct TimerMainView: View {
                     }
                     Spacer()
                 }
+            }
+        }
+        .onAppear {
+            timerManager.viewModel = viewModel
+            timerManager.timerDidFinish = {
+                self.isShowingTimerProgressView = false
             }
         }
     }
