@@ -69,11 +69,11 @@ struct TimerMainView: View {
                                 isShowingTimerProgressView = false
                             } label: {
                                 if isShowingTimerProgressView {
-                                    Image("button_reset-activated")
+                                    Image(TimerButton.reset_activated.rawValue)
                                         .resizable()
                                         .frame(width: 80, height: 80)
                                 } else {
-                                    Image("button_reset-deactivated")
+                                    Image(TimerButton.reset_deactivated.rawValue)
                                         .resizable()
                                         .frame(width: 80, height: 80)
                                 }
@@ -101,18 +101,18 @@ struct TimerMainView: View {
                                 }
                             } label: {
                                 if isShowingTimerProgressView == false {
-                                    Image("button_start")
+                                    Image(TimerButton.start_circle.rawValue)
                                         .resizable()
                                         .frame(width: 80, height: 80)
                                 } else {
                                     if let timer = timerManager.textTimer {
                                         if timer.isValid {
-                                            Image("button_pause")
+                                            Image(TimerButton.pause_circle.rawValue)
                                                 .resizable()
                                                 .frame(width: 80, height: 80)
                                         }
                                     } else {
-                                        Image("button_resume")
+                                        Image(TimerButton.resume_circle.rawValue)
                                             .resizable()
                                             .frame(width: 80, height: 80)
                                     }
