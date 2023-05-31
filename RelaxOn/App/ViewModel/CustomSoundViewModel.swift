@@ -24,6 +24,7 @@ final class CustomSoundViewModel: ObservableObject {
     let volumeRange: [Float] = stride(from: -2.0, through: 2.0, by: 1.0).map { Float($0) }
     let filterRange: [Float] = stride(from: -50.0, through: 50.0, by: 1.0).map { Float($0) }
 
+    @Published var color = ""
     @Published var searchText = ""
     @Published var isPlaying = false
     @Published var currentSoundIndex: Int = 0

@@ -21,7 +21,7 @@ struct ListenListCell: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 60, height: 60)
-                    .background(Color(hex: customSound.category.defaultColor))
+                    .background(Color(hex: customSound.color))
                     .cornerRadius(8)
                 
                 Text(customSound.title)
