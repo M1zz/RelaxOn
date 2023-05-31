@@ -18,7 +18,7 @@ struct TimerSoundListCell: View {
             HStack {
                 Image(file.category.imageName)
                     .resizable()
-                    .background(Color(hex: "DCE8F5"))
+                    .background(Color(hex: file.color))
                     .frame(width: 60, height: 60)
                     .cornerRadius(8)
                 

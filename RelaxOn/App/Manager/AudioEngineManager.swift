@@ -75,7 +75,7 @@ extension AudioEngineManager {
             
         } catch {
             print("An error occurred: \(error.localizedDescription)")
-        }
+        } 
     }
     
     func play(with customSound: CustomSound) {
