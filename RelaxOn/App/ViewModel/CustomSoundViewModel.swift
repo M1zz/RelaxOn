@@ -14,6 +14,8 @@ import SwiftUI
 final class CustomSoundViewModel: ObservableObject {
     
     // MARK: - Properties
+    var isFilterChanged: (() -> Void)?
+    
     private var audioEngineManager = AudioEngineManager.shared
     private var fileManager = UserFileManager.shared
     private var userDefaults = UserDefaultsManager.shared
@@ -23,6 +25,12 @@ final class CustomSoundViewModel: ObservableObject {
     let pitchRange: [Float] = stride(from: -50.0, through: 50.0, by: 1.0).map { Float($0) }
     let volumeRange: [Float] = stride(from: -2.0, through: 2.0, by: 1.0).map { Float($0) }
     let filterRange: [Float] = stride(from: -50.0, through: 50.0, by: 1.0).map { Float($0) }
+    
+    let filterDictionary: [AudioFilter: [AudioFilter]] = [
+        .WaterDrop: [.WaterDrop, .Basement, .Cave, .Pipe, .Sink],
+        .SingingBowl: [.SingingBowl, .Focus, .Training, .Vibration],
+        .Bird: [.Bird, .Owl, .Woodpecker, .Forest, .Cuckoo],
+    ]
 
     @Published var searchText = ""
     @Published var isPlaying = false
@@ -70,6 +78,7 @@ final class CustomSoundViewModel: ObservableObject {
     @Published var filter: AudioFilter {
         didSet {
             selectedSound?.filter = filter
+            isFilterChanged?()
         }
     }
     
@@ -111,6 +120,12 @@ extension CustomSoundViewModel {
         audioEngineManager.play(with: originSound)
     }
     
+    func updateFilter(filter: AudioFilter) {
+        audioEngineManager.updateAudioVariation(volume: volume, pitch: pitch, speed: 1.0)
+        isPlaying.toggle()
+        audioEngineManager.updateFilter(newFilter: filter)
+    }
+    
     func playSound(customSound: CustomSound) {
         guard let customSoundFromJSON = fileManager.loadCustomSound(title: customSound.title) else {
             print("해당 JSON 파일을 찾을 수 없습니다.")
@@ -148,7 +163,6 @@ extension CustomSoundViewModel {
             }
         }
     }
-    
 }
 
 // MARK: - Methods for Model

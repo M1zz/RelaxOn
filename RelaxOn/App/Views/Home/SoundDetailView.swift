@@ -51,7 +51,7 @@ struct SoundDetailView: View {
                         viewModel.pitch = Float(angle * 13.4)
                     }
                     // TODO: 필터기능 구현
-                    CircularSlider(width: circleWidth[3], imageName: featureIcon[3], gestureType: false, range: viewModel.filterRange) { angle in
+                    CircularSlider(width: circleWidth[3], imageName: featureIcon[3], gestureType: false, range: viewModel.filterRange, filter: viewModel.selectedSound?.filter ?? .WaterDrop) { angle in
                         print("필터 : \(angle)")
                         
                     }

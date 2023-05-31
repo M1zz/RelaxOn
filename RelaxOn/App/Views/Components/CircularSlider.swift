@@ -14,25 +14,31 @@ import SwiftUI
 
 struct CircularSlider: View {
     
+    @EnvironmentObject var viewModel: CustomSoundViewModel
     @State var angle: Double = Double.random(in: 0...360)
     @State var width: CGFloat
+    @State private var currentFilterIndex = 0
+    @State private var filter: AudioFilter
+    @State private var filters: [AudioFilter] = []
+    
     var imageName: String
     
-    // 버튼 움직임 타입: 2가지 (슬라이드, 이동)
-    var gestureType: Bool = true
+    var isOnMove: Bool = true
     var angleChanged: (Double) -> Void
     var range: [Float]
     
     // 슬라이더의 angle값을 반환
-    init(width: CGFloat, imageName: String, gestureType: Bool, range: [Float], angleChanged: @escaping (Double) -> Void) {
+    init(width: CGFloat, imageName: String, gestureType: Bool, range: [Float], filter: AudioFilter = .WaterDrop, angleChanged: @escaping (Double) -> Void) {
         self.width = width
         self.imageName = imageName
-        self.gestureType = gestureType
+        self.isOnMove = gestureType
         self.range = range
+        self._filter = State(initialValue: filter)
         self.angleChanged = angleChanged
     }
     
     var body: some View {
+        
         Image(imageName)
             .resizable()
             .scaledToFit()
@@ -44,13 +50,21 @@ struct CircularSlider: View {
             .gesture(
                 DragGesture()
                     .onChanged({ value in
-                        if gestureType {
+                        if isOnMove {
                             onDrag(value: value)
                         } else {
                             onMove(value: value)
                         }
                     })
             )
+            .onAppear {
+                if let filterArray = viewModel.filterDictionary[filter] {
+                    filters.append(contentsOf: filterArray)
+                }
+                viewModel.isFilterChanged = {
+                    AudioEngineManager.shared.updateFilter(newFilter: filter)
+                }
+            }
     }
     
     /**
@@ -71,20 +85,33 @@ struct CircularSlider: View {
     // 이동형 움직임
     func onMove(value: DragGesture.Value) {
         let vector = CGVector(dx: value.location.x, dy: value.location.y)
-        let radians = atan2(vector.dy, vector.dx)
+        let radians = atan2(vector.dy - width / 2, vector.dx - width / 2)
         let angle = radians * 180 / .pi
         let snappedAngle = round(angle / 72) * 72
+
+        if snappedAngle != self.angle {
+            currentFilterIndex = (currentFilterIndex + 1) % filters.count
+        }
+        
         self.angle = Double(snappedAngle)
         angleChanged(angle)
-        print("\(angle)")
+        updateFilter()
+    }
+    
+    func updateFilter() {
+        if filters.count > 0 {
+            print("currentFilterIndex: \(currentFilterIndex), filters.count: \(filters.count)")
+            filter = filters[currentFilterIndex]
+            if let isFilterChanged = viewModel.isFilterChanged {
+                isFilterChanged()
+                viewModel.updateFilter(filter: filter)
+            }
+        }
     }
 }
 
 struct CircularSlider_Previews: PreviewProvider {
     static var previews: some View {
-        CircularSlider(width: 300, imageName: "filter", gestureType: true, range: [1.0]) { angle in
-            // 해당 예시처럼 값을 활용해볼 예정
-            print("Selected angle: \(angle / 10)")
-        }
+        CircularSlider(width: 300, imageName: "filter", gestureType: true, range: [1.0]) { _ in }
     }
 }
