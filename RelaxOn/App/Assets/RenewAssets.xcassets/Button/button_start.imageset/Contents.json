@@ -1,11 +1,11 @@
 {
   "images" : [
     {
-      "filename" : "button_start.svg",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "button_start.svg",
       "idiom" : "universal",
       "scale" : "2x"
     },

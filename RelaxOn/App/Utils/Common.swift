@@ -31,4 +31,3 @@ var featureIcon: [String] = [FeatureIcon.interval.rawValue,
                              FeatureIcon.volume.rawValue,
                              FeatureIcon.pitch.rawValue,
                              FeatureIcon.filter.rawValue]
-

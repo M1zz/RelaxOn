@@ -12,17 +12,19 @@ import SwiftUI
  */
 struct SoundPlayerBottomView: View {
     
+    @EnvironmentObject var viewModel: CustomSoundViewModel
+    
     var body: some View {
         
         HStack {
-            Image("WaterDrop")
+            Image(viewModel.selectedSound?.category.imageName ?? viewModel.lastSound.category.imageName)
                 .resizable()
                 .scaledToFit()
                 .frame(width: 60, height: 60)
-                .background(Color(hex: "DCE8F5"))
+                .background(Color(hex: viewModel.selectedSound?.color ?? viewModel.lastSound.color))
                 .cornerRadius(8)
             
-            Text("나의 물방울 소리")
+            Text(viewModel.selectedSound?.title ?? viewModel.lastSound.title)
                 .font(.system(size: 18, weight: .bold))
                 .padding(.leading, 20)
                 .foregroundColor(Color(.Text))
@@ -30,9 +32,13 @@ struct SoundPlayerBottomView: View {
             Spacer()
             
             Button(action: {
-                
+                if viewModel.isPlaying == true {
+                    viewModel.playSound(customSound: viewModel.selectedSound ?? viewModel.lastSound)
+                } else {
+                    viewModel.stopSound()
+                }
             }) {
-                Image(PlayerButton.play.rawValue)
+                Image(viewModel.isPlaying ? PlayerButton.play.rawValue : PlayerButton.pause.rawValue)
                     .resizable()
                     .renderingMode(.template)
                     .foregroundColor(Color(.Text))
@@ -44,6 +50,9 @@ struct SoundPlayerBottomView: View {
         .padding(.vertical, 10)
         .background(Color(.SoundPlayerBottom))
         
+        .onAppear {
+            viewModel.loadSound()
+        }
     }
 }
 
