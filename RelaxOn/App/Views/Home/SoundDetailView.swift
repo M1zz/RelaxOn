@@ -37,10 +37,24 @@ struct SoundDetailView: View {
                 }
                 ZStack {
                     backgroundCircle()
-                    CircularSlider(width: circleWidth[0], imageName: featureIcon[0], gestureType: true) { angle in }
-                    CircularSlider(width: circleWidth[1], imageName: featureIcon[1], gestureType: true) { angle in }
-                    CircularSlider(width: circleWidth[2], imageName: featureIcon[2], gestureType: true) { angle in }
-                    CircularSlider(width: circleWidth[3], imageName: featureIcon[3], gestureType: false) { angle in }
+                    CircularSlider(width: circleWidth[0], imageName: featureIcon[0], gestureType: true, range: viewModel.intervalRange) { angle in
+                        print("간격 : \(angle)")
+                        viewModel.speed = Float(1.0 - abs(angle * 0.00556))
+                        
+                    }
+                    CircularSlider(width: circleWidth[1], imageName: featureIcon[1], gestureType: true, range: viewModel.volumeRange) { angle in
+                        print("볼륨 : \(1.0 - abs(angle * 0.00556))")
+                        viewModel.volume = Float((1.0 - abs(angle * 0.00556)))
+                    }
+                    CircularSlider(width: circleWidth[2], imageName: featureIcon[2], gestureType: true, range: viewModel.pitchRange) { angle in
+                        print("높낮이 : \(angle * 13.4)")
+                        viewModel.pitch = Float(angle * 13.4)
+                    }
+                    // TODO: 필터기능 구현
+                    CircularSlider(width: circleWidth[3], imageName: featureIcon[3], gestureType: false, range: viewModel.filterRange) { angle in
+                        print("필터 : \(angle)")
+                        
+                    }
                     
                 }
                 .padding(24)

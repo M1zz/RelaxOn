@@ -17,6 +17,10 @@ final class CustomSoundViewModel: ObservableObject {
     private var audioEngineManager = AudioEngineManager.shared
     private var fileManager = UserFileManager.shared
     private var userDefaults = UserDefaultsManager.shared
+    let intervalRange: [Float] = stride(from: -2.0, through: 2.0, by: 1.0).map { Float($0) }
+    let pitchRange: [Float] = stride(from: -50.0, through: 50.0, by: 1.0).map { Float($0) }
+    let volumeRange: [Float] = stride(from: -2.0, through: 2.0, by: 1.0).map { Float($0) }
+    let filterRange: [Float] = stride(from: -50.0, through: 50.0, by: 1.0).map { Float($0) }
 
     @Published var customSounds: [CustomSound] = []
     @Published var selectedSound: CustomSound? = nil
@@ -74,6 +78,7 @@ final class CustomSoundViewModel: ObservableObject {
 extension CustomSoundViewModel {
 
     func playSound(originSound: OriginalSound) {
+        audioEngineManager.updateAudioVariation(volume: volume, pitch: pitch, speed: 1.0)
         audioEngineManager.play(with: originSound)
     }
     
