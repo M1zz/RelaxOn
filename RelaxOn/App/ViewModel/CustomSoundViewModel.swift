@@ -17,7 +17,6 @@ final class CustomSoundViewModel: ObservableObject {
     private var audioEngineManager = AudioEngineManager.shared
     private var fileManager = UserFileManager.shared
     private var userDefaults = UserDefaultsManager.shared
-    
     private(set) var customSoundsDictionary: [Int: CustomSound] = [:]
 
     let intervalRange: [Float] = stride(from: -2.0, through: 2.0, by: 1.0).map { Float($0) }

@@ -12,15 +12,15 @@ import AVFoundation
  */
 final class AudioEngineManager: ObservableObject {
     static let shared = AudioEngineManager()
-    
+  
     var engine = AVAudioEngine()
-    
+  
     private var player = AVAudioPlayerNode()
     private var pitchEffect = AVAudioUnitTimePitch()
     private var volumeEffect = AVAudioMixerNode()
     private var audioFile: AVAudioFile?
     private var audioBuffer: AVAudioPCMBuffer?
-    
+
     @Published var loopSpeed: Double = 1.0 {
         didSet {
             scheduleNextBuffer(loopSpeed: loopSpeed)
@@ -40,6 +40,8 @@ final class AudioEngineManager: ObservableObject {
     }
     
     @Published var audioVariation: AudioVariation = AudioVariation()
+
+    private init() { }
 
 }
 
@@ -200,6 +202,7 @@ extension AudioEngineManager {
                 print("Unable to start engine: \(error.localizedDescription)")
             }
         }
+        player.rate = Float(loopSpeed)
     }
     
     private func scheduleNextBuffer(loopSpeed: Double = 1.0) {

@@ -99,8 +99,11 @@ struct SoundDetailView: View {
                 }
             }
             .onDisappear {
+                if !isTutorial {
+                    viewModel.stopSound()
+                }
                 presentationMode.wrappedValue.dismiss()
-                viewModel.stopSound()
+                
             }
         }
     }
