@@ -15,7 +15,7 @@ import SwiftUI
 struct TimerMainView: View {
     
     @EnvironmentObject var viewModel: CustomSoundViewModel
-    @ObservedObject var timerManager = TimerManager()
+    @ObservedObject var timerManager = TimerManager(viewModel: CustomSoundViewModel())
     @State private var hours : [Int] = Array(0...23)
     @State private var minutes : [Int] = Array(0...59)
     @State var isShowingSelectorView: Bool = false
@@ -69,11 +69,11 @@ struct TimerMainView: View {
                                 isShowingTimerProgressView = false
                             } label: {
                                 if isShowingTimerProgressView {
-                                    Image("button_reset-activated")
+                                    Image(TimerButton.reset_activated.rawValue)
                                         .resizable()
                                         .frame(width: 80, height: 80)
                                 } else {
-                                    Image("button_reset-deactivated")
+                                    Image(TimerButton.reset_deactivated.rawValue)
                                         .resizable()
                                         .frame(width: 80, height: 80)
                                 }
@@ -89,27 +89,33 @@ struct TimerMainView: View {
                                         }
                                     } else {
                                         timerManager.resumeTimer(timerManager: timerManager)
+                                        if let sound = viewModel.selectedSound {
+                                            viewModel.playSound(customSound: sound)
+                                        }
                                     }
+                                } else {
+                                    if let sound = viewModel.selectedSound {
+                                        viewModel.playSound(customSound: sound)
+                                    }
+                                    isShowingTimerProgressView = true
                                 }
-                                isShowingTimerProgressView = true
                             } label: {
                                 if isShowingTimerProgressView == false {
-                                    Image("button_start")
+                                    Image(TimerButton.start_circle.rawValue)
                                         .resizable()
                                         .frame(width: 80, height: 80)
                                 } else {
                                     if let timer = timerManager.textTimer {
                                         if timer.isValid {
-                                            Image("button_pause")
+                                            Image(TimerButton.pause_circle.rawValue)
                                                 .resizable()
                                                 .frame(width: 80, height: 80)
                                         }
                                     } else {
-                                        Image("button_resume")
+                                        Image(TimerButton.resume_circle.rawValue)
                                             .resizable()
                                             .frame(width: 80, height: 80)
                                     }
-                                    
                                 }
                             }
                         }
@@ -119,12 +125,18 @@ struct TimerMainView: View {
                 }
             }
         }
+        .onAppear {
+            timerManager.viewModel = viewModel
+            timerManager.timerDidFinish = {
+                self.isShowingTimerProgressView = false
+            }
+        }
     }
     
     @ViewBuilder
     private func selectSoundButton() -> some View {
         HStack {
-            Text(viewModel.selectedSound?.fileName ?? "나만의 소리를 선택해주세요")
+            Text(viewModel.selectedSound?.title ?? "나만의 소리를 선택해주세요")
                 .foregroundColor(Color(.TimerMyListText))
             
             Spacer()

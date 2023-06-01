@@ -20,8 +20,7 @@ struct TutorialView: View {
 
     var body: some View {
         ZStack {
-            SoundDetailView(isTutorial: true, originalSound: OriginalSound(name: "물방울", filter: .waterDrop, category: .waterDrop, defaultColor: "DCE8F5"))
-            
+            SoundDetailView(isTutorial: true, originalSound: OriginalSound(name: "물방울", filter: .WaterDrop, category: .waterDrop))
             Color.black
                 .opacity(0.5)
                 .ignoresSafeArea()
@@ -32,7 +31,6 @@ struct TutorialView: View {
                 .frame(maxWidth: .infinity)
                 .padding(50)
         }
-
         .onTapGesture {
             isFirstVisit = false
             UserDefaultsManager.shared.isFirstVisit = false

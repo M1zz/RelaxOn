@@ -44,6 +44,7 @@ struct SoundListView: View {
                 }
             }
         }
+
     }
     
     @ViewBuilder
@@ -73,7 +74,7 @@ struct SoundListView: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(height: 140)
-                .background(Color(hex: originalSound.defaultColor))
+                .background(Color(hex: originalSound.color))
                 .cornerRadius(8)
         }
     }

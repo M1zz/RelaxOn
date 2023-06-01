@@ -27,6 +27,6 @@ struct TimerProgressView: View {
 
 struct TimerProgressView_Previews: PreviewProvider {
     static var previews: some View {
-        TimerProgressView(timerManager: TimerManager())
+        TimerProgressView(timerManager: TimerManager(viewModel: .init()))
     }
 }

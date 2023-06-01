@@ -22,7 +22,8 @@ struct SoundSaveView: View {
     @EnvironmentObject var viewModel: CustomSoundViewModel
     @State var originalSound: OriginalSound
     @State var audioVariation: AudioVariation
-    @State var backgroundColor: Color = .white
+    @State var audioFilter: AudioFilter
+    //@State var backgroundColor: String
     
     var body: some View {
         ZStack {
@@ -47,10 +48,18 @@ struct SoundSaveView: View {
                     Spacer()
                     
                     Button {
-                        // FIXME: viewModel에 loopSpeed 값을 변경 후 저장하는 로직 테스트
-                        viewModel.testForUpdateLoopSpeed()
+                        print("[SoundSaveView - Button - 저장] viewModel.color : \(viewModel.color)")
+                        let success = viewModel.save(with: originalSound, audioVariation: audioVariation, fileName: soundSavedName, color: viewModel.color)
                         
-                        viewModel.save(with: originalSound, audioVariation: audioVariation, fileName: soundSavedName, color: backgroundColor)
+                        if success {
+                            presentationMode.wrappedValue.dismiss()
+                            presentationMode.wrappedValue.dismiss()
+                            appState.moveToTab(.listen)
+                        } else {
+                            alertMessage = "동일한 파일명이 존재합니다.\n다른 파일이름으로 시도해보세요."
+                            isShowingAlert = true
+                        }
+                        
                     } label: {
                         Text("저장")
                             .foregroundColor(Color(.PrimaryPurple))
@@ -79,12 +88,13 @@ struct SoundSaveView: View {
                         Image(originalSound.category.imageName)
                             .resizable()
                             .scaledToFit()
-                            .background(backgroundColor) // setting the background color
+                            .background(Color(hex: viewModel.color))
                         Button {
-                            let randomColor = CustomSoundImageBackgroundColor.allCases.randomElement() ?? .TitanWhite
-                            backgroundColor = Color(randomColor)
+                            let randomColor = CustomSoundImageBackgroundColor.allCases.randomElement()?.rawValue
+                            viewModel.color = randomColor ?? originalSound.color
+                            print("[SoundSaveView - Button - repeat] viewModel.color : \(viewModel.color)")
                         } label: {
-                            Image("repeat-light")
+                            Image("repeat")
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 20)
@@ -100,15 +110,21 @@ struct SoundSaveView: View {
             }
         }
         .onAppear {
+            viewModel.stopSound()
             isFocused = true
-            backgroundColor = Color(hex: originalSound.defaultColor)
+            viewModel.color = originalSound.color
+            print("[SoundSaveView - onAppear] viewModel.color : \(viewModel.color)")
+        }
+        .onDisappear {
+            viewModel.stopSound()
+            presentationMode.wrappedValue.dismiss()
         }
         .background(Color(.DefaultBackground))
         .onTapGesture {
             UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
         }
         .alert(isPresented: $isShowingAlert) {
-            Alert(title: Text("Error"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
+            Alert(title: Text("저장 실패"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
         }
         .ignoresSafeArea(.keyboard)
     }
@@ -117,6 +133,6 @@ struct SoundSaveView: View {
 
 struct SoundSaveView_Previews: PreviewProvider {
     static var previews: some View {
-        SoundSaveView(originalSound: OriginalSound(name: "물방울", filter: .waterDrop, category: .waterDrop, defaultColor: ""), audioVariation: AudioVariation())
+        SoundSaveView(originalSound: OriginalSound(name: "물방울", filter: .WaterDrop, category: .waterDrop), audioVariation: AudioVariation(), audioFilter: .WaterDrop)
     }
 }

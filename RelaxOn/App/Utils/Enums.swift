@@ -39,51 +39,6 @@ enum FileExtension: String {
     case jpeg
 }
 
-/// 오디오 필터 관리를 위한 열거형
-enum AudioFilter: String, Codable {
-    case waterDrop, basement, cave, pipe, sink
-    case singingBowl, focus, training, emptiness, vibration
-    case bird, owl, woodpecker, forest
-}
-
-/// 원본 사운드 유형 관리를 위한 열거형
-enum SoundCategory: String, Codable {
-    case waterDrop, singingBowl, bird
-    
-    var displayName: String {
-        switch self {
-        case .waterDrop:
-            return "물방울"
-        case .singingBowl:
-            return "싱잉볼"
-        case .bird:
-            return "새소리"
-        }
-    }
-    
-    var fileName: String {
-        switch self {
-        case .waterDrop:
-            return "WaterDrop"
-        case .singingBowl:
-            return "SingingBowl"
-        case .bird:
-            return "Bird"
-        }
-    }
-    
-    var imageName: String {
-        switch self {
-        case .waterDrop:
-            return "WaterDrop"
-        case .singingBowl:
-            return "Wind" // TODO: 이미지 업데이트 후 변경 필요
-        case .bird:
-            return "Forest" // TODO: 이미지 업데이트 후 변경 필요
-        }
-    }
-}
-
 enum PlayerButton: String {
     case play = "play"
     case pause = "pause"
@@ -126,4 +81,12 @@ enum OnboardInfo {
 enum SelectSound: String {
     case checked_circle
     case unchecked_circle
+}
+
+enum TimerButton: String {
+    case reset_activated
+    case reset_deactivated
+    case start_circle
+    case pause_circle
+    case resume_circle
 }

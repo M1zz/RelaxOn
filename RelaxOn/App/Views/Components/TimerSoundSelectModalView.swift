@@ -12,21 +12,6 @@ struct TimerSoundSelectModalView: View {
     @EnvironmentObject var viewModel: CustomSoundViewModel
     @Environment(\.presentationMode) var presentationMode
     
-    // UI 확인용
-    let sample = [
-        CustomSound(fileName: "나의 물방울 소리", category: .waterDrop, audioVariation: .init(), audioFilter: .waterDrop),
-        CustomSound(fileName: "빠른 물방울 소리", category: .waterDrop, audioVariation: .init(), audioFilter: .waterDrop),
-        CustomSound(fileName: "조용한 물방울 소리", category: .waterDrop, audioVariation: .init(), audioFilter: .waterDrop),
-    ]
-    
-    var filteredSounds: [CustomSound] {
-        if viewModel.searchText.isEmpty {
-            return sample
-        } else {
-            return sample.filter { $0.fileName.contains(viewModel.searchText) }
-        }
-    }
-    
     var body: some View {
         
         ZStack {
@@ -53,7 +38,7 @@ struct TimerSoundSelectModalView: View {
                     .padding(.vertical, 16)
                 
                 List {
-                    ForEach(filteredSounds) { file in
+                    ForEach(viewModel.filteredSounds) { file in
                         TimerSoundListCell(file: file)
                     }
                     .listRowBackground(Color(.DefaultBackground))
@@ -61,6 +46,9 @@ struct TimerSoundSelectModalView: View {
                 }
                 .listStyle(PlainListStyle())
             }
+        }
+        .onAppear {
+            viewModel.loadSound()
         }
     }
 }
