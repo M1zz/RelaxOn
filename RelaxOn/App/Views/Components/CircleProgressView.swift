@@ -41,6 +41,6 @@ struct CircleProgressView: View {
 
 struct CircleProgressView_Previews: PreviewProvider {
     static var previews: some View {
-        CircleProgressView(timerManager: TimerManager())
+        CircleProgressView(timerManager: .init(viewModel: .init()))
     }
 }

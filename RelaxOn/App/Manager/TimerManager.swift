@@ -13,12 +13,19 @@ import SwiftUI
  */
 class TimerManager: ObservableObject {
     
+    var viewModel: CustomSoundViewModel?
+    var timerDidFinish: (() -> Void)?
+    
     @Published var selectedTimeIndexHours: Int = 0
     @Published var selectedTimeIndexMinutes: Int = 15
     @Published var remainingSeconds: Int = 0
     @Published var textTimer: Timer?
     @Published var progressTimer: Timer?
     @Published var progress: Double = 1.0
+    
+    init(viewModel: CustomSoundViewModel) {
+        self.viewModel = viewModel
+    }
     
     // 타이머객체 실행
     func startTimer(timerManager: TimerManager) {
@@ -30,6 +37,8 @@ class TimerManager: ObservableObject {
             if timerManager.remainingSeconds <= 0 {
                 timer.invalidate()
                 timerManager.remainingSeconds = 0
+                self.viewModel?.stopSound()
+                self.timerDidFinish?()
             }
         }
     }
@@ -49,13 +58,17 @@ class TimerManager: ObservableObject {
         timerManager.progressTimer?.invalidate()
         timerManager.remainingSeconds = 0
         timerManager.progress = 1.0
+        self.viewModel?.stopSound()
     }
+    
     func pauseTimer(timerManager: TimerManager) {
         timerManager.textTimer?.invalidate()
         timerManager.textTimer = nil
         timerManager.progressTimer?.invalidate()
         timerManager.progressTimer = nil
+        self.viewModel?.stopSound()
     }
+    
     // 타이머 재개
     func resumeTimer(timerManager: TimerManager) {
         timerManager.textTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
@@ -64,10 +77,13 @@ class TimerManager: ObservableObject {
             if timerManager.remainingSeconds <= 0 {
                 timer.invalidate()
                 timerManager.remainingSeconds = 0
+                self.viewModel?.stopSound()
+                self.timerDidFinish?()
             }
         }
         startTimeprogressBar(timerManager: timerManager)
     }
+    
     // 타이머 진행바 실행
     func startTimeprogressBar(timerManager: TimerManager) {
         let settingTime: Double = Double(timerManager.getTime(timerManager: timerManager))
@@ -79,6 +95,8 @@ class TimerManager: ObservableObject {
             if timerManager.progress <= 0 {
                 timer.invalidate()
                 timerManager.progress = 1.0
+                self.viewModel?.stopSound()
+                self.timerDidFinish?()
             }
         }
     }

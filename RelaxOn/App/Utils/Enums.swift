@@ -82,3 +82,11 @@ enum SelectSound: String {
     case checked_circle
     case unchecked_circle
 }
+
+enum TimerButton: String {
+    case reset_activated
+    case reset_deactivated
+    case start_circle
+    case pause_circle
+    case resume_circle
+}
