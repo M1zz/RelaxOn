@@ -88,9 +88,9 @@ enum SoundCategory: String, Codable {
         case .waterDrop:
             return "WaterDrop"
         case .singingBowl:
-            return "Wind" // TODO: 이미지 업데이트 후 변경 필요
+            return "SingingBowl"
         case .bird:
-            return "Forest" // TODO: 이미지 업데이트 후 변경 필요
+            return "Bird"
         }
     }
     
@@ -101,9 +101,9 @@ enum SoundCategory: String, Codable {
         case .waterDrop:
             return "DCE8F5"
         case .singingBowl:
-            return "DCE8F5" // TODO: 이미지 업데이트 후 변경 필요
+            return "FDD0A8"
         case .bird:
-            return "DCE8F5" // TODO: 이미지 업데이트 후 변경 필요
+            return "ACD6A6"
         }
     }
 }
