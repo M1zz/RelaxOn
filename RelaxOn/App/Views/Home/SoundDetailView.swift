@@ -88,7 +88,7 @@ struct SoundDetailView: View {
             .navigationBarBackButtonHidden(true)
             
             .fullScreenCover(isPresented: $isShowingSheet) {
-                SoundSaveView(originalSound: originalSound, audioVariation: AudioVariation(volume: viewModel.volume, pitch: viewModel.pitch, speed: viewModel.speed), audioFilter: originalSound.filter, backgroundColor: originalSound.color)
+                SoundSaveView(originalSound: originalSound, audioVariation: AudioVariation(volume: viewModel.volume, pitch: viewModel.pitch, speed: viewModel.speed), audioFilter: originalSound.filter)
             }
             
             // MARK: - Life Cycle

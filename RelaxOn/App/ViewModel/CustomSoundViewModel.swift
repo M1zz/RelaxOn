@@ -32,6 +32,7 @@ final class CustomSoundViewModel: ObservableObject {
         .Bird: [.Bird, .Owl, .Woodpecker, .Forest, .Cuckoo],
     ]
 
+    @Published var color = ""
     @Published var searchText = ""
     @Published var isPlaying = false
     @Published var currentSoundIndex: Int = 0

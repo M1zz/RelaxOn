@@ -23,7 +23,7 @@ struct SoundSaveView: View {
     @State var originalSound: OriginalSound
     @State var audioVariation: AudioVariation
     @State var audioFilter: AudioFilter
-    @State var backgroundColor: String
+    //@State var backgroundColor: String
     
     var body: some View {
         ZStack {
@@ -48,7 +48,8 @@ struct SoundSaveView: View {
                     Spacer()
                     
                     Button {
-                        let success = viewModel.save(with: originalSound, audioVariation: audioVariation, fileName: soundSavedName, color: "")
+                        print("[SoundSaveView - Button - 저장] viewModel.color : \(viewModel.color)")
+                        let success = viewModel.save(with: originalSound, audioVariation: audioVariation, fileName: soundSavedName, color: viewModel.color)
                         
                         if success {
                             presentationMode.wrappedValue.dismiss()
@@ -87,10 +88,11 @@ struct SoundSaveView: View {
                         Image(originalSound.category.imageName)
                             .resizable()
                             .scaledToFit()
-                            .background(Color(hex: backgroundColor))
+                            .background(Color(hex: viewModel.color))
                         Button {
                             let randomColor = CustomSoundImageBackgroundColor.allCases.randomElement()?.rawValue
-                            backgroundColor = randomColor ?? originalSound.color
+                            viewModel.color = randomColor ?? originalSound.color
+                            print("[SoundSaveView - Button - repeat] viewModel.color : \(viewModel.color)")
                         } label: {
                             Image("repeat")
                                 .resizable()
@@ -110,7 +112,8 @@ struct SoundSaveView: View {
         .onAppear {
             viewModel.stopSound()
             isFocused = true
-            backgroundColor = originalSound.color
+            viewModel.color = originalSound.color
+            print("[SoundSaveView - onAppear] viewModel.color : \(viewModel.color)")
         }
         .onDisappear {
             viewModel.stopSound()
@@ -130,6 +133,6 @@ struct SoundSaveView: View {
 
 struct SoundSaveView_Previews: PreviewProvider {
     static var previews: some View {
-        SoundSaveView(originalSound: OriginalSound(name: "물방울", filter: .WaterDrop, category: .waterDrop), audioVariation: AudioVariation(), audioFilter: .WaterDrop, backgroundColor: "FFFFFF")
+        SoundSaveView(originalSound: OriginalSound(name: "물방울", filter: .WaterDrop, category: .waterDrop), audioVariation: AudioVariation(), audioFilter: .WaterDrop)
     }
 }

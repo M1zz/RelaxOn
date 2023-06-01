@@ -10,6 +10,7 @@ import Foundation
 extension FileManager {
     
     func encode<T: Encodable>(data: T, to fileName: String, directory: FileManager.SearchPathDirectory = .documentDirectory) -> Bool {
+        print(#function)
         let encoder = JSONEncoder()
         
         guard let encodedData = try? encoder.encode(data) else {
@@ -20,6 +21,7 @@ extension FileManager {
         let urls = self.urls(for: directory, in: .userDomainMask)
         
         if let url = urls.first?.appendingPathComponent("relaxOn") {
+            print("[ FileManager - encode ] url : \(url)")
             do {
                 if !fileExists(atPath: url.path) {
                     try createDirectory(at: url, withIntermediateDirectories: true)
@@ -39,12 +41,14 @@ extension FileManager {
 
     
     func decode<T: Decodable>(_ fileType: T.Type, from fileName: String, directory: FileManager.SearchPathDirectory = .documentDirectory) -> T? {
+        print(#function)
         let urls = self.urls(for: directory, in: .userDomainMask)
         
         guard let url = urls.first?.appendingPathComponent("relaxOn").appendingPathComponent(fileName).appendingPathExtension(FileExtension.json.rawValue) else {
             print("[ERROR] \(fileName) 로드 실패: 파일 경로를 찾을 수 없음")
             return nil
         }
+        print("[ FileManager - decode ] url : \(url)")
         
         guard let data = try? Data(contentsOf: url) else {
             print("[ERROR] \(fileName) 로드 실패: 데이터를 불러올 수 없음")
