@@ -78,6 +78,37 @@ extension AudioEngineManager {
         } 
     }
     
+    func play(with originalSound: OriginalSound, filter: AudioFilter) {
+        print(#function)
+        
+        guard let fileURL = getPathNSURL(forResource: originalSound.category.fileName, musicExtension: .mp3) else {
+            print("File not found")
+            return
+        }
+        
+        do {
+            audioFile = try AVAudioFile(forReading: fileURL as URL)
+            
+            engine.attach(player)
+            engine.attach(pitchEffect)
+            engine.attach(volumeEffect)
+            
+            if let audioFile = audioFile {
+                engine.connect(player, to: pitchEffect, format: audioFile.processingFormat)
+                engine.connect(pitchEffect, to: volumeEffect, format: audioFile.processingFormat)
+                engine.connect(volumeEffect, to: engine.mainMixerNode, format: audioFile.processingFormat)
+            }
+            
+            try engine.start()
+            
+            audioBuffer = prepareBuffer()
+            scheduleNextBuffer()
+            
+        } catch {
+            print("An error occurred: \(error.localizedDescription)")
+        }
+    }
+    
     func play(with customSound: CustomSound) {
         print(#function)
 
@@ -133,6 +164,42 @@ extension AudioEngineManager {
         audioVariation.volume = volume
         audioVariation.pitch = pitch
         audioVariation.speed = speed
+    }
+    
+    func updateFilter(newFilter: AudioFilter) {
+        print(#function)
+        
+        if engine.isRunning {
+            stop()
+        }
+        
+        guard let fileURL = getPathNSURL(forResource: newFilter.rawValue, musicExtension: .mp3) else {
+            print("File not found")
+            return
+        }
+
+        do {
+            audioFile = try AVAudioFile(forReading: fileURL as URL)
+            
+            engine.attach(player)
+            engine.attach(pitchEffect)
+            engine.attach(volumeEffect)
+            
+            if let audioFile = audioFile {
+                audioBuffer = prepareBuffer(audioFile: audioFile)
+                
+                engine.connect(player, to: pitchEffect, format: audioFile.processingFormat)
+                engine.connect(pitchEffect, to: volumeEffect, format: audioFile.processingFormat)
+                engine.connect(volumeEffect, to: engine.mainMixerNode, format: audioFile.processingFormat)
+                
+                try engine.start()
+                
+                scheduleNextBuffer(loopSpeed: loopSpeed)
+            }
+            
+        } catch {
+            print("An error occurred: \(error.localizedDescription)")
+        }
     }
     
     /**

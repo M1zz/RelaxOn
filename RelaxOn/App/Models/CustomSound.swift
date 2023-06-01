@@ -46,8 +46,8 @@ struct CustomSound: Identifiable, Codable, Equatable {
 enum AudioFilter: String, Codable {
     case none
     case WaterDrop, Basement, Cave, Pipe, Sink
-    case SingingBowl, Focus, Training, Emptiness, Vibration
-    case Bird, Owl, Woodpecker, Forest
+    case SingingBowl, Focus, Training, Empty, Vibration
+    case Bird, Owl, Woodpecker, Forest, Cuckoo
 }
 
 /// 원본 사운드 유형 관리를 위한 열거형
