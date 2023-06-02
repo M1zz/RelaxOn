@@ -1,17 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "TutorialGesture.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "TutorialGesture@2x.png",
+      "filename" : "TutorialGesture.svg",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "TutorialGesture@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
