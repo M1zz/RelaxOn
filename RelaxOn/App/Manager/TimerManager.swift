@@ -107,7 +107,7 @@ class TimerManager: ObservableObject {
                 Text(String(format: "%02d:%02d:%02d", max(timerManager.remainingSeconds / 3600, 0), max((timerManager.remainingSeconds % 3600) / 60, 0), max(timerManager.remainingSeconds % 60, 0)))
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .font(.system(size: 60, weight: .light))
+                    .font(.system(size: 50, weight: .light))
                     .onAppear {
                         timerManager.startTimer(timerManager: timerManager)
                     }
