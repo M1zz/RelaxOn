@@ -16,6 +16,7 @@ struct TimePickerView: View {
     var body: some View {
         HStack {
             Spacer ()
+            
             HStack(alignment: .center){
                 Picker("Time Picker - hours", selection: $selectedTimeIndexHours, content: {
                     ForEach(hours, id: \.self) {
@@ -23,7 +24,6 @@ struct TimePickerView: View {
                         Text("\(hours[index])").tag(index)
                     }
                 })
-                .frame(maxWidth: 50)
                 .pickerStyle(.wheel)
                 
                 Text("hours")
@@ -36,7 +36,6 @@ struct TimePickerView: View {
                         Text("\(minutes[index])").tag(index)
                     }
                 })
-                .frame(maxWidth: 50)
                 .pickerStyle(.wheel)
                 
                 Text("min")
@@ -44,8 +43,9 @@ struct TimePickerView: View {
                     .padding(.horizontal, 10)
                 
             }
-            .padding(.horizontal, 20)
-            
+            .frame(maxWidth: .infinity)
+            .padding(20)
+
             Spacer ()
         }
     }

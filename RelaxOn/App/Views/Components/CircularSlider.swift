@@ -113,5 +113,6 @@ struct CircularSlider: View {
 struct CircularSlider_Previews: PreviewProvider {
     static var previews: some View {
         CircularSlider(width: 300, imageName: "filter", gestureType: true, range: [1.0]) { _ in }
+            .environmentObject(CustomSoundViewModel())
     }
 }

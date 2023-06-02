@@ -35,10 +35,10 @@ struct TimerMainView: View {
                     .font(.system(size: 24, weight: .bold))
                     .padding(.horizontal, 24)
                     .padding(.vertical, 4)
-                
-                Spacer()
-                
-                VStack(spacing: 80) {
+                VStack {
+                    
+                    Spacer()
+                    
                     if isShowingTimerProgressView == false {
                         TimePickerView(hours: $hours,
                                        minutes: $minutes,
@@ -46,83 +46,89 @@ struct TimerMainView: View {
                                        selectedTimeIndexMinutes: $timerManager.selectedTimeIndexMinutes)
                     } else {
                         TimerProgressView(timerManager: timerManager)
-                            .padding(.top, 60)
+                    }
+                }
+                
+                Spacer()
+                
+                VStack {
+                    Button {
+                        isShowingSelectorView.toggle()
+                    } label: {
+                        selectSoundButton()
+                            .cornerRadius(10)
+                            .padding(.horizontal, 38)
+                            .padding(.vertical, 50)
                     }
                     
-                    VStack(spacing: 50) {
+                    .sheet(isPresented: $isShowingSelectorView) {
+                        TimerSoundSelectModalView()
+                            .presentationDetents([.fraction(0.88)])
+                    }
+                    
+                    Spacer()
+                    
+                    HStack {
                         Button {
-                            isShowingSelectorView.toggle()
+                            timerManager.stopTimer(timerManager: timerManager)
+                            isShowingTimerProgressView = false
                         } label: {
-                            selectSoundButton()
-                                .cornerRadius(10)
-                                .padding(.horizontal, 38)
-                        }
-                        
-                        .sheet(isPresented: $isShowingSelectorView) {
-                            TimerSoundSelectModalView()
-                                .presentationDetents([.fraction(0.88)])
-                        }
-                        
-                        HStack {
-                            Button {
-                                timerManager.stopTimer(timerManager: timerManager)
-                                isShowingTimerProgressView = false
-                            } label: {
-                                if isShowingTimerProgressView {
-                                    Image(TimerButton.reset_activated.rawValue)
-                                        .resizable()
-                                        .frame(width: 80, height: 80)
-                                } else {
-                                    Image(TimerButton.reset_deactivated.rawValue)
-                                        .resizable()
-                                        .frame(width: 80, height: 80)
-                                }
+                            if isShowingTimerProgressView {
+                                Image(TimerButton.reset_activated.rawValue)
+                                    .resizable()
+                                    .frame(width: 80, height: 80)
+                            } else {
+                                Image(TimerButton.reset_deactivated.rawValue)
+                                    .resizable()
+                                    .frame(width: 80, height: 80)
                             }
-                            
-                            Spacer ()
-                            
-                            Button {
-                                if isShowingTimerProgressView {
-                                    if let timer = timerManager.textTimer {
-                                        if timer.isValid {
-                                            timerManager.pauseTimer(timerManager: timerManager)
-                                        }
-                                    } else {
-                                        timerManager.resumeTimer(timerManager: timerManager)
-                                        if let sound = viewModel.selectedSound {
-                                            viewModel.playSound(customSound: sound)
-                                        }
+                        }
+                        
+                        Spacer ()
+                        
+                        Button {
+                            if isShowingTimerProgressView {
+                                if let timer = timerManager.textTimer {
+                                    if timer.isValid {
+                                        timerManager.pauseTimer(timerManager: timerManager)
                                     }
                                 } else {
+                                    timerManager.resumeTimer(timerManager: timerManager)
                                     if let sound = viewModel.selectedSound {
                                         viewModel.playSound(customSound: sound)
                                     }
-                                    isShowingTimerProgressView = true
                                 }
-                            } label: {
-                                if isShowingTimerProgressView == false {
-                                    Image(TimerButton.start_circle.rawValue)
-                                        .resizable()
-                                        .frame(width: 80, height: 80)
-                                } else {
-                                    if let timer = timerManager.textTimer {
-                                        if timer.isValid {
-                                            Image(TimerButton.pause_circle.rawValue)
-                                                .resizable()
-                                                .frame(width: 80, height: 80)
-                                        }
-                                    } else {
-                                        Image(TimerButton.resume_circle.rawValue)
+                            } else {
+                                if let sound = viewModel.selectedSound {
+                                    viewModel.playSound(customSound: sound)
+                                }
+                                isShowingTimerProgressView = true
+                            }
+                        } label: {
+                            if isShowingTimerProgressView == false {
+                                Image(TimerButton.start_circle.rawValue)
+                                    .resizable()
+                                    .frame(width: 80, height: 80)
+                            } else {
+                                if let timer = timerManager.textTimer {
+                                    if timer.isValid {
+                                        Image(TimerButton.pause_circle.rawValue)
                                             .resizable()
                                             .frame(width: 80, height: 80)
                                     }
+                                } else {
+                                    Image(TimerButton.resume_circle.rawValue)
+                                        .resizable()
+                                        .frame(width: 80, height: 80)
                                 }
                             }
                         }
-                        .padding(.horizontal, 40)
                     }
+                    .padding(.horizontal, 40)
                     Spacer()
                 }
+                
+                
             }
         }
         .onAppear {
@@ -153,7 +159,10 @@ struct TimerMainView: View {
 
 struct RelaxView_Previews: PreviewProvider {
     static var previews: some View {
-        TimerMainView()
+        ZStack {
+            TimerMainView()
+                .environmentObject(CustomSoundViewModel())
+        }
     }
 }
 
