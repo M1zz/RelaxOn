@@ -153,7 +153,10 @@ struct TimerMainView: View {
 
 struct RelaxView_Previews: PreviewProvider {
     static var previews: some View {
-        TimerMainView()
+        ZStack {
+            TimerMainView()
+                .environmentObject(CustomSoundViewModel())
+        }
     }
 }
 
