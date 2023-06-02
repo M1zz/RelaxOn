@@ -36,20 +36,20 @@ struct TimerMainView: View {
                     .padding(.horizontal, 24)
                     .padding(.vertical, 4)
                 VStack {
-    
+                    
                     Spacer()
                     
-                        if isShowingTimerProgressView == false {
-                            TimePickerView(hours: $hours,
-                                           minutes: $minutes,
-                                           selectedTimeIndexHours: $timerManager.selectedTimeIndexHours,
-                                           selectedTimeIndexMinutes: $timerManager.selectedTimeIndexMinutes)
-                        } else {
-                            TimerProgressView(timerManager: timerManager)
-                        }
+                    if isShowingTimerProgressView == false {
+                        TimePickerView(hours: $hours,
+                                       minutes: $minutes,
+                                       selectedTimeIndexHours: $timerManager.selectedTimeIndexHours,
+                                       selectedTimeIndexMinutes: $timerManager.selectedTimeIndexMinutes)
+                    } else {
+                        TimerProgressView(timerManager: timerManager)
+                    }
                 }
                 
-                    Spacer()
+                Spacer()
                 
                 VStack {
                     Button {
@@ -127,7 +127,7 @@ struct TimerMainView: View {
                     .padding(.horizontal, 40)
                     Spacer()
                 }
-                        
+                
                 
             }
         }
