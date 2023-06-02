@@ -51,7 +51,6 @@ struct TimerMainView: View {
                 
                     Spacer()
                 
-                //버튼 스택
                 VStack {
                     Button {
                         isShowingSelectorView.toggle()
