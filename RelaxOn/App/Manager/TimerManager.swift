@@ -148,5 +148,7 @@ class TimerManager: ObservableObject {
                     timerManager.stopTimer(timerManager: timerManager)
                 }
         }
+        .frame(maxWidth: .infinity)
+        .padding(.horizontal, 20)
     }
 }
