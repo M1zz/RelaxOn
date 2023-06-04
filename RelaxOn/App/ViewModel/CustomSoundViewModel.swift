@@ -211,7 +211,7 @@ extension CustomSoundViewModel {
 extension CustomSoundViewModel {
     
     func makeCustomSound(_ title: String, _ sound: OriginalSound, _ variation: AudioVariation, _ color: String) -> CustomSound {
-        return CustomSound(fileName: title, category: sound.category, audioVariation: variation, audioFilter: sound.filter, color: color)
+        return CustomSound(title: title, category: sound.category, variation: variation, filter: sound.filter, color: color)
     }
     
 }

@@ -28,12 +28,12 @@ struct CustomSound: Identifiable, Codable, Equatable {
         self.color = SoundCategory.none.defaultColor
     }
     
-    init(fileName: String, category: SoundCategory, audioVariation: AudioVariation, audioFilter: AudioFilter, color: String = "") {
+    init(title: String, category: SoundCategory, variation: AudioVariation, filter: AudioFilter, color: String = "") {
         self.id = UUID()
-        self.title = fileName
+        self.title = title
         self.category = category
-        self.audioVariation = audioVariation
-        self.filter = audioFilter
+        self.audioVariation = variation
+        self.filter = filter
         self.color = (color == "") ? category.defaultColor : color
     }
     
