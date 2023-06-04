@@ -58,21 +58,21 @@ final class CustomSoundViewModel: ObservableObject {
         }
     }
     
-    @Published var speed = Float() {
+    @Published var interval = Float() {
         didSet {
-            audioEngineManager.updateAudioVariation(volume: volume, pitch: pitch, speed: speed)
+            audioEngineManager.updateAudioVariation(volume: volume, pitch: pitch, interval: interval)
         }
     }
     
     @Published var pitch = Float() {
         didSet {
-            audioEngineManager.updateAudioVariation(volume: volume, pitch: pitch, speed: speed)
+            audioEngineManager.updateAudioVariation(volume: volume, pitch: pitch, interval: interval)
         }
     }
     
     @Published var volume = Float() {
         didSet {
-            audioEngineManager.updateAudioVariation(volume: volume, pitch: pitch, speed: speed)
+            audioEngineManager.updateAudioVariation(volume: volume, pitch: pitch, interval: interval)
         }
     }
     
@@ -102,7 +102,7 @@ final class CustomSoundViewModel: ObservableObject {
         self.lastSound = userDefaults.lastPlayedSound
         
         pitch = Float.random(in: -5.0...5.0)
-        speed = Float.random(in: 0.2...1.0)
+        interval = Float.random(in: 0.2...1.0)
         volume = Float.random(in: 0.2...1.0)
     }
     
@@ -116,13 +116,13 @@ final class CustomSoundViewModel: ObservableObject {
 extension CustomSoundViewModel {
     
     func playSound(originSound: OriginalSound) {
-        audioEngineManager.updateAudioVariation(volume: volume, pitch: pitch, speed: 1.0)
+        audioEngineManager.updateAudioVariation(volume: volume, pitch: pitch, interval: 1.0)
         isPlaying.toggle()
         audioEngineManager.play(with: originSound)
     }
     
     func updateFilter(filter: AudioFilter) {
-        audioEngineManager.updateAudioVariation(volume: volume, pitch: pitch, speed: 1.0)
+        audioEngineManager.updateAudioVariation(volume: volume, pitch: pitch, interval: 1.0)
         isPlaying.toggle()
         audioEngineManager.updateFilter(newFilter: filter)
     }

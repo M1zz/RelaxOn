@@ -39,7 +39,7 @@ struct SoundDetailView: View {
                     backgroundCircle()
                     CircularSlider(width: circleWidth[0], imageName: featureIcon[0], gestureType: true, range: viewModel.intervalRange) { angle in
                         print("간격 : \(angle)")
-                        viewModel.speed = Float(1.0 - abs(angle * 0.00556))
+                        viewModel.interval = Float(1.0 - abs(angle * 0.00556))
                         
                     }
                     CircularSlider(width: circleWidth[1], imageName: featureIcon[1], gestureType: true, range: viewModel.volumeRange) { angle in
@@ -88,7 +88,7 @@ struct SoundDetailView: View {
             .navigationBarBackButtonHidden(true)
             
             .fullScreenCover(isPresented: $isShowingSheet) {
-                SoundSaveView(originalSound: originalSound, audioVariation: AudioVariation(volume: viewModel.volume, pitch: viewModel.pitch, speed: viewModel.speed), audioFilter: originalSound.filter)
+                SoundSaveView(originalSound: originalSound, audioVariation: AudioVariation(volume: viewModel.volume, pitch: viewModel.pitch, interval: viewModel.interval), audioFilter: originalSound.filter)
             }
             
             // MARK: - Life Cycle

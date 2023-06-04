@@ -21,9 +21,9 @@ final class AudioEngineManager: ObservableObject {
     private var audioFile: AVAudioFile?
     private var audioBuffer: AVAudioPCMBuffer?
 
-    @Published var loopSpeed: Double = 1.0 {
+    @Published var interval: Double = 1.0 {
         didSet {
-            scheduleNextBuffer(loopSpeed: loopSpeed)
+            scheduleNextBuffer(interval: interval)
         }
     }
     
@@ -120,7 +120,7 @@ extension AudioEngineManager {
         updateAudioVariation(
             volume: customSound.audioVariation.volume,
             pitch: customSound.audioVariation.pitch,
-            speed: customSound.audioVariation.speed
+            interval: customSound.audioVariation.interval
         )
         
         do {
@@ -139,7 +139,7 @@ extension AudioEngineManager {
                 
                 try engine.start()
                 
-                scheduleNextBuffer(loopSpeed: Double(customSound.audioVariation.speed))
+                scheduleNextBuffer(interval: Double(customSound.audioVariation.interval))
             }
             
         } catch {
@@ -156,14 +156,14 @@ extension AudioEngineManager {
         }
     }
     
-    func updateAudioVariation(volume: Float, pitch: Float, speed: Float) {
+    func updateAudioVariation(volume: Float, pitch: Float, interval: Float) {
         self.pitchEffect.pitch = pitch * 100
         self.player.volume = volume
-        self.loopSpeed = Double(speed)
+        self.interval = Double(interval)
         
         audioVariation.volume = volume
         audioVariation.pitch = pitch
-        audioVariation.speed = speed
+        audioVariation.interval = interval
     }
     
     func updateFilter(newFilter: AudioFilter) {
@@ -194,7 +194,7 @@ extension AudioEngineManager {
                 
                 try engine.start()
                 
-                scheduleNextBuffer(loopSpeed: loopSpeed)
+                scheduleNextBuffer(interval: interval)
             }
             
         } catch {
@@ -255,7 +255,7 @@ extension AudioEngineManager {
             return
         }
         player.scheduleBuffer(buffer, completionHandler: { [weak self] in
-            DispatchQueue.main.asyncAfter(deadline: .now() + (self?.loopSpeed ?? 1.0)) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + (self?.interval ?? 1.0)) {
                 self?.scheduleNextBuffer()
             }
         })
@@ -269,16 +269,16 @@ extension AudioEngineManager {
                 print("Unable to start engine: \(error.localizedDescription)")
             }
         }
-        player.rate = Float(loopSpeed)
+        player.rate = Float(interval)
     }
     
-    private func scheduleNextBuffer(loopSpeed: Double = 1.0) {
+    private func scheduleNextBuffer(interval: Double = 1.0) {
         guard let buffer = audioBuffer else {
             print("Failed to prepare buffer")
             return
         }
         player.scheduleBuffer(buffer, completionHandler: { [weak self] in
-            DispatchQueue.main.asyncAfter(deadline: .now() + (loopSpeed)) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + (interval)) {
                 self?.scheduleNextBuffer()
             }
         })
