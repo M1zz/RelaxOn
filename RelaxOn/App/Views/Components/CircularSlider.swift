@@ -16,10 +16,13 @@ struct CircularSlider: View {
     
     @EnvironmentObject var viewModel: CustomSoundViewModel
     @State var angle: Double = Double.random(in: 0...360)
-    @State var width: CGFloat
+    @State var type: CircleType
     @State private var currentFilterIndex = 0
     @State private var filter: AudioFilter
     @State private var filters: [AudioFilter] = []
+    private var width: CGFloat {
+        type.width
+    }
     
     var imageName: String
     
@@ -28,8 +31,8 @@ struct CircularSlider: View {
     var range: [Float]
     
     // 슬라이더의 angle값을 반환
-    init(width: CGFloat, imageName: String, gestureType: Bool, range: [Float], filter: AudioFilter = .WaterDrop, angleChanged: @escaping (Double) -> Void) {
-        self.width = width
+    init(type: CircleType, imageName: String, gestureType: Bool, range: [Float], filter: AudioFilter = .WaterDrop, angleChanged: @escaping (Double) -> Void) {
+        self.type = type
         self.imageName = imageName
         self.isOnMove = gestureType
         self.range = range
@@ -112,7 +115,7 @@ struct CircularSlider: View {
 
 struct CircularSlider_Previews: PreviewProvider {
     static var previews: some View {
-        CircularSlider(width: 300, imageName: "filter", gestureType: true, range: [1.0]) { _ in }
+        CircularSlider(type: .medium, imageName: "filter", gestureType: true, range: [1.0]) { _ in }
             .environmentObject(CustomSoundViewModel())
     }
 }

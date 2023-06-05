@@ -35,29 +35,7 @@ struct SoundDetailView: View {
                         .foregroundColor(Color(.Text))
                         .font(.system(size: 18, weight: .regular))
                 }
-                ZStack {
-                    backgroundCircle()
-                    CircularSlider(width: circleWidth[0], imageName: featureIcon[0], gestureType: true, range: viewModel.intervalRange) { angle in
-                        print("간격 : \(angle)")
-                        viewModel.speed = Float(1.0 - abs(angle * 0.00556))
-                        
-                    }
-                    CircularSlider(width: circleWidth[1], imageName: featureIcon[1], gestureType: true, range: viewModel.volumeRange) { angle in
-                        print("볼륨 : \(1.0 - abs(angle * 0.00556))")
-                        viewModel.volume = Float((1.0 - abs(angle * 0.00556)))
-                    }
-                    CircularSlider(width: circleWidth[2], imageName: featureIcon[2], gestureType: true, range: viewModel.pitchRange) { angle in
-                        print("높낮이 : \(angle * 13.4)")
-                        viewModel.pitch = Float(angle * 13.4)
-                    }
-
-                    CircularSlider(width: circleWidth[3], imageName: featureIcon[3], gestureType: false, range: viewModel.filterRange, filter: viewModel.selectedSound?.filter ?? .WaterDrop) { angle in
-                        print("필터 : \(angle)")
-                        
-                    }
-                    
-                }
-                .padding(24)
+                soundController()
             }
             
             .navigationBarTitle(originalSound.name, displayMode: .inline)
@@ -106,6 +84,33 @@ struct SoundDetailView: View {
                 
             }
         }
+    }
+    
+    @ViewBuilder
+    func soundController() -> some View {
+        ZStack {
+            backgroundCircle()
+            CircularSlider(type: .xSmall, imageName: featureIcon[0], gestureType: true, range: viewModel.intervalRange) { angle in
+                print("간격 : \(angle)")
+                viewModel.speed = Float(1.0 - abs(angle * 0.00556))
+                
+            }
+            CircularSlider(type: .small, imageName: featureIcon[1], gestureType: true, range: viewModel.volumeRange) { angle in
+                print("볼륨 : \(1.0 - abs(angle * 0.00556))")
+                viewModel.volume = Float((1.0 - abs(angle * 0.00556)))
+            }
+            CircularSlider(type: .medium, imageName: featureIcon[2], gestureType: true, range: viewModel.pitchRange) { angle in
+                print("높낮이 : \(angle * 13.4)")
+                viewModel.pitch = Float(angle * 13.4)
+            }
+
+            CircularSlider(type: .large, imageName: featureIcon[3], gestureType: false, range: viewModel.filterRange, filter: viewModel.selectedSound?.filter ?? .WaterDrop) { angle in
+                print("필터 : \(angle)")
+                
+            }
+            
+        }
+        .padding(24)
     }
     
     // 배경으로 쓰이는 원 + 원형 라인 + 이동 포인트
