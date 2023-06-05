@@ -116,9 +116,8 @@ struct SoundDetailView: View {
     // 배경으로 쓰이는 원 + 원형 라인 + 이동 포인트
     @ViewBuilder
     func backgroundCircle() -> some View {
-        
+
         ZStack {
-            
             Circle()
                 .fill(Color.relaxDimPurple)
                 .frame(width: 300)
@@ -134,13 +133,13 @@ struct SoundDetailView: View {
                 .scaledToFit()
                 .frame(width: 26)
             
-            ForEach(0..<circleWidth.count, id: \.self) { index in
+            ForEach(CircleType.all) { type in
                 Circle()
                     .stroke(style: .init(lineWidth: 1))
                     .foregroundColor(.relaxDimPurple)
-                    .frame(width: circleWidth[index])
+                    .frame(width: type.width)
             }
-            
+
             ForEach(0..<pointAngle.count, id: \.self) { index in
                 Circle()
                     .frame(width: 6)
@@ -155,5 +154,6 @@ struct SoundDetailView: View {
 struct SoundDetailView_Previews: PreviewProvider {
     static var previews: some View {
         SoundDetailView(isTutorial: true, originalSound: OriginalSound(name: "물방울", filter: .WaterDrop, category: .waterDrop))
+            .environmentObject(CustomSoundViewModel())
     }
 }
