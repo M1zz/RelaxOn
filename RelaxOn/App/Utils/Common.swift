@@ -52,8 +52,7 @@ enum CircleType {
         }
     }
 }
-var smallCircleWidth: CGFloat = 120
-var circleWidth: [CGFloat] = [120, 210, 250, 300]
+
 var pointAngle: [Double] = [72, 144, 216, 288, 360]
 var featureIcon: [String] = [FeatureIcon.interval.rawValue,
                              FeatureIcon.volume.rawValue,
