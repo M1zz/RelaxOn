@@ -57,6 +57,7 @@
 		594012752A17DD7900221DE7 /* Owl.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 594012712A17DD7800221DE7 /* Owl.mp3 */; };
 		594012762A17DD7900221DE7 /* Forest.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 594012722A17DD7900221DE7 /* Forest.mp3 */; };
 		5958296E2A1E8E930009D761 /* CircularSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5958296D2A1E8E930009D761 /* CircularSlider.swift */; };
+		59DFA0772A30D65E006EB723 /* Pre)CircularSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59DFA0762A30D65E006EB723 /* Pre)CircularSlider.swift */; };
 		8F00A2392A2332530062B816 /* TimerSoundSelectModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F00A2382A2332530062B816 /* TimerSoundSelectModalView.swift */; };
 		8F00A23B2A2348C20062B816 /* TimerSoundListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F00A23A2A2348C20062B816 /* TimerSoundListCell.swift */; };
 		8F00A23D2A235E5F0062B816 /* OnboardItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F00A23C2A235E5F0062B816 /* OnboardItem.swift */; };
@@ -241,6 +242,7 @@
 		594012712A17DD7800221DE7 /* Owl.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Owl.mp3; sourceTree = "<group>"; };
 		594012722A17DD7900221DE7 /* Forest.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Forest.mp3; sourceTree = "<group>"; };
 		5958296D2A1E8E930009D761 /* CircularSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularSlider.swift; sourceTree = "<group>"; };
+		59DFA0762A30D65E006EB723 /* Pre)CircularSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pre)CircularSlider.swift"; sourceTree = "<group>"; };
 		8F00A2382A2332530062B816 /* TimerSoundSelectModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerSoundSelectModalView.swift; sourceTree = "<group>"; };
 		8F00A23A2A2348C20062B816 /* TimerSoundListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerSoundListCell.swift; sourceTree = "<group>"; };
 		8F00A23C2A235E5F0062B816 /* OnboardItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardItem.swift; sourceTree = "<group>"; };
@@ -754,6 +756,7 @@
 				8FCB23F32A15F85200188024 /* SoundPlayerBottomView.swift */,
 				8F5A0EBE2A15FBDD0061F42C /* SoundPlayerFullModalView.swift */,
 				8F5A0EC22A15FD750061F42C /* CircleProgressView.swift */,
+				59DFA0762A30D65E006EB723 /* Pre)CircularSlider.swift */,
 				5958296D2A1E8E930009D761 /* CircularSlider.swift */,
 				8F3F3EB62A221D9C000C2FF1 /* TimePickerView.swift */,
 				8F00A2382A2332530062B816 /* TimerSoundSelectModalView.swift */,
@@ -1027,6 +1030,7 @@
 				E206D1A428D2B97500DDB4E7 /* TimerProgressBarView.swift in Sources */,
 				8F31407D29D428B900BB5410 /* UserFileManager.swift in Sources */,
 				8F0FC49B29C1DD5D00F923A5 /* OldAudioManager.swift in Sources */,
+				59DFA0772A30D65E006EB723 /* Pre)CircularSlider.swift in Sources */,
 				CBFDC8F4289C23AC00386FB5 /* VolumeSlider.swift in Sources */,
 				58DE61B2283A8E1700F25769 /* OldSound.swift in Sources */,
 				C7FDCA8C28D094E0008FA749 /* MusicViewDelegate.swift in Sources */,
