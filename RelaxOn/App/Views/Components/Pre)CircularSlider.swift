@@ -1,27 +1,151 @@
 //
-//  Pre)CircularSlider.swift
+//  CircularSlider.swift
 //  RelaxOn
 //
-//  Created by 황석현 on 2023/06/08.
+//  Created by 황석현 on 2023/05/25.
 //
 /**
- SoundDetailView의 사용되는 원형슬라이더 뷰 본문
+ 원하는 width 크기만큼의 원형 슬라이더를 만드는 View 객체
+ SoundDetailView의 원형 슬라이더로
+ 사운드 커스텀에 사용되는 슬라이더
  */
+
 import SwiftUI
 
-struct Pre_CircularSlider: View {
-    // TODO: 슬라이더의 크기, 최대값을 입력받는다
-    // TODO: 슬라이더의 값을 측정,계산 한다
-    // TODO: 슬라이더의 값을 반환,저장 한다
+struct preCircularSliderView: View {
+    
+    @EnvironmentObject var viewModel: CustomSoundViewModel
+    // 회전각도 관련 속성
+    @State var angle: Double = Double.random(in: 0...360)
+    @State private var rotationAngle = Angle(degrees: 0)
+    
+    @State var type: CircleType
+    @State private var currentFilterIndex = 0
+    @State private var filter: AudioFilter
+    @State private var filters: [AudioFilter] = []
+    private var width: CGFloat {
+        type.width
+    }
+    
+    var imageName: String
+    // FIXME: 범위를 입력하라
+    private var minValue = 0.0
+    private var maxValue = 1.0
+    
+    var isOnMove: Bool = true
+    var range: [Float]
+    
+    // 슬라이더의 angle값을 반환
+    init(type: CircleType, imageName: String, gestureType: Bool, range: [Float], filter: AudioFilter = .WaterDrop, value progress: Binding<Double>, in bounds: ClosedRange<Int> = 0...1) {
+        self.type = type
+        self.imageName = imageName
+        self.isOnMove = gestureType
+        self.range = range
+        self._filter = State(initialValue: filter)
+        self.minValue = Double(bounds.first ?? 0)
+        self.maxValue = Double(bounds.last ?? 1)
+    }
+    
     var body: some View {
-        // TODO: 슬라이더 UI를 구현한다
-        // TODO: 원형의 선과 사용자가 터치할 원(Image)를 구현한다
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        
+        Image(imageName)
+            .resizable()
+            .scaledToFit()
+            .frame(width: 24)
+            .rotationEffect(-rotationAngle + Angle(degrees: 90))
+            .offset(x: width / 2)
+            .rotationEffect(rotationAngle - Angle(degrees: 90))
+            .gesture(
+                DragGesture(minimumDistance: 0.0)
+                    .onChanged(){ value in
+                        if isOnMove {
+                            onDrag(value: value.location)
+                            print("Angle : \(angle)")
+                            print("Rotation : \(rotationAngle)")
+                        } else {
+                            onMove(value: value.location)
+                        }
+                    }
+            )
+            .onAppear {
+                self.rotationAngle = Angle(degrees: progressFraction * 360.0)
+                if let filterArray = viewModel.filterDictionary[filter] {
+                    filters.append(contentsOf: filterArray)
+                }
+                viewModel.isFilterChanged = {
+                    AudioEngineManager.shared.updateFilter(newFilter: filter)
+                }
+            }
+    }
+    
+    /**
+     슬라이더의 각도를 구하는 함수
+     수평선을 기준으로 상단은 + 180, 하단은 -180
+     SnappedAngle은 정해진 각도로만 이동하기위한 함수
+     */
+    // 슬라이드형 움직임
+    func onDrag(value: CGPoint) {
+        // 입력 받은 위치로 벡터를 생성합니다. (iOS는 y축이 반대 방향이므로 -y로 설정합니다.)
+        let vector = CGVector(dx: value.x, dy: -value.y)
+        
+        // atan2 함수를 사용하여 벡터의 각도를 계산합니다.
+        let angleRadians = atan2(vector.dx, vector.dy)
+        
+        // 각도가 음수인 경우를 대비해, 각도를 0 ~ 2π 범위로 맞춥니다.
+        let positiveAngle = angleRadians < 0.0 ? angleRadians + (2.0 * .pi) : angleRadians
+        
+        // 계산된 각도를 이용해서 progress 값을 업데이트합니다.
+        angle = ((positiveAngle /  (2.0 * .pi)) * (maxValue - minValue )) + minValue
+        
+        rotationAngle = Angle(radians: positiveAngle)
+    }
+    
+    // 이동형 움직임
+    func onMove(value: CGPoint) {
+        let vector = CGVector(dx: value.x, dy: -value.y)
+        
+        // atan2 함수를 사용하여 벡터의 각도를 계산합니다.
+        let angleRadians = atan2(vector.dx, vector.dy)
+        
+        // 각도가 음수인 경우를 대비해, 각도를 0 ~ 2π 범위로 맞춥니다.
+        let positiveAngle = angleRadians < 0.0 ? angleRadians + (2.0 * .pi) : angleRadians
+        
+        // 계산된 각도를 이용해서 progress 값을 업데이트합니다.
+        angle = ((positiveAngle /  (2.0 * .pi)) * (maxValue - minValue )) + minValue
+        
+        rotationAngle = Angle(radians: positiveAngle)
+        
+        
+        let snappedAngle = round(angle / 72) * 72
+        if snappedAngle != self.angle {
+            currentFilterIndex = (currentFilterIndex + 1) % filters.count
+        }
+
+        self.angle = Double(snappedAngle)
+        updateFilter()
+    }
+    
+    // 진행률을 계산하는 private 변수입니다.
+    private var progressFraction: Double {
+        // 진행률은 현재 값에서 최소값을 빼고, 그 결과를 (최대값 - 최소값)으로 나눈 값입니다.
+        return ((angle - minValue) / (maxValue - minValue))
+    }
+    
+    func updateFilter() {
+        if filters.count > 0 {
+            print("currentFilterIndex: \(currentFilterIndex), filters.count: \(filters.count)")
+            filter = filters[currentFilterIndex]
+            if let isFilterChanged = viewModel.isFilterChanged {
+                isFilterChanged()
+                viewModel.updateFilter(filter: filter)
+            }
+        }
     }
 }
 
-struct Pre_CircularSlider_Previews: PreviewProvider {
+struct preCircularSliderView_Previews: PreviewProvider {
     static var previews: some View {
-        Pre_CircularSlider()
+        CircularSlider(type: .medium, imageName: "filter", gestureType: true, range: [1.0]) { _ in }
+            .environmentObject(CustomSoundViewModel())
     }
 }
