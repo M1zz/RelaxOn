@@ -15,6 +15,7 @@ struct SoundDetailView: View {
     
     // MARK: - Properties
     let isTutorial: Bool
+    @State var progress: Double = 0.0
     @State var isShowingSheet: Bool = false
     @State var originalSound: OriginalSound
     @EnvironmentObject var viewModel: CustomSoundViewModel
@@ -90,23 +91,21 @@ struct SoundDetailView: View {
     func soundController() -> some View {
         ZStack {
             backgroundCircle()
-            CircularSlider(type: .xSmall, imageName: featureIcon[0], gestureType: true, range: viewModel.intervalRange) { angle in
-                print("간격 : \(angle)")
-                viewModel.speed = Float(1.0 - abs(angle * 0.00556))
-                
+            preCircularSliderView(type: .xSmall, imageName: featureIcon[0], gestureType: true, range: viewModel.intervalRange, in: Int(0.5)...5) { angle in
+                viewModel.speed = Float(angle)
+                print("IntervalSpeed : \(angle)")
             }
-            CircularSlider(type: .small, imageName: featureIcon[1], gestureType: true, range: viewModel.volumeRange) { angle in
-                print("볼륨 : \(1.0 - abs(angle * 0.00556))")
-                viewModel.volume = Float((1.0 - abs(angle * 0.00556)))
-            }
-            CircularSlider(type: .medium, imageName: featureIcon[2], gestureType: true, range: viewModel.pitchRange) { angle in
-                print("높낮이 : \(angle * 13.4)")
-                viewModel.pitch = Float(angle * 13.4)
-            }
+            preCircularSliderView(type: .small, imageName: featureIcon[1], gestureType: true, range: viewModel.volumeRange, in: 0...1) { angle in
+                viewModel.volume = Float(angle)
+                print("Volume : \(angle)")
 
-            CircularSlider(type: .large, imageName: featureIcon[3], gestureType: false, range: viewModel.filterRange, filter: viewModel.selectedSound?.filter ?? .WaterDrop) { angle in
-                print("필터 : \(angle)")
-                
+            }
+            preCircularSliderView(type: .medium, imageName: featureIcon[2], gestureType: true, range: viewModel.pitchRange, in: -25...25) { angle in
+                viewModel.pitch = Float(angle)
+                print("Pitch : \(angle)")
+            }
+            preCircularSliderView(type: .large, imageName: featureIcon[3], gestureType: false, range: viewModel.filterRange, filter: viewModel.selectedSound?.filter ?? .WaterDrop, in: 0...360) { angle in
+                print("Filter : \(angle)")
             }
             
         }
@@ -116,7 +115,7 @@ struct SoundDetailView: View {
     // 배경으로 쓰이는 원 + 원형 라인 + 이동 포인트
     @ViewBuilder
     func backgroundCircle() -> some View {
-
+        
         ZStack {
             Circle()
                 .fill(Color.relaxDimPurple)
@@ -139,7 +138,7 @@ struct SoundDetailView: View {
                     .foregroundColor(.relaxDimPurple)
                     .frame(width: type.width)
             }
-
+            
             ForEach(0..<pointAngle.count, id: \.self) { index in
                 Circle()
                     .frame(width: 6)

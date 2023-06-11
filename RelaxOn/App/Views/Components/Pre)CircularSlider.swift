@@ -34,13 +34,15 @@ struct preCircularSliderView: View {
     
     var isOnMove: Bool = true
     var range: [Float]
+    var angleChanged: (Double) -> Void
     
     // 슬라이더의 angle값을 반환
-    init(type: CircleType, imageName: String, gestureType: Bool, range: [Float], filter: AudioFilter = .WaterDrop, value progress: Binding<Double>, in bounds: ClosedRange<Int> = 0...1) {
+    init(type: CircleType, imageName: String, gestureType: Bool, range: [Float], filter: AudioFilter = .WaterDrop, in bounds: ClosedRange<Int>, angleChanged: @escaping (Double) -> Void) {
         self.type = type
         self.imageName = imageName
         self.isOnMove = gestureType
         self.range = range
+        self.angleChanged = angleChanged
         self._filter = State(initialValue: filter)
         self.minValue = Double(bounds.first ?? 0)
         self.maxValue = Double(bounds.last ?? 1)
@@ -96,6 +98,7 @@ struct preCircularSliderView: View {
         
         // 계산된 각도를 이용해서 progress 값을 업데이트합니다.
         angle = ((positiveAngle /  (2.0 * .pi)) * (maxValue - minValue )) + minValue
+        angleChanged(angle)
         
         rotationAngle = Angle(radians: positiveAngle)
     }
@@ -112,7 +115,7 @@ struct preCircularSliderView: View {
         
         // 계산된 각도를 이용해서 progress 값을 업데이트합니다.
         angle = ((positiveAngle /  (2.0 * .pi)) * (maxValue - minValue )) + minValue
-        
+        angleChanged(angle)
         rotationAngle = Angle(radians: positiveAngle)
         
         

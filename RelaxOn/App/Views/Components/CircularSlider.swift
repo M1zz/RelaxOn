@@ -82,7 +82,6 @@ struct CircularSlider: View {
         let angle = radians * 180 / .pi
         self.angle = angle
         angleChanged(angle)
-        print("\(angle)")
     }
     
     // 이동형 움직임
