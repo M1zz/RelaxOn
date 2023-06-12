@@ -17,31 +17,28 @@ struct preCircularSliderView: View {
     @EnvironmentObject var viewModel: CustomSoundViewModel
     // 회전각도 관련 속성
     @State var angle: Double = Double.random(in: 0...360)
+    // 이미지의 위치와 방향을 정하는 속성
     @State private var rotationAngle = Angle(degrees: 0)
+    var angleChanged: (Double) -> Void
     
     @State var type: CircleType
     @State private var currentFilterIndex = 0
     @State private var filter: AudioFilter
     @State private var filters: [AudioFilter] = []
-    private var width: CGFloat {
-        type.width
-    }
     
     var imageName: String
-    // FIXME: 범위를 입력하라
+    var isOnMove: Bool = true
     private var minValue = 0.0
     private var maxValue = 1.0
+    private var width: CGFloat { type.width }
     
-    var isOnMove: Bool = true
-    var range: [Float]
-    var angleChanged: (Double) -> Void
+    
     
     // 슬라이더의 angle값을 반환
-    init(type: CircleType, imageName: String, gestureType: Bool, range: [Float], filter: AudioFilter = .WaterDrop, in bounds: ClosedRange<Int>, angleChanged: @escaping (Double) -> Void) {
+    init(type: CircleType, imageName: String, gestureType: Bool, range: [Float], filter: AudioFilter = .WaterDrop, angleChanged: @escaping (Double) -> Void) {
         self.type = type
         self.imageName = imageName
         self.isOnMove = gestureType
-        self.range = range
         self.angleChanged = angleChanged
         self._filter = State(initialValue: filter)
         self.minValue = Double(range.first ?? 0)
@@ -54,6 +51,7 @@ struct preCircularSliderView: View {
             .resizable()
             .scaledToFit()
             .frame(width: 24)
+        // FIXME: rotationAngle이 +90이 되는 현상
             .rotationEffect(-rotationAngle + Angle(degrees: 90))
             .offset(x: width / 2)
             .rotationEffect(rotationAngle - Angle(degrees: 90))
@@ -96,7 +94,7 @@ struct preCircularSliderView: View {
         // 각도가 음수인 경우를 대비해, 각도를 0 ~ 2π 범위로 맞춥니다.
         let positiveAngle = angleRadians < 0.0 ? angleRadians + (2.0 * .pi) : angleRadians
         
-        // 계산된 각도를 이용해서 progress 값을 업데이트합니다.
+        // 계산된 각도를 이용해서 angle 값을 업데이트합니다.
         angle = ((positiveAngle /  (2.0 * .pi)) * (maxValue - minValue )) + minValue
         angleChanged(angle)
         
@@ -105,6 +103,7 @@ struct preCircularSliderView: View {
     
     // 이동형 움직임
     func onMove(value: CGPoint) {
+        // 입력 받은 위치로 벡터를 생성합니다. (iOS는 y축이 반대 방향이므로 -y로 설정합니다.)
         let vector = CGVector(dx: value.x, dy: -value.y)
         
         // atan2 함수를 사용하여 벡터의 각도를 계산합니다.
@@ -113,7 +112,7 @@ struct preCircularSliderView: View {
         // 각도가 음수인 경우를 대비해, 각도를 0 ~ 2π 범위로 맞춥니다.
         let positiveAngle = angleRadians < 0.0 ? angleRadians + (2.0 * .pi) : angleRadians
         
-        // 계산된 각도를 이용해서 progress 값을 업데이트합니다.
+        // 계산된 각도를 이용해서 angle 값을 업데이트합니다.
         angle = ((positiveAngle /  (2.0 * .pi)) * (maxValue - minValue )) + minValue
         angleChanged(angle)
         rotationAngle = Angle(radians: positiveAngle)
