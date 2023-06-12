@@ -91,19 +91,19 @@ struct SoundDetailView: View {
     func soundController() -> some View {
         ZStack {
             backgroundCircle()
-            preCircularSliderView(type: .xSmall, imageName: featureIcon[0], gestureType: true, range: viewModel.intervalRange) { angle in
+            CircularSlider(type: .xSmall, imageName: featureIcon[0], gestureType: true, range: viewModel.intervalRange) { angle in
                 viewModel.speed = Float(angle)
                 print("IntervalSpeed : \(angle)")
             }
-            preCircularSliderView(type: .small, imageName: featureIcon[1], gestureType: true, range: viewModel.volumeRange) { angle in
+            CircularSlider(type: .small, imageName: featureIcon[1], gestureType: true, range: viewModel.volumeRange) { angle in
                 viewModel.volume = Float(angle)
                 print("Volume : \(angle)")
             }
-            preCircularSliderView(type: .medium, imageName: featureIcon[2], gestureType: true, range: viewModel.pitchRange) { angle in
+            CircularSlider(type: .medium, imageName: featureIcon[2], gestureType: true, range: viewModel.pitchRange) { angle in
                 viewModel.pitch = Float(angle)
                 print("Pitch : \(angle)")
             }
-            preCircularSliderView(type: .large, imageName: featureIcon[3], gestureType: false, range: viewModel.filterRange, filter: viewModel.selectedSound?.filter ?? .WaterDrop) { angle in
+            CircularSlider(type: .large, imageName: featureIcon[3], gestureType: false, range: viewModel.filterRange, filter: viewModel.selectedSound?.filter ?? .WaterDrop) { angle in
                 print("Filter : \(angle)")
             }
         }
