@@ -44,8 +44,8 @@ struct preCircularSliderView: View {
         self.range = range
         self.angleChanged = angleChanged
         self._filter = State(initialValue: filter)
-        self.minValue = Double(bounds.first ?? 0)
-        self.maxValue = Double(bounds.last ?? 1)
+        self.minValue = Double(range.first ?? 0)
+        self.maxValue = Double(range.last ?? 1)
     }
     
     var body: some View {
@@ -123,7 +123,7 @@ struct preCircularSliderView: View {
         if snappedAngle != self.angle {
             currentFilterIndex = (currentFilterIndex + 1) % filters.count
         }
-
+        
         self.angle = Double(snappedAngle)
         updateFilter()
     }

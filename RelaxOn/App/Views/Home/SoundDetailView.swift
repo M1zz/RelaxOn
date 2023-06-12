@@ -98,7 +98,6 @@ struct SoundDetailView: View {
             preCircularSliderView(type: .small, imageName: featureIcon[1], gestureType: true, range: viewModel.volumeRange, in: 0...1) { angle in
                 viewModel.volume = Float(angle)
                 print("Volume : \(angle)")
-
             }
             preCircularSliderView(type: .medium, imageName: featureIcon[2], gestureType: true, range: viewModel.pitchRange, in: -25...25) { angle in
                 viewModel.pitch = Float(angle)
@@ -107,7 +106,6 @@ struct SoundDetailView: View {
             preCircularSliderView(type: .large, imageName: featureIcon[3], gestureType: false, range: viewModel.filterRange, filter: viewModel.selectedSound?.filter ?? .WaterDrop, in: 0...360) { angle in
                 print("Filter : \(angle)")
             }
-            
         }
         .padding(24)
     }
