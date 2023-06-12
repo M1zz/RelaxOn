@@ -39,7 +39,13 @@ final class AudioEngineManager: ObservableObject {
         }
     }
     
-    @Published var audioVariation: AudioVariation = AudioVariation()
+    @Published var audioVariation: AudioVariation = AudioVariation() {
+        didSet {
+            self.pitchEffect.pitch = Float(audioVariation.pitch * 100)
+            self.player.volume = audioVariation.volume
+            self.interval = Double(audioVariation.interval)
+        }
+    }
 
     private init() { }
 
@@ -47,17 +53,17 @@ final class AudioEngineManager: ObservableObject {
 
 extension AudioEngineManager {
     
-    func play(with originalSound: OriginalSound) {
+    func play<T: PlayableSound>(with sound: T) {
         print(#function)
         
-        guard let fileURL = getPathNSURL(forResource: originalSound.category.fileName, musicExtension: .mp3) else {
+        let targetFile = sound.filter.rawValue
+        guard let fileURL = Bundle.main.url(forResource: targetFile, withExtension: MusicExtension.mp3.rawValue) else {
             print("File not found")
             return
         }
         
         do {
-            audioFile = try AVAudioFile(forReading: fileURL as URL)
-            
+            audioFile = try AVAudioFile(forReading: fileURL)
             engine.attach(player)
             engine.attach(pitchEffect)
             engine.attach(volumeEffect)
@@ -70,80 +76,16 @@ extension AudioEngineManager {
             
             try engine.start()
             
-            audioBuffer = prepareBuffer()
-            scheduleNextBuffer()
-            
-        } catch {
-            print("An error occurred: \(error.localizedDescription)")
-        } 
-    }
-    
-    func play(with originalSound: OriginalSound, filter: AudioFilter) {
-        print(#function)
-        
-        guard let fileURL = getPathNSURL(forResource: originalSound.category.fileName, musicExtension: .mp3) else {
-            print("File not found")
-            return
-        }
-        
-        do {
-            audioFile = try AVAudioFile(forReading: fileURL as URL)
-            
-            engine.attach(player)
-            engine.attach(pitchEffect)
-            engine.attach(volumeEffect)
-            
-            if let audioFile = audioFile {
-                engine.connect(player, to: pitchEffect, format: audioFile.processingFormat)
-                engine.connect(pitchEffect, to: volumeEffect, format: audioFile.processingFormat)
-                engine.connect(volumeEffect, to: engine.mainMixerNode, format: audioFile.processingFormat)
-            }
-            
-            try engine.start()
-            
-            audioBuffer = prepareBuffer()
-            scheduleNextBuffer()
-            
-        } catch {
-            print("An error occurred: \(error.localizedDescription)")
-        }
-    }
-    
-    func play(with customSound: CustomSound) {
-        print(#function)
-
-        guard let fileURL = getPathNSURL(forResource: customSound.filter.rawValue, musicExtension: .mp3) else {
-            print("File not found")
-            return
-        }
-        
-        updateAudioVariation(
-            volume: customSound.audioVariation.volume,
-            pitch: customSound.audioVariation.pitch,
-            interval: customSound.audioVariation.interval
-        )
-        
-        do {
-            audioFile = try AVAudioFile(forReading: fileURL as URL)
-            
-            engine.attach(player)
-            engine.attach(pitchEffect)
-            engine.attach(volumeEffect)
-            
-            if let audioFile = audioFile {
-                audioBuffer = prepareBuffer(audioFile: audioFile)
-                
-                engine.connect(player, to: pitchEffect, format: audioFile.processingFormat)
-                engine.connect(pitchEffect, to: volumeEffect, format: audioFile.processingFormat)
-                engine.connect(volumeEffect, to: engine.mainMixerNode, format: audioFile.processingFormat)
-                
-                try engine.start()
-                
+            if let customSound = sound as? CustomSound {
+                audioVariation = customSound.audioVariation
+                print("customSound = \(customSound)")
                 scheduleNextBuffer(interval: Double(customSound.audioVariation.interval))
+            } else {
+                audioBuffer = prepareBuffer()
+                scheduleNextBuffer()
             }
-            
         } catch {
-            print("An error occurred: \(error.localizedDescription)")
+            print(error.localizedDescription)
         }
     }
     
@@ -164,42 +106,6 @@ extension AudioEngineManager {
         audioVariation.volume = volume
         audioVariation.pitch = pitch
         audioVariation.interval = interval
-    }
-    
-    func updateFilter(newFilter: AudioFilter) {
-        print(#function)
-        
-        if engine.isRunning {
-            stop()
-        }
-        
-        guard let fileURL = getPathNSURL(forResource: newFilter.rawValue, musicExtension: .mp3) else {
-            print("File not found")
-            return
-        }
-
-        do {
-            audioFile = try AVAudioFile(forReading: fileURL as URL)
-            
-            engine.attach(player)
-            engine.attach(pitchEffect)
-            engine.attach(volumeEffect)
-            
-            if let audioFile = audioFile {
-                audioBuffer = prepareBuffer(audioFile: audioFile)
-                
-                engine.connect(player, to: pitchEffect, format: audioFile.processingFormat)
-                engine.connect(pitchEffect, to: volumeEffect, format: audioFile.processingFormat)
-                engine.connect(volumeEffect, to: engine.mainMixerNode, format: audioFile.processingFormat)
-                
-                try engine.start()
-                
-                scheduleNextBuffer(interval: interval)
-            }
-            
-        } catch {
-            print("An error occurred: \(error.localizedDescription)")
-        }
     }
     
     /**
@@ -250,6 +156,7 @@ extension AudioEngineManager {
      완료 핸들러를 설정하여 다음 버퍼를 스케줄하기 전에 일정 시간 동안 대기하도록 합니다.
      */
     private func scheduleNextBuffer() {
+        print(#function)
         guard let buffer = audioBuffer else {
             print("Failed to prepare buffer")
             return
@@ -273,6 +180,7 @@ extension AudioEngineManager {
     }
     
     private func scheduleNextBuffer(interval: Double = 1.0) {
+        print(#function)
         guard let buffer = audioBuffer else {
             print("Failed to prepare buffer")
             return
@@ -292,6 +200,7 @@ extension AudioEngineManager {
                 print("Unable to start engine: \(error.localizedDescription)")
             }
         }
+        player.rate = Float(interval)
     }
 
     func clearBuffer() {

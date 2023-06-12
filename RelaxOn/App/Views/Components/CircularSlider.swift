@@ -18,22 +18,21 @@ struct CircularSlider: View {
     @State var angle: Double = Double.random(in: 0...360)
     @State var width: CGFloat
     @State private var currentFilterIndex = 0
-    @State private var filter: AudioFilter
     @State private var filters: [AudioFilter] = []
     
     var imageName: String
     
-    var isOnMove: Bool = true
+    var isOnDrag: Bool = true
     var angleChanged: (Double) -> Void
     var range: [Float]
     
     // 슬라이더의 angle값을 반환
-    init(width: CGFloat, imageName: String, gestureType: Bool, range: [Float], filter: AudioFilter = .WaterDrop, angleChanged: @escaping (Double) -> Void) {
+    init(width: CGFloat, imageName: String, isOnDrag: Bool, range: [Float], initialAngle: Double? = nil, angleChanged: @escaping (Double) -> Void) {
         self.width = width
         self.imageName = imageName
-        self.isOnMove = gestureType
+        self.isOnDrag = isOnDrag
         self.range = range
-        self._filter = State(initialValue: filter)
+        self._angle = State(initialValue: initialAngle ?? Double.random(in: 0...360))
         self.angleChanged = angleChanged
     }
     
@@ -50,7 +49,7 @@ struct CircularSlider: View {
             .gesture(
                 DragGesture()
                     .onChanged({ value in
-                        if isOnMove {
+                        if isOnDrag {
                             onDrag(value: value)
                         } else {
                             onMove(value: value)
@@ -58,12 +57,15 @@ struct CircularSlider: View {
                     })
             )
             .onAppear {
-                if let filterArray = viewModel.filterDictionary[filter] {
+                if let filterArray = viewModel.filterDictionary[viewModel.sound.filter] {
                     filters.append(contentsOf: filterArray)
                 }
                 viewModel.isFilterChanged = {
-                    AudioEngineManager.shared.updateFilter(newFilter: filter)
+                    viewModel.play(with: viewModel.sound)
                 }
+            }
+            .onDisappear {
+                filters.removeAll()
             }
     }
     
@@ -100,11 +102,11 @@ struct CircularSlider: View {
     
     func updateFilter() {
         if filters.count > 0 {
-            print("currentFilterIndex: \(currentFilterIndex), filters.count: \(filters.count)")
-            filter = filters[currentFilterIndex]
+            //print("currentFilterIndex: \(currentFilterIndex), filters.count: \(filters.count)")
+            viewModel.sound.filter = filters[currentFilterIndex]
             if let isFilterChanged = viewModel.isFilterChanged {
                 isFilterChanged()
-                viewModel.updateFilter(filter: filter)
+                viewModel.play(with: viewModel.sound)
             }
         }
     }
@@ -112,7 +114,7 @@ struct CircularSlider: View {
 
 struct CircularSlider_Previews: PreviewProvider {
     static var previews: some View {
-        CircularSlider(width: 300, imageName: "filter", gestureType: true, range: [1.0]) { _ in }
+        CircularSlider(width: 300, imageName: "filter", isOnDrag: true, range: [1.0]) { _ in }
             .environmentObject(CustomSoundViewModel())
     }
 }

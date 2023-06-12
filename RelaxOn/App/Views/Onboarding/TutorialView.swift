@@ -20,7 +20,7 @@ struct TutorialView: View {
 
     var body: some View {
         ZStack {
-            SoundDetailView(isTutorial: true, originalSound: OriginalSound(name: "물방울", filter: .WaterDrop, category: .waterDrop))
+            SoundDetailView(originalSound: OriginalSound(name: "물방울", filter: .WaterDrop, category: .waterDrop), isTutorial: true)
             Color.black
                 .opacity(0.5)
                 .ignoresSafeArea()
