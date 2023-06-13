@@ -78,9 +78,8 @@ extension AudioEngineManager {
             
             if let customSound = sound as? CustomSound {
                 audioVariation = customSound.audioVariation
-                print("customSound = \(customSound)")
-                
-                // If buffer preparation fails, prepare it again before scheduling
+                //print("customSound = \(customSound)")
+
                 audioBuffer = prepareBuffer()
                 if audioBuffer == nil {
                     audioBuffer = prepareBuffer()
@@ -88,7 +87,6 @@ extension AudioEngineManager {
                 
                 scheduleNextBuffer(interval: Double(customSound.audioVariation.interval))
             } else {
-                // If buffer preparation fails, prepare it again before scheduling
                 audioBuffer = prepareBuffer()
                 if audioBuffer == nil {
                     audioBuffer = prepareBuffer()
@@ -110,16 +108,6 @@ extension AudioEngineManager {
         }
     }
     
-    func updateAudioVariation(volume: Float, pitch: Float, interval: Float) {
-        self.pitchEffect.pitch = pitch * 100
-        self.player.volume = volume
-        self.interval = Double(interval)
-        
-        audioVariation.volume = volume
-        audioVariation.pitch = pitch
-        audioVariation.interval = interval
-    }
-    
     /**
      오디오 파일을 AVAudioPCMBuffer로 준비합니다.
      AVAudioFile을 읽어서 AVAudioPCMBuffer로 변환합니다. 이 함수는 재생 준비 과정에서 사용됩니다.
@@ -136,8 +124,7 @@ extension AudioEngineManager {
             print("오디오 파일을 buffer에 읽어옵니다.")
             
         } catch {
-            print("오디오 파일을 buffer에 읽어오지 못했습니다.")
-            print("Error reading audio file into buffer: \(error)")
+            print("오디오 파일을 buffer에 읽어오지 못했습니다.: \(error)")
             return nil
         }
         return buffer
@@ -155,8 +142,7 @@ extension AudioEngineManager {
             print("오디오 파일을 buffer에 읽어옵니다.")
             
         } catch {
-            print("오디오 파일을 buffer에 읽어오지 못했습니다.")
-            print("Error reading audio file into buffer: \(error)")
+            print("오디오 파일을 buffer에 읽어오지 못했습니다.: \(error)")
             return nil
         }
         return buffer
@@ -196,7 +182,6 @@ extension AudioEngineManager {
         }
     }
 
-    
     private func scheduleNextBuffer(interval: Double = 1.0) {
         print(#function)
         guard let buffer = audioBuffer else {
