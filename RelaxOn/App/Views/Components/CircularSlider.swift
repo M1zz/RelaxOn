@@ -119,10 +119,10 @@ struct CircularSlider: View {
         let snappedAngle = round((positiveAngle / positiveAngleRange) * 5.0)
         let snappedPositiveAngle = (positiveAngleRange / 5.0) * snappedAngle
         rotationAngle = -Angle(radians: positiveAngleRange - snappedPositiveAngle)
-//        if snappedAngle != self.angle {
+        
+        if Int(rotationAngle.radians) != Int(self.angle) {
 //            currentFilterIndex = (currentFilterIndex + 1) % filters.count
-//        }
-//
+        }
 //        self.angle = Double(snappedAngle)
 //        updateFilter()
     }
