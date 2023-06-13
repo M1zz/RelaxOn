@@ -115,7 +115,7 @@ struct CircularSlider: View {
         angle = ((positiveAngle /  (2.0 * .pi)) * (maxValue - minValue )) + minValue
         angleChanged(angle)
         
-        // 5 spaces (0 to 5)
+        // snappedAngle을 5칸으로 분류
         let snappedAngle = round((positiveAngle / positiveAngleRange) * 5.0)
         let snappedPositiveAngle = (positiveAngleRange / 5.0) * snappedAngle
         rotationAngle = -Angle(radians: positiveAngleRange - snappedPositiveAngle)

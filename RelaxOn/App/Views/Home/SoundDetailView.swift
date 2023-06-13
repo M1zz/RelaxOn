@@ -108,7 +108,7 @@ struct SoundDetailView: View {
                 //print("Pitch : \(angle)")
             }
             CircularSlider(type: .large, imageName: featureIcon[3], isOnDrag: false, range: viewModel.filterRange) { angle in
-                //print("Filter : \(angle)")
+                print("Filter : \(angle)")
             }
         }
         .padding(24)
@@ -146,7 +146,7 @@ struct SoundDetailView: View {
                     .frame(width: 6)
                     .foregroundColor(.purple)
                     .offset(x: 300 / 2)
-                    .rotationEffect(.init(degrees: pointAngle[index]))
+                    .rotationEffect(Angle(degrees: pointAngle[index]))
             }
         }
     }
