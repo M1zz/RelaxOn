@@ -96,7 +96,7 @@ struct SoundDetailView: View {
         ZStack {
             backgroundCircle()
             CircularSlider(type: .xSmall, imageName: featureIcon[0], isOnDrag: true, range: viewModel.intervalRange) { angle in
-                viewModel.speed = Float(angle)
+                viewModel.interval = Float(angle)
                 //print("IntervalSpeed : \(angle)")
             }
             CircularSlider(type: .small, imageName: featureIcon[1], isOnDrag: true, range: viewModel.volumeRange) { angle in
@@ -107,7 +107,7 @@ struct SoundDetailView: View {
                 viewModel.pitch = Float(angle)
                 //print("Pitch : \(angle)")
             }
-            CircularSlider(type: .large, imageName: featureIcon[3], isOnDrag: false, range: viewModel.filterRange, filter: viewModel.sound.filter) { angle in
+            CircularSlider(type: .large, imageName: featureIcon[3], isOnDrag: false, range: viewModel.filterRange) { angle in
                 //print("Filter : \(angle)")
             }
         }

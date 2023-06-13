@@ -35,12 +35,11 @@ struct CircularSlider: View {
     private var width: CGFloat { type.width }
 
     // 슬라이더의 angle값을 반환
-    init(type: CircleType, imageName: String, gestureType: Bool, range: [Float], filter: AudioFilter = .WaterDrop, angleChanged: @escaping (Double) -> Void) {
+    init(type: CircleType, imageName: String, isOnDrag: Bool, range: [Float], angleChanged: @escaping (Double) -> Void) {
         self.type = type
         self.imageName = imageName
-        self.isOnDrag = gestureType
+        self.isOnDrag = isOnDrag
         self.angleChanged = angleChanged
-        self._filter = State(initialValue: filter)
         self.minValue = Double(range.first ?? 0)
         self.maxValue = Double(range.last ?? 1)
     }
@@ -58,7 +57,7 @@ struct CircularSlider: View {
             .gesture(
                 DragGesture(minimumDistance: 0.0)
                     .onChanged(){ value in
-                        if isOnMove {
+                        if isOnDrag {
                             onDrag(value: value.location)
                             //print("Angle : \(angle)")
                             //print("Rotation : \(rotationAngle)")
@@ -144,7 +143,7 @@ struct CircularSlider: View {
 
 struct preCircularSliderView_Previews: PreviewProvider {
     static var previews: some View {
-        CircularSlider(type: .medium, imageName: "filter", gestureType: true, range: [1.0]) { _ in }
+        CircularSlider(type: .medium, imageName: "filter", isOnDrag: true, range: [1.0]) { _ in }
             .environmentObject(CustomSoundViewModel())
     }
 }
