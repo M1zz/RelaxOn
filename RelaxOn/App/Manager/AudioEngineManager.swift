@@ -79,15 +79,27 @@ extension AudioEngineManager {
             if let customSound = sound as? CustomSound {
                 audioVariation = customSound.audioVariation
                 print("customSound = \(customSound)")
+                
+                // If buffer preparation fails, prepare it again before scheduling
+                audioBuffer = prepareBuffer()
+                if audioBuffer == nil {
+                    audioBuffer = prepareBuffer()
+                }
+                
                 scheduleNextBuffer(interval: Double(customSound.audioVariation.interval))
             } else {
+                // If buffer preparation fails, prepare it again before scheduling
                 audioBuffer = prepareBuffer()
+                if audioBuffer == nil {
+                    audioBuffer = prepareBuffer()
+                }
                 scheduleNextBuffer()
             }
         } catch {
             print(error.localizedDescription)
         }
     }
+
     
     func stop() {
         clearBuffer()
@@ -161,23 +173,29 @@ extension AudioEngineManager {
             print("Failed to prepare buffer")
             return
         }
-        player.scheduleBuffer(buffer, completionHandler: { [weak self] in
-            DispatchQueue.main.asyncAfter(deadline: .now() + (self?.interval ?? 1.0)) {
-                self?.scheduleNextBuffer()
-            }
-        })
-        if engine.isRunning {
-            player.play()
-        } else {
-            do {
-                try engine.start()
+        
+        if player.isPlaying {
+            player.scheduleBuffer(buffer, completionHandler: { [weak self] in
+                DispatchQueue.main.asyncAfter(deadline: .now() + (self?.interval ?? 1.0)) {
+                    if self?.player.isPlaying == true {
+                        self?.scheduleNextBuffer()
+                    }
+                }
+            })
+            if engine.isRunning {
                 player.play()
-            } catch {
-                print("Unable to start engine: \(error.localizedDescription)")
+            } else {
+                do {
+                    try engine.start()
+                    player.play()
+                } catch {
+                    print("Unable to start engine: \(error.localizedDescription)")
+                }
             }
+            player.rate = Float(interval)
         }
-        player.rate = Float(interval)
     }
+
     
     private func scheduleNextBuffer(interval: Double = 1.0) {
         print(#function)
