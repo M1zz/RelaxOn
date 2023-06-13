@@ -32,7 +32,7 @@ final class CustomSoundViewModel: ObservableObject {
         .Bird: [.Bird, .Owl, .Woodpecker, .Forest, .Cuckoo],
     ]
 
-    @Published var sound: PlayableSound = OriginalSound(name: "물방울", filter: .WaterDrop, category: .waterDrop)
+    @Published var sound: Playable = OriginalSound(name: "물방울", filter: .WaterDrop, category: .waterDrop)
     @Published var color = ""
     @Published var searchText = ""
     @Published var isPlaying = false
@@ -106,7 +106,7 @@ final class CustomSoundViewModel: ObservableObject {
 // MARK: - Methods for View
 extension CustomSoundViewModel {
     
-    func play<T: PlayableSound>(with sound: T) {
+    func play<T: Playable>(with sound: T) {
         isPlaying.toggle()
         audioEngineManager.play(with: sound)
     }

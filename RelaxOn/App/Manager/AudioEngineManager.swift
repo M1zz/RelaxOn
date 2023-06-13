@@ -53,7 +53,7 @@ final class AudioEngineManager: ObservableObject {
 
 extension AudioEngineManager {
     
-    func play<T: PlayableSound>(with sound: T) {
+    func play<T: Playable>(with sound: T) {
         print(#function)
         
         let targetFile = sound.filter.rawValue
