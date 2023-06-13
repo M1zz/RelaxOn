@@ -13,11 +13,17 @@ import Foundation
 struct AudioVariation: Codable {
     var volume: Float
     var pitch: Float
-    var speed: Float
+    var interval: Float
     
-    init(volume: Float = 0.5, pitch: Float = 0, speed: Float = 1.0) {
+    init() {
+        self.volume = 0.5
+        self.pitch = 0
+        self.interval = 1.0
+    }
+    
+    init(volume: Float, pitch: Float, interval: Float = 1.0) {
         self.volume = volume
         self.pitch = pitch
-        self.speed = speed
+        self.interval = interval
     }
 }

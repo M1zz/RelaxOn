@@ -46,13 +46,13 @@ struct SoundPlayerFullModalView: View {
                 }
                 
                 Button {
-                    if viewModel.isPlaying == true {
-                        viewModel.playSound(customSound: viewModel.selectedSound ?? viewModel.lastSound)
+                    if viewModel.isPlaying {
+                        viewModel.play(with: viewModel.selectedSound ?? viewModel.lastSound)
                     } else {
                         viewModel.stopSound()
                     }
                 } label: {
-                    Image(viewModel.isPlaying ? PlayerButton.play.rawValue : PlayerButton.pause.rawValue)
+                    Image(viewModel.playPauseStatusImage)
                         .resizable()
                         .renderingMode(.template)
                         .foregroundColor(Color(.Text))
@@ -85,8 +85,8 @@ struct SoundPlayerFullModalView: View {
             if let selectedSound = viewModel.selectedSound {
                 viewModel.lastSound = selectedSound
             }
-            if viewModel.isPlaying == true {
-                viewModel.playSound(customSound: viewModel.selectedSound!)
+            if viewModel.isPlaying {
+                viewModel.play(with: viewModel.selectedSound ?? viewModel.lastSound)
             }
         }
         .onDisappear {

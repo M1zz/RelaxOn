@@ -13,32 +13,32 @@
 import SwiftUI
 
 struct CircularSlider: View {
-    
+
     @EnvironmentObject var viewModel: CustomSoundViewModel
-    // 회전각도 관련 속성
-    @State var angle: Double = Double.random(in: 0...360)
-    // 이미지의 위치와 방향을 정하는 속성
-    @State private var rotationAngle = Angle(degrees: 0)
-    var angleChanged: (Double) -> Void
-    
+  
     @State var type: CircleType
     @State private var currentFilterIndex = 0
-    @State private var filter: AudioFilter
     @State private var filters: [AudioFilter] = []
+  
+    /// 회전각도 관련 속성
+    @State var angle: Double = Double.random(in: 0...360)
+  
+    /// 이미지의 위치와 방향을 정하는 속성
+    @State private var rotationAngle = Angle(degrees: 0)
     
     var imageName: String
-    var isOnMove: Bool = true
+    var angleChanged: (Double) -> Void
+    var isOnDrag: Bool = true
+  
     private var minValue = 0.0
     private var maxValue = 1.0
     private var width: CGFloat { type.width }
-    
-    
-    
+
     // 슬라이더의 angle값을 반환
     init(type: CircleType, imageName: String, gestureType: Bool, range: [Float], filter: AudioFilter = .WaterDrop, angleChanged: @escaping (Double) -> Void) {
         self.type = type
         self.imageName = imageName
-        self.isOnMove = gestureType
+        self.isOnDrag = gestureType
         self.angleChanged = angleChanged
         self._filter = State(initialValue: filter)
         self.minValue = Double(range.first ?? 0)
@@ -60,8 +60,8 @@ struct CircularSlider: View {
                     .onChanged(){ value in
                         if isOnMove {
                             onDrag(value: value.location)
-                            print("Angle : \(angle)")
-                            print("Rotation : \(rotationAngle)")
+                            //print("Angle : \(angle)")
+                            //print("Rotation : \(rotationAngle)")
                         } else {
                             onMove(value: value.location)
                         }
@@ -69,20 +69,18 @@ struct CircularSlider: View {
             )
             .onAppear {
                 self.rotationAngle = Angle(degrees: progressFraction * 360.0)
-                if let filterArray = viewModel.filterDictionary[filter] {
+                if let filterArray = viewModel.filterDictionary[viewModel.sound.filter] {
                     filters.append(contentsOf: filterArray)
                 }
                 viewModel.isFilterChanged = {
-                    AudioEngineManager.shared.updateFilter(newFilter: filter)
+                    viewModel.play(with: viewModel.sound)
                 }
+            }
+            .onDisappear {
+                filters.removeAll()
             }
     }
     
-    /**
-     슬라이더의 각도를 구하는 함수
-     수평선을 기준으로 상단은 + 180, 하단은 -180
-     SnappedAngle은 정해진 각도로만 이동하기위한 함수
-     */
     // 슬라이드형 움직임
     func onDrag(value: CGPoint) {
         // 입력 받은 위치로 벡터를 생성합니다. (iOS는 y축이 반대 방향이므로 -y로 설정합니다.)
@@ -135,11 +133,10 @@ struct CircularSlider: View {
     
     func updateFilter() {
         if filters.count > 0 {
-            print("currentFilterIndex: \(currentFilterIndex), filters.count: \(filters.count)")
-            filter = filters[currentFilterIndex]
+            viewModel.sound.filter = filters[currentFilterIndex]
             if let isFilterChanged = viewModel.isFilterChanged {
                 isFilterChanged()
-                viewModel.updateFilter(filter: filter)
+                viewModel.play(with: viewModel.sound)
             }
         }
     }

@@ -7,10 +7,15 @@
 
 import Foundation
 
+protocol Playable {
+    var filter: AudioFilter { get set }
+    var category: SoundCategory { get }
+}
+
 /**
  앱 번들에 있는 원본 사운드를 불러오기 위한 구조체
  */
-struct OriginalSound: Equatable, Hashable {
+struct OriginalSound: Equatable, Hashable, Playable {
     let name: String
     var filter: AudioFilter
     let category: SoundCategory

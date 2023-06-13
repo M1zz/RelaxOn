@@ -14,13 +14,14 @@ import AVFoundation
 struct SoundDetailView: View {
     
     // MARK: - Properties
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @EnvironmentObject var viewModel: CustomSoundViewModel
+
     let isTutorial: Bool
     @State var progress: Double = 0.0
     @State var isShowingSheet: Bool = false
     @State var originalSound: OriginalSound
-    @EnvironmentObject var viewModel: CustomSoundViewModel
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    
+
     var body: some View {
         ZStack {
             Color(.DefaultBackground)
@@ -46,6 +47,9 @@ struct SoundDetailView: View {
                 
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button {
+                        if viewModel.isPlaying {
+                            viewModel.stopSound()
+                        }
                         presentationMode.wrappedValue.dismiss()
                     } label: {
                         Image(systemName: "chevron.backward")
@@ -56,6 +60,7 @@ struct SoundDetailView: View {
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
+                        
                         isShowingSheet.toggle()
                     } label: {
                         Text("다음")
@@ -67,14 +72,14 @@ struct SoundDetailView: View {
             .navigationBarBackButtonHidden(true)
             
             .fullScreenCover(isPresented: $isShowingSheet) {
-                SoundSaveView(originalSound: originalSound, audioVariation: AudioVariation(volume: viewModel.volume, pitch: viewModel.pitch, speed: viewModel.speed), audioFilter: originalSound.filter)
+                SoundSaveView(originalSound: originalSound)
             }
             
             // MARK: - Life Cycle
             .onAppear() {
+                viewModel.sound = originalSound
                 if !isTutorial {
-                    viewModel.isPlaying = true
-                    viewModel.playSound(originSound: originalSound)
+                    viewModel.play(with: viewModel.sound)
                 }
             }
             .onDisappear {
@@ -82,7 +87,6 @@ struct SoundDetailView: View {
                     viewModel.stopSound()
                 }
                 presentationMode.wrappedValue.dismiss()
-                
             }
         }
     }
@@ -91,20 +95,20 @@ struct SoundDetailView: View {
     func soundController() -> some View {
         ZStack {
             backgroundCircle()
-            CircularSlider(type: .xSmall, imageName: featureIcon[0], gestureType: true, range: viewModel.intervalRange) { angle in
+            CircularSlider(type: .xSmall, imageName: featureIcon[0], isOnDrag: true, range: viewModel.intervalRange) { angle in
                 viewModel.speed = Float(angle)
-                print("IntervalSpeed : \(angle)")
+                //print("IntervalSpeed : \(angle)")
             }
-            CircularSlider(type: .small, imageName: featureIcon[1], gestureType: true, range: viewModel.volumeRange) { angle in
+            CircularSlider(type: .small, imageName: featureIcon[1], isOnDrag: true, range: viewModel.volumeRange) { angle in
                 viewModel.volume = Float(angle)
-                print("Volume : \(angle)")
+                //print("Volume : \(angle)")
             }
-            CircularSlider(type: .medium, imageName: featureIcon[2], gestureType: true, range: viewModel.pitchRange) { angle in
+            CircularSlider(type: .medium, imageName: featureIcon[2], isOnDrag: true, range: viewModel.pitchRange) { angle in
                 viewModel.pitch = Float(angle)
-                print("Pitch : \(angle)")
+                //print("Pitch : \(angle)")
             }
-            CircularSlider(type: .large, imageName: featureIcon[3], gestureType: false, range: viewModel.filterRange, filter: viewModel.selectedSound?.filter ?? .WaterDrop) { angle in
-                print("Filter : \(angle)")
+            CircularSlider(type: .large, imageName: featureIcon[3], isOnDrag: false, range: viewModel.filterRange, filter: viewModel.sound.filter) { angle in
+                //print("Filter : \(angle)")
             }
         }
         .padding(24)
@@ -150,6 +154,7 @@ struct SoundDetailView: View {
 
 struct SoundDetailView_Previews: PreviewProvider {
     static var previews: some View {
+        //SoundDetailView(originalSound: OriginalSound(name: "물방울", filter: .WaterDrop, category: .waterDrop), isTutorial: true)
         SoundDetailView(isTutorial: true, originalSound: OriginalSound(name: "물방울", filter: .WaterDrop, category: .waterDrop))
             .environmentObject(CustomSoundViewModel())
     }

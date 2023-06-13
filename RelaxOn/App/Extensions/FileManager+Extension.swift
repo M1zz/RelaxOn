@@ -21,12 +21,13 @@ extension FileManager {
         let urls = self.urls(for: directory, in: .userDomainMask)
         
         if let url = urls.first?.appendingPathComponent("relaxOn") {
-            print("[ FileManager - encode ] url : \(url)")
+            //print("[ FileManager - encode ] url : \(url)")
             do {
                 if !fileExists(atPath: url.path) {
                     try createDirectory(at: url, withIntermediateDirectories: true)
                 }
                 let fileURL = url.appendingPathComponent(fileName).appendingPathExtension(FileExtension.json.rawValue)
+                //print("[ FileManager - encode ] fileURL : \(fileURL)")
                 try encodedData.write(to: fileURL)
             } catch {
                 print("[ERROR] \(fileName) 저장 실패: \(error)")
@@ -36,6 +37,7 @@ extension FileManager {
             print("[ERROR] \(fileName) 저장 경로를 찾을 수 없음")
             return false
         }
+        
         return true
     }
 
@@ -48,7 +50,7 @@ extension FileManager {
             print("[ERROR] \(fileName) 로드 실패: 파일 경로를 찾을 수 없음")
             return nil
         }
-        print("[ FileManager - decode ] url : \(url)")
+        //print("[ FileManager - decode ] url : \(url)")
         
         guard let data = try? Data(contentsOf: url) else {
             print("[ERROR] \(fileName) 로드 실패: 데이터를 불러올 수 없음")
@@ -61,6 +63,7 @@ extension FileManager {
             return nil
         }
         
+        print("[ FileManager - decode ] loadedData : \(loadedData)")
         return loadedData
     }
 

@@ -95,12 +95,12 @@ struct TimerMainView: View {
                                 } else {
                                     timerManager.resumeTimer(timerManager: timerManager)
                                     if let sound = viewModel.selectedSound {
-                                        viewModel.playSound(customSound: sound)
+                                        viewModel.play(with: sound)
                                     }
                                 }
                             } else {
                                 if let sound = viewModel.selectedSound {
-                                    viewModel.playSound(customSound: sound)
+                                    viewModel.play(with: sound)
                                 }
                                 isShowingTimerProgressView = true
                             }

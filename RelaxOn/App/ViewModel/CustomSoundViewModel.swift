@@ -31,7 +31,8 @@ final class CustomSoundViewModel: ObservableObject {
         .SingingBowl: [.SingingBowl, .Focus, .Training, .Vibration],
         .Bird: [.Bird, .Owl, .Woodpecker, .Forest, .Cuckoo],
     ]
-    
+  
+    @Published var sound: Playable = OriginalSound(name: "물방울", filter: .WaterDrop, category: .waterDrop)
     @Published var color = ""
     @Published var searchText = ""
     @Published var isPlaying = false
@@ -58,21 +59,21 @@ final class CustomSoundViewModel: ObservableObject {
         }
     }
     
-    @Published var speed = Float() {
+    @Published var interval = Float() {
         didSet {
-            audioEngineManager.updateAudioVariation(volume: volume, pitch: pitch, speed: speed)
+            audioEngineManager.audioVariation.interval = interval
         }
     }
     
     @Published var pitch = Float() {
         didSet {
-            audioEngineManager.updateAudioVariation(volume: volume, pitch: pitch, speed: speed)
+            audioEngineManager.audioVariation.pitch = pitch
         }
     }
     
     @Published var volume = Float() {
         didSet {
-            audioEngineManager.updateAudioVariation(volume: volume, pitch: pitch, speed: speed)
+            audioEngineManager.audioVariation.volume = volume
         }
     }
     
@@ -96,44 +97,18 @@ final class CustomSoundViewModel: ObservableObject {
     }
     
     init(customSound: CustomSound? = nil, filter: AudioFilter = .none) {
-        print("[ init ] =============== CustomSoundViewModel ===============")
         self.selectedSound = customSound
         self.filter = filter
         self.lastSound = userDefaults.lastPlayedSound
-        
-        pitch = Float.random(in: -5.0...5.0)
-        speed = Float.random(in: 0.2...1.0)
-        volume = Float.random(in: 0.2...1.0)
     }
-    
-    deinit {
-        print("[deinit] =============== CustomSoundViewModel ===============")
-    }
-    
 }
 
 // MARK: - Methods for View
 extension CustomSoundViewModel {
     
-    func playSound(originSound: OriginalSound) {
-        audioEngineManager.updateAudioVariation(volume: volume, pitch: pitch, speed: 1.0)
+    func play<T: Playable>(with sound: T) {
         isPlaying.toggle()
-        audioEngineManager.play(with: originSound)
-    }
-    
-    func updateFilter(filter: AudioFilter) {
-        audioEngineManager.updateAudioVariation(volume: volume, pitch: pitch, speed: 1.0)
-        isPlaying.toggle()
-        audioEngineManager.updateFilter(newFilter: filter)
-    }
-    
-    func playSound(customSound: CustomSound) {
-        guard let customSoundFromJSON = fileManager.loadCustomSound(title: customSound.title) else {
-            print("해당 JSON 파일을 찾을 수 없습니다.")
-            return
-        }
-        isPlaying.toggle()
-        audioEngineManager.play(with: customSoundFromJSON)
+        audioEngineManager.play(with: sound)
     }
     
     func stopSound() {
@@ -150,7 +125,7 @@ extension CustomSoundViewModel {
             currentSoundIndex -= 1
             if let previousSound = customSoundsDictionary[currentSoundIndex] {
                 selectedSound = previousSound
-                playSound(customSound: previousSound)
+                play(with: previousSound)
             }
         }
     }
@@ -160,7 +135,7 @@ extension CustomSoundViewModel {
             currentSoundIndex += 1
             if let nextSound = customSoundsDictionary[currentSoundIndex] {
                 selectedSound = nextSound
-                playSound(customSound: nextSound)
+                play(with: nextSound)
             }
         }
     }
@@ -169,14 +144,15 @@ extension CustomSoundViewModel {
 // MARK: - Methods for Model
 extension CustomSoundViewModel {
     
-    func save(with originalSound: OriginalSound, audioVariation: AudioVariation, fileName: String, color: String) -> Bool {
+    func save(with sound: OriginalSound, filter: AudioFilter, title: String, color: String) -> Bool {
         var customSounds = userDefaults.customSounds
-        if customSounds.contains(where: { $0.title == fileName }) {
+        if customSounds.contains(where: { $0.title == title }) {
             print("이미 이 파일이 존재합니다. 다른 로직을 수행할 수 없습니다.")
             return false
         }
         
-        let customSound = makeCustomSound(fileName, originalSound, audioVariation, color)
+        let variation = AudioVariation(volume: volume, pitch: pitch, interval: interval)
+        let customSound = CustomSound(title: title, category: sound.category, variation: variation, filter: filter, color: color)
         if !fileManager.saveCustomSound(customSound) {
             return false
         }
@@ -187,8 +163,7 @@ extension CustomSoundViewModel {
         
         return true
     }
-    
-    
+
     func remove(at index: Int) {
         var customSounds = userDefaults.customSounds
         customSounds.remove(at: index)
@@ -203,15 +178,6 @@ extension CustomSoundViewModel {
     
     func setTimerMainViewSelectedSound(_ selectedSound: CustomSound) {
         self.selectedSound = selectedSound
-    }
-    
-}
-
-// MARK: - make
-extension CustomSoundViewModel {
-    
-    func makeCustomSound(_ title: String, _ sound: OriginalSound, _ variation: AudioVariation, _ color: String) -> CustomSound {
-        return CustomSound(fileName: title, category: sound.category, audioVariation: variation, audioFilter: sound.filter, color: color)
     }
     
 }

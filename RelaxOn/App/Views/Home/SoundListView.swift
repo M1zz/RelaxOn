@@ -52,7 +52,7 @@ struct SoundListView: View {
         
         LazyVGrid(columns: columns) {
             ForEach(filteredSounds(), id: \.self) { originalSound in
-                NavigationLink(destination: SoundDetailView(isTutorial: false, originalSound: originalSound)) {
+                NavigationLink(destination: SoundDetailView(originalSound: originalSound, isTutorial: false)) {
                     gridViewItem(originalSound)
                 }
             }
