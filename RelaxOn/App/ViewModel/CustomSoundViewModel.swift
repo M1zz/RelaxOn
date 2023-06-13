@@ -20,10 +20,10 @@ final class CustomSoundViewModel: ObservableObject {
     private var fileManager = UserFileManager.shared
     private var userDefaults = UserDefaultsManager.shared
     private(set) var customSoundsDictionary: [Int: CustomSound] = [:]
-
-    let intervalRange: [Float] = stride(from: -2.0, through: 2.0, by: 1.0).map { Float($0) }
-    let pitchRange: [Float] = stride(from: -50.0, through: 50.0, by: 1.0).map { Float($0) }
-    let volumeRange: [Float] = stride(from: -2.0, through: 2.0, by: 1.0).map { Float($0) }
+    
+    let intervalRange: [Float] = stride(from: 0.5, through: 5.0, by: 0.1).map { Float($0) }
+    let pitchRange: [Float] = stride(from: -50.0, through: 50.0, by: 10.0).map { Float($0) }
+    let volumeRange: [Float] = stride(from: 0.0, through: 1.0, by: 0.01).map { Float($0) }
     let filterRange: [Float] = stride(from: -50.0, through: 50.0, by: 1.0).map { Float($0) }
     
     let filterDictionary: [AudioFilter: [AudioFilter]] = [
@@ -31,7 +31,7 @@ final class CustomSoundViewModel: ObservableObject {
         .SingingBowl: [.SingingBowl, .Focus, .Training, .Vibration],
         .Bird: [.Bird, .Owl, .Woodpecker, .Forest, .Cuckoo],
     ]
-
+  
     @Published var sound: Playable = OriginalSound(name: "물방울", filter: .WaterDrop, category: .waterDrop)
     @Published var color = ""
     @Published var searchText = ""
@@ -95,7 +95,7 @@ final class CustomSoundViewModel: ObservableObject {
             return customSounds.filter { $0.title.contains(searchText) }
         }
     }
-
+    
     init(customSound: CustomSound? = nil, filter: AudioFilter = .none) {
         self.selectedSound = customSound
         self.filter = filter

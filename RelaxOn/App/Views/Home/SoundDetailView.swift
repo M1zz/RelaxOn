@@ -16,11 +16,11 @@ struct SoundDetailView: View {
     // MARK: - Properties
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @EnvironmentObject var viewModel: CustomSoundViewModel
-    
+
+    let isTutorial: Bool
+    @State var progress: Double = 0.0
     @State var isShowingSheet: Bool = false
     @State var originalSound: OriginalSound
-    
-    let isTutorial: Bool
 
     var body: some View {
         ZStack {
@@ -37,28 +37,7 @@ struct SoundDetailView: View {
                         .foregroundColor(Color(.Text))
                         .font(.system(size: 18, weight: .regular))
                 }
-                ZStack {
-                    backgroundCircle()
-                    CircularSlider(width: circleWidth[0], imageName: featureIcon[0], isOnDrag: true, range: viewModel.intervalRange) { angle in
-                        //print("간격 : \(angle)")
-                        viewModel.interval = Float(1.0 - abs(angle * 0.00556))
-                        
-                    }
-                    CircularSlider(width: circleWidth[1], imageName: featureIcon[1], isOnDrag: true, range: viewModel.volumeRange) { angle in
-                        //print("볼륨 : \(1.0 - abs(angle * 0.00556))")
-                        viewModel.volume = Float((1.0 - abs(angle * 0.00556)))
-                    }
-                    CircularSlider(width: circleWidth[2], imageName: featureIcon[2], isOnDrag: true, range: viewModel.pitchRange) { angle in
-                        //print("높낮이 : \(angle * 13.4)")
-                        viewModel.pitch = Float(angle * 13.4)
-                    }
-
-                    CircularSlider(width: circleWidth[3], imageName: featureIcon[3], isOnDrag: false, range: viewModel.filterRange) { angle in
-                        //print("필터 : \(angle)")
-                    }
-                    
-                }
-                .padding(24)
+                soundController()
             }
             
             .navigationBarTitle(originalSound.name, displayMode: .inline)
@@ -112,12 +91,34 @@ struct SoundDetailView: View {
         }
     }
     
+    @ViewBuilder
+    func soundController() -> some View {
+        ZStack {
+            backgroundCircle()
+            CircularSlider(type: .xSmall, imageName: featureIcon[0], isOnDrag: true, range: viewModel.intervalRange) { angle in
+                viewModel.speed = Float(angle)
+                //print("IntervalSpeed : \(angle)")
+            }
+            CircularSlider(type: .small, imageName: featureIcon[1], isOnDrag: true, range: viewModel.volumeRange) { angle in
+                viewModel.volume = Float(angle)
+                //print("Volume : \(angle)")
+            }
+            CircularSlider(type: .medium, imageName: featureIcon[2], isOnDrag: true, range: viewModel.pitchRange) { angle in
+                viewModel.pitch = Float(angle)
+                //print("Pitch : \(angle)")
+            }
+            CircularSlider(type: .large, imageName: featureIcon[3], isOnDrag: false, range: viewModel.filterRange, filter: viewModel.sound.filter) { angle in
+                //print("Filter : \(angle)")
+            }
+        }
+        .padding(24)
+    }
+    
     // 배경으로 쓰이는 원 + 원형 라인 + 이동 포인트
     @ViewBuilder
     func backgroundCircle() -> some View {
         
         ZStack {
-            
             Circle()
                 .fill(Color.relaxDimPurple)
                 .frame(width: 300)
@@ -133,11 +134,11 @@ struct SoundDetailView: View {
                 .scaledToFit()
                 .frame(width: 26)
             
-            ForEach(0..<circleWidth.count, id: \.self) { index in
+            ForEach(CircleType.all) { type in
                 Circle()
                     .stroke(style: .init(lineWidth: 1))
                     .foregroundColor(.relaxDimPurple)
-                    .frame(width: circleWidth[index])
+                    .frame(width: type.width)
             }
             
             ForEach(0..<pointAngle.count, id: \.self) { index in
@@ -153,6 +154,8 @@ struct SoundDetailView: View {
 
 struct SoundDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        SoundDetailView(originalSound: OriginalSound(name: "물방울", filter: .WaterDrop, category: .waterDrop), isTutorial: true)
+        //SoundDetailView(originalSound: OriginalSound(name: "물방울", filter: .WaterDrop, category: .waterDrop), isTutorial: true)
+        SoundDetailView(isTutorial: true, originalSound: OriginalSound(name: "물방울", filter: .WaterDrop, category: .waterDrop))
+            .environmentObject(CustomSoundViewModel())
     }
 }

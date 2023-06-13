@@ -25,7 +25,31 @@ func getPathNSURL(forResource: String, musicExtension: MusicExtension) -> NSURL?
 /**
  SoundDetailView의 프로퍼티
  */
-var circleWidth: [CGFloat] = [120, 210, 250, 300]
+
+enum CircleType: String, CaseIterable, Identifiable {
+    static var all: [CircleType] { CircleType.allCases.sorted(by: { $0.width > $1.width }) }
+
+    case xSmall
+    case small
+    case medium
+    case large
+
+    var id: String { self.rawValue }
+    var width: CGFloat {
+        switch self {
+            
+        case .xSmall:
+            return 120
+        case .small:
+            return 210
+        case .medium:
+            return 250
+        case .large:
+            return 300
+        }
+    }
+}
+
 var pointAngle: [Double] = [72, 144, 216, 288, 360]
 var featureIcon: [String] = [FeatureIcon.interval.rawValue,
                              FeatureIcon.volume.rawValue,
