@@ -106,22 +106,25 @@ struct CircularSlider: View {
         // atan2 함수를 사용하여 벡터의 각도를 계산합니다.
         let angleRadians = atan2(vector.dx, vector.dy)
         
+        let positiveAngleRange: CGFloat = 2.0 * .pi
+        
         // 각도가 음수인 경우를 대비해, 각도를 0 ~ 2π 범위로 맞춥니다.
         let positiveAngle = angleRadians < 0.0 ? angleRadians + (2.0 * .pi) : angleRadians
         
         // 계산된 각도를 이용해서 angle 값을 업데이트합니다.
         angle = ((positiveAngle /  (2.0 * .pi)) * (maxValue - minValue )) + minValue
         angleChanged(angle)
-        rotationAngle = Angle(radians: positiveAngle)
         
-        
-        let snappedAngle = round(angle / 72) * 72
-        if snappedAngle != self.angle {
-            currentFilterIndex = (currentFilterIndex + 1) % filters.count
-        }
-        
-        self.angle = Double(snappedAngle)
-        updateFilter()
+        // 5 spaces (0 to 5)
+        let snappedAngle = round((positiveAngle / positiveAngleRange) * 5.0)
+        let snappedPositiveAngle = (positiveAngleRange / 5.0) * snappedAngle
+        rotationAngle = -Angle(radians: positiveAngleRange - snappedPositiveAngle)
+//        if snappedAngle != self.angle {
+//            currentFilterIndex = (currentFilterIndex + 1) % filters.count
+//        }
+//
+//        self.angle = Double(snappedAngle)
+//        updateFilter()
     }
     
     // 진행률을 계산하는 private 변수입니다.
