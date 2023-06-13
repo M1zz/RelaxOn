@@ -32,7 +32,7 @@ struct SoundPlayerBottomView: View {
             Spacer()
             
             Button(action: {
-                if viewModel.isPlaying == true {
+                if viewModel.isPlaying {
                     viewModel.play(with: viewModel.selectedSound ?? viewModel.lastSound)
                 } else {
                     viewModel.stopSound()

@@ -46,7 +46,7 @@ struct SoundPlayerFullModalView: View {
                 }
                 
                 Button {
-                    if viewModel.isPlaying == true {
+                    if viewModel.isPlaying {
                         viewModel.play(with: viewModel.selectedSound ?? viewModel.lastSound)
                     } else {
                         viewModel.stopSound()
@@ -85,7 +85,7 @@ struct SoundPlayerFullModalView: View {
             if let selectedSound = viewModel.selectedSound {
                 viewModel.lastSound = selectedSound
             }
-            if viewModel.isPlaying == true {
+            if viewModel.isPlaying {
                 viewModel.play(with: viewModel.selectedSound ?? viewModel.lastSound)
             }
         }

@@ -68,7 +68,7 @@ struct SoundDetailView: View {
                 
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button {
-                        if viewModel.isPlaying == true {
+                        if viewModel.isPlaying {
                             viewModel.stopSound()
                         }
                         presentationMode.wrappedValue.dismiss()
