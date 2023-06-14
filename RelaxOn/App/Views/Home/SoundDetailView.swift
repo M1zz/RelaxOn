@@ -115,13 +115,12 @@ struct SoundDetailView: View {
         
         ZStack {
             Circle()
-                .fill(Color.relaxDimPurple)
+                .fill(Color(.CircularSliderBackground))
                 .frame(width: 300)
-                .opacity(0.3)
             
             Circle()
                 .stroke(style: .init(lineWidth: 1))
-                .foregroundColor(.relaxDimPurple)
+                .foregroundColor(Color(.CircularSliderLine))
                 .frame(width: 80)
             
             Image(FeatureIcon.headset.rawValue)
@@ -132,14 +131,14 @@ struct SoundDetailView: View {
             ForEach(CircleType.all) { type in
                 Circle()
                     .stroke(style: .init(lineWidth: 1))
-                    .foregroundColor(.relaxDimPurple)
+                    .foregroundColor(Color(.CircularSliderLine))
                     .frame(width: type.width)
             }
             
             ForEach(0..<pointAngle.count, id: \.self) { index in
                 Circle()
                     .frame(width: 6)
-                    .foregroundColor(.purple)
+                    .foregroundColor(Color(.CircularSliderLine))
                     .offset(x: 300 / 2)
                     .rotationEffect(.init(degrees: pointAngle[index]))
             }
