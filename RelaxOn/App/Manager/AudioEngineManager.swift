@@ -76,19 +76,21 @@ extension AudioEngineManager {
             
             try engine.start()
             
+            if audioBuffer == nil {
+                audioBuffer = prepareBuffer()
+            }
+            
             if let customSound = sound as? CustomSound {
                 audioVariation = customSound.audioVariation
-                print("customSound = \(customSound)")
                 scheduleNextBuffer(interval: Double(customSound.audioVariation.interval))
             } else {
-                audioBuffer = prepareBuffer()
                 scheduleNextBuffer()
             }
         } catch {
             print(error.localizedDescription)
         }
     }
-    
+
     func stop() {
         clearBuffer()
         if engine.isRunning {
@@ -96,16 +98,6 @@ extension AudioEngineManager {
             engine.stop()
             player.reset()
         }
-    }
-    
-    func updateAudioVariation(volume: Float, pitch: Float, interval: Float) {
-        self.pitchEffect.pitch = pitch * 100
-        self.player.volume = volume
-        self.interval = Double(interval)
-        
-        audioVariation.volume = volume
-        audioVariation.pitch = pitch
-        audioVariation.interval = interval
     }
     
     /**
@@ -124,8 +116,7 @@ extension AudioEngineManager {
             print("오디오 파일을 buffer에 읽어옵니다.")
             
         } catch {
-            print("오디오 파일을 buffer에 읽어오지 못했습니다.")
-            print("Error reading audio file into buffer: \(error)")
+            print("오디오 파일을 buffer에 읽어오지 못했습니다.: \(error)")
             return nil
         }
         return buffer
@@ -143,8 +134,7 @@ extension AudioEngineManager {
             print("오디오 파일을 buffer에 읽어옵니다.")
             
         } catch {
-            print("오디오 파일을 buffer에 읽어오지 못했습니다.")
-            print("Error reading audio file into buffer: \(error)")
+            print("오디오 파일을 buffer에 읽어오지 못했습니다.: \(error)")
             return nil
         }
         return buffer
@@ -161,24 +151,29 @@ extension AudioEngineManager {
             print("Failed to prepare buffer")
             return
         }
-        player.scheduleBuffer(buffer, completionHandler: { [weak self] in
-            DispatchQueue.main.asyncAfter(deadline: .now() + (self?.interval ?? 1.0)) {
-                self?.scheduleNextBuffer()
-            }
-        })
-        if engine.isRunning {
-            player.play()
-        } else {
-            do {
-                try engine.start()
+        
+        if player.isPlaying {
+            player.scheduleBuffer(buffer, completionHandler: { [weak self] in
+                DispatchQueue.main.asyncAfter(deadline: .now() + (self?.interval ?? 1.0)) {
+                    if self?.player.isPlaying == true {
+                        self?.scheduleNextBuffer()
+                    }
+                }
+            })
+            if engine.isRunning {
                 player.play()
-            } catch {
-                print("Unable to start engine: \(error.localizedDescription)")
+            } else {
+                do {
+                    try engine.start()
+                    player.play()
+                } catch {
+                    print("Unable to start engine: \(error.localizedDescription)")
+                }
             }
+            player.rate = Float(interval)
         }
-        player.rate = Float(interval)
     }
-    
+
     private func scheduleNextBuffer(interval: Double = 1.0) {
         print(#function)
         guard let buffer = audioBuffer else {

@@ -47,9 +47,9 @@ struct SoundPlayerFullModalView: View {
                 
                 Button {
                     if viewModel.isPlaying {
-                        viewModel.play(with: viewModel.selectedSound ?? viewModel.lastSound)
-                    } else {
                         viewModel.stopSound()
+                    } else {
+                        viewModel.play(with: viewModel.selectedSound ?? viewModel.lastSound)
                     }
                 } label: {
                     Image(viewModel.playPauseStatusImage)
@@ -86,6 +86,9 @@ struct SoundPlayerFullModalView: View {
                 viewModel.lastSound = selectedSound
             }
             if viewModel.isPlaying {
+                viewModel.stopSound()
+                viewModel.play(with: viewModel.selectedSound ?? viewModel.lastSound)
+            } else {
                 viewModel.play(with: viewModel.selectedSound ?? viewModel.lastSound)
             }
         }

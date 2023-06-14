@@ -49,5 +49,6 @@ struct TimerSoundListCell: View {
 struct TimerSoundListCell_Previews: PreviewProvider {
     static var previews: some View {
         TimerSoundListCell(file: CustomSound(title: "나의 물방울 소리", category: .waterDrop, variation: AudioVariation(), filter: .WaterDrop))
+            .environmentObject(CustomSoundViewModel())
     }
 }

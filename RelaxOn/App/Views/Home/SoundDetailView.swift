@@ -44,7 +44,6 @@ struct SoundDetailView: View {
             .font(.system(size: 24, weight: .bold))
             
             .toolbar {
-                
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button {
                         if viewModel.isPlaying {
@@ -97,36 +96,30 @@ struct SoundDetailView: View {
             backgroundCircle()
             CircularSlider(type: .xSmall, imageName: featureIcon[0], isOnDrag: true, range: viewModel.intervalRange) { angle in
                 viewModel.interval = Float(angle)
-                //print("IntervalSpeed : \(angle)")
             }
             CircularSlider(type: .small, imageName: featureIcon[1], isOnDrag: true, range: viewModel.volumeRange) { angle in
                 viewModel.volume = Float(angle)
-                //print("Volume : \(angle)")
             }
             CircularSlider(type: .medium, imageName: featureIcon[2], isOnDrag: true, range: viewModel.pitchRange) { angle in
                 viewModel.pitch = Float(angle)
-                //print("Pitch : \(angle)")
             }
             CircularSlider(type: .large, imageName: featureIcon[3], isOnDrag: false, range: viewModel.filterRange) { angle in
-                print("Filter : \(angle)")
             }
         }
         .padding(24)
     }
     
-    // 배경으로 쓰이는 원 + 원형 라인 + 이동 포인트
     @ViewBuilder
     func backgroundCircle() -> some View {
         
         ZStack {
             Circle()
-                .fill(Color.relaxDimPurple)
+                .fill(Color(.CircularSliderBackground))
                 .frame(width: 300)
-                .opacity(0.3)
             
             Circle()
                 .stroke(style: .init(lineWidth: 1))
-                .foregroundColor(.relaxDimPurple)
+                .foregroundColor(Color(.CircularSliderLine))
                 .frame(width: 80)
             
             Image(FeatureIcon.headset.rawValue)
@@ -137,14 +130,14 @@ struct SoundDetailView: View {
             ForEach(CircleType.all) { type in
                 Circle()
                     .stroke(style: .init(lineWidth: 1))
-                    .foregroundColor(.relaxDimPurple)
+                    .foregroundColor(Color(.CircularSliderLine))
                     .frame(width: type.width)
             }
             
             ForEach(0..<pointAngle.count, id: \.self) { index in
                 Circle()
                     .frame(width: 6)
-                    .foregroundColor(.purple)
+                    .foregroundColor(Color(.CircularSliderLine))
                     .offset(x: 300 / 2)
                     .rotationEffect(Angle(degrees: pointAngle[index]))
             }
@@ -154,7 +147,6 @@ struct SoundDetailView: View {
 
 struct SoundDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        //SoundDetailView(originalSound: OriginalSound(name: "물방울", filter: .WaterDrop, category: .waterDrop), isTutorial: true)
         SoundDetailView(isTutorial: true, originalSound: OriginalSound(name: "물방울", filter: .WaterDrop, category: .waterDrop))
             .environmentObject(CustomSoundViewModel())
     }

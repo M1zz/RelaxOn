@@ -23,7 +23,13 @@ struct TimerSoundSelectModalView: View {
                     Spacer()
                     Button(action: {
                         if let selectedSound = viewModel.selectedSound {
-                            viewModel.setTimerMainViewSelectedSound(selectedSound)
+                            viewModel.setSelectedSound(selectedSound)
+                        }
+                        if viewModel.isPlaying {
+                            viewModel.stopSound()
+                            viewModel.play(with: viewModel.sound)
+                        } else {
+                            viewModel.play(with: viewModel.sound)
                         }
                         presentationMode.wrappedValue.dismiss()
                     }) {
@@ -56,5 +62,6 @@ struct TimerSoundSelectModalView: View {
 struct TimerSoundSelectModalView_Previews: PreviewProvider {
     static var previews: some View {
         TimerSoundSelectModalView()
+            .environmentObject(CustomSoundViewModel())
     }
 }
