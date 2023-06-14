@@ -47,7 +47,14 @@ final class AudioEngineManager: ObservableObject {
         }
     }
 
-    private init() { }
+    private init() {
+        do {
+            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+            try AVAudioSession.sharedInstance().setActive(true)
+        } catch {
+            print("무음모드 설정 에러 : \(error.localizedDescription)")
+        }
+    }
 
 }
 
