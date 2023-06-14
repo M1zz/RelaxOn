@@ -45,21 +45,27 @@ struct SoundSaveView: View {
                     Spacer()
                     
                     Button {
-                        let success = viewModel.save(
-                            with: originalSound,
-                            filter: viewModel.sound.filter,
-                            title: title,
-                            color: viewModel.color)
                         
-                        if success {
-                            presentationMode.wrappedValue.dismiss()
-                            presentationMode.wrappedValue.dismiss()
-                            appState.moveToTab(.listen)
-                        } else {
-                            alertMessage = "동일한 파일명이 존재합니다.\n다른 파일이름으로 시도해보세요."
+                        if title.count <= 0 {
+                            alertMessage = "한 글자 이상 입력하세요."
                             isShowingAlert = true
+                        } else {
+                            let success = viewModel.save(
+                                with: originalSound,
+                                filter: viewModel.sound.filter,
+                                title: title,
+                                color: viewModel.color)
+                            
+                            if success {
+                                presentationMode.wrappedValue.dismiss()
+                                presentationMode.wrappedValue.dismiss()
+                                appState.moveToTab(.listen)
+                            } else {
+                                alertMessage = "동일한 파일명이 존재합니다.\n다른 파일이름으로 시도해보세요."
+                                isShowingAlert = true
+                            }
                         }
-                        
+
                     } label: {
                         Text("저장")
                             .foregroundColor(Color(.PrimaryPurple))
@@ -132,5 +138,6 @@ struct SoundSaveView: View {
 struct SoundSaveView_Previews: PreviewProvider {
     static var previews: some View {
         SoundSaveView(originalSound: OriginalSound(name: "물방울", filter: .WaterDrop, category: .waterDrop))
+            .environmentObject(CustomSoundViewModel())
     }
 }
