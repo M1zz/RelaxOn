@@ -76,21 +76,14 @@ extension AudioEngineManager {
             
             try engine.start()
             
+            if audioBuffer == nil {
+                audioBuffer = prepareBuffer()
+            }
+            
             if let customSound = sound as? CustomSound {
                 audioVariation = customSound.audioVariation
-                //print("customSound = \(customSound)")
-
-                audioBuffer = prepareBuffer()
-                if audioBuffer == nil {
-                    audioBuffer = prepareBuffer()
-                }
-                
                 scheduleNextBuffer(interval: Double(customSound.audioVariation.interval))
             } else {
-                audioBuffer = prepareBuffer()
-                if audioBuffer == nil {
-                    audioBuffer = prepareBuffer()
-                }
                 scheduleNextBuffer()
             }
         } catch {
@@ -98,7 +91,6 @@ extension AudioEngineManager {
         }
     }
 
-    
     func stop() {
         clearBuffer()
         if engine.isRunning {
