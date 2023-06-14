@@ -56,5 +56,6 @@ struct TimerSoundSelectModalView: View {
 struct TimerSoundSelectModalView_Previews: PreviewProvider {
     static var previews: some View {
         TimerSoundSelectModalView()
+            .environmentObject(CustomSoundViewModel())
     }
 }
