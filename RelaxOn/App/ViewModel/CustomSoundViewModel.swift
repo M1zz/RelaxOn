@@ -195,11 +195,11 @@ extension CustomSoundViewModel {
     
 }
 
-// MARK: - for UI
 extension CustomSoundViewModel {
     
-    func setTimerMainViewSelectedSound(_ selectedSound: CustomSound) {
+    func setSelectedSound(_ selectedSound: CustomSound) {
         self.selectedSound = selectedSound
+        self.sound = selectedSound
     }
     
 }

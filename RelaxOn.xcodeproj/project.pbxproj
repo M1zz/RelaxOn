@@ -683,6 +683,10 @@
 		8F4E1B6A29B9B3900013599C /* Timer */ = {
 			isa = PBXGroup;
 			children = (
+				591570B329F93A5400507DEA /* TimerProgressView.swift */,
+				8F3F3EB62A221D9C000C2FF1 /* TimePickerView.swift */,
+				8F00A2382A2332530062B816 /* TimerSoundSelectModalView.swift */,
+				8F00A23A2A2348C20062B816 /* TimerSoundListCell.swift */,
 				8F4E1B6429B9A67E0013599C /* TimerMainView.swift */,
 			);
 			path = Timer;
@@ -745,15 +749,11 @@
 		8FCB23F02A15F80D00188024 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				591570B329F93A5400507DEA /* TimerProgressView.swift */,
 				8FCB23F12A15F83900188024 /* SearchBar.swift */,
 				8FCB23F32A15F85200188024 /* SoundPlayerBottomView.swift */,
 				8F5A0EBE2A15FBDD0061F42C /* SoundPlayerFullModalView.swift */,
 				8F5A0EC22A15FD750061F42C /* CircleProgressView.swift */,
 				59DFA0762A30D65E006EB723 /* CircularSlider.swift */,
-				8F3F3EB62A221D9C000C2FF1 /* TimePickerView.swift */,
-				8F00A2382A2332530062B816 /* TimerSoundSelectModalView.swift */,
-				8F00A23A2A2348C20062B816 /* TimerSoundListCell.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
