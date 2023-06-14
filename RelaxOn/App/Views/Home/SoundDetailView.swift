@@ -139,7 +139,7 @@ struct SoundDetailView: View {
                     .frame(width: 6)
                     .foregroundColor(Color(.CircularSliderLine))
                     .offset(x: 300 / 2)
-                    .rotationEffect(.init(degrees: pointAngle[index]))
+                    .rotationEffect(Angle(degrees: pointAngle[index]))
             }
         }
     }

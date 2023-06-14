@@ -50,7 +50,7 @@ enum CircleType: String, CaseIterable, Identifiable {
     }
 }
 
-var pointAngle: [Double] = [72, 144, 216, 288, 360]
+var pointAngle: [Double] = [-90, -18, 54, 126, -162]
 var featureIcon: [String] = [FeatureIcon.interval.rawValue,
                              FeatureIcon.volume.rawValue,
                              FeatureIcon.pitch.rawValue,

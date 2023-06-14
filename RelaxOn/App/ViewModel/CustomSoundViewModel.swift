@@ -27,7 +27,7 @@ final class CustomSoundViewModel: ObservableObject {
     let intervalRange: [Float] = stride(from: 0.5, through: 5.0, by: 0.1).map { Float($0) }
     let pitchRange: [Float] = stride(from: -50.0, through: 50.0, by: 10.0).map { Float($0) }
     let volumeRange: [Float] = stride(from: 0.0, through: 1.0, by: 0.01).map { Float($0) }
-    
+
     // TODO: 필요없음. 없으면 안되는건지 재확인 후 삭제
     let filterRange: [Float] = stride(from: -50.0, through: 50.0, by: 1.0).map { Float($0) }
     
