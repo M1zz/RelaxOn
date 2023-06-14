@@ -33,9 +33,9 @@ struct SoundPlayerBottomView: View {
             
             Button(action: {
                 if viewModel.isPlaying {
-                    viewModel.play(with: viewModel.selectedSound ?? viewModel.lastSound)
-                } else {
                     viewModel.stopSound()
+                } else {
+                    viewModel.play(with: viewModel.selectedSound ?? viewModel.lastSound)
                 }
             }) {
                 Image(viewModel.playPauseStatusImage)
