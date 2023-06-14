@@ -82,10 +82,7 @@ extension AudioEngineManager {
             }
             
             try engine.start()
-            
-            if audioBuffer == nil {
-                audioBuffer = prepareBuffer()
-            }
+            audioBuffer = prepareBuffer()
             
             if let customSound = sound as? CustomSound {
                 audioVariation = customSound.audioVariation
@@ -101,9 +98,8 @@ extension AudioEngineManager {
     func stop() {
         clearBuffer()
         if engine.isRunning {
-            player.stop()
+            player.pause()
             engine.stop()
-            player.reset()
         }
     }
     

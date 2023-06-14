@@ -131,13 +131,19 @@ struct CircularSlider: View {
             }
         }
         
-        
         if Int(rotationAngle.radians) != Int(self.angle) {
-            //TODO: 아래 3줄의 주석들을 해제하고 필터기능을 활성화해야합니다.
-            //            currentFilterIndex = (currentFilterIndex + 1) % filters.count
+            currentFilterIndex = (currentFilterIndex + 1) % filters.count
+            print("currentFilterIndex : \(currentFilterIndex)")
+            viewModel.sound.filter = filters[currentFilterIndex]
+            print("viewModel.sound : \(viewModel.sound)")
+            print("viewModel.sound.filter : \(viewModel.sound.filter)")
+            if viewModel.isPlaying {
+                viewModel.stopSound()
+                viewModel.play(with: viewModel.sound)
+            } else {
+                viewModel.play(with: viewModel.sound)
+            }
         }
-        //        self.angle = Double(snappedAngle)
-        //        updateFilter()
     }
     
     // 진행률을 계산하는 private 변수입니다.
