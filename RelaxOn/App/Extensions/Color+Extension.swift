@@ -23,6 +23,8 @@ enum CustomColor: String {
     case SearchBarBackground
     case SelectedPage
     case UnselectedPage
+    case CircularSliderBackground
+    case CircularSliderLine
 }
 
 enum CustomSoundImageBackgroundColor: String, CaseIterable {
