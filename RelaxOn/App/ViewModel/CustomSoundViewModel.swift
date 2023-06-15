@@ -112,6 +112,8 @@ final class CustomSoundViewModel: ObservableObject {
         }
     }
     
+    @Published var filters: [AudioFilter] = []
+    
     /// 현재 재생 상태에 따른 버튼 이미지 Asset 이름
     var playPauseStatusImage: String {
         isPlaying ? PlayerButton.pause.rawValue : PlayerButton.play.rawValue

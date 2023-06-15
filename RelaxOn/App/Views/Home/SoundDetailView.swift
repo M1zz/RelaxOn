@@ -16,12 +16,13 @@ struct SoundDetailView: View {
     // MARK: - Properties
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @EnvironmentObject var viewModel: CustomSoundViewModel
-
+    
     let isTutorial: Bool
     @State var progress: Double = 0.0
     @State var isShowingSheet: Bool = false
     @State var originalSound: OriginalSound
-
+    @State private var filters: [AudioFilter] = []
+    
     var body: some View {
         ZStack {
             Color(.DefaultBackground)
@@ -78,7 +79,12 @@ struct SoundDetailView: View {
             .onAppear() {
                 DispatchQueue.main.async {
                     viewModel.sound = originalSound
+                    viewModel.filters = viewModel.filterDictionary[viewModel.sound.category]!
+                    print("viewModel.filters : \(viewModel.filters)")
                     if !isTutorial {
+                        viewModel.play(with: viewModel.sound)
+                    }
+                    viewModel.isFilterChanged = {
                         viewModel.play(with: viewModel.sound)
                     }
                 }
@@ -87,6 +93,7 @@ struct SoundDetailView: View {
                 if !isTutorial {
                     viewModel.stopSound()
                 }
+                viewModel.filters.removeAll()
                 presentationMode.wrappedValue.dismiss()
             }
         }
