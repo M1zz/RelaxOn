@@ -24,9 +24,15 @@ final class CustomSoundViewModel: ObservableObject {
     /// 각 CustomSound 객체에 대응하는 인덱스를 저장하는 사전
     private(set) var customSoundsDictionary: [Int: CustomSound] = [:]
     
-    let intervalRange: [Float] = stride(from: 0.5, through: 5.0, by: 0.1).map { Float($0) }
-    let pitchRange: [Float] = stride(from: -50.0, through: 50.0, by: 10.0).map { Float($0) }
-    let volumeRange: [Float] = stride(from: 0.0, through: 1.0, by: 0.01).map { Float($0) }
+    let intervalRange: [Float] = stride(from: 0.1, through: 2.0, by: 0.1).map {
+        Float(String(format: "%.2f", $0)) ?? 0.0
+    }
+    let pitchRange: [Float] = stride(from: -5.0, through: 5.0, by: 0.5).map {
+        Float(String(format: "%.2f", $0)) ?? 0.0
+    }
+    let volumeRange: [Float] = stride(from: 0.1, through: 1.0, by: 0.01).map {
+        Float(String(format: "%.2f", $0)) ?? 0.0
+    }
 
     // TODO: 필요없음. 없으면 안되는건지 재확인 후 삭제
     let filterRange: [Float] = stride(from: -50.0, through: 50.0, by: 1.0).map { Float($0) }
@@ -126,6 +132,8 @@ final class CustomSoundViewModel: ObservableObject {
         self.filter = filter
         self.lastSound = userDefaults.lastPlayedSound
     }
+    
+    
 }
 
 // MARK: - Methods for View
