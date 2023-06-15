@@ -45,6 +45,7 @@
 		58DE61C72843100100F25769 /* VolumeControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61C62843100100F25769 /* VolumeControlView.swift */; };
 		591570B429F93A5400507DEA /* TimerProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 591570B329F93A5400507DEA /* TimerProgressView.swift */; };
 		591570B629F93A7000507DEA /* TimerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 591570B529F93A7000507DEA /* TimerManager.swift */; };
+		5931DC9D2A3B1D6000FFEF17 /* SnapCircularSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5931DC9C2A3B1D6000FFEF17 /* SnapCircularSlider.swift */; };
 		5940125A2A17DCC400221DE7 /* Sink.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 594012592A17DCC300221DE7 /* Sink.mp3 */; };
 		5940125F2A17DCEB00221DE7 /* Basement.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5940125B2A17DCEA00221DE7 /* Basement.mp3 */; };
 		594012612A17DCEB00221DE7 /* Cave.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5940125D2A17DCEA00221DE7 /* Cave.mp3 */; };
@@ -227,6 +228,7 @@
 		58DE61C62843100100F25769 /* VolumeControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeControlView.swift; sourceTree = "<group>"; };
 		591570B329F93A5400507DEA /* TimerProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerProgressView.swift; sourceTree = "<group>"; };
 		591570B529F93A7000507DEA /* TimerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerManager.swift; sourceTree = "<group>"; };
+		5931DC9C2A3B1D6000FFEF17 /* SnapCircularSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapCircularSlider.swift; sourceTree = "<group>"; };
 		594012592A17DCC300221DE7 /* Sink.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Sink.mp3; sourceTree = "<group>"; };
 		5940125B2A17DCEA00221DE7 /* Basement.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Basement.mp3; sourceTree = "<group>"; };
 		5940125D2A17DCEA00221DE7 /* Cave.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Cave.mp3; sourceTree = "<group>"; };
@@ -754,6 +756,7 @@
 				8F5A0EBE2A15FBDD0061F42C /* SoundPlayerFullModalView.swift */,
 				8F5A0EC22A15FD750061F42C /* CircleProgressView.swift */,
 				59DFA0762A30D65E006EB723 /* CircularSlider.swift */,
+				5931DC9C2A3B1D6000FFEF17 /* SnapCircularSlider.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -1023,6 +1026,7 @@
 				8F0FC49B29C1DD5D00F923A5 /* OldAudioManager.swift in Sources */,
 				59DFA0772A30D65E006EB723 /* CircularSlider.swift in Sources */,
 				CBFDC8F4289C23AC00386FB5 /* VolumeSlider.swift in Sources */,
+				5931DC9D2A3B1D6000FFEF17 /* SnapCircularSlider.swift in Sources */,
 				58DE61B2283A8E1700F25769 /* OldSound.swift in Sources */,
 				C7FDCA8C28D094E0008FA749 /* MusicViewDelegate.swift in Sources */,
 				101417F8289EB82200F40397 /* CDCoverImageView.swift in Sources */,
