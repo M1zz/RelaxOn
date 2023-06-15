@@ -43,6 +43,6 @@ struct ListenListCell: View {
 
 struct ListenListCell_Previews: PreviewProvider {
     static var previews: some View {
-        ListenListCell(customSound: CustomSound(title: "임시 타이틀", category: .waterDrop, variation: .init(), filter: .WaterDrop, color: ""))
+        ListenListCell(customSound: CustomSound(title: "임시 타이틀", category: .WaterDrop, variation: .init(), filter: .WaterDrop, color: ""))
     }
 }

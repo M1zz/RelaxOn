@@ -76,8 +76,8 @@ struct SoundDetailView: View {
             
             // MARK: - Life Cycle
             .onAppear() {
-                viewModel.sound = originalSound
                 DispatchQueue.main.async {
+                    viewModel.sound = originalSound
                     if !isTutorial {
                         viewModel.play(with: viewModel.sound)
                     }
@@ -149,7 +149,7 @@ struct SoundDetailView: View {
 
 struct SoundDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        SoundDetailView(isTutorial: true, originalSound: OriginalSound(name: "물방울", filter: .WaterDrop, category: .waterDrop))
+        SoundDetailView(isTutorial: true, originalSound: OriginalSound(name: "물방울", filter: .WaterDrop, category: .WaterDrop))
             .environmentObject(CustomSoundViewModel())
     }
 }

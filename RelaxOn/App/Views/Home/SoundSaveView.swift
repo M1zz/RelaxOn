@@ -137,7 +137,7 @@ struct SoundSaveView: View {
 
 struct SoundSaveView_Previews: PreviewProvider {
     static var previews: some View {
-        SoundSaveView(originalSound: OriginalSound(name: "물방울", filter: .WaterDrop, category: .waterDrop))
+        SoundSaveView(originalSound: OriginalSound(name: "물방울", filter: .WaterDrop, category: .WaterDrop))
             .environmentObject(CustomSoundViewModel())
     }
 }

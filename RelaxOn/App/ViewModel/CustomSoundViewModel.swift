@@ -38,7 +38,7 @@ final class CustomSoundViewModel: ObservableObject {
     let filterRange: [Float] = stride(from: -50.0, through: 50.0, by: 1.0).map { Float($0) }
     
     /// 각 오디오 필터에 대한 서브 필터를 저장하는 딕셔너리
-    let filterDictionary: [AudioFilter: [AudioFilter]] = [
+    let filterDictionary: [SoundCategory: [AudioFilter]] = [
         .WaterDrop: [.WaterDrop, .Basement, .Cave, .Pipe, .Sink],
         .SingingBowl: [.SingingBowl, .Focus, .Training, .Vibration],
         .Bird: [.Bird, .Owl, .Woodpecker, .Forest, .Cuckoo],
@@ -46,7 +46,7 @@ final class CustomSoundViewModel: ObservableObject {
   
     /// 현재 재생되는 소리
     /// - 기본값 : OriginalSound(name: "물방울", filter: .WaterDrop, category: .waterDrop)
-    @Published var sound: Playable = OriginalSound(name: "물방울", filter: .WaterDrop, category: .waterDrop)
+    @Published var sound: Playable = OriginalSound(name: "물방울", filter: .WaterDrop, category: .WaterDrop)
     
     @Published var color = ""
     @Published var searchText = ""

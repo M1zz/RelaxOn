@@ -69,9 +69,11 @@ struct CircularSlider: View {
             )
             .onAppear {
                 self.rotationAngle = Angle(degrees: progressFraction * 360.0)
-                if let filterArray = viewModel.filterDictionary[viewModel.sound.filter] {
+                if let filterArray = viewModel.filterDictionary[viewModel.sound.category] {
+                    print("filterArray : \(filterArray)")
                     filters.append(contentsOf: filterArray)
                 }
+                
                 viewModel.isFilterChanged = {
                     viewModel.play(with: viewModel.sound)
                 }
@@ -133,7 +135,6 @@ struct CircularSlider: View {
         
         if Int(rotationAngle.radians) != Int(self.angle) {
             currentFilterIndex = (currentFilterIndex + 1) % filters.count
-            print("currentFilterIndex : \(currentFilterIndex)")
             viewModel.sound.filter = filters[currentFilterIndex]
             print("viewModel.sound : \(viewModel.sound)")
             print("viewModel.sound.filter : \(viewModel.sound.filter)")
