@@ -98,8 +98,11 @@ final class CustomSoundViewModel: ObservableObject {
     /// sound의 filter 저장
     @Published var filter: AudioFilter {
         didSet {
-            selectedSound?.filter = filter
-            isFilterChanged?()
+            sound.filter = filter
+            if isPlaying {
+                stopSound()
+                play(with: sound)
+            }
         }
     }
     

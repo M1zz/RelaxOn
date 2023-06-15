@@ -77,8 +77,10 @@ struct SoundDetailView: View {
             // MARK: - Life Cycle
             .onAppear() {
                 viewModel.sound = originalSound
-                if !isTutorial {
-                    viewModel.play(with: viewModel.sound)
+                DispatchQueue.main.async {
+                    if !isTutorial {
+                        viewModel.play(with: viewModel.sound)
+                    }
                 }
             }
             .onDisappear {
