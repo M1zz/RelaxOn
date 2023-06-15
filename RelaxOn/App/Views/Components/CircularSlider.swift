@@ -18,7 +18,6 @@ struct CircularSlider: View {
     
     @State var type: CircleType
     @State private var currentFilterIndex = 0
-    @State private var filters: [AudioFilter] = []
     
     /// 회전각도 관련 속성
     @State var angle: Double = Double.random(in: 0...360)
@@ -60,8 +59,6 @@ struct CircularSlider: View {
                     .onChanged(){ value in
                         if isOnDrag {
                             onDrag(value: value.location)
-                            //print("Angle : \(angle)")
-                            //print("Rotation : \(rotationAngle)")
                         } else {
                             onMove(value: value.location, isMoved: $isMoved)
                         }
@@ -69,15 +66,6 @@ struct CircularSlider: View {
             )
             .onAppear {
                 self.rotationAngle = Angle(degrees: progressFraction * 360.0)
-                if let filterArray = viewModel.filterDictionary[viewModel.sound.filter] {
-                    filters.append(contentsOf: filterArray)
-                }
-                viewModel.isFilterChanged = {
-                    viewModel.play(with: viewModel.sound)
-                }
-            }
-            .onDisappear {
-                filters.removeAll()
             }
     }
     
@@ -131,13 +119,16 @@ struct CircularSlider: View {
             }
         }
         
-        
         if Int(rotationAngle.radians) != Int(self.angle) {
-            //TODO: 아래 3줄의 주석들을 해제하고 필터기능을 활성화해야합니다.
-            //            currentFilterIndex = (currentFilterIndex + 1) % filters.count
+            currentFilterIndex = (currentFilterIndex + 1) % viewModel.filters.count
+            DispatchQueue.main.async {
+                viewModel.sound.filter = viewModel.filters[currentFilterIndex]
+                if viewModel.isPlaying {
+                    viewModel.stopSound()
+                }
+                viewModel.play(with: viewModel.sound)
+            }
         }
-        //        self.angle = Double(snappedAngle)
-        //        updateFilter()
     }
     
     // 진행률을 계산하는 private 변수입니다.
@@ -145,16 +136,7 @@ struct CircularSlider: View {
         // 진행률은 현재 값에서 최소값을 빼고, 그 결과를 (최대값 - 최소값)으로 나눈 값입니다.
         return ((angle - minValue) / (maxValue - minValue))
     }
-    
-    func updateFilter() {
-        if filters.count > 0 {
-            viewModel.sound.filter = filters[currentFilterIndex]
-            if let isFilterChanged = viewModel.isFilterChanged {
-                isFilterChanged()
-                viewModel.play(with: viewModel.sound)
-            }
-        }
-    }
+
 }
 
 struct preCircularSliderView_Previews: PreviewProvider {

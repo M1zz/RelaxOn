@@ -53,17 +53,17 @@ enum AudioFilter: String, Codable {
 /// 원본 사운드 유형 관리를 위한 열거형
 enum SoundCategory: String, Codable {
     case none
-    case waterDrop, singingBowl, bird
+    case WaterDrop, SingingBowl, Bird
     
     var displayName: String {
         switch self {
         case .none:
             return "없음"
-        case .waterDrop:
+        case .WaterDrop:
             return "물방울"
-        case .singingBowl:
+        case .SingingBowl:
             return "싱잉볼"
-        case .bird:
+        case .Bird:
             return "새소리"
         }
     }
@@ -72,11 +72,11 @@ enum SoundCategory: String, Codable {
         switch self {
         case .none:
             return "없음"
-        case .waterDrop:
+        case .WaterDrop:
             return "WaterDrop"
-        case .singingBowl:
+        case .SingingBowl:
             return "SingingBowl"
-        case .bird:
+        case .Bird:
             return "Bird"
         }
     }
@@ -85,11 +85,11 @@ enum SoundCategory: String, Codable {
         switch self {
         case .none:
             return "없음"
-        case .waterDrop:
+        case .WaterDrop:
             return "WaterDrop"
-        case .singingBowl:
+        case .SingingBowl:
             return "SingingBowl"
-        case .bird:
+        case .Bird:
             return "Bird"
         }
     }
@@ -98,11 +98,11 @@ enum SoundCategory: String, Codable {
         switch self {
         case .none:
             return "없음"
-        case .waterDrop:
+        case .WaterDrop:
             return "DCE8F5"
-        case .singingBowl:
+        case .SingingBowl:
             return "FDD0A8"
-        case .bird:
+        case .Bird:
             return "ACD6A6"
         }
     }

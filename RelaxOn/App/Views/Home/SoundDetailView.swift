@@ -16,12 +16,13 @@ struct SoundDetailView: View {
     // MARK: - Properties
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @EnvironmentObject var viewModel: CustomSoundViewModel
-
+    
     let isTutorial: Bool
     @State var progress: Double = 0.0
     @State var isShowingSheet: Bool = false
     @State var originalSound: OriginalSound
-
+    @State private var filters: [AudioFilter] = []
+    
     var body: some View {
         ZStack {
             Color(.DefaultBackground)
@@ -76,15 +77,22 @@ struct SoundDetailView: View {
             
             // MARK: - Life Cycle
             .onAppear() {
-                viewModel.sound = originalSound
-                if !isTutorial {
-                    viewModel.play(with: viewModel.sound)
+                DispatchQueue.main.async {
+                    viewModel.sound = originalSound
+                    viewModel.filters = viewModel.filterDictionary[viewModel.sound.category]!
+                    if !isTutorial {
+                        viewModel.play(with: viewModel.sound)
+                    }
+                    viewModel.isFilterChanged = {
+                        viewModel.play(with: viewModel.sound)
+                    }
                 }
             }
             .onDisappear {
                 if !isTutorial {
                     viewModel.stopSound()
                 }
+                viewModel.filters.removeAll()
                 presentationMode.wrappedValue.dismiss()
             }
         }
@@ -147,7 +155,7 @@ struct SoundDetailView: View {
 
 struct SoundDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        SoundDetailView(isTutorial: true, originalSound: OriginalSound(name: "물방울", filter: .WaterDrop, category: .waterDrop))
+        SoundDetailView(isTutorial: true, originalSound: OriginalSound(name: "물방울", filter: .WaterDrop, category: .WaterDrop))
             .environmentObject(CustomSoundViewModel())
     }
 }
