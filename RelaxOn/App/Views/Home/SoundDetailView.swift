@@ -80,7 +80,6 @@ struct SoundDetailView: View {
                 DispatchQueue.main.async {
                     viewModel.sound = originalSound
                     viewModel.filters = viewModel.filterDictionary[viewModel.sound.category]!
-                    print("viewModel.filters : \(viewModel.filters)")
                     if !isTutorial {
                         viewModel.play(with: viewModel.sound)
                     }
