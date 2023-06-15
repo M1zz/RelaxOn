@@ -102,13 +102,13 @@ struct SoundDetailView: View {
     func soundController() -> some View {
         ZStack {
             backgroundCircle()
-            CircularSlider(type: .xSmall, imageName: featureIcon[0], isOnDrag: true, range: viewModel.intervalRange) { angle in
+            DragCircularSlider(type: .xSmall, imageName: featureIcon[0], range: viewModel.intervalRange) { angle in
                 viewModel.interval = Float(angle)
             }
-            CircularSlider(type: .small, imageName: featureIcon[1], isOnDrag: true, range: viewModel.volumeRange) { angle in
+            DragCircularSlider(type: .small, imageName: featureIcon[1], range: viewModel.volumeRange) { angle in
                 viewModel.volume = Float(angle)
             }
-            CircularSlider(type: .medium, imageName: featureIcon[2], isOnDrag: true, range: viewModel.pitchRange) { angle in
+            DragCircularSlider(type: .medium, imageName: featureIcon[2], range: viewModel.pitchRange) { angle in
                 viewModel.pitch = Float(angle)
             }
             SnapCircularSlider(type: .large, imageName: featureIcon[3], range: viewModel.filterRange) { angle in }
