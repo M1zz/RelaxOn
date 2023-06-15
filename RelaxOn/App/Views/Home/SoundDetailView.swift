@@ -111,8 +111,7 @@ struct SoundDetailView: View {
             CircularSlider(type: .medium, imageName: featureIcon[2], isOnDrag: true, range: viewModel.pitchRange) { angle in
                 viewModel.pitch = Float(angle)
             }
-            CircularSlider(type: .large, imageName: featureIcon[3], isOnDrag: false, range: viewModel.filterRange) { angle in
-            }
+            SnapCircularSlider(type: .large, imageName: featureIcon[3], range: viewModel.filterRange) { angle in }
         }
         .padding(24)
     }
