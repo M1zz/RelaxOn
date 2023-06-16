@@ -21,7 +21,6 @@ struct SnapCircularSlider: View {
     @State private var rotationAngle = Angle(degrees: 0)
     
     var imageName: String
-    var angleChanged: (Double) -> Void
     @State var isMoved: Bool = false
     
     private var minValue = 0.0
@@ -29,10 +28,9 @@ struct SnapCircularSlider: View {
     private var width: CGFloat { type.width }
     
     // 슬라이더의 angle값을 반환
-    init(type: CircleType, imageName: String, range: [Float], angleChanged: @escaping (Double) -> Void) {
+    init(type: CircleType, imageName: String, range: [Float]) {
         self.type = type
         self.imageName = imageName
-        self.angleChanged = angleChanged
         self.minValue = Double(range.first ?? 0)
         self.maxValue = Double(range.last ?? 1)
     }
@@ -68,7 +66,6 @@ struct SnapCircularSlider: View {
         
         // 계산된 각도를 이용해서 angle 값을 업데이트합니다.
         angle = ((positiveAngle /  (2.0 * .pi)) * (maxValue - minValue )) + minValue
-        angleChanged(angle)
         
         // snappedAngle을 5칸으로 분류
         let snappedAngle = round((positiveAngle / positiveAngleRange) * 5.0)
