@@ -23,16 +23,12 @@ struct SnapCircularSlider: View {
     var imageName: String
     @State var isMoved: Bool = false
     
-    private var minValue = 0.0
-    private var maxValue = 1.0
     private var width: CGFloat { type.width }
     
     // 슬라이더의 angle값을 반환
-    init(type: CircleType, imageName: String, range: [Float]) {
+    init(type: CircleType, imageName: String) {
         self.type = type
         self.imageName = imageName
-        self.minValue = Double(range.first ?? 0)
-        self.maxValue = Double(range.last ?? 1)
     }
     
     var body: some View {
