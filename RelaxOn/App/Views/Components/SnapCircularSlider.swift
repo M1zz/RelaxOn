@@ -48,9 +48,9 @@ struct SnapCircularSlider: View {
                 DragGesture(minimumDistance: 0.0)
                     .onChanged(){ value in
                         onMove(value: value.location, isMoved: $isMoved)
+                        changeFilter()
                     }
                 )
-            .onAppear { self.rotationAngle = Angle(degrees: progressFraction * 360.0) }
     }
     func onMove(value: CGPoint, isMoved: Binding<Bool>) {
         // 입력 받은 위치로 벡터를 생성합니다. (iOS는 y축이 반대 방향이므로 -y로 설정합니다.)
@@ -64,12 +64,10 @@ struct SnapCircularSlider: View {
         // 각도가 음수인 경우를 대비해, 각도를 0 ~ 2π 범위로 맞춥니다.
         let positiveAngle = angleRadians < 0.0 ? angleRadians + (2.0 * .pi) : angleRadians
         
-        // 계산된 각도를 이용해서 angle 값을 업데이트합니다.
-        angle = ((positiveAngle /  (2.0 * .pi)) * (maxValue - minValue )) + minValue
-        
         // snappedAngle을 5칸으로 분류
         let snappedAngle = round((positiveAngle / positiveAngleRange) * 5.0)
         let snappedPositiveAngle = (positiveAngleRange / 5.0) * snappedAngle
+        print("rotation Angle = \(rotationAngle.radians)")
         
         if snappedAngle == 0 {
             rotationAngle = -Angle(radians: positiveAngleRange - snappedPositiveAngle)
@@ -81,27 +79,16 @@ struct SnapCircularSlider: View {
                 rotationAngle = -Angle(radians: positiveAngleRange - snappedPositiveAngle)
             }
         }
-        
-        if Int(rotationAngle.radians) != Int(self.angle) {
-            currentFilterIndex = (currentFilterIndex + 1) % viewModel.filters.count
-            DispatchQueue.main.async {
-                viewModel.sound.filter = viewModel.filters[currentFilterIndex]
-                if viewModel.isPlaying {
-                    viewModel.stopSound()
-                }
-                viewModel.play(with: viewModel.sound)
+    }
+    
+    func changeFilter() {
+        currentFilterIndex = (currentFilterIndex + 1) % viewModel.filters.count
+        DispatchQueue.main.async {
+            viewModel.sound.filter = viewModel.filters[currentFilterIndex]
+            if viewModel.isPlaying {
+                viewModel.stopSound()
             }
+            viewModel.play(with: viewModel.sound)
         }
     }
-    // 진행률을 계산하는 private 변수입니다.
-    private var progressFraction: Double {
-        // 진행률은 현재 값에서 최소값을 빼고, 그 결과를 (최대값 - 최소값)으로 나눈 값입니다.
-        return ((angle - minValue) / (maxValue - minValue))
-    }
 }
-
-//struct SnapCircularSlider_Previews: PreviewProvider {
-//    static var previews: some View {
-//        SnapCircularSlider()
-//    }
-//}
