@@ -63,7 +63,8 @@ struct SnapCircularSlider: View {
         // snappedAngle을 5칸으로 분류
         let snappedAngle = round((positiveAngle / positiveAngleRange) * 5.0)
         let snappedPositiveAngle = (positiveAngleRange / 5.0) * snappedAngle
-        print("rotation Angle = \(rotationAngle.radians)")
+        print("rotation Angle = \(snappedAngle)")
+        currentFilterIndex = Int(snappedAngle)
         
         if snappedAngle == 0 {
             rotationAngle = -Angle(radians: positiveAngleRange - snappedPositiveAngle)
@@ -78,7 +79,7 @@ struct SnapCircularSlider: View {
     }
     
     func changeFilter() {
-        currentFilterIndex = (currentFilterIndex + 1) % viewModel.filters.count
+        currentFilterIndex = (currentFilterIndex) % viewModel.filters.count
         DispatchQueue.main.async {
             viewModel.sound.filter = viewModel.filters[currentFilterIndex]
             if viewModel.isPlaying {
