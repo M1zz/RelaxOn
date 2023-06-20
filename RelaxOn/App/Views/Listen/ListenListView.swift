@@ -18,6 +18,7 @@ struct ListenListView: View {
     
     @State private var selectedFile = CustomSound()
     @State private var isShowingSheet = false
+    @State private var isShowingPlayer = false
     
     // MARK: - Body
     var body: some View {
@@ -40,7 +41,9 @@ struct ListenListView: View {
                     ListenListCell(customSound: file)
                         .onTapGesture {
                             viewModel.selectedSound = file
-                            isShowingSheet = true
+                            withAnimation {
+                                isShowingPlayer = true
+                            }
                         }
                 }
                 .onDelete { indexSet in
@@ -51,23 +54,24 @@ struct ListenListView: View {
                 .listRowBackground(Color(.DefaultBackground))
                 .listRowSeparator(.hidden)
             }
-            .sheet(isPresented: $isShowingSheet, onDismiss: {
-                isShowingSheet = false
-            }) {
-                SoundPlayerFullModalView()
-            }
             
-            Button {
-                isShowingSheet = true
-            } label: {
-                SoundPlayerBottomView()
+            if isShowingPlayer {
+                Button {
+                    isShowingSheet = true
+                } label: {
+                    SoundPlayerBottomView()
+                }
+                .sheet(isPresented: $isShowingSheet, onDismiss: {
+                    isShowingSheet = false
+                }) {
+                    SoundPlayerFullModalView()
+                }
+                .animation(
+                    .easeInOut(duration: 1)
+                    .repeatForever(autoreverses: false),
+                    value: 1.0
+                )
             }
-            .sheet(isPresented: $isShowingSheet, onDismiss: {
-                isShowingSheet = false
-            }) {
-                SoundPlayerFullModalView()
-            }
-
         }
         .listStyle(PlainListStyle())
         .background(Color(.DefaultBackground))
