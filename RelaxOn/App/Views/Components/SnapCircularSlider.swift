@@ -63,7 +63,6 @@ struct SnapCircularSlider: View {
         // snappedAngle을 5칸으로 분류
         let snappedAngle = round((positiveAngle / positiveAngleRange) * 5.0)
         let snappedPositiveAngle = (positiveAngleRange / 5.0) * snappedAngle
-        print("rotation Angle = \(snappedAngle)")
         currentFilterIndex = Int(snappedAngle)
         
         if snappedAngle == 0 {
