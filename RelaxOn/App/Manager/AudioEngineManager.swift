@@ -155,26 +155,25 @@ extension AudioEngineManager {
             return
         }
         
-        if player.isPlaying {
-            player.scheduleBuffer(buffer, completionHandler: { [weak self] in
-                DispatchQueue.main.asyncAfter(deadline: .now() + (self?.interval ?? 1.0)) {
-                    if self?.player.isPlaying == true {
-                        self?.scheduleNextBuffer()
-                    }
-                }
-            })
-            if engine.isRunning {
-                player.play()
-            } else {
-                do {
-                    try engine.start()
-                    player.play()
-                } catch {
-                    print("Unable to start engine: \(error.localizedDescription)")
+        player.scheduleBuffer(buffer, completionHandler: { [weak self] in
+            DispatchQueue.main.asyncAfter(deadline: .now() + (self?.interval ?? 1.0)) {
+                if self?.player.isPlaying == true {
+                    self?.scheduleNextBuffer()
                 }
             }
-            player.rate = Float(interval)
+        })
+        
+        if engine.isRunning {
+            player.play()
+        } else {
+            do {
+                try engine.start()
+                player.play()
+            } catch {
+                print("Unable to start engine: \(error.localizedDescription)")
+            }
         }
+        player.rate = Float(interval)
     }
 
     private func scheduleNextBuffer(interval: Double = 1.0) {
@@ -194,11 +193,11 @@ extension AudioEngineManager {
             do {
                 try engine.start()
                 player.play()
+                player.rate = Float(interval)
             } catch {
                 print("Unable to start engine: \(error.localizedDescription)")
             }
         }
-        player.rate = Float(interval)
     }
 
     func clearBuffer() {
