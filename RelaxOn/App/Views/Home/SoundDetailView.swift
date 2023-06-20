@@ -77,6 +77,9 @@ struct SoundDetailView: View {
             
             // MARK: - Life Cycle
             .onAppear() {
+                if UserDefaultsManager.shared.isFirstVisit {
+                    UserDefaultsManager.shared.isFirstVisit = false
+                }
                 DispatchQueue.main.async {
                     viewModel.sound = originalSound
                     viewModel.filters = viewModel.filterDictionary[viewModel.sound.category]!

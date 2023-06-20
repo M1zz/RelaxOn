@@ -21,8 +21,9 @@ struct TabItemInfo: Identifiable {
 /// SoundSaveView 에서 Modal을 dismiss 한 후 Listen 탭으로 이동하기 위해 필요
 final class AppState: ObservableObject {
     @Published var selectedTab: UUID = UUID()
+    @Published var showSoundDetail: Bool = false
     
-    let tabItems = [
+    var tabItems = [
         TabItemInfo(view: AnyView(SoundListView()), imageName: TabBarIcon.home, title: .home),
         TabItemInfo(view: AnyView(ListenListView()), imageName: TabBarIcon.listen, title: .listen),
         TabItemInfo(view: AnyView(TimerMainView()), imageName: TabBarIcon.timer, title: .timer)

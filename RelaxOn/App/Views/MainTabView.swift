@@ -13,24 +13,31 @@ struct MainTabView: View {
     @State var isFirstVisit: Bool = UserDefaultsManager.shared.isFirstVisit
     
     var body: some View {
-        if isFirstVisit {
-            OnboardingView(isFirstVisit: $isFirstVisit)
-                .transition(.slide)
-        } else {
-            TabView(selection: $appState.selectedTab) {
-                ForEach(appState.tabItems) { item in
-                    item.view
-                        .tabItem {
-                            Image(item.imageName.rawValue)
-                                .renderingMode(.template)
-                                .resizable()
-                                .frame(width: 24, height: 24)
-                            Text(item.title.rawValue)
-                        }.tag(item.id)
+        ZStack {
+            if !isFirstVisit {
+                TabView(selection: $appState.selectedTab) {
+                    ForEach(appState.tabItems, id: \.id) { item in
+                        item.view
+                            .tabItem {
+                                Image(item.imageName.rawValue)
+                                    .renderingMode(.template)
+                                    .resizable()
+                                    .frame(width: 24, height: 24)
+                                Text(item.title.rawValue)
+                            }.tag(item.id)
+                    }
                 }
+                .accentColor(Color(.PrimaryPurple))
+                .environmentObject(appState)
             }
-            .accentColor(Color(.PrimaryPurple))
-            .environmentObject(appState)
+
+            if isFirstVisit && appState.showSoundDetail {
+                SoundListView()
+            }
+            
+            if isFirstVisit && !appState.showSoundDetail {
+                OnboardingView(isFirstVisit: $isFirstVisit)
+            }
         }
     }
 }

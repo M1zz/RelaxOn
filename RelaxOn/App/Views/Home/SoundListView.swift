@@ -11,14 +11,15 @@ import SwiftUI
  앱에 저장된 Original Sound 정보들이 그리드 뷰 형태의 리스트로 나열된 Main View
  */
 struct SoundListView: View {
-    
+
     let columns = [
         GridItem(.flexible()),
         GridItem(.flexible())
     ]
     
+    @EnvironmentObject var appState: AppState
     @State private var searchText = ""
-    
+
     var body: some View {
         NavigationStack {
             ZStack {
@@ -42,6 +43,11 @@ struct SoundListView: View {
                         gridView()
                     }
                 }
+
+                .navigationDestination(
+                    isPresented: $appState.showSoundDetail) {
+                        SoundDetailView(isTutorial: false, originalSound: OriginalSound(name: "물방울", filter: .WaterDrop, category: .WaterDrop))
+                    }
             }
         }
 
