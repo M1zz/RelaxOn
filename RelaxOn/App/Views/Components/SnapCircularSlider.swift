@@ -63,16 +63,22 @@ struct SnapCircularSlider: View {
         // snappedAngle을 5칸으로 분류
         let snappedAngle = round((positiveAngle / positiveAngleRange) * 5.0)
         let snappedPositiveAngle = (positiveAngleRange / 5.0) * snappedAngle
-        currentFilterIndex = Int(snappedAngle)
         
-        if snappedAngle == 0 {
-            rotationAngle = -Angle(radians: positiveAngleRange - snappedPositiveAngle)
+        currentFilterIndex = Int(snappedAngle) % 5
+        let angleDifference = positiveAngle - snappedPositiveAngle
+        let adjustedAngle = snappedPositiveAngle + (angleDifference * 0.2)
+        
+        if snappedAngle == 0 && !isMoved.wrappedValue{
+            rotationAngle = -Angle(radians: -adjustedAngle)
+            print("rotationAngle = \(rotationAngle)")
+            isMoved.wrappedValue = true
         } else {
             if isMoved.wrappedValue {
-                withAnimation(.spring(response: 0.5)) { rotationAngle = -Angle(radians: positiveAngleRange - snappedPositiveAngle) }
+                        rotationAngle = -Angle(radians: -adjustedAngle)
+                        print("rotationAngle = \(rotationAngle)")
             } else {
-                isMoved.wrappedValue = true
-                rotationAngle = -Angle(radians: positiveAngleRange - snappedPositiveAngle)
+                rotationAngle = -Angle(radians: -adjustedAngle)
+                print("rotationAngle = \(rotationAngle)")
             }
         }
     }
