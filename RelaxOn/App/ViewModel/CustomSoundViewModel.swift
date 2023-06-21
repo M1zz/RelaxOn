@@ -37,7 +37,7 @@ final class CustomSoundViewModel: ObservableObject {
     /// 각 오디오 필터에 대한 서브 필터를 저장하는 딕셔너리
     let filterDictionary: [SoundCategory: [AudioFilter]] = [
         .WaterDrop: [.WaterDrop, .Basement, .Cave, .Pipe, .Sink],
-        .SingingBowl: [.SingingBowl, .Focus, .Training, .Vibration],
+        .SingingBowl: [.SingingBowl, .Focus, .Training, .Empty, .Vibration],
         .Bird: [.Bird, .Owl, .Woodpecker, .Forest, .Cuckoo],
     ]
   
