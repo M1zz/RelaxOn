@@ -56,11 +56,20 @@ struct CircularSlider: View {
             .rotationEffect(rotationAngle - Angle(degrees: 90))
             .gesture(
                 DragGesture(minimumDistance: 0.0)
-                    .onChanged(){ value in
+                    .onChanged { value in
                         if isOnDrag {
-                            onDrag(value: value.location)
+                            let newAngle = calculateAngle(from: value.location)
+                            rotationAngle = Angle(radians: newAngle.1)
                         } else {
                             onMove(value: value.location, isMoved: $isMoved)
+                        }
+                    }
+                    .onEnded { value in
+                        if isOnDrag {
+                            let newAngle = calculateAngle(from: value.location)
+                            angle = newAngle.0
+                            rotationAngle = Angle(radians: newAngle.1)
+                            angleChanged(angle)
                         }
                     }
             )
@@ -135,6 +144,17 @@ struct CircularSlider: View {
     private var progressFraction: Double {
         // 진행률은 현재 값에서 최소값을 빼고, 그 결과를 (최대값 - 최소값)으로 나눈 값입니다.
         return ((angle - minValue) / (maxValue - minValue))
+    }
+    
+    func calculateAngle(from value: CGPoint) -> (Double, Double) {
+        let vector = CGVector(dx: value.x, dy: -value.y)
+        let angleRadians = atan2(vector.dx, vector.dy)
+        let positiveAngle = angleRadians < 0.0 ? angleRadians + (2.0 * .pi) : angleRadians
+        
+        // 계산된 각도를 이용해서 angle 값을 업데이트합니다.
+        let newAngle = ((positiveAngle /  (2.0 * .pi)) * (maxValue - minValue )) + minValue
+        
+        return (newAngle, positiveAngle)
     }
 
 }
