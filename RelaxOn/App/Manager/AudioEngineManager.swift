@@ -170,7 +170,6 @@ extension AudioEngineManager {
         timerSubscription?.cancel()
         timerSubscription = Timer.publish(every: interval, on: RunLoop.main, in: .common)
             .autoconnect()
-            .first()
             .sink { [weak self] _ in
                 guard let self = self else { return }
                 self.player.pause()
