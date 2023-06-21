@@ -33,9 +33,6 @@ final class CustomSoundViewModel: ObservableObject {
     let volumeRange: [Float] = stride(from: 0.1, through: 1.0, by: 0.01).map {
         Float(String(format: "%.2f", $0)) ?? 0.0
     }
-
-    // TODO: 필요없음. 없으면 안되는건지 재확인 후 삭제
-    let filterRange: [Float] = stride(from: -50.0, through: 50.0, by: 1.0).map { Float($0) }
     
     /// 각 오디오 필터에 대한 서브 필터를 저장하는 딕셔너리
     let filterDictionary: [SoundCategory: [AudioFilter]] = [
