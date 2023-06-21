@@ -6,6 +6,7 @@
 //
 
 import AVFoundation
+import Combine
 
 final class AudioEngineManager: ObservableObject {
     static let shared = AudioEngineManager()
@@ -47,7 +48,12 @@ final class AudioEngineManager: ObservableObject {
     
     private init() {
         setupAudioSession()
+        setupEngine()
     }
+}
+
+// MARK: - Setup
+extension AudioEngineManager {
     
     private func setupAudioSession() {
         do {
@@ -62,7 +68,9 @@ final class AudioEngineManager: ObservableObject {
         engine.attach(player)
         engine.attach(pitchEffect)
         engine.attach(volumeEffect)
-        
+    }
+    
+    private func setupConnections() {
         if let audioFile = audioFile {
             engine.connect(player, to: pitchEffect, format: audioFile.processingFormat)
             engine.connect(pitchEffect, to: volumeEffect, format: audioFile.processingFormat)
@@ -70,6 +78,11 @@ final class AudioEngineManager: ObservableObject {
         }
     }
     
+}
+
+// MARK: - Play & Pause
+extension AudioEngineManager {
+
     func play<T: Playable>(with sound: T) {
         print(#function)
         
@@ -82,14 +95,14 @@ final class AudioEngineManager: ObservableObject {
         do {
             audioFile = try AVAudioFile(forReading: fileURL)
             audioBuffer = prepareBuffer()
-            setupEngine()
-            try engine.start()
+            setupConnections()
             
             if let customSound = sound as? CustomSound {
                 audioVariation = customSound.audioVariation
             }
             
             scheduleNextBuffer()
+            
         } catch {
             print(error.localizedDescription)
         }
@@ -100,26 +113,29 @@ final class AudioEngineManager: ObservableObject {
         engine.stop()
         clearBuffer()
     }
+}
+
+// MARK: - Buffer
+extension AudioEngineManager {
+    
+    private func clearBuffer() {
+        audioBuffer = nil
+    }
     
     private func prepareBuffer() -> AVAudioPCMBuffer? {
         print(#function)
         
         guard let audioFile = audioFile else { return nil }
         
+        let buffer = AVAudioPCMBuffer(pcmFormat: audioFile.processingFormat,
+                                      frameCapacity: AVAudioFrameCount(audioFile.length))!
         do {
-            let audioFileLength = AVAudioFrameCount(audioFile.length)
-            guard let buffer = AVAudioPCMBuffer(pcmFormat: audioFile.processingFormat, frameCapacity: audioFileLength) else {
-                print("Failed to create AVAudioPCMBuffer")
-                return nil
-            }
-            
             try audioFile.read(into: buffer)
-            print("Audio file read into buffer")
-            return buffer
         } catch {
-            print("Failed to prepare buffer: \(error.localizedDescription)")
+            print("Failed to read buffer")
             return nil
         }
+        return buffer
     }
     
     private func scheduleNextBuffer() {
@@ -137,8 +153,10 @@ final class AudioEngineManager: ObservableObject {
             self.scheduleCompletionHandler?()
             self.scheduleCompletionHandler = nil
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + self.interval) {
-                self.scheduleNextBuffer()
+            DispatchQueue.main.async {
+                if self.audioBuffer != nil {
+                    self.scheduleNextBuffer()
+                }
             }
         }
         
@@ -154,47 +172,6 @@ final class AudioEngineManager: ObservableObject {
             player.play()
         }
     }
+
     
-    private func clearBuffer() {
-        audioBuffer = nil
-    }
-    
-    private func scheduleNextSegment() {
-        print(#function)
-        
-        guard let audioFile = audioFile else {
-            print("No audio file loaded")
-            return
-        }
-        
-        let sampleRate = audioFile.processingFormat.sampleRate
-        let framesPerInterval = AVAudioFrameCount(sampleRate * interval)
-        let startFrame = audioFile.framePosition
-        
-        if startFrame < audioFile.length {
-            let frameCount = min(framesPerInterval, AVAudioFrameCount(audioFile.length - startFrame))
-            
-            let scheduleTime = AVAudioTime(hostTime: mach_absolute_time())
-            player.scheduleSegment(audioFile, startingFrame: startFrame, frameCount: frameCount, at: scheduleTime) { [weak self] in
-                guard let self = self else { return }
-                
-                self.scheduleCompletionHandler?()
-                self.scheduleCompletionHandler = nil
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + self.interval) {
-                    self.scheduleNextSegment()
-                }
-            }
-            
-            if !engine.isRunning {
-                do {
-                    try engine.start()
-                } catch {
-                    print("Unable to start engine: \(error.localizedDescription)")
-                }
-            }
-        } else {
-            print("End of audio file reached")
-        }
-    }
 }

@@ -21,6 +21,9 @@ final class CustomSoundViewModel: ObservableObject {
     private var fileManager = UserFileManager.shared
     private var userDefaults = UserDefaultsManager.shared
     
+    private var _customInterval: Float = 0.0
+    private var intervalTimer: Timer?
+    
     /// 각 CustomSound 객체에 대응하는 인덱스를 저장하는 사전
     private(set) var customSoundsDictionary: [Int: CustomSound] = [:]
     
@@ -79,11 +82,16 @@ final class CustomSoundViewModel: ObservableObject {
             customSoundsDictionary = Dictionary(uniqueKeysWithValues: zip(customSounds.indices, customSounds)) // 커스텀 음원 배열을 딕셔너리로 변환하여 저장 [배열 인덱스: 배열의 요소]
         }
     }
-    
+
     /// sound의 재생 간격 저장
-    @Published var interval = Float() {
+    @Published var interval: Float {
         didSet {
-            audioEngineManager.audioVariation.interval = interval
+            intervalTimer?.invalidate()
+            
+            intervalTimer = Timer.scheduledTimer(withTimeInterval: TimeInterval(interval), repeats: false) { [weak self] _ in
+                self?._customInterval = self?.interval ?? 0.0
+                self?.audioEngineManager.audioVariation.interval = self?.interval ?? 0.0
+            }
         }
     }
     
@@ -128,13 +136,16 @@ final class CustomSoundViewModel: ObservableObject {
         }
     }
     
-    /// 클래스 초기화 시 선택된 음원과 필터를 설정하고 재생된 음원을 불러옴
+    // MARK: - Initialization
     init(customSound: CustomSound? = nil, filter: AudioFilter = .none) {
         self.selectedSound = customSound
         self.filter = filter
+        self.interval = 0.0
+        self.pitch = 0.0
+        self.volume = 0.0
         self.lastSound = userDefaults.lastPlayedSound
+        self.filters = []
     }
-    
     
 }
 
@@ -143,12 +154,14 @@ extension CustomSoundViewModel {
     
     func play<T: Playable>(with sound: T) {
         isPlaying.toggle()
+        _customInterval = interval
         audioEngineManager.play(with: sound)
     }
     
     func stopSound() {
         isPlaying.toggle()
         audioEngineManager.stop()
+        intervalTimer?.invalidate()
     }
     
     func loadSound() {
