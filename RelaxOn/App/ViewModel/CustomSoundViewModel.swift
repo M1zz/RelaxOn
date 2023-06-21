@@ -21,9 +21,6 @@ final class CustomSoundViewModel: ObservableObject {
     private var fileManager = UserFileManager.shared
     private var userDefaults = UserDefaultsManager.shared
     
-    private var _customInterval: Float = 0.0
-    private var intervalTimer: Timer?
-    
     /// 각 CustomSound 객체에 대응하는 인덱스를 저장하는 사전
     private(set) var customSoundsDictionary: [Int: CustomSound] = [:]
     
@@ -86,12 +83,7 @@ final class CustomSoundViewModel: ObservableObject {
     /// sound의 재생 간격 저장
     @Published var interval: Float {
         didSet {
-            intervalTimer?.invalidate()
-            
-            intervalTimer = Timer.scheduledTimer(withTimeInterval: TimeInterval(interval), repeats: false) { [weak self] _ in
-                self?._customInterval = self?.interval ?? 0.0
-                self?.audioEngineManager.audioVariation.interval = self?.interval ?? 0.0
-            }
+            audioEngineManager.audioVariation.interval = interval
         }
     }
     
@@ -160,7 +152,6 @@ extension CustomSoundViewModel {
     func stopSound() {
         isPlaying.toggle()
         audioEngineManager.stop()
-        intervalTimer?.invalidate()
     }
     
     func loadSound() {
