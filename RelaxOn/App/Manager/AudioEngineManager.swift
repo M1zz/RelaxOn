@@ -81,6 +81,10 @@ extension AudioEngineManager {
         }
     }
     
+    /**
+     오디오 재생 간격이 변경되었을 때 이를 감지하여 새 버퍼를 스케줄링하는 구독을 설정합니다.
+     Combine을 이용하여 'interval' 프로퍼티의 값이 변동되면 300 밀리초 후에 scheduleNextBuffer 함수를 호출합니다.
+     */
     private func setupSubscriptions() {
         intervalCancellable = $interval
             .removeDuplicates()
@@ -150,6 +154,10 @@ extension AudioEngineManager {
         return buffer
     }
     
+    /**
+     다음 오디오 버퍼를 스케줄링합니다. 준비된 버퍼를 사용해 오디오를 재생하고, 주어진 인터벌에 따라 다음 버퍼 재생을 스케줄링합니다.
+     Combine 프레임워크의 Timer.publish를 사용하여 지정된 인터벌마다 버퍼 재생을 반복합니다.
+     */
     private func scheduleNextBuffer() {
         print(#function)
         
