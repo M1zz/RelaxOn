@@ -125,6 +125,7 @@ extension AudioEngineManager {
     }
     
     func stop() {
+        timerSubscription?.cancel()
         player.stop()
         engine.stop()
         clearBuffer()

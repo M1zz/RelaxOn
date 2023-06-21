@@ -92,9 +92,7 @@ struct SoundDetailView: View {
                 }
             }
             .onDisappear {
-                if !isTutorial {
-                    viewModel.stopSound()
-                }
+                viewModel.stopSound()
                 viewModel.filters.removeAll()
                 presentationMode.wrappedValue.dismiss()
             }
