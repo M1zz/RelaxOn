@@ -179,14 +179,8 @@ extension AudioEngineManager {
                 self.player.scheduleBuffer(buffer, at: scheduleTime) { [weak self] in
                     self?.scheduleCompletionHandler?()
                     self?.scheduleCompletionHandler = nil
-                    
-                    DispatchQueue.main.async {
-                        if self?.audioBuffer != nil {
-                            self?.scheduleNextBuffer()
-                        }
-                    }
                 }
-                
+
                 if !self.engine.isRunning {
                     do {
                         try self.engine.start()
