@@ -154,7 +154,6 @@ extension CustomSoundViewModel {
     
     func play<T: Playable>(with sound: T) {
         isPlaying.toggle()
-        _customInterval = interval
         audioEngineManager.play(with: sound)
     }
     
