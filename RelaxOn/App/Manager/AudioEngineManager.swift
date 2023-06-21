@@ -6,24 +6,25 @@
 //
 
 import AVFoundation
+import Combine
 
-/**
- AVAudioEngine 객체를 이용한 음원 커스텀 & 재생 & 정지 기능
- */
 final class AudioEngineManager: ObservableObject {
     static let shared = AudioEngineManager()
-  
+    
     var engine = AVAudioEngine()
-  
+    
     private var player = AVAudioPlayerNode()
     private var pitchEffect = AVAudioUnitTimePitch()
     private var volumeEffect = AVAudioMixerNode()
     private var audioFile: AVAudioFile?
     private var audioBuffer: AVAudioPCMBuffer?
-
+    private var scheduleCompletionHandler: (() -> Void)?
+    private var intervalCancellable: AnyCancellable?
+    private var timerSubscription: Cancellable?
+    
     @Published var interval: Double = 1.0 {
         didSet {
-            scheduleNextBuffer(interval: interval)
+            scheduleNextBuffer()
         }
     }
     
@@ -35,31 +36,69 @@ final class AudioEngineManager: ObservableObject {
     
     @Published var volume: Float = 1.0 {
         didSet {
-            player.volume = volume
+            volumeEffect.outputVolume = volume
         }
     }
     
     @Published var audioVariation: AudioVariation = AudioVariation() {
         didSet {
             self.pitchEffect.pitch = Float(audioVariation.pitch * 100)
-            self.player.volume = audioVariation.volume
+            self.volumeEffect.outputVolume = audioVariation.volume
             self.interval = Double(audioVariation.interval)
         }
     }
-
+    
     private init() {
+        setupAudioSession()
+        setupEngine()
+        setupSubscriptions()
+    }
+}
+
+// MARK: - Setup
+extension AudioEngineManager {
+    
+    private func setupAudioSession() {
         do {
             try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
             try AVAudioSession.sharedInstance().setActive(true)
         } catch {
-            print("무음모드 설정 에러 : \(error.localizedDescription)")
+            print("Audio session setup error: \(error.localizedDescription)")
         }
     }
-
+    
+    private func setupEngine() {
+        engine.attach(player)
+        engine.attach(pitchEffect)
+        engine.attach(volumeEffect)
+    }
+    
+    private func setupConnections() {
+        if let audioFile = audioFile {
+            engine.connect(player, to: pitchEffect, format: audioFile.processingFormat)
+            engine.connect(pitchEffect, to: volumeEffect, format: audioFile.processingFormat)
+            engine.connect(volumeEffect, to: engine.mainMixerNode, format: audioFile.processingFormat)
+        }
+    }
+    
+    /**
+     오디오 재생 간격이 변경되었을 때 이를 감지하여 새 버퍼를 스케줄링하는 구독을 설정합니다.
+     Combine을 이용하여 'interval' 프로퍼티의 값이 변동되면 300 밀리초 후에 scheduleNextBuffer 함수를 호출합니다.
+     */
+    private func setupSubscriptions() {
+        intervalCancellable = $interval
+            .removeDuplicates()
+            .debounce(for: .milliseconds(300), scheduler: RunLoop.main)
+            .sink { [weak self] _ in
+                self?.scheduleNextBuffer()
+            }
+    }
+    
 }
 
+// MARK: - Play & Pause
 extension AudioEngineManager {
-    
+
     func play<T: Playable>(with sound: T) {
         print(#function)
         
@@ -71,140 +110,94 @@ extension AudioEngineManager {
         
         do {
             audioFile = try AVAudioFile(forReading: fileURL)
-            engine.attach(player)
-            engine.attach(pitchEffect)
-            engine.attach(volumeEffect)
-            
-            if let audioFile = audioFile {
-                engine.connect(player, to: pitchEffect, format: audioFile.processingFormat)
-                engine.connect(pitchEffect, to: volumeEffect, format: audioFile.processingFormat)
-                engine.connect(volumeEffect, to: engine.mainMixerNode, format: audioFile.processingFormat)
-            }
-            
-            try engine.start()
             audioBuffer = prepareBuffer()
+            setupConnections()
             
             if let customSound = sound as? CustomSound {
                 audioVariation = customSound.audioVariation
-                scheduleNextBuffer(interval: Double(customSound.audioVariation.interval))
-            } else {
-                scheduleNextBuffer()
             }
+            
+            scheduleNextBuffer()
+            
         } catch {
             print(error.localizedDescription)
         }
     }
-
+    
     func stop() {
+        timerSubscription?.cancel()
+        player.stop()
+        engine.stop()
         clearBuffer()
-        if engine.isRunning {
-            player.pause()
-            engine.stop()
-        }
+    }
+}
+
+// MARK: - Buffer
+extension AudioEngineManager {
+    
+    private func clearBuffer() {
+        audioBuffer = nil
     }
     
-    /**
-     오디오 파일을 AVAudioPCMBuffer로 준비합니다.
-     AVAudioFile을 읽어서 AVAudioPCMBuffer로 변환합니다. 이 함수는 재생 준비 과정에서 사용됩니다.
-     */
     private func prepareBuffer() -> AVAudioPCMBuffer? {
         print(#function)
         
         guard let audioFile = audioFile else { return nil }
-        let audioFileLength = AVAudioFrameCount(audioFile.length)
-        guard let buffer = AVAudioPCMBuffer(pcmFormat: audioFile.processingFormat, frameCapacity: audioFileLength) else { return nil }
         
+        let buffer = AVAudioPCMBuffer(pcmFormat: audioFile.processingFormat,
+                                      frameCapacity: AVAudioFrameCount(audioFile.length))!
         do {
             try audioFile.read(into: buffer)
-            print("오디오 파일을 buffer에 읽어옵니다.")
-            
         } catch {
-            print("오디오 파일을 buffer에 읽어오지 못했습니다.: \(error)")
+            print("Failed to read buffer")
             return nil
         }
         return buffer
     }
     
-    func prepareBuffer(audioFile: AVAudioFile?) -> AVAudioPCMBuffer? {
-        print(#function)
-        
-        guard let audioFile = audioFile else { return nil }
-        let audioFileLength = AVAudioFrameCount(audioFile.length)
-        guard let buffer = AVAudioPCMBuffer(pcmFormat: audioFile.processingFormat, frameCapacity: audioFileLength) else { return nil }
-        
-        do {
-            try audioFile.read(into: buffer)
-            print("오디오 파일을 buffer에 읽어옵니다.")
-            
-        } catch {
-            print("오디오 파일을 buffer에 읽어오지 못했습니다.: \(error)")
-            return nil
-        }
-        return buffer
-    }
-
     /**
-     다음 버퍼를 스케줄하는 함수입니다.
-     이 함수는 현재 재생 중인 음원 파일에서 다음 버퍼를 스케줄합니다.
-     완료 핸들러를 설정하여 다음 버퍼를 스케줄하기 전에 일정 시간 동안 대기하도록 합니다.
+     다음 오디오 버퍼를 스케줄링합니다. 준비된 버퍼를 사용해 오디오를 재생하고, 주어진 인터벌에 따라 다음 버퍼 재생을 스케줄링합니다.
+     Combine 프레임워크의 Timer.publish를 사용하여 지정된 인터벌마다 버퍼 재생을 반복합니다.
      */
     private func scheduleNextBuffer() {
         print(#function)
+        
         guard let buffer = audioBuffer else {
             print("Failed to prepare buffer")
             return
         }
         
-        if player.isPlaying {
-            player.scheduleBuffer(buffer, completionHandler: { [weak self] in
-                DispatchQueue.main.asyncAfter(deadline: .now() + (self?.interval ?? 1.0)) {
-                    if self?.player.isPlaying == true {
-                        self?.scheduleNextBuffer()
+        // 취소 가능한 타이머를 만듭니다.
+        timerSubscription?.cancel()
+        timerSubscription = Timer.publish(every: interval, on: RunLoop.main, in: .common)
+            .autoconnect()
+            .sink { [weak self] _ in
+                guard let self = self else { return }
+                self.player.pause()
+                
+                let scheduleTime = AVAudioTime(hostTime: mach_absolute_time())
+                self.player.scheduleBuffer(buffer, at: scheduleTime) { [weak self] in
+                    self?.scheduleCompletionHandler?()
+                    self?.scheduleCompletionHandler = nil
+                    
+                    DispatchQueue.main.async {
+                        if self?.audioBuffer != nil {
+                            self?.scheduleNextBuffer()
+                        }
                     }
                 }
-            })
-            if engine.isRunning {
-                player.play()
-            } else {
-                do {
-                    try engine.start()
-                    player.play()
-                } catch {
-                    print("Unable to start engine: \(error.localizedDescription)")
+                
+                if !self.engine.isRunning {
+                    do {
+                        try self.engine.start()
+                    } catch {
+                        print("Unable to start engine: \(error.localizedDescription)")
+                    }
+                }
+                
+                if !self.player.isPlaying {
+                    self.player.play()
                 }
             }
-            player.rate = Float(interval)
-        }
     }
-
-    private func scheduleNextBuffer(interval: Double = 1.0) {
-        print(#function)
-        guard let buffer = audioBuffer else {
-            print("Failed to prepare buffer")
-            return
-        }
-        player.scheduleBuffer(buffer, completionHandler: { [weak self] in
-            DispatchQueue.main.asyncAfter(deadline: .now() + (interval)) {
-                self?.scheduleNextBuffer()
-            }
-        })
-        if engine.isRunning {
-            player.play()
-        } else {
-            do {
-                try engine.start()
-                player.play()
-            } catch {
-                print("Unable to start engine: \(error.localizedDescription)")
-            }
-        }
-        player.rate = Float(interval)
-    }
-
-    func clearBuffer() {
-        guard let bufferFormat = audioBuffer?.format else { return }
-        let newBuffer = AVAudioPCMBuffer(pcmFormat: bufferFormat, frameCapacity: 1024)
-        self.audioBuffer = newBuffer
-    }
-    
 }

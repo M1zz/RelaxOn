@@ -729,9 +729,9 @@
 		8F53BD1C29B77B55009AE6D1 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				8F4E1B6029B9A48F0013599C /* MainTabView.swift */,
 				8F7904832A16596700BE2BAC /* Onboarding */,
 				8FCB23F02A15F80D00188024 /* Components */,
-				8F4E1B6029B9A48F0013599C /* MainTabView.swift */,
 				8F4E1B6829B9B37C0013599C /* Home */,
 				8F4E1B6929B9B3890013599C /* Listen */,
 				8F4E1B6A29B9B3900013599C /* Timer */,
@@ -837,10 +837,10 @@
 		C7C4C25628C23A3B0048DCBA /* App */ = {
 			isa = PBXGroup;
 			children = (
+				58DE61822839C13900F25769 /* RelaxOnApp.swift */,
 				C7C4C25528C239FE0048DCBA /* Assets */,
 				8F36BFCF2A14F8B100514BBE /* Applications */,
 				8FFCCCE229EE685D00079DCC /* Utils */,
-				58DE61822839C13900F25769 /* RelaxOnApp.swift */,
 				8FFCCCDB29EE459400079DCC /* Extensions */,
 				8FFDBC6E29E646F5008C674B /* ViewModel */,
 				8FF7603129CD3036002FF43B /* Manager */,

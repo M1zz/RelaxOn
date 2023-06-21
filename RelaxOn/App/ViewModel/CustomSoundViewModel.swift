@@ -76,9 +76,9 @@ final class CustomSoundViewModel: ObservableObject {
             customSoundsDictionary = Dictionary(uniqueKeysWithValues: zip(customSounds.indices, customSounds)) // 커스텀 음원 배열을 딕셔너리로 변환하여 저장 [배열 인덱스: 배열의 요소]
         }
     }
-    
+
     /// sound의 재생 간격 저장
-    @Published var interval = Float() {
+    @Published var interval: Float {
         didSet {
             audioEngineManager.audioVariation.interval = interval
         }
@@ -125,13 +125,16 @@ final class CustomSoundViewModel: ObservableObject {
         }
     }
     
-    /// 클래스 초기화 시 선택된 음원과 필터를 설정하고 재생된 음원을 불러옴
+    // MARK: - Initialization
     init(customSound: CustomSound? = nil, filter: AudioFilter = .none) {
         self.selectedSound = customSound
         self.filter = filter
+        self.interval = 0.0
+        self.pitch = 0.0
+        self.volume = 0.0
         self.lastSound = userDefaults.lastPlayedSound
+        self.filters = []
     }
-    
     
 }
 

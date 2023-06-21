@@ -33,9 +33,8 @@ struct TutorialView: View {
         }
         .onTapGesture {
             isFirstVisit = false
-            UserDefaultsManager.shared.isFirstVisit = false
+            appState.showSoundDetail = true
             presentationMode.wrappedValue.dismiss()
-            appState.moveToTab(.home)
         }
     }
 }
