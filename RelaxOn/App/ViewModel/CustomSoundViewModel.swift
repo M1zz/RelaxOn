@@ -142,12 +142,16 @@ final class CustomSoundViewModel: ObservableObject {
 extension CustomSoundViewModel {
     
     func play<T: Playable>(with sound: T) {
-        isPlaying.toggle()
+        if !isPlaying {
+            isPlaying.toggle()
+        }
         audioEngineManager.play(with: sound)
     }
     
     func stopSound() {
-        isPlaying.toggle()
+        if isPlaying {
+            isPlaying.toggle()
+        }
         audioEngineManager.stop()
     }
     

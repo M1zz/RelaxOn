@@ -74,10 +74,18 @@ extension AudioEngineManager {
     }
     
     private func setupConnections() {
+        if engine.isRunning {
+            engine.stop()
+        }
         if let audioFile = audioFile {
             engine.connect(player, to: pitchEffect, format: audioFile.processingFormat)
             engine.connect(pitchEffect, to: volumeEffect, format: audioFile.processingFormat)
             engine.connect(volumeEffect, to: engine.mainMixerNode, format: audioFile.processingFormat)
+        }
+        do {
+            try engine.start()
+        } catch {
+            print("Unable to start engine: \(error.localizedDescription)")
         }
     }
     
