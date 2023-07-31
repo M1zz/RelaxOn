@@ -44,6 +44,12 @@ struct ListenListView: View {
                             withAnimation {
                                 isShowingPlayer = true
                             }
+                            if viewModel.isPlaying {
+                                viewModel.stopSound()
+                                viewModel.play(with: file)
+                            } else {
+                                viewModel.play(with: file)
+                            }
                         }
                 }
                 .onDelete { indexSet in
