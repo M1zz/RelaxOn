@@ -78,21 +78,21 @@ final class CustomSoundViewModel: ObservableObject {
     }
 
     /// sound의 재생 간격 저장
-    @Published var interval: Float {
+    @Published var interval: Float = 1.0 {
         didSet {
             audioEngineManager.audioVariation.interval = interval
         }
     }
     
     /// sound의 피치 저장
-    @Published var pitch = Float() {
+    @Published var pitch: Float = 0 {
         didSet {
             audioEngineManager.audioVariation.pitch = pitch
         }
     }
     
     /// sound의 볼륨 저장
-    @Published var volume = Float() {
+    @Published var volume: Float = 1.0 {
         didSet {
             audioEngineManager.audioVariation.volume = volume
         }
@@ -129,9 +129,6 @@ final class CustomSoundViewModel: ObservableObject {
     init(customSound: CustomSound? = nil, filter: AudioFilter = .none) {
         self.selectedSound = customSound
         self.filter = filter
-        self.interval = 0.0
-        self.pitch = 0.0
-        self.volume = 0.0
         self.lastSound = userDefaults.lastPlayedSound
         self.filters = []
     }
