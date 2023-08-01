@@ -48,6 +48,46 @@ enum AudioFilter: String, Codable {
     case WaterDrop, Basement, Cave, Pipe, Sink
     case SingingBowl, Focus, Training, Empty, Vibration
     case Bird, Owl, Woodpecker, Forest, Cuckoo
+    
+    var duration: TimeInterval {
+        switch self {
+        case .none:
+            return 0.0
+            
+        case .WaterDrop:
+            return 1.0
+        case .Basement:
+            return 2.0
+        case .Cave:
+            return 2.0
+        case .Pipe:
+            return 3.0
+        case .Sink:
+            return 2.0
+            
+        case .SingingBowl:
+            return 5.0
+        case .Focus:
+            return 5.0
+        case .Training:
+            return 4.0
+        case .Empty:
+            return 5.0
+        case .Vibration:
+            return 7.0
+            
+        case .Bird:
+            return 1.0
+        case .Owl:
+            return 3.0
+        case .Woodpecker:
+            return 4.0
+        case .Forest:
+            return 4.0
+        case .Cuckoo:
+            return 3.0
+        }
+    }
 }
 
 /// 원본 사운드 유형 관리를 위한 열거형
