@@ -15,13 +15,7 @@ struct AudioVariation: Codable {
     var pitch: Float
     var interval: Float
     
-    init() {
-        self.volume = 0.5
-        self.pitch = 0
-        self.interval = 1.0
-    }
-    
-    init(volume: Float, pitch: Float, interval: Float = 1.0) {
+    init(volume: Float = 0.5, pitch: Float = 0, interval: Float = 1.0) {
         self.volume = volume
         self.pitch = pitch
         self.interval = interval

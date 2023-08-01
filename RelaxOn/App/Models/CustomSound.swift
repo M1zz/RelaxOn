@@ -19,16 +19,13 @@ struct CustomSound: Identifiable, Codable, Equatable, Playable {
     var filter: AudioFilter
     var color: String
     
-    init() {
-        self.id = UUID()
-        self.title = "저장된 음원이 없습니다."
-        self.category = .none
-        self.audioVariation = AudioVariation()
-        self.filter = .none
-        self.color = SoundCategory.none.defaultColor
-    }
-    
-    init(title: String, category: SoundCategory, variation: AudioVariation, filter: AudioFilter, color: String = "") {
+    init(
+        title: String = "저장된 음원이 없습니다.",
+        category: SoundCategory = .none,
+        variation: AudioVariation = AudioVariation(),
+        filter: AudioFilter = .none,
+        color: String = ""
+    ) {
         self.id = UUID()
         self.title = title
         self.category = category
