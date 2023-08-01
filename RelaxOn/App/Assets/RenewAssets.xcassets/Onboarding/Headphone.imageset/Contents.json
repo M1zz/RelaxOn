@@ -1,11 +1,11 @@
 {
   "images" : [
     {
+      "filename" : "Headphone.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "Headphone.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
