@@ -11,10 +11,14 @@ import Foundation
  FileManager에 오디오 데이터를 파일로 저장 & 불러오기 & (파일이름)수정 & 파일 삭제 기능
  */
 final class UserFileManager {
+    
+    // MARK: - Properties
     static let shared = UserFileManager()
     private let fileManager = FileManager.default
+    
 }
 
+// MARK: - Methods
 extension UserFileManager {
     
     func saveCustomSound(_ customSound: CustomSound) -> Bool {

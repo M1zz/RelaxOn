@@ -9,6 +9,8 @@ import AVFoundation
 import Combine
 
 final class AudioEngineManager: ObservableObject {
+    
+    // MARK: - Properties
     static let shared = AudioEngineManager()
     
     var engine = AVAudioEngine()
@@ -45,6 +47,7 @@ final class AudioEngineManager: ObservableObject {
         }
     }
     
+    // MARK: - Initialization
     private init() {
         setupAudioSession()
         setupEngine()
