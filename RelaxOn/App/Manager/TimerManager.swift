@@ -111,9 +111,8 @@ class TimerManager: ObservableObject {
                     .onAppear {
                         timerManager.startTimer(timerManager: timerManager)
                     }
-                    .onDisappear {
-                        timerManager.stopTimer(timerManager: timerManager)
-                    })
+                    .onDisappear { }
+            )
         } else {
             return AnyView (
                 Text(String(format: "%02d:%02d", max((timerManager.remainingSeconds % 3600) / 60, 0), max(timerManager.remainingSeconds % 60, 0)))
@@ -123,9 +122,8 @@ class TimerManager: ObservableObject {
                     .onAppear {
                         timerManager.startTimer(timerManager: timerManager)
                     }
-                    .onDisappear {
-                        timerManager.stopTimer(timerManager: timerManager)
-                    })
+                    .onDisappear { }
+            )
         }
     }
     // 타이머 원형바 뷰
@@ -144,9 +142,7 @@ class TimerManager: ObservableObject {
                 .onAppear {
                     timerManager.startTimeprogressBar(timerManager: timerManager)
                 }
-                .onDisappear {
-                    timerManager.stopTimer(timerManager: timerManager)
-                }
+                .onDisappear { }
         }
         .frame(maxWidth: .infinity)
         .padding(.horizontal, 20)
