@@ -140,14 +140,14 @@ extension CustomSoundViewModel {
     
     func play<T: Playable>(with sound: T) {
         if !isPlaying {
-            isPlaying.toggle()
+            isPlaying = true
         }
         audioEngineManager.play(with: sound)
     }
     
     func stopSound() {
         if isPlaying {
-            isPlaying.toggle()
+            isPlaying = false
         }
         audioEngineManager.stop()
     }
