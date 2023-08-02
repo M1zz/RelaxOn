@@ -101,7 +101,7 @@ class TimerManager: ObservableObject {
         }
     }
     // 타이머 시간 뷰
-    func getTimeText(timerManager: TimerManager) -> some View {
+    func getTimeText() -> some View {
         if remainingSeconds > 3599 {
             return AnyView (
                 Text(String(format: "%02d:%02d:%02d", max(self.remainingSeconds / 3600, 0), max((self.remainingSeconds % 3600) / 60, 0), max(self.remainingSeconds % 60, 0)))
@@ -131,7 +131,7 @@ class TimerManager: ObservableObject {
         }
     }
     // 타이머 원형바 뷰
-    func getCircularProgressBar(timerManager: TimerManager) -> some View {
+    func getCircularProgressBar() -> some View {
         ZStack {
             Circle()
                 .stroke(lineWidth: 7)
