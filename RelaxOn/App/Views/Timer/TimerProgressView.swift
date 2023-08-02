@@ -16,8 +16,8 @@ struct TimerProgressView: View {
     
     var body: some View {
         ZStack {
-            timerManager.getCircularProgressBar(timerManager: timerManager)
-            timerManager.getTimeText(timerManager: timerManager)
+            timerManager.getCircularProgressBar()
+            timerManager.getTimeText()
         }
         .frame(maxWidth: .infinity)
         .padding(20)

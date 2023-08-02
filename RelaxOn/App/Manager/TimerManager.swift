@@ -29,14 +29,14 @@ class TimerManager: ObservableObject {
     
     // 타이머객체 실행
     func startTimer(timerManager: TimerManager) {
-        timerManager.remainingSeconds = getTime(timerManager: timerManager)
+        self.remainingSeconds = getTime(timerManager: self)
         
-        timerManager.textTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
-            timerManager.remainingSeconds -= 1
+        self.textTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
+            self.remainingSeconds -= 1
             
-            if timerManager.remainingSeconds <= 0 {
+            if self.remainingSeconds <= 0 {
                 timer.invalidate()
-                timerManager.remainingSeconds = 0
+                self.remainingSeconds = 0
                 self.viewModel?.stopSound()
                 self.timerDidFinish?()
             }
@@ -44,8 +44,8 @@ class TimerManager: ObservableObject {
     }
     // 설정한 시간을 초로 변환
     func getTime(timerManager: TimerManager) -> Int {
-        var hour = timerManager.selectedTimeIndexHours
-        var minute = timerManager.selectedTimeIndexMinutes
+        var hour = self.selectedTimeIndexHours
+        var minute = self.selectedTimeIndexMinutes
         
         hour = hour * 3600
         minute = minute * 60
@@ -54,82 +54,84 @@ class TimerManager: ObservableObject {
     }
     // 타이머 중지
     func stopTimer(timerManager: TimerManager) {
-        timerManager.textTimer?.invalidate()
-        timerManager.progressTimer?.invalidate()
-        timerManager.remainingSeconds = 0
-        timerManager.progress = 1.0
+        self.textTimer?.invalidate()
+        self.progressTimer?.invalidate()
+        self.remainingSeconds = 0
+        self.progress = 1.0
         self.viewModel?.stopSound()
     }
     
     func pauseTimer(timerManager: TimerManager) {
-        timerManager.textTimer?.invalidate()
-        timerManager.textTimer = nil
-        timerManager.progressTimer?.invalidate()
-        timerManager.progressTimer = nil
+        self.textTimer?.invalidate()
+        self.textTimer = nil
+        self.progressTimer?.invalidate()
+        self.progressTimer = nil
         self.viewModel?.stopSound()
     }
     
     // 타이머 재개
     func resumeTimer(timerManager: TimerManager) {
-        timerManager.textTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
-            timerManager.remainingSeconds -= 1
+        self.textTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
+            self.remainingSeconds -= 1
             
-            if timerManager.remainingSeconds <= 0 {
+            if self.remainingSeconds <= 0 {
                 timer.invalidate()
-                timerManager.remainingSeconds = 0
+                self.remainingSeconds = 0
                 self.viewModel?.stopSound()
                 self.timerDidFinish?()
             }
         }
-        startTimeprogressBar(timerManager: timerManager)
+        startTimeprogressBar(timerManager: self)
     }
     
     // 타이머 진행바 실행
     func startTimeprogressBar(timerManager: TimerManager) {
-        let settingTime: Double = Double(timerManager.getTime(timerManager: timerManager))
+        let settingTime: Double = Double(self.getTime(timerManager: self))
         var secondPercentage: Double = 0
         secondPercentage = Double((1 / settingTime) * 1.0)
         
-        timerManager.progressTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
-            timerManager.progress -= secondPercentage
-            if timerManager.progress <= 0 {
+        self.progressTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
+            self.progress -= secondPercentage
+            if self.progress <= 0 {
                 timer.invalidate()
-                timerManager.progress = 1.0
+                self.progress = 1.0
                 self.viewModel?.stopSound()
                 self.timerDidFinish?()
             }
         }
     }
     // 타이머 시간 뷰
-    func getTimeText(timerManager: TimerManager) -> some View {
+    func getTimeText() -> some View {
         if remainingSeconds > 3599 {
             return AnyView (
-                Text(String(format: "%02d:%02d:%02d", max(timerManager.remainingSeconds / 3600, 0), max((timerManager.remainingSeconds % 3600) / 60, 0), max(timerManager.remainingSeconds % 60, 0)))
+                Text(String(format: "%02d:%02d:%02d", max(self.remainingSeconds / 3600, 0), max((self.remainingSeconds % 3600) / 60, 0), max(self.remainingSeconds % 60, 0)))
                     .frame(maxWidth: .infinity)
                     .padding()
                     .font(.system(size: 50, weight: .light))
                     .onAppear {
-                        timerManager.startTimer(timerManager: timerManager)
+                        if self.remainingSeconds == 0 {
+                            self.startTimer(timerManager: self)
+                        }
                     }
-                    .onDisappear {
-                        timerManager.stopTimer(timerManager: timerManager)
-                    })
+                    .onDisappear { }
+            )
         } else {
             return AnyView (
-                Text(String(format: "%02d:%02d", max((timerManager.remainingSeconds % 3600) / 60, 0), max(timerManager.remainingSeconds % 60, 0)))
+                Text(String(format: "%02d:%02d", max((self.remainingSeconds % 3600) / 60, 0), max(self.remainingSeconds % 60, 0)))
                     .frame(maxWidth: .infinity)
                     .padding()
                     .font(.system(size: 60, weight: .light))
                     .onAppear {
-                        timerManager.startTimer(timerManager: timerManager)
+                        if self.remainingSeconds == 0 {
+                            self.startTimer(timerManager: self)
+                        }
                     }
-                    .onDisappear {
-                        timerManager.stopTimer(timerManager: timerManager)
-                    })
+                    .onDisappear { }
+            )
         }
     }
     // 타이머 원형바 뷰
-    func getCircularProgressBar(timerManager: TimerManager) -> some View {
+    func getCircularProgressBar() -> some View {
         ZStack {
             Circle()
                 .stroke(lineWidth: 7)
@@ -137,16 +139,16 @@ class TimerManager: ObservableObject {
                 .foregroundColor(.gray)
             
             Circle()
-                .trim(from: 0.0, to: CGFloat(min(timerManager.progress, 1.0)))
+                .trim(from: 0.0, to: CGFloat(min(self.progress, 1.0)))
                 .stroke(style: StrokeStyle(lineWidth: 7, lineCap: .round, lineJoin: .round))
                 .foregroundColor(Color(.TimerMyListBackground))
                 .rotationEffect(Angle(degrees: 270.0))
                 .onAppear {
-                    timerManager.startTimeprogressBar(timerManager: timerManager)
+                    if self.remainingSeconds == 0 {
+                        self.startTimeprogressBar(timerManager: self)
+                    }
                 }
-                .onDisappear {
-                    timerManager.stopTimer(timerManager: timerManager)
-                }
+                .onDisappear { }
         }
         .frame(maxWidth: .infinity)
         .padding(.horizontal, 20)
