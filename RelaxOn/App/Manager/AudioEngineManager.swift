@@ -9,6 +9,8 @@ import AVFoundation
 import Combine
 
 final class AudioEngineManager: ObservableObject {
+    
+    // MARK: - Properties
     static let shared = AudioEngineManager()
     
     var engine = AVAudioEngine()
@@ -22,11 +24,8 @@ final class AudioEngineManager: ObservableObject {
     private var intervalCancellable: AnyCancellable?
     private var timerSubscription: Cancellable?
     
-    @Published var interval: Double = 1.0 {
-        didSet {
-            scheduleNextBuffer()
-        }
-    }
+    @Published private var currentPlayingSound: Playable?
+    @Published var interval: Double = 1.0
     
     @Published var pitch: Double = 0 {
         didSet {
@@ -48,6 +47,7 @@ final class AudioEngineManager: ObservableObject {
         }
     }
     
+    // MARK: - Initialization
     private init() {
         setupAudioSession()
         setupEngine()
@@ -74,10 +74,18 @@ extension AudioEngineManager {
     }
     
     private func setupConnections() {
+        if engine.isRunning {
+            engine.stop()
+        }
         if let audioFile = audioFile {
             engine.connect(player, to: pitchEffect, format: audioFile.processingFormat)
             engine.connect(pitchEffect, to: volumeEffect, format: audioFile.processingFormat)
             engine.connect(volumeEffect, to: engine.mainMixerNode, format: audioFile.processingFormat)
+        }
+        do {
+            try engine.start()
+        } catch {
+            print("Unable to start engine: \(error.localizedDescription)")
         }
     }
     
@@ -90,6 +98,7 @@ extension AudioEngineManager {
             .removeDuplicates()
             .debounce(for: .milliseconds(300), scheduler: RunLoop.main)
             .sink { [weak self] _ in
+                self?.timerSubscription?.cancel()
                 self?.scheduleNextBuffer()
             }
     }
@@ -101,6 +110,8 @@ extension AudioEngineManager {
 
     func play<T: Playable>(with sound: T) {
         print(#function)
+        
+        currentPlayingSound = sound
         
         let targetFile = sound.filter.rawValue
         guard let fileURL = Bundle.main.url(forResource: targetFile, withExtension: MusicExtension.mp3.rawValue) else {
@@ -117,7 +128,7 @@ extension AudioEngineManager {
                 audioVariation = customSound.audioVariation
             }
             
-            scheduleNextBuffer()
+            scheduleNextBuffer(with: sound)
             
         } catch {
             print(error.localizedDescription)
@@ -159,7 +170,7 @@ extension AudioEngineManager {
      다음 오디오 버퍼를 스케줄링합니다. 준비된 버퍼를 사용해 오디오를 재생하고, 주어진 인터벌에 따라 다음 버퍼 재생을 스케줄링합니다.
      Combine 프레임워크의 Timer.publish를 사용하여 지정된 인터벌마다 버퍼 재생을 반복합니다.
      */
-    private func scheduleNextBuffer() {
+    private func scheduleNextBuffer(with playingSound: Playable? = nil) {
         print(#function)
         
         guard let buffer = audioBuffer else {
@@ -167,9 +178,19 @@ extension AudioEngineManager {
             return
         }
         
+        guard let sound = playingSound ?? currentPlayingSound else {
+            print("No playing sound")
+            return
+        }
+        
         // 취소 가능한 타이머를 만듭니다.
         timerSubscription?.cancel()
-        timerSubscription = Timer.publish(every: interval, on: RunLoop.main, in: .common)
+        
+        timerSubscription = Timer.publish(
+            every: interval + sound.filter.duration,
+            on: RunLoop.main,
+            in: .common
+        )
             .autoconnect()
             .sink { [weak self] _ in
                 guard let self = self else { return }
