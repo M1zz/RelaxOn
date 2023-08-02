@@ -20,7 +20,7 @@ struct DragCircularSlider: View {
     @State private var currentFilterIndex = 0
     
     /// 회전각도 관련 속성
-    @State var angle: Double = Double.random(in: 0...360)
+    @State var angle: Double = 0.0
     
     /// 이미지의 위치와 방향을 정하는 속성
     @State private var rotationAngle = Angle(degrees: 0)
