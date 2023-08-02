@@ -1,11 +1,11 @@
 {
   "images" : [
     {
+      "filename" : "Equalizer.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "Equalizer.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

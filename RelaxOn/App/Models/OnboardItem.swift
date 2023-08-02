@@ -25,8 +25,8 @@ struct OnboardItem {
                 buttonText: OnboardButtonText.continue.rawValue
             ),
             OnboardItem(
-                imageName: OnboardInfo.IconName.Equalizerbutton.rawValue,
-                description: OnboardInfo.IconText.Equlizerbutton.rawValue,
+                imageName: OnboardInfo.IconName.Equalizer.rawValue,
+                description: OnboardInfo.IconText.Equlizer.rawValue,
                 buttonText: OnboardButtonText.continue.rawValue
             ),
             OnboardItem(
