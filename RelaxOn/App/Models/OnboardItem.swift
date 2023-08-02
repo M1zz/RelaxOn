@@ -20,23 +20,23 @@ struct OnboardItem {
     static func getAll() -> [OnboardItem] {
         return [
             OnboardItem(
-                imageName: OnboardInfo.IconName.lamp.rawValue,
-                description: OnboardInfo.IconText.lamp.rawValue,
+                imageName: OnboardInfo.IconName.Lamp.rawValue,
+                description: OnboardInfo.IconText.Lamp.rawValue,
                 buttonText: OnboardButtonText.continue.rawValue
             ),
             OnboardItem(
-                imageName: OnboardInfo.IconName.equalizerbutton.rawValue,
-                description: OnboardInfo.IconText.equlizerbutton.rawValue,
+                imageName: OnboardInfo.IconName.Equalizer.rawValue,
+                description: OnboardInfo.IconText.Equlizer.rawValue,
                 buttonText: OnboardButtonText.continue.rawValue
             ),
             OnboardItem(
-                imageName: OnboardInfo.IconName.musicplayer.rawValue,
-                description: OnboardInfo.IconText.musicplayer.rawValue,
+                imageName: OnboardInfo.IconName.Musicplayer.rawValue,
+                description: OnboardInfo.IconText.Musicplayer.rawValue,
                 buttonText: OnboardButtonText.continue.rawValue
             ),
             OnboardItem(
-                imageName: OnboardInfo.IconName.headphone.rawValue,
-                description: OnboardInfo.IconText.headphone.rawValue,
+                imageName: OnboardInfo.IconName.Headphone.rawValue,
+                description: OnboardInfo.IconText.Headphone.rawValue,
                 buttonText: OnboardButtonText.start.rawValue
             )
         ]
