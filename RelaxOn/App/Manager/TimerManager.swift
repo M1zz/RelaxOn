@@ -109,7 +109,7 @@ class TimerManager: ObservableObject {
                     .padding()
                     .font(.system(size: 50, weight: .light))
                     .onAppear {
-                        if (self.remainingSeconds == 0) {
+                        if self.remainingSeconds == 0 {
                             self.startTimer(timerManager: self)
                         }
                     }
@@ -122,7 +122,7 @@ class TimerManager: ObservableObject {
                     .padding()
                     .font(.system(size: 60, weight: .light))
                     .onAppear {
-                        if (self.remainingSeconds == 0) {
+                        if self.remainingSeconds == 0 {
                             self.startTimer(timerManager: self)
                         }
                     }
@@ -144,7 +144,7 @@ class TimerManager: ObservableObject {
                 .foregroundColor(Color(.TimerMyListBackground))
                 .rotationEffect(Angle(degrees: 270.0))
                 .onAppear {
-                    if (self.remainingSeconds == 0) {
+                    if self.remainingSeconds == 0 {
                         self.startTimeprogressBar(timerManager: self)
                     }
                 }
