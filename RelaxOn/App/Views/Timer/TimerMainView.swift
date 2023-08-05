@@ -119,7 +119,7 @@ struct TimerMainView: View {
                                             .frame(width: 80, height: 80)
                                     }
                                 } else {
-                                    Image(TimerButton.resume_circle.rawValue)
+                                    Image(TimerButton.start_circle.rawValue)
                                         .resizable()
                                         .frame(width: 80, height: 80)
                                 }
