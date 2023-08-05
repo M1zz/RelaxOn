@@ -69,6 +69,7 @@ struct TimerMainView: View {
                     Spacer()
                     
                     HStack {
+                        // 왼쪽 버튼(리셋)
                         Button {
                             timerManager.stopTimer(timerManager: timerManager)
                             isShowingTimerProgressView = false
@@ -86,6 +87,7 @@ struct TimerMainView: View {
                         
                         Spacer ()
                         
+                        // 오른쪽 버튼(시작, 중단)
                         Button {
                             if isShowingTimerProgressView {
                                 if let timer = timerManager.textTimer {
