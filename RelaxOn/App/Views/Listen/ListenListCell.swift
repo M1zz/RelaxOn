@@ -36,6 +36,7 @@ struct ListenListCell: View {
                 .foregroundColor(Color(.ListenListCellUnderLine))
                 .padding(.vertical, 2)
                 .background(Color(.DefaultBackground))
+                .offset(y: 12)
         }
         .background(Color(.DefaultBackground))
     }
