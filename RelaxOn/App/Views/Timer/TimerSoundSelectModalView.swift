@@ -28,8 +28,6 @@ struct TimerSoundSelectModalView: View {
                         if viewModel.isPlaying {
                             viewModel.stopSound()
                             viewModel.play(with: viewModel.sound)
-                        } else {
-                            viewModel.play(with: viewModel.sound)
                         }
                         presentationMode.wrappedValue.dismiss()
                     }) {
