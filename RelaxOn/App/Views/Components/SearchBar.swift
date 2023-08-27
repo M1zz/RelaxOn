@@ -17,58 +17,48 @@ struct SearchBar: View {
     var body: some View {
         HStack {
             Image(systemName: "magnifyingglass")
-                .foregroundColor(Color(.SearchBarText))
-                .padding(.horizontal, 6)
-            
-            if isEditing {
-                TextField("", text: $text)
-                    .font(.system(size: 14, weight: .regular))
-                    .foregroundColor(Color(.SearchBarText))
-                    .layoutPriority(1)
-                    .textFieldStyle(.plain)
-                    .transition(.opacity)
+                .foregroundColor(
+                    text.isEmpty ?
+                    Color(.SearchBarText) : Color(.SearchBarText))
 
-            } else {
-                Button(action: {
-                    withAnimation {
-                        isEditing.toggle()
-                    }
-                }) {
-                    HStack {
-                        Text("저장한 나만의 소리를 검색해보세요")
-                            .font(.system(size: 14))
-                            .foregroundColor(Color(.SearchBarText))
-                            .frame(minHeight: 40)
-                        
-                        Spacer()
-                    }
-                }
-                .transition(.opacity)
-                .frame(maxWidth: .infinity)
-            }
-            
-            if !text.isEmpty {
-                Button(action: {
-                    text = ""
-                    withAnimation {
-                        isEditing.toggle()
-                    }
-                }) {
+            TextField("저장한 나만의 소리를 검색해보세요", text: $text)
+                .autocorrectionDisabled(true)
+                .foregroundColor(Color(.SearchBarText))
+                .overlay(
                     Image(systemName: "xmark.circle.fill")
+                        .padding()
+                        .offset(x: 10)
                         .foregroundColor(Color(.SearchBarText))
-                }
-            }
+                        .opacity(text.isEmpty ? 0.0 : 1.0)
+                        .onTapGesture {
+                            text = ""
+                            UIApplication.shared.endEditing()
+                        }
+                    , alignment: .trailing
+                )
         }
+        .font(.system(size: 14))
         .frame(minHeight: 40)
         .padding(.horizontal, 6)
         .padding(.vertical, 2)
-        .background(Color(.SearchBarBackground))
-        .cornerRadius(8)
+        .background(
+            RoundedRectangle(cornerRadius: 8)
+                .fill(Color(.SearchBarBackground))
+        )
     }
 }
+
 
 struct SearchBarView_Previews: PreviewProvider {
     static var previews: some View {
         SearchBar(text: .constant("저장한 나만의 소리를 검색해보세요"))
+    }
+}
+
+import UIKit
+
+extension UIApplication {
+    func endEditing() {
+        sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }
