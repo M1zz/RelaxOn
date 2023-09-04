@@ -15,8 +15,8 @@ class SceneDelegate: NSObject, UIWindowSceneDelegate {
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
-        WidgetManager.closeApp()
-        WidgetManager.setupTimerToLockScreendWidget(settedSeconds: 0)
+        // TODO: WidgetManager - closeApp()
+        // TODO: WidgetManager - setupTimerToLockScreendWidget(settedSeconds: 0)
     }
 
     func sceneDidBecomeActive(_ scene: UIScene) {
