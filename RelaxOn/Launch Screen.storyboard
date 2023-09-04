@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -18,22 +19,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="obG-Y5-kRd">
-                                <rect key="frame" x="0.0" y="876" width="414" height="0.0"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SplashImage" translatesAutoresizingMaskIntoConstraints="NO" id="iln-q3-rs2">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LaunchScreenRelaxOnLogo" translatesAutoresizingMaskIntoConstraints="NO" id="nN7-Hg-Ube">
+                                <rect key="frame" x="145" y="314" width="124" height="25"/>
                             </imageView>
                         </subviews>
+                        <color key="backgroundColor" red="0.47843137254901957" green="0.40392156862745099" blue="0.96078431372549022" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstAttribute="top" secondItem="iln-q3-rs2" secondAttribute="top" id="JxH-6C-UUZ"/>
-                            <constraint firstItem="iln-q3-rs2" firstAttribute="bottom" secondItem="Ze5-6b-2t3" secondAttribute="bottom" id="MTd-eb-74U"/>
-                            <constraint firstAttribute="trailing" secondItem="iln-q3-rs2" secondAttribute="trailing" id="Zgk-zn-VNr"/>
-                            <constraint firstItem="iln-q3-rs2" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="cGG-pU-4R3"/>
+                            <constraint firstItem="nN7-Hg-Ube" firstAttribute="top" secondItem="sKx-qq-tja" secondAttribute="bottom" constant="266" id="ken-Da-AHh"/>
+                            <constraint firstItem="nN7-Hg-Ube" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="n1n-rF-rlm"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -43,6 +36,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="SplashImage" width="390" height="844"/>
+        <image name="LaunchScreenRelaxOnLogo" width="124" height="25"/>
     </resources>
 </document>
