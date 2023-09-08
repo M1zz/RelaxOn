@@ -26,8 +26,8 @@ struct TimePickerView: View {
                 })
                 .pickerStyle(.wheel)
                 
-                Text("hours")
-                    .font(.system(size: 23))
+                Text("시간")
+                    .font(.system(size: 20))
                     .padding(.horizontal, 10)
                 
                 Picker("Time Picker - minutes", selection: $selectedTimeIndexMinutes, content: {
@@ -38,8 +38,8 @@ struct TimePickerView: View {
                 })
                 .pickerStyle(.wheel)
                 
-                Text("min")
-                    .font(.system(size: 23))
+                Text("분")
+                    .font(.system(size: 20))
                     .padding(.horizontal, 10)
                 
             }
