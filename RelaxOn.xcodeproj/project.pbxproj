@@ -93,14 +93,14 @@
 			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		CC5AC116289C033D00FE847B /* Embed App Extensions */ = {
+		CC5AC116289C033D00FE847B /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 12;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
 			);
-			name = "Embed App Extensions";
+			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -446,7 +446,7 @@
 				58DE617C2839C13900F25769 /* Frameworks */,
 				58DE617D2839C13900F25769 /* Resources */,
 				21B7A66E28A31DE800E90744 /* Embed Watch Content */,
-				CC5AC116289C033D00FE847B /* Embed App Extensions */,
+				CC5AC116289C033D00FE847B /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 				5958296F2A1F21140009D761 /* PBXBuildRule */,
@@ -466,7 +466,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1400;
-				LastUpgradeCheck = 1340;
+				LastUpgradeCheck = 1430;
 				TargetAttributes = {
 					58DE617E2839C13900F25769 = {
 						CreatedOnToolsVersion = 13.4;
@@ -683,8 +683,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				VALIDATE_PRODUCT = YES;
 				WATCHOS_DEPLOYMENT_TARGET = 8.0;
 			};
