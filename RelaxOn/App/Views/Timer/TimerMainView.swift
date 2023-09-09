@@ -104,7 +104,8 @@ struct TimerMainView: View {
                                 if let sound = viewModel.selectedSound {
                                     viewModel.play(with: sound)
                                 }
-                                isShowingTimerProgressView = true
+                                if timerManager.selectedTimeIndexHours + timerManager.selectedTimeIndexMinutes > 0
+                                { isShowingTimerProgressView = true }
                             }
                         } label: {
                             if isShowingTimerProgressView == false {
