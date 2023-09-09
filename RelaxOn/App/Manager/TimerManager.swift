@@ -144,7 +144,7 @@ class TimerManager: ObservableObject {
                 .foregroundColor(Color(.TimerMyListBackground))
                 .rotationEffect(Angle(degrees: 270.0))
                 .onAppear {
-                    if self.remainingSeconds == 0 {
+                    if self.remainingSeconds != 0 {
                         self.startTimeprogressBar(timerManager: self)
                     }
                 }
