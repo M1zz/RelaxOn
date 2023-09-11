@@ -54,6 +54,9 @@ struct TimerSoundSelectModalView: View {
         .onAppear {
             viewModel.loadSound()
         }
+        .onDisappear{
+            viewModel.searchText = ""
+        }
     }
 }
 
