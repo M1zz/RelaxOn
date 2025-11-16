@@ -30,10 +30,20 @@ class TimerManager: ObservableObject {
     // 타이머객체 실행
     func startTimer(timerManager: TimerManager) {
         self.remainingSeconds = getTime(timerManager: self)
-        
+
+        // 페이드 인 효과 (3초)
+        AudioEngineManager.shared.fadeIn(duration: 3.0)
+
         self.textTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
             self.remainingSeconds -= 1
-            
+
+            // 타이머 종료 10초 전에 페이드 아웃 시작
+            if self.remainingSeconds == 10 {
+                AudioEngineManager.shared.fadeOut(duration: 10.0) {
+                    // 페이드 아웃 완료 후 실행
+                }
+            }
+
             if self.remainingSeconds <= 0 {
                 timer.invalidate()
                 self.remainingSeconds = 0
@@ -58,6 +68,7 @@ class TimerManager: ObservableObject {
         self.progressTimer?.invalidate()
         self.remainingSeconds = 0
         self.progress = 1.0
+        AudioEngineManager.shared.cancelFade()
         self.viewModel?.stopSound()
     }
     
@@ -66,14 +77,25 @@ class TimerManager: ObservableObject {
         self.textTimer = nil
         self.progressTimer?.invalidate()
         self.progressTimer = nil
+        AudioEngineManager.shared.cancelFade()
         self.viewModel?.stopSound()
     }
     
     // 타이머 재개
     func resumeTimer(timerManager: TimerManager) {
+        // 페이드 인 효과 (재개 시)
+        AudioEngineManager.shared.fadeIn(duration: 2.0)
+
         self.textTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
             self.remainingSeconds -= 1
-            
+
+            // 타이머 종료 10초 전에 페이드 아웃 시작
+            if self.remainingSeconds == 10 {
+                AudioEngineManager.shared.fadeOut(duration: 10.0) {
+                    // 페이드 아웃 완료 후 실행
+                }
+            }
+
             if self.remainingSeconds <= 0 {
                 timer.invalidate()
                 self.remainingSeconds = 0
@@ -95,6 +117,7 @@ class TimerManager: ObservableObject {
             if self.progress <= 0 {
                 timer.invalidate()
                 self.progress = 1.0
+                // 페이드 아웃이 이미 진행 중이므로 여기서는 stopSound만 호출
                 self.viewModel?.stopSound()
                 self.timerDidFinish?()
             }

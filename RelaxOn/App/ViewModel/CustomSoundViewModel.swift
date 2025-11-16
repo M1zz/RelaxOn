@@ -108,7 +108,28 @@ final class CustomSoundViewModel: ObservableObject {
             }
         }
     }
-    
+
+    /// sound의 간격 변동폭 저장
+    @Published var intervalVariation: Float = 0.0 {
+        didSet {
+            audioEngineManager.audioVariation.intervalVariation = intervalVariation
+        }
+    }
+
+    /// sound의 볼륨 변동폭 저장
+    @Published var volumeVariation: Float = 0.0 {
+        didSet {
+            audioEngineManager.audioVariation.volumeVariation = volumeVariation
+        }
+    }
+
+    /// sound의 피치 변동폭 저장
+    @Published var pitchVariation: Float = 0.0 {
+        didSet {
+            audioEngineManager.audioVariation.pitchVariation = pitchVariation
+        }
+    }
+
     @Published var filters: [AudioFilter] = []
     
     /// 현재 재생 상태에 따른 버튼 이미지 Asset 이름
@@ -186,27 +207,121 @@ extension CustomSoundViewModel {
             print("이미 이 파일이 존재합니다. 다른 로직을 수행할 수 없습니다.")
             return false
         }
-        
-        let variation = AudioVariation(volume: volume, pitch: pitch, interval: interval)
+
+        let variation = AudioVariation(
+            volume: volume,
+            pitch: pitch,
+            interval: interval,
+            intervalVariation: intervalVariation,
+            volumeVariation: volumeVariation,
+            pitchVariation: pitchVariation
+        )
         let customSound = CustomSound(title: title, category: sound.category, variation: variation, filter: filter, color: color)
         if !fileManager.saveCustomSound(customSound) {
             return false
         }
-        
+
         customSounds.append(customSound)
         userDefaults.customSounds = customSounds
         loadSound()
-        
+
         return true
     }
 
     func remove(at index: Int) {
         var customSounds = userDefaults.customSounds
+        let removedSound = customSounds[index]
+        // 파일도 함께 삭제
+        fileManager.deleteCustomSound(title: removedSound.title)
         customSounds.remove(at: index)
         userDefaults.customSounds = customSounds
         loadSound()
     }
-    
+
+    func update(originalSound: CustomSound, newTitle: String, newColor: String) -> Bool {
+        var customSounds = userDefaults.customSounds
+
+        // 제목이 변경되었고, 새 제목이 이미 존재하는 경우
+        if originalSound.title != newTitle && customSounds.contains(where: { $0.title == newTitle }) {
+            print("이미 이 제목의 파일이 존재합니다.")
+            return false
+        }
+
+        // ID로 기존 사운드 찾기
+        guard let index = customSounds.firstIndex(where: { $0.id == originalSound.id }) else {
+            print("수정할 사운드를 찾을 수 없습니다.")
+            return false
+        }
+
+        // 업데이트된 CustomSound 생성 (기존 ID 유지)
+        var updatedSound = customSounds[index]
+        let oldTitle = updatedSound.title
+        updatedSound.title = newTitle
+        updatedSound.color = newColor
+        updatedSound.audioVariation = AudioVariation(
+            volume: volume,
+            pitch: pitch,
+            interval: interval,
+            intervalVariation: intervalVariation,
+            volumeVariation: volumeVariation,
+            pitchVariation: pitchVariation
+        )
+        updatedSound.filter = filter
+
+        // 파일 업데이트
+        if !fileManager.updateCustomSound(updatedSound, oldTitle: oldTitle) {
+            return false
+        }
+
+        // UserDefaults 업데이트
+        customSounds[index] = updatedSound
+        userDefaults.customSounds = customSounds
+        loadSound()
+
+        return true
+    }
+
+    /// 샘플 데이터 생성 (테스트용)
+    func createSampleData() {
+        let sampleSounds: [(String, SoundCategory, AudioFilter, AudioVariation, String)] = [
+            ("아침 명상", .Bird, .Forest, AudioVariation(volume: 0.5, pitch: -1.0, interval: 1.8), "C8E6C9"),
+            ("집중 타임", .WaterDrop, .WaterDrop, AudioVariation(volume: 0.7, pitch: 0.5, interval: 0.8), "D0E3F0"),
+            ("숙면 도우미", .SingingBowl, .Empty, AudioVariation(volume: 0.4, pitch: -1.5, interval: 2.0), "F5C89B"),
+            ("빗소리 감성", .WaterDrop, .Sink, AudioVariation(volume: 0.8, pitch: -1.5, interval: 0.6), "A8C8E0"),
+            ("차분한 밤", .Bird, .Owl, AudioVariation(volume: 0.6, pitch: -0.5, interval: 1.5), "9EC49A"),
+            ("동굴의 물소리", .WaterDrop, .Cave, AudioVariation(volume: 0.6, pitch: -2.0, interval: 1.5), "B8D4E8"),
+            ("명상 벨", .SingingBowl, .SingingBowl, AudioVariation(volume: 0.5, pitch: 0.0, interval: 1.2), "FFD4A3"),
+            ("새벽 새소리", .Bird, .Cuckoo, AudioVariation(volume: 0.5, pitch: -0.5, interval: 1.5), "ACD6A6"),
+            ("휴식의 시간", .SingingBowl, .Focus, AudioVariation(volume: 0.6, pitch: -0.5, interval: 1.8), "FDD0A8"),
+            ("자연의 소리", .Bird, .Woodpecker, AudioVariation(volume: 0.7, pitch: 0.0, interval: 1.0), "B5D8A7")
+        ]
+
+        var customSounds = userDefaults.customSounds
+
+        for (title, category, filter, variation, color) in sampleSounds {
+            // 중복 체크
+            if customSounds.contains(where: { $0.title == title }) {
+                continue
+            }
+
+            let customSound = CustomSound(
+                title: title,
+                category: category,
+                variation: variation,
+                filter: filter,
+                color: color
+            )
+
+            // 파일 저장
+            if fileManager.saveCustomSound(customSound) {
+                customSounds.append(customSound)
+            }
+        }
+
+        userDefaults.customSounds = customSounds
+        loadSound()
+    }
+
 }
 
 extension CustomSoundViewModel {

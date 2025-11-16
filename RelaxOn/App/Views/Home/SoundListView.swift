@@ -16,8 +16,9 @@ struct SoundListView: View {
         GridItem(.flexible()),
         GridItem(.flexible())
     ]
-    
+
     @EnvironmentObject var appState: AppState
+    @EnvironmentObject var viewModel: CustomSoundViewModel
     @State private var searchText = ""
 
     var body: some View {
@@ -27,10 +28,29 @@ struct SoundListView: View {
                     .ignoresSafeArea()
                 
                 VStack(alignment: .leading) {
-                    ZStack {
-                        Text(TabItems.home.rawValue)
+                    HStack {
+                        Text("사운드 선택")
                             .foregroundColor(Color(.TitleText))
                             .font(.system(size: 24, weight: .bold))
+
+                        Spacer()
+
+                        // 샘플 데이터 생성 버튼
+                        Button(action: {
+                            viewModel.createSampleData()
+                        }) {
+                            HStack(spacing: 4) {
+                                Image(systemName: "wand.and.stars")
+                                    .font(.system(size: 14))
+                                Text("샘플")
+                                    .font(.system(size: 13, weight: .semibold))
+                            }
+                            .foregroundColor(.white)
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 6)
+                            .background(Color(.PrimaryPurple))
+                            .cornerRadius(8)
+                        }
                     }
                     .padding(.horizontal, 24)
                     .padding(.vertical, 4)
@@ -38,9 +58,17 @@ struct SoundListView: View {
                     SearchBar(text: $searchText)
                         .padding(.horizontal, 24)
                         .padding(.vertical, 16)
-                    
+
                     ScrollView {
-                        gridView()
+                        VStack(alignment: .leading, spacing: 16) {
+                            // 추천 프리셋 섹션
+                            if searchText.isEmpty {
+                                recommendedSection()
+                            }
+
+                            // 기존 사운드 그리드
+                            gridView()
+                        }
                     }
                 }
 
@@ -54,17 +82,87 @@ struct SoundListView: View {
     }
     
     @ViewBuilder
-    private func gridView() -> some View {
-        
-        LazyVGrid(columns: columns) {
-            ForEach(filteredSounds(), id: \.self) { originalSound in
-                NavigationLink(destination: SoundDetailView(isTutorial: false, originalSound: originalSound)) {
-                    gridViewItem(originalSound)
-                }
+    private func recommendedSection() -> some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                Image(systemName: "star.fill")
+                    .foregroundColor(Color(.PrimaryPurple))
+                    .font(.system(size: 16))
+                Text("추천 조합")
+                    .font(.system(size: 18, weight: .bold))
+                    .foregroundColor(Color(.TitleText))
             }
-            .padding(.bottom, 30)
+            .padding(.horizontal, 24)
+
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 12) {
+                    ForEach(Preset.recommended) { preset in
+                        NavigationLink(destination: presetDetailView(preset: preset)) {
+                            presetCard(preset: preset)
+                        }
+                    }
+                }
+                .padding(.horizontal, 24)
+            }
         }
-        .padding(24)
+    }
+
+    @ViewBuilder
+    private func presetCard(preset: Preset) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Image(preset.category.imageName)
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(width: 140, height: 100)
+                .background(Color(hex: preset.color))
+                .cornerRadius(8)
+                .clipped()
+
+            VStack(alignment: .leading, spacing: 4) {
+                Text(preset.title)
+                    .font(.system(size: 14, weight: .bold))
+                    .foregroundColor(Color(.Text))
+                    .lineLimit(1)
+
+                Text(preset.description)
+                    .font(.system(size: 11))
+                    .foregroundColor(Color(.Text).opacity(0.6))
+                    .lineLimit(2)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            .frame(width: 140)
+        }
+        .frame(width: 140)
+    }
+
+    @ViewBuilder
+    private func presetDetailView(preset: Preset) -> some View {
+        SoundDetailView(
+            isTutorial: false,
+            originalSound: preset.toOriginalSound(),
+            presetVariation: preset.audioVariation
+        )
+    }
+
+    @ViewBuilder
+    private func gridView() -> some View {
+
+        VStack(alignment: .leading, spacing: 12) {
+            Text("원본 사운드")
+                .font(.system(size: 18, weight: .bold))
+                .foregroundColor(Color(.TitleText))
+                .padding(.horizontal, 24)
+
+            LazyVGrid(columns: columns) {
+                ForEach(filteredSounds(), id: \.self) { originalSound in
+                    NavigationLink(destination: SoundDetailView(isTutorial: false, originalSound: originalSound)) {
+                        gridViewItem(originalSound)
+                    }
+                }
+                .padding(.bottom, 30)
+            }
+            .padding(.horizontal, 24)
+        }
     }
     
     @ViewBuilder

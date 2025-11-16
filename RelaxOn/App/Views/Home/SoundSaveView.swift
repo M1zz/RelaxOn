@@ -11,16 +11,21 @@ import SwiftUI
  이전 화면에서 커스텀 했던 음원에 이름과 이미지를 지정하여 파일로 저장하는 기능이 있는 View
  */
 struct SoundSaveView: View {
-    
+
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var appState: AppState
     @FocusState private var isFocused: Bool
     @State private var isShowingAlert = false
     @State private var alertMessage = ""
     @State var title: String = ""
-    
+
     @EnvironmentObject var viewModel: CustomSoundViewModel
     @State var originalSound: OriginalSound
+    var editingSound: CustomSound? = nil
+
+    var isEditMode: Bool {
+        editingSound != nil
+    }
 
     var body: some View {
         ZStack {
@@ -45,17 +50,28 @@ struct SoundSaveView: View {
                     Spacer()
                     
                     Button {
-                        
+
                         if title.count <= 0 {
                             alertMessage = "한 글자 이상 입력하세요."
                             isShowingAlert = true
                         } else {
-                            let success = viewModel.save(
-                                with: originalSound,
-                                filter: viewModel.sound.filter,
-                                title: title,
-                                color: viewModel.color)
-                            
+                            let success: Bool
+
+                            if isEditMode, let editing = editingSound {
+                                // 편집 모드
+                                success = viewModel.update(
+                                    originalSound: editing,
+                                    newTitle: title,
+                                    newColor: viewModel.color)
+                            } else {
+                                // 새로 저장 모드
+                                success = viewModel.save(
+                                    with: originalSound,
+                                    filter: viewModel.sound.filter,
+                                    title: title,
+                                    color: viewModel.color)
+                            }
+
                             if success {
                                 presentationMode.wrappedValue.dismiss()
                                 presentationMode.wrappedValue.dismiss()
@@ -116,8 +132,16 @@ struct SoundSaveView: View {
         }
         .onAppear {
             viewModel.stopSound()
-            isFocused = true
-            viewModel.color = originalSound.color
+            // 키보드 자동 표시 제거
+            isFocused = false
+
+            // 편집 모드일 경우 기존 값 로드
+            if isEditMode, let editing = editingSound {
+                title = editing.title
+                viewModel.color = editing.color
+            } else {
+                viewModel.color = originalSound.color
+            }
         }
         .onDisappear {
             viewModel.stopSound()

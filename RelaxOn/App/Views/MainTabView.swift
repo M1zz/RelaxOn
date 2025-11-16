@@ -15,26 +15,14 @@ struct MainTabView: View {
     var body: some View {
         ZStack {
             if !isFirstVisit {
-                TabView(selection: $appState.selectedTab) {
-                    ForEach(appState.tabItems, id: \.id) { item in
-                        item.view
-                            .tabItem {
-                                Image(item.imageName.rawValue)
-                                    .renderingMode(.template)
-                                    .resizable()
-                                    .frame(width: 24, height: 24)
-                                Text(item.title.rawValue)
-                            }.tag(item.id)
-                    }
-                }
-                .accentColor(Color(.PrimaryPurple))
-                .environmentObject(appState)
+                ListenListView()
+                    .environmentObject(appState)
             }
 
             if isFirstVisit && appState.showSoundDetail {
-                SoundListView()
+                ListenListView()
             }
-            
+
             if isFirstVisit && !appState.showSoundDetail {
                 OnboardingView(isFirstVisit: $isFirstVisit)
             }

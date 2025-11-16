@@ -13,16 +13,12 @@ import Foundation
 
 /// 탭 바 아이템
 enum TabItems: String {
-    case home = "홈"
     case listen = "듣기"
-    case timer = "타이머"
 }
 
 /// 탭 바 아이콘 파일 이름
 enum TabBarIcon: String {
-    case home = "home"
     case listen = "headphones"
-    case timer = "alarm"
 }
 
 /// 음악 파일 확장자를 하드코딩하지 않기 위해 생성한 객체

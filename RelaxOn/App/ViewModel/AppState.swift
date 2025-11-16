@@ -24,9 +24,7 @@ final class AppState: ObservableObject {
     @Published var showSoundDetail: Bool = false
     
     var tabItems = [
-        TabItemInfo(view: AnyView(SoundListView()), imageName: TabBarIcon.home, title: .home),
-        TabItemInfo(view: AnyView(ListenListView()), imageName: TabBarIcon.listen, title: .listen),
-        TabItemInfo(view: AnyView(TimerMainView()), imageName: TabBarIcon.timer, title: .timer)
+        TabItemInfo(view: AnyView(ListenListView()), imageName: TabBarIcon.listen, title: .listen)
     ]
     
     func moveToTab(_ tab: TabItems) {
