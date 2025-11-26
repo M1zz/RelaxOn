@@ -1,224 +1,18 @@
 //
-//  SoundListView.swift
+//  CreateNewSoundView.swift
 //  RelaxOn
 //
-//  Created by Doyeon on 2023/03/07.
+//  Created by Claude on 2025/01/26.
 //
 
 import SwiftUI
-
-/**
- 앱에 저장된 Original Sound 정보들이 그리드 뷰 형태의 리스트로 나열된 Main View
- */
-struct SoundListView: View {
-
-    let columns = [
-        GridItem(.flexible()),
-        GridItem(.flexible())
-    ]
-
-    @EnvironmentObject var appState: AppState
-    @EnvironmentObject var viewModel: CustomSoundViewModel
-    @State private var searchText = ""
-
-    var body: some View {
-        NavigationStack {
-            ZStack {
-                Color(.DefaultBackground)
-                    .ignoresSafeArea()
-                
-                VStack(alignment: .leading) {
-                    HStack {
-                        Text("사운드 선택")
-                            .foregroundColor(Color(.TitleText))
-                            .font(.system(size: 24, weight: .bold))
-
-                        Spacer()
-
-                        // 새 사운드 만들기 버튼
-                        NavigationLink(destination: CreateNewSoundView()) {
-                            HStack(spacing: 4) {
-                                Image(systemName: "plus.circle.fill")
-                                    .font(.system(size: 14))
-                                Text("새로 만들기")
-                                    .font(.system(size: 13, weight: .semibold))
-                            }
-                            .foregroundColor(.white)
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 6)
-                            .background(Color(.PrimaryPurple))
-                            .cornerRadius(8)
-                        }
-
-                        // 샘플 데이터 생성 버튼
-                        Button(action: {
-                            viewModel.createSampleData()
-                        }) {
-                            HStack(spacing: 4) {
-                                Image(systemName: "wand.and.stars")
-                                    .font(.system(size: 14))
-                                Text("샘플")
-                                    .font(.system(size: 13, weight: .semibold))
-                            }
-                            .foregroundColor(.white.opacity(0.9))
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 6)
-                            .background(Color(.PrimaryPurple).opacity(0.7))
-                            .cornerRadius(8)
-                        }
-                    }
-                    .padding(.horizontal, 24)
-                    .padding(.vertical, 4)
-                    
-                    SearchBar(text: $searchText)
-                        .padding(.horizontal, 24)
-                        .padding(.vertical, 16)
-
-                    ScrollView {
-                        VStack(alignment: .leading, spacing: 16) {
-                            // 추천 프리셋 섹션
-                            if searchText.isEmpty {
-                                recommendedSection()
-                            }
-
-                            // 기존 사운드 그리드
-                            gridView()
-                        }
-                    }
-                }
-
-                .navigationDestination(
-                    isPresented: $appState.showSoundDetail) {
-                        SoundDetailView(isTutorial: false, originalSound: OriginalSound(name: "물방울", filter: .WaterDrop, category: .WaterDrop))
-                    }
-            }
-        }
-
-    }
-    
-    @ViewBuilder
-    private func recommendedSection() -> some View {
-        VStack(alignment: .leading, spacing: 12) {
-            HStack {
-                Image(systemName: "star.fill")
-                    .foregroundColor(Color(.PrimaryPurple))
-                    .font(.system(size: 16))
-                Text("추천 조합")
-                    .font(.system(size: 18, weight: .bold))
-                    .foregroundColor(Color(.TitleText))
-            }
-            .padding(.horizontal, 24)
-
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 12) {
-                    ForEach(Preset.recommended) { preset in
-                        NavigationLink(destination: presetDetailView(preset: preset)) {
-                            presetCard(preset: preset)
-                        }
-                    }
-                }
-                .padding(.horizontal, 24)
-            }
-        }
-    }
-
-    @ViewBuilder
-    private func presetCard(preset: Preset) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Image(preset.category.imageName)
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(width: 140, height: 100)
-                .background(Color(hex: preset.color))
-                .cornerRadius(8)
-                .clipped()
-
-            VStack(alignment: .leading, spacing: 4) {
-                Text(preset.title)
-                    .font(.system(size: 14, weight: .bold))
-                    .foregroundColor(Color(.Text))
-                    .lineLimit(1)
-
-                Text(preset.description)
-                    .font(.system(size: 11))
-                    .foregroundColor(Color(.Text).opacity(0.6))
-                    .lineLimit(2)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-            .frame(width: 140)
-        }
-        .frame(width: 140)
-    }
-
-    @ViewBuilder
-    private func presetDetailView(preset: Preset) -> some View {
-        SoundDetailView(
-            isTutorial: false,
-            originalSound: preset.toOriginalSound(),
-            presetVariation: preset.audioVariation
-        )
-    }
-
-    @ViewBuilder
-    private func gridView() -> some View {
-
-        VStack(alignment: .leading, spacing: 12) {
-            Text("원본 사운드")
-                .font(.system(size: 18, weight: .bold))
-                .foregroundColor(Color(.TitleText))
-                .padding(.horizontal, 24)
-
-            LazyVGrid(columns: columns) {
-                ForEach(filteredSounds(), id: \.self) { originalSound in
-                    NavigationLink(destination: SoundDetailView(isTutorial: false, originalSound: originalSound)) {
-                        gridViewItem(originalSound)
-                    }
-                }
-                .padding(.bottom, 30)
-            }
-            .padding(.horizontal, 24)
-        }
-    }
-    
-    @ViewBuilder
-    private func gridViewItem(_ originalSound: OriginalSound) -> some View {
-        
-        VStack(alignment: .leading) {
-            
-            Text(originalSound.category.displayName)
-                .font(.system(size: 16, weight: .bold))
-                .foregroundColor(Color(.Text))
-            
-            Image(originalSound.category.imageName)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(height: 140)
-                .background(Color(hex: originalSound.color))
-                .cornerRadius(8)
-        }
-    }
-    
-    private func filteredSounds() -> [OriginalSound] {
-        if searchText.isEmpty {
-            return SoundListView.originalSounds
-        } else {
-            return SoundListView.originalSounds.filter { $0.name.lowercased().contains(searchText.lowercased()) }
-        }
-    }
-}
-
-struct SoundListView_Previews: PreviewProvider {
-    static var previews: some View {
-        SoundListView()
-    }
-}
-
-// MARK: - Create New Sound View
+import UniformTypeIdentifiers
 
 /// 새로운 사운드를 드래그 앤 드롭으로 제작하는 뷰
 struct CreateNewSoundView: View {
     @Environment(\.dismiss) var dismiss
     @StateObject private var viewModel = CreateSoundViewModel()
+    @State private var isTargeted = false
 
     var body: some View {
         ZStack {
@@ -227,39 +21,7 @@ struct CreateNewSoundView: View {
 
             VStack(spacing: 0) {
                 // 헤더
-                HStack {
-                    Button(action: {
-                        dismiss()
-                    }) {
-                        HStack(spacing: 6) {
-                            Image(systemName: "chevron.left")
-                                .font(.system(size: 16, weight: .semibold))
-                            Text("뒤로")
-                                .font(.system(size: 16))
-                        }
-                        .foregroundColor(Color(.PrimaryPurple))
-                    }
-
-                    Spacer()
-
-                    Text("새 사운드 만들기")
-                        .font(.system(size: 18, weight: .bold))
-                        .foregroundColor(Color(.TitleText))
-
-                    Spacer()
-
-                    Button(action: {
-                        // 저장 로직
-                    }) {
-                        Text("완료")
-                            .font(.system(size: 16, weight: .semibold))
-                            .foregroundColor(viewModel.addedSounds.isEmpty ? Color(.Text).opacity(0.3) : Color(.PrimaryPurple))
-                    }
-                    .disabled(viewModel.addedSounds.isEmpty)
-                }
-                .padding(.horizontal, 24)
-                .padding(.vertical, 16)
-                .background(Color(.DefaultBackground))
+                headerView()
 
                 ScrollView {
                     VStack(spacing: 24) {
@@ -280,11 +42,47 @@ struct CreateNewSoundView: View {
             }
         }
         .navigationBarHidden(true)
-        .onDisappear {
-            viewModel.stopPreview()
-        }
     }
 
+    // MARK: - Header
+    @ViewBuilder
+    private func headerView() -> some View {
+        HStack {
+            Button(action: {
+                dismiss()
+            }) {
+                HStack(spacing: 6) {
+                    Image(systemName: "chevron.left")
+                        .font(.system(size: 16, weight: .semibold))
+                    Text("뒤로")
+                        .font(.system(size: 16))
+                }
+                .foregroundColor(Color(.PrimaryPurple))
+            }
+
+            Spacer()
+
+            Text("새 사운드 만들기")
+                .font(.system(size: 18, weight: .bold))
+                .foregroundColor(Color(.TitleText))
+
+            Spacer()
+
+            Button(action: {
+                // 저장 로직
+            }) {
+                Text("완료")
+                    .font(.system(size: 16, weight: .semibold))
+                    .foregroundColor(viewModel.addedSounds.isEmpty ? Color(.Text).opacity(0.3) : Color(.PrimaryPurple))
+            }
+            .disabled(viewModel.addedSounds.isEmpty)
+        }
+        .padding(.horizontal, 24)
+        .padding(.vertical, 16)
+        .background(Color(.DefaultBackground))
+    }
+
+    // MARK: - Empty Canvas
     @ViewBuilder
     private func emptyCanvasView() -> some View {
         VStack(spacing: 16) {
@@ -309,69 +107,82 @@ struct CreateNewSoundView: View {
 
                 // 물방울 프리뷰 (빈 상태)
                 if viewModel.addedSounds.isEmpty {
-                    VStack(spacing: 12) {
-                        ZStack {
-                            // 빈 물방울 윤곽선들
-                            ForEach(0..<3, id: \.self) { index in
-                                Circle()
-                                    .stroke(
-                                        Color.blue.opacity(0.15 - Double(index) * 0.05),
-                                        style: StrokeStyle(lineWidth: 2, dash: [5, 5])
-                                    )
-                                    .frame(width: CGFloat(60 + index * 40), height: CGFloat(60 + index * 40))
-                            }
-                        }
-
-                        VStack(spacing: 6) {
-                            Text("아직 사운드가 없습니다")
-                                .font(.system(size: 15, weight: .medium))
-                                .foregroundColor(Color(.Text).opacity(0.5))
-
-                            Text("아래에서 원본 사운드를 선택해주세요")
-                                .font(.system(size: 13))
-                                .foregroundColor(Color(.Text).opacity(0.4))
-                        }
-                    }
+                    emptyStateView()
                 } else {
                     // 레이어된 사운드들의 시각화
-                    ZStack {
-                        ForEach(Array(viewModel.addedSounds.enumerated()), id: \.offset) { index, sound in
-                            Circle()
-                                .stroke(
-                                    sound.color.opacity(0.6),
-                                    lineWidth: 3
-                                )
-                                .frame(width: 80, height: 80)
-                                .scaleEffect(1.0 + Double(index) * 0.3)
-                                .opacity(0.8 - Double(index) * 0.2)
-                        }
-
-                        VStack(spacing: 8) {
-                            Text("\(viewModel.addedSounds.count)개 레이어")
-                                .font(.system(size: 16, weight: .bold))
-                                .foregroundColor(Color(.TitleText))
-
-                            HStack(spacing: 4) {
-                                Image(systemName: "layers.fill")
-                                    .font(.system(size: 12))
-                                Text("탭하여 편집")
-                                    .font(.system(size: 12))
-                            }
-                            .foregroundColor(Color(.Text).opacity(0.6))
-                        }
-                        .padding(16)
-                        .background(
-                            RoundedRectangle(cornerRadius: 12)
-                                .fill(Color(.DefaultBackground).opacity(0.95))
-                                .shadow(color: Color.black.opacity(0.1), radius: 8)
-                        )
-                    }
+                    layeredVisualizationView()
                 }
             }
             .frame(height: 280)
         }
     }
 
+    @ViewBuilder
+    private func emptyStateView() -> some View {
+        VStack(spacing: 12) {
+            ZStack {
+                // 빈 물방울 윤곽선들
+                ForEach(0..<3, id: \.self) { index in
+                    Circle()
+                        .stroke(
+                            Color.blue.opacity(0.15 - Double(index) * 0.05),
+                            style: StrokeStyle(lineWidth: 2, dash: [5, 5])
+                        )
+                        .frame(width: CGFloat(60 + index * 40), height: CGFloat(60 + index * 40))
+                }
+            }
+
+            VStack(spacing: 6) {
+                Text("아직 사운드가 없습니다")
+                    .font(.system(size: 15, weight: .medium))
+                    .foregroundColor(Color(.Text).opacity(0.5))
+
+                Text("아래에서 원본 사운드를 선택해주세요")
+                    .font(.system(size: 13))
+                    .foregroundColor(Color(.Text).opacity(0.4))
+            }
+        }
+    }
+
+    @ViewBuilder
+    private func layeredVisualizationView() -> some View {
+        ZStack {
+            // 여러 레이어의 물방울들이 동시에 보이는 효과
+            ForEach(Array(viewModel.addedSounds.enumerated()), id: \.offset) { index, sound in
+                Circle()
+                    .stroke(
+                        sound.color.opacity(0.6),
+                        lineWidth: 3
+                    )
+                    .frame(width: 80, height: 80)
+                    .scaleEffect(1.0 + Double(index) * 0.3)
+                    .opacity(0.8 - Double(index) * 0.2)
+            }
+
+            // 중앙 정보
+            VStack(spacing: 8) {
+                Text("\(viewModel.addedSounds.count)개 레이어")
+                    .font(.system(size: 16, weight: .bold))
+                    .foregroundColor(Color(.TitleText))
+
+                HStack(spacing: 4) {
+                    Image(systemName: "layers.fill")
+                        .font(.system(size: 12))
+                    Text("탭하여 편집")
+                        .font(.system(size: 12))
+                }
+                .foregroundColor(Color(.Text).opacity(0.6))
+            }
+            .padding(16)
+            .background(
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(Color(.DefaultBackground).opacity(0.95))
+                    .shadow(color: Color.black.opacity(0.1), radius: 8)
+            )
+        }
+    }
+
+    // MARK: - Drop Zone
     @ViewBuilder
     private func dropZoneView() -> some View {
         VStack(spacing: 16) {
@@ -380,6 +191,7 @@ struct CreateNewSoundView: View {
                 .foregroundColor(Color(.Text).opacity(0.6))
                 .frame(maxWidth: .infinity, alignment: .leading)
 
+            // 드래그 앤 드롭 영역
             LazyVGrid(
                 columns: [
                     GridItem(.flexible(), spacing: 12),
@@ -397,6 +209,7 @@ struct CreateNewSoundView: View {
         }
     }
 
+    // MARK: - Added Sounds Section
     @ViewBuilder
     private func addedSoundsSection() -> some View {
         VStack(spacing: 16) {
@@ -434,6 +247,8 @@ struct CreateNewSoundView: View {
     }
 }
 
+// MARK: - Original Sound Card
+
 struct OriginalSoundCard: View {
     let sound: AvailableSound
     let onTap: () -> Void
@@ -442,6 +257,7 @@ struct OriginalSoundCard: View {
     var body: some View {
         Button(action: onTap) {
             VStack(spacing: 8) {
+                // 아이콘
                 ZStack {
                     Circle()
                         .fill(sound.color.opacity(0.15))
@@ -452,11 +268,13 @@ struct OriginalSoundCard: View {
                         .foregroundColor(sound.color)
                 }
 
+                // 이름
                 Text(sound.name)
                     .font(.system(size: 12, weight: .medium))
                     .foregroundColor(Color(.TitleText))
                     .lineLimit(1)
 
+                // Duration
                 Text(String(format: "%.1fs", sound.duration))
                     .font(.system(size: 10))
                     .foregroundColor(Color(.Text).opacity(0.5))
@@ -488,6 +306,8 @@ struct OriginalSoundCard: View {
     }
 }
 
+// MARK: - Added Sound Row
+
 struct AddedSoundRow: View {
     let sound: AddedSound
     let index: Int
@@ -497,6 +317,7 @@ struct AddedSoundRow: View {
     var body: some View {
         Button(action: onTap) {
             HStack(spacing: 16) {
+                // 순서 번호
                 Text("\(index + 1)")
                     .font(.system(size: 14, weight: .bold))
                     .foregroundColor(.white)
@@ -506,6 +327,7 @@ struct AddedSoundRow: View {
                             .fill(sound.color)
                     )
 
+                // 아이콘 & 이름
                 HStack(spacing: 12) {
                     Image(systemName: sound.icon)
                         .font(.system(size: 18))
@@ -535,6 +357,7 @@ struct AddedSoundRow: View {
 
                 Spacer()
 
+                // 삭제 버튼
                 Button(action: onRemove) {
                     Image(systemName: "xmark.circle.fill")
                         .font(.system(size: 22))
@@ -557,19 +380,15 @@ struct AddedSoundRow: View {
     }
 }
 
+// MARK: - View Models
+
 class CreateSoundViewModel: ObservableObject {
     @Published var availableSounds: [AvailableSound] = []
     @Published var addedSounds: [AddedSound] = []
     @Published var selectedSound: AddedSound?
 
-    private let audioManager = AudioEngineManager.shared
-
     init() {
         loadAvailableSounds()
-    }
-
-    deinit {
-        audioManager.stop()
     }
 
     private func loadAvailableSounds() {
@@ -659,9 +478,6 @@ class CreateSoundViewModel: ObservableObject {
     }
 
     func addSound(_ sound: AvailableSound) {
-        // 미리듣기 재생
-        playPreview(sound: sound)
-
         let newSound = AddedSound(
             id: UUID().uuidString,
             name: sound.name,
@@ -677,30 +493,6 @@ class CreateSoundViewModel: ObservableObject {
         }
     }
 
-    func playPreview(sound: AvailableSound) {
-        // 기존 재생 중지
-        audioManager.stop()
-
-        // 원본 사운드 생성
-        let originalSound = OriginalSound(
-            name: sound.name,
-            filter: sound.filter,
-            category: sound.category
-        )
-
-        // 짧게 재생 (3회 반복)
-        audioManager.play(with: originalSound)
-
-        // 3초 후 자동 중지
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) { [weak self] in
-            self?.audioManager.stop()
-        }
-    }
-
-    func stopPreview() {
-        audioManager.stop()
-    }
-
     func removeSound(_ sound: AddedSound) {
         withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
             addedSounds.removeAll { $0.id == sound.id }
@@ -709,8 +501,11 @@ class CreateSoundViewModel: ObservableObject {
 
     func selectSoundForEdit(_ sound: AddedSound) {
         selectedSound = sound
+        // 여기서 커스터마이징 뷰로 이동
     }
 }
+
+// MARK: - Data Models
 
 struct AvailableSound: Identifiable {
     let id: String
@@ -730,4 +525,14 @@ struct AddedSound: Identifiable {
     let category: SoundCategory
     let filter: AudioFilter
     var isCustomized: Bool
+}
+
+// MARK: - Preview
+
+struct CreateNewSoundView_Previews: PreviewProvider {
+    static var previews: some View {
+        NavigationStack {
+            CreateNewSoundView()
+        }
+    }
 }

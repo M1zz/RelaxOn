@@ -28,6 +28,9 @@ final class AudioEngineManager: ObservableObject {
 
     @Published private var currentPlayingSound: Playable?
     @Published var interval: Double = 1.0
+
+    // 실제 재생 이벤트를 알리기 위한 Publisher
+    let soundDidPlay = PassthroughSubject<(volume: Float, pitch: Float), Never>()
     
     @Published var pitch: Double = 0 {
         didSet {
@@ -357,6 +360,9 @@ extension AudioEngineManager {
                 if !self.player.isPlaying {
                     self.player.play()
                 }
+
+                // 재생 이벤트 발행 (물방울 애니메이션 싱크용)
+                self.soundDidPlay.send((volume: randomizedVolume, pitch: randomizedPitch))
 
                 // 다음 재생을 위한 새로운 타이머 (랜덤 간격으로 재스케줄)
                 self.scheduleNextBuffer()

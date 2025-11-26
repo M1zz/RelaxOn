@@ -35,6 +35,16 @@ struct ListenListView: View {
 
                 Spacer()
 
+                // 새 사운드 만들기 버튼
+                Button(action: {
+                    isShowingCreateModal = true
+                }) {
+                    Image(systemName: "plus.circle.fill")
+                        .font(.system(size: 24))
+                        .foregroundColor(Color(.PrimaryPurple))
+                }
+                .padding(.trailing, 12)
+
                 // 설정 버튼
                 Button(action: {
                     isShowingSettings = true
@@ -42,16 +52,6 @@ struct ListenListView: View {
                     Image(systemName: "gearshape.fill")
                         .font(.system(size: 24))
                         .foregroundColor(Color(.Text).opacity(0.6))
-                }
-                .padding(.trailing, 12)
-
-                // 새 사운드 만들기 버튼
-                Button(action: {
-                    isShowingCreateModal = true
-                }) {
-                    Image(systemName: "plus.circle.fill")
-                        .font(.system(size: 28))
-                        .foregroundColor(Color(.PrimaryPurple))
                 }
             }
             .padding(.horizontal, 24)
