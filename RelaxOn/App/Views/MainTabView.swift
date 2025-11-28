@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct MainTabView: View {
-    
+
     @EnvironmentObject var appState: AppState
     @State var isFirstVisit: Bool = UserDefaultsManager.shared.isFirstVisit
-    
+
     var body: some View {
         ZStack {
             if !isFirstVisit {

@@ -10,6 +10,9 @@
 		58DE61832839C13900F25769 /* RelaxOnApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61822839C13900F25769 /* RelaxOnApp.swift */; };
 		58DE618A2839C13A00F25769 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58DE61892839C13A00F25769 /* Preview Assets.xcassets */; };
 		58DE61C22841C20A00F25769 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 58DE61C12841C20A00F25769 /* Launch Screen.storyboard */; };
+		58FBB8FF2ED88620004231BE /* tv_10min.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 58FBB8FD2ED88620004231BE /* tv_10min.mp3 */; };
+		58FBB9002ED88620004231BE /* wave_10min.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 58FBB8FE2ED88620004231BE /* wave_10min.mp3 */; };
+		58FBB9052ED88EE8004231BE /* rain_10min.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 58FBB9042ED88EE8004231BE /* rain_10min.mp3 */; };
 		591570B429F93A5400507DEA /* TimerProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 591570B329F93A5400507DEA /* TimerProgressView.swift */; };
 		591570B629F93A7000507DEA /* TimerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 591570B529F93A7000507DEA /* TimerManager.swift */; };
 		5931DC9D2A3B1D6000FFEF17 /* SnapCircularSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5931DC9C2A3B1D6000FFEF17 /* SnapCircularSlider.swift */; };
@@ -113,6 +116,9 @@
 		58DE61892839C13A00F25769 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		58DE61BE283E77E700F25769 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		58DE61C12841C20A00F25769 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		58FBB8FD2ED88620004231BE /* tv_10min.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = tv_10min.mp3; sourceTree = "<group>"; };
+		58FBB8FE2ED88620004231BE /* wave_10min.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = wave_10min.mp3; sourceTree = "<group>"; };
+		58FBB9042ED88EE8004231BE /* rain_10min.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = rain_10min.mp3; sourceTree = "<group>"; };
 		591570B329F93A5400507DEA /* TimerProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerProgressView.swift; sourceTree = "<group>"; };
 		591570B529F93A7000507DEA /* TimerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerManager.swift; sourceTree = "<group>"; };
 		5931DC9C2A3B1D6000FFEF17 /* SnapCircularSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapCircularSlider.swift; sourceTree = "<group>"; };
@@ -226,9 +232,20 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		58FBB9032ED8870C004231BE /* background */ = {
+			isa = PBXGroup;
+			children = (
+				58FBB8FD2ED88620004231BE /* tv_10min.mp3 */,
+				58FBB9042ED88EE8004231BE /* rain_10min.mp3 */,
+				58FBB8FE2ED88620004231BE /* wave_10min.mp3 */,
+			);
+			path = background;
+			sourceTree = "<group>";
+		};
 		594012552A17DAFE00221DE7 /* Sound */ = {
 			isa = PBXGroup;
 			children = (
+				58FBB9032ED8870C004231BE /* background */,
 				5940126E2A17DD6B00221DE7 /* Bird */,
 				594012632A17DD1400221DE7 /* SingingBowl */,
 				594012562A17DB0400221DE7 /* WaterDrop */,
@@ -511,6 +528,9 @@
 				5940126C2A17DD3B00221DE7 /* Training.mp3 in Resources */,
 				58DE61C22841C20A00F25769 /* Launch Screen.storyboard in Resources */,
 				594012762A17DD7900221DE7 /* Forest.mp3 in Resources */,
+				58FBB9052ED88EE8004231BE /* rain_10min.mp3 in Resources */,
+				58FBB8FF2ED88620004231BE /* tv_10min.mp3 in Resources */,
+				58FBB9002ED88620004231BE /* wave_10min.mp3 in Resources */,
 				5940126B2A17DD3B00221DE7 /* Empty.mp3 in Resources */,
 				594012732A17DD7900221DE7 /* Woodpecker.mp3 in Resources */,
 				5940126D2A17DD3B00221DE7 /* Focus.mp3 in Resources */,

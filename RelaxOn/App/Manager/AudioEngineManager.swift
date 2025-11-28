@@ -7,6 +7,7 @@
 
 import AVFoundation
 import Combine
+import SwiftUI
 
 final class AudioEngineManager: ObservableObject {
     
@@ -14,7 +15,8 @@ final class AudioEngineManager: ObservableObject {
     static let shared = AudioEngineManager()
     
     var engine = AVAudioEngine()
-    
+
+    // 메인 사운드 (물방울 등)
     private var player = AVAudioPlayerNode()
     private var pitchEffect = AVAudioUnitTimePitch()
     private var volumeEffect = AVAudioMixerNode()
@@ -25,6 +27,18 @@ final class AudioEngineManager: ObservableObject {
     private var timerSubscription: Cancellable?
     private var fadeTimer: Timer?
     private var targetVolume: Float = 1.0
+
+    // 배경음 (wave, rain, tv 등)
+    private var backgroundPlayer = AVAudioPlayerNode()
+    private var backgroundVolumeEffect = AVAudioMixerNode()
+    private var backgroundAudioFile: AVAudioFile?
+    private var backgroundBuffer: AVAudioPCMBuffer?
+    @Published var backgroundVolume: Float = 0.3 {
+        didSet {
+            backgroundVolumeEffect.outputVolume = backgroundVolume
+        }
+    }
+    @Published var currentBackgroundSound: BackgroundSound?
 
     @Published private var currentPlayingSound: Playable?
     @Published var interval: Double = 1.0
@@ -124,18 +138,36 @@ extension AudioEngineManager {
     }
     
     private func setupConnections() {
-        if engine.isRunning {
+        print("🔗 [AudioEngineManager] setupConnections() 호출됨")
+        print("   - Engine 실행 중: \(engine.isRunning)")
+        print("   - 배경음 재생 중: \(currentBackgroundSound?.rawValue ?? "없음")")
+
+        // ⚠️ 중요: 배경음이 재생 중이면 engine을 멈추지 않음!
+        if engine.isRunning && currentBackgroundSound == nil {
+            print("   - 배경음 없음: Engine 중지 후 재연결")
             engine.stop()
+        } else if engine.isRunning && currentBackgroundSound != nil {
+            print("   - 배경음 재생 중: Engine 유지하고 메인 노드만 재연결")
+            // 기존 연결 해제
+            engine.disconnectNodeInput(player)
+            engine.disconnectNodeInput(pitchEffect)
+            engine.disconnectNodeInput(volumeEffect)
         }
+
         if let audioFile = audioFile {
             engine.connect(player, to: pitchEffect, format: audioFile.processingFormat)
             engine.connect(pitchEffect, to: volumeEffect, format: audioFile.processingFormat)
             engine.connect(volumeEffect, to: engine.mainMixerNode, format: audioFile.processingFormat)
+            print("   ✅ 메인 사운드 노드 연결 완료")
         }
-        do {
-            try engine.start()
-        } catch {
-            print("Unable to start engine: \(error.localizedDescription)")
+
+        if !engine.isRunning {
+            do {
+                try engine.start()
+                print("   ✅ Engine 시작 완료")
+            } catch {
+                print("   ❌ Engine 시작 실패: \(error.localizedDescription)")
+            }
         }
     }
     
@@ -159,39 +191,85 @@ extension AudioEngineManager {
 extension AudioEngineManager {
 
     func play<T: Playable>(with sound: T) {
-        print(#function)
-        
+        print("🎵 [AudioEngineManager] play() 호출됨")
+        print("   - 재생할 사운드: \(sound.filter.rawValue)")
+        print("   - 현재 배경음 재생 중: \(currentBackgroundSound?.rawValue ?? "없음")")
+
         currentPlayingSound = sound
-        
+
         let targetFile = sound.filter.rawValue
         guard let fileURL = Bundle.main.url(forResource: targetFile, withExtension: MusicExtension.mp3.rawValue) else {
-            print("File not found")
+            print("❌ [AudioEngineManager] 파일을 찾을 수 없음: \(targetFile)")
             return
         }
-        
+
         do {
             audioFile = try AVAudioFile(forReading: fileURL)
             audioBuffer = prepareBuffer()
             setupConnections()
-            
+
             if let customSound = sound as? CustomSound {
                 audioVariation = customSound.audioVariation
+
+                // 배경음이 저장되어 있으면 함께 재생
+                if let backgroundSoundName = customSound.backgroundSound,
+                   let backgroundSound = BackgroundSound(rawValue: backgroundSoundName) {
+                    print("🎵 [AudioEngineManager] 저장된 배경음 재생: \(backgroundSoundName)")
+
+                    // 저장된 배경 볼륨 적용
+                    if let savedBackgroundVolume = customSound.backgroundVolume {
+                        self.backgroundVolume = savedBackgroundVolume
+                        print("   - 배경 볼륨: \(savedBackgroundVolume)")
+                    }
+
+                    playBackground(backgroundSound)
+                }
             }
-            
+
             scheduleNextBuffer(with: sound)
-            
+            print("✅ [AudioEngineManager] 메인 사운드 재생 시작 완료")
+
         } catch {
-            print(error.localizedDescription)
+            print("❌ [AudioEngineManager] 재생 오류: \(error.localizedDescription)")
         }
     }
-    
+
     func stop() {
+        print("⏹️ [AudioEngineManager] stop() 호출됨")
+        print("   - 배경음 상태: \(currentBackgroundSound?.rawValue ?? "없음")")
+
         fadeTimer?.invalidate()
         fadeTimer = nil
         timerSubscription?.cancel()
         player.stop()
+
+        // 🔧 수정: 배경음은 유지하고 메인 사운드만 중지
+        // backgroundPlayer.stop() // 제거됨
+
+        // Engine은 배경음이 재생 중이면 중지하지 않음
+        if currentBackgroundSound == nil {
+            engine.stop()
+            print("   - 배경음 없음: Engine 중지")
+        } else {
+            print("   - 배경음 재생 중: Engine 유지, 메인 사운드만 중지")
+        }
+
+        clearBuffer()
+        print("✅ [AudioEngineManager] 메인 사운드만 중지 완료 (배경음 유지)")
+    }
+
+    func stopAll() {
+        print("⏹️ [AudioEngineManager] stopAll() 호출됨 - 모든 사운드 중지")
+
+        fadeTimer?.invalidate()
+        fadeTimer = nil
+        timerSubscription?.cancel()
+        player.stop()
+        backgroundPlayer.stop()
         engine.stop()
         clearBuffer()
+
+        print("✅ [AudioEngineManager] 모든 사운드 중지 완료")
     }
 
     func stopWithFade(duration: TimeInterval = 5.0, completion: (() -> Void)? = nil) {
@@ -367,5 +445,125 @@ extension AudioEngineManager {
                 // 다음 재생을 위한 새로운 타이머 (랜덤 간격으로 재스케줄)
                 self.scheduleNextBuffer()
             }
+    }
+}
+
+// MARK: - Background Sound
+
+extension AudioEngineManager {
+
+    /// 배경음 재생
+    func playBackground(_ background: BackgroundSound) {
+        currentBackgroundSound = background
+
+        // subdirectory 없이 파일명으로만 검색 시도
+        guard let fileURL = Bundle.main.url(forResource: background.fileName, withExtension: "mp3") else {
+            print("Background file not found: \(background.fileName)")
+            print("Available resources: \(Bundle.main.paths(forResourcesOfType: "mp3", inDirectory: nil))")
+            return
+        }
+
+        print("✅ Background file found: \(fileURL.path)")
+
+        do {
+            backgroundAudioFile = try AVAudioFile(forReading: fileURL)
+            backgroundBuffer = prepareBackgroundBuffer()
+
+            if !engine.attachedNodes.contains(backgroundPlayer) {
+                engine.attach(backgroundPlayer)
+                engine.attach(backgroundVolumeEffect)
+
+                if let audioFile = backgroundAudioFile {
+                    engine.connect(backgroundPlayer, to: backgroundVolumeEffect, format: audioFile.processingFormat)
+                    engine.connect(backgroundVolumeEffect, to: engine.mainMixerNode, format: audioFile.processingFormat)
+                }
+            }
+
+            backgroundVolumeEffect.outputVolume = backgroundVolume
+
+            scheduleBackgroundLoop()
+
+            if !engine.isRunning {
+                try engine.start()
+            }
+
+            if !backgroundPlayer.isPlaying {
+                backgroundPlayer.play()
+            }
+
+        } catch {
+            print("Background play error: \(error.localizedDescription)")
+        }
+    }
+
+    /// 배경음 중지
+    func stopBackground() {
+        backgroundPlayer.stop()
+        currentBackgroundSound = nil
+    }
+
+    /// 배경음 버퍼 준비
+    private func prepareBackgroundBuffer() -> AVAudioPCMBuffer? {
+        guard let audioFile = backgroundAudioFile else { return nil }
+
+        let buffer = AVAudioPCMBuffer(pcmFormat: audioFile.processingFormat,
+                                      frameCapacity: AVAudioFrameCount(audioFile.length))!
+        do {
+            try audioFile.read(into: buffer)
+        } catch {
+            print("Failed to read background buffer")
+            return nil
+        }
+        return buffer
+    }
+
+    /// 배경음 루프 스케줄링 (10분 파일을 계속 반복)
+    private func scheduleBackgroundLoop() {
+        guard let buffer = backgroundBuffer else { return }
+
+        backgroundPlayer.scheduleBuffer(buffer, at: nil, options: .loops) { }
+    }
+}
+
+/// 배경음 타입
+enum BackgroundSound: String, CaseIterable {
+    case wave = "파도"
+    case rain = "비"
+    case tv = "TV 소음"
+
+    var fileName: String {
+        switch self {
+        case .wave: return "wave_10min"
+        case .rain: return "rain_10min"
+        case .tv: return "tv_10min"
+        }
+    }
+
+    var icon: String {
+        switch self {
+        case .wave: return "water.waves"
+        case .rain: return "cloud.rain.fill"
+        case .tv: return "tv.fill"
+        }
+    }
+
+    var colors: [Color] {
+        switch self {
+        case .wave:
+            return [
+                Color(red: 0.2, green: 0.4, blue: 0.8).opacity(0.15),
+                Color(red: 0.1, green: 0.5, blue: 0.9).opacity(0.1)
+            ]
+        case .rain:
+            return [
+                Color(red: 0.3, green: 0.4, blue: 0.6).opacity(0.15),
+                Color(red: 0.2, green: 0.3, blue: 0.5).opacity(0.1)
+            ]
+        case .tv:
+            return [
+                Color(red: 0.5, green: 0.5, blue: 0.5).opacity(0.15),
+                Color(red: 0.4, green: 0.4, blue: 0.4).opacity(0.1)
+            ]
+        }
     }
 }

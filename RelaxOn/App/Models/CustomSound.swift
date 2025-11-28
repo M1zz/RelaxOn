@@ -11,20 +11,24 @@ import Foundation
  사용자가 커스텀한 사운드 정보를 저장하고 불러오기 위한 구조체
  */
 struct CustomSound: Identifiable, Codable, Equatable, Playable {
-    
+
     let id: UUID
     var title: String
     var category: SoundCategory
     var audioVariation: AudioVariation
     var filter: AudioFilter
     var color: String
-    
+    var backgroundSound: String? // 배경 사운드 ("파도", "비", "TV 소음") 저장
+    var backgroundVolume: Float? // 배경 볼륨 저장
+
     init(
         title: String = "저장된 음원이 없습니다.",
         category: SoundCategory = .none,
         variation: AudioVariation = AudioVariation(),
         filter: AudioFilter = .none,
-        color: String = ""
+        color: String = "",
+        backgroundSound: String? = nil,
+        backgroundVolume: Float? = nil
     ) {
         self.id = UUID()
         self.title = title
@@ -32,6 +36,8 @@ struct CustomSound: Identifiable, Codable, Equatable, Playable {
         self.audioVariation = variation
         self.filter = filter
         self.color = (color == "") ? category.defaultColor : color
+        self.backgroundSound = backgroundSound
+        self.backgroundVolume = backgroundVolume
     }
     
     static func == (lhs: CustomSound, rhs: CustomSound) -> Bool {

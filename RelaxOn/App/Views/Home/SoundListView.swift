@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 
 /**
  앱에 저장된 Original Sound 정보들이 그리드 뷰 형태의 리스트로 나열된 Main View
@@ -219,6 +220,9 @@ struct SoundListView_Previews: PreviewProvider {
 struct CreateNewSoundView: View {
     @Environment(\.dismiss) var dismiss
     @StateObject private var viewModel = CreateSoundViewModel()
+    @State private var showingSaveAlert = false
+    @State private var soundTitle = ""
+    @State private var waveAnimationTrigger = false
 
     var body: some View {
         ZStack {
@@ -249,29 +253,35 @@ struct CreateNewSoundView: View {
                     Spacer()
 
                     Button(action: {
-                        // 저장 로직
+                        showingSaveAlert = true
                     }) {
-                        Text("완료")
+                        Text("만들기")
                             .font(.system(size: 16, weight: .semibold))
-                            .foregroundColor(viewModel.addedSounds.isEmpty ? Color(.Text).opacity(0.3) : Color(.PrimaryPurple))
+                            .foregroundColor(viewModel.selectedOriginalSound == nil ? Color(.Text).opacity(0.3) : Color(.PrimaryPurple))
                     }
-                    .disabled(viewModel.addedSounds.isEmpty)
+                    .disabled(viewModel.selectedOriginalSound == nil)
                 }
                 .padding(.horizontal, 24)
                 .padding(.vertical, 16)
                 .background(Color(.DefaultBackground))
 
+                // 사운드 캔버스 (고정)
+                emptyCanvasView()
+                    .padding(.horizontal, 24)
+                    .padding(.top, 20)
+
+                // 배경 사운드와 원본 사운드만 스크롤
                 ScrollView {
                     VStack(spacing: 24) {
-                        // 빈 캔버스 (물방울 프리뷰)
-                        emptyCanvasView()
+                        // 배경 사운드 선택 영역
+                        backgroundSoundSection()
 
-                        // 드래그 앤 드롭 영역
+                        // 원본 사운드 선택 영역
                         dropZoneView()
 
-                        // 추가된 사운드 레이어들
-                        if !viewModel.addedSounds.isEmpty {
-                            addedSoundsSection()
+                        // 커스터마이징 섹션 (원본 사운드 선택 시 표시)
+                        if viewModel.selectedOriginalSound != nil {
+                            customizationSection()
                         }
                     }
                     .padding(.horizontal, 24)
@@ -280,6 +290,24 @@ struct CreateNewSoundView: View {
             }
         }
         .navigationBarHidden(true)
+        .alert("사운드 이름", isPresented: $showingSaveAlert) {
+            TextField("사운드 이름을 입력하세요", text: $soundTitle)
+            Button("취소", role: .cancel) {
+                soundTitle = ""
+            }
+            Button("저장") {
+                if !soundTitle.isEmpty {
+                    if viewModel.saveCustomSound(title: soundTitle) {
+                        dismiss()
+                    } else {
+                        // 저장 실패 처리 (예: 중복된 이름)
+                        soundTitle = ""
+                    }
+                }
+            }
+        } message: {
+            Text("생성할 사운드의 이름을 입력하세요")
+        }
         .onDisappear {
             viewModel.stopPreview()
         }
@@ -288,17 +316,17 @@ struct CreateNewSoundView: View {
     @ViewBuilder
     private func emptyCanvasView() -> some View {
         VStack(spacing: 16) {
-            Text("미리보기")
+            Text("사운드 캔버스")
                 .font(.system(size: 14, weight: .semibold))
                 .foregroundColor(Color(.Text).opacity(0.6))
                 .frame(maxWidth: .infinity, alignment: .leading)
 
             ZStack {
-                // 배경 그라데이션
+                // 배경 그라데이션 (배경 사운드에 따라 변경)
                 RoundedRectangle(cornerRadius: 20)
                     .fill(
                         LinearGradient(
-                            gradient: Gradient(colors: [
+                            gradient: Gradient(colors: viewModel.selectedBackground?.colors ?? [
                                 Color(.PrimaryPurple).opacity(0.05),
                                 Color.blue.opacity(0.03)
                             ]),
@@ -306,12 +334,16 @@ struct CreateNewSoundView: View {
                             endPoint: .bottomTrailing
                         )
                     )
+                    .animation(.easeInOut(duration: 0.5), value: viewModel.selectedBackground)
 
-                // 물방울 프리뷰 (빈 상태)
-                if viewModel.addedSounds.isEmpty {
-                    VStack(spacing: 12) {
+                // 사운드 시각화
+                VStack(spacing: 12) {
+                    if viewModel.selectedOriginalSound != nil {
+                        // 실시간 물방울 시각화 (오디오와 싱크)
+                        SoundCanvasVisualization(viewModel: viewModel)
+                    } else {
+                        // 빈 캔버스
                         ZStack {
-                            // 빈 물방울 윤곽선들
                             ForEach(0..<3, id: \.self) { index in
                                 Circle()
                                     .stroke(
@@ -321,54 +353,124 @@ struct CreateNewSoundView: View {
                                     .frame(width: CGFloat(60 + index * 40), height: CGFloat(60 + index * 40))
                             }
                         }
+                        .frame(height: 240)
+                    }
 
-                        VStack(spacing: 6) {
-                            Text("아직 사운드가 없습니다")
+                    VStack(spacing: 6) {
+                        if let background = viewModel.selectedBackground, let original = viewModel.selectedOriginalSound {
+                            Text("\(background.rawValue) + \(original.name)")
+                                .font(.system(size: 15, weight: .bold))
+                                .foregroundColor(Color(.TitleText))
+
+                            Text("재생 중")
+                                .font(.system(size: 13))
+                                .foregroundColor(Color(.PrimaryPurple))
+                        } else if let background = viewModel.selectedBackground {
+                            Text("\(background.rawValue)")
+                                .font(.system(size: 15, weight: .semibold))
+                                .foregroundColor(Color(.TitleText))
+
+                            Text("원본 사운드를 선택하세요")
+                                .font(.system(size: 13))
+                                .foregroundColor(Color(.Text).opacity(0.5))
+                        } else if let original = viewModel.selectedOriginalSound {
+                            Text("\(original.name)")
+                                .font(.system(size: 15, weight: .semibold))
+                                .foregroundColor(Color(.TitleText))
+
+                            Text("재생 중")
+                                .font(.system(size: 13))
+                                .foregroundColor(Color(.PrimaryPurple))
+                        } else {
+                            Text("배경음과 원본 사운드를 선택하세요")
                                 .font(.system(size: 15, weight: .medium))
                                 .foregroundColor(Color(.Text).opacity(0.5))
 
-                            Text("아래에서 원본 사운드를 선택해주세요")
+                            Text("선택하면 바로 들을 수 있습니다")
                                 .font(.system(size: 13))
                                 .foregroundColor(Color(.Text).opacity(0.4))
                         }
                     }
-                } else {
-                    // 레이어된 사운드들의 시각화
-                    ZStack {
-                        ForEach(Array(viewModel.addedSounds.enumerated()), id: \.offset) { index, sound in
-                            Circle()
-                                .stroke(
-                                    sound.color.opacity(0.6),
-                                    lineWidth: 3
-                                )
-                                .frame(width: 80, height: 80)
-                                .scaleEffect(1.0 + Double(index) * 0.3)
-                                .opacity(0.8 - Double(index) * 0.2)
-                        }
-
-                        VStack(spacing: 8) {
-                            Text("\(viewModel.addedSounds.count)개 레이어")
-                                .font(.system(size: 16, weight: .bold))
-                                .foregroundColor(Color(.TitleText))
-
-                            HStack(spacing: 4) {
-                                Image(systemName: "layers.fill")
-                                    .font(.system(size: 12))
-                                Text("탭하여 편집")
-                                    .font(.system(size: 12))
-                            }
-                            .foregroundColor(Color(.Text).opacity(0.6))
-                        }
-                        .padding(16)
-                        .background(
-                            RoundedRectangle(cornerRadius: 12)
-                                .fill(Color(.DefaultBackground).opacity(0.95))
-                                .shadow(color: Color.black.opacity(0.1), radius: 8)
-                        )
-                    }
                 }
             }
             .frame(height: 280)
+        }
+    }
+
+    @ViewBuilder
+    private func backgroundSoundSection() -> some View {
+        VStack(spacing: 16) {
+            HStack {
+                Text("배경 사운드")
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundColor(Color(.Text).opacity(0.6))
+
+                Spacer()
+
+                if viewModel.selectedBackground != nil {
+                    Button(action: {
+                        viewModel.clearBackground()
+                    }) {
+                        Text("제거")
+                            .font(.system(size: 12))
+                            .foregroundColor(.red.opacity(0.8))
+                    }
+                }
+            }
+
+            HStack(spacing: 12) {
+                ForEach(BackgroundSound.allCases, id: \.self) { background in
+                    BackgroundSoundCard(
+                        background: background,
+                        isSelected: viewModel.selectedBackground == background
+                    ) {
+                        viewModel.selectBackground(background)
+                    }
+                }
+            }
+
+            // 배경음 볼륨 슬라이더 (배경음이 선택되었을 때만 표시)
+            if viewModel.selectedBackground != nil {
+                VStack(spacing: 12) {
+                    HStack {
+                        Image(systemName: "speaker.wave.1.fill")
+                            .font(.system(size: 14))
+                            .foregroundColor(Color(.Text).opacity(0.6))
+
+                        Text("배경음 볼륨")
+                            .font(.system(size: 13, weight: .medium))
+                            .foregroundColor(Color(.Text).opacity(0.6))
+
+                        Spacer()
+
+                        Text("\(Int(viewModel.backgroundVolume * 100))%")
+                            .font(.system(size: 13, weight: .semibold))
+                            .foregroundColor(Color(.PrimaryPurple))
+                            .frame(width: 40, alignment: .trailing)
+                    }
+
+                    HStack(spacing: 12) {
+                        Image(systemName: "speaker.fill")
+                            .font(.system(size: 12))
+                            .foregroundColor(Color(.Text).opacity(0.4))
+
+                        Slider(value: $viewModel.backgroundVolume, in: 0.0...1.0)
+                            .accentColor(Color(.PrimaryPurple))
+
+                        Image(systemName: "speaker.wave.3.fill")
+                            .font(.system(size: 12))
+                            .foregroundColor(Color(.Text).opacity(0.4))
+                    }
+                }
+                .padding(16)
+                .background(
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(Color.white)
+                        .shadow(color: Color.black.opacity(0.05), radius: 4, x: 0, y: 2)
+                )
+                .transition(.opacity.combined(with: .scale(scale: 0.95)))
+                .animation(.spring(response: 0.3, dampingFraction: 0.7), value: viewModel.selectedBackground)
+            }
         }
     }
 
@@ -389,8 +491,11 @@ struct CreateNewSoundView: View {
                 spacing: 12
             ) {
                 ForEach(viewModel.availableSounds) { sound in
-                    OriginalSoundCard(sound: sound) {
-                        viewModel.addSound(sound)
+                    OriginalSoundCard(
+                        sound: sound,
+                        isSelected: viewModel.selectedOriginalSound?.id == sound.id
+                    ) {
+                        viewModel.playPreview(sound: sound)
                     }
                 }
             }
@@ -398,44 +503,188 @@ struct CreateNewSoundView: View {
     }
 
     @ViewBuilder
-    private func addedSoundsSection() -> some View {
+    private func customizationSection() -> some View {
         VStack(spacing: 16) {
             HStack {
-                Text("추가된 레이어")
-                    .font(.system(size: 14, weight: .semibold))
-                    .foregroundColor(Color(.Text).opacity(0.6))
+                if let sound = viewModel.selectedOriginalSound {
+                    HStack(spacing: 8) {
+                        Image(systemName: sound.icon)
+                            .font(.system(size: 16))
+                            .foregroundColor(sound.color)
+
+                        Text("\(sound.name) 커스터마이징")
+                            .font(.system(size: 15, weight: .semibold))
+                            .foregroundColor(Color(.Text))
+                    }
+                }
 
                 Spacer()
 
-                Text("\(viewModel.addedSounds.count)개")
-                    .font(.system(size: 13, weight: .medium))
-                    .foregroundColor(Color(.PrimaryPurple))
-                    .padding(.horizontal, 10)
-                    .padding(.vertical, 4)
-                    .background(Color(.PrimaryPurple).opacity(0.1))
-                    .cornerRadius(8)
-            }
-
-            VStack(spacing: 12) {
-                ForEach(Array(viewModel.addedSounds.enumerated()), id: \.offset) { index, sound in
-                    AddedSoundRow(
-                        sound: sound,
-                        index: index,
-                        onTap: {
-                            viewModel.selectSoundForEdit(sound)
-                        },
-                        onRemove: {
-                            viewModel.removeSound(sound)
-                        }
-                    )
+                Button(action: {
+                    if let sound = viewModel.selectedOriginalSound {
+                        viewModel.soundVariations[sound.id] = AudioVariation()
+                        viewModel.playPreview(sound: sound)
+                    }
+                }) {
+                    Text("초기화")
+                        .font(.system(size: 12))
+                        .foregroundColor(Color(.PrimaryPurple).opacity(0.8))
                 }
             }
+
+            VStack(spacing: 16) {
+                // 볼륨 슬라이더 (변동성 포함)
+                variationSlider(
+                    icon: "speaker.wave.2.fill",
+                    label: "볼륨",
+                    value: Binding(
+                        get: { viewModel.currentVariation.volume },
+                        set: { var v = viewModel.currentVariation; v.volume = $0; viewModel.currentVariation = v }
+                    ),
+                    variationValue: Binding(
+                        get: { viewModel.currentVariation.volumeVariation },
+                        set: { var v = viewModel.currentVariation; v.volumeVariation = $0; viewModel.currentVariation = v }
+                    ),
+                    range: 0.1...1.0,
+                    color: .green,
+                    unit: "%"
+                )
+
+                // 피치 슬라이더 (변동성 포함)
+                variationSlider(
+                    icon: "waveform",
+                    label: "피치",
+                    value: Binding(
+                        get: { viewModel.currentVariation.pitch },
+                        set: { var v = viewModel.currentVariation; v.pitch = $0; viewModel.currentVariation = v }
+                    ),
+                    variationValue: Binding(
+                        get: { viewModel.currentVariation.pitchVariation },
+                        set: { var v = viewModel.currentVariation; v.pitchVariation = $0; viewModel.currentVariation = v }
+                    ),
+                    range: -12.0...12.0,
+                    color: .purple,
+                    unit: ""
+                )
+
+                // 간격 슬라이더 (변동성 포함)
+                variationSlider(
+                    icon: "timer",
+                    label: "간격",
+                    value: Binding(
+                        get: { viewModel.currentVariation.interval },
+                        set: { var v = viewModel.currentVariation; v.interval = $0; viewModel.currentVariation = v }
+                    ),
+                    variationValue: Binding(
+                        get: { viewModel.currentVariation.intervalVariation },
+                        set: { var v = viewModel.currentVariation; v.intervalVariation = $0; viewModel.currentVariation = v }
+                    ),
+                    range: 0.1...5.0,
+                    color: .orange,
+                    unit: "초"
+                )
+            }
+            .padding(16)
+            .background(
+                RoundedRectangle(cornerRadius: 16)
+                    .fill(Color.white)
+                    .shadow(color: Color.black.opacity(0.05), radius: 4, x: 0, y: 2)
+            )
         }
+        .transition(.opacity.combined(with: .move(edge: .bottom)))
+        .animation(.spring(response: 0.3, dampingFraction: 0.7), value: viewModel.selectedOriginalSound)
+    }
+
+    // 변동성 포함 슬라이더
+    @ViewBuilder
+    private func variationSlider(
+        icon: String,
+        label: String,
+        value: Binding<Float>,
+        variationValue: Binding<Float>,
+        range: ClosedRange<Float>,
+        color: Color,
+        unit: String
+    ) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                Image(systemName: icon)
+                    .font(.system(size: 14))
+                    .foregroundColor(color)
+                    .frame(width: 20)
+
+                Text(label)
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundColor(Color(.Text))
+
+                Spacer()
+
+                if unit == "%" {
+                    Text("\(Int(value.wrappedValue * 100))\(unit)")
+                        .font(.system(size: 14, weight: .bold))
+                        .foregroundColor(color)
+                } else if unit == "초" {
+                    Text(String(format: "%.2f\(unit)", value.wrappedValue))
+                        .font(.system(size: 14, weight: .bold))
+                        .foregroundColor(color)
+                } else {
+                    Text(String(format: "%.1f", value.wrappedValue))
+                        .font(.system(size: 14, weight: .bold))
+                        .foregroundColor(color)
+                }
+            }
+
+            Slider(value: value, in: range)
+                .tint(color)
+
+            // 변동폭 슬라이더
+            Divider()
+                .padding(.vertical, 4)
+
+            HStack {
+                Image(systemName: "arrow.left.and.right")
+                    .font(.system(size: 12))
+                    .foregroundColor(color.opacity(0.7))
+                    .frame(width: 20)
+
+                Text("변화의 폭")
+                    .font(.system(size: 12))
+                    .foregroundColor(Color(.Text).opacity(0.8))
+
+                Spacer()
+
+                VariationIndicator(value: variationValue.wrappedValue, color: color)
+
+                Text(String(format: "±%.0f%%", variationValue.wrappedValue * 100))
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundColor(color.opacity(0.7))
+                    .frame(minWidth: 40, alignment: .trailing)
+            }
+
+            Slider(value: variationValue, in: 0.0...0.5, step: 0.05)
+                .tint(color.opacity(0.6))
+
+            // 범위 시각화 바
+            if variationValue.wrappedValue > 0 {
+                VariationRangeBar(
+                    baseValue: value.wrappedValue,
+                    variation: variationValue.wrappedValue,
+                    range: range,
+                    color: color,
+                    unit: unit
+                )
+                .padding(.top, 4)
+            }
+        }
+        .padding(12)
+        .background(Color(.CircularSliderBackground).opacity(0.3))
+        .cornerRadius(10)
     }
 }
 
 struct OriginalSoundCard: View {
     let sound: AvailableSound
+    let isSelected: Bool
     let onTap: () -> Void
     @State private var isPressed = false
 
@@ -444,16 +693,23 @@ struct OriginalSoundCard: View {
             VStack(spacing: 8) {
                 ZStack {
                     Circle()
-                        .fill(sound.color.opacity(0.15))
+                        .fill(sound.color.opacity(isSelected ? 0.3 : 0.15))
                         .frame(width: 50, height: 50)
 
                     Image(systemName: sound.icon)
                         .font(.system(size: 22))
                         .foregroundColor(sound.color)
+
+                    // 재생 중 표시
+                    if isSelected {
+                        Circle()
+                            .stroke(sound.color, lineWidth: 2)
+                            .frame(width: 50, height: 50)
+                    }
                 }
 
                 Text(sound.name)
-                    .font(.system(size: 12, weight: .medium))
+                    .font(.system(size: 12, weight: isSelected ? .bold : .medium))
                     .foregroundColor(Color(.TitleText))
                     .lineLimit(1)
 
@@ -467,7 +723,77 @@ struct OriginalSoundCard: View {
                 RoundedRectangle(cornerRadius: 16)
                     .fill(Color.white)
                     .shadow(
-                        color: isPressed ? sound.color.opacity(0.3) : Color.black.opacity(0.06),
+                        color: isPressed || isSelected ? sound.color.opacity(0.3) : Color.black.opacity(0.06),
+                        radius: isPressed || isSelected ? 8 : 4,
+                        x: 0,
+                        y: 2
+                    )
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 16)
+                    .stroke(sound.color.opacity(isSelected ? 0.6 : (isPressed ? 0.4 : 0.0)), lineWidth: 2)
+            )
+            .scaleEffect(isPressed ? 0.95 : 1.0)
+        }
+        .buttonStyle(PlainButtonStyle())
+        .onLongPressGesture(minimumDuration: 0.0, pressing: { pressing in
+            withAnimation(.easeInOut(duration: 0.1)) {
+                isPressed = pressing
+            }
+        }, perform: {})
+    }
+}
+
+struct BackgroundSoundCard: View {
+    let background: BackgroundSound
+    let isSelected: Bool
+    let onTap: () -> Void
+    @State private var isPressed = false
+
+    var body: some View {
+        Button(action: onTap) {
+            VStack(spacing: 10) {
+                ZStack {
+                    Circle()
+                        .fill(
+                            isSelected
+                                ? LinearGradient(
+                                    gradient: Gradient(colors: [
+                                        Color(.PrimaryPurple).opacity(0.3),
+                                        Color(.PrimaryPurple).opacity(0.15)
+                                    ]),
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                )
+                                : LinearGradient(
+                                    gradient: Gradient(colors: [
+                                        Color.gray.opacity(0.15),
+                                        Color.gray.opacity(0.1)
+                                    ]),
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                )
+                        )
+                        .frame(width: 60, height: 60)
+
+                    Image(systemName: background.icon)
+                        .font(.system(size: 26))
+                        .foregroundColor(isSelected ? Color(.PrimaryPurple) : .gray)
+                }
+
+                Text(background.rawValue)
+                    .font(.system(size: 13, weight: isSelected ? .semibold : .medium))
+                    .foregroundColor(isSelected ? Color(.PrimaryPurple) : Color(.TitleText))
+                    .lineLimit(1)
+            }
+            .padding(.vertical, 12)
+            .padding(.horizontal, 8)
+            .frame(maxWidth: .infinity)
+            .background(
+                RoundedRectangle(cornerRadius: 16)
+                    .fill(Color.white)
+                    .shadow(
+                        color: isPressed ? Color(.PrimaryPurple).opacity(0.3) : Color.black.opacity(0.06),
                         radius: isPressed ? 8 : 4,
                         x: 0,
                         y: 2
@@ -475,7 +801,10 @@ struct OriginalSoundCard: View {
             )
             .overlay(
                 RoundedRectangle(cornerRadius: 16)
-                    .stroke(sound.color.opacity(isPressed ? 0.4 : 0.0), lineWidth: 2)
+                    .stroke(
+                        isSelected ? Color(.PrimaryPurple).opacity(0.5) : Color.clear,
+                        lineWidth: 2
+                    )
             )
             .scaleEffect(isPressed ? 0.95 : 1.0)
         }
@@ -561,15 +890,45 @@ class CreateSoundViewModel: ObservableObject {
     @Published var availableSounds: [AvailableSound] = []
     @Published var addedSounds: [AddedSound] = []
     @Published var selectedSound: AddedSound?
+    @Published var selectedBackground: BackgroundSound?
+    @Published var selectedOriginalSound: AvailableSound?
+
+    // 각 사운드의 커스터마이징 설정을 저장
+    @Published var soundVariations: [String: AudioVariation] = [:]
+
+    @Published var backgroundVolume: Float = 0.3 {
+        didSet {
+            audioManager.backgroundVolume = backgroundVolume
+        }
+    }
+
+    // 현재 편집 중인 사운드의 variation (computed property)
+    var currentVariation: AudioVariation {
+        get {
+            guard let sound = selectedOriginalSound else {
+                return AudioVariation()
+            }
+            return soundVariations[sound.id] ?? AudioVariation()
+        }
+        set {
+            guard let sound = selectedOriginalSound else { return }
+            soundVariations[sound.id] = newValue
+            // 변경 시 재생 중인 사운드에 실시간 반영
+            playPreview(sound: sound)
+        }
+    }
 
     private let audioManager = AudioEngineManager.shared
+    private let userDefaults = UserDefaultsManager.shared
+    private let fileManager = UserFileManager.shared
 
     init() {
         loadAvailableSounds()
     }
 
     deinit {
-        audioManager.stop()
+        print("🗑️ [CreateSoundViewModel] deinit - 화면 해제됨")
+        audioManager.stopAll()
     }
 
     private func loadAvailableSounds() {
@@ -658,28 +1017,21 @@ class CreateSoundViewModel: ObservableObject {
         ]
     }
 
-    func addSound(_ sound: AvailableSound) {
-        // 미리듣기 재생
-        playPreview(sound: sound)
-
-        let newSound = AddedSound(
-            id: UUID().uuidString,
-            name: sound.name,
-            icon: sound.icon,
-            color: sound.color,
-            category: sound.category,
-            filter: sound.filter,
-            isCustomized: false
-        )
-
-        withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
-            addedSounds.append(newSound)
-        }
-    }
-
     func playPreview(sound: AvailableSound) {
-        // 기존 재생 중지
+        print("\n▶️ [CreateSoundViewModel] playPreview() 호출됨")
+        print("   - 선택된 원본 사운드: \(sound.name)")
+        print("   - 현재 배경음: \(selectedBackground?.rawValue ?? "없음")")
+
+        // 선택된 원본 사운드 업데이트
+        selectedOriginalSound = sound
+
+        // 기존 메인 사운드만 중지 (배경음은 유지)
         audioManager.stop()
+
+        // 오디오 커스터마이징 파라미터 적용
+        let variation = currentVariation
+        audioManager.audioVariation = variation
+        print("   🎚️ 오디오 파라미터 적용: 볼륨=\(variation.volume), 피치=\(variation.pitch), 간격=\(variation.interval)")
 
         // 원본 사운드 생성
         let originalSound = OriginalSound(
@@ -688,31 +1040,115 @@ class CreateSoundViewModel: ObservableObject {
             category: sound.category
         )
 
-        // 짧게 재생 (3회 반복)
+        // 배경음과 함께 계속 재생
         audioManager.play(with: originalSound)
-
-        // 3초 후 자동 중지
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) { [weak self] in
-            self?.audioManager.stop()
-        }
+        print("   ✅ 원본 사운드 재생 시작 (배경음과 함께 계속 재생)")
+        print("   🔁 원본 사운드는 멈추지 않고 계속 반복됩니다")
     }
 
     func stopPreview() {
-        audioManager.stop()
+        print("🛑 [CreateSoundViewModel] stopPreview() 호출됨")
+        audioManager.stopAll()
+        print("   - 모든 사운드 중지 (화면 닫힐 때)")
     }
 
-    func removeSound(_ sound: AddedSound) {
-        withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
-            addedSounds.removeAll { $0.id == sound.id }
+    func selectBackground(_ background: BackgroundSound) {
+        print("\n🌊 [CreateSoundViewModel] selectBackground() 호출됨")
+        print("   - 선택된 배경음: \(background.rawValue)")
+        print("   - 이전 배경음: \(selectedBackground?.rawValue ?? "없음")")
+
+        // 기존 배경음 중지
+        audioManager.stopBackground()
+
+        // 동일한 배경음 선택시 토글 (제거)
+        if selectedBackground == background {
+            print("   ↩️ 동일한 배경음 선택 - 토글하여 제거")
+            selectedBackground = nil
+            return
         }
+
+        // 새 배경음 선택 및 재생 (계속 재생)
+        selectedBackground = background
+        audioManager.playBackground(background)
+        print("   ✅ 배경음 재생 시작 (계속 재생)")
     }
 
-    func selectSoundForEdit(_ sound: AddedSound) {
-        selectedSound = sound
+    func clearBackground() {
+        audioManager.stopBackground()
+        selectedBackground = nil
+    }
+
+    func saveCustomSound(title: String) -> Bool {
+        print("\n" + String(repeating: "=", count: 60))
+        print("💾 [SAVE] 사운드 저장 시작")
+        print(String(repeating: "=", count: 60))
+
+        // 원본 사운드가 선택되어 있어야 함
+        guard let originalSound = selectedOriginalSound else {
+            print("❌ [SAVE] 실패: 원본 사운드가 선택되지 않았습니다.")
+            print(String(repeating: "=", count: 60) + "\n")
+            return false
+        }
+
+        print("✅ [SAVE] 원본 사운드: \(originalSound.name) (\(originalSound.filter.rawValue))")
+
+        var customSounds = userDefaults.customSounds
+        print("📊 [SAVE] 현재 저장된 사운드 개수: \(customSounds.count)")
+
+        // 중복 체크
+        if customSounds.contains(where: { $0.title == title }) {
+            print("❌ [SAVE] 실패: 이미 이 이름의 사운드가 존재합니다: '\(title)'")
+            print(String(repeating: "=", count: 60) + "\n")
+            return false
+        }
+
+        print("✅ [SAVE] 중복 체크 통과: '\(title)'")
+
+        let variation = currentVariation
+        let customSound = CustomSound(
+            title: title,
+            category: originalSound.category,
+            variation: variation,
+            filter: originalSound.filter,
+            color: originalSound.category.defaultColor,
+            backgroundSound: selectedBackground?.rawValue,
+            backgroundVolume: selectedBackground != nil ? backgroundVolume : nil
+        )
+
+        print("\n📝 [SAVE] 저장할 사운드 정보:")
+        print("   🏷️  제목: \(title)")
+        print("   🎵 카테고리: \(originalSound.category.displayName)")
+        print("   🎚️  필터: \(originalSound.filter.rawValue)")
+        print("   🎨 색상: \(customSound.color)")
+        print("   🌊 배경음: \(selectedBackground?.rawValue ?? "없음")")
+        print("   📊 배경 볼륨: \(backgroundVolume * 100)%")
+        print("\n   ⚙️  오디오 설정:")
+        print("      볼륨: \(Int(variation.volume * 100))% (변동: ±\(Int(variation.volumeVariation * 100))%)")
+        print("      피치: \(String(format: "%.1f", variation.pitch)) (변동: ±\(Int(variation.pitchVariation * 100))%)")
+        print("      간격: \(String(format: "%.2f", variation.interval))초 (변동: ±\(Int(variation.intervalVariation * 100))%)")
+
+        print("\n💿 [SAVE] 파일 시스템에 저장 중...")
+        if !fileManager.saveCustomSound(customSound) {
+            print("❌ [SAVE] 실패: 파일 저장 실패")
+            print(String(repeating: "=", count: 60) + "\n")
+            return false
+        }
+        print("✅ [SAVE] 파일 저장 성공")
+
+        print("\n📱 [SAVE] UserDefaults에 저장 중...")
+        customSounds.append(customSound)
+        userDefaults.customSounds = customSounds
+        print("✅ [SAVE] UserDefaults 저장 성공")
+
+        print("\n📊 [SAVE] 저장 후 총 사운드 개수: \(customSounds.count)")
+        print("🎉 [SAVE] 사운드 '\(title)' 저장 완료!")
+        print(String(repeating: "=", count: 60) + "\n")
+
+        return true
     }
 }
 
-struct AvailableSound: Identifiable {
+struct AvailableSound: Identifiable, Equatable {
     let id: String
     let name: String
     let icon: String
@@ -720,6 +1156,10 @@ struct AvailableSound: Identifiable {
     let category: SoundCategory
     let filter: AudioFilter
     let duration: TimeInterval
+
+    static func == (lhs: AvailableSound, rhs: AvailableSound) -> Bool {
+        return lhs.id == rhs.id
+    }
 }
 
 struct AddedSound: Identifiable {
@@ -731,3 +1171,142 @@ struct AddedSound: Identifiable {
     let filter: AudioFilter
     var isCustomized: Bool
 }
+
+// MARK: - Sound Canvas Visualization
+
+/// 실시간 물방울 시각화 (오디오와 싱크 맞춤)
+struct SoundCanvasVisualization: View {
+    @ObservedObject var viewModel: CreateSoundViewModel
+    @State private var drops: [SoundDrop] = []
+    @State private var audioEventCancellable: AnyCancellable?
+    private let audioManager = AudioEngineManager.shared
+
+    var body: some View {
+        ZStack {
+            // 배경 그라데이션
+            Circle()
+                .fill(
+                    RadialGradient(
+                        gradient: Gradient(colors: [
+                            (viewModel.selectedOriginalSound?.color ?? .blue).opacity(0.2),
+                            (viewModel.selectedOriginalSound?.color ?? .blue).opacity(0.05),
+                            Color.clear
+                        ]),
+                        center: .center,
+                        startRadius: 20,
+                        endRadius: 120
+                    )
+                )
+                .frame(width: 240, height: 240)
+
+            // 물방울들
+            ForEach(drops) { drop in
+                SoundDropCircle(drop: drop)
+            }
+
+            // 중앙 아이콘만 표시 (텍스트 제거)
+            if let original = viewModel.selectedOriginalSound {
+                Image(systemName: original.icon)
+                    .font(.system(size: 32))
+                    .foregroundColor(original.color.opacity(0.3))
+            }
+        }
+        .frame(height: 240)
+        .onAppear {
+            startVisualization()
+        }
+        .onDisappear {
+            stopVisualization()
+        }
+    }
+
+    func startVisualization() {
+        print("🎨 [SoundCanvas] 시각화 시작 - 오디오 이벤트 구독")
+
+        // AudioEngineManager의 실제 재생 이벤트를 구독
+        audioEventCancellable = audioManager.soundDidPlay
+            .receive(on: DispatchQueue.main)
+            .sink { [self] event in
+                print("   🎵 물방울 생성: 볼륨=\(event.volume), 피치=\(event.pitch)")
+                self.addDrop(volume: event.volume, pitch: event.pitch)
+                self.cleanupOldDrops()
+            }
+    }
+
+    func stopVisualization() {
+        print("🛑 [SoundCanvas] 시각화 중지")
+        audioEventCancellable?.cancel()
+        audioEventCancellable = nil
+        drops.removeAll()
+    }
+
+    func addDrop(volume: Float, pitch: Float) {
+        // 피치에 따라 X 위치 결정 (-24 ~ +24 범위를 60 ~ 180으로 매핑)
+        let normalizedPitch = (CGFloat(pitch) + 24.0) / 48.0 // 0.0 ~ 1.0
+        let xPosition = 60 + (normalizedPitch * 120) // 60 ~ 180
+
+        let drop = SoundDrop(
+            volume: CGFloat(volume),
+            pitch: CGFloat(pitch),
+            baseColor: viewModel.selectedOriginalSound?.color ?? .blue,
+            position: CGPoint(x: xPosition, y: 120)
+        )
+
+        drops.append(drop)
+    }
+
+    func cleanupOldDrops() {
+        drops.removeAll { $0.createdAt.timeIntervalSinceNow < -2.5 }
+    }
+}
+
+// MARK: - Sound Drop Model
+
+struct SoundDrop: Identifiable {
+    let id = UUID()
+    let volume: CGFloat
+    let pitch: CGFloat
+    let baseColor: Color
+    let position: CGPoint
+    let createdAt = Date()
+
+    var color: Color {
+        // 피치에 따라 색상 변화
+        if pitch == 0 {
+            return baseColor
+        }
+
+        let normalized = (pitch + 24.0) / 48.0 // 0.0 ~ 1.0
+        let adjustment = (normalized - 0.5) * 0.15
+
+        return baseColor.opacity(0.8 + adjustment)
+    }
+}
+
+// MARK: - Sound Drop Circle
+
+struct SoundDropCircle: View {
+    let drop: SoundDrop
+    @State private var scale: CGFloat = 0.1
+    @State private var opacity: Double = 1.0
+
+    var body: some View {
+        let baseSize: CGFloat = 30
+        let volumeMultiplier = drop.volume * 2.0 // 볼륨에 따라 최대 크기 결정
+        let maxScale = 1.0 + volumeMultiplier // 볼륨이 클수록 크게 커짐
+
+        Circle()
+            .stroke(drop.color, lineWidth: 2.5 * drop.volume)
+            .frame(width: baseSize, height: baseSize)
+            .scaleEffect(scale)
+            .opacity(opacity)
+            .position(drop.position)
+            .onAppear {
+                withAnimation(.easeOut(duration: 2.0)) {
+                    scale = maxScale
+                    opacity = 0.0
+                }
+            }
+    }
+}
+
