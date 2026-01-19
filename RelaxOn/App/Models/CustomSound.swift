@@ -51,12 +51,49 @@ enum AudioFilter: String, Codable {
     case WaterDrop, Basement, Cave, Pipe, Sink
     case SingingBowl, Focus, Training, Empty, Vibration
     case Bird, Owl, Woodpecker, Forest, Cuckoo
-    
+
+    var displayName: String {
+        switch self {
+        case .none:
+            return L.Category.none.localized
+        case .WaterDrop:
+            return L.Filter.waterdrop.localized
+        case .Basement:
+            return L.Filter.basement.localized
+        case .Cave:
+            return L.Filter.cave.localized
+        case .Pipe:
+            return L.Filter.pipe.localized
+        case .Sink:
+            return L.Filter.sink.localized
+        case .SingingBowl:
+            return L.Filter.singingBowl.localized
+        case .Focus:
+            return L.Filter.focus.localized
+        case .Training:
+            return L.Filter.training.localized
+        case .Empty:
+            return L.Filter.empty.localized
+        case .Vibration:
+            return L.Filter.vibration.localized
+        case .Bird:
+            return L.Filter.bird.localized
+        case .Owl:
+            return L.Filter.owl.localized
+        case .Woodpecker:
+            return L.Filter.woodpecker.localized
+        case .Forest:
+            return L.Filter.forest.localized
+        case .Cuckoo:
+            return L.Filter.cuckoo.localized
+        }
+    }
+
     var duration: TimeInterval {
         switch self {
         case .none:
             return 0.0
-            
+
         case .WaterDrop:
             return 1.0
         case .Basement:
@@ -67,7 +104,7 @@ enum AudioFilter: String, Codable {
             return 3.0
         case .Sink:
             return 2.0
-            
+
         case .SingingBowl:
             return 5.0
         case .Focus:
@@ -78,7 +115,7 @@ enum AudioFilter: String, Codable {
             return 5.0
         case .Vibration:
             return 7.0
-            
+
         case .Bird:
             return 1.0
         case .Owl:
@@ -97,17 +134,17 @@ enum AudioFilter: String, Codable {
 enum SoundCategory: String, Codable {
     case none
     case WaterDrop, SingingBowl, Bird
-    
+
     var displayName: String {
         switch self {
         case .none:
-            return "없음"
+            return L.Category.none.localized
         case .WaterDrop:
-            return "물방울"
+            return L.Category.waterdrop.localized
         case .SingingBowl:
-            return "싱잉볼"
+            return L.Category.singingBowl.localized
         case .Bird:
-            return "새소리"
+            return L.Category.bird.localized
         }
     }
     

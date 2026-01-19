@@ -531,6 +531,14 @@ enum BackgroundSound: String, CaseIterable {
     case rain = "비"
     case tv = "TV 소음"
 
+    var displayName: String {
+        switch self {
+        case .wave: return L.Background.wave.localized
+        case .rain: return L.Background.rain.localized
+        case .tv: return L.Background.tv.localized
+        }
+    }
+
     var fileName: String {
         switch self {
         case .wave: return "wave_10min"

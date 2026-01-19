@@ -30,7 +30,7 @@ struct SoundListView: View {
                 
                 VStack(alignment: .leading) {
                     HStack {
-                        Text("사운드 선택")
+                        Text(L.SoundList.title.localized)
                             .foregroundColor(Color(.TitleText))
                             .font(.system(size: 24, weight: .bold))
 
@@ -41,7 +41,7 @@ struct SoundListView: View {
                             HStack(spacing: 4) {
                                 Image(systemName: "plus.circle.fill")
                                     .font(.system(size: 14))
-                                Text("새로 만들기")
+                                Text(L.SoundList.createNew.localized)
                                     .font(.system(size: 13, weight: .semibold))
                             }
                             .foregroundColor(.white)
@@ -58,7 +58,7 @@ struct SoundListView: View {
                             HStack(spacing: 4) {
                                 Image(systemName: "wand.and.stars")
                                     .font(.system(size: 14))
-                                Text("샘플")
+                                Text(L.SoundList.sample.localized)
                                     .font(.system(size: 13, weight: .semibold))
                             }
                             .foregroundColor(.white.opacity(0.9))
@@ -104,7 +104,7 @@ struct SoundListView: View {
                 Image(systemName: "star.fill")
                     .foregroundColor(Color(.PrimaryPurple))
                     .font(.system(size: 16))
-                Text("추천 조합")
+                Text(L.SoundList.recommended.localized)
                     .font(.system(size: 18, weight: .bold))
                     .foregroundColor(Color(.TitleText))
             }
@@ -164,7 +164,7 @@ struct SoundListView: View {
     private func gridView() -> some View {
 
         VStack(alignment: .leading, spacing: 12) {
-            Text("원본 사운드")
+            Text(L.SoundList.originalSounds.localized)
                 .font(.system(size: 18, weight: .bold))
                 .foregroundColor(Color(.TitleText))
                 .padding(.horizontal, 24)
@@ -238,7 +238,7 @@ struct CreateNewSoundView: View {
                         HStack(spacing: 6) {
                             Image(systemName: "chevron.left")
                                 .font(.system(size: 16, weight: .semibold))
-                            Text("뒤로")
+                            Text(L.CreateSound.back.localized)
                                 .font(.system(size: 16))
                         }
                         .foregroundColor(Color(.PrimaryPurple))
@@ -246,7 +246,7 @@ struct CreateNewSoundView: View {
 
                     Spacer()
 
-                    Text("새 사운드 만들기")
+                    Text(L.CreateSound.title.localized)
                         .font(.system(size: 18, weight: .bold))
                         .foregroundColor(Color(.TitleText))
 
@@ -255,7 +255,7 @@ struct CreateNewSoundView: View {
                     Button(action: {
                         showingSaveAlert = true
                     }) {
-                        Text("만들기")
+                        Text(L.CreateSound.create.localized)
                             .font(.system(size: 16, weight: .semibold))
                             .foregroundColor(viewModel.selectedOriginalSound == nil ? Color(.Text).opacity(0.3) : Color(.PrimaryPurple))
                     }
@@ -290,12 +290,12 @@ struct CreateNewSoundView: View {
             }
         }
         .navigationBarHidden(true)
-        .alert("사운드 이름", isPresented: $showingSaveAlert) {
-            TextField("사운드 이름을 입력하세요", text: $soundTitle)
-            Button("취소", role: .cancel) {
+        .alert(L.Alert.soundName.localized, isPresented: $showingSaveAlert) {
+            TextField(L.Alert.enterName.localized, text: $soundTitle)
+            Button(L.Common.cancel.localized, role: .cancel) {
                 soundTitle = ""
             }
-            Button("저장") {
+            Button(L.Common.save.localized) {
                 if !soundTitle.isEmpty {
                     if viewModel.saveCustomSound(title: soundTitle) {
                         dismiss()
@@ -306,7 +306,7 @@ struct CreateNewSoundView: View {
                 }
             }
         } message: {
-            Text("생성할 사운드의 이름을 입력하세요")
+            Text(L.Alert.enterDescription.localized)
         }
         .onDisappear {
             viewModel.stopPreview()
@@ -316,7 +316,7 @@ struct CreateNewSoundView: View {
     @ViewBuilder
     private func emptyCanvasView() -> some View {
         VStack(spacing: 16) {
-            Text("사운드 캔버스")
+            Text(L.CreateSound.canvasTitle.localized)
                 .font(.system(size: 14, weight: .semibold))
                 .foregroundColor(Color(.Text).opacity(0.6))
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -358,35 +358,35 @@ struct CreateNewSoundView: View {
 
                     VStack(spacing: 6) {
                         if let background = viewModel.selectedBackground, let original = viewModel.selectedOriginalSound {
-                            Text("\(background.rawValue) + \(original.name)")
+                            Text(String(format: L.CreateSound.combinedFormat.localized, background.displayName, original.name))
                                 .font(.system(size: 15, weight: .bold))
                                 .foregroundColor(Color(.TitleText))
 
-                            Text("재생 중")
+                            Text(L.CreateSound.playing.localized)
                                 .font(.system(size: 13))
                                 .foregroundColor(Color(.PrimaryPurple))
                         } else if let background = viewModel.selectedBackground {
-                            Text("\(background.rawValue)")
+                            Text(background.displayName)
                                 .font(.system(size: 15, weight: .semibold))
                                 .foregroundColor(Color(.TitleText))
 
-                            Text("원본 사운드를 선택하세요")
+                            Text(L.CreateSound.selectOriginal.localized)
                                 .font(.system(size: 13))
                                 .foregroundColor(Color(.Text).opacity(0.5))
                         } else if let original = viewModel.selectedOriginalSound {
-                            Text("\(original.name)")
+                            Text(original.name)
                                 .font(.system(size: 15, weight: .semibold))
                                 .foregroundColor(Color(.TitleText))
 
-                            Text("재생 중")
+                            Text(L.CreateSound.playing.localized)
                                 .font(.system(size: 13))
                                 .foregroundColor(Color(.PrimaryPurple))
                         } else {
-                            Text("배경음과 원본 사운드를 선택하세요")
+                            Text(L.CreateSound.selectBoth.localized)
                                 .font(.system(size: 15, weight: .medium))
                                 .foregroundColor(Color(.Text).opacity(0.5))
 
-                            Text("선택하면 바로 들을 수 있습니다")
+                            Text(L.CreateSound.canPlayNow.localized)
                                 .font(.system(size: 13))
                                 .foregroundColor(Color(.Text).opacity(0.4))
                         }
@@ -401,7 +401,7 @@ struct CreateNewSoundView: View {
     private func backgroundSoundSection() -> some View {
         VStack(spacing: 16) {
             HStack {
-                Text("배경 사운드")
+                Text(L.CreateSound.backgroundSound.localized)
                     .font(.system(size: 14, weight: .semibold))
                     .foregroundColor(Color(.Text).opacity(0.6))
 
@@ -411,7 +411,7 @@ struct CreateNewSoundView: View {
                     Button(action: {
                         viewModel.clearBackground()
                     }) {
-                        Text("제거")
+                        Text(L.Common.remove.localized)
                             .font(.system(size: 12))
                             .foregroundColor(.red.opacity(0.8))
                     }
@@ -437,7 +437,7 @@ struct CreateNewSoundView: View {
                             .font(.system(size: 14))
                             .foregroundColor(Color(.Text).opacity(0.6))
 
-                        Text("배경음 볼륨")
+                        Text(L.CreateSound.backgroundVolume.localized)
                             .font(.system(size: 13, weight: .medium))
                             .foregroundColor(Color(.Text).opacity(0.6))
 
@@ -477,7 +477,7 @@ struct CreateNewSoundView: View {
     @ViewBuilder
     private func dropZoneView() -> some View {
         VStack(spacing: 16) {
-            Text("원본 사운드 선택")
+            Text(L.CreateSound.originalSoundSelection.localized)
                 .font(.system(size: 14, weight: .semibold))
                 .foregroundColor(Color(.Text).opacity(0.6))
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -512,7 +512,7 @@ struct CreateNewSoundView: View {
                             .font(.system(size: 16))
                             .foregroundColor(sound.color)
 
-                        Text("\(sound.name) 커스터마이징")
+                        Text("\(sound.name) \(L.CreateSound.customizing.localized)")
                             .font(.system(size: 15, weight: .semibold))
                             .foregroundColor(Color(.Text))
                     }
@@ -526,7 +526,7 @@ struct CreateNewSoundView: View {
                         viewModel.playPreview(sound: sound)
                     }
                 }) {
-                    Text("초기화")
+                    Text(L.Common.reset.localized)
                         .font(.system(size: 12))
                         .foregroundColor(Color(.PrimaryPurple).opacity(0.8))
                 }
@@ -536,7 +536,7 @@ struct CreateNewSoundView: View {
                 // 볼륨 슬라이더 (변동성 포함)
                 variationSlider(
                     icon: "speaker.wave.2.fill",
-                    label: "볼륨",
+                    label: L.Customize.volume.localized,
                     value: Binding(
                         get: { viewModel.currentVariation.volume },
                         set: { var v = viewModel.currentVariation; v.volume = $0; viewModel.currentVariation = v }
@@ -553,7 +553,7 @@ struct CreateNewSoundView: View {
                 // 피치 슬라이더 (변동성 포함)
                 variationSlider(
                     icon: "waveform",
-                    label: "피치",
+                    label: L.Customize.pitch.localized,
                     value: Binding(
                         get: { viewModel.currentVariation.pitch },
                         set: { var v = viewModel.currentVariation; v.pitch = $0; viewModel.currentVariation = v }
@@ -570,7 +570,7 @@ struct CreateNewSoundView: View {
                 // 간격 슬라이더 (변동성 포함)
                 variationSlider(
                     icon: "timer",
-                    label: "간격",
+                    label: L.Customize.interval.localized,
                     value: Binding(
                         get: { viewModel.currentVariation.interval },
                         set: { var v = viewModel.currentVariation; v.interval = $0; viewModel.currentVariation = v }
@@ -647,7 +647,7 @@ struct CreateNewSoundView: View {
                     .foregroundColor(color.opacity(0.7))
                     .frame(width: 20)
 
-                Text("변화의 폭")
+                Text(L.Customize.variation.localized)
                     .font(.system(size: 12))
                     .foregroundColor(Color(.Text).opacity(0.8))
 
@@ -781,7 +781,7 @@ struct BackgroundSoundCard: View {
                         .foregroundColor(isSelected ? Color(.PrimaryPurple) : .gray)
                 }
 
-                Text(background.rawValue)
+                Text(background.displayName)
                     .font(.system(size: 13, weight: isSelected ? .semibold : .medium))
                     .foregroundColor(isSelected ? Color(.PrimaryPurple) : Color(.TitleText))
                     .lineLimit(1)
