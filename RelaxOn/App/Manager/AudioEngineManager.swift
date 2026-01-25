@@ -823,12 +823,22 @@ enum BackgroundSound: String, CaseIterable {
     case rain = "비"
     case tv = "TV 소음"
 
+<<<<<<< HEAD
     // 멜로디 음악
     case piano = "피아노"
     case guitar = "기타"
     case ambient = "앰비언트"
     case lofi = "로파이"
     case meditation = "명상 음악"
+=======
+    var displayName: String {
+        switch self {
+        case .wave: return L.Background.wave.localized
+        case .rain: return L.Background.rain.localized
+        case .tv: return L.Background.tv.localized
+        }
+    }
+>>>>>>> origin/다국어지원
 
     var fileName: String {
         switch self {

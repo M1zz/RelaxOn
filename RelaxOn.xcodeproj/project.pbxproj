@@ -34,6 +34,7 @@
 		594012752A17DD7900221DE7 /* Owl.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 594012712A17DD7800221DE7 /* Owl.mp3 */; };
 		594012762A17DD7900221DE7 /* Forest.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 594012722A17DD7900221DE7 /* Forest.mp3 */; };
 		59DFA0772A30D65E006EB723 /* DragCircularSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59DFA0762A30D65E006EB723 /* DragCircularSlider.swift */; };
+		630903C8F065B61C9BFA760B /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 03C047869B83EAF5E36D4BC3 /* Localizable.xcstrings */; };
 		8F00A2392A2332530062B816 /* TimerSoundSelectModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F00A2382A2332530062B816 /* TimerSoundSelectModalView.swift */; };
 		8F00A23B2A2348C20062B816 /* TimerSoundListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F00A23A2A2348C20062B816 /* TimerSoundListCell.swift */; };
 		8F00A23D2A235E5F0062B816 /* OnboardItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F00A23C2A235E5F0062B816 /* OnboardItem.swift */; };
@@ -73,7 +74,11 @@
 		8FFF99E92A1F4E1600E2474C /* WaterDrop.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8FFF99E82A1F4E1600E2474C /* WaterDrop.mp3 */; };
 		8FFF99EB2A1F4FD700E2474C /* CustomSoundViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FFF99EA2A1F4FD700E2474C /* CustomSoundViewModel.swift */; };
 		8FFF99ED2A1F51F100E2474C /* AudioVariation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FFF99EC2A1F51F100E2474C /* AudioVariation.swift */; };
+<<<<<<< HEAD
 		99AA00022EF1960000000002 /* SoundThumbnailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99AA00012EF1960000000001 /* SoundThumbnailView.swift */; };
+=======
+		A81D4B61DC9FC788038A49E4 /* LocalizationKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9C11FBB3A19C84918309F6 /* LocalizationKeys.swift */; };
+>>>>>>> origin/다국어지원
 		CC04E26328BDA3F800509C60 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC04E26228BDA3F800509C60 /* AppDelegate.swift */; };
 		CC04E26528BDA45900509C60 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC04E26428BDA45900509C60 /* SceneDelegate.swift */; };
 /* End PBXBuildFile section */
@@ -116,6 +121,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		03C047869B83EAF5E36D4BC3 /* Localizable.xcstrings */ = {isa = PBXFileReference; includeInIndex = 1; name = Localizable.xcstrings; path = App/Resources/Localizable.xcstrings; sourceTree = "<group>"; };
 		4AA37CA828D3656800B0F8FF /* LockScreenWidgetExtensionExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LockScreenWidgetExtensionExtension.entitlements; sourceTree = "<group>"; };
 		4AA37CA928D370E400B0F8FF /* WatchOSLockScreenWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WatchOSLockScreenWidgetExtension.entitlements; sourceTree = "<group>"; };
 		58DE617F2839C13900F25769 /* RelaxOn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RelaxOn.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -185,7 +191,11 @@
 		8FFF99E82A1F4E1600E2474C /* WaterDrop.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = WaterDrop.mp3; sourceTree = "<group>"; };
 		8FFF99EA2A1F4FD700E2474C /* CustomSoundViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSoundViewModel.swift; sourceTree = "<group>"; };
 		8FFF99EC2A1F51F100E2474C /* AudioVariation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioVariation.swift; sourceTree = "<group>"; };
+<<<<<<< HEAD
 		99AA00012EF1960000000001 /* SoundThumbnailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundThumbnailView.swift; sourceTree = "<group>"; };
+=======
+		AD9C11FBB3A19C84918309F6 /* LocalizationKeys.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LocalizationKeys.swift; path = App/Resources/Localization/LocalizationKeys.swift; sourceTree = "<group>"; };
+>>>>>>> origin/다국어지원
 		CC04E26228BDA3F800509C60 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CC04E26428BDA45900509C60 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		CC5AC106289C033C00FE847B /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
@@ -234,6 +244,7 @@
 				C7C4C25628C23A3B0048DCBA /* App */,
 				58DE61C12841C20A00F25769 /* Launch Screen.storyboard */,
 				58DE61882839C13A00F25769 /* Preview Content */,
+				5FF817BA0F7C82CE0FC50DB1 /* Resources */,
 			);
 			path = RelaxOn;
 			sourceTree = "<group>";
@@ -314,6 +325,15 @@
 				5940126F2A17DD7800221DE7 /* Woodpecker.mp3 */,
 			);
 			path = Bird;
+			sourceTree = "<group>";
+		};
+		5FF817BA0F7C82CE0FC50DB1 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				D4B5C3647D837C396E18D4C1 /* Localization */,
+				03C047869B83EAF5E36D4BC3 /* Localizable.xcstrings */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 		8F36BFCF2A14F8B100514BBE /* Applications */ = {
@@ -481,6 +501,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		D4B5C3647D837C396E18D4C1 /* Localization */ = {
+			isa = PBXGroup;
+			children = (
+				AD9C11FBB3A19C84918309F6 /* LocalizationKeys.swift */,
+			);
+			name = Localization;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -569,6 +597,7 @@
 				594012732A17DD7900221DE7 /* Woodpecker.mp3 in Resources */,
 				5940126D2A17DD3B00221DE7 /* Focus.mp3 in Resources */,
 				594012692A17DD3B00221DE7 /* Vibration.mp3 in Resources */,
+				630903C8F065B61C9BFA760B /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -621,7 +650,11 @@
 				8FFF99EB2A1F4FD700E2474C /* CustomSoundViewModel.swift in Sources */,
 				8F95E45B2A1F85EC00CDB8D2 /* SoundListView+Extension.swift in Sources */,
 				8F4E1B6529B9A67E0013599C /* TimerMainView.swift in Sources */,
+<<<<<<< HEAD
 				4C408C2D0DE14B0D8C47B526 /* PresetSound.swift in Sources */,
+=======
+				A81D4B61DC9FC788038A49E4 /* LocalizationKeys.swift in Sources */,
+>>>>>>> origin/다국어지원
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
