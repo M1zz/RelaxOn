@@ -63,14 +63,10 @@ enum OnboardInfo {
     }
     // 설명 문구
     enum IconText: String {
-        case Equlizer = "나만의 소리를 찾기 위해\n소리를 커스텀해보세요."
-        case Headphone = "지금 바로 나만의 소리를 만들어 보세요!"
-        case Lamp = "수면에 도움되는 소리를 검색하고\n하나하나 들어보느라 오래 걸린 적 있나요?"
-        case Musicplayer = "사운드를 선택하고 원하는 시간만큼\n타이머를 설정한 후 숙면을 취해보세요."
-    }
-    // 튜토리얼 관련
-    enum Tutorial: String {
-        case image = "TutorialGesture"
+        case Equlizer = "여러 개의 소리를 레이어처럼 겹쳐서\n나만의 완벽한 사운드를 만들어보세요"
+        case Headphone = "캠프파이어 곁에서 편안한 사운드와 함께\n휴식을 즐겨보세요"
+        case Lamp = "물방울, 새소리, 싱잉볼...\n자연의 소리로 마음의 평화를 찾아보세요"
+        case Musicplayer = "배경 음악을 더해 더욱 풍부한 사운드를\n경험하고, 타이머로 수면을 관리하세요"
     }
 }
 

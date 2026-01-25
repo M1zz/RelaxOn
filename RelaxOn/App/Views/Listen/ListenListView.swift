@@ -22,7 +22,8 @@ struct ListenListView: View {
     @State private var editingSound: CustomSound? = nil
     @State private var isShowingEditView = false
     @State private var isShowingCreateModal = false
-    @State private var isShowingSettings = false
+    @State private var isShowingTimer = false
+    @StateObject private var timerManager = TimerManager(viewModel: CustomSoundViewModel())
     
     // MARK: - Body
     var body: some View {
@@ -43,6 +44,10 @@ struct ListenListView: View {
                 // 헤더
                 headerView()
 
+                // 스마트 추천 캐러셀
+                smartRecommendationsView()
+                    .padding(.bottom, 16)
+
                 // 캠프파이어 중앙 배치 (사운드 바 공간 확보)
                 CampfireView(isPlaying: viewModel.isPlaying)
                     .frame(maxHeight: .infinity)
@@ -57,44 +62,36 @@ struct ListenListView: View {
             }
         }
 
-        .sheet(isPresented: $isShowingEditView) {
+        .navigationDestination(isPresented: $isShowingEditView) {
             if let editing = editingSound {
-                NavigationView {
-                    SoundDetailView(
-                        isTutorial: false,
-                        originalSound: OriginalSound(
-                            name: editing.category.displayName,
-                            filter: editing.filter,
-                            category: editing.category
-                        ),
-                        editingSound: editing
-                    )
-                }
+                SoundDetailView(
+                    isTutorial: false,
+                    originalSound: OriginalSound(
+                        name: editing.category.displayName,
+                        filter: editing.filter,
+                        category: editing.category
+                    ),
+                    editingSound: editing
+                )
             }
         }
 
-        .sheet(isPresented: $isShowingCreateModal) {
-            createSoundModal()
+        .navigationDestination(isPresented: $isShowingCreateModal) {
+            SavedSoundsListView()
         }
 
-        .sheet(isPresented: $isShowingSettings) {
-            NavigationStack {
-                TimerMainView()
-                    .navigationTitle("타이머")
-                    .navigationBarTitleDisplayMode(.inline)
-                    .toolbar {
-                        ToolbarItem(placement: .navigationBarTrailing) {
-                            Button("닫기") {
-                                isShowingSettings = false
-                            }
-                        }
-                    }
-            }
+        .navigationDestination(isPresented: $isShowingTimer) {
+            TimerView(timerManager: timerManager, isShowingTimer: $isShowingTimer)
         }
 
         .onAppear {
             selectedFile = viewModel.lastSound
             viewModel.loadSound()
+            timerManager.viewModel = viewModel
+            timerManager.timerDidFinish = {
+                // 타이머 종료 시 처리
+                print("⏰ 타이머 종료")
+            }
         }
     }
 
@@ -144,13 +141,6 @@ struct ListenListView: View {
         .background(Color(.DefaultBackground))
     }
 
-    @ViewBuilder
-    private func createSoundModal() -> some View {
-        NavigationStack {
-            SavedSoundsListView()
-        }
-    }
-
     // MARK: - Header View
     @ViewBuilder
     private func headerView() -> some View {
@@ -161,27 +151,97 @@ struct ListenListView: View {
 
             Spacer()
 
-            // 새로 만들기 버튼
+            // 저장된 사운드 목록 버튼
             Button(action: {
                 isShowingCreateModal = true
             }) {
-                Image(systemName: "plus.circle.fill")
+                Image(systemName: "music.note.list")
                     .font(.system(size: 24))
                     .foregroundColor(Color(.PrimaryPurple))
             }
             .padding(.trailing, 12)
 
-            // 설정 버튼
+            // 타이머 버튼
             Button(action: {
-                isShowingSettings = true
+                isShowingTimer = true
             }) {
-                Image(systemName: "gearshape.fill")
-                    .font(.system(size: 24))
-                    .foregroundColor(.white.opacity(0.8))
+                ZStack {
+                    if timerManager.textTimer != nil && timerManager.remainingSeconds > 0 {
+                        // 타이머 활성화 중
+                        ZStack {
+                            Circle()
+                                .fill(Color(.PrimaryPurple).opacity(0.2))
+                                .frame(width: 40, height: 40)
+
+                            Image(systemName: "timer")
+                                .font(.system(size: 20))
+                                .foregroundColor(Color(.PrimaryPurple))
+                        }
+                    } else {
+                        // 타이머 비활성화
+                        Image(systemName: "timer")
+                            .font(.system(size: 24))
+                            .foregroundColor(.white.opacity(0.8))
+                    }
+                }
             }
         }
         .padding(.horizontal, 24)
         .padding(.vertical, 16)
+    }
+
+    // MARK: - Smart Recommendations View
+    @ViewBuilder
+    private func smartRecommendationsView() -> some View {
+        let recommendations = viewModel.getSmartRecommendations()
+
+        if !recommendations.isEmpty {
+            VStack(alignment: .leading, spacing: 12) {
+                // 헤더
+                HStack(spacing: 8) {
+                    Image(systemName: "sparkles")
+                        .font(.system(size: 16))
+                        .foregroundColor(.yellow)
+
+                    Text(getRecommendationTitle())
+                        .font(.system(size: 17, weight: .bold))
+                        .foregroundColor(.white)
+
+                    Spacer()
+                }
+                .padding(.horizontal, 24)
+
+                // 가로 스크롤 카드
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 12) {
+                        ForEach(recommendations) { sound in
+                            RecommendationCard(sound: sound)
+                                .onTapGesture {
+                                    viewModel.selectedSound = sound
+                                    viewModel.play(with: sound)
+                                }
+                        }
+                    }
+                    .padding(.horizontal, 24)
+                }
+            }
+            .padding(.vertical, 8)
+        }
+    }
+
+    private func getRecommendationTitle() -> String {
+        let hour = Calendar.current.component(.hour, from: Date())
+
+        switch hour {
+        case 6..<12:
+            return "상쾌한 아침을 위한 추천"
+        case 12..<18:
+            return "집중력을 높이는 추천"
+        case 18..<22:
+            return "편안한 저녁을 위한 추천"
+        default:
+            return "깊은 수면을 위한 추천"
+        }
     }
 
     // MARK: - Mini Player View
@@ -213,15 +273,32 @@ struct ListenListView: View {
 
                 // 사운드 정보
                 VStack(alignment: .leading, spacing: 4) {
-                    if let sound = viewModel.selectedSound as? CustomSound {
+                    if let sound = viewModel.selectedSound {
                         Text(sound.title)
                             .font(.system(size: 15, weight: .semibold))
                             .foregroundColor(.white)
                             .lineLimit(1)
 
-                        Text(sound.category.displayName)
-                            .font(.system(size: 12))
-                            .foregroundColor(.white.opacity(0.7))
+                        HStack(spacing: 6) {
+                            Text(sound.category.displayName)
+                                .font(.system(size: 12))
+                                .foregroundColor(.white.opacity(0.7))
+
+                            // 타이머 활성화 시 남은 시간 표시
+                            if timerManager.textTimer != nil && timerManager.remainingSeconds > 0 {
+                                Text("•")
+                                    .font(.system(size: 10))
+                                    .foregroundColor(.white.opacity(0.5))
+
+                                HStack(spacing: 3) {
+                                    Image(systemName: "timer")
+                                        .font(.system(size: 10))
+                                    Text(formatRemainingTime(timerManager.remainingSeconds))
+                                        .font(.system(size: 11, weight: .medium))
+                                }
+                                .foregroundColor(Color(.PrimaryPurple))
+                            }
+                        }
                     }
                 }
 
@@ -257,10 +334,20 @@ struct ListenListView: View {
             .padding(.bottom, 20)
         }
         .buttonStyle(PlainButtonStyle())
-        .sheet(isPresented: $isShowingSheet, onDismiss: {
-            isShowingSheet = false
-        }) {
+        .navigationDestination(isPresented: $isShowingSheet) {
             SoundPlayerFullModalView()
+        }
+    }
+
+    // MARK: - Helper Functions
+    private func formatRemainingTime(_ seconds: Int) -> String {
+        let hours = seconds / 3600
+        let minutes = (seconds % 3600) / 60
+
+        if hours > 0 {
+            return "\(hours)h \(minutes)m"
+        } else {
+            return "\(minutes)m"
         }
     }
 
@@ -639,6 +726,215 @@ struct CampfireView: View {
     }
 }
 
+// MARK: - Timer View
+
+struct TimerView: View {
+    @EnvironmentObject var viewModel: CustomSoundViewModel
+    @ObservedObject var timerManager: TimerManager
+    @Binding var isShowingTimer: Bool
+    @State private var hours: [Int] = Array(0...23)
+    @State private var minutes: [Int] = Array(0...59)
+    @State private var isTimerRunning = false
+
+    var body: some View {
+        ZStack {
+            // 배경
+            LinearGradient(
+                gradient: Gradient(colors: [
+                    Color(red: 0.1, green: 0.05, blue: 0.15),
+                    Color(red: 0.15, green: 0.1, blue: 0.2),
+                    Color(red: 0.2, green: 0.15, blue: 0.25)
+                ]),
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .ignoresSafeArea()
+
+            VStack(spacing: 0) {
+                if isTimerRunning {
+                    // 타이머 실행 중
+                    timerProgressView()
+                } else {
+                    // 타이머 설정
+                    timerSettingView()
+                }
+            }
+        }
+        .navigationTitle("수면 타이머")
+        .navigationBarTitleDisplayMode(.inline)
+        .onAppear {
+            isTimerRunning = timerManager.textTimer != nil && timerManager.remainingSeconds > 0
+        }
+    }
+
+    // MARK: - Timer Setting View
+    @ViewBuilder
+    private func timerSettingView() -> some View {
+        VStack(spacing: 40) {
+            Spacer()
+
+            // 타이머 아이콘
+            ZStack {
+                Circle()
+                    .fill(Color(.PrimaryPurple).opacity(0.2))
+                    .frame(width: 120, height: 120)
+
+                Image(systemName: "moon.stars.fill")
+                    .font(.system(size: 60))
+                    .foregroundColor(Color(.PrimaryPurple))
+            }
+
+            VStack(spacing: 12) {
+                Text("숙면을 위한 타이머")
+                    .font(.system(size: 24, weight: .bold))
+                    .foregroundColor(.white)
+
+                Text("설정한 시간 후 자동으로 음악이 멈춥니다")
+                    .font(.system(size: 15))
+                    .foregroundColor(.white.opacity(0.6))
+            }
+
+            Spacer()
+
+            // 시간 선택
+            TimePickerView(
+                hours: $hours,
+                minutes: $minutes,
+                selectedTimeIndexHours: $timerManager.selectedTimeIndexHours,
+                selectedTimeIndexMinutes: $timerManager.selectedTimeIndexMinutes
+            )
+
+            Spacer()
+
+            // 시작 버튼
+            Button(action: {
+                if let sound = viewModel.selectedSound {
+                    viewModel.play(with: sound)
+                }
+                timerManager.startTimer(timerManager: timerManager)
+                withAnimation {
+                    isTimerRunning = true
+                }
+            }) {
+                HStack(spacing: 12) {
+                    Image(systemName: "play.fill")
+                        .font(.system(size: 18))
+                    Text("타이머 시작")
+                        .font(.system(size: 17, weight: .semibold))
+                }
+                .foregroundColor(.white)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 18)
+                .background(
+                    LinearGradient(
+                        gradient: Gradient(colors: [
+                            Color(.PrimaryPurple),
+                            Color(.PrimaryPurple).opacity(0.8)
+                        ]),
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    )
+                )
+                .cornerRadius(16)
+                .shadow(color: Color(.PrimaryPurple).opacity(0.4), radius: 12, x: 0, y: 6)
+            }
+            .padding(.horizontal, 40)
+            .padding(.bottom, 40)
+        }
+    }
+
+    // MARK: - Timer Progress View
+    @ViewBuilder
+    private func timerProgressView() -> some View {
+        VStack(spacing: 40) {
+            Spacer()
+
+            // 원형 프로그레스 바
+            ZStack {
+                timerManager.getCircularProgressBar()
+                    .frame(width: 280, height: 280)
+
+                VStack(spacing: 12) {
+                    timerManager.getTimeText()
+                        .foregroundColor(.white)
+
+                    Text("남은 시간")
+                        .font(.system(size: 15))
+                        .foregroundColor(.white.opacity(0.6))
+                }
+            }
+
+            Spacer()
+
+            // 컨트롤 버튼들
+            HStack(spacing: 20) {
+                // 중지 버튼
+                Button(action: {
+                    timerManager.stopTimer(timerManager: timerManager)
+                    withAnimation {
+                        isTimerRunning = false
+                    }
+                }) {
+                    VStack(spacing: 8) {
+                        ZStack {
+                            Circle()
+                                .fill(Color.white.opacity(0.1))
+                                .frame(width: 70, height: 70)
+
+                            Image(systemName: "stop.fill")
+                                .font(.system(size: 28))
+                                .foregroundColor(.white)
+                        }
+
+                        Text("중지")
+                            .font(.system(size: 13))
+                            .foregroundColor(.white.opacity(0.8))
+                    }
+                }
+
+                Spacer()
+
+                // 일시정지/재개 버튼
+                Button(action: {
+                    if let timer = timerManager.textTimer, timer.isValid {
+                        timerManager.pauseTimer(timerManager: timerManager)
+                    } else {
+                        timerManager.resumeTimer(timerManager: timerManager)
+                        if let sound = viewModel.selectedSound {
+                            viewModel.play(with: sound)
+                        }
+                    }
+                }) {
+                    VStack(spacing: 8) {
+                        ZStack {
+                            Circle()
+                                .fill(Color(.PrimaryPurple))
+                                .frame(width: 90, height: 90)
+                                .shadow(color: Color(.PrimaryPurple).opacity(0.4), radius: 12, x: 0, y: 6)
+
+                            if let timer = timerManager.textTimer, timer.isValid {
+                                Image(systemName: "pause.fill")
+                                    .font(.system(size: 36))
+                                    .foregroundColor(.white)
+                            } else {
+                                Image(systemName: "play.fill")
+                                    .font(.system(size: 36))
+                                    .foregroundColor(.white)
+                            }
+                        }
+
+                        Text(timerManager.textTimer?.isValid == true ? "일시정지" : "재개")
+                            .font(.system(size: 13))
+                            .foregroundColor(.white.opacity(0.8))
+                    }
+                }
+            }
+            .padding(.horizontal, 60)
+            .padding(.bottom, 60)
+        }
+    }
+}
+
 struct ListenListView_Previews: PreviewProvider {
     static var previews: some View {
         ListenListView()
@@ -650,6 +946,7 @@ struct SavedSoundsListView: View {
     @EnvironmentObject var viewModel: CustomSoundViewModel
     @Environment(\.dismiss) var dismiss
     @State private var searchText = ""
+    @State private var showCreateView = false
 
     var body: some View {
         ZStack {
@@ -675,14 +972,31 @@ struct SavedSoundsListView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                Button("닫기") {
-                    dismiss()
+                Button {
+                    showCreateView = true
+                } label: {
+                    HStack(spacing: 4) {
+                        Image(systemName: "plus.circle.fill")
+                            .font(.system(size: 18))
+                        Text("새로 만들기")
+                            .font(.system(size: 15, weight: .medium))
+                    }
+                    .foregroundColor(Color(.PrimaryPurple))
                 }
-                .foregroundColor(.white)
             }
+        }
+        .navigationDestination(isPresented: $showCreateView) {
+            CreateNewSoundView()
+                .environmentObject(viewModel)
+                .onDisappear {
+                    // 새 사운드 저장 후 리스트 업데이트
+                    viewModel.loadSound()
+                    print("🔄 [SavedSoundsListView] 리스트 새로고침 - 저장된 사운드 개수: \(viewModel.customSounds.count)")
+                }
         }
         .onAppear {
             viewModel.loadSound()
+            viewModel.loadPresetSounds() // 프리셋 사운드 로드
             print("📋 [SavedSoundsListView] 저장된 사운드 개수: \(viewModel.customSounds.count)")
         }
     }
@@ -700,11 +1014,28 @@ struct SavedSoundsListView: View {
                     .font(.system(size: 20, weight: .bold))
                     .foregroundColor(.white)
 
-                Text("홈 탭에서 나만의 첫 사운드를 만들어보세요")
+                Text("나만의 첫 사운드를 만들어보세요")
                     .font(.system(size: 15))
                     .foregroundColor(.white.opacity(0.6))
                     .multilineTextAlignment(.center)
             }
+
+            Button(action: {
+                showCreateView = true
+            }) {
+                HStack(spacing: 8) {
+                    Image(systemName: "plus.circle.fill")
+                        .font(.system(size: 16))
+                    Text("새 사운드 만들기")
+                        .font(.system(size: 16, weight: .semibold))
+                }
+                .foregroundColor(.white)
+                .padding(.horizontal, 24)
+                .padding(.vertical, 14)
+                .background(Color(.PrimaryPurple))
+                .cornerRadius(12)
+            }
+            .padding(.top, 8)
         }
     }
 
@@ -712,26 +1043,168 @@ struct SavedSoundsListView: View {
     @ViewBuilder
     private func soundsListView() -> some View {
         ScrollView {
-            VStack(spacing: 16) {
+            VStack(spacing: 24) {
                 // 검색 바
                 searchBar()
 
-                // 사운드 그리드
+                // 프리셋 섹션 (카테고리별)
+                if searchText.isEmpty && !viewModel.presetSounds.isEmpty {
+                    presetSectionsView()
+                }
+
+                // 내가 만든 사운드 섹션
+                if !myCreatedSounds.isEmpty {
+                    myCreatedSoundsSection()
+                }
+
+                // 검색 결과 (검색 중일 때)
+                if !searchText.isEmpty {
+                    searchResultsSection()
+                }
+            }
+            .padding(.top, 16)
+            .padding(.bottom, 100)
+        }
+    }
+
+    // MARK: - Preset Sections by Category
+    @ViewBuilder
+    private func presetSectionsView() -> some View {
+        let groupedPresets = Dictionary(grouping: viewModel.presetSounds) { preset in
+            PresetSound.allPresets.first(where: { $0.name == preset.title })?.category ?? .sleep
+        }
+
+        ForEach(PresetCategory.allCases, id: \.self) { category in
+            if let presets = groupedPresets[category], !presets.isEmpty {
+                VStack(alignment: .leading, spacing: 12) {
+                    // 카테고리 헤더
+                    HStack(spacing: 8) {
+                        Image(systemName: category.icon)
+                            .font(.system(size: 18))
+                            .foregroundColor(category.color)
+
+                        Text(category.rawValue)
+                            .font(.system(size: 18, weight: .bold))
+                            .foregroundColor(.white)
+
+                        Spacer()
+                    }
+                    .padding(.horizontal, 20)
+
+                    // 프리셋 그리드
+                    LazyVGrid(columns: [
+                        GridItem(.flexible(), spacing: 16),
+                        GridItem(.flexible(), spacing: 16)
+                    ], spacing: 16) {
+                        ForEach(presets) { sound in
+                            SoundCardView(sound: sound, viewModel: viewModel)
+                                .onTapGesture {
+                                    selectSound(sound)
+                                }
+                        }
+                    }
+                    .padding(.horizontal, 20)
+                }
+            }
+        }
+    }
+
+    // MARK: - My Created Sounds Section
+    @ViewBuilder
+    private func myCreatedSoundsSection() -> some View {
+        VStack(alignment: .leading, spacing: 12) {
+            // 섹션 헤더
+            HStack(spacing: 8) {
+                Image(systemName: "person.fill")
+                    .font(.system(size: 18))
+                    .foregroundColor(Color(.PrimaryPurple))
+
+                Text("내가 만든 사운드")
+                    .font(.system(size: 18, weight: .bold))
+                    .foregroundColor(.white)
+
+                Text("\(myCreatedSounds.count)")
+                    .font(.system(size: 14, weight: .bold))
+                    .foregroundColor(Color(.PrimaryPurple))
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 4)
+                    .background(Color(.PrimaryPurple).opacity(0.2))
+                    .cornerRadius(8)
+
+                Spacer()
+            }
+            .padding(.horizontal, 20)
+
+            // 사운드 그리드
+            LazyVGrid(columns: [
+                GridItem(.flexible(), spacing: 16),
+                GridItem(.flexible(), spacing: 16)
+            ], spacing: 16) {
+                ForEach(myCreatedSounds) { sound in
+                    SoundCardView(sound: sound, viewModel: viewModel)
+                        .onTapGesture {
+                            selectSound(sound)
+                        }
+                }
+            }
+            .padding(.horizontal, 20)
+        }
+    }
+
+    // MARK: - Search Results Section
+    @ViewBuilder
+    private func searchResultsSection() -> some View {
+        VStack(alignment: .leading, spacing: 12) {
+            // 검색 결과 헤더
+            HStack(spacing: 8) {
+                Image(systemName: "magnifyingglass")
+                    .font(.system(size: 18))
+                    .foregroundColor(.white.opacity(0.6))
+
+                Text("검색 결과")
+                    .font(.system(size: 18, weight: .bold))
+                    .foregroundColor(.white)
+
+                Text("\(filteredSounds.count)")
+                    .font(.system(size: 14, weight: .bold))
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 4)
+                    .background(Color.white.opacity(0.2))
+                    .cornerRadius(8)
+
+                Spacer()
+            }
+            .padding(.horizontal, 20)
+
+            if filteredSounds.isEmpty {
+                // 검색 결과 없음
+                VStack(spacing: 12) {
+                    Image(systemName: "magnifyingglass")
+                        .font(.system(size: 48))
+                        .foregroundColor(.white.opacity(0.3))
+
+                    Text("검색 결과가 없어요")
+                        .font(.system(size: 16, weight: .medium))
+                        .foregroundColor(.white.opacity(0.6))
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 40)
+            } else {
+                // 검색 결과 그리드
                 LazyVGrid(columns: [
                     GridItem(.flexible(), spacing: 16),
                     GridItem(.flexible(), spacing: 16)
                 ], spacing: 16) {
                     ForEach(filteredSounds) { sound in
-                        SoundCardView(sound: sound)
+                        SoundCardView(sound: sound, viewModel: viewModel)
                             .onTapGesture {
                                 selectSound(sound)
                             }
                     }
                 }
                 .padding(.horizontal, 20)
-                .padding(.bottom, 100)
             }
-            .padding(.top, 16)
         }
     }
 
@@ -766,6 +1239,11 @@ struct SavedSoundsListView: View {
         }
     }
 
+    /// 사용자가 직접 만든 사운드 (프리셋 제외)
+    private var myCreatedSounds: [CustomSound] {
+        viewModel.customSounds.filter { !$0.isPreset }
+    }
+
     // MARK: - Actions
     private func selectSound(_ sound: CustomSound) {
         print("🎵 [SavedSoundsListView] 사운드 선택: \(sound.title)")
@@ -778,30 +1256,84 @@ struct SavedSoundsListView: View {
 // MARK: - Sound Card View
 struct SoundCardView: View {
     let sound: CustomSound
+    var viewModel: CustomSoundViewModel? = nil
 
     var body: some View {
         VStack(spacing: 0) {
-            // 상단 컬러 영역
+            // 상단 썸네일 영역
             ZStack {
-                Rectangle()
-                    .fill(
-                        LinearGradient(
-                            gradient: Gradient(colors: [
-                                Color(hex: sound.color).opacity(0.8),
-                                Color(hex: sound.color)
-                            ]),
-                            startPoint: .top,
-                            endPoint: .bottom
-                        )
-                    )
-                    .frame(height: 100)
+                // 레이어 사운드면 썸네일, 아니면 기존 배경
+                if sound.isLayeredSound {
+                    Rectangle()
+                        .fill(Color.black.opacity(0.3))
+                        .frame(height: 100)
 
-                // 카테고리 아이콘
-                Image(sound.category.imageName)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 50, height: 50)
-                    .foregroundColor(.white.opacity(0.9))
+                    SoundThumbnailView(sound: sound, size: 60)
+                } else {
+                    Rectangle()
+                        .fill(
+                            LinearGradient(
+                                gradient: Gradient(colors: [
+                                    Color(hex: sound.color).opacity(0.8),
+                                    Color(hex: sound.color)
+                                ]),
+                                startPoint: .top,
+                                endPoint: .bottom
+                            )
+                        )
+                        .frame(height: 100)
+
+                    // 카테고리 아이콘
+                    Image(sound.category.imageName)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 50, height: 50)
+                        .foregroundColor(.white.opacity(0.9))
+                }
+
+                // 즐겨찾기 하트 아이콘 (우측 상단)
+                if let vm = viewModel {
+                    VStack {
+                        HStack {
+                            Spacer()
+                            Button(action: {
+                                vm.toggleFavorite(sound)
+                            }) {
+                                Image(systemName: sound.isFavorite ? "heart.fill" : "heart")
+                                    .font(.system(size: 18))
+                                    .foregroundColor(sound.isFavorite ? .red : .white.opacity(0.8))
+                                    .padding(8)
+                                    .background(Color.black.opacity(0.3))
+                                    .clipShape(Circle())
+                            }
+                            .padding(8)
+                        }
+                        Spacer()
+                    }
+                }
+
+                // 프리셋 배지 (좌측 상단)
+                if sound.isPreset {
+                    VStack {
+                        HStack {
+                            HStack(spacing: 4) {
+                                Image(systemName: "star.fill")
+                                    .font(.system(size: 10))
+                                Text("프리셋")
+                                    .font(.system(size: 10, weight: .semibold))
+                            }
+                            .foregroundColor(.white)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 4)
+                            .background(Color(.PrimaryPurple).opacity(0.9))
+                            .cornerRadius(8)
+                            .padding(8)
+
+                            Spacer()
+                        }
+                        Spacer()
+                    }
+                }
             }
 
             // 하단 정보 영역
@@ -812,13 +1344,24 @@ struct SoundCardView: View {
                     .lineLimit(1)
 
                 HStack(spacing: 6) {
-                    Image(systemName: "waveform")
-                        .font(.system(size: 10))
-                        .foregroundColor(.white.opacity(0.6))
+                    // 레이어 개수 또는 카테고리 표시
+                    if let layers = sound.soundLayers, layers.count > 1 {
+                        Image(systemName: "layers.fill")
+                            .font(.system(size: 10))
+                            .foregroundColor(.white.opacity(0.6))
 
-                    Text(sound.category.displayName)
-                        .font(.system(size: 12))
-                        .foregroundColor(.white.opacity(0.6))
+                        Text("\(layers.count)개 레이어")
+                            .font(.system(size: 12))
+                            .foregroundColor(.white.opacity(0.6))
+                    } else {
+                        Image(systemName: "waveform")
+                            .font(.system(size: 10))
+                            .foregroundColor(.white.opacity(0.6))
+
+                        Text(sound.category.displayName)
+                            .font(.system(size: 12))
+                            .foregroundColor(.white.opacity(0.6))
+                    }
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -831,6 +1374,84 @@ struct SoundCardView: View {
                 .stroke(Color.white.opacity(0.1), lineWidth: 1)
         )
         .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
+    }
+}
+
+// MARK: - Recommendation Card View
+struct RecommendationCard: View {
+    let sound: CustomSound
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            // 상단 아이콘 영역
+            ZStack {
+                Circle()
+                    .fill(
+                        LinearGradient(
+                            gradient: Gradient(colors: [
+                                Color(hex: sound.color).opacity(0.6),
+                                Color(hex: sound.color)
+                            ]),
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                    .frame(width: 60, height: 60)
+
+                if sound.isLayeredSound {
+                    SoundThumbnailView(sound: sound, size: 35)
+                } else {
+                    Image(sound.category.imageName)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 35, height: 35)
+                        .foregroundColor(.white)
+                }
+
+                // 추천 배지
+                VStack {
+                    HStack {
+                        Spacer()
+                        Image(systemName: "sparkles")
+                            .font(.system(size: 12))
+                            .foregroundColor(.yellow)
+                            .padding(6)
+                            .background(Color.black.opacity(0.4))
+                            .clipShape(Circle())
+                    }
+                    Spacer()
+                }
+                .frame(width: 60, height: 60)
+            }
+
+            // 사운드 정보
+            VStack(alignment: .leading, spacing: 4) {
+                Text(sound.title)
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundColor(.white)
+                    .lineLimit(2)
+                    .fixedSize(horizontal: false, vertical: true)
+
+                HStack(spacing: 4) {
+                    Image(systemName: "waveform")
+                        .font(.system(size: 9))
+                    Text(sound.category.displayName)
+                        .font(.system(size: 11))
+                }
+                .foregroundColor(.white.opacity(0.6))
+            }
+        }
+        .frame(width: 140)
+        .padding(12)
+        .background(
+            RoundedRectangle(cornerRadius: 12)
+                .fill(Color.black.opacity(0.3))
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 12)
+                .stroke(Color.white.opacity(0.15), lineWidth: 1)
+        )
+        .shadow(color: Color.black.opacity(0.2), radius: 6, x: 0, y: 3)
     }
 }
 

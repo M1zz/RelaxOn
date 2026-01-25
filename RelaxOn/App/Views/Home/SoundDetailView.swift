@@ -96,10 +96,10 @@ struct SoundDetailView: View {
             }
             .navigationBarBackButtonHidden(true)
 
-            .fullScreenCover(isPresented: $isShowingSheet) {
+            .navigationDestination(isPresented: $isShowingSheet) {
                 SoundSaveView(originalSound: originalSound, editingSound: editingSound)
             }
-            
+
             // MARK: - Life Cycle
             .onAppear() {
                 if UserDefaultsManager.shared.isFirstVisit {

@@ -28,6 +28,13 @@ final class AudioEngineManager: ObservableObject {
     private var fadeTimer: Timer?
     private var targetVolume: Float = 1.0
 
+    // 다중 레이어 재생용 (새로운 LayerManager 사용)
+    private var layerManager: AudioLayerManager?
+
+    // 공간음향 (Spatial Audio)
+    private var environmentNode: AVAudioEnvironmentNode?
+    @Published var isSpatialAudioEnabled: Bool = true // 공간음향 활성화 여부
+
     // 배경음 (wave, rain, tv 등)
     private var backgroundPlayer = AVAudioPlayerNode()
     private var backgroundVolumeEffect = AVAudioMixerNode()
@@ -115,7 +122,15 @@ final class AudioEngineManager: ObservableObject {
     private init() {
         setupAudioSession()
         setupEngine()
+        setupSpatialAudio()
         setupSubscriptions()
+
+        // LayerManager 초기화
+        layerManager = AudioLayerManager(
+            engine: engine,
+            environmentNode: environmentNode,
+            isSpatialAudioEnabled: isSpatialAudioEnabled
+        )
     }
 }
 
@@ -136,31 +151,182 @@ extension AudioEngineManager {
         engine.attach(pitchEffect)
         engine.attach(volumeEffect)
     }
-    
+
+    /// 공간음향 환경 설정
+    private func setupSpatialAudio() {
+        let environment = AVAudioEnvironmentNode()
+
+        // 엔진에 환경 노드 추가
+        engine.attach(environment)
+
+        // HRTF (Head-Related Transfer Function) 알고리즘 사용
+        // 이는 헤드폰에서 최적화된 3D 오디오를 제공합니다
+        environment.renderingAlgorithm = .HRTFHQ
+
+        // 리스너(청자) 위치를 중앙으로 설정
+        environment.listenerPosition = AVAudio3DPoint(x: 0, y: 0, z: 0)
+
+        // 거리 감쇠 파라미터 설정 (거리감 조절)
+        let distanceParams = environment.distanceAttenuationParameters
+        distanceParams.distanceAttenuationModel = .inverse // 역제곱 감쇠 모델
+        distanceParams.referenceDistance = 1.0 // 기준 거리 (1미터)
+        distanceParams.maximumDistance = 10.0 // 최대 거리 (10미터)
+        distanceParams.rolloffFactor = 1.0 // 감쇠 계수 (1.0 = 자연스러운 감쇠)
+
+        // 환경 노드를 메인 믹서에 연결
+        engine.connect(environment, to: engine.mainMixerNode, format: nil)
+
+        environmentNode = environment
+
+        print("🎧 [SpatialAudio] 공간음향 환경 초기화 완료")
+        print("   - Rendering Algorithm: HRTF HQ")
+        print("   - Listener Position: (0, 0, 0)")
+        print("   - Distance Model: Inverse")
+        print("   - Reference Distance: 1.0m")
+        print("   - Maximum Distance: 10.0m")
+    }
+
+    /// 레이어 인덱스에 따라 3D 공간 위치 계산
+    /// - Parameters:
+    ///   - index: 레이어 인덱스
+    ///   - totalLayers: 전체 레이어 수
+    /// - Returns: 3D 공간 좌표
+    private func calculate3DPosition(for index: Int, totalLayers: Int) -> AVAudio3DPoint {
+        // 레이어들을 원형으로 배치 (반지름 2미터)
+        let radius: Float = 2.0
+        let angle = (2.0 * .pi / Float(totalLayers)) * Float(index)
+
+        // Y축은 귀 높이(0)로 고정, X-Z 평면에서 원형 배치
+        let x = radius * cos(angle)
+        let z = -radius * sin(angle) // 앞쪽이 음수
+
+        // 거리감을 위해 약간의 깊이 변화 추가
+        let depthVariation = Float.random(in: -0.3...0.3)
+
+        return AVAudio3DPoint(x: x, y: 0, z: z + depthVariation)
+    }
+
+    /// 특정 레이어의 3D 위치를 업데이트 (LayerManager 사용)
+    /// - Parameters:
+    ///   - index: 레이어 인덱스
+    ///   - distance: 청자로부터의 거리 (미터)
+    ///   - angle: 각도 (도, 0-360)
+    ///   - height: 높이 (미터, -2 ~ 2)
+    func updateLayerPosition(index: Int, distance: Float, angle: Float, height: Float) {
+        guard let manager = layerManager else { return }
+
+        let layerIds = manager.getAllLayerIds()
+        guard index < layerIds.count else { return }
+
+        // 각도를 라디안으로 변환
+        let angleRad = angle * .pi / 180.0
+
+        // 극좌표를 직교좌표로 변환
+        let x = distance * cos(angleRad)
+        let z = -distance * sin(angleRad) // 앞쪽이 음수
+
+        let newPosition = AVAudio3DPoint(x: x, y: height, z: z)
+
+        // 레이어 위치 업데이트
+        let layerId = layerIds[index]
+        manager.setLayerPosition(layerId, position: newPosition)
+
+        print("🎧 [SpatialAudio] 레이어 \(index) 위치 업데이트:")
+        print("   - 거리: \(distance)m, 각도: \(angle)°, 높이: \(height)m")
+        print("   - 좌표: (\(x), \(height), \(z))")
+    }
+
+    /// 모든 레이어의 현재 위치 정보 가져오기 (LayerManager 사용)
+    func getLayerPositions() -> [(index: Int, position: AVAudio3DPoint)] {
+        guard let manager = layerManager else { return [] }
+
+        let layerIds = manager.getAllLayerIds()
+        return layerIds.enumerated().compactMap { (index, layerId) in
+            guard let position = manager.getLayerPosition(layerId) else { return nil }
+            return (index, position)
+        }
+    }
+
+    /// 레이어 제거 (외부에서 호출 가능)
+    func removeLayer(at index: Int) {
+        guard let manager = layerManager else { return }
+
+        let layerIds = manager.getAllLayerIds()
+        guard index < layerIds.count else { return }
+
+        let layerId = layerIds[index]
+        manager.removeLayer(layerId)
+
+        print("🗑️ [AudioEngineManager] 레이어 \(index) 제거 완료")
+    }
+
+    /// 현재 레이어 개수 가져오기
+    func getLayerCount() -> Int {
+        return layerManager?.getAllLayerIds().count ?? 0
+    }
+
     private func setupConnections() {
         print("🔗 [AudioEngineManager] setupConnections() 호출됨")
         print("   - Engine 실행 중: \(engine.isRunning)")
         print("   - 배경음 재생 중: \(currentBackgroundSound?.rawValue ?? "없음")")
 
-        // ⚠️ 중요: 배경음이 재생 중이면 engine을 멈추지 않음!
-        if engine.isRunning && currentBackgroundSound == nil {
-            print("   - 배경음 없음: Engine 중지 후 재연결")
+        guard let audioFile = audioFile else {
+            print("   ❌ audioFile이 없음")
+            return
+        }
+
+        // 노드가 attach되어 있는지 확인
+        let isPlayerAttached = engine.attachedNodes.contains(player)
+        let isPitchAttached = engine.attachedNodes.contains(pitchEffect)
+        let isVolumeAttached = engine.attachedNodes.contains(volumeEffect)
+
+        // 노드가 attach되지 않았으면 attach
+        if !isPlayerAttached {
+            engine.attach(player)
+        }
+        if !isPitchAttached {
+            engine.attach(pitchEffect)
+        }
+        if !isVolumeAttached {
+            engine.attach(volumeEffect)
+        }
+
+        // 엔진이 실행 중이면 중지해야 연결을 안전하게 변경할 수 있음
+        let wasRunning = engine.isRunning
+        let hasBackground = currentBackgroundSound != nil
+
+        if wasRunning && !hasBackground {
+            print("   - Engine 중지 후 재연결")
             engine.stop()
-        } else if engine.isRunning && currentBackgroundSound != nil {
-            print("   - 배경음 재생 중: Engine 유지하고 메인 노드만 재연결")
-            // 기존 연결 해제
+        } else if wasRunning && hasBackground {
+            print("   - 배경음 재생 중: 메인 사운드 노드는 나중에 연결")
+            // 배경음이 재생 중이면 메인 사운드는 따로 처리하지 않고 그대로 둠
+            // 대신 레이어 방식을 사용하도록 유도
+            print("   ⚠️ 배경음 재생 중에는 단일 사운드 재생 대신 레이어 방식 사용 권장")
+        }
+
+        // 기존 연결 모두 해제 (안전하게)
+        if isPlayerAttached {
+            engine.disconnectNodeOutput(player)
             engine.disconnectNodeInput(player)
+        }
+        if isPitchAttached {
+            engine.disconnectNodeOutput(pitchEffect)
             engine.disconnectNodeInput(pitchEffect)
+        }
+        if isVolumeAttached {
+            engine.disconnectNodeOutput(volumeEffect)
             engine.disconnectNodeInput(volumeEffect)
         }
 
-        if let audioFile = audioFile {
-            engine.connect(player, to: pitchEffect, format: audioFile.processingFormat)
-            engine.connect(pitchEffect, to: volumeEffect, format: audioFile.processingFormat)
-            engine.connect(volumeEffect, to: engine.mainMixerNode, format: audioFile.processingFormat)
-            print("   ✅ 메인 사운드 노드 연결 완료")
-        }
+        // 새로운 연결 설정
+        let format = audioFile.processingFormat
+        engine.connect(player, to: pitchEffect, format: format)
+        engine.connect(pitchEffect, to: volumeEffect, format: format)
+        engine.connect(volumeEffect, to: engine.mainMixerNode, format: format)
+        print("   ✅ 메인 사운드 노드 연결 완료")
 
+        // 엔진 시작
         if !engine.isRunning {
             do {
                 try engine.start()
@@ -197,6 +363,13 @@ extension AudioEngineManager {
 
         currentPlayingSound = sound
 
+        // CustomSound이면서 레이어 방식인 경우
+        if let customSound = sound as? CustomSound, customSound.isLayeredSound {
+            playLayeredSound(customSound)
+            return
+        }
+
+        // 일반 사운드 재생 (기존 로직)
         let targetFile = sound.filter.rawValue
         guard let fileURL = Bundle.main.url(forResource: targetFile, withExtension: MusicExtension.mp3.rawValue) else {
             print("❌ [AudioEngineManager] 파일을 찾을 수 없음: \(targetFile)")
@@ -234,6 +407,90 @@ extension AudioEngineManager {
         }
     }
 
+    /// 여러 레이어를 동시에 재생 (LayerManager 사용)
+    private func playLayeredSound(_ sound: CustomSound) {
+        print("🎵 [AudioEngineManager] 레이어 사운드 재생")
+
+        guard let layers = sound.soundLayers, !layers.isEmpty else {
+            print("❌ [AudioEngineManager] 레이어 정보가 없음")
+            return
+        }
+
+        guard let manager = layerManager else {
+            print("❌ [AudioEngineManager] LayerManager가 초기화되지 않음")
+            return
+        }
+
+        // 기존 레이어 정리
+        stopLayers()
+
+        do {
+            // 엔진 시작
+            if !engine.isRunning {
+                try engine.start()
+            }
+
+            // 각 레이어 추가
+            for (index, layer) in layers.enumerated() {
+                let position = calculate3DPosition(for: index, totalLayers: layers.count)
+
+                do {
+                    let layerId = try manager.addLayer(
+                        filter: layer.filter,
+                        category: layer.category,
+                        variation: layer.audioVariation,
+                        position: position
+                    )
+
+                    print("✅ [AudioEngineManager] 레이어 \(index) 추가: \(layer.filter.rawValue) (ID: \(layerId))")
+                } catch {
+                    print("❌ [AudioEngineManager] 레이어 \(index) 추가 실패: \(error.localizedDescription)")
+                }
+            }
+
+            // 배경음 재생
+            if let backgroundSoundName = sound.backgroundSound,
+               let backgroundSound = BackgroundSound(rawValue: backgroundSoundName) {
+                if let savedBackgroundVolume = sound.backgroundVolume {
+                    self.backgroundVolume = savedBackgroundVolume
+                }
+                playBackground(backgroundSound)
+            }
+
+            // 모든 레이어 재생 시작
+            manager.startAllLayers()
+
+            print("✅ [AudioEngineManager] 모든 레이어 재생 시작 (총 \(layers.count)개)")
+
+        } catch {
+            print("❌ [AudioEngineManager] 레이어 재생 오류: \(error.localizedDescription)")
+        }
+    }
+
+    /// 레이어 재생 중지 (LayerManager 사용)
+    private func stopLayers() {
+        guard let manager = layerManager else { return }
+
+        print("🛑 [AudioEngineManager] 레이어 중지 시작")
+
+        manager.removeAllLayers()
+
+        print("✅ [AudioEngineManager] 모든 레이어 중지 완료")
+    }
+
+    /// 버퍼 준비 (AudioFile로부터)
+    private func prepareBuffer(from file: AVAudioFile) -> AVAudioPCMBuffer? {
+        guard let buffer = AVAudioPCMBuffer(
+            pcmFormat: file.processingFormat,
+            frameCapacity: AVAudioFrameCount(file.length)
+        ) else {
+            return nil
+        }
+
+        try? file.read(into: buffer)
+        return buffer
+    }
+
     func stop() {
         print("⏹️ [AudioEngineManager] stop() 호출됨")
         print("   - 배경음 상태: \(currentBackgroundSound?.rawValue ?? "없음")")
@@ -241,21 +498,51 @@ extension AudioEngineManager {
         fadeTimer?.invalidate()
         fadeTimer = nil
         timerSubscription?.cancel()
-        player.stop()
+
+        // Timer를 사용한 부드러운 fadeOut
+        let currentVolume = player.volume
+        var fadeStep = 0
+        let totalSteps = 20
+        let fadeInterval = 0.005 // 총 0.1초 fadeOut
+
+        let fadeOutTimer = Timer.scheduledTimer(withTimeInterval: fadeInterval, repeats: true) { [weak self] timer in
+            guard let self = self else {
+                timer.invalidate()
+                return
+            }
+
+            fadeStep += 1
+            let newVolume = currentVolume * Float(totalSteps - fadeStep) / Float(totalSteps)
+            self.player.volume = max(0, newVolume)
+
+            if fadeStep >= totalSteps {
+                timer.invalidate()
+                self.player.stop()
+                self.player.volume = currentVolume // 볼륨 복구
+                print("✅ [AudioEngineManager] 메인 사운드 fadeOut 완료")
+            }
+        }
+
+        // fadeTimer 저장하여 나중에 정리 가능하도록
+        self.fadeTimer = fadeOutTimer
+
+        // 레이어 중지
+        stopLayers()
 
         // 🔧 수정: 배경음은 유지하고 메인 사운드만 중지
         // backgroundPlayer.stop() // 제거됨
 
         // Engine은 배경음이 재생 중이면 중지하지 않음
         if currentBackgroundSound == nil {
-            engine.stop()
-            print("   - 배경음 없음: Engine 중지")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+                self.engine.stop()
+                print("   - 배경음 없음: Engine 중지")
+            }
         } else {
             print("   - 배경음 재생 중: Engine 유지, 메인 사운드만 중지")
         }
 
         clearBuffer()
-        print("✅ [AudioEngineManager] 메인 사운드만 중지 완료 (배경음 유지)")
     }
 
     func stopAll() {
@@ -266,6 +553,10 @@ extension AudioEngineManager {
         timerSubscription?.cancel()
         player.stop()
         backgroundPlayer.stop()
+
+        // 레이어 중지
+        stopLayers()
+
         engine.stop()
         clearBuffer()
 
@@ -527,15 +818,28 @@ extension AudioEngineManager {
 
 /// 배경음 타입
 enum BackgroundSound: String, CaseIterable {
+    // 자연음
     case wave = "파도"
     case rain = "비"
     case tv = "TV 소음"
+
+    // 멜로디 음악
+    case piano = "피아노"
+    case guitar = "기타"
+    case ambient = "앰비언트"
+    case lofi = "로파이"
+    case meditation = "명상 음악"
 
     var fileName: String {
         switch self {
         case .wave: return "wave_10min"
         case .rain: return "rain_10min"
         case .tv: return "tv_10min"
+        case .piano: return "piano_10min"
+        case .guitar: return "guitar_10min"
+        case .ambient: return "ambient_10min"
+        case .lofi: return "lofi_10min"
+        case .meditation: return "meditation_10min"
         }
     }
 
@@ -544,6 +848,11 @@ enum BackgroundSound: String, CaseIterable {
         case .wave: return "water.waves"
         case .rain: return "cloud.rain.fill"
         case .tv: return "tv.fill"
+        case .piano: return "pianokeys"
+        case .guitar: return "guitars.fill"
+        case .ambient: return "waveform"
+        case .lofi: return "music.note.list"
+        case .meditation: return "sparkles"
         }
     }
 
@@ -564,6 +873,40 @@ enum BackgroundSound: String, CaseIterable {
                 Color(red: 0.5, green: 0.5, blue: 0.5).opacity(0.15),
                 Color(red: 0.4, green: 0.4, blue: 0.4).opacity(0.1)
             ]
+        case .piano:
+            return [
+                Color(red: 0.8, green: 0.6, blue: 0.9).opacity(0.15),
+                Color(red: 0.7, green: 0.5, blue: 0.8).opacity(0.1)
+            ]
+        case .guitar:
+            return [
+                Color(red: 0.9, green: 0.7, blue: 0.5).opacity(0.15),
+                Color(red: 0.8, green: 0.6, blue: 0.4).opacity(0.1)
+            ]
+        case .ambient:
+            return [
+                Color(red: 0.5, green: 0.7, blue: 0.9).opacity(0.15),
+                Color(red: 0.4, green: 0.6, blue: 0.8).opacity(0.1)
+            ]
+        case .lofi:
+            return [
+                Color(red: 0.9, green: 0.5, blue: 0.6).opacity(0.15),
+                Color(red: 0.8, green: 0.4, blue: 0.5).opacity(0.1)
+            ]
+        case .meditation:
+            return [
+                Color(red: 0.6, green: 0.8, blue: 0.7).opacity(0.15),
+                Color(red: 0.5, green: 0.7, blue: 0.6).opacity(0.1)
+            ]
+        }
+    }
+
+    var isMelodic: Bool {
+        switch self {
+        case .wave, .rain, .tv:
+            return false
+        case .piano, .guitar, .ambient, .lofi, .meditation:
+            return true
         }
     }
 }

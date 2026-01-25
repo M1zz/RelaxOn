@@ -145,6 +145,16 @@ final class CustomSoundViewModel: ObservableObject {
             return customSounds.filter { $0.title.contains(searchText) }
         }
     }
+
+    /// 즐겨찾기한 음원 배열
+    var favoriteSounds: [CustomSound] {
+        customSounds.filter { $0.isFavorite }
+    }
+
+    /// 프리셋 음원 배열
+    var presetSounds: [CustomSound] {
+        customSounds.filter { $0.isPreset }
+    }
     
     // MARK: - Initialization
     init(customSound: CustomSound? = nil, filter: AudioFilter = .none) {
@@ -164,6 +174,11 @@ extension CustomSoundViewModel {
             isPlaying = true
         }
         audioEngineManager.play(with: sound)
+
+        // CustomSound인 경우 재생 통계 업데이트
+        if let customSound = sound as? CustomSound {
+            updatePlayStatistics(customSound)
+        }
     }
     
     func stopSound() {
@@ -325,10 +340,121 @@ extension CustomSoundViewModel {
 }
 
 extension CustomSoundViewModel {
-    
+
     func setSelectedSound(_ selectedSound: CustomSound) {
         self.selectedSound = selectedSound
         self.sound = selectedSound
     }
-    
+
+}
+
+// MARK: - Favorites & Presets
+extension CustomSoundViewModel {
+
+    /// 즐겨찾기 토글
+    func toggleFavorite(_ sound: CustomSound) {
+        guard let index = customSounds.firstIndex(where: { $0.id == sound.id }) else {
+            return
+        }
+
+        customSounds[index].isFavorite.toggle()
+        userDefaults.customSounds = customSounds
+        loadSound()
+    }
+
+    /// 프리셋 사운드 로드 (앱 최초 실행 시)
+    func loadPresetSounds() {
+        var customSounds = userDefaults.customSounds
+
+        // 이미 프리셋이 로드되어 있는지 확인
+        if customSounds.contains(where: { $0.isPreset }) {
+            return
+        }
+
+        // 프리셋 사운드를 CustomSound로 변환하여 추가
+        for preset in PresetSound.allPresets {
+            var customSound = preset.toCustomSound()
+            customSound.isPreset = true
+
+            // 파일 저장은 하지 않음 (프리셋은 메모리에만 존재)
+            customSounds.append(customSound)
+        }
+
+        userDefaults.customSounds = customSounds
+        loadSound()
+    }
+
+    /// 재생 시 통계 업데이트
+    func updatePlayStatistics(_ sound: CustomSound) {
+        guard let index = customSounds.firstIndex(where: { $0.id == sound.id }) else {
+            return
+        }
+
+        customSounds[index].playCount += 1
+        customSounds[index].lastPlayed = Date()
+        userDefaults.customSounds = customSounds
+    }
+
+    /// 현재 시간대에 맞는 스마트 추천 사운드 (최대 3개)
+    func getSmartRecommendations() -> [CustomSound] {
+        let hour = Calendar.current.component(.hour, from: Date())
+
+        // 시간대별 추천 카테고리
+        let recommendedCategories: [PresetCategory]
+        switch hour {
+        case 6..<12:  // 아침 (6시-12시)
+            recommendedCategories = [.meditation, .nature, .focus]
+        case 12..<18: // 오후 (12시-6시)
+            recommendedCategories = [.focus, .nature]
+        case 18..<22: // 저녁 (6시-10시)
+            recommendedCategories = [.meditation, .rain, .nature]
+        default:      // 밤 (10시-6시)
+            recommendedCategories = [.sleep, .rain]
+        }
+
+        // 해당 카테고리의 프리셋 찾기
+        let categoryPresets = PresetSound.allPresets.filter { preset in
+            recommendedCategories.contains(preset.category)
+        }
+
+        // 사용자의 재생 이력이 있으면 이를 고려
+        let userFavorites = customSounds.filter { $0.isFavorite }
+        let recentlyPlayed = customSounds
+            .filter { $0.lastPlayed != nil }
+            .sorted { ($0.playCount, $0.lastPlayed!) > ($1.playCount, $1.lastPlayed!) }
+            .prefix(2)
+
+        // 추천 목록 구성: 즐겨찾기 1개 + 최근 재생 1개 + 시간대별 프리셋 1개
+        var recommendations: [CustomSound] = []
+
+        // 1. 즐겨찾기 중 하나
+        if let favorite = userFavorites.randomElement() {
+            recommendations.append(favorite)
+        }
+
+        // 2. 최근 재생한 사운드 중 하나
+        if let recent = recentlyPlayed.first, !recommendations.contains(where: { $0.id == recent.id }) {
+            recommendations.append(recent)
+        }
+
+        // 3. 시간대별 프리셋 중 하나
+        if let preset = categoryPresets.randomElement() {
+            let presetCustomSound = preset.toCustomSound()
+            if !recommendations.contains(where: { $0.title == presetCustomSound.title }) {
+                recommendations.append(presetCustomSound)
+            }
+        }
+
+        // 추천이 부족하면 인기 프리셋으로 채우기
+        while recommendations.count < 3 && recommendations.count < categoryPresets.count {
+            if let preset = categoryPresets.randomElement() {
+                let presetCustomSound = preset.toCustomSound()
+                if !recommendations.contains(where: { $0.title == presetCustomSound.title }) {
+                    recommendations.append(presetCustomSound)
+                }
+            }
+        }
+
+        return Array(recommendations.prefix(3))
+    }
 }

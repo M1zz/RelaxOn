@@ -87,9 +87,8 @@ struct SettingsView: View {
                     selectSoundButton()
                         .cornerRadius(10)
                 }
-                .sheet(isPresented: $isShowingSelectorView) {
+                .navigationDestination(isPresented: $isShowingSelectorView) {
                     TimerSoundSelectModalView()
-                        .presentationDetents([.fraction(0.88)])
                 }
 
                 // 컨트롤 버튼들

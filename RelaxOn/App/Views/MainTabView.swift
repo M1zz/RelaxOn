@@ -15,12 +15,16 @@ struct MainTabView: View {
     var body: some View {
         ZStack {
             if !isFirstVisit {
-                ListenListView()
-                    .environmentObject(appState)
+                NavigationStack {
+                    ListenListView()
+                        .environmentObject(appState)
+                }
             }
 
             if isFirstVisit && appState.showSoundDetail {
-                ListenListView()
+                NavigationStack {
+                    ListenListView()
+                }
             }
 
             if isFirstVisit && !appState.showSoundDetail {

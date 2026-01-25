@@ -10,7 +10,7 @@ import Foundation
 /**
  오디오 변형 관리를 위한 구조체
  */
-struct AudioVariation: Codable {
+struct AudioVariation: Codable, Equatable {
     var volume: Float
     var pitch: Float
     var interval: Float

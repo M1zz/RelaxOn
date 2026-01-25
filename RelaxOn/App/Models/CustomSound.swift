@@ -20,6 +20,19 @@ struct CustomSound: Identifiable, Codable, Equatable, Playable {
     var color: String
     var backgroundSound: String? // 배경 사운드 ("파도", "비", "TV 소음") 저장
     var backgroundVolume: Float? // 배경 볼륨 저장
+    var soundLayers: [SoundLayer]? // 여러 사운드 레이어 (다중 사운드 재생용)
+    var isFavorite: Bool // 즐겨찾기 여부
+    var isPreset: Bool // 프리셋 사운드 여부
+    var playCount: Int // 재생 횟수 (스마트 추천용)
+    var lastPlayed: Date? // 마지막 재생 시간 (스마트 추천용)
+
+    // 레이어 방식인지 확인
+    var isLayeredSound: Bool {
+        if let layers = soundLayers, !layers.isEmpty {
+            return true
+        }
+        return false
+    }
 
     init(
         title: String = "저장된 음원이 없습니다.",
@@ -28,7 +41,12 @@ struct CustomSound: Identifiable, Codable, Equatable, Playable {
         filter: AudioFilter = .none,
         color: String = "",
         backgroundSound: String? = nil,
-        backgroundVolume: Float? = nil
+        backgroundVolume: Float? = nil,
+        soundLayers: [SoundLayer]? = nil,
+        isFavorite: Bool = false,
+        isPreset: Bool = false,
+        playCount: Int = 0,
+        lastPlayed: Date? = nil
     ) {
         self.id = UUID()
         self.title = title
@@ -38,6 +56,24 @@ struct CustomSound: Identifiable, Codable, Equatable, Playable {
         self.color = (color == "") ? category.defaultColor : color
         self.backgroundSound = backgroundSound
         self.backgroundVolume = backgroundVolume
+        self.soundLayers = soundLayers
+        self.isFavorite = isFavorite
+        self.isPreset = isPreset
+        self.playCount = playCount
+        self.lastPlayed = lastPlayed
+    }
+
+    /// 사운드 레이어 정보
+    struct SoundLayer: Codable, Equatable {
+        let category: SoundCategory
+        let filter: AudioFilter
+        let audioVariation: AudioVariation
+
+        init(category: SoundCategory, filter: AudioFilter, audioVariation: AudioVariation = AudioVariation()) {
+            self.category = category
+            self.filter = filter
+            self.audioVariation = audioVariation
+        }
     }
     
     static func == (lhs: CustomSound, rhs: CustomSound) -> Bool {

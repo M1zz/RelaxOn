@@ -60,12 +60,11 @@ struct TimerMainView: View {
                             .padding(.horizontal, 38)
                             .padding(.vertical, 50)
                     }
-                    
-                    .sheet(isPresented: $isShowingSelectorView) {
+
+                    .navigationDestination(isPresented: $isShowingSelectorView) {
                         TimerSoundSelectModalView()
-                            .presentationDetents([.fraction(0.88)])
                     }
-                    
+
                     Spacer()
                     
                     HStack {

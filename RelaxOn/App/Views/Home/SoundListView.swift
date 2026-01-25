@@ -37,7 +37,7 @@ struct SoundListView: View {
                         Spacer()
 
                         // 새 사운드 만들기 버튼
-                        NavigationLink(destination: CreateNewSoundView()) {
+                        NavigationLink(destination: CreateNewSoundView().environmentObject(viewModel)) {
                             HStack(spacing: 4) {
                                 Image(systemName: "plus.circle.fill")
                                     .font(.system(size: 14))
@@ -269,12 +269,14 @@ struct CreateNewSoundView: View {
                 emptyCanvasView()
                     .padding(.horizontal, 24)
                     .padding(.top, 20)
+                    .padding(.bottom, 16)
 
                 // 배경 사운드와 원본 사운드만 스크롤
                 ScrollView {
                     VStack(spacing: 24) {
                         // 배경 사운드 선택 영역
                         backgroundSoundSection()
+                            .padding(.top, 16)
 
                         // 원본 사운드 선택 영역
                         dropZoneView()
@@ -285,7 +287,8 @@ struct CreateNewSoundView: View {
                         }
                     }
                     .padding(.horizontal, 24)
-                    .padding(.vertical, 20)
+                    .padding(.top, 20)
+                    .padding(.bottom, 100)
                 }
             }
         }
@@ -320,6 +323,7 @@ struct CreateNewSoundView: View {
                 .font(.system(size: 14, weight: .semibold))
                 .foregroundColor(Color(.Text).opacity(0.6))
                 .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.bottom, 8)
 
             ZStack {
                 // 배경 그라데이션 (배경 사운드에 따라 변경)
@@ -391,6 +395,7 @@ struct CreateNewSoundView: View {
                                 .foregroundColor(Color(.Text).opacity(0.4))
                         }
                     }
+                    .padding(.bottom, 24)
                 }
             }
             .frame(height: 280)
@@ -418,7 +423,14 @@ struct CreateNewSoundView: View {
                 }
             }
 
-            HStack(spacing: 12) {
+            LazyVGrid(
+                columns: [
+                    GridItem(.flexible(), spacing: 12),
+                    GridItem(.flexible(), spacing: 12),
+                    GridItem(.flexible(), spacing: 12)
+                ],
+                spacing: 12
+            ) {
                 ForEach(BackgroundSound.allCases, id: \.self) { background in
                     BackgroundSoundCard(
                         background: background,
@@ -1021,6 +1033,15 @@ class CreateSoundViewModel: ObservableObject {
         print("\n▶️ [CreateSoundViewModel] playPreview() 호출됨")
         print("   - 선택된 원본 사운드: \(sound.name)")
         print("   - 현재 배경음: \(selectedBackground?.rawValue ?? "없음")")
+
+        // 동일한 원본 사운드 선택시 토글 (선택 해제)
+        if selectedOriginalSound?.id == sound.id {
+            print("   ↩️ 동일한 원본 사운드 선택 - 토글하여 제거")
+            selectedOriginalSound = nil
+            audioManager.stop()
+            print("   🛑 원본 사운드 중지 (배경음은 계속 재생)")
+            return
+        }
 
         // 선택된 원본 사운드 업데이트
         selectedOriginalSound = sound
