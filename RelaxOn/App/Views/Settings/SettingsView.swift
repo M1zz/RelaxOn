@@ -62,7 +62,7 @@ struct SettingsView: View {
                 Image(systemName: "timer")
                     .font(.system(size: 18))
                     .foregroundColor(Color(.PrimaryPurple))
-                Text("수면 타이머")
+                Text(L.Timer.sleepTimer.localized)
                     .font(.system(size: 20, weight: .bold))
                     .foregroundColor(Color(.TitleText))
             }

@@ -35,7 +35,7 @@ struct CustomSound: Identifiable, Codable, Equatable, Playable {
     }
 
     init(
-        title: String = "저장된 음원이 없습니다.",
+        title: String = "",
         category: SoundCategory = .none,
         variation: AudioVariation = AudioVariation(),
         filter: AudioFilter = .none,
@@ -187,7 +187,7 @@ enum SoundCategory: String, Codable {
     var fileName: String {
         switch self {
         case .none:
-            return "없음"
+            return "none"
         case .WaterDrop:
             return "WaterDrop"
         case .SingingBowl:
@@ -200,7 +200,7 @@ enum SoundCategory: String, Codable {
     var imageName: String {
         switch self {
         case .none:
-            return "없음"
+            return "none"
         case .WaterDrop:
             return "WaterDrop"
         case .SingingBowl:
@@ -213,7 +213,7 @@ enum SoundCategory: String, Codable {
     var defaultColor: String {
         switch self {
         case .none:
-            return "없음"
+            return "CCCCCC"
         case .WaterDrop:
             return "DCE8F5"
         case .SingingBowl:

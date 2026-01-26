@@ -42,11 +42,11 @@ struct SoundDetailView: View {
             ScrollView {
                 VStack(spacing: 16) {
                     VStack(spacing: 6) {
-                        Text("당신이 원하는 소리를 찾아가보세요")
+                        Text(L.Customize.findYourSound.localized)
                             .foregroundColor(Color(.Text))
                             .font(.system(size: 18, weight: .bold))
                             .padding(.top, 8)
-                        Text("슬라이더를 조절하여 완벽한 소리를 만드세요")
+                        Text(L.Customize.adjustSlider.localized)
                             .foregroundColor(Color(.Text).opacity(0.7))
                             .font(.system(size: 13, weight: .regular))
                     }
@@ -85,10 +85,10 @@ struct SoundDetailView: View {
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
-                        
+
                         isShowingSheet.toggle()
                     } label: {
-                        Text("다음")
+                        Text(L.Common.next.localized)
                             .foregroundColor(Color(.PrimaryPurple))
                             .font(.system(size: 14, weight: .semibold))
                     }
@@ -179,7 +179,7 @@ struct SoundDetailView: View {
                 value: $viewModel.interval,
                 range: 0.1...2.0,
                 step: 0.1,
-                displayValue: String(format: "%.1f초", viewModel.interval),
+                displayValue: String(format: "%.1f%@", viewModel.interval, L.Customize.seconds.localized),
                 color: .blue,
                 variationValue: $viewModel.intervalVariation
             )
@@ -246,7 +246,7 @@ struct SoundDetailView: View {
                         .foregroundColor(color.opacity(0.7))
                         .frame(width: 20)
 
-                    Text("변화의 폭")
+                    Text(L.Customize.variationRange.localized)
                         .font(.system(size: 13))
                         .foregroundColor(Color(.Text).opacity(0.8))
 
@@ -285,11 +285,11 @@ struct SoundDetailView: View {
     // 라벨에 따라 적절한 단위 반환
     func getUnit(for label: String) -> String {
         switch label {
-        case "볼륨":
+        case L.Customize.volume.localized:
             return "%"
-        case "간격":
-            return "초"
-        case "피치":
+        case L.Customize.interval.localized:
+            return L.Customize.seconds.localized
+        case L.Customize.pitch.localized:
             return ""
         default:
             return ""
@@ -305,7 +305,7 @@ struct SoundDetailView: View {
                     .foregroundColor(.purple)
                     .frame(width: 20)
 
-                Text("필터")
+                Text(L.Common.filter.localized)
                     .font(.system(size: 15, weight: .semibold))
                     .foregroundColor(Color(.Text))
 
@@ -389,7 +389,7 @@ struct WaterDropVisualization: View {
                         .font(.system(size: 14))
                         .foregroundColor(Color(.PrimaryPurple))
 
-                    Text("실시간 재생")
+                    Text(L.Player.realTimePlaying.localized)
                         .font(.system(size: 12, weight: .semibold))
                         .foregroundColor(Color(.TitleText))
                 }
@@ -400,7 +400,7 @@ struct WaterDropVisualization: View {
                     .frame(width: 1, height: 12)
 
                 // 간격 표시
-                Text(String(format: "%.1f초", viewModel.interval))
+                Text(String(format: "%.1f%@", viewModel.interval, L.Customize.seconds.localized))
                     .font(.system(size: 11, weight: .medium))
                     .foregroundColor(Color(.Text).opacity(0.8))
 
@@ -414,7 +414,7 @@ struct WaterDropVisualization: View {
                     HStack(spacing: 4) {
                         Image(systemName: "dice.fill")
                             .font(.system(size: 10))
-                        Text("변화")
+                        Text(L.Common.variation.localized)
                             .font(.system(size: 10, weight: .medium))
                     }
                     .foregroundColor(.orange.opacity(0.9))
@@ -598,7 +598,7 @@ struct VariationRangeBar: View {
 
             HStack {
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("최소")
+                    Text(L.Customize.min.localized)
                         .font(.system(size: 9))
                         .foregroundColor(Color(.Text).opacity(0.5))
                     Text(formatValue(value: minValue))
@@ -609,7 +609,7 @@ struct VariationRangeBar: View {
                 Spacer()
 
                 VStack(spacing: 2) {
-                    Text("기본")
+                    Text(L.Customize.base.localized)
                         .font(.system(size: 9))
                         .foregroundColor(Color(.Text).opacity(0.5))
                     Text(formatValue(value: baseValue))
@@ -620,7 +620,7 @@ struct VariationRangeBar: View {
                 Spacer()
 
                 VStack(alignment: .trailing, spacing: 2) {
-                    Text("최대")
+                    Text(L.Customize.max.localized)
                         .font(.system(size: 9))
                         .foregroundColor(Color(.Text).opacity(0.5))
                     Text(formatValue(value: maxValue))
@@ -633,7 +633,8 @@ struct VariationRangeBar: View {
     }
 
     func formatValue(value: Float) -> String {
-        if unit == "초" {
+        let secondsUnit = L.Customize.seconds.localized
+        if unit == secondsUnit {
             return String(format: "%.1f%@", value, unit)
         } else if unit == "%" {
             return String(format: "%.0f%@", value * 100, unit)

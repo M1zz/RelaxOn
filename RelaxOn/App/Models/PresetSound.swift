@@ -33,14 +33,64 @@ struct PresetSound: Identifiable, Codable {
         let volumeVariation: Float
         let pitchVariation: Float
     }
+
+    /// 로컬라이제이션된 이름
+    var localizedName: String {
+        switch id {
+        case "deep-sleep": return L.PresetNew.DeepSleep.name.localized
+        case "rain-sleep": return L.PresetNew.RainSleep.name.localized
+        case "white-noise-sleep": return L.PresetNew.WhiteNoiseSleep.name.localized
+        case "cafe-focus": return L.PresetNew.CafeFocus.name.localized
+        case "deep-focus": return L.PresetNew.DeepFocus.name.localized
+        case "study-time": return L.PresetNew.StudyTime.name.localized
+        case "meditation": return L.PresetNew.MeditationTime.name.localized
+        case "yoga-stretch": return L.PresetNew.YogaStretching.name.localized
+        case "forest-walk": return L.PresetNew.ForestWalk.name.localized
+        case "cave-exploration": return L.PresetNew.CaveExplore.name.localized
+        case "campfire": return L.Listen.campfire.localized
+        case "rain": return L.Listen.rainSound.localized
+        case "heavy-rain": return L.Listen.heavyRain.localized
+        default: return name
+        }
+    }
+
+    /// 로컬라이제이션된 설명
+    var localizedDescription: String {
+        switch id {
+        case "deep-sleep": return L.PresetNew.DeepSleep.description.localized
+        case "rain-sleep": return L.PresetNew.RainSleep.description.localized
+        case "white-noise-sleep": return L.PresetNew.WhiteNoiseSleep.description.localized
+        case "cafe-focus": return L.PresetNew.CafeFocus.description.localized
+        case "deep-focus": return L.PresetNew.DeepFocus.description.localized
+        case "study-time": return L.PresetNew.StudyTime.description.localized
+        case "meditation": return L.PresetNew.MeditationTime.description.localized
+        case "yoga-stretch": return L.PresetNew.YogaStretching.description.localized
+        case "forest-walk": return L.PresetNew.ForestWalk.description.localized
+        case "cave-exploration": return L.PresetNew.CaveExplore.description.localized
+        case "campfire": return L.Listen.campfireDescription.localized
+        case "rain": return L.Listen.rainSoundDescription.localized
+        case "heavy-rain": return L.Listen.heavyRainDescription.localized
+        default: return description
+        }
+    }
 }
 
 enum PresetCategory: String, CaseIterable, Codable {
-    case sleep = "수면"
-    case focus = "집중"
-    case meditation = "명상"
-    case nature = "자연"
-    case rain = "비/물"
+    case sleep = "sleep"
+    case focus = "focus"
+    case meditation = "meditation"
+    case nature = "nature"
+    case rain = "rain"
+
+    var displayName: String {
+        switch self {
+        case .sleep: return L.PresetCategory.sleep.localized
+        case .focus: return L.PresetCategory.focus.localized
+        case .meditation: return L.PresetCategory.meditation.localized
+        case .nature: return L.PresetCategory.nature.localized
+        case .rain: return L.PresetCategory.rain.localized
+        }
+    }
 
     var icon: String {
         switch self {
@@ -500,7 +550,7 @@ extension PresetSound {
         }
 
         return CustomSound(
-            title: name,
+            title: localizedName,
             category: layers[0].category,
             variation: AudioVariation(
                 volume: layers[0].volume,

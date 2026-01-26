@@ -44,7 +44,7 @@ struct OnboardingView: View {
                         Button(action: {
                             isFirstVisit = false
                         }) {
-                            Text("건너뛰기")
+                            Text(L.Onboarding.skip.localized)
                                 .font(.system(size: 15))
                                 .foregroundColor(.white.opacity(0.6))
                                 .padding(.horizontal, 20)
@@ -74,7 +74,7 @@ struct OnboardingView: View {
                                     .foregroundColor(.white)
                                     .multilineTextAlignment(.center)
 
-                                Text(onboardingItems[index].description)
+                                Text(onboardingItems[index].description.localized)
                                     .font(.system(size: 16))
                                     .foregroundColor(.white.opacity(0.7))
                                     .multilineTextAlignment(.center)
@@ -116,7 +116,7 @@ struct OnboardingView: View {
                             isFirstVisit = false
                         }
                     } label: {
-                        Text(pageNumber == onboardingItems.count - 1 ? "시작하기" : "다음")
+                        Text(pageNumber == onboardingItems.count - 1 ? L.Onboarding.start.localized : L.Onboarding.next.localized)
                             .font(.system(size: 17, weight: .semibold))
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
@@ -144,13 +144,13 @@ struct OnboardingView: View {
     private func getTitleForPage(_ index: Int) -> String {
         switch index {
         case 0:
-            return "편안한 휴식의 시작"
+            return L.Onboarding.title1.localized
         case 1:
-            return "나만의 사운드 레이어"
+            return L.Onboarding.title2.localized
         case 2:
-            return "자연의 소리와 함께"
+            return L.Onboarding.title3.localized
         case 3:
-            return "완벽한 수면 환경"
+            return L.Onboarding.title4.localized
         default:
             return ""
         }

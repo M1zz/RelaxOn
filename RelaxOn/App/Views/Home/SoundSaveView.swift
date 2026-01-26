@@ -83,7 +83,7 @@ struct SoundSaveView: View {
                         }
 
                     } label: {
-                        Text("저장")
+                        Text(L.Common.save.localized)
                             .foregroundColor(Color(.PrimaryPurple))
                     }
                 }
@@ -152,7 +152,7 @@ struct SoundSaveView: View {
             UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
         }
         .alert(isPresented: $isShowingAlert) {
-            Alert(title: Text("저장 실패"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
+            Alert(title: Text(L.Alert.saveFailed.localized), message: Text(alertMessage), dismissButton: .default(Text("OK")))
         }
         .ignoresSafeArea(.keyboard)
     }

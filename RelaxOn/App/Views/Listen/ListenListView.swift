@@ -53,8 +53,8 @@ struct ListenListView: View {
                     .frame(maxHeight: .infinity)
                     .padding(.bottom, 100) // 사운드 바 높이만큼 패딩
 
-                // 하단 미니 플레이어 (항상 표시)
-                if viewModel.isPlaying {
+                // 하단 미니 플레이어 (선택된 사운드가 있거나 재생 중이면 표시)
+                if viewModel.isPlaying || viewModel.selectedSound != nil {
                     miniPlayerView()
                 } else {
                     emptyPlayerView()
@@ -108,11 +108,11 @@ struct ListenListView: View {
                     .foregroundColor(Color(.Text).opacity(0.3))
 
                 VStack(spacing: 8) {
-                    Text("저장된 사운드가 없어요")
+                    Text(L.Listen.noSavedSounds.localized)
                         .font(.system(size: 20, weight: .bold))
                         .foregroundColor(Color(.TitleText))
 
-                    Text("나만의 첫 사운드를 만들어보세요")
+                    Text(L.Listen.createFirstSound.localized)
                         .font(.system(size: 15))
                         .foregroundColor(Color(.Text).opacity(0.6))
                 }
@@ -123,7 +123,7 @@ struct ListenListView: View {
                     HStack(spacing: 8) {
                         Image(systemName: "plus.circle.fill")
                             .font(.system(size: 16))
-                        Text("첫 사운드 만들기")
+                        Text(L.Listen.newSoundCreate.localized)
                             .font(.system(size: 16, weight: .semibold))
                     }
                     .foregroundColor(.white)
@@ -145,7 +145,7 @@ struct ListenListView: View {
     @ViewBuilder
     private func headerView() -> some View {
         HStack {
-            Text("듣기")
+            Text(L.Tab.listen.localized)
                 .foregroundColor(.white)
                 .font(.system(size: 28, weight: .bold))
 
@@ -234,106 +234,111 @@ struct ListenListView: View {
 
         switch hour {
         case 6..<12:
-            return "상쾌한 아침을 위한 추천"
+            return L.Listen.recommendationMorning.localized
         case 12..<18:
-            return "집중력을 높이는 추천"
+            return L.Listen.recommendationFocus.localized
         case 18..<22:
-            return "편안한 저녁을 위한 추천"
+            return L.Listen.recommendationEvening.localized
         default:
-            return "깊은 수면을 위한 추천"
+            return L.Listen.recommendationSleep.localized
         }
     }
 
     // MARK: - Mini Player View
     @ViewBuilder
     private func miniPlayerView() -> some View {
-        Button {
-            isShowingSheet = true
-        } label: {
-            HStack(spacing: 16) {
-                // 앨범 아트 (작은 캠프파이어)
-                ZStack {
-                    Circle()
-                        .fill(
-                            LinearGradient(
-                                gradient: Gradient(colors: [
-                                    Color.orange.opacity(0.3),
-                                    Color.red.opacity(0.2)
-                                ]),
-                                startPoint: .top,
-                                endPoint: .bottom
-                            )
+        HStack(spacing: 16) {
+            // 앨범 아트 (작은 캠프파이어) - 탭하면 전체 플레이어 열기
+            ZStack {
+                Circle()
+                    .fill(
+                        LinearGradient(
+                            gradient: Gradient(colors: [
+                                Color.orange.opacity(0.3),
+                                Color.red.opacity(0.2)
+                            ]),
+                            startPoint: .top,
+                            endPoint: .bottom
                         )
-                        .frame(width: 50, height: 50)
+                    )
+                    .frame(width: 50, height: 50)
 
-                    Image(systemName: "flame.fill")
-                        .font(.system(size: 24))
-                        .foregroundColor(.orange)
-                }
+                Image(systemName: "flame.fill")
+                    .font(.system(size: 24))
+                    .foregroundColor(.orange)
+            }
+            .onTapGesture {
+                isShowingSheet = true
+            }
 
-                // 사운드 정보
-                VStack(alignment: .leading, spacing: 4) {
-                    if let sound = viewModel.selectedSound {
-                        Text(sound.title)
-                            .font(.system(size: 15, weight: .semibold))
-                            .foregroundColor(.white)
-                            .lineLimit(1)
-
-                        HStack(spacing: 6) {
-                            Text(sound.category.displayName)
-                                .font(.system(size: 12))
-                                .foregroundColor(.white.opacity(0.7))
-
-                            // 타이머 활성화 시 남은 시간 표시
-                            if timerManager.textTimer != nil && timerManager.remainingSeconds > 0 {
-                                Text("•")
-                                    .font(.system(size: 10))
-                                    .foregroundColor(.white.opacity(0.5))
-
-                                HStack(spacing: 3) {
-                                    Image(systemName: "timer")
-                                        .font(.system(size: 10))
-                                    Text(formatRemainingTime(timerManager.remainingSeconds))
-                                        .font(.system(size: 11, weight: .medium))
-                                }
-                                .foregroundColor(Color(.PrimaryPurple))
-                            }
-                        }
-                    }
-                }
-
-                Spacer()
-
-                // 재생/일시정지 버튼
-                Button(action: {
-                    if viewModel.isPlaying {
-                        viewModel.stopSound()
-                    } else {
-                        if let sound = viewModel.selectedSound {
-                            viewModel.play(with: sound)
-                        }
-                    }
-                }) {
-                    Image(systemName: viewModel.isPlaying ? "pause.fill" : "play.fill")
-                        .font(.system(size: 20))
+            // 사운드 정보 - 탭하면 전체 플레이어 열기
+            VStack(alignment: .leading, spacing: 4) {
+                if let sound = viewModel.selectedSound {
+                    Text(sound.title)
+                        .font(.system(size: 15, weight: .semibold))
                         .foregroundColor(.white)
-                        .frame(width: 44, height: 44)
+                        .lineLimit(1)
+
+                    HStack(spacing: 6) {
+                        Text(sound.category.displayName)
+                            .font(.system(size: 12))
+                            .foregroundColor(.white.opacity(0.7))
+
+                        // 타이머 활성화 시 남은 시간 표시
+                        if timerManager.textTimer != nil && timerManager.remainingSeconds > 0 {
+                            Text("•")
+                                .font(.system(size: 10))
+                                .foregroundColor(.white.opacity(0.5))
+
+                            HStack(spacing: 3) {
+                                Image(systemName: "timer")
+                                    .font(.system(size: 10))
+                                Text(formatRemainingTime(timerManager.remainingSeconds))
+                                    .font(.system(size: 11, weight: .medium))
+                            }
+                            .foregroundColor(Color(.PrimaryPurple))
+                        }
+                    }
                 }
             }
-            .padding(.horizontal, 20)
-            .padding(.vertical, 12)
-            .background(
-                RoundedRectangle(cornerRadius: 16)
-                    .fill(Color.black.opacity(0.4))
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 16)
-                            .stroke(Color.white.opacity(0.1), lineWidth: 1)
-                    )
-            )
-            .padding(.horizontal, 16)
-            .padding(.bottom, 20)
+            .onTapGesture {
+                isShowingSheet = true
+            }
+
+            Spacer()
+                .onTapGesture {
+                    isShowingSheet = true
+                }
+
+            // 재생/일시정지 버튼 (독립된 버튼 - 전체 플레이어 열지 않음)
+            Button(action: {
+                if viewModel.isPlaying {
+                    viewModel.stopSound()
+                } else {
+                    if let sound = viewModel.selectedSound {
+                        viewModel.play(with: sound)
+                    }
+                }
+            }) {
+                Image(systemName: viewModel.isPlaying ? "pause.fill" : "play.fill")
+                    .font(.system(size: 20))
+                    .foregroundColor(.white)
+                    .frame(width: 44, height: 44)
+            }
+            .buttonStyle(PlainButtonStyle())
         }
-        .buttonStyle(PlainButtonStyle())
+        .padding(.horizontal, 20)
+        .padding(.vertical, 12)
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(Color.black.opacity(0.4))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 16)
+                        .stroke(Color.white.opacity(0.1), lineWidth: 1)
+                )
+        )
+        .padding(.horizontal, 16)
+        .padding(.bottom, 20)
         .navigationDestination(isPresented: $isShowingSheet) {
             SoundPlayerFullModalView()
         }
@@ -363,7 +368,7 @@ struct ListenListView: View {
                         .font(.system(size: 20))
                         .foregroundColor(.white.opacity(0.6))
 
-                    Text("사운드를 선택하여 재생해보세요")
+                    Text(L.Listen.selectSoundToPlay.localized)
                         .font(.system(size: 15))
                         .foregroundColor(.white.opacity(0.7))
                 }
@@ -601,7 +606,7 @@ struct CampfireView: View {
                 VStack {
                     Spacer()
 
-                    Text("편안한 백색소음과 함께")
+                    Text(L.Listen.relaxWithWhiteNoise.localized)
                         .font(.system(size: 16, weight: .medium))
                         .foregroundColor(.white.opacity(0.8))
                         .shadow(color: .black.opacity(0.5), radius: 4, x: 0, y: 2)
@@ -616,7 +621,7 @@ struct CampfireView: View {
                             .font(.system(size: 40))
                             .foregroundColor(.white.opacity(0.3))
 
-                        Text("사운드를 재생하면\n캠프파이어가 켜집니다")
+                        Text(L.Listen.playSoundForCampfire.localized)
                             .font(.system(size: 15))
                             .foregroundColor(.white.opacity(0.5))
                             .multilineTextAlignment(.center)
@@ -760,7 +765,7 @@ struct TimerView: View {
                 }
             }
         }
-        .navigationTitle("수면 타이머")
+        .navigationTitle(L.Timer.sleepTimer.localized)
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             isTimerRunning = timerManager.textTimer != nil && timerManager.remainingSeconds > 0
@@ -785,11 +790,11 @@ struct TimerView: View {
             }
 
             VStack(spacing: 12) {
-                Text("숙면을 위한 타이머")
+                Text(L.Timer.forGoodSleep.localized)
                     .font(.system(size: 24, weight: .bold))
                     .foregroundColor(.white)
 
-                Text("설정한 시간 후 자동으로 음악이 멈춥니다")
+                Text(L.Timer.autoStopDescription.localized)
                     .font(.system(size: 15))
                     .foregroundColor(.white.opacity(0.6))
             }
@@ -819,7 +824,7 @@ struct TimerView: View {
                 HStack(spacing: 12) {
                     Image(systemName: "play.fill")
                         .font(.system(size: 18))
-                    Text("타이머 시작")
+                    Text(L.Timer.startTimer.localized)
                         .font(.system(size: 17, weight: .semibold))
                 }
                 .foregroundColor(.white)
@@ -858,7 +863,7 @@ struct TimerView: View {
                     timerManager.getTimeText()
                         .foregroundColor(.white)
 
-                    Text("남은 시간")
+                    Text(L.Timer.remainingTime.localized)
                         .font(.system(size: 15))
                         .foregroundColor(.white.opacity(0.6))
                 }
@@ -886,7 +891,7 @@ struct TimerView: View {
                                 .foregroundColor(.white)
                         }
 
-                        Text("중지")
+                        Text(L.Timer.stop.localized)
                             .font(.system(size: 13))
                             .foregroundColor(.white.opacity(0.8))
                     }
@@ -923,7 +928,7 @@ struct TimerView: View {
                             }
                         }
 
-                        Text(timerManager.textTimer?.isValid == true ? "일시정지" : "재개")
+                        Text(timerManager.textTimer?.isValid == true ? L.Timer.pause.localized : L.Timer.resume.localized)
                             .font(.system(size: 13))
                             .foregroundColor(.white.opacity(0.8))
                     }
@@ -968,7 +973,7 @@ struct SavedSoundsListView: View {
                 soundsListView()
             }
         }
-        .navigationTitle("저장된 사운드")
+        .navigationTitle(L.Listen.savedSounds.localized)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -978,7 +983,7 @@ struct SavedSoundsListView: View {
                     HStack(spacing: 4) {
                         Image(systemName: "plus.circle.fill")
                             .font(.system(size: 18))
-                        Text("새로 만들기")
+                        Text(L.SoundList.createNew.localized)
                             .font(.system(size: 15, weight: .medium))
                     }
                     .foregroundColor(Color(.PrimaryPurple))
@@ -1010,11 +1015,11 @@ struct SavedSoundsListView: View {
                 .foregroundColor(.white.opacity(0.3))
 
             VStack(spacing: 8) {
-                Text("저장된 사운드가 없어요")
+                Text(L.Listen.noSavedSounds.localized)
                     .font(.system(size: 20, weight: .bold))
                     .foregroundColor(.white)
 
-                Text("나만의 첫 사운드를 만들어보세요")
+                Text(L.Listen.createFirstSound.localized)
                     .font(.system(size: 15))
                     .foregroundColor(.white.opacity(0.6))
                     .multilineTextAlignment(.center)
@@ -1026,7 +1031,7 @@ struct SavedSoundsListView: View {
                 HStack(spacing: 8) {
                     Image(systemName: "plus.circle.fill")
                         .font(.system(size: 16))
-                    Text("새 사운드 만들기")
+                    Text(L.Listen.newSoundCreate.localized)
                         .font(.system(size: 16, weight: .semibold))
                 }
                 .foregroundColor(.white)
@@ -1083,7 +1088,7 @@ struct SavedSoundsListView: View {
                             .font(.system(size: 18))
                             .foregroundColor(category.color)
 
-                        Text(category.rawValue)
+                        Text(category.displayName)
                             .font(.system(size: 18, weight: .bold))
                             .foregroundColor(.white)
 
@@ -1119,7 +1124,7 @@ struct SavedSoundsListView: View {
                     .font(.system(size: 18))
                     .foregroundColor(Color(.PrimaryPurple))
 
-                Text("내가 만든 사운드")
+                Text(L.Listen.mySounds.localized)
                     .font(.system(size: 18, weight: .bold))
                     .foregroundColor(.white)
 
@@ -1161,7 +1166,7 @@ struct SavedSoundsListView: View {
                     .font(.system(size: 18))
                     .foregroundColor(.white.opacity(0.6))
 
-                Text("검색 결과")
+                Text(L.Listen.searchResults.localized)
                     .font(.system(size: 18, weight: .bold))
                     .foregroundColor(.white)
 
@@ -1184,7 +1189,7 @@ struct SavedSoundsListView: View {
                         .font(.system(size: 48))
                         .foregroundColor(.white.opacity(0.3))
 
-                    Text("검색 결과가 없어요")
+                    Text(L.Listen.noSearchResults.localized)
                         .font(.system(size: 16, weight: .medium))
                         .foregroundColor(.white.opacity(0.6))
                 }
@@ -1215,7 +1220,7 @@ struct SavedSoundsListView: View {
             Image(systemName: "magnifyingglass")
                 .foregroundColor(.white.opacity(0.5))
 
-            TextField("사운드 검색", text: $searchText)
+            TextField(L.Listen.soundSearch.localized, text: $searchText)
                 .foregroundColor(.white)
                 .font(.system(size: 15))
         }
@@ -1319,7 +1324,7 @@ struct SoundCardView: View {
                             HStack(spacing: 4) {
                                 Image(systemName: "star.fill")
                                     .font(.system(size: 10))
-                                Text("프리셋")
+                                Text(L.Listen.presets.localized)
                                     .font(.system(size: 10, weight: .semibold))
                             }
                             .foregroundColor(.white)
@@ -1350,7 +1355,7 @@ struct SoundCardView: View {
                             .font(.system(size: 10))
                             .foregroundColor(.white.opacity(0.6))
 
-                        Text("\(layers.count)개 레이어")
+                        Text(String(format: L.Listen.layerCount.localized, layers.count))
                             .font(.system(size: 12))
                             .foregroundColor(.white.opacity(0.6))
                     } else {

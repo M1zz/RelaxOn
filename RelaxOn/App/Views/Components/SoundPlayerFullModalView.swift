@@ -93,7 +93,7 @@ struct SoundPlayerFullModalView: View {
                     HStack(spacing: 8) {
                         Image(systemName: "spatial.audio")
                             .font(.system(size: 18))
-                        Text("공간 음향")
+                        Text(L.Player.spatialAudio.localized)
                             .font(.system(size: 16, weight: .medium))
                     }
                     .foregroundColor(Color(.Text))
@@ -132,7 +132,7 @@ struct SoundPlayerFullModalView: View {
                         }
                     } label: {
                         HStack {
-                            Text("위치 조정")
+                            Text(L.Player.positionAdjust.localized)
                                 .font(.system(size: 14, weight: .medium))
                             Image(systemName: showSpatialControls ? "chevron.up" : "chevron.down")
                                 .font(.system(size: 12))
@@ -152,7 +152,7 @@ struct SoundPlayerFullModalView: View {
                         ForEach($layerPositions) { $position in
                             VStack(alignment: .leading, spacing: 8) {
                                 HStack {
-                                    Text("레이어 \(position.layerIndex + 1): \(position.layerName)")
+                                    Text(String(format: L.Player.layerFormat.localized, position.layerIndex + 1, position.layerName))
                                         .font(.system(size: 14, weight: .semibold))
                                         .foregroundColor(Color(.Text))
 
@@ -171,7 +171,7 @@ struct SoundPlayerFullModalView: View {
                                 // 거리 슬라이더
                                 VStack(alignment: .leading, spacing: 4) {
                                     HStack {
-                                        Text("거리")
+                                        Text(L.Player.distance.localized)
                                             .font(.system(size: 12))
                                         Spacer()
                                         Text("\(String(format: "%.1f", position.distance))m")
@@ -194,7 +194,7 @@ struct SoundPlayerFullModalView: View {
                                 // 각도 슬라이더
                                 VStack(alignment: .leading, spacing: 4) {
                                     HStack {
-                                        Text("각도")
+                                        Text(L.Player.angle.localized)
                                             .font(.system(size: 12))
                                         Spacer()
                                         Text("\(Int(position.angle))°")
@@ -217,7 +217,7 @@ struct SoundPlayerFullModalView: View {
                                 // 높이 슬라이더
                                 VStack(alignment: .leading, spacing: 4) {
                                     HStack {
-                                        Text("높이")
+                                        Text(L.Player.height.localized)
                                             .font(.system(size: 12))
                                         Spacer()
                                         Text("\(String(format: "%.1f", position.height))m")

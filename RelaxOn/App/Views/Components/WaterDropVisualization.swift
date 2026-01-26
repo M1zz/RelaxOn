@@ -46,7 +46,7 @@ struct WaterDropVisualization: View {
                         .font(.system(size: 16))
                         .foregroundColor(Color(.PrimaryPurple))
 
-                    Text("실시간 재생")
+                    Text(L.Player.realTimePlaying.localized)
                         .font(.system(size: 13, weight: .semibold))
                         .foregroundColor(Color(.TitleText))
                 }
@@ -61,7 +61,7 @@ struct WaterDropVisualization: View {
                     HStack(spacing: 4) {
                         Image(systemName: "dice.fill")
                             .font(.system(size: 10))
-                        Text("변화 있음")
+                        Text(L.Player.hasVariation.localized)
                             .font(.system(size: 10))
                     }
                     .foregroundColor(.orange.opacity(0.8))

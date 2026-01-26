@@ -63,21 +63,21 @@ struct CreateNewSoundView: View {
                 Button(action: {
                     showSaveAlert = true
                 }) {
-                    Text("완료")
+                    Text(L.Common.done.localized)
                         .font(.system(size: 16, weight: .semibold))
                         .foregroundColor(viewModel.addedSounds.isEmpty ? Color(.Text).opacity(0.3) : Color(.PrimaryPurple))
                 }
                 .disabled(viewModel.addedSounds.isEmpty)
             }
         }
-        .alert("사운드 저장", isPresented: $showSaveAlert) {
-            TextField("사운드 이름", text: $soundTitle)
-            Button("취소", role: .cancel) { }
-            Button("저장") {
+        .alert(L.Alert.soundName.localized, isPresented: $showSaveAlert) {
+            TextField(L.Alert.enterName.localized, text: $soundTitle)
+            Button(L.Common.cancel.localized, role: .cancel) { }
+            Button(L.Common.save.localized) {
                 saveSound()
             }
         } message: {
-            Text("새로운 사운드의 이름을 입력하세요")
+            Text(L.CreateSound.enterSoundName.localized)
         }
     }
 
@@ -161,7 +161,7 @@ struct CreateNewSoundView: View {
                             .font(.system(size: 20))
                             .foregroundColor(Color(.PrimaryPurple))
 
-                        Text("선택된 레이어")
+                        Text(L.CreateSound.selectedLayers.localized)
                             .font(.system(size: 16, weight: .bold))
                             .foregroundColor(Color(.TitleText))
 
@@ -210,11 +210,11 @@ struct CreateNewSoundView: View {
                 .font(.system(size: 48))
                 .foregroundColor(Color(.PrimaryPurple).opacity(0.3))
 
-            Text("원본 사운드를 선택해보세요")
+            Text(L.CreateSound.selectOriginalSound.localized)
                 .font(.system(size: 15, weight: .medium))
                 .foregroundColor(Color(.Text).opacity(0.6))
 
-            Text("여러 개를 조합하여 나만의 사운드를 만들 수 있어요")
+            Text(L.CreateSound.combineMultipleSounds.localized)
                 .font(.system(size: 13))
                 .foregroundColor(Color(.Text).opacity(0.4))
                 .multilineTextAlignment(.center)
@@ -240,14 +240,14 @@ struct CreateNewSoundView: View {
             // 헤더
             HStack {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("원본 사운드")
+                    Text(L.CreateSound.originalSounds.localized)
                         .font(.system(size: 20, weight: .bold))
                         .foregroundColor(Color(.TitleText))
 
                     HStack(spacing: 6) {
                         Image(systemName: "info.circle.fill")
                             .font(.system(size: 12))
-                        Text("탭하여 선택 • 여러 개 선택 가능")
+                        Text(L.CreateSound.tapToSelectMultiple.localized)
                             .font(.system(size: 12))
                     }
                     .foregroundColor(Color(.Text).opacity(0.5))
@@ -288,11 +288,11 @@ struct CreateNewSoundView: View {
             // 헤더
             HStack {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("배경 음악")
+                    Text(L.CreateSound.backgroundMusic.localized)
                         .font(.system(size: 20, weight: .bold))
                         .foregroundColor(Color(.TitleText))
 
-                    Text("선택 사항 • 편안한 분위기를 더해보세요")
+                    Text(L.CreateSound.optionalAmbience.localized)
                         .font(.system(size: 12))
                         .foregroundColor(Color(.Text).opacity(0.5))
                 }
@@ -308,7 +308,7 @@ struct CreateNewSoundView: View {
                         HStack(spacing: 6) {
                             Image(systemName: "xmark.circle.fill")
                                 .font(.system(size: 16))
-                            Text("선택 해제")
+                            Text(L.CreateSound.deselect.localized)
                                 .font(.system(size: 13, weight: .medium))
                         }
                         .foregroundColor(.red)
@@ -357,7 +357,7 @@ struct CreateNewSoundView: View {
                     .font(.system(size: 18))
                     .foregroundColor(Color(.PrimaryPurple))
 
-                Text("배경음악 볼륨")
+                Text(L.CreateSound.backgroundMusicVolume.localized)
                     .font(.system(size: 17, weight: .bold))
                     .foregroundColor(Color(.TitleText))
 
@@ -378,11 +378,11 @@ struct CreateNewSoundView: View {
                     .tint(Color(.PrimaryPurple))
 
                 HStack {
-                    Text("조용히")
+                    Text(L.Common.quiet.localized)
                         .font(.system(size: 11))
                         .foregroundColor(Color(.Text).opacity(0.4))
                     Spacer()
-                    Text("크게")
+                    Text(L.Common.loud.localized)
                         .font(.system(size: 11))
                         .foregroundColor(Color(.Text).opacity(0.4))
                 }
@@ -554,7 +554,7 @@ class CreateSoundViewModel: ObservableObject {
         availableSounds = [
             AvailableSound(
                 id: "waterdrop",
-                name: "물방울",
+                name: AudioFilter.WaterDrop.displayName,
                 icon: "drop.fill",
                 color: .blue,
                 category: .WaterDrop,
@@ -563,7 +563,7 @@ class CreateSoundViewModel: ObservableObject {
             ),
             AvailableSound(
                 id: "basement",
-                name: "지하실",
+                name: AudioFilter.Basement.displayName,
                 icon: "building.fill",
                 color: .cyan,
                 category: .WaterDrop,
@@ -572,7 +572,7 @@ class CreateSoundViewModel: ObservableObject {
             ),
             AvailableSound(
                 id: "cave",
-                name: "동굴",
+                name: AudioFilter.Cave.displayName,
                 icon: "moon.fill",
                 color: .indigo,
                 category: .WaterDrop,
@@ -581,7 +581,7 @@ class CreateSoundViewModel: ObservableObject {
             ),
             AvailableSound(
                 id: "pipe",
-                name: "파이프",
+                name: AudioFilter.Pipe.displayName,
                 icon: "cylinder.fill",
                 color: .teal,
                 category: .WaterDrop,
@@ -590,7 +590,7 @@ class CreateSoundViewModel: ObservableObject {
             ),
             AvailableSound(
                 id: "sink",
-                name: "싱크대",
+                name: AudioFilter.Sink.displayName,
                 icon: "rectangle.fill",
                 color: .mint,
                 category: .WaterDrop,
@@ -599,7 +599,7 @@ class CreateSoundViewModel: ObservableObject {
             ),
             AvailableSound(
                 id: "bowl",
-                name: "싱잉볼",
+                name: AudioFilter.SingingBowl.displayName,
                 icon: "circle.circle",
                 color: .purple,
                 category: .SingingBowl,
@@ -608,7 +608,7 @@ class CreateSoundViewModel: ObservableObject {
             ),
             AvailableSound(
                 id: "bird",
-                name: "새",
+                name: AudioFilter.Bird.displayName,
                 icon: "bird.fill",
                 color: .green,
                 category: .Bird,
@@ -617,7 +617,7 @@ class CreateSoundViewModel: ObservableObject {
             ),
             AvailableSound(
                 id: "owl",
-                name: "부엉이",
+                name: AudioFilter.Owl.displayName,
                 icon: "moon.stars.fill",
                 color: .brown,
                 category: .Bird,
@@ -626,7 +626,7 @@ class CreateSoundViewModel: ObservableObject {
             ),
             AvailableSound(
                 id: "woodpecker",
-                name: "딱따구리",
+                name: AudioFilter.Woodpecker.displayName,
                 icon: "leaf.fill",
                 color: .orange,
                 category: .Bird,

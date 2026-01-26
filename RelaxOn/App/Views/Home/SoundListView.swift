@@ -90,7 +90,7 @@ struct SoundListView: View {
 
                 .navigationDestination(
                     isPresented: $appState.showSoundDetail) {
-                        SoundDetailView(isTutorial: false, originalSound: OriginalSound(name: "물방울", filter: .WaterDrop, category: .WaterDrop))
+                        SoundDetailView(isTutorial: false, originalSound: OriginalSound(name: AudioFilter.WaterDrop.displayName, filter: .WaterDrop, category: .WaterDrop))
                     }
             }
         }
@@ -593,7 +593,7 @@ struct CreateNewSoundView: View {
                     ),
                     range: 0.1...5.0,
                     color: .orange,
-                    unit: "초"
+                    unit: L.Customize.seconds.localized
                 )
             }
             .padding(16)
@@ -635,8 +635,8 @@ struct CreateNewSoundView: View {
                     Text("\(Int(value.wrappedValue * 100))\(unit)")
                         .font(.system(size: 14, weight: .bold))
                         .foregroundColor(color)
-                } else if unit == "초" {
-                    Text(String(format: "%.2f\(unit)", value.wrappedValue))
+                } else if unit == L.Customize.seconds.localized {
+                    Text(String(format: "%.2f%@", value.wrappedValue, unit))
                         .font(.system(size: 14, weight: .bold))
                         .foregroundColor(color)
                 } else {
@@ -862,12 +862,12 @@ struct AddedSoundRow: View {
                             HStack(spacing: 4) {
                                 Image(systemName: "slider.horizontal.3")
                                     .font(.system(size: 10))
-                                Text("커스터마이징됨")
+                                Text(L.Common.customized.localized)
                                     .font(.system(size: 11))
                             }
                             .foregroundColor(Color(.PrimaryPurple).opacity(0.8))
                         } else {
-                            Text("탭하여 커스터마이징")
+                            Text(L.Common.tapToCustomize.localized)
                                 .font(.system(size: 11))
                                 .foregroundColor(Color(.Text).opacity(0.5))
                         }
@@ -947,7 +947,7 @@ class CreateSoundViewModel: ObservableObject {
         availableSounds = [
             AvailableSound(
                 id: "waterdrop",
-                name: "물방울",
+                name: AudioFilter.WaterDrop.displayName,
                 icon: "drop.fill",
                 color: .blue,
                 category: .WaterDrop,
@@ -956,7 +956,7 @@ class CreateSoundViewModel: ObservableObject {
             ),
             AvailableSound(
                 id: "basement",
-                name: "지하실",
+                name: AudioFilter.Basement.displayName,
                 icon: "building.fill",
                 color: .cyan,
                 category: .WaterDrop,
@@ -965,7 +965,7 @@ class CreateSoundViewModel: ObservableObject {
             ),
             AvailableSound(
                 id: "cave",
-                name: "동굴",
+                name: AudioFilter.Cave.displayName,
                 icon: "moon.fill",
                 color: .indigo,
                 category: .WaterDrop,
@@ -974,7 +974,7 @@ class CreateSoundViewModel: ObservableObject {
             ),
             AvailableSound(
                 id: "pipe",
-                name: "파이프",
+                name: AudioFilter.Pipe.displayName,
                 icon: "cylinder.fill",
                 color: .teal,
                 category: .WaterDrop,
@@ -983,7 +983,7 @@ class CreateSoundViewModel: ObservableObject {
             ),
             AvailableSound(
                 id: "sink",
-                name: "싱크대",
+                name: AudioFilter.Sink.displayName,
                 icon: "rectangle.fill",
                 color: .mint,
                 category: .WaterDrop,
@@ -992,7 +992,7 @@ class CreateSoundViewModel: ObservableObject {
             ),
             AvailableSound(
                 id: "bowl",
-                name: "싱잉볼",
+                name: AudioFilter.SingingBowl.displayName,
                 icon: "circle.circle",
                 color: .purple,
                 category: .SingingBowl,
@@ -1001,7 +1001,7 @@ class CreateSoundViewModel: ObservableObject {
             ),
             AvailableSound(
                 id: "bird",
-                name: "새",
+                name: AudioFilter.Bird.displayName,
                 icon: "bird.fill",
                 color: .green,
                 category: .Bird,
@@ -1010,7 +1010,7 @@ class CreateSoundViewModel: ObservableObject {
             ),
             AvailableSound(
                 id: "owl",
-                name: "부엉이",
+                name: AudioFilter.Owl.displayName,
                 icon: "moon.stars.fill",
                 color: .brown,
                 category: .Bird,
@@ -1019,7 +1019,7 @@ class CreateSoundViewModel: ObservableObject {
             ),
             AvailableSound(
                 id: "woodpecker",
-                name: "딱따구리",
+                name: AudioFilter.Woodpecker.displayName,
                 icon: "leaf.fill",
                 color: .orange,
                 category: .Bird,

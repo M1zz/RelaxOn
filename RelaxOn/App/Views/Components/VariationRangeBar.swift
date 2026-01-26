@@ -75,7 +75,7 @@ struct VariationRangeBar: View {
             HStack {
                 // 최소값
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("최소")
+                    Text(L.Customize.min.localized)
                         .font(.system(size: 9))
                         .foregroundColor(Color(.Text).opacity(0.5))
                     Text(formatValue(value: minValue))
@@ -87,7 +87,7 @@ struct VariationRangeBar: View {
 
                 // 기본값 (중앙)
                 VStack(spacing: 2) {
-                    Text("기본")
+                    Text(L.Customize.base.localized)
                         .font(.system(size: 9))
                         .foregroundColor(Color(.Text).opacity(0.5))
                     Text(formatValue(value: baseValue))
@@ -99,7 +99,7 @@ struct VariationRangeBar: View {
 
                 // 최대값
                 VStack(alignment: .trailing, spacing: 2) {
-                    Text("최대")
+                    Text(L.Customize.max.localized)
                         .font(.system(size: 9))
                         .foregroundColor(Color(.Text).opacity(0.5))
                     Text(formatValue(value: maxValue))
@@ -126,7 +126,8 @@ struct VariationRangeBar: View {
     }
 
     func formatValue(value: Float) -> String {
-        if unit == "초" {
+        let secondsUnit = L.Customize.seconds.localized
+        if unit == secondsUnit {
             return String(format: "%.1f%@", value, unit)
         } else if unit == "%" {
             return String(format: "%.0f%@", value * 100, unit)
@@ -140,14 +141,21 @@ struct VariationRangeBar: View {
     var variationDescription: String {
         let percentage = Int(variation * 100)
         let difference = maxValue - minValue
+        let secondsUnit = L.Customize.seconds.localized
 
-        if unit == "초" {
-            return "매번 ±\(percentage)% 범위로 변합니다 (차이: \(String(format: "%.1f", difference))초)"
+        if unit == secondsUnit {
+            return L.Customize.variationDescriptionSeconds.localized
+                .replacingOccurrences(of: "{percentage}", with: "\(percentage)")
+                .replacingOccurrences(of: "{difference}", with: String(format: "%.1f", difference))
         } else if unit == "%" {
             let volDiff = difference * 100
-            return "매번 ±\(percentage)% 범위로 변합니다 (차이: \(String(format: "%.0f", volDiff))%)"
+            return L.Customize.variationDescriptionPercent.localized
+                .replacingOccurrences(of: "{percentage}", with: "\(percentage)")
+                .replacingOccurrences(of: "{difference}", with: String(format: "%.0f", volDiff))
         } else {
-            return "매번 ±\(percentage)% 범위로 변합니다 (차이: \(String(format: "%.1f", difference)))"
+            return L.Customize.variationDescription.localized
+                .replacingOccurrences(of: "{percentage}", with: "\(percentage)")
+                .replacingOccurrences(of: "{difference}", with: String(format: "%.1f", difference))
         }
     }
 }
@@ -184,7 +192,7 @@ struct VariationRangeBar_Previews: PreviewProvider {
                 variation: 0.3,
                 range: 0.1...2.0,
                 color: .blue,
-                unit: "초"
+                unit: L.Customize.seconds.localized
             )
 
             // 볼륨 예시

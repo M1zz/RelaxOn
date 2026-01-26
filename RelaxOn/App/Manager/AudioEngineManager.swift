@@ -499,47 +499,20 @@ extension AudioEngineManager {
         fadeTimer = nil
         timerSubscription?.cancel()
 
-        // Timer를 사용한 부드러운 fadeOut
-        let currentVolume = player.volume
-        var fadeStep = 0
-        let totalSteps = 20
-        let fadeInterval = 0.005 // 총 0.1초 fadeOut
-
-        let fadeOutTimer = Timer.scheduledTimer(withTimeInterval: fadeInterval, repeats: true) { [weak self] timer in
-            guard let self = self else {
-                timer.invalidate()
-                return
-            }
-
-            fadeStep += 1
-            let newVolume = currentVolume * Float(totalSteps - fadeStep) / Float(totalSteps)
-            self.player.volume = max(0, newVolume)
-
-            if fadeStep >= totalSteps {
-                timer.invalidate()
-                self.player.stop()
-                self.player.volume = currentVolume // 볼륨 복구
-                print("✅ [AudioEngineManager] 메인 사운드 fadeOut 완료")
-            }
-        }
-
-        // fadeTimer 저장하여 나중에 정리 가능하도록
-        self.fadeTimer = fadeOutTimer
+        // 메인 플레이어 즉시 중지
+        player.stop()
 
         // 레이어 중지
         stopLayers()
 
-        // 🔧 수정: 배경음은 유지하고 메인 사운드만 중지
-        // backgroundPlayer.stop() // 제거됨
+        // 배경음 중지
+        backgroundPlayer.stop()
+        currentBackgroundSound = nil
 
-        // Engine은 배경음이 재생 중이면 중지하지 않음
-        if currentBackgroundSound == nil {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
-                self.engine.stop()
-                print("   - 배경음 없음: Engine 중지")
-            }
-        } else {
-            print("   - 배경음 재생 중: Engine 유지, 메인 사운드만 중지")
+        // 엔진 중지
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+            self.engine.stop()
+            print("✅ [AudioEngineManager] 모든 사운드 중지 완료")
         }
 
         clearBuffer()
@@ -823,22 +796,25 @@ enum BackgroundSound: String, CaseIterable {
     case rain = "비"
     case tv = "TV 소음"
 
-<<<<<<< HEAD
     // 멜로디 음악
     case piano = "피아노"
     case guitar = "기타"
     case ambient = "앰비언트"
     case lofi = "로파이"
     case meditation = "명상 음악"
-=======
+
     var displayName: String {
         switch self {
         case .wave: return L.Background.wave.localized
         case .rain: return L.Background.rain.localized
         case .tv: return L.Background.tv.localized
+        case .piano: return L.Background.piano.localized
+        case .guitar: return L.Background.guitar.localized
+        case .ambient: return L.Background.ambient.localized
+        case .lofi: return L.Background.lofi.localized
+        case .meditation: return L.Background.meditation.localized
         }
     }
->>>>>>> origin/다국어지원
 
     var fileName: String {
         switch self {

@@ -30,7 +30,7 @@ struct TimerMainView: View {
                 .ignoresSafeArea()
             
             VStack(alignment: .leading) {
-                Text("타이머")
+                Text(L.Timer.title.localized)
                     .foregroundColor(Color(.TitleText))
                     .font(.system(size: 24, weight: .bold))
                     .padding(.horizontal, 24)

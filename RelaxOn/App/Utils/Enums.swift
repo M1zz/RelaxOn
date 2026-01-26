@@ -13,7 +13,11 @@ import Foundation
 
 /// 탭 바 아이템
 enum TabItems: String {
-    case listen = "듣기"
+    case listen = "tab.listen"
+
+    var localizedName: String {
+        return self.rawValue.localized
+    }
 }
 
 /// 탭 바 아이콘 파일 이름
@@ -63,10 +67,14 @@ enum OnboardInfo {
     }
     // 설명 문구
     enum IconText: String {
-        case Equlizer = "여러 개의 소리를 레이어처럼 겹쳐서\n나만의 완벽한 사운드를 만들어보세요"
-        case Headphone = "캠프파이어 곁에서 편안한 사운드와 함께\n휴식을 즐겨보세요"
-        case Lamp = "물방울, 새소리, 싱잉볼...\n자연의 소리로 마음의 평화를 찾아보세요"
-        case Musicplayer = "배경 음악을 더해 더욱 풍부한 사운드를\n경험하고, 타이머로 수면을 관리하세요"
+        case Equlizer = "onboarding.desc1"
+        case Headphone = "onboarding.desc2"
+        case Lamp = "onboarding.desc3"
+        case Musicplayer = "onboarding.desc4"
+
+        var localizedText: String {
+            return self.rawValue.localized
+        }
     }
 }
 

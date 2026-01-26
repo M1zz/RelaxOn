@@ -43,7 +43,7 @@ final class CustomSoundViewModel: ObservableObject {
   
     /// 현재 재생되는 소리
     /// - 기본값 : OriginalSound(name: "물방울", filter: .WaterDrop, category: .waterDrop)
-    @Published var sound: Playable = OriginalSound(name: "물방울", filter: .WaterDrop, category: .WaterDrop)
+    @Published var sound: Playable = OriginalSound(name: AudioFilter.WaterDrop.displayName, filter: .WaterDrop, category: .WaterDrop)
     
     @Published var color = ""
     @Published var searchText = ""
