@@ -949,9 +949,11 @@ struct ListenListView_Previews: PreviewProvider {
 // MARK: - Saved Sounds List View
 struct SavedSoundsListView: View {
     @EnvironmentObject var viewModel: CustomSoundViewModel
+    @EnvironmentObject var subscriptionManager: SubscriptionManager
     @Environment(\.dismiss) var dismiss
     @State private var searchText = ""
     @State private var showCreateView = false
+    @State private var showSubscription = false
 
     var body: some View {
         ZStack {
@@ -977,24 +979,46 @@ struct SavedSoundsListView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                Button {
-                    showCreateView = true
-                } label: {
-                    HStack(spacing: 4) {
-                        Image(systemName: "plus.circle.fill")
-                            .font(.system(size: 18))
-                        Text(L.SoundList.createNew.localized)
-                            .font(.system(size: 15, weight: .medium))
+                HStack(spacing: 8) {
+                    // 무료 유저 사운드 카운트 표시
+                    if !subscriptionManager.isPremium {
+                        let userCount = viewModel.customSounds.filter { !$0.isPreset }.count
+                        Text("\(userCount)/\(SubscriptionManager.freeMaxCustomSounds)")
+                            .font(.system(size: 12, weight: .bold))
+                            .foregroundColor(userCount >= SubscriptionManager.freeMaxCustomSounds ? .orange : Color(.PrimaryPurple))
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 4)
+                            .background(Color(.PrimaryPurple).opacity(0.15))
+                            .cornerRadius(8)
                     }
-                    .foregroundColor(Color(.PrimaryPurple))
+
+                    Button {
+                        let userCount = viewModel.customSounds.filter { !$0.isPreset }.count
+                        if subscriptionManager.canCreateMoreSounds(currentCount: userCount) {
+                            showCreateView = true
+                        } else {
+                            showSubscription = true
+                        }
+                    } label: {
+                        HStack(spacing: 4) {
+                            Image(systemName: "plus.circle.fill")
+                                .font(.system(size: 18))
+                            Text(L.SoundList.createNew.localized)
+                                .font(.system(size: 15, weight: .medium))
+                        }
+                        .foregroundColor(Color(.PrimaryPurple))
+                    }
                 }
             }
+        }
+        .sheet(isPresented: $showSubscription) {
+            SubscriptionView()
+                .environmentObject(subscriptionManager)
         }
         .navigationDestination(isPresented: $showCreateView) {
             CreateNewSoundView()
                 .environmentObject(viewModel)
                 .onDisappear {
-                    // 새 사운드 저장 후 리스트 업데이트
                     viewModel.loadSound()
                     print("🔄 [SavedSoundsListView] 리스트 새로고침 - 저장된 사운드 개수: \(viewModel.customSounds.count)")
                 }

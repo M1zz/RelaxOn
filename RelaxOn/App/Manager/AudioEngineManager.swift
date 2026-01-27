@@ -27,6 +27,7 @@ final class AudioEngineManager: ObservableObject {
     private var timerSubscription: Cancellable?
     private var fadeTimer: Timer?
     private var targetVolume: Float = 1.0
+    private var stopRequestId: UInt64 = 0
 
     // 다중 레이어 재생용 (새로운 LayerManager 사용)
     private var layerManager: AudioLayerManager?
@@ -292,17 +293,9 @@ extension AudioEngineManager {
         }
 
         // 엔진이 실행 중이면 중지해야 연결을 안전하게 변경할 수 있음
-        let wasRunning = engine.isRunning
-        let hasBackground = currentBackgroundSound != nil
-
-        if wasRunning && !hasBackground {
+        if engine.isRunning {
             print("   - Engine 중지 후 재연결")
             engine.stop()
-        } else if wasRunning && hasBackground {
-            print("   - 배경음 재생 중: 메인 사운드 노드는 나중에 연결")
-            // 배경음이 재생 중이면 메인 사운드는 따로 처리하지 않고 그대로 둠
-            // 대신 레이어 방식을 사용하도록 유도
-            print("   ⚠️ 배경음 재생 중에는 단일 사운드 재생 대신 레이어 방식 사용 권장")
         }
 
         // 기존 연결 모두 해제 (안전하게)
@@ -360,6 +353,16 @@ extension AudioEngineManager {
         print("🎵 [AudioEngineManager] play() 호출됨")
         print("   - 재생할 사운드: \(sound.filter.rawValue)")
         print("   - 현재 배경음 재생 중: \(currentBackgroundSound?.rawValue ?? "없음")")
+
+        // 기존 재생 정리 (엔진은 중지하지 않고 노드만 정리)
+        fadeTimer?.invalidate()
+        fadeTimer = nil
+        timerSubscription?.cancel()
+        player.stop()
+        stopLayers()
+        backgroundPlayer.stop()
+        currentBackgroundSound = nil
+        clearBuffer()
 
         currentPlayingSound = sound
 
@@ -556,10 +559,18 @@ extension AudioEngineManager {
         backgroundPlayer.stop()
         currentBackgroundSound = nil
 
-        // 엔진 중지
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-            self.engine.stop()
-            print("✅ [AudioEngineManager] 모든 사운드 중지 완료")
+        currentPlayingSound = nil
+
+        // 엔진 중지 (레이스 컨디션 방지: stop 후 바로 play가 호출되면 엔진을 멈추지 않음)
+        stopRequestId &+= 1
+        let currentRequestId = stopRequestId
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
+            guard let self = self else { return }
+            // stop 이후 새로운 play가 호출되지 않았을 때만 엔진 중지
+            if self.currentPlayingSound == nil && self.stopRequestId == currentRequestId {
+                self.engine.stop()
+                print("✅ [AudioEngineManager] 엔진 중지 완료")
+            }
         }
 
         clearBuffer()

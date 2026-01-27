@@ -12,12 +12,14 @@ struct RelaxOnApp: App {
     @UIApplicationDelegateAdaptor var delegate: AppDelegate
     @StateObject private var appState = AppState()
     @StateObject private var viewModel = CustomSoundViewModel()
-    
+    @StateObject private var subscriptionManager = SubscriptionManager()
+
     var body: some Scene {
         WindowGroup {
             MainTabView()
                 .environmentObject(appState)
                 .environmentObject(viewModel)
+                .environmentObject(subscriptionManager)
         }
     }
 }

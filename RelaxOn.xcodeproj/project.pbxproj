@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		SUB000022F29000000000002 /* SubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = SUB000012F29000000000001 /* SubscriptionManager.swift */; };
+		SUB000042F29000000000004 /* SubscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = SUB000032F29000000000003 /* SubscriptionView.swift */; };
 		21EC2EDD80814105A172AAC3 /* AudioLayerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC23383B6EB64FEAAC27ACB4 /* AudioLayerManager.swift */; };
 		CNSV00022F28000000000002 /* CreateNewSoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CNSV00012F28000000000001 /* CreateNewSoundView.swift */; };
 		VRB000022F28000000000004 /* VariationRangeBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = VRB000012F28000000000003 /* VariationRangeBar.swift */; };
@@ -142,6 +144,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		SUB000012F29000000000001 /* SubscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionManager.swift; sourceTree = "<group>"; };
+		SUB000032F29000000000003 /* SubscriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionView.swift; sourceTree = "<group>"; };
 		03C047869B83EAF5E36D4BC3 /* Localizable.xcstrings */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.json.xcstrings; name = Localizable.xcstrings; path = App/Resources/Localizable.xcstrings; sourceTree = "<group>"; };
 		18E999CF36B64FB99C403643 /* PresetSound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresetSound.swift; sourceTree = "<group>"; };
 		4AA37CA828D3656800B0F8FF /* LockScreenWidgetExtensionExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LockScreenWidgetExtensionExtension.entitlements; sourceTree = "<group>"; };
@@ -443,6 +447,7 @@
 				8F4E1B6929B9B3890013599C /* Listen */,
 				8F4E1B6A29B9B3900013599C /* Timer */,
 				SET000012F2800000000000D /* Settings */,
+				SUB000052F29000000000005 /* Subscription */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -453,6 +458,14 @@
 				STV000012F2800000000000B /* SettingsView.swift */,
 			);
 			path = Settings;
+			sourceTree = "<group>";
+		};
+		SUB000052F29000000000005 /* Subscription */ = {
+			isa = PBXGroup;
+			children = (
+				SUB000032F29000000000003 /* SubscriptionView.swift */,
+			);
+			path = Subscription;
 			sourceTree = "<group>";
 		};
 		8F7904832A16596700BE2BAC /* Onboarding */ = {
@@ -488,6 +501,7 @@
 				8F5A0EC42A160B3A0061F42C /* AudioEngineManager.swift */,
 				EC23383B6EB64FEAAC27ACB4 /* AudioLayerManager.swift */,
 				AMS000012F28000000000007 /* AudioMixingService.swift */,
+				SUB000012F29000000000001 /* SubscriptionManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -758,6 +772,8 @@
 				AMS000022F28000000000008 /* AudioMixingService.swift in Sources */,
 				FIN000022F2800000000000A /* FileInfo.swift in Sources */,
 				STV000022F2800000000000C /* SettingsView.swift in Sources */,
+				SUB000022F29000000000002 /* SubscriptionManager.swift in Sources */,
+				SUB000042F29000000000004 /* SubscriptionView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

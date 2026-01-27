@@ -437,6 +437,26 @@ enum L {
         }
     }
 
+    // MARK: - Subscription
+    enum Subscription {
+        static let title = "subscription.title"
+        static let description = "subscription.description"
+        static let subscribe = "subscription.subscribe"
+        static let restore = "subscription.restore"
+        static let freeTier = "subscription.free_tier"
+        static let premiumTier = "subscription.premium_tier"
+        static let freeSoundsLimit = "subscription.free_sounds_limit"
+        static let freeCategoriesLimit = "subscription.free_categories_limit"
+        static let unlimitedSounds = "subscription.unlimited_sounds"
+        static let allCategories = "subscription.all_categories"
+        static let limitReached = "subscription.limit_reached"
+        static let limitReachedDescription = "subscription.limit_reached_description"
+        static let categoryLocked = "subscription.category_locked"
+        static let categoryLockedDescription = "subscription.category_locked_description"
+        static let priceFormat = "subscription.price_format"
+        static let error = "subscription.error"
+    }
+
     // MARK: - Preset Categories
     enum PresetCategory {
         static let sleep = "preset_category.sleep"

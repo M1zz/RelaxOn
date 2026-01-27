@@ -31,11 +31,15 @@ struct MainTabView: View {
                 OnboardingView(isFirstVisit: $isFirstVisit)
             }
         }
+        .onChange(of: isFirstVisit) { newValue in
+            UserDefaultsManager.shared.isFirstVisit = newValue
+        }
     }
 }
 
 struct CustomTabBar_Previews: PreviewProvider {
     static var previews: some View {
-        MainTabView(isFirstVisit: true)
+        MainTabView()
+            .environmentObject(AppState())
     }
 }

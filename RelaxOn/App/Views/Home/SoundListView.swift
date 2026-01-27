@@ -20,7 +20,9 @@ struct SoundListView: View {
 
     @EnvironmentObject var appState: AppState
     @EnvironmentObject var viewModel: CustomSoundViewModel
+    @EnvironmentObject var subscriptionManager: SubscriptionManager
     @State private var searchText = ""
+    @State private var showSubscription = false
 
     var body: some View {
         NavigationStack {
@@ -171,31 +173,60 @@ struct SoundListView: View {
 
             LazyVGrid(columns: columns) {
                 ForEach(filteredSounds(), id: \.self) { originalSound in
-                    NavigationLink(destination: SoundDetailView(isTutorial: false, originalSound: originalSound)) {
-                        gridViewItem(originalSound)
+                    let isLocked = subscriptionManager.isCategoryLocked(originalSound.category)
+                    if isLocked {
+                        Button(action: { showSubscription = true }) {
+                            gridViewItem(originalSound, locked: true)
+                        }
+                    } else {
+                        NavigationLink(destination: SoundDetailView(isTutorial: false, originalSound: originalSound)) {
+                            gridViewItem(originalSound, locked: false)
+                        }
                     }
                 }
                 .padding(.bottom, 30)
             }
             .padding(.horizontal, 24)
         }
+        .sheet(isPresented: $showSubscription) {
+            SubscriptionView()
+                .environmentObject(subscriptionManager)
+        }
     }
 
     @ViewBuilder
-    private func gridViewItem(_ originalSound: OriginalSound) -> some View {
+    private func gridViewItem(_ originalSound: OriginalSound, locked: Bool = false) -> some View {
 
-        VStack(alignment: .leading) {
+        ZStack(alignment: .topTrailing) {
+            VStack(alignment: .leading) {
 
-            Text(originalSound.category.displayName)
-                .font(.system(size: 16, weight: .bold))
-                .foregroundColor(Color(.Text))
+                Text(originalSound.category.displayName)
+                    .font(.system(size: 16, weight: .bold))
+                    .foregroundColor(Color(.Text))
 
-            Image(originalSound.category.imageName)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(height: 140)
-                .background(Color(hex: originalSound.color))
-                .cornerRadius(8)
+                Image(originalSound.category.imageName)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(height: 140)
+                    .background(Color(hex: originalSound.color))
+                    .cornerRadius(8)
+            }
+            .opacity(locked ? 0.5 : 1.0)
+
+            if locked {
+                HStack(spacing: 4) {
+                    Image(systemName: "lock.fill")
+                        .font(.system(size: 10))
+                    Text("Premium")
+                        .font(.system(size: 10, weight: .bold))
+                }
+                .foregroundColor(.white)
+                .padding(.horizontal, 8)
+                .padding(.vertical, 4)
+                .background(Color.orange)
+                .cornerRadius(6)
+                .padding(6)
+            }
         }
     }
 

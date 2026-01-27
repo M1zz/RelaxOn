@@ -365,6 +365,15 @@ enum SoundCategory: String, Codable, CaseIterable {
 import SwiftUI
 
 extension SoundCategory {
+    var isFreeCategory: Bool {
+        switch self {
+        case .WaterDrop, .SingingBowl:
+            return true
+        default:
+            return false
+        }
+    }
+
     var themeColor: Color {
         switch self {
         case .none:

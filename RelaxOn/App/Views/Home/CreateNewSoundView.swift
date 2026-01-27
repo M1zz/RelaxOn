@@ -12,6 +12,7 @@ import UniformTypeIdentifiers
 struct CreateNewSoundView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var customSoundViewModel: CustomSoundViewModel
+    @EnvironmentObject var subscriptionManager: SubscriptionManager
     @StateObject private var viewModel = CreateSoundViewModel()
     @State private var isTargeted = false
     @State private var showSaveAlert = false
@@ -21,7 +22,9 @@ struct CreateNewSoundView: View {
     @State private var showMixingOption = false
     @State private var editingSoundId: String? = nil
     @State private var ripples: [RippleEffect] = []
-    @State private var rippleTimer: Timer? = nil
+    @State private var rippleTimers: [String: Timer] = [:]
+    @State private var isPreviewPlaying: Bool = false
+    @State private var showSubscription: Bool = false
 
     var body: some View {
         ZStack {
@@ -64,7 +67,12 @@ struct CreateNewSoundView: View {
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {
-                    showSaveAlert = true
+                    let currentCount = customSoundViewModel.customSounds.filter { !$0.isPreset }.count
+                    if subscriptionManager.canCreateMoreSounds(currentCount: currentCount) {
+                        showSaveAlert = true
+                    } else {
+                        showSubscription = true
+                    }
                 }) {
                     Text(L.Common.done.localized)
                         .font(.system(size: 16, weight: .semibold))
@@ -72,6 +80,9 @@ struct CreateNewSoundView: View {
                 }
                 .disabled(viewModel.addedSounds.isEmpty)
             }
+        }
+        .onDisappear {
+            stopPreviewPlayback()
         }
         .alert(L.Alert.soundName.localized, isPresented: $showSaveAlert) {
             TextField(L.Alert.enterName.localized, text: $soundTitle)
@@ -82,16 +93,17 @@ struct CreateNewSoundView: View {
         } message: {
             Text(L.CreateSound.enterSoundName.localized)
         }
+        .sheet(isPresented: $showSubscription) {
+            SubscriptionView()
+                .environmentObject(subscriptionManager)
+        }
     }
 
     private func saveSound() {
         guard !viewModel.addedSounds.isEmpty else { return }
 
         // 재생 중인 오디오가 있다면 부드럽게 중지
-        if customSoundViewModel.isPlaying {
-            customSoundViewModel.stopSound()
-            print("🔇 [CreateNewSound] 저장 전 오디오 중지")
-        }
+        stopPreviewPlayback()
 
         let title = soundTitle.isEmpty ? "나만의 사운드" : soundTitle
         let mainSound = viewModel.addedSounds[0]
@@ -192,6 +204,18 @@ struct CreateNewSoundView: View {
 
                     Spacer(minLength: 4)
 
+                    // 미리듣기 버튼
+                    Button(action: {
+                        togglePreviewPlayback()
+                    }) {
+                        Image(systemName: isPreviewPlaying ? "stop.fill" : "play.fill")
+                            .font(.system(size: 13, weight: .medium))
+                            .foregroundColor(.white)
+                            .frame(width: 28, height: 28)
+                            .background(isPreviewPlaying ? Color.red : Color(.PrimaryPurple))
+                            .clipShape(Circle())
+                    }
+
                     // 레이어 수 뱃지
                     Text("\(viewModel.addedSounds.count)")
                         .font(.system(size: 13, weight: .bold))
@@ -202,6 +226,7 @@ struct CreateNewSoundView: View {
 
                     // 초기화 버튼
                     Button(action: {
+                        stopPreviewPlayback()
                         withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
                             editingSoundId = nil
                             viewModel.addedSounds.removeAll()
@@ -303,66 +328,103 @@ struct CreateNewSoundView: View {
         }
     }
 
+    /// 각 사운드의 interval에 맞춰 개별 리플 타이머 시작
     private func startRippleTimer() {
         stopRippleTimer()
-        rippleTimer = Timer.scheduledTimer(withTimeInterval: 0.8, repeats: true) { _ in
-            guard !viewModel.addedSounds.isEmpty else { return }
-            let sound = viewModel.addedSounds.randomElement()!
-            let screenWidth = UIScreen.main.bounds.width - 48
-            let newRipple = RippleEffect(
-                position: CGPoint(
-                    x: CGFloat.random(in: 20...(screenWidth - 20)),
-                    y: CGFloat.random(in: 15...65)
-                ),
-                color: sound.color,
-                size: CGFloat(sound.volume) * 40 + 20
-            )
-            withAnimation(.easeOut(duration: 0.3)) {
-                ripples.append(newRipple)
+        for sound in viewModel.addedSounds {
+            startRippleForSound(sound)
+        }
+    }
+
+    private func startRippleForSound(_ sound: AddedSound) {
+        // 사운드의 interval + filter duration을 실제 주기로 사용
+        let baseInterval = TimeInterval(sound.interval)
+        let variation = TimeInterval(sound.intervalVariation)
+
+        func scheduleNext() {
+            // 변동폭 적용한 랜덤 간격
+            var nextInterval = baseInterval
+            if variation > 0 {
+                let randomFactor = Double.random(in: -variation...variation)
+                nextInterval = max(0.2, baseInterval * (1.0 + randomFactor))
             }
-            // 오래된 리플 제거
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
-                ripples.removeAll { $0.id == newRipple.id }
+
+            let timer = Timer.scheduledTimer(withTimeInterval: nextInterval, repeats: false) { [self] _ in
+                // 해당 사운드가 아직 선택되어 있는지 확인
+                guard viewModel.addedSounds.contains(where: { $0.id == sound.id }) else {
+                    rippleTimers.removeValue(forKey: sound.id)
+                    return
+                }
+
+                // 최신 사운드 상태 가져오기
+                if let currentSound = viewModel.addedSounds.first(where: { $0.id == sound.id }) {
+                    addRipple(for: currentSound)
+                }
+
+                // 다음 리플 스케줄
+                scheduleNext()
             }
+            rippleTimers[sound.id] = timer
+        }
+
+        // 첫 리플 즉시 표시
+        addRipple(for: sound)
+        scheduleNext()
+    }
+
+    private func addRipple(for sound: AddedSound) {
+        let screenWidth = UIScreen.main.bounds.width - 48
+        let newRipple = RippleEffect(
+            position: CGPoint(
+                x: CGFloat.random(in: 20...(screenWidth - 20)),
+                y: CGFloat.random(in: 15...65)
+            ),
+            color: sound.color,
+            size: CGFloat(sound.volume) * 40 + 20
+        )
+        withAnimation(.easeOut(duration: 0.3)) {
+            ripples.append(newRipple)
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+            ripples.removeAll { $0.id == newRipple.id }
         }
     }
 
     private func stopRippleTimer() {
-        rippleTimer?.invalidate()
-        rippleTimer = nil
+        for (_, timer) in rippleTimers {
+            timer.invalidate()
+        }
+        rippleTimers.removeAll()
         ripples.removeAll()
     }
 
-    // MARK: - Per-Sound Customize Panel
+    // MARK: - Per-Sound Customize Panel (컴팩트 버전)
     @ViewBuilder
     private func soundCustomizePanel(index: Int) -> some View {
         let sound = viewModel.addedSounds[index]
 
-        VStack(spacing: 12) {
+        VStack(spacing: 6) {
             // 헤더
             HStack {
                 Image(systemName: sound.icon)
-                    .font(.system(size: 16, weight: .bold))
+                    .font(.system(size: 13, weight: .bold))
                     .foregroundColor(sound.color)
-                ZStack {
-                    Text(sound.name)
-                        .font(.system(size: 15, weight: .bold))
-                        .foregroundColor(Color(.TitleText))
-                }
+                Text(sound.name)
+                    .font(.system(size: 13, weight: .bold))
+                    .foregroundColor(Color(.TitleText))
                 Spacer()
                 Button(action: {
                     withAnimation { editingSoundId = nil }
                 }) {
                     Image(systemName: "chevron.down.circle.fill")
-                        .font(.system(size: 20))
+                        .font(.system(size: 16))
                         .foregroundColor(Color(.Text).opacity(0.3))
                 }
             }
 
-            // 볼륨
-            compactSlider(
+            // 슬라이더들 (한 줄에 라벨 + 슬라이더 + 값)
+            miniSlider(
                 icon: "speaker.wave.2.fill",
-                label: L.Customize.volume.localized,
                 value: Binding(
                     get: { viewModel.addedSounds[index].volume },
                     set: { viewModel.addedSounds[index].volume = $0; viewModel.addedSounds[index].isCustomized = true }
@@ -377,10 +439,8 @@ struct CreateNewSoundView: View {
                 )
             )
 
-            // 간격
-            compactSlider(
+            miniSlider(
                 icon: "timer",
-                label: L.Customize.interval.localized,
                 value: Binding(
                     get: { viewModel.addedSounds[index].interval },
                     set: { viewModel.addedSounds[index].interval = $0; viewModel.addedSounds[index].isCustomized = true }
@@ -395,10 +455,8 @@ struct CreateNewSoundView: View {
                 )
             )
 
-            // 피치
-            compactSlider(
+            miniSlider(
                 icon: "tuningfork",
-                label: L.Customize.pitch.localized,
                 value: Binding(
                     get: { viewModel.addedSounds[index].pitch },
                     set: { viewModel.addedSounds[index].pitch = $0; viewModel.addedSounds[index].isCustomized = true }
@@ -413,21 +471,20 @@ struct CreateNewSoundView: View {
                 )
             )
         }
-        .padding(16)
+        .padding(10)
         .background(
-            RoundedRectangle(cornerRadius: 16)
+            RoundedRectangle(cornerRadius: 12)
                 .fill(Color.white)
-                .shadow(color: Color.black.opacity(0.1), radius: 8, x: 0, y: -2)
+                .shadow(color: Color.black.opacity(0.1), radius: 6, x: 0, y: -2)
         )
         .padding(.horizontal, 12)
-        .padding(.bottom, 4)
+        .padding(.bottom, 2)
     }
 
-    // MARK: - Compact Slider (커스터마이징 패널용)
+    // MARK: - Mini Slider (절반 크기 슬라이더)
     @ViewBuilder
-    private func compactSlider(
+    private func miniSlider(
         icon: String,
-        label: String,
         value: Binding<Float>,
         range: ClosedRange<Float>,
         step: Float,
@@ -435,51 +492,99 @@ struct CreateNewSoundView: View {
         color: Color,
         variationValue: Binding<Float>
     ) -> some View {
-        VStack(spacing: 6) {
-            HStack {
+        VStack(spacing: 2) {
+            // 메인 슬라이더 한 줄
+            HStack(spacing: 6) {
                 Image(systemName: icon)
-                    .font(.system(size: 13))
+                    .font(.system(size: 11))
                     .foregroundColor(color)
-                    .frame(width: 18)
+                    .frame(width: 14)
 
-                Text(label)
-                    .font(.system(size: 13, weight: .semibold))
-                    .foregroundColor(Color(.Text))
-
-                Spacer()
+                Slider(value: value, in: range, step: step)
+                    .tint(color)
 
                 Text(displayValue)
-                    .font(.system(size: 13, weight: .bold))
+                    .font(.system(size: 11, weight: .bold))
                     .foregroundColor(color)
-                    .frame(minWidth: 45, alignment: .trailing)
+                    .frame(minWidth: 40, alignment: .trailing)
             }
 
-            Slider(value: value, in: range, step: step)
-                .tint(color)
-
-            // 변동폭
+            // 변동폭 한 줄
             HStack(spacing: 6) {
                 Image(systemName: "arrow.left.and.right")
-                    .font(.system(size: 10))
-                    .foregroundColor(color.opacity(0.6))
+                    .font(.system(size: 8))
+                    .foregroundColor(color.opacity(0.5))
+                    .frame(width: 14)
 
-                Text(L.Customize.variationRange.localized)
-                    .font(.system(size: 10))
-                    .foregroundColor(Color(.Text).opacity(0.6))
-
-                Spacer()
+                Slider(value: variationValue, in: 0.0...0.5, step: 0.05)
+                    .tint(color.opacity(0.4))
 
                 Text(String(format: "±%.0f%%", variationValue.wrappedValue * 100))
-                    .font(.system(size: 11, weight: .semibold))
-                    .foregroundColor(color.opacity(0.7))
+                    .font(.system(size: 9, weight: .semibold))
+                    .foregroundColor(color.opacity(0.6))
+                    .frame(minWidth: 40, alignment: .trailing)
             }
-
-            Slider(value: variationValue, in: 0.0...0.5, step: 0.05)
-                .tint(color.opacity(0.5))
         }
-        .padding(10)
-        .background(Color(.DefaultBackground).opacity(0.5))
-        .cornerRadius(10)
+        .padding(.vertical, 2)
+    }
+
+    // MARK: - Preview Playback (여러 소리 동시 재생)
+    private func togglePreviewPlayback() {
+        if isPreviewPlaying {
+            stopPreviewPlayback()
+        } else {
+            startPreviewPlayback()
+        }
+    }
+
+    private func startPreviewPlayback() {
+        guard !viewModel.addedSounds.isEmpty else { return }
+
+        // 선택된 사운드들로 임시 CustomSound 생성
+        let mainSound = viewModel.addedSounds[0]
+        let layers = viewModel.addedSounds.map { sound in
+            CustomSound.SoundLayer(
+                category: sound.category,
+                filter: sound.filter,
+                audioVariation: AudioVariation(
+                    volume: sound.volume,
+                    pitch: sound.pitch,
+                    interval: sound.interval,
+                    intervalVariation: sound.intervalVariation,
+                    volumeVariation: sound.volumeVariation,
+                    pitchVariation: sound.pitchVariation
+                )
+            )
+        }
+
+        let previewSound = CustomSound(
+            title: "Preview",
+            category: mainSound.category,
+            variation: AudioVariation(
+                volume: mainSound.volume,
+                pitch: mainSound.pitch,
+                interval: mainSound.interval,
+                intervalVariation: mainSound.intervalVariation,
+                volumeVariation: mainSound.volumeVariation,
+                pitchVariation: mainSound.pitchVariation
+            ),
+            filter: mainSound.filter,
+            color: "",
+            backgroundSound: viewModel.selectedBackground?.rawValue,
+            backgroundVolume: viewModel.selectedBackground != nil ? viewModel.backgroundVolume : nil,
+            soundLayers: layers.count > 1 ? layers : nil
+        )
+
+        customSoundViewModel.play(with: previewSound)
+        isPreviewPlaying = true
+        print("▶️ [CreateNewSound] 미리듣기 시작 (\(viewModel.addedSounds.count)개 레이어)")
+    }
+
+    private func stopPreviewPlayback() {
+        guard isPreviewPlaying else { return }
+        customSoundViewModel.stopSound()
+        isPreviewPlaying = false
+        print("⏹️ [CreateNewSound] 미리듣기 중지")
     }
 
     // MARK: - Original Sounds Section (카테고리별 정리)
@@ -522,7 +627,9 @@ struct CreateNewSoundView: View {
     // MARK: - Sound Category Section
     @ViewBuilder
     private func soundCategorySection(category: SoundCategory, sounds: [AvailableSound]) -> some View {
-        VStack(alignment: .leading, spacing: 10) {
+        let isLocked = subscriptionManager.isCategoryLocked(category)
+
+        return VStack(alignment: .leading, spacing: 10) {
             // 카테고리 헤더
             HStack(spacing: 6) {
                 Image(systemName: category.iconName)
@@ -532,6 +639,16 @@ struct CreateNewSoundView: View {
                 Text(category.displayName)
                     .font(.system(size: 13, weight: .semibold))
                     .foregroundColor(category.themeColor)
+
+                if isLocked {
+                    Image(systemName: "lock.fill")
+                        .font(.system(size: 10))
+                        .foregroundColor(.orange)
+
+                    Text("Premium")
+                        .font(.system(size: 10, weight: .bold))
+                        .foregroundColor(.orange)
+                }
 
                 Rectangle()
                     .fill(category.themeColor.opacity(0.2))
@@ -549,11 +666,46 @@ struct CreateNewSoundView: View {
                 spacing: 8
             ) {
                 ForEach(sounds) { sound in
-                    CompactSoundCard(
-                        sound: sound,
-                        isSelected: viewModel.isSoundAdded(sound)
-                    ) {
-                        viewModel.toggleSound(sound)
+                    if isLocked {
+                        CompactSoundCard(
+                            sound: sound,
+                            isSelected: false
+                        ) {
+                            showSubscription = true
+                        }
+                        .opacity(0.5)
+                        .overlay(
+                            Image(systemName: "lock.fill")
+                                .font(.system(size: 14))
+                                .foregroundColor(.white)
+                                .padding(4)
+                                .background(Color.black.opacity(0.5))
+                                .clipShape(Circle()),
+                            alignment: .topTrailing
+                        )
+                    } else {
+                        CompactSoundCard(
+                            sound: sound,
+                            isSelected: viewModel.isSoundAdded(sound)
+                        ) {
+                            let wasAdded = viewModel.isSoundAdded(sound)
+                            viewModel.toggleSound(sound)
+                            if !wasAdded, let added = viewModel.addedSounds.last {
+                                withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
+                                    editingSoundId = added.id
+                                }
+                                startPreviewPlayback()
+                            } else if wasAdded {
+                                withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
+                                    editingSoundId = nil
+                                }
+                                if viewModel.addedSounds.isEmpty {
+                                    stopPreviewPlayback()
+                                } else {
+                                    startPreviewPlayback()
+                                }
+                            }
+                        }
                     }
                 }
             }
