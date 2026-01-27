@@ -302,16 +302,16 @@ extension CustomSoundViewModel {
     /// 샘플 데이터 생성 (테스트용)
     func createSampleData() {
         let sampleSounds: [(String, SoundCategory, AudioFilter, AudioVariation, String)] = [
-            ("아침 명상", .Bird, .Forest, AudioVariation(volume: 0.5, pitch: -1.0, interval: 1.8), "C8E6C9"),
-            ("집중 타임", .WaterDrop, .WaterDrop, AudioVariation(volume: 0.7, pitch: 0.5, interval: 0.8), "D0E3F0"),
-            ("숙면 도우미", .SingingBowl, .Empty, AudioVariation(volume: 0.4, pitch: -1.5, interval: 2.0), "F5C89B"),
-            ("빗소리 감성", .WaterDrop, .Sink, AudioVariation(volume: 0.8, pitch: -1.5, interval: 0.6), "A8C8E0"),
-            ("차분한 밤", .Bird, .Owl, AudioVariation(volume: 0.6, pitch: -0.5, interval: 1.5), "9EC49A"),
-            ("동굴의 물소리", .WaterDrop, .Cave, AudioVariation(volume: 0.6, pitch: -2.0, interval: 1.5), "B8D4E8"),
-            ("명상 벨", .SingingBowl, .SingingBowl, AudioVariation(volume: 0.5, pitch: 0.0, interval: 1.2), "FFD4A3"),
-            ("새벽 새소리", .Bird, .Cuckoo, AudioVariation(volume: 0.5, pitch: -0.5, interval: 1.5), "ACD6A6"),
-            ("휴식의 시간", .SingingBowl, .Focus, AudioVariation(volume: 0.6, pitch: -0.5, interval: 1.8), "FDD0A8"),
-            ("자연의 소리", .Bird, .Woodpecker, AudioVariation(volume: 0.7, pitch: 0.0, interval: 1.0), "B5D8A7")
+            (L.Sample.morningMeditation.localized, .Bird, .Forest, AudioVariation(volume: 0.5, pitch: -1.0, interval: 1.8), "C8E6C9"),
+            (L.Sample.focusTime.localized, .WaterDrop, .WaterDrop, AudioVariation(volume: 0.7, pitch: 0.5, interval: 0.8), "D0E3F0"),
+            (L.Sample.sleepHelper.localized, .SingingBowl, .Empty, AudioVariation(volume: 0.4, pitch: -1.5, interval: 2.0), "F5C89B"),
+            (L.Sample.rainFeeling.localized, .WaterDrop, .Sink, AudioVariation(volume: 0.8, pitch: -1.5, interval: 0.6), "A8C8E0"),
+            (L.Sample.calmNight.localized, .Bird, .Owl, AudioVariation(volume: 0.6, pitch: -0.5, interval: 1.5), "9EC49A"),
+            (L.Sample.caveWater.localized, .WaterDrop, .Cave, AudioVariation(volume: 0.6, pitch: -2.0, interval: 1.5), "B8D4E8"),
+            (L.Sample.meditationBell.localized, .SingingBowl, .SingingBowl, AudioVariation(volume: 0.5, pitch: 0.0, interval: 1.2), "FFD4A3"),
+            (L.Sample.dawnBirds.localized, .Bird, .Cuckoo, AudioVariation(volume: 0.5, pitch: -0.5, interval: 1.5), "ACD6A6"),
+            (L.Sample.restTime.localized, .SingingBowl, .Focus, AudioVariation(volume: 0.6, pitch: -0.5, interval: 1.8), "FDD0A8"),
+            (L.Sample.natureSound.localized, .Bird, .Woodpecker, AudioVariation(volume: 0.7, pitch: 0.0, interval: 1.0), "B5D8A7")
         ]
 
         var customSounds = userDefaults.customSounds

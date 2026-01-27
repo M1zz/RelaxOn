@@ -25,6 +25,7 @@ struct CreateNewSoundView: View {
     @State private var rippleTimers: [String: Timer] = [:]
     @State private var isPreviewPlaying: Bool = false
     @State private var showSubscription: Bool = false
+    @ObservedObject private var audioManager = AudioEngineManager.shared
 
     var body: some View {
         ZStack {
@@ -62,7 +63,7 @@ struct CreateNewSoundView: View {
                 .animation(.spring(response: 0.35, dampingFraction: 0.8), value: viewModel.addedSounds.count)
             }
         }
-        .navigationTitle("새 사운드 만들기")
+        .navigationTitle(L.CreateSound.title.localized)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -105,7 +106,7 @@ struct CreateNewSoundView: View {
         // 재생 중인 오디오가 있다면 부드럽게 중지
         stopPreviewPlayback()
 
-        let title = soundTitle.isEmpty ? "나만의 사운드" : soundTitle
+        let title = soundTitle.isEmpty ? L.SaveView.defaultSoundName.localized : soundTitle
         let mainSound = viewModel.addedSounds[0]
 
         // 여러 사운드 레이어 생성 (각 사운드의 커스텀 값 사용)
@@ -162,8 +163,8 @@ struct CreateNewSoundView: View {
         VStack(spacing: 0) {
             // 커스터마이징 패널 (선택된 사운드)
             if let editingId = editingSoundId,
-               let index = viewModel.addedSounds.firstIndex(where: { $0.id == editingId }) {
-                soundCustomizePanel(index: index)
+               viewModel.addedSounds.contains(where: { $0.id == editingId }) {
+                soundCustomizePanel(soundId: editingId)
                     .transition(.move(edge: .bottom).combined(with: .opacity))
             }
 
@@ -189,7 +190,7 @@ struct CreateNewSoundView: View {
                                     Image(systemName: bg.icon)
                                         .font(.system(size: 11))
                                         .foregroundColor(.white.opacity(0.9))
-                                    Text(bg.rawValue)
+                                    Text(bg.displayName)
                                         .font(.system(size: 11, weight: .medium))
                                         .foregroundColor(.white.opacity(0.9))
                                         .lineLimit(1)
@@ -254,11 +255,31 @@ struct CreateNewSoundView: View {
             .padding(.horizontal, 12)
             .padding(.bottom, 8)
         }
-        .onAppear { startRippleTimer() }
+        .onAppear {
+            if !isPreviewPlaying { startRippleTimer() }
+        }
         .onDisappear { stopRippleTimer() }
         .onChange(of: viewModel.addedSounds.count) { _ in
             if viewModel.addedSounds.isEmpty { stopRippleTimer() }
-            else { startRippleTimer() }
+            else if !isPreviewPlaying { startRippleTimer() }
+        }
+        .onReceive(audioManager.layerSoundDidPlay) { event in
+            guard isPreviewPlaying else { return }
+            // 재생된 필터에 해당하는 사운드를 찾아 리플 생성
+            if let sound = viewModel.addedSounds.first(where: { $0.filter == event.filter }) {
+                addRipple(for: sound)
+            }
+        }
+        .onChange(of: isPreviewPlaying) { playing in
+            if playing {
+                // 재생 시작: 타이머 기반 리플 중지 (오디오 이벤트로 대체)
+                stopRippleTimer()
+            } else {
+                // 재생 중지: 타이머 기반 리플 복원
+                if !viewModel.addedSounds.isEmpty {
+                    startRippleTimer()
+                }
+            }
         }
     }
 
@@ -399,86 +420,94 @@ struct CreateNewSoundView: View {
     }
 
     // MARK: - Per-Sound Customize Panel (컴팩트 버전)
+
+    /// id 기반으로 안전하게 addedSounds에서 인덱스를 찾는 헬퍼
+    private func safeIndex(for soundId: String) -> Int? {
+        viewModel.addedSounds.firstIndex(where: { $0.id == soundId })
+    }
+
     @ViewBuilder
-    private func soundCustomizePanel(index: Int) -> some View {
-        let sound = viewModel.addedSounds[index]
+    private func soundCustomizePanel(soundId: String) -> some View {
+        if let index = safeIndex(for: soundId) {
+            let sound = viewModel.addedSounds[index]
 
-        VStack(spacing: 6) {
-            // 헤더
-            HStack {
-                Image(systemName: sound.icon)
-                    .font(.system(size: 13, weight: .bold))
-                    .foregroundColor(sound.color)
-                Text(sound.name)
-                    .font(.system(size: 13, weight: .bold))
-                    .foregroundColor(Color(.TitleText))
-                Spacer()
-                Button(action: {
-                    withAnimation { editingSoundId = nil }
-                }) {
-                    Image(systemName: "chevron.down.circle.fill")
-                        .font(.system(size: 16))
-                        .foregroundColor(Color(.Text).opacity(0.3))
+            VStack(spacing: 6) {
+                // 헤더
+                HStack {
+                    Image(systemName: sound.icon)
+                        .font(.system(size: 13, weight: .bold))
+                        .foregroundColor(sound.color)
+                    Text(sound.name)
+                        .font(.system(size: 13, weight: .bold))
+                        .foregroundColor(Color(.TitleText))
+                    Spacer()
+                    Button(action: {
+                        withAnimation { editingSoundId = nil }
+                    }) {
+                        Image(systemName: "chevron.down.circle.fill")
+                            .font(.system(size: 16))
+                            .foregroundColor(Color(.Text).opacity(0.3))
+                    }
                 }
+
+                // 슬라이더들 (한 줄에 라벨 + 슬라이더 + 값)
+                miniSlider(
+                    icon: "speaker.wave.2.fill",
+                    value: Binding(
+                        get: { self.safeIndex(for: soundId).map { viewModel.addedSounds[$0].volume } ?? 0.5 },
+                        set: { if let i = self.safeIndex(for: soundId) { viewModel.addedSounds[i].volume = $0; viewModel.addedSounds[i].isCustomized = true } }
+                    ),
+                    range: 0.1...1.0,
+                    step: 0.05,
+                    displayValue: String(format: "%.0f%%", sound.volume * 100),
+                    color: .green,
+                    variationValue: Binding(
+                        get: { self.safeIndex(for: soundId).map { viewModel.addedSounds[$0].volumeVariation } ?? 0.0 },
+                        set: { if let i = self.safeIndex(for: soundId) { viewModel.addedSounds[i].volumeVariation = $0; viewModel.addedSounds[i].isCustomized = true } }
+                    )
+                )
+
+                miniSlider(
+                    icon: "timer",
+                    value: Binding(
+                        get: { self.safeIndex(for: soundId).map { viewModel.addedSounds[$0].interval } ?? 1.0 },
+                        set: { if let i = self.safeIndex(for: soundId) { viewModel.addedSounds[i].interval = $0; viewModel.addedSounds[i].isCustomized = true } }
+                    ),
+                    range: 0.1...3.0,
+                    step: 0.1,
+                    displayValue: String(format: "%.1f%@", sound.interval, L.Customize.seconds.localized),
+                    color: .blue,
+                    variationValue: Binding(
+                        get: { self.safeIndex(for: soundId).map { viewModel.addedSounds[$0].intervalVariation } ?? 0.0 },
+                        set: { if let i = self.safeIndex(for: soundId) { viewModel.addedSounds[i].intervalVariation = $0; viewModel.addedSounds[i].isCustomized = true } }
+                    )
+                )
+
+                miniSlider(
+                    icon: "tuningfork",
+                    value: Binding(
+                        get: { self.safeIndex(for: soundId).map { viewModel.addedSounds[$0].pitch } ?? 0.0 },
+                        set: { if let i = self.safeIndex(for: soundId) { viewModel.addedSounds[i].pitch = $0; viewModel.addedSounds[i].isCustomized = true } }
+                    ),
+                    range: -5.0...5.0,
+                    step: 0.5,
+                    displayValue: String(format: "%+.1f", sound.pitch),
+                    color: .orange,
+                    variationValue: Binding(
+                        get: { self.safeIndex(for: soundId).map { viewModel.addedSounds[$0].pitchVariation } ?? 0.0 },
+                        set: { if let i = self.safeIndex(for: soundId) { viewModel.addedSounds[i].pitchVariation = $0; viewModel.addedSounds[i].isCustomized = true } }
+                    )
+                )
             }
-
-            // 슬라이더들 (한 줄에 라벨 + 슬라이더 + 값)
-            miniSlider(
-                icon: "speaker.wave.2.fill",
-                value: Binding(
-                    get: { viewModel.addedSounds[index].volume },
-                    set: { viewModel.addedSounds[index].volume = $0; viewModel.addedSounds[index].isCustomized = true }
-                ),
-                range: 0.1...1.0,
-                step: 0.05,
-                displayValue: String(format: "%.0f%%", viewModel.addedSounds[index].volume * 100),
-                color: .green,
-                variationValue: Binding(
-                    get: { viewModel.addedSounds[index].volumeVariation },
-                    set: { viewModel.addedSounds[index].volumeVariation = $0; viewModel.addedSounds[index].isCustomized = true }
-                )
+            .padding(10)
+            .background(
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(Color.white)
+                    .shadow(color: Color.black.opacity(0.1), radius: 6, x: 0, y: -2)
             )
-
-            miniSlider(
-                icon: "timer",
-                value: Binding(
-                    get: { viewModel.addedSounds[index].interval },
-                    set: { viewModel.addedSounds[index].interval = $0; viewModel.addedSounds[index].isCustomized = true }
-                ),
-                range: 0.1...3.0,
-                step: 0.1,
-                displayValue: String(format: "%.1f%@", viewModel.addedSounds[index].interval, L.Customize.seconds.localized),
-                color: .blue,
-                variationValue: Binding(
-                    get: { viewModel.addedSounds[index].intervalVariation },
-                    set: { viewModel.addedSounds[index].intervalVariation = $0; viewModel.addedSounds[index].isCustomized = true }
-                )
-            )
-
-            miniSlider(
-                icon: "tuningfork",
-                value: Binding(
-                    get: { viewModel.addedSounds[index].pitch },
-                    set: { viewModel.addedSounds[index].pitch = $0; viewModel.addedSounds[index].isCustomized = true }
-                ),
-                range: -5.0...5.0,
-                step: 0.5,
-                displayValue: String(format: "%+.1f", viewModel.addedSounds[index].pitch),
-                color: .orange,
-                variationValue: Binding(
-                    get: { viewModel.addedSounds[index].pitchVariation },
-                    set: { viewModel.addedSounds[index].pitchVariation = $0; viewModel.addedSounds[index].isCustomized = true }
-                )
-            )
+            .padding(.horizontal, 12)
+            .padding(.bottom, 2)
         }
-        .padding(10)
-        .background(
-            RoundedRectangle(cornerRadius: 12)
-                .fill(Color.white)
-                .shadow(color: Color.black.opacity(0.1), radius: 6, x: 0, y: -2)
-        )
-        .padding(.horizontal, 12)
-        .padding(.bottom, 2)
     }
 
     // MARK: - Mini Slider (절반 크기 슬라이더)
@@ -655,15 +684,14 @@ struct CreateNewSoundView: View {
                     .frame(height: 1)
             }
 
-            // 사운드 그리드 (4열)
+            // 사운드 그리드 (3열)
             LazyVGrid(
                 columns: [
-                    GridItem(.flexible(), spacing: 8),
-                    GridItem(.flexible(), spacing: 8),
-                    GridItem(.flexible(), spacing: 8),
-                    GridItem(.flexible(), spacing: 8)
+                    GridItem(.flexible(), spacing: 12),
+                    GridItem(.flexible(), spacing: 12),
+                    GridItem(.flexible(), spacing: 12)
                 ],
-                spacing: 8
+                spacing: 12
             ) {
                 ForEach(sounds) { sound in
                     if isLocked {
@@ -735,6 +763,10 @@ struct CreateNewSoundView: View {
                         withAnimation {
                             viewModel.selectedBackground = nil
                         }
+                        // 미리듣기 중이면 배경음 제거하여 재시작
+                        if isPreviewPlaying {
+                            startPreviewPlayback()
+                        }
                     }) {
                         HStack(spacing: 6) {
                             Image(systemName: "xmark.circle.fill")
@@ -767,6 +799,10 @@ struct CreateNewSoundView: View {
                     ) {
                         withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
                             viewModel.selectedBackground = background
+                        }
+                        // 미리듣기 중이면 배경음 포함하여 재시작
+                        if isPreviewPlaying {
+                            startPreviewPlayback()
                         }
                     }
                 }
@@ -807,6 +843,12 @@ struct CreateNewSoundView: View {
             VStack(spacing: 8) {
                 Slider(value: $viewModel.backgroundVolume, in: 0...1)
                     .tint(Color(.PrimaryPurple))
+                    .onChange(of: viewModel.backgroundVolume) { newValue in
+                        // 미리듣기 중이면 오디오 엔진의 배경 볼륨도 실시간 반영
+                        if isPreviewPlaying {
+                            audioManager.backgroundVolume = newValue
+                        }
+                    }
 
                 HStack {
                     Text(L.Common.quiet.localized)
@@ -855,7 +897,7 @@ struct BackgroundMusicCard: View {
                 }
 
                 // 이름
-                Text(background.rawValue)
+                Text(background.displayName)
                     .font(.system(size: 11, weight: isSelected ? .bold : .medium))
                     .foregroundColor(isSelected ? Color(.PrimaryPurple) : Color(.TitleText))
                     .lineLimit(1)
@@ -884,7 +926,7 @@ struct BackgroundMusicCard: View {
     }
 }
 
-// MARK: - Compact Sound Card (4열 그리드용)
+// MARK: - Compact Sound Card (3열 그리드용)
 
 struct CompactSoundCard: View {
     let sound: AvailableSound
@@ -893,7 +935,7 @@ struct CompactSoundCard: View {
 
     var body: some View {
         Button(action: onTap) {
-            VStack(spacing: 4) {
+            VStack(spacing: 6) {
                 ZStack {
                     Circle()
                         .fill(
@@ -901,27 +943,27 @@ struct CompactSoundCard: View {
                                 ? sound.color
                                 : sound.color.opacity(0.15)
                         )
-                        .frame(width: 36, height: 36)
+                        .frame(width: 44, height: 44)
 
                     Image(systemName: sound.icon)
-                        .font(.system(size: 16, weight: .medium))
+                        .font(.system(size: 20, weight: .medium))
                         .foregroundColor(isSelected ? .white : sound.color)
 
                     if isSelected {
                         Circle()
                             .stroke(Color.white, lineWidth: 2)
-                            .frame(width: 36, height: 36)
+                            .frame(width: 44, height: 44)
                     }
                 }
 
                 Text(sound.name)
-                    .font(.system(size: 9, weight: isSelected ? .bold : .medium))
+                    .font(.system(size: 12, weight: isSelected ? .bold : .medium))
                     .foregroundColor(isSelected ? sound.color : Color(.TitleText))
                     .lineLimit(1)
                     .minimumScaleFactor(0.7)
             }
-            .padding(.vertical, 6)
-            .padding(.horizontal, 2)
+            .padding(.vertical, 10)
+            .padding(.horizontal, 4)
             .frame(maxWidth: .infinity)
             .background(
                 RoundedRectangle(cornerRadius: 8)

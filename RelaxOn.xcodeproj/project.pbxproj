@@ -7,15 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		SUB000022F29000000000002 /* SubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = SUB000012F29000000000001 /* SubscriptionManager.swift */; };
-		SUB000042F29000000000004 /* SubscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = SUB000032F29000000000003 /* SubscriptionView.swift */; };
 		21EC2EDD80814105A172AAC3 /* AudioLayerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC23383B6EB64FEAAC27ACB4 /* AudioLayerManager.swift */; };
-		CNSV00022F28000000000002 /* CreateNewSoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CNSV00012F28000000000001 /* CreateNewSoundView.swift */; };
-		VRB000022F28000000000004 /* VariationRangeBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = VRB000012F28000000000003 /* VariationRangeBar.swift */; };
-		WDV000022F28000000000006 /* WaterDropVisualization.swift in Sources */ = {isa = PBXBuildFile; fileRef = WDV000012F28000000000005 /* WaterDropVisualization.swift */; };
-		AMS000022F28000000000008 /* AudioMixingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AMS000012F28000000000007 /* AudioMixingService.swift */; };
-		FIN000022F2800000000000A /* FileInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FIN000012F28000000000009 /* FileInfo.swift */; };
-		STV000022F2800000000000C /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = STV000012F2800000000000B /* SettingsView.swift */; };
 		4C408C2D0DE14B0D8C47B526 /* PresetSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E999CF36B64FB99C403643 /* PresetSound.swift */; };
 		58DE61832839C13900F25769 /* RelaxOnApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61822839C13900F25769 /* RelaxOnApp.swift */; };
 		58DE618A2839C13A00F25769 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58DE61892839C13A00F25769 /* Preview Assets.xcassets */; };
@@ -102,8 +94,16 @@
 		9C20354E2F2859D600AF1279 /* indigo-music-template-340012.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9C2035302F2859D600AF1279 /* indigo-music-template-340012.mp3 */; };
 		9C20354F2F2859D600AF1279 /* underwater-white-noise-46423.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9C20353D2F2859D600AF1279 /* underwater-white-noise-46423.mp3 */; };
 		A81D4B61DC9FC788038A49E4 /* LocalizationKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9C11FBB3A19C84918309F6 /* LocalizationKeys.swift */; };
+		AMS000022F28000000000008 /* AudioMixingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AMS000012F28000000000007 /* AudioMixingService.swift */; };
 		CC04E26328BDA3F800509C60 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC04E26228BDA3F800509C60 /* AppDelegate.swift */; };
 		CC04E26528BDA45900509C60 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC04E26428BDA45900509C60 /* SceneDelegate.swift */; };
+		CNSV00022F28000000000002 /* CreateNewSoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CNSV00012F28000000000001 /* CreateNewSoundView.swift */; };
+		FIN000022F2800000000000A /* FileInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FIN000012F28000000000009 /* FileInfo.swift */; };
+		STV000022F2800000000000C /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = STV000012F2800000000000B /* SettingsView.swift */; };
+		SUB000022F29000000000002 /* SubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = SUB000012F29000000000001 /* SubscriptionManager.swift */; };
+		SUB000042F29000000000004 /* SubscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = SUB000032F29000000000003 /* SubscriptionView.swift */; };
+		VRB000022F28000000000004 /* VariationRangeBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = VRB000012F28000000000003 /* VariationRangeBar.swift */; };
+		WDV000022F28000000000006 /* WaterDropVisualization.swift in Sources */ = {isa = PBXBuildFile; fileRef = WDV000012F28000000000005 /* WaterDropVisualization.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -144,12 +144,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		SUB000012F29000000000001 /* SubscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionManager.swift; sourceTree = "<group>"; };
-		SUB000032F29000000000003 /* SubscriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionView.swift; sourceTree = "<group>"; };
 		03C047869B83EAF5E36D4BC3 /* Localizable.xcstrings */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.json.xcstrings; name = Localizable.xcstrings; path = App/Resources/Localizable.xcstrings; sourceTree = "<group>"; };
 		18E999CF36B64FB99C403643 /* PresetSound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresetSound.swift; sourceTree = "<group>"; };
 		4AA37CA828D3656800B0F8FF /* LockScreenWidgetExtensionExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LockScreenWidgetExtensionExtension.entitlements; sourceTree = "<group>"; };
 		4AA37CA928D370E400B0F8FF /* WatchOSLockScreenWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WatchOSLockScreenWidgetExtension.entitlements; sourceTree = "<group>"; };
+		583CFF872F28E8AA00F05CD0 /* Products.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = Products.storekit; sourceTree = "<group>"; };
 		58DE617F2839C13900F25769 /* RelaxOn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RelaxOn.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		58DE61822839C13900F25769 /* RelaxOnApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelaxOnApp.swift; sourceTree = "<group>"; };
 		58DE61892839C13A00F25769 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -194,7 +193,6 @@
 		8F4E1B6429B9A67E0013599C /* TimerMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerMainView.swift; sourceTree = "<group>"; };
 		8F53BD1629B77875009AE6D1 /* SoundListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundListView.swift; sourceTree = "<group>"; };
 		8F53BD1829B77A83009AE6D1 /* SoundDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundDetailView.swift; sourceTree = "<group>"; };
-		CNSV00012F28000000000001 /* CreateNewSoundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewSoundView.swift; sourceTree = "<group>"; };
 		8F53BD1A29B77A92009AE6D1 /* SoundSaveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundSaveView.swift; sourceTree = "<group>"; };
 		8F5A0EBE2A15FBDD0061F42C /* SoundPlayerFullModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundPlayerFullModalView.swift; sourceTree = "<group>"; };
 		8F5A0EC02A15FC2F0061F42C /* ListenListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListenListCell.swift; sourceTree = "<group>"; };
@@ -218,8 +216,6 @@
 		8FFF99EA2A1F4FD700E2474C /* CustomSoundViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSoundViewModel.swift; sourceTree = "<group>"; };
 		8FFF99EC2A1F51F100E2474C /* AudioVariation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioVariation.swift; sourceTree = "<group>"; };
 		99AA00012EF1960000000001 /* SoundThumbnailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundThumbnailView.swift; sourceTree = "<group>"; };
-		VRB000012F28000000000003 /* VariationRangeBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariationRangeBar.swift; sourceTree = "<group>"; };
-		WDV000012F28000000000005 /* WaterDropVisualization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterDropVisualization.swift; sourceTree = "<group>"; };
 		9C20352C2F2859D600AF1279 /* birds-forest-nature-445379.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "birds-forest-nature-445379.mp3"; sourceTree = "<group>"; };
 		9C20352D2F2859D600AF1279 /* classic-atmospheric-cue-2-114739.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "classic-atmospheric-cue-2-114739.mp3"; sourceTree = "<group>"; };
 		9C20352E2F2859D600AF1279 /* classic-atmospheric-cue-114740.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "classic-atmospheric-cue-114740.mp3"; sourceTree = "<group>"; };
@@ -239,16 +235,21 @@
 		9C20353C2F2859D600AF1279 /* spring-forest-nature-332842.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "spring-forest-nature-332842.mp3"; sourceTree = "<group>"; };
 		9C20353D2F2859D600AF1279 /* underwater-white-noise-46423.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "underwater-white-noise-46423.mp3"; sourceTree = "<group>"; };
 		AD9C11FBB3A19C84918309F6 /* LocalizationKeys.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LocalizationKeys.swift; path = App/Resources/Localization/LocalizationKeys.swift; sourceTree = "<group>"; };
+		AMS000012F28000000000007 /* AudioMixingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioMixingService.swift; sourceTree = "<group>"; };
 		CC04E26228BDA3F800509C60 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CC04E26428BDA45900509C60 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		CC5AC106289C033C00FE847B /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		CC5AC108289C033C00FE847B /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		CC5AC18E289D48DD00FE847B /* RelaxOn.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RelaxOn.entitlements; sourceTree = "<group>"; };
 		CC5AC18F289D573A00FE847B /* RelaxOnWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RelaxOnWidgetExtension.entitlements; sourceTree = "<group>"; };
+		CNSV00012F28000000000001 /* CreateNewSoundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewSoundView.swift; sourceTree = "<group>"; };
 		EC23383B6EB64FEAAC27ACB4 /* AudioLayerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioLayerManager.swift; sourceTree = "<group>"; };
-		AMS000012F28000000000007 /* AudioMixingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioMixingService.swift; sourceTree = "<group>"; };
 		FIN000012F28000000000009 /* FileInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileInfo.swift; sourceTree = "<group>"; };
 		STV000012F2800000000000B /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		SUB000012F29000000000001 /* SubscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionManager.swift; sourceTree = "<group>"; };
+		SUB000032F29000000000003 /* SubscriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionView.swift; sourceTree = "<group>"; };
+		VRB000012F28000000000003 /* VariationRangeBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariationRangeBar.swift; sourceTree = "<group>"; };
+		WDV000012F28000000000005 /* WaterDropVisualization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterDropVisualization.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -265,6 +266,7 @@
 		58DE61762839C13900F25769 = {
 			isa = PBXGroup;
 			children = (
+				583CFF872F28E8AA00F05CD0 /* Products.storekit */,
 				4AA37CA928D370E400B0F8FF /* WatchOSLockScreenWidgetExtension.entitlements */,
 				4AA37CA828D3656800B0F8FF /* LockScreenWidgetExtensionExtension.entitlements */,
 				CC5AC18F289D573A00FE847B /* RelaxOnWidgetExtension.entitlements */,
@@ -452,22 +454,6 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		SET000012F2800000000000D /* Settings */ = {
-			isa = PBXGroup;
-			children = (
-				STV000012F2800000000000B /* SettingsView.swift */,
-			);
-			path = Settings;
-			sourceTree = "<group>";
-		};
-		SUB000052F29000000000005 /* Subscription */ = {
-			isa = PBXGroup;
-			children = (
-				SUB000032F29000000000003 /* SubscriptionView.swift */,
-			);
-			path = Subscription;
-			sourceTree = "<group>";
-		};
 		8F7904832A16596700BE2BAC /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
@@ -603,6 +589,22 @@
 				AD9C11FBB3A19C84918309F6 /* LocalizationKeys.swift */,
 			);
 			name = Localization;
+			sourceTree = "<group>";
+		};
+		SET000012F2800000000000D /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				STV000012F2800000000000B /* SettingsView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		SUB000052F29000000000005 /* Subscription */ = {
+			isa = PBXGroup;
+			children = (
+				SUB000032F29000000000003 /* SubscriptionView.swift */,
+			);
+			path = Subscription;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -909,7 +911,7 @@
 				CODE_SIGN_ENTITLEMENTS = RelaxOn/RelaxOn.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"RelaxOn/Preview Content\"";
 				DEVELOPMENT_TEAM = QGAQ3AY3R3;
 				ENABLE_PREVIEWS = YES;
@@ -920,12 +922,12 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.0.0;
+				MARKETING_VERSION = 4.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.LullabyRecipe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -945,7 +947,7 @@
 				CODE_SIGN_ENTITLEMENTS = RelaxOn/RelaxOn.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"RelaxOn/Preview Content\"";
 				DEVELOPMENT_TEAM = QGAQ3AY3R3;
 				ENABLE_PREVIEWS = YES;
@@ -956,12 +958,12 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.0.0;
+				MARKETING_VERSION = 4.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.leeo.LullabyRecipe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

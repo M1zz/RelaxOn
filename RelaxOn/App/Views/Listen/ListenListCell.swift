@@ -38,7 +38,7 @@ struct ListenListCell: View {
                     // 레이어 개수 표시
                     if let layers = customSound.soundLayers, layers.count > 1 {
                         HStack(spacing: 4) {
-                            Image(systemName: "layers.fill")
+                            Image(systemName: "square.3.layers.3d")
                                 .font(.system(size: 10))
                             Text("\(layers.count)개 레이어")
                                 .font(.system(size: 12))

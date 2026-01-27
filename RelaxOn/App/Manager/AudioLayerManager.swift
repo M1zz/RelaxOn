@@ -48,6 +48,9 @@ final class AudioLayerManager {
     /// 레이어별 스케줄링 타이머
     private var schedulingTimers: [UUID: Timer] = [:]
 
+    /// 레이어 재생 시 호출되는 콜백 (filter, volume, pitch)
+    var onLayerPlay: ((AudioFilter, Float, Float) -> Void)?
+
     // MARK: - Initialization
 
     init(engine: AVAudioEngine, environmentNode: AVAudioEnvironmentNode?, isSpatialAudioEnabled: Bool) {
@@ -290,6 +293,12 @@ final class AudioLayerManager {
         // 변동폭 적용
         layer.player.volume = randomVolume
         layer.pitchEffect.pitch = randomPitch
+
+        // 재생 이벤트 콜백 (메인 스레드에서 UI 업데이트용)
+        let filter = layer.filter
+        DispatchQueue.main.async { [weak self] in
+            self?.onLayerPlay?(filter, randomVolume, randomPitch)
+        }
 
         layer.lastScheduleTime = Date()
         layers[layerId] = layer

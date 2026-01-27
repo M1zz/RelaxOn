@@ -311,7 +311,7 @@ struct SoundPlayerFullModalView: View {
         let positions = audioManager.getLayerPositions()
 
         layerPositions = layers.enumerated().map { index, layer in
-            let layerName = "\(layer.category.displayName) - \(layer.filter.rawValue)"
+            let layerName = "\(layer.category.displayName) - \(layer.filter.displayName)"
 
             // 현재 위치 가져오기 (없으면 기본값 사용)
             var distance: Float = 2.0

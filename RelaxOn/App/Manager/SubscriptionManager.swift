@@ -11,7 +11,7 @@ import StoreKit
 @MainActor
 class SubscriptionManager: ObservableObject {
 
-    static let productId = "com.relaxon.monthly"
+    static let productId = "month"
     static let freeMaxCustomSounds = 3
     static let freeCategories: Set<SoundCategory> = [.WaterDrop, .SingingBowl]
 
@@ -136,7 +136,7 @@ class SubscriptionManager: ObservableObject {
         guard let offer = monthlyProduct?.subscription?.introductoryOffer else { return nil }
         let period = offer.period
         if period.unit == .week && period.value == 1 {
-            return "1주 무료 체험"
+            return L.Subscription.freeTrialWeek.localized
         }
         return nil
     }

@@ -52,7 +52,7 @@ struct SoundSaveView: View {
                     Button {
 
                         if title.count <= 0 {
-                            alertMessage = "한 글자 이상 입력하세요."
+                            alertMessage = L.SaveView.enterOneChar.localized
                             isShowingAlert = true
                         } else {
                             let success: Bool
@@ -77,7 +77,7 @@ struct SoundSaveView: View {
                                 presentationMode.wrappedValue.dismiss()
                                 appState.moveToTab(.listen)
                             } else {
-                                alertMessage = "동일한 파일명이 존재합니다.\n다른 파일이름으로 시도해보세요."
+                                alertMessage = L.SaveView.duplicateName.localized
                                 isShowingAlert = true
                             }
                         }

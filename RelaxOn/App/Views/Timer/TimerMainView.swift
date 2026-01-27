@@ -143,7 +143,7 @@ struct TimerMainView: View {
     @ViewBuilder
     private func selectSoundButton() -> some View {
         HStack {
-            Text(viewModel.selectedSound?.title ?? "나만의 소리를 선택해주세요")
+            Text(viewModel.selectedSound?.title ?? L.SaveView.selectYourSound.localized)
                 .foregroundColor(Color(.TimerMyListText))
             
             Spacer()

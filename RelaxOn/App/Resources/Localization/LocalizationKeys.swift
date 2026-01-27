@@ -437,6 +437,14 @@ enum L {
         }
     }
 
+    // MARK: - Save View
+    enum SaveView {
+        static let enterOneChar = "save_view.enter_one_char"
+        static let duplicateName = "save_view.duplicate_name"
+        static let defaultSoundName = "save_view.default_sound_name"
+        static let selectYourSound = "save_view.select_your_sound"
+    }
+
     // MARK: - Subscription
     enum Subscription {
         static let title = "subscription.title"
@@ -455,6 +463,9 @@ enum L {
         static let categoryLockedDescription = "subscription.category_locked_description"
         static let priceFormat = "subscription.price_format"
         static let error = "subscription.error"
+        static let freeTrialWeek = "subscription.free_trial_week"
+        static let loadingProducts = "subscription.loading_products"
+        static let retry = "subscription.retry"
     }
 
     // MARK: - Preset Categories

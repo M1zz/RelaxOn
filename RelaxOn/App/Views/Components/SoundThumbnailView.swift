@@ -33,7 +33,7 @@ struct SoundThumbnailView: View {
 
         // 배경음 추가
         if let backgroundName = sound.backgroundSound,
-           let background = BackgroundSound(rawValue: backgroundName) {
+           let background = BackgroundSound.from(backgroundName) {
             result.append(LayerInfo(
                 icon: background.icon,
                 color: .gray,

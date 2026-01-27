@@ -1100,7 +1100,7 @@ struct SavedSoundsListView: View {
     @ViewBuilder
     private func presetSectionsView() -> some View {
         let groupedPresets = Dictionary(grouping: viewModel.presetSounds) { preset in
-            PresetSound.allPresets.first(where: { $0.name == preset.title })?.category ?? .sleep
+            PresetSound.allPresets.first(where: { $0.localizedName == preset.title })?.category ?? .sleep
         }
 
         ForEach(PresetCategory.allCases, id: \.self) { category in
@@ -1375,7 +1375,7 @@ struct SoundCardView: View {
                 HStack(spacing: 6) {
                     // 레이어 개수 또는 카테고리 표시
                     if let layers = sound.soundLayers, layers.count > 1 {
-                        Image(systemName: "layers.fill")
+                        Image(systemName: "square.3.layers.3d")
                             .font(.system(size: 10))
                             .foregroundColor(.white.opacity(0.6))
 

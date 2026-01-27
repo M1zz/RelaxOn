@@ -53,6 +53,9 @@ final class AudioEngineManager: ObservableObject {
 
     // 실제 재생 이벤트를 알리기 위한 Publisher
     let soundDidPlay = PassthroughSubject<(volume: Float, pitch: Float), Never>()
+
+    // 레이어 재생 이벤트 Publisher (filter 정보 포함, 단일/다중 레이어 모두 지원)
+    let layerSoundDidPlay = PassthroughSubject<(filter: AudioFilter, volume: Float, pitch: Float), Never>()
     
     @Published var pitch: Double = 0 {
         didSet {
@@ -132,6 +135,11 @@ final class AudioEngineManager: ObservableObject {
             environmentNode: environmentNode,
             isSpatialAudioEnabled: isSpatialAudioEnabled
         )
+
+        // 레이어 재생 이벤트를 AudioEngineManager의 Publisher로 전달
+        layerManager?.onLayerPlay = { [weak self] filter, volume, pitch in
+            self?.layerSoundDidPlay.send((filter: filter, volume: volume, pitch: pitch))
+        }
     }
 }
 
@@ -389,7 +397,7 @@ extension AudioEngineManager {
 
                 // 배경음이 저장되어 있으면 함께 재생
                 if let backgroundSoundName = customSound.backgroundSound,
-                   let backgroundSound = BackgroundSound(rawValue: backgroundSoundName) {
+                   let backgroundSound = BackgroundSound.from(backgroundSoundName) {
                     print("🎵 [AudioEngineManager] 저장된 배경음 재생: \(backgroundSoundName)")
 
                     // 저장된 배경 볼륨 적용
@@ -465,7 +473,7 @@ extension AudioEngineManager {
 
             // 배경음 재생
             if let backgroundSoundName = sound.backgroundSound,
-               let backgroundSound = BackgroundSound(rawValue: backgroundSoundName) {
+               let backgroundSound = BackgroundSound.from(backgroundSoundName) {
                 if let savedBackgroundVolume = sound.backgroundVolume {
                     self.backgroundVolume = savedBackgroundVolume
                 }
@@ -502,7 +510,7 @@ extension AudioEngineManager {
 
             // 배경음 재생
             if let backgroundSoundName = sound.backgroundSound,
-               let backgroundSound = BackgroundSound(rawValue: backgroundSoundName) {
+               let backgroundSound = BackgroundSound.from(backgroundSoundName) {
                 if let savedBackgroundVolume = sound.backgroundVolume {
                     self.backgroundVolume = savedBackgroundVolume
                 }
@@ -769,6 +777,9 @@ extension AudioEngineManager {
 
                 // 재생 이벤트 발행 (물방울 애니메이션 싱크용)
                 self.soundDidPlay.send((volume: randomizedVolume, pitch: randomizedPitch))
+                if let filter = sound.filter as AudioFilter? {
+                    self.layerSoundDidPlay.send((filter: filter, volume: randomizedVolume, pitch: randomizedPitch))
+                }
 
                 // 다음 재생을 위한 새로운 타이머 (랜덤 간격으로 재스케줄)
                 self.scheduleNextBuffer(immediate: false)
@@ -804,6 +815,9 @@ extension AudioEngineManager {
 
         // 재생 이벤트 발행
         soundDidPlay.send((volume: randomizedVolume, pitch: randomizedPitch))
+        if let sound = currentPlayingSound {
+            layerSoundDidPlay.send((filter: sound.filter, volume: randomizedVolume, pitch: randomizedPitch))
+        }
         print("✅ [AudioEngineManager] 첫 사운드 즉시 재생")
     }
 }
@@ -888,16 +902,33 @@ extension AudioEngineManager {
 /// 배경음 타입
 enum BackgroundSound: String, CaseIterable {
     // 자연음
-    case wave = "파도"
-    case rain = "비"
-    case tv = "TV 소음"
+    case wave = "wave"
+    case rain = "rain"
+    case tv = "tv"
 
     // 멜로디 음악
-    case piano = "피아노"
-    case guitar = "기타"
-    case ambient = "앰비언트"
-    case lofi = "로파이"
-    case meditation = "명상 음악"
+    case piano = "piano"
+    case guitar = "guitar"
+    case ambient = "ambient"
+    case lofi = "lofi"
+    case meditation = "meditation"
+
+    /// 기존 한국어 rawValue로 저장된 데이터 호환을 위한 매핑
+    private static let legacyMapping: [String: BackgroundSound] = [
+        "파도": .wave,
+        "비": .rain,
+        "TV 소음": .tv,
+        "피아노": .piano,
+        "기타": .guitar,
+        "앰비언트": .ambient,
+        "로파이": .lofi,
+        "명상 음악": .meditation
+    ]
+
+    /// 기존 한국어 rawValue도 지원하는 초기화
+    static func from(_ value: String) -> BackgroundSound? {
+        return BackgroundSound(rawValue: value) ?? legacyMapping[value]
+    }
 
     var displayName: String {
         switch self {

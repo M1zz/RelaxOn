@@ -163,7 +163,7 @@ struct SoundDetailView: View {
             // 볼륨 슬라이더
             sliderControl(
                 icon: "speaker.wave.2.fill",
-                label: "볼륨",
+                label: L.Customize.volume.localized,
                 value: $viewModel.volume,
                 range: 0.1...1.0,
                 step: 0.01,
@@ -175,7 +175,7 @@ struct SoundDetailView: View {
             // 간격 슬라이더
             sliderControl(
                 icon: "timer",
-                label: "간격",
+                label: L.Customize.interval.localized,
                 value: $viewModel.interval,
                 range: 0.1...2.0,
                 step: 0.1,
@@ -187,7 +187,7 @@ struct SoundDetailView: View {
             // 피치 슬라이더
             sliderControl(
                 icon: "tuningfork",
-                label: "피치",
+                label: L.Customize.pitch.localized,
                 value: $viewModel.pitch,
                 range: -5.0...5.0,
                 step: 0.5,
@@ -311,7 +311,7 @@ struct SoundDetailView: View {
 
                 Spacer()
 
-                Text(viewModel.filter.rawValue)
+                Text(viewModel.filter.displayName)
                     .font(.system(size: 14, weight: .bold))
                     .foregroundColor(.purple)
             }
@@ -334,7 +334,7 @@ struct SoundDetailView: View {
         Button(action: {
             viewModel.filter = filter
         }) {
-            Text(filter.rawValue)
+            Text(filter.displayName)
                 .font(.system(size: 14, weight: .medium))
                 .foregroundColor(viewModel.filter == filter ? .white : Color(.Text))
                 .padding(.horizontal, 16)

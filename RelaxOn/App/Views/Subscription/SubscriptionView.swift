@@ -253,9 +253,25 @@ struct SubscriptionView: View {
                 }
                 .disabled(isPurchasing)
             } else {
-                ProgressView()
-                    .tint(.white)
-                    .padding()
+                VStack(spacing: 12) {
+                    ProgressView()
+                        .tint(.white)
+
+                    Text(L.Subscription.loadingProducts.localized)
+                        .font(.system(size: 13))
+                        .foregroundColor(.white.opacity(0.5))
+
+                    Button(action: {
+                        Task {
+                            await subscriptionManager.fetchProducts()
+                        }
+                    }) {
+                        Text(L.Subscription.retry.localized)
+                            .font(.system(size: 14, weight: .medium))
+                            .foregroundColor(Color(.PrimaryPurple))
+                    }
+                }
+                .padding()
             }
         }
     }

@@ -57,32 +57,39 @@ struct OnboardingView: View {
                 // 메인 컨텐츠
                 TabView(selection: $pageNumber) {
                     ForEach(onboardingItems.indices, id: \.self) { index in
-                        VStack(spacing: 40) {
-                            Spacer()
+                        GeometryReader { geo in
+                            ScrollView(showsIndicators: false) {
+                                VStack(spacing: 30) {
+                                    Spacer(minLength: 20)
 
-                            // 이미지
-                            Image(onboardingItems[index].imageName)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(height: 200)
-                                .padding(.horizontal, 60)
+                                    // 이미지
+                                    Image(onboardingItems[index].imageName)
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(maxHeight: geo.size.height * 0.4)
+                                        .padding(.horizontal, 60)
 
-                            // 텍스트
-                            VStack(spacing: 16) {
-                                Text(getTitleForPage(index))
-                                    .font(.system(size: 26, weight: .bold))
-                                    .foregroundColor(.white)
-                                    .multilineTextAlignment(.center)
+                                    // 텍스트
+                                    VStack(spacing: 16) {
+                                        Text(getTitleForPage(index))
+                                            .font(.system(size: 26, weight: .bold))
+                                            .foregroundColor(.white)
+                                            .multilineTextAlignment(.center)
+                                            .fixedSize(horizontal: false, vertical: true)
 
-                                Text(onboardingItems[index].description.localized)
-                                    .font(.system(size: 16))
-                                    .foregroundColor(.white.opacity(0.7))
-                                    .multilineTextAlignment(.center)
-                                    .lineSpacing(6)
-                                    .padding(.horizontal, 40)
+                                        Text(onboardingItems[index].description.localized)
+                                            .font(.system(size: 16))
+                                            .foregroundColor(.white.opacity(0.7))
+                                            .multilineTextAlignment(.center)
+                                            .lineSpacing(6)
+                                            .padding(.horizontal, 40)
+                                            .fixedSize(horizontal: false, vertical: true)
+                                    }
+
+                                    Spacer(minLength: 20)
+                                }
+                                .frame(minHeight: geo.size.height)
                             }
-
-                            Spacer()
                         }
                         .tag(index)
                     }
