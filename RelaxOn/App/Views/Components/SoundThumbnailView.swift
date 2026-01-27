@@ -168,11 +168,28 @@ struct SoundThumbnailView: View {
         case .Training: return "figure.mind.and.body"
         case .Empty: return "circle.dashed"
         case .Vibration: return "waveform"
+        case .TibetanBowl: return "circle.hexagongrid.fill"
+        case .Bell: return "bell.fill"
+        case .BowlDeep: return "circle.circle.fill"
+        case .BowlLoud: return "speaker.wave.3.fill"
         case .Bird: return "bird.fill"
         case .Owl: return "moon.stars.fill"
         case .Woodpecker: return "leaf.fill"
         case .Forest: return "tree.fill"
         case .Cuckoo: return "sun.max.fill"
+        case .Jungle: return "leaf.arrow.triangle.circlepath"
+        case .ForestBird: return "bird"
+        case .SpringForest: return "sun.haze.fill"
+        case .SoftRain: return "cloud.drizzle.fill"
+        case .CityRain: return "cloud.rain.fill"
+        case .RainMaker: return "cloud.heavyrain.fill"
+        case .AmbientKeys: return "pianokeys"
+        case .Underwater: return "water.waves"
+        case .MeditationPad: return "sparkles"
+        case .Atmosphere: return "waveform.path"
+        case .IndigoMusic: return "music.note"
+        case .Keyboard: return "keyboard.fill"
+        case .Camera: return "camera.fill"
         case .none: return "questionmark"
         }
     }
@@ -182,6 +199,9 @@ struct SoundThumbnailView: View {
         case .WaterDrop: return .blue
         case .SingingBowl: return .purple
         case .Bird: return .green
+        case .Rain: return .cyan
+        case .Ambient: return .indigo
+        case .ASMR: return .pink
         case .none: return .gray
         }
     }

@@ -1,31 +1,11 @@
 {
   "sourceLanguage" : "ko",
   "strings" : {
-    "%@ %@" : {
-      "localizations" : {
-        "ko" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "%1$@ %2$@"
-          }
-        }
-      }
-    },
     "%@m" : {
 
     },
     "%lld" : {
 
-    },
-    "%lld%@" : {
-      "localizations" : {
-        "ko" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "%1$lld%2$@"
-          }
-        }
-      }
     },
     "%lld%%" : {
 
@@ -248,6 +228,40 @@
         }
       }
     },
+    "category.ambient" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ambient"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "앰비언트"
+          }
+        }
+      }
+    },
+    "category.asmr" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ASMR"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ASMR"
+          }
+        }
+      }
+    },
     "category.bird" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -278,6 +292,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "없음"
+          }
+        }
+      }
+    },
+    "category.rain" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rain"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "빗소리"
           }
         }
       }
@@ -1098,6 +1129,40 @@
         }
       }
     },
+    "filter.ambient_keys" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ambient Keys"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "앰비언트 키"
+          }
+        }
+      }
+    },
+    "filter.atmosphere" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atmosphere"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "분위기"
+          }
+        }
+      }
+    },
     "filter.basement" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1111,6 +1176,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "지하실"
+          }
+        }
+      }
+    },
+    "filter.bell" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bell"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "벨"
           }
         }
       }
@@ -1132,6 +1214,57 @@
         }
       }
     },
+    "filter.bowl_deep" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deep Bowl"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "깊은 울림"
+          }
+        }
+      }
+    },
+    "filter.bowl_loud" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loud Bowl"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "강한 울림"
+          }
+        }
+      }
+    },
+    "filter.camera" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Camera"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "카메라"
+          }
+        }
+      }
+    },
     "filter.cave" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1145,6 +1278,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "동굴"
+          }
+        }
+      }
+    },
+    "filter.city_rain" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "City Rain"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "도시의 비"
           }
         }
       }
@@ -1217,6 +1367,91 @@
         }
       }
     },
+    "filter.forest_bird" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Forest Bird"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "숲속 새"
+          }
+        }
+      }
+    },
+    "filter.indigo_music" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Indigo Music"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "인디고 뮤직"
+          }
+        }
+      }
+    },
+    "filter.jungle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jungle"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "정글"
+          }
+        }
+      }
+    },
+    "filter.keyboard" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keyboard"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "키보드"
+          }
+        }
+      }
+    },
+    "filter.meditation_pad" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Meditation Pad"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "명상 패드"
+          }
+        }
+      }
+    },
     "filter.owl" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1247,6 +1482,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "파이프"
+          }
+        }
+      }
+    },
+    "filter.rain_maker" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rain Maker"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "레인메이커"
           }
         }
       }
@@ -1285,6 +1537,57 @@
         }
       }
     },
+    "filter.soft_rain" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Soft Rain"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "부드러운 빗소리"
+          }
+        }
+      }
+    },
+    "filter.spring_forest" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spring Forest"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "봄 숲"
+          }
+        }
+      }
+    },
+    "filter.tibetan_bowl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tibetan Bowl"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "티벳 싱잉볼"
+          }
+        }
+      }
+    },
     "filter.training" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1298,6 +1601,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "훈련"
+          }
+        }
+      }
+    },
+    "filter.underwater" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Underwater"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "수중"
           }
         }
       }
@@ -2212,6 +2532,40 @@
         }
       }
     },
+    "preset_new.camera_asmr.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rhythmic DSLR shutter ASMR sounds"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DSLR 셔터 소리의 리듬감 있는 ASMR"
+          }
+        }
+      }
+    },
+    "preset_new.camera_asmr.name" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Camera ASMR"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "카메라 ASMR"
+          }
+        }
+      }
+    },
     "preset_new.cave_explore.description" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2242,6 +2596,74 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "동굴 탐험"
+          }
+        }
+      }
+    },
+    "preset_new.city_rain.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Urban rain with birdsong atmosphere"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "도심 속 빗소리와 새소리가 어우러진 분위기"
+          }
+        }
+      }
+    },
+    "preset_new.city_rain.name" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "City Rain"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "도시의 비"
+          }
+        }
+      }
+    },
+    "preset_new.cosmic_atmosphere.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ambient sounds evoking vast space"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "광활한 우주를 연상시키는 앰비언트 사운드"
+          }
+        }
+      }
+    },
+    "preset_new.cosmic_atmosphere.name" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cosmic Atmosphere"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "우주적 분위기"
           }
         }
       }
@@ -2348,6 +2770,40 @@
         }
       }
     },
+    "preset_new.jungle_morning.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sounds of nature from the tropical jungle"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "열대 정글에서 들려오는 자연의 소리"
+          }
+        }
+      }
+    },
+    "preset_new.jungle_morning.name" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jungle Morning"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "정글의 아침"
+          }
+        }
+      }
+    },
     "preset_new.meditation_time.description" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2450,6 +2906,74 @@
         }
       }
     },
+    "preset_new.soft_rain.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Relax with gentle rain sounds outside the window"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "창밖에 내리는 잔잔한 빗소리로 마음을 편안하게"
+          }
+        }
+      }
+    },
+    "preset_new.soft_rain.name" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Soft Rain"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "부드러운 빗소리"
+          }
+        }
+      }
+    },
+    "preset_new.spring_forest.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Birds chirping in the warm spring forest"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "따뜻한 봄날 숲속의 새들이 지저귀는 소리"
+          }
+        }
+      }
+    },
+    "preset_new.spring_forest.name" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spring Forest Birdsong"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "봄 숲의 새소리"
+          }
+        }
+      }
+    },
     "preset_new.study_time.description" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2518,6 +3042,108 @@
         }
       }
     },
+    "preset_new.tibetan_meditation.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deep and resonant Tibetan singing bowl sounds"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "티벳 싱잉볼의 깊고 울림있는 소리"
+          }
+        }
+      }
+    },
+    "preset_new.tibetan_meditation.name" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tibetan Meditation"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "티벳 명상"
+          }
+        }
+      }
+    },
+    "preset_new.typing_focus.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keyboard typing sounds for better focus"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "키보드 타이핑 소리로 집중력 향상"
+          }
+        }
+      }
+    },
+    "preset_new.typing_focus.name" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Typing Focus"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "타이핑 집중"
+          }
+        }
+      }
+    },
+    "preset_new.underwater_meditation.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peaceful underwater white noise"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "물속에서 느끼는 고요한 화이트노이즈"
+          }
+        }
+      }
+    },
+    "preset_new.underwater_meditation.name" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Underwater Meditation"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "수중 명상"
+          }
+        }
+      }
+    },
     "preset_new.white_noise_sleep.description" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2582,6 +3208,142 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "요가 & 스트레칭"
+          }
+        }
+      }
+    },
+    "preset.camera_click.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rhythmic DSLR shutter sounds"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DSLR 셔터 소리의 리듬감"
+          }
+        }
+      }
+    },
+    "preset.camera_click.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Camera Click"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "카메라 클릭"
+          }
+        }
+      }
+    },
+    "preset.city_rain.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Urban rain with birdsong"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "도심 속 빗소리와 새소리의 조화"
+          }
+        }
+      }
+    },
+    "preset.city_rain.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "City Rain"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "도시의 비"
+          }
+        }
+      }
+    },
+    "preset.cosmic_atmosphere.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ambient sounds evoking vast space"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "광활한 우주를 연상시키는 앰비언트"
+          }
+        }
+      }
+    },
+    "preset.cosmic_atmosphere.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cosmic Atmosphere"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "우주적 분위기"
+          }
+        }
+      }
+    },
+    "preset.deep_meditation.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Meditation sound to purify the mind"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "마음을 정화하는 명상 사운드"
+          }
+        }
+      }
+    },
+    "preset.deep_meditation.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deep Meditation"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "깊은 명상"
           }
         }
       }
@@ -2684,6 +3446,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "숲속 새벽"
+          }
+        }
+      }
+    },
+    "preset.jungle_morning.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sounds of nature from the tropical jungle"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "열대 정글에서 들려오는 자연의 소리"
+          }
+        }
+      }
+    },
+    "preset.jungle_morning.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jungle Morning"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "정글의 아침"
           }
         }
       }
@@ -2858,6 +3654,142 @@
         }
       }
     },
+    "preset.soft_rain.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gentle rain sounds outside the window"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "창밖에 내리는 잔잔한 빗소리"
+          }
+        }
+      }
+    },
+    "preset.soft_rain.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Soft Rain"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "부드러운 빗소리"
+          }
+        }
+      }
+    },
+    "preset.tibetan_meditation.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deep resonance of Tibetan singing bowl"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "티벳 싱잉볼의 깊은 울림"
+          }
+        }
+      }
+    },
+    "preset.tibetan_meditation.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tibetan Meditation"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "티벳 명상"
+          }
+        }
+      }
+    },
+    "preset.typing_focus.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keyboard typing sounds for focus"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "키보드 타이핑 소리로 집중력 향상"
+          }
+        }
+      }
+    },
+    "preset.typing_focus.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Typing Focus"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "타이핑 집중"
+          }
+        }
+      }
+    },
+    "preset.underwater.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peaceful underwater white noise"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "물속에서 느끼는 고요한 화이트노이즈"
+          }
+        }
+      }
+    },
+    "preset.underwater.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Underwater Meditation"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "수중 명상"
+          }
+        }
+      }
+    },
     "sample.calm_night" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3027,6 +3959,10 @@
           }
         }
       }
+    },
+    "Settings" : {
+      "comment" : "The title of the settings view.",
+      "isCommentAutoGenerated" : true
     },
     "sound_list.create_new" : {
       "extractionState" : "manual",
@@ -3339,6 +4275,10 @@
           }
         }
       }
+    },
+    "새 사운드 만들기" : {
+      "comment" : "The title of the view.",
+      "isCommentAutoGenerated" : true
     }
   },
   "version" : "1.1"

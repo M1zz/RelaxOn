@@ -29,7 +29,7 @@ struct SettingsView: View {
 
             VStack(alignment: .leading, spacing: 0) {
                 // 타이틀
-                Text(TabItems.settings.rawValue)
+                Text("Settings")
                     .foregroundColor(Color(.TitleText))
                     .font(.system(size: 24, weight: .bold))
                     .padding(.horizontal, 24)

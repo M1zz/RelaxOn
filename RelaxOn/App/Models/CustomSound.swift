@@ -84,14 +84,26 @@ struct CustomSound: Identifiable, Codable, Equatable, Playable {
 /// 오디오 필터 관리를 위한 열거형
 enum AudioFilter: String, Codable {
     case none
+    // WaterDrop
     case WaterDrop, Basement, Cave, Pipe, Sink
+    // SingingBowl
     case SingingBowl, Focus, Training, Empty, Vibration
+    case TibetanBowl, Bell, BowlDeep, BowlLoud
+    // Bird
     case Bird, Owl, Woodpecker, Forest, Cuckoo
+    case Jungle, ForestBird, SpringForest
+    // Rain
+    case SoftRain, CityRain, RainMaker
+    // Ambient
+    case AmbientKeys, Underwater, MeditationPad, Atmosphere, IndigoMusic
+    // ASMR
+    case Keyboard, Camera
 
     var displayName: String {
         switch self {
         case .none:
             return L.Category.none.localized
+        // WaterDrop
         case .WaterDrop:
             return L.Filter.waterdrop.localized
         case .Basement:
@@ -102,6 +114,7 @@ enum AudioFilter: String, Codable {
             return L.Filter.pipe.localized
         case .Sink:
             return L.Filter.sink.localized
+        // SingingBowl
         case .SingingBowl:
             return L.Filter.singingBowl.localized
         case .Focus:
@@ -112,6 +125,15 @@ enum AudioFilter: String, Codable {
             return L.Filter.empty.localized
         case .Vibration:
             return L.Filter.vibration.localized
+        case .TibetanBowl:
+            return L.Filter.tibetanBowl.localized
+        case .Bell:
+            return L.Filter.bell.localized
+        case .BowlDeep:
+            return L.Filter.bowlDeep.localized
+        case .BowlLoud:
+            return L.Filter.bowlLoud.localized
+        // Bird
         case .Bird:
             return L.Filter.bird.localized
         case .Owl:
@@ -122,6 +144,35 @@ enum AudioFilter: String, Codable {
             return L.Filter.forest.localized
         case .Cuckoo:
             return L.Filter.cuckoo.localized
+        case .Jungle:
+            return L.Filter.jungle.localized
+        case .ForestBird:
+            return L.Filter.forestBird.localized
+        case .SpringForest:
+            return L.Filter.springForest.localized
+        // Rain
+        case .SoftRain:
+            return L.Filter.softRain.localized
+        case .CityRain:
+            return L.Filter.cityRain.localized
+        case .RainMaker:
+            return L.Filter.rainMaker.localized
+        // Ambient
+        case .AmbientKeys:
+            return L.Filter.ambientKeys.localized
+        case .Underwater:
+            return L.Filter.underwater.localized
+        case .MeditationPad:
+            return L.Filter.meditationPad.localized
+        case .Atmosphere:
+            return L.Filter.atmosphere.localized
+        case .IndigoMusic:
+            return L.Filter.indigoMusic.localized
+        // ASMR
+        case .Keyboard:
+            return L.Filter.keyboard.localized
+        case .Camera:
+            return L.Filter.camera.localized
         }
     }
 
@@ -130,6 +181,7 @@ enum AudioFilter: String, Codable {
         case .none:
             return 0.0
 
+        // WaterDrop
         case .WaterDrop:
             return 1.0
         case .Basement:
@@ -141,6 +193,7 @@ enum AudioFilter: String, Codable {
         case .Sink:
             return 2.0
 
+        // SingingBowl
         case .SingingBowl:
             return 5.0
         case .Focus:
@@ -151,7 +204,16 @@ enum AudioFilter: String, Codable {
             return 5.0
         case .Vibration:
             return 7.0
+        case .TibetanBowl:
+            return 6.0
+        case .Bell:
+            return 5.0
+        case .BowlDeep:
+            return 4.0
+        case .BowlLoud:
+            return 7.0
 
+        // Bird
         case .Bird:
             return 1.0
         case .Owl:
@@ -162,14 +224,47 @@ enum AudioFilter: String, Codable {
             return 4.0
         case .Cuckoo:
             return 3.0
+        case .Jungle:
+            return 8.0
+        case .ForestBird:
+            return 10.0
+        case .SpringForest:
+            return 5.0
+
+        // Rain
+        case .SoftRain:
+            return 10.0
+        case .CityRain:
+            return 15.0
+        case .RainMaker:
+            return 4.0
+
+        // Ambient
+        case .AmbientKeys:
+            return 8.0
+        case .Underwater:
+            return 3.0
+        case .MeditationPad:
+            return 12.0
+        case .Atmosphere:
+            return 6.0
+        case .IndigoMusic:
+            return 10.0
+
+        // ASMR
+        case .Keyboard:
+            return 8.0
+        case .Camera:
+            return 3.0
         }
     }
 }
 
 /// 원본 사운드 유형 관리를 위한 열거형
-enum SoundCategory: String, Codable {
+enum SoundCategory: String, Codable, CaseIterable {
     case none
     case WaterDrop, SingingBowl, Bird
+    case Rain, Ambient, ASMR
 
     var displayName: String {
         switch self {
@@ -181,9 +276,15 @@ enum SoundCategory: String, Codable {
             return L.Category.singingBowl.localized
         case .Bird:
             return L.Category.bird.localized
+        case .Rain:
+            return L.Category.rain.localized
+        case .Ambient:
+            return L.Category.ambient.localized
+        case .ASMR:
+            return L.Category.asmr.localized
         }
     }
-    
+
     var fileName: String {
         switch self {
         case .none:
@@ -194,9 +295,15 @@ enum SoundCategory: String, Codable {
             return "SingingBowl"
         case .Bird:
             return "Bird"
+        case .Rain:
+            return "Rain"
+        case .Ambient:
+            return "Ambient"
+        case .ASMR:
+            return "ASMR"
         }
     }
-    
+
     var imageName: String {
         switch self {
         case .none:
@@ -207,9 +314,15 @@ enum SoundCategory: String, Codable {
             return "SingingBowl"
         case .Bird:
             return "Bird"
+        case .Rain:
+            return "Rain"
+        case .Ambient:
+            return "Ambient"
+        case .ASMR:
+            return "ASMR"
         }
     }
-    
+
     var defaultColor: String {
         switch self {
         case .none:
@@ -220,6 +333,54 @@ enum SoundCategory: String, Codable {
             return "FDD0A8"
         case .Bird:
             return "ACD6A6"
+        case .Rain:
+            return "A8D4E6"
+        case .Ambient:
+            return "C5B8E8"
+        case .ASMR:
+            return "F5D0E0"
+        }
+    }
+
+    var iconName: String {
+        switch self {
+        case .none:
+            return "questionmark.circle"
+        case .WaterDrop:
+            return "drop.fill"
+        case .SingingBowl:
+            return "circle.circle"
+        case .Bird:
+            return "bird.fill"
+        case .Rain:
+            return "cloud.rain.fill"
+        case .Ambient:
+            return "waveform.path"
+        case .ASMR:
+            return "hand.tap.fill"
+        }
+    }
+}
+
+import SwiftUI
+
+extension SoundCategory {
+    var themeColor: Color {
+        switch self {
+        case .none:
+            return .gray
+        case .WaterDrop:
+            return .blue
+        case .SingingBowl:
+            return .purple
+        case .Bird:
+            return .green
+        case .Rain:
+            return .cyan
+        case .Ambient:
+            return .indigo
+        case .ASMR:
+            return .pink
         }
     }
 }

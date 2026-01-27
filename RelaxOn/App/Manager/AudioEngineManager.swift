@@ -347,7 +347,7 @@ extension AudioEngineManager {
             .debounce(for: .milliseconds(300), scheduler: RunLoop.main)
             .sink { [weak self] _ in
                 self?.timerSubscription?.cancel()
-                self?.scheduleNextBuffer()
+                self?.scheduleNextBuffer(immediate: false)
             }
     }
     
@@ -430,6 +430,8 @@ extension AudioEngineManager {
                 try engine.start()
             }
 
+            var successfulLayers = 0
+
             // 각 레이어 추가
             for (index, layer) in layers.enumerated() {
                 let position = calculate3DPosition(for: index, totalLayers: layers.count)
@@ -442,10 +444,20 @@ extension AudioEngineManager {
                         position: position
                     )
 
+                    successfulLayers += 1
                     print("✅ [AudioEngineManager] 레이어 \(index) 추가: \(layer.filter.rawValue) (ID: \(layerId))")
                 } catch {
                     print("❌ [AudioEngineManager] 레이어 \(index) 추가 실패: \(error.localizedDescription)")
+                    print("   - 필터: \(layer.filter.rawValue)")
+                    print("   - 파일 존재 여부 확인 필요: \(layer.filter.rawValue).mp3")
                 }
+            }
+
+            // 레이어가 하나도 추가되지 않았으면 단일 사운드로 폴백
+            if successfulLayers == 0 {
+                print("⚠️ [AudioEngineManager] 레이어 추가 실패, 단일 사운드로 폴백")
+                playSingleSoundFallback(sound)
+                return
             }
 
             // 배경음 재생
@@ -460,10 +472,45 @@ extension AudioEngineManager {
             // 모든 레이어 재생 시작
             manager.startAllLayers()
 
-            print("✅ [AudioEngineManager] 모든 레이어 재생 시작 (총 \(layers.count)개)")
+            print("✅ [AudioEngineManager] 모든 레이어 재생 시작 (성공: \(successfulLayers)/\(layers.count)개)")
 
         } catch {
             print("❌ [AudioEngineManager] 레이어 재생 오류: \(error.localizedDescription)")
+            // 폴백: 단일 사운드로 재생 시도
+            playSingleSoundFallback(sound)
+        }
+    }
+
+    /// 레이어 재생 실패 시 단일 사운드로 폴백
+    private func playSingleSoundFallback(_ sound: CustomSound) {
+        print("🔄 [AudioEngineManager] 단일 사운드 폴백 재생 시도")
+
+        let targetFile = sound.filter.rawValue
+        guard let fileURL = Bundle.main.url(forResource: targetFile, withExtension: MusicExtension.mp3.rawValue) else {
+            print("❌ [AudioEngineManager] 폴백 파일도 찾을 수 없음: \(targetFile)")
+            return
+        }
+
+        do {
+            audioFile = try AVAudioFile(forReading: fileURL)
+            audioBuffer = prepareBuffer()
+            setupConnections()
+            audioVariation = sound.audioVariation
+
+            // 배경음 재생
+            if let backgroundSoundName = sound.backgroundSound,
+               let backgroundSound = BackgroundSound(rawValue: backgroundSoundName) {
+                if let savedBackgroundVolume = sound.backgroundVolume {
+                    self.backgroundVolume = savedBackgroundVolume
+                }
+                playBackground(backgroundSound)
+            }
+
+            scheduleNextBuffer(with: sound, immediate: true)
+            print("✅ [AudioEngineManager] 폴백 단일 사운드 재생 시작")
+
+        } catch {
+            print("❌ [AudioEngineManager] 폴백 재생 오류: \(error.localizedDescription)")
         }
     }
 
@@ -647,8 +694,9 @@ extension AudioEngineManager {
     /**
      다음 오디오 버퍼를 스케줄링합니다. 준비된 버퍼를 사용해 오디오를 재생하고, 주어진 인터벌에 따라 다음 버퍼 재생을 스케줄링합니다.
      Combine 프레임워크의 Timer.publish를 사용하여 지정된 인터벌마다 버퍼 재생을 반복합니다.
+     - Parameter immediate: true이면 첫 번째 사운드를 즉시 재생
      */
-    private func scheduleNextBuffer(with playingSound: Playable? = nil) {
+    private func scheduleNextBuffer(with playingSound: Playable? = nil, immediate: Bool = true) {
         print(#function)
 
         guard let buffer = audioBuffer else {
@@ -663,6 +711,11 @@ extension AudioEngineManager {
 
         // 취소 가능한 타이머를 만듭니다.
         timerSubscription?.cancel()
+
+        // 첫 번째 사운드를 즉시 재생
+        if immediate {
+            playBufferImmediately(buffer: buffer)
+        }
 
         // 랜덤화된 간격 계산
         let randomizedInterval = getRandomizedInterval()
@@ -707,8 +760,40 @@ extension AudioEngineManager {
                 self.soundDidPlay.send((volume: randomizedVolume, pitch: randomizedPitch))
 
                 // 다음 재생을 위한 새로운 타이머 (랜덤 간격으로 재스케줄)
-                self.scheduleNextBuffer()
+                self.scheduleNextBuffer(immediate: false)
             }
+    }
+
+    /// 버퍼를 즉시 재생
+    private func playBufferImmediately(buffer: AVAudioPCMBuffer) {
+        // 랜덤화된 볼륨/피치 적용
+        let randomizedVolume = getRandomizedVolume()
+        let randomizedPitch = getRandomizedPitch()
+
+        volumeEffect.outputVolume = randomizedVolume
+        pitchEffect.pitch = randomizedPitch * 100
+
+        let scheduleTime = AVAudioTime(hostTime: mach_absolute_time())
+        player.scheduleBuffer(buffer, at: scheduleTime) { [weak self] in
+            self?.scheduleCompletionHandler?()
+            self?.scheduleCompletionHandler = nil
+        }
+
+        if !engine.isRunning {
+            do {
+                try engine.start()
+            } catch {
+                print("Unable to start engine: \(error.localizedDescription)")
+            }
+        }
+
+        if !player.isPlaying {
+            player.play()
+        }
+
+        // 재생 이벤트 발행
+        soundDidPlay.send((volume: randomizedVolume, pitch: randomizedPitch))
+        print("✅ [AudioEngineManager] 첫 사운드 즉시 재생")
     }
 }
 
@@ -718,16 +803,16 @@ extension AudioEngineManager {
 
     /// 배경음 재생
     func playBackground(_ background: BackgroundSound) {
-        currentBackgroundSound = background
-
         // subdirectory 없이 파일명으로만 검색 시도
         guard let fileURL = Bundle.main.url(forResource: background.fileName, withExtension: "mp3") else {
-            print("Background file not found: \(background.fileName)")
-            print("Available resources: \(Bundle.main.paths(forResourcesOfType: "mp3", inDirectory: nil))")
+            print("⚠️ [AudioEngineManager] 배경음 파일을 찾을 수 없음: \(background.fileName).mp3")
+            print("   - 배경음 없이 메인 사운드만 재생됩니다")
+            // 배경음 파일이 없어도 currentBackgroundSound는 설정하지 않음
             return
         }
 
-        print("✅ Background file found: \(fileURL.path)")
+        currentBackgroundSound = background
+        print("✅ [AudioEngineManager] 배경음 파일 발견: \(fileURL.path)")
 
         do {
             backgroundAudioFile = try AVAudioFile(forReading: fileURL)

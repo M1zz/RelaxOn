@@ -215,7 +215,7 @@ class AudioMixingService {
             scheduleTimes.append(currentTime)
 
             // 간격에 변동폭 적용
-            let variation = sound.intervalVariation * sound.interval
+            let variation = Double(sound.intervalVariation) * sound.interval
             let randomOffset = TimeInterval.random(in: -variation...variation)
             currentTime += sound.interval + randomOffset
         }

@@ -50,6 +50,16 @@ struct PresetSound: Identifiable, Codable {
         case "campfire": return L.Listen.campfire.localized
         case "rain": return L.Listen.rainSound.localized
         case "heavy-rain": return L.Listen.heavyRain.localized
+        // 새 프리셋
+        case "soft-rain": return L.PresetNew.SoftRain.name.localized
+        case "city-rain": return L.PresetNew.CityRain.name.localized
+        case "underwater-meditation": return L.PresetNew.UnderwaterMeditation.name.localized
+        case "cosmic-atmosphere": return L.PresetNew.CosmicAtmosphere.name.localized
+        case "typing-focus": return L.PresetNew.TypingFocus.name.localized
+        case "camera-asmr": return L.PresetNew.CameraASMR.name.localized
+        case "tibetan-meditation": return L.PresetNew.TibetanMeditation.name.localized
+        case "jungle-morning": return L.PresetNew.JungleMorning.name.localized
+        case "spring-forest": return L.PresetNew.SpringForest.name.localized
         default: return name
         }
     }
@@ -70,6 +80,16 @@ struct PresetSound: Identifiable, Codable {
         case "campfire": return L.Listen.campfireDescription.localized
         case "rain": return L.Listen.rainSoundDescription.localized
         case "heavy-rain": return L.Listen.heavyRainDescription.localized
+        // 새 프리셋
+        case "soft-rain": return L.PresetNew.SoftRain.description.localized
+        case "city-rain": return L.PresetNew.CityRain.description.localized
+        case "underwater-meditation": return L.PresetNew.UnderwaterMeditation.description.localized
+        case "cosmic-atmosphere": return L.PresetNew.CosmicAtmosphere.description.localized
+        case "typing-focus": return L.PresetNew.TypingFocus.description.localized
+        case "camera-asmr": return L.PresetNew.CameraASMR.description.localized
+        case "tibetan-meditation": return L.PresetNew.TibetanMeditation.description.localized
+        case "jungle-morning": return L.PresetNew.JungleMorning.description.localized
+        case "spring-forest": return L.PresetNew.SpringForest.description.localized
         default: return description
         }
     }
@@ -520,6 +540,253 @@ extension PresetSound {
                     intervalVariation: 0.5,
                     volumeVariation: 0.2,
                     pitchVariation: 0
+                )
+            ],
+            backgroundSound: nil,
+            backgroundVolume: nil
+        ),
+
+        // MARK: - 새 Rain 카테고리 (실제 빗소리)
+
+        PresetSound(
+            id: "soft-rain",
+            name: "부드러운 빗소리",
+            category: .rain,
+            description: "창밖에 내리는 잔잔한 빗소리로 마음을 편안하게",
+            icon: "cloud.drizzle.fill",
+            color: "#A8D4E6",
+            layers: [
+                PresetLayer(
+                    filter: .SoftRain,
+                    category: .Rain,
+                    volume: 0.7,
+                    pitch: 0,
+                    interval: 1.0,
+                    intervalVariation: 0.2,
+                    volumeVariation: 0.1,
+                    pitchVariation: 0
+                )
+            ],
+            backgroundSound: BackgroundSound.piano.rawValue,
+            backgroundVolume: 0.25
+        ),
+
+        PresetSound(
+            id: "city-rain",
+            name: "도시의 비",
+            category: .rain,
+            description: "도심 속 빗소리와 새소리가 어우러진 분위기",
+            icon: "building.2.fill",
+            color: "#8BC4D8",
+            layers: [
+                PresetLayer(
+                    filter: .CityRain,
+                    category: .Rain,
+                    volume: 0.6,
+                    pitch: -50,
+                    interval: 1.2,
+                    intervalVariation: 0.3,
+                    volumeVariation: 0.15,
+                    pitchVariation: 0
+                )
+            ],
+            backgroundSound: nil,
+            backgroundVolume: nil
+        ),
+
+        // MARK: - 새 Ambient 카테고리
+
+        PresetSound(
+            id: "underwater-meditation",
+            name: "수중 명상",
+            category: .meditation,
+            description: "물속에서 느끼는 고요한 화이트노이즈",
+            icon: "drop.fill",
+            color: "#B8D8E8",
+            layers: [
+                PresetLayer(
+                    filter: .Underwater,
+                    category: .Ambient,
+                    volume: 0.5,
+                    pitch: -100,
+                    interval: 1.5,
+                    intervalVariation: 0.2,
+                    volumeVariation: 0.1,
+                    pitchVariation: 0
+                )
+            ],
+            backgroundSound: BackgroundSound.meditation.rawValue,
+            backgroundVolume: 0.3
+        ),
+
+        PresetSound(
+            id: "cosmic-atmosphere",
+            name: "우주적 분위기",
+            category: .meditation,
+            description: "광활한 우주를 연상시키는 앰비언트 사운드",
+            icon: "sparkles",
+            color: "#C5B8E8",
+            layers: [
+                PresetLayer(
+                    filter: .Atmosphere,
+                    category: .Ambient,
+                    volume: 0.5,
+                    pitch: -50,
+                    interval: 1.8,
+                    intervalVariation: 0.3,
+                    volumeVariation: 0.1,
+                    pitchVariation: 0
+                ),
+                PresetLayer(
+                    filter: .MeditationPad,
+                    category: .Ambient,
+                    volume: 0.4,
+                    pitch: 0,
+                    interval: 2.5,
+                    intervalVariation: 0.5,
+                    volumeVariation: 0.15,
+                    pitchVariation: 0
+                )
+            ],
+            backgroundSound: nil,
+            backgroundVolume: nil
+        ),
+
+        // MARK: - 새 ASMR 카테고리
+
+        PresetSound(
+            id: "typing-focus",
+            name: "타이핑 집중",
+            category: .focus,
+            description: "키보드 타이핑 소리로 집중력 향상",
+            icon: "keyboard.fill",
+            color: "#F5D0E0",
+            layers: [
+                PresetLayer(
+                    filter: .Keyboard,
+                    category: .ASMR,
+                    volume: 0.6,
+                    pitch: 0,
+                    interval: 0.8,
+                    intervalVariation: 0.3,
+                    volumeVariation: 0.2,
+                    pitchVariation: 0
+                )
+            ],
+            backgroundSound: BackgroundSound.lofi.rawValue,
+            backgroundVolume: 0.4
+        ),
+
+        PresetSound(
+            id: "camera-asmr",
+            name: "카메라 ASMR",
+            category: .focus,
+            description: "DSLR 셔터 소리의 리듬감 있는 ASMR",
+            icon: "camera.fill",
+            color: "#E8C8D8",
+            layers: [
+                PresetLayer(
+                    filter: .Camera,
+                    category: .ASMR,
+                    volume: 0.5,
+                    pitch: 50,
+                    interval: 1.0,
+                    intervalVariation: 0.4,
+                    volumeVariation: 0.15,
+                    pitchVariation: 0
+                )
+            ],
+            backgroundSound: nil,
+            backgroundVolume: nil
+        ),
+
+        // MARK: - 확장된 SingingBowl
+
+        PresetSound(
+            id: "tibetan-meditation",
+            name: "티벳 명상",
+            category: .meditation,
+            description: "티벳 싱잉볼의 깊고 울림있는 소리",
+            icon: "circle.hexagongrid.fill",
+            color: "#FDD0A8",
+            layers: [
+                PresetLayer(
+                    filter: .TibetanBowl,
+                    category: .SingingBowl,
+                    volume: 0.5,
+                    pitch: 0,
+                    interval: 1.5,
+                    intervalVariation: 0.3,
+                    volumeVariation: 0.1,
+                    pitchVariation: 0
+                ),
+                PresetLayer(
+                    filter: .Bell,
+                    category: .SingingBowl,
+                    volume: 0.4,
+                    pitch: 100,
+                    interval: 3.0,
+                    intervalVariation: 0.5,
+                    volumeVariation: 0.15,
+                    pitchVariation: 0
+                )
+            ],
+            backgroundSound: BackgroundSound.meditation.rawValue,
+            backgroundVolume: 0.25
+        ),
+
+        // MARK: - 확장된 Bird
+
+        PresetSound(
+            id: "jungle-morning",
+            name: "정글의 아침",
+            category: .nature,
+            description: "열대 정글에서 들려오는 자연의 소리",
+            icon: "leaf.fill",
+            color: "#98D4A0",
+            layers: [
+                PresetLayer(
+                    filter: .Jungle,
+                    category: .Bird,
+                    volume: 0.6,
+                    pitch: 0,
+                    interval: 1.2,
+                    intervalVariation: 0.4,
+                    volumeVariation: 0.2,
+                    pitchVariation: 50
+                ),
+                PresetLayer(
+                    filter: .ForestBird,
+                    category: .Bird,
+                    volume: 0.5,
+                    pitch: 0,
+                    interval: 2.0,
+                    intervalVariation: 0.5,
+                    volumeVariation: 0.15,
+                    pitchVariation: 0
+                )
+            ],
+            backgroundSound: nil,
+            backgroundVolume: nil
+        ),
+
+        PresetSound(
+            id: "spring-forest",
+            name: "봄 숲의 새소리",
+            category: .nature,
+            description: "따뜻한 봄날 숲속의 새들이 지저귀는 소리",
+            icon: "bird.fill",
+            color: "#B5D8A7",
+            layers: [
+                PresetLayer(
+                    filter: .SpringForest,
+                    category: .Bird,
+                    volume: 0.7,
+                    pitch: 0,
+                    interval: 1.0,
+                    intervalVariation: 0.3,
+                    volumeVariation: 0.2,
+                    pitchVariation: 100
                 )
             ],
             backgroundSound: nil,

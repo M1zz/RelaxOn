@@ -19,6 +19,9 @@ struct CreateNewSoundView: View {
     @State private var isMixing = false
     @State private var mixingProgress: Float = 0.0
     @State private var showMixingOption = false
+    @State private var editingSoundId: String? = nil
+    @State private var ripples: [RippleEffect] = []
+    @State private var rippleTimer: Timer? = nil
 
     var body: some View {
         ZStack {
@@ -27,33 +30,33 @@ struct CreateNewSoundView: View {
 
             VStack(spacing: 0) {
                 ScrollView {
-                    VStack(spacing: 0) {
-                        // 상단 추가된 레이어 프리뷰
-                        if !viewModel.addedSounds.isEmpty {
-                            layerPreviewSection()
-                        } else {
-                            emptyLayerSection()
+                    VStack(spacing: 20) {
+                        // 원본 사운드 섹션
+                        originalSoundsSection()
+
+                        // 배경음악 섹션
+                        backgroundMusicSection()
+
+                        // 볼륨 조절 섹션
+                        if viewModel.selectedBackground != nil {
+                            volumeControlSection()
                         }
-
-                        // 메인 컨텐츠 영역
-                        VStack(spacing: 20) {
-                            // 원본 사운드 섹션
-                            originalSoundsSection()
-
-                            // 배경음악 섹션
-                            backgroundMusicSection()
-
-                            // 볼륨 조절 섹션
-                            if viewModel.selectedBackground != nil {
-                                volumeControlSection()
-                            }
-                        }
-                        .padding(.horizontal, 20)
-                        .padding(.top, 20)
-                        .padding(.bottom, 100)
                     }
+                    .padding(.horizontal, 20)
+                    .padding(.top, 16)
+                    .padding(.bottom, viewModel.addedSounds.isEmpty ? 20 : 120)
                 }
                 .frame(maxWidth: .infinity)
+            }
+
+            // 하단 플로팅 선택된 레이어
+            if !viewModel.addedSounds.isEmpty {
+                VStack {
+                    Spacer()
+                    floatingLayerBar()
+                }
+                .transition(.move(edge: .bottom).combined(with: .opacity))
+                .animation(.spring(response: 0.35, dampingFraction: 0.8), value: viewModel.addedSounds.count)
             }
         }
         .navigationTitle("새 사운드 만들기")
@@ -93,33 +96,33 @@ struct CreateNewSoundView: View {
         let title = soundTitle.isEmpty ? "나만의 사운드" : soundTitle
         let mainSound = viewModel.addedSounds[0]
 
-        // 여러 사운드 레이어 생성
+        // 여러 사운드 레이어 생성 (각 사운드의 커스텀 값 사용)
         let layers = viewModel.addedSounds.map { sound in
             CustomSound.SoundLayer(
                 category: sound.category,
                 filter: sound.filter,
                 audioVariation: AudioVariation(
-                    volume: 1.0,
-                    pitch: 0.0,
-                    interval: 1.5,
-                    intervalVariation: 0.2,
-                    volumeVariation: 0.1,
-                    pitchVariation: 0.0
+                    volume: sound.volume,
+                    pitch: sound.pitch,
+                    interval: sound.interval,
+                    intervalVariation: sound.intervalVariation,
+                    volumeVariation: sound.volumeVariation,
+                    pitchVariation: sound.pitchVariation
                 )
             )
         }
 
-        // CustomSound 생성
+        // CustomSound 생성 (메인 사운드의 커스텀 값 사용)
         let newSound = CustomSound(
             title: title,
             category: mainSound.category,
             variation: AudioVariation(
-                volume: 1.0,
-                pitch: 0.0,
-                interval: 1.5,
-                intervalVariation: 0.2,
-                volumeVariation: 0.1,
-                pitchVariation: 0.0
+                volume: mainSound.volume,
+                pitch: mainSound.pitch,
+                interval: mainSound.interval,
+                intervalVariation: mainSound.intervalVariation,
+                volumeVariation: mainSound.volumeVariation,
+                pitchVariation: mainSound.pitchVariation
             ),
             filter: mainSound.filter,
             color: "",
@@ -141,99 +144,345 @@ struct CreateNewSoundView: View {
     }
 
 
-    // MARK: - Layer Preview Section (상단 미리보기)
+    // MARK: - Floating Layer Bar (하단 플로팅)
     @ViewBuilder
-    private func layerPreviewSection() -> some View {
+    private func floatingLayerBar() -> some View {
         VStack(spacing: 0) {
-            LinearGradient(
-                gradient: Gradient(colors: [
-                    Color(.PrimaryPurple).opacity(0.15),
-                    Color(.PrimaryPurple).opacity(0.08)
-                ]),
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-            .overlay(
-                VStack(spacing: 16) {
-                    // 타이틀
-                    HStack {
-                        Image(systemName: "checkmark.circle.fill")
-                            .font(.system(size: 20))
-                            .foregroundColor(Color(.PrimaryPurple))
+            // 커스터마이징 패널 (선택된 사운드)
+            if let editingId = editingSoundId,
+               let index = viewModel.addedSounds.firstIndex(where: { $0.id == editingId }) {
+                soundCustomizePanel(index: index)
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
+            }
 
-                        Text(L.CreateSound.selectedLayers.localized)
-                            .font(.system(size: 16, weight: .bold))
-                            .foregroundColor(Color(.TitleText))
+            // 리플 시각화 + 사운드 칩
+            ZStack {
+                // 리플 배경
+                rippleBackground()
+                    .frame(height: 80)
+                    .clipped()
+                    .allowsHitTesting(false)
 
-                        Text("\(viewModel.addedSounds.count)")
-                            .font(.system(size: 14, weight: .bold))
-                            .foregroundColor(.white)
-                            .padding(.horizontal, 10)
-                            .padding(.vertical, 4)
-                            .background(Color(.PrimaryPurple))
-                            .cornerRadius(12)
-
-                        Spacer()
-                    }
-
-                    // 레이어 칩들
-                    FlowLayout(spacing: 8) {
-                        ForEach(viewModel.addedSounds) { sound in
-                            HStack(spacing: 6) {
-                                Image(systemName: sound.icon)
-                                    .font(.system(size: 12))
-                                    .foregroundColor(sound.color)
-
-                                Text(sound.name)
-                                    .font(.system(size: 13, weight: .medium))
-                                    .foregroundColor(Color(.TitleText))
+                // 사운드 칩들
+                HStack(spacing: 8) {
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 6) {
+                            ForEach(viewModel.addedSounds) { sound in
+                                floatingSoundChip(sound: sound)
                             }
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 8)
-                            .background(Color.white)
-                            .cornerRadius(20)
-                            .shadow(color: sound.color.opacity(0.2), radius: 4, x: 0, y: 2)
+
+                            // 배경음 표시
+                            if let bg = viewModel.selectedBackground {
+                                HStack(spacing: 4) {
+                                    Image(systemName: bg.icon)
+                                        .font(.system(size: 11))
+                                        .foregroundColor(.white.opacity(0.9))
+                                    Text(bg.rawValue)
+                                        .font(.system(size: 11, weight: .medium))
+                                        .foregroundColor(.white.opacity(0.9))
+                                        .lineLimit(1)
+                                }
+                                .padding(.horizontal, 10)
+                                .padding(.vertical, 6)
+                                .background(Color.gray.opacity(0.6))
+                                .cornerRadius(16)
+                            }
                         }
                     }
+
+                    Spacer(minLength: 4)
+
+                    // 레이어 수 뱃지
+                    Text("\(viewModel.addedSounds.count)")
+                        .font(.system(size: 13, weight: .bold))
+                        .foregroundColor(.white)
+                        .frame(width: 28, height: 28)
+                        .background(Color(.PrimaryPurple))
+                        .clipShape(Circle())
+
+                    // 초기화 버튼
+                    Button(action: {
+                        withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                            editingSoundId = nil
+                            viewModel.addedSounds.removeAll()
+                            viewModel.selectedBackground = nil
+                            stopRippleTimer()
+                        }
+                    }) {
+                        Image(systemName: "arrow.counterclockwise")
+                            .font(.system(size: 14, weight: .medium))
+                            .foregroundColor(Color(.Text).opacity(0.6))
+                            .padding(8)
+                            .background(Color.white)
+                            .clipShape(Circle())
+                            .shadow(color: Color.black.opacity(0.1), radius: 2, x: 0, y: 1)
+                    }
                 }
-                .padding(20)
+                .padding(.horizontal, 16)
+                .padding(.vertical, 12)
+            }
+            .background(
+                RoundedRectangle(cornerRadius: 20)
+                    .fill(.ultraThinMaterial)
+                    .shadow(color: Color.black.opacity(0.15), radius: 12, x: 0, y: -4)
             )
-            .frame(maxWidth: .infinity)
+            .padding(.horizontal, 12)
+            .padding(.bottom, 8)
+        }
+        .onAppear { startRippleTimer() }
+        .onDisappear { stopRippleTimer() }
+        .onChange(of: viewModel.addedSounds.count) { _ in
+            if viewModel.addedSounds.isEmpty { stopRippleTimer() }
+            else { startRippleTimer() }
         }
     }
 
-    // MARK: - Empty Layer Section
+    // MARK: - Sound Chip (탭해서 커스터마이징 열기)
     @ViewBuilder
-    private func emptyLayerSection() -> some View {
-        VStack(spacing: 12) {
-            Image(systemName: "waveform.circle")
-                .font(.system(size: 48))
-                .foregroundColor(Color(.PrimaryPurple).opacity(0.3))
+    private func floatingSoundChip(sound: AddedSound) -> some View {
+        let isEditing = editingSoundId == sound.id
+        Button(action: {
+            withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
+                editingSoundId = isEditing ? nil : sound.id
+            }
+        }) {
+            HStack(spacing: 4) {
+                Image(systemName: sound.icon)
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundColor(.white)
 
-            Text(L.CreateSound.selectOriginalSound.localized)
-                .font(.system(size: 15, weight: .medium))
-                .foregroundColor(Color(.Text).opacity(0.6))
+                Text(sound.name)
+                    .font(.system(size: 11, weight: .medium))
+                    .foregroundColor(.white)
+                    .lineLimit(1)
 
-            Text(L.CreateSound.combineMultipleSounds.localized)
-                .font(.system(size: 13))
-                .foregroundColor(Color(.Text).opacity(0.4))
-                .multilineTextAlignment(.center)
-        }
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 40)
-        .background(
-            LinearGradient(
-                gradient: Gradient(colors: [
-                    Color(.PrimaryPurple).opacity(0.05),
-                    Color(.PrimaryPurple).opacity(0.02)
-                ]),
-                startPoint: .top,
-                endPoint: .bottom
+                if sound.isCustomized {
+                    Image(systemName: "slider.horizontal.3")
+                        .font(.system(size: 8))
+                        .foregroundColor(.white.opacity(0.8))
+                }
+
+                // 삭제
+                Button(action: {
+                    withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                        if editingSoundId == sound.id { editingSoundId = nil }
+                        viewModel.removeSound(sound)
+                    }
+                }) {
+                    Image(systemName: "xmark")
+                        .font(.system(size: 8, weight: .bold))
+                        .foregroundColor(.white.opacity(0.8))
+                        .padding(3)
+                        .background(Color.white.opacity(0.25))
+                        .clipShape(Circle())
+                }
+            }
+            .padding(.horizontal, 10)
+            .padding(.vertical, 6)
+            .background(sound.color.opacity(isEditing ? 1.0 : 0.85))
+            .cornerRadius(16)
+            .overlay(
+                RoundedRectangle(cornerRadius: 16)
+                    .stroke(Color.white.opacity(isEditing ? 0.8 : 0), lineWidth: 1.5)
             )
-        )
+            .scaleEffect(isEditing ? 1.05 : 1.0)
+        }
+        .buttonStyle(PlainButtonStyle())
     }
 
-    // MARK: - Original Sounds Section
+    // MARK: - Ripple Background
+    @ViewBuilder
+    private func rippleBackground() -> some View {
+        GeometryReader { geo in
+            ZStack {
+                ForEach(ripples) { ripple in
+                    RippleCircleView(ripple: ripple)
+                }
+            }
+            .frame(width: geo.size.width, height: geo.size.height)
+        }
+    }
+
+    private func startRippleTimer() {
+        stopRippleTimer()
+        rippleTimer = Timer.scheduledTimer(withTimeInterval: 0.8, repeats: true) { _ in
+            guard !viewModel.addedSounds.isEmpty else { return }
+            let sound = viewModel.addedSounds.randomElement()!
+            let screenWidth = UIScreen.main.bounds.width - 48
+            let newRipple = RippleEffect(
+                position: CGPoint(
+                    x: CGFloat.random(in: 20...(screenWidth - 20)),
+                    y: CGFloat.random(in: 15...65)
+                ),
+                color: sound.color,
+                size: CGFloat(sound.volume) * 40 + 20
+            )
+            withAnimation(.easeOut(duration: 0.3)) {
+                ripples.append(newRipple)
+            }
+            // 오래된 리플 제거
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+                ripples.removeAll { $0.id == newRipple.id }
+            }
+        }
+    }
+
+    private func stopRippleTimer() {
+        rippleTimer?.invalidate()
+        rippleTimer = nil
+        ripples.removeAll()
+    }
+
+    // MARK: - Per-Sound Customize Panel
+    @ViewBuilder
+    private func soundCustomizePanel(index: Int) -> some View {
+        let sound = viewModel.addedSounds[index]
+
+        VStack(spacing: 12) {
+            // 헤더
+            HStack {
+                Image(systemName: sound.icon)
+                    .font(.system(size: 16, weight: .bold))
+                    .foregroundColor(sound.color)
+                ZStack {
+                    Text(sound.name)
+                        .font(.system(size: 15, weight: .bold))
+                        .foregroundColor(Color(.TitleText))
+                }
+                Spacer()
+                Button(action: {
+                    withAnimation { editingSoundId = nil }
+                }) {
+                    Image(systemName: "chevron.down.circle.fill")
+                        .font(.system(size: 20))
+                        .foregroundColor(Color(.Text).opacity(0.3))
+                }
+            }
+
+            // 볼륨
+            compactSlider(
+                icon: "speaker.wave.2.fill",
+                label: L.Customize.volume.localized,
+                value: Binding(
+                    get: { viewModel.addedSounds[index].volume },
+                    set: { viewModel.addedSounds[index].volume = $0; viewModel.addedSounds[index].isCustomized = true }
+                ),
+                range: 0.1...1.0,
+                step: 0.05,
+                displayValue: String(format: "%.0f%%", viewModel.addedSounds[index].volume * 100),
+                color: .green,
+                variationValue: Binding(
+                    get: { viewModel.addedSounds[index].volumeVariation },
+                    set: { viewModel.addedSounds[index].volumeVariation = $0; viewModel.addedSounds[index].isCustomized = true }
+                )
+            )
+
+            // 간격
+            compactSlider(
+                icon: "timer",
+                label: L.Customize.interval.localized,
+                value: Binding(
+                    get: { viewModel.addedSounds[index].interval },
+                    set: { viewModel.addedSounds[index].interval = $0; viewModel.addedSounds[index].isCustomized = true }
+                ),
+                range: 0.1...3.0,
+                step: 0.1,
+                displayValue: String(format: "%.1f%@", viewModel.addedSounds[index].interval, L.Customize.seconds.localized),
+                color: .blue,
+                variationValue: Binding(
+                    get: { viewModel.addedSounds[index].intervalVariation },
+                    set: { viewModel.addedSounds[index].intervalVariation = $0; viewModel.addedSounds[index].isCustomized = true }
+                )
+            )
+
+            // 피치
+            compactSlider(
+                icon: "tuningfork",
+                label: L.Customize.pitch.localized,
+                value: Binding(
+                    get: { viewModel.addedSounds[index].pitch },
+                    set: { viewModel.addedSounds[index].pitch = $0; viewModel.addedSounds[index].isCustomized = true }
+                ),
+                range: -5.0...5.0,
+                step: 0.5,
+                displayValue: String(format: "%+.1f", viewModel.addedSounds[index].pitch),
+                color: .orange,
+                variationValue: Binding(
+                    get: { viewModel.addedSounds[index].pitchVariation },
+                    set: { viewModel.addedSounds[index].pitchVariation = $0; viewModel.addedSounds[index].isCustomized = true }
+                )
+            )
+        }
+        .padding(16)
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(Color.white)
+                .shadow(color: Color.black.opacity(0.1), radius: 8, x: 0, y: -2)
+        )
+        .padding(.horizontal, 12)
+        .padding(.bottom, 4)
+    }
+
+    // MARK: - Compact Slider (커스터마이징 패널용)
+    @ViewBuilder
+    private func compactSlider(
+        icon: String,
+        label: String,
+        value: Binding<Float>,
+        range: ClosedRange<Float>,
+        step: Float,
+        displayValue: String,
+        color: Color,
+        variationValue: Binding<Float>
+    ) -> some View {
+        VStack(spacing: 6) {
+            HStack {
+                Image(systemName: icon)
+                    .font(.system(size: 13))
+                    .foregroundColor(color)
+                    .frame(width: 18)
+
+                Text(label)
+                    .font(.system(size: 13, weight: .semibold))
+                    .foregroundColor(Color(.Text))
+
+                Spacer()
+
+                Text(displayValue)
+                    .font(.system(size: 13, weight: .bold))
+                    .foregroundColor(color)
+                    .frame(minWidth: 45, alignment: .trailing)
+            }
+
+            Slider(value: value, in: range, step: step)
+                .tint(color)
+
+            // 변동폭
+            HStack(spacing: 6) {
+                Image(systemName: "arrow.left.and.right")
+                    .font(.system(size: 10))
+                    .foregroundColor(color.opacity(0.6))
+
+                Text(L.Customize.variationRange.localized)
+                    .font(.system(size: 10))
+                    .foregroundColor(Color(.Text).opacity(0.6))
+
+                Spacer()
+
+                Text(String(format: "±%.0f%%", variationValue.wrappedValue * 100))
+                    .font(.system(size: 11, weight: .semibold))
+                    .foregroundColor(color.opacity(0.7))
+            }
+
+            Slider(value: variationValue, in: 0.0...0.5, step: 0.05)
+                .tint(color.opacity(0.5))
+        }
+        .padding(10)
+        .background(Color(.DefaultBackground).opacity(0.5))
+        .cornerRadius(10)
+    }
+
+    // MARK: - Original Sounds Section (카테고리별 정리)
     @ViewBuilder
     private func originalSoundsSection() -> some View {
         VStack(spacing: 16) {
@@ -241,14 +490,14 @@ struct CreateNewSoundView: View {
             HStack {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(L.CreateSound.originalSounds.localized)
-                        .font(.system(size: 20, weight: .bold))
+                        .font(.system(size: 18, weight: .bold))
                         .foregroundColor(Color(.TitleText))
 
                     HStack(spacing: 6) {
                         Image(systemName: "info.circle.fill")
-                            .font(.system(size: 12))
+                            .font(.system(size: 11))
                         Text(L.CreateSound.tapToSelectMultiple.localized)
-                            .font(.system(size: 12))
+                            .font(.system(size: 11))
                     }
                     .foregroundColor(Color(.Text).opacity(0.5))
                 }
@@ -256,17 +505,51 @@ struct CreateNewSoundView: View {
                 Spacer()
             }
 
-            // 사운드 그리드
+            // 카테고리별 사운드
+            ForEach(SoundCategory.allCases.filter { $0 != .none }, id: \.self) { category in
+                let categorySounds = viewModel.availableSounds.filter { $0.category == category }
+                if !categorySounds.isEmpty {
+                    soundCategorySection(category: category, sounds: categorySounds)
+                }
+            }
+        }
+        .padding(16)
+        .background(Color.white)
+        .cornerRadius(16)
+        .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: 2)
+    }
+
+    // MARK: - Sound Category Section
+    @ViewBuilder
+    private func soundCategorySection(category: SoundCategory, sounds: [AvailableSound]) -> some View {
+        VStack(alignment: .leading, spacing: 10) {
+            // 카테고리 헤더
+            HStack(spacing: 6) {
+                Image(systemName: category.iconName)
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundColor(category.themeColor)
+
+                Text(category.displayName)
+                    .font(.system(size: 13, weight: .semibold))
+                    .foregroundColor(category.themeColor)
+
+                Rectangle()
+                    .fill(category.themeColor.opacity(0.2))
+                    .frame(height: 1)
+            }
+
+            // 사운드 그리드 (4열)
             LazyVGrid(
                 columns: [
-                    GridItem(.flexible(), spacing: 12),
-                    GridItem(.flexible(), spacing: 12),
-                    GridItem(.flexible(), spacing: 12)
+                    GridItem(.flexible(), spacing: 8),
+                    GridItem(.flexible(), spacing: 8),
+                    GridItem(.flexible(), spacing: 8),
+                    GridItem(.flexible(), spacing: 8)
                 ],
-                spacing: 12
+                spacing: 8
             ) {
-                ForEach(viewModel.availableSounds) { sound in
-                    OriginalSoundCard(
+                ForEach(sounds) { sound in
+                    CompactSoundCard(
                         sound: sound,
                         isSelected: viewModel.isSoundAdded(sound)
                     ) {
@@ -275,10 +558,6 @@ struct CreateNewSoundView: View {
                 }
             }
         }
-        .padding(20)
-        .background(Color.white)
-        .cornerRadius(16)
-        .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: 2)
     }
 
     // MARK: - Background Music Section
@@ -453,6 +732,58 @@ struct BackgroundMusicCard: View {
     }
 }
 
+// MARK: - Compact Sound Card (4열 그리드용)
+
+struct CompactSoundCard: View {
+    let sound: AvailableSound
+    let isSelected: Bool
+    let onTap: () -> Void
+
+    var body: some View {
+        Button(action: onTap) {
+            VStack(spacing: 4) {
+                ZStack {
+                    Circle()
+                        .fill(
+                            isSelected
+                                ? sound.color
+                                : sound.color.opacity(0.15)
+                        )
+                        .frame(width: 36, height: 36)
+
+                    Image(systemName: sound.icon)
+                        .font(.system(size: 16, weight: .medium))
+                        .foregroundColor(isSelected ? .white : sound.color)
+
+                    if isSelected {
+                        Circle()
+                            .stroke(Color.white, lineWidth: 2)
+                            .frame(width: 36, height: 36)
+                    }
+                }
+
+                Text(sound.name)
+                    .font(.system(size: 9, weight: isSelected ? .bold : .medium))
+                    .foregroundColor(isSelected ? sound.color : Color(.TitleText))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.7)
+            }
+            .padding(.vertical, 6)
+            .padding(.horizontal, 2)
+            .frame(maxWidth: .infinity)
+            .background(
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(isSelected ? sound.color.opacity(0.1) : Color.clear)
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(isSelected ? sound.color.opacity(0.5) : Color.clear, lineWidth: 1)
+            )
+        }
+        .buttonStyle(PlainButtonStyle())
+    }
+}
+
 // MARK: - Original Sound Card
 
 struct OriginalSoundCard: View {
@@ -552,6 +883,7 @@ class CreateSoundViewModel: ObservableObject {
 
     private func loadAvailableSounds() {
         availableSounds = [
+            // MARK: - WaterDrop 카테고리
             AvailableSound(
                 id: "waterdrop",
                 name: AudioFilter.WaterDrop.displayName,
@@ -597,6 +929,8 @@ class CreateSoundViewModel: ObservableObject {
                 filter: .Sink,
                 duration: 1.8
             ),
+
+            // MARK: - SingingBowl 카테고리
             AvailableSound(
                 id: "bowl",
                 name: AudioFilter.SingingBowl.displayName,
@@ -606,6 +940,80 @@ class CreateSoundViewModel: ObservableObject {
                 filter: .SingingBowl,
                 duration: 3.0
             ),
+            AvailableSound(
+                id: "focus",
+                name: AudioFilter.Focus.displayName,
+                icon: "scope",
+                color: .purple.opacity(0.8),
+                category: .SingingBowl,
+                filter: .Focus,
+                duration: 2.5
+            ),
+            AvailableSound(
+                id: "training",
+                name: AudioFilter.Training.displayName,
+                icon: "figure.mind.and.body",
+                color: .purple.opacity(0.7),
+                category: .SingingBowl,
+                filter: .Training,
+                duration: 3.0
+            ),
+            AvailableSound(
+                id: "empty",
+                name: AudioFilter.Empty.displayName,
+                icon: "circle.dashed",
+                color: .purple.opacity(0.6),
+                category: .SingingBowl,
+                filter: .Empty,
+                duration: 2.8
+            ),
+            AvailableSound(
+                id: "vibration",
+                name: AudioFilter.Vibration.displayName,
+                icon: "waveform",
+                color: .purple.opacity(0.9),
+                category: .SingingBowl,
+                filter: .Vibration,
+                duration: 3.2
+            ),
+            AvailableSound(
+                id: "tibetanbowl",
+                name: AudioFilter.TibetanBowl.displayName,
+                icon: "circle.hexagongrid.fill",
+                color: .orange,
+                category: .SingingBowl,
+                filter: .TibetanBowl,
+                duration: 3.5
+            ),
+            AvailableSound(
+                id: "bell",
+                name: AudioFilter.Bell.displayName,
+                icon: "bell.fill",
+                color: .yellow,
+                category: .SingingBowl,
+                filter: .Bell,
+                duration: 2.0
+            ),
+            AvailableSound(
+                id: "bowldeep",
+                name: AudioFilter.BowlDeep.displayName,
+                icon: "circle.circle.fill",
+                color: .purple,
+                category: .SingingBowl,
+                filter: .BowlDeep,
+                duration: 4.0
+            ),
+            AvailableSound(
+                id: "bowlloud",
+                name: AudioFilter.BowlLoud.displayName,
+                icon: "speaker.wave.3.fill",
+                color: .purple.opacity(0.85),
+                category: .SingingBowl,
+                filter: .BowlLoud,
+                duration: 3.5
+            ),
+
+            // MARK: - Bird 카테고리
             AvailableSound(
                 id: "bird",
                 name: AudioFilter.Bird.displayName,
@@ -632,6 +1040,147 @@ class CreateSoundViewModel: ObservableObject {
                 category: .Bird,
                 filter: .Woodpecker,
                 duration: 0.8
+            ),
+            AvailableSound(
+                id: "forest",
+                name: AudioFilter.Forest.displayName,
+                icon: "tree.fill",
+                color: .green.opacity(0.8),
+                category: .Bird,
+                filter: .Forest,
+                duration: 3.0
+            ),
+            AvailableSound(
+                id: "cuckoo",
+                name: AudioFilter.Cuckoo.displayName,
+                icon: "sun.max.fill",
+                color: .yellow,
+                category: .Bird,
+                filter: .Cuckoo,
+                duration: 1.5
+            ),
+            AvailableSound(
+                id: "jungle",
+                name: AudioFilter.Jungle.displayName,
+                icon: "leaf.arrow.triangle.circlepath",
+                color: .green,
+                category: .Bird,
+                filter: .Jungle,
+                duration: 4.0
+            ),
+            AvailableSound(
+                id: "forestbird",
+                name: AudioFilter.ForestBird.displayName,
+                icon: "bird",
+                color: .green.opacity(0.7),
+                category: .Bird,
+                filter: .ForestBird,
+                duration: 3.5
+            ),
+            AvailableSound(
+                id: "springforest",
+                name: AudioFilter.SpringForest.displayName,
+                icon: "sun.haze.fill",
+                color: .mint,
+                category: .Bird,
+                filter: .SpringForest,
+                duration: 5.0
+            ),
+
+            // MARK: - Rain 카테고리
+            AvailableSound(
+                id: "softrain",
+                name: AudioFilter.SoftRain.displayName,
+                icon: "cloud.drizzle.fill",
+                color: .cyan,
+                category: .Rain,
+                filter: .SoftRain,
+                duration: 6.0
+            ),
+            AvailableSound(
+                id: "cityrain",
+                name: AudioFilter.CityRain.displayName,
+                icon: "cloud.rain.fill",
+                color: .blue,
+                category: .Rain,
+                filter: .CityRain,
+                duration: 5.0
+            ),
+            AvailableSound(
+                id: "rainmaker",
+                name: AudioFilter.RainMaker.displayName,
+                icon: "cloud.heavyrain.fill",
+                color: .blue.opacity(0.8),
+                category: .Rain,
+                filter: .RainMaker,
+                duration: 4.0
+            ),
+
+            // MARK: - Ambient 카테고리
+            AvailableSound(
+                id: "ambientkeys",
+                name: AudioFilter.AmbientKeys.displayName,
+                icon: "pianokeys",
+                color: .indigo,
+                category: .Ambient,
+                filter: .AmbientKeys,
+                duration: 8.0
+            ),
+            AvailableSound(
+                id: "underwater",
+                name: AudioFilter.Underwater.displayName,
+                icon: "water.waves",
+                color: .cyan.opacity(0.8),
+                category: .Ambient,
+                filter: .Underwater,
+                duration: 6.0
+            ),
+            AvailableSound(
+                id: "meditationpad",
+                name: AudioFilter.MeditationPad.displayName,
+                icon: "sparkles",
+                color: .purple.opacity(0.6),
+                category: .Ambient,
+                filter: .MeditationPad,
+                duration: 10.0
+            ),
+            AvailableSound(
+                id: "atmosphere",
+                name: AudioFilter.Atmosphere.displayName,
+                icon: "waveform.path",
+                color: .indigo.opacity(0.7),
+                category: .Ambient,
+                filter: .Atmosphere,
+                duration: 8.0
+            ),
+            AvailableSound(
+                id: "indigomusic",
+                name: AudioFilter.IndigoMusic.displayName,
+                icon: "music.note",
+                color: .indigo,
+                category: .Ambient,
+                filter: .IndigoMusic,
+                duration: 7.0
+            ),
+
+            // MARK: - ASMR 카테고리
+            AvailableSound(
+                id: "keyboard",
+                name: AudioFilter.Keyboard.displayName,
+                icon: "keyboard.fill",
+                color: .pink,
+                category: .ASMR,
+                filter: .Keyboard,
+                duration: 2.0
+            ),
+            AvailableSound(
+                id: "camera",
+                name: AudioFilter.Camera.displayName,
+                icon: "camera.fill",
+                color: .pink.opacity(0.8),
+                category: .ASMR,
+                filter: .Camera,
+                duration: 1.0
             )
         ]
     }
@@ -700,6 +1249,23 @@ struct AddedSound: Identifiable {
     let category: SoundCategory
     let filter: AudioFilter
     var isCustomized: Bool
+
+    // Customization values
+    var volume: Float = 1.0
+    var pitch: Float = 0.0
+    var interval: Float = 1.0
+    var intervalVariation: Float = 0.0
+    var volumeVariation: Float = 0.0
+    var pitchVariation: Float = 0.0
+}
+
+// MARK: - Ripple Effect
+struct RippleEffect: Identifiable {
+    let id = UUID()
+    let position: CGPoint
+    let color: Color
+    let size: CGFloat
+    let createdAt = Date()
 }
 
 // MARK: - Flow Layout
@@ -756,6 +1322,29 @@ struct FlowLayout: Layout {
 
             self.size = CGSize(width: maxWidth, height: y + lineHeight)
         }
+    }
+}
+
+// MARK: - Ripple Circle Animation
+
+struct RippleCircleView: View {
+    let ripple: RippleEffect
+    @State private var scale: CGFloat = 0.3
+    @State private var opacity: Double = 0.6
+
+    var body: some View {
+        Circle()
+            .stroke(ripple.color.opacity(0.4), lineWidth: 1.5)
+            .frame(width: ripple.size, height: ripple.size)
+            .scaleEffect(scale)
+            .opacity(opacity)
+            .position(ripple.position)
+            .onAppear {
+                withAnimation(.easeOut(duration: 2.0)) {
+                    scale = 2.5
+                    opacity = 0.0
+                }
+            }
     }
 }
 

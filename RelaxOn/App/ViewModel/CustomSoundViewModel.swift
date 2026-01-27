@@ -37,8 +37,11 @@ final class CustomSoundViewModel: ObservableObject {
     /// 각 오디오 필터에 대한 서브 필터를 저장하는 딕셔너리
     let filterDictionary: [SoundCategory: [AudioFilter]] = [
         .WaterDrop: [.WaterDrop, .Basement, .Cave, .Pipe, .Sink],
-        .SingingBowl: [.SingingBowl, .Focus, .Training, .Empty, .Vibration],
-        .Bird: [.Bird, .Owl, .Woodpecker, .Forest, .Cuckoo],
+        .SingingBowl: [.SingingBowl, .Focus, .Training, .Empty, .Vibration, .TibetanBowl, .Bell, .BowlDeep, .BowlLoud],
+        .Bird: [.Bird, .Owl, .Woodpecker, .Forest, .Cuckoo, .Jungle, .ForestBird, .SpringForest],
+        .Rain: [.SoftRain, .CityRain, .RainMaker],
+        .Ambient: [.AmbientKeys, .Underwater, .MeditationPad, .Atmosphere, .IndigoMusic],
+        .ASMR: [.Keyboard, .Camera],
     ]
   
     /// 현재 재생되는 소리

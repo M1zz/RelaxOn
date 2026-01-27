@@ -77,25 +77,51 @@ enum L {
         static let waterdrop = "category.waterdrop"
         static let singingBowl = "category.singing_bowl"
         static let bird = "category.bird"
+        static let rain = "category.rain"
+        static let ambient = "category.ambient"
+        static let asmr = "category.asmr"
     }
 
     // MARK: - Filter
     enum Filter {
+        // WaterDrop
         static let waterdrop = "filter.waterdrop"
         static let basement = "filter.basement"
         static let cave = "filter.cave"
         static let pipe = "filter.pipe"
         static let sink = "filter.sink"
+        // SingingBowl
         static let singingBowl = "filter.singing_bowl"
         static let focus = "filter.focus"
         static let training = "filter.training"
         static let empty = "filter.empty"
         static let vibration = "filter.vibration"
+        static let tibetanBowl = "filter.tibetan_bowl"
+        static let bell = "filter.bell"
+        static let bowlDeep = "filter.bowl_deep"
+        static let bowlLoud = "filter.bowl_loud"
+        // Bird
         static let bird = "filter.bird"
         static let owl = "filter.owl"
         static let woodpecker = "filter.woodpecker"
         static let forest = "filter.forest"
         static let cuckoo = "filter.cuckoo"
+        static let jungle = "filter.jungle"
+        static let forestBird = "filter.forest_bird"
+        static let springForest = "filter.spring_forest"
+        // Rain
+        static let softRain = "filter.soft_rain"
+        static let cityRain = "filter.city_rain"
+        static let rainMaker = "filter.rain_maker"
+        // Ambient
+        static let ambientKeys = "filter.ambient_keys"
+        static let underwater = "filter.underwater"
+        static let meditationPad = "filter.meditation_pad"
+        static let atmosphere = "filter.atmosphere"
+        static let indigoMusic = "filter.indigo_music"
+        // ASMR
+        static let keyboard = "filter.keyboard"
+        static let camera = "filter.camera"
     }
 
     // MARK: - Background Sound
@@ -150,6 +176,55 @@ enum L {
         enum ForestDawn {
             static let title = "preset.forest_dawn.title"
             static let description = "preset.forest_dawn.description"
+        }
+
+        // Rain 카테고리
+        enum SoftRain {
+            static let title = "preset.soft_rain.title"
+            static let description = "preset.soft_rain.description"
+        }
+
+        enum CityRain {
+            static let title = "preset.city_rain.title"
+            static let description = "preset.city_rain.description"
+        }
+
+        // Ambient 카테고리
+        enum Underwater {
+            static let title = "preset.underwater.title"
+            static let description = "preset.underwater.description"
+        }
+
+        enum DeepMeditation {
+            static let title = "preset.deep_meditation.title"
+            static let description = "preset.deep_meditation.description"
+        }
+
+        enum CosmicAtmosphere {
+            static let title = "preset.cosmic_atmosphere.title"
+            static let description = "preset.cosmic_atmosphere.description"
+        }
+
+        // ASMR 카테고리
+        enum TypingFocus {
+            static let title = "preset.typing_focus.title"
+            static let description = "preset.typing_focus.description"
+        }
+
+        enum CameraClick {
+            static let title = "preset.camera_click.title"
+            static let description = "preset.camera_click.description"
+        }
+
+        // 확장 카테고리
+        enum TibetanMeditation {
+            static let title = "preset.tibetan_meditation.title"
+            static let description = "preset.tibetan_meditation.description"
+        }
+
+        enum JungleMorning {
+            static let title = "preset.jungle_morning.title"
+            static let description = "preset.jungle_morning.description"
         }
     }
 
@@ -309,6 +384,56 @@ enum L {
         enum SummerRain {
             static let name = "preset_new.summer_rain.name"
             static let description = "preset_new.summer_rain.description"
+        }
+
+        // 새 Rain 카테고리
+        enum SoftRain {
+            static let name = "preset_new.soft_rain.name"
+            static let description = "preset_new.soft_rain.description"
+        }
+
+        enum CityRain {
+            static let name = "preset_new.city_rain.name"
+            static let description = "preset_new.city_rain.description"
+        }
+
+        // 새 Ambient 카테고리
+        enum UnderwaterMeditation {
+            static let name = "preset_new.underwater_meditation.name"
+            static let description = "preset_new.underwater_meditation.description"
+        }
+
+        enum CosmicAtmosphere {
+            static let name = "preset_new.cosmic_atmosphere.name"
+            static let description = "preset_new.cosmic_atmosphere.description"
+        }
+
+        // 새 ASMR 카테고리
+        enum TypingFocus {
+            static let name = "preset_new.typing_focus.name"
+            static let description = "preset_new.typing_focus.description"
+        }
+
+        enum CameraASMR {
+            static let name = "preset_new.camera_asmr.name"
+            static let description = "preset_new.camera_asmr.description"
+        }
+
+        // 확장된 SingingBowl
+        enum TibetanMeditation {
+            static let name = "preset_new.tibetan_meditation.name"
+            static let description = "preset_new.tibetan_meditation.description"
+        }
+
+        // 확장된 Bird
+        enum JungleMorning {
+            static let name = "preset_new.jungle_morning.name"
+            static let description = "preset_new.jungle_morning.description"
+        }
+
+        enum SpringForest {
+            static let name = "preset_new.spring_forest.name"
+            static let description = "preset_new.spring_forest.description"
         }
     }
 
