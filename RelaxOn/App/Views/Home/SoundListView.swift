@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 
 /**
  앱에 저장된 Original Sound 정보들이 그리드 뷰 형태의 리스트로 나열된 Main View
@@ -19,30 +20,30 @@ struct SoundListView: View {
 
     @EnvironmentObject var appState: AppState
     @EnvironmentObject var viewModel: CustomSoundViewModel
+    @EnvironmentObject var subscriptionManager: SubscriptionManager
     @State private var searchText = ""
+    @State private var showSubscription = false
 
     var body: some View {
         NavigationStack {
             ZStack {
                 Color(.DefaultBackground)
                     .ignoresSafeArea()
-                
+
                 VStack(alignment: .leading) {
                     HStack {
-                        Text("사운드 선택")
+                        Text(L.SoundList.title.localized)
                             .foregroundColor(Color(.TitleText))
                             .font(.system(size: 24, weight: .bold))
 
                         Spacer()
 
-                        // 샘플 데이터 생성 버튼
-                        Button(action: {
-                            viewModel.createSampleData()
-                        }) {
+                        // 새 사운드 만들기 버튼
+                        NavigationLink(destination: CreateNewSoundView().environmentObject(viewModel)) {
                             HStack(spacing: 4) {
-                                Image(systemName: "wand.and.stars")
+                                Image(systemName: "plus.circle.fill")
                                     .font(.system(size: 14))
-                                Text("샘플")
+                                Text(L.SoundList.createNew.localized)
                                     .font(.system(size: 13, weight: .semibold))
                             }
                             .foregroundColor(.white)
@@ -51,10 +52,27 @@ struct SoundListView: View {
                             .background(Color(.PrimaryPurple))
                             .cornerRadius(8)
                         }
+
+                        // 샘플 데이터 생성 버튼
+                        Button(action: {
+                            viewModel.createSampleData()
+                        }) {
+                            HStack(spacing: 4) {
+                                Image(systemName: "wand.and.stars")
+                                    .font(.system(size: 14))
+                                Text(L.SoundList.sample.localized)
+                                    .font(.system(size: 13, weight: .semibold))
+                            }
+                            .foregroundColor(.white.opacity(0.9))
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 6)
+                            .background(Color(.PrimaryPurple).opacity(0.7))
+                            .cornerRadius(8)
+                        }
                     }
                     .padding(.horizontal, 24)
                     .padding(.vertical, 4)
-                    
+
                     SearchBar(text: $searchText)
                         .padding(.horizontal, 24)
                         .padding(.vertical, 16)
@@ -74,13 +92,13 @@ struct SoundListView: View {
 
                 .navigationDestination(
                     isPresented: $appState.showSoundDetail) {
-                        SoundDetailView(isTutorial: false, originalSound: OriginalSound(name: "물방울", filter: .WaterDrop, category: .WaterDrop))
+                        SoundDetailView(isTutorial: false, originalSound: OriginalSound(name: AudioFilter.WaterDrop.displayName, filter: .WaterDrop, category: .WaterDrop))
                     }
             }
         }
 
     }
-    
+
     @ViewBuilder
     private func recommendedSection() -> some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -88,7 +106,7 @@ struct SoundListView: View {
                 Image(systemName: "star.fill")
                     .foregroundColor(Color(.PrimaryPurple))
                     .font(.system(size: 16))
-                Text("추천 조합")
+                Text(L.SoundList.recommended.localized)
                     .font(.system(size: 18, weight: .bold))
                     .foregroundColor(Color(.TitleText))
             }
@@ -148,41 +166,70 @@ struct SoundListView: View {
     private func gridView() -> some View {
 
         VStack(alignment: .leading, spacing: 12) {
-            Text("원본 사운드")
+            Text(L.SoundList.originalSounds.localized)
                 .font(.system(size: 18, weight: .bold))
                 .foregroundColor(Color(.TitleText))
                 .padding(.horizontal, 24)
 
             LazyVGrid(columns: columns) {
                 ForEach(filteredSounds(), id: \.self) { originalSound in
-                    NavigationLink(destination: SoundDetailView(isTutorial: false, originalSound: originalSound)) {
-                        gridViewItem(originalSound)
+                    let isLocked = subscriptionManager.isCategoryLocked(originalSound.category)
+                    if isLocked {
+                        Button(action: { showSubscription = true }) {
+                            gridViewItem(originalSound, locked: true)
+                        }
+                    } else {
+                        NavigationLink(destination: SoundDetailView(isTutorial: false, originalSound: originalSound)) {
+                            gridViewItem(originalSound, locked: false)
+                        }
                     }
                 }
                 .padding(.bottom, 30)
             }
             .padding(.horizontal, 24)
         }
-    }
-    
-    @ViewBuilder
-    private func gridViewItem(_ originalSound: OriginalSound) -> some View {
-        
-        VStack(alignment: .leading) {
-            
-            Text(originalSound.category.displayName)
-                .font(.system(size: 16, weight: .bold))
-                .foregroundColor(Color(.Text))
-            
-            Image(originalSound.category.imageName)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(height: 140)
-                .background(Color(hex: originalSound.color))
-                .cornerRadius(8)
+        .sheet(isPresented: $showSubscription) {
+            SubscriptionView()
+                .environmentObject(subscriptionManager)
         }
     }
-    
+
+    @ViewBuilder
+    private func gridViewItem(_ originalSound: OriginalSound, locked: Bool = false) -> some View {
+
+        ZStack(alignment: .topTrailing) {
+            VStack(alignment: .leading) {
+
+                Text(originalSound.category.displayName)
+                    .font(.system(size: 16, weight: .bold))
+                    .foregroundColor(Color(.Text))
+
+                Image(originalSound.category.imageName)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(height: 140)
+                    .background(Color(hex: originalSound.color))
+                    .cornerRadius(8)
+            }
+            .opacity(locked ? 0.5 : 1.0)
+
+            if locked {
+                HStack(spacing: 4) {
+                    Image(systemName: "lock.fill")
+                        .font(.system(size: 10))
+                    Text("Premium")
+                        .font(.system(size: 10, weight: .bold))
+                }
+                .foregroundColor(.white)
+                .padding(.horizontal, 8)
+                .padding(.vertical, 4)
+                .background(Color.orange)
+                .cornerRadius(6)
+                .padding(6)
+            }
+        }
+    }
+
     private func filteredSounds() -> [OriginalSound] {
         if searchText.isEmpty {
             return SoundListView.originalSounds

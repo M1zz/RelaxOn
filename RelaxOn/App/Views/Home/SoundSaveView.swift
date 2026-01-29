@@ -52,7 +52,7 @@ struct SoundSaveView: View {
                     Button {
 
                         if title.count <= 0 {
-                            alertMessage = "한 글자 이상 입력하세요."
+                            alertMessage = L.SaveView.enterOneChar.localized
                             isShowingAlert = true
                         } else {
                             let success: Bool
@@ -77,13 +77,13 @@ struct SoundSaveView: View {
                                 presentationMode.wrappedValue.dismiss()
                                 appState.moveToTab(.listen)
                             } else {
-                                alertMessage = "동일한 파일명이 존재합니다.\n다른 파일이름으로 시도해보세요."
+                                alertMessage = L.SaveView.duplicateName.localized
                                 isShowingAlert = true
                             }
                         }
 
                     } label: {
-                        Text("저장")
+                        Text(L.Common.save.localized)
                             .foregroundColor(Color(.PrimaryPurple))
                     }
                 }
@@ -152,7 +152,7 @@ struct SoundSaveView: View {
             UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
         }
         .alert(isPresented: $isShowingAlert) {
-            Alert(title: Text("저장 실패"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
+            Alert(title: Text(L.Alert.saveFailed.localized), message: Text(alertMessage), dismissButton: .default(Text("OK")))
         }
         .ignoresSafeArea(.keyboard)
     }

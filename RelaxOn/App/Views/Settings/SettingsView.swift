@@ -29,7 +29,7 @@ struct SettingsView: View {
 
             VStack(alignment: .leading, spacing: 0) {
                 // 타이틀
-                Text(TabItems.settings.rawValue)
+                Text("Settings")
                     .foregroundColor(Color(.TitleText))
                     .font(.system(size: 24, weight: .bold))
                     .padding(.horizontal, 24)
@@ -62,7 +62,7 @@ struct SettingsView: View {
                 Image(systemName: "timer")
                     .font(.system(size: 18))
                     .foregroundColor(Color(.PrimaryPurple))
-                Text("수면 타이머")
+                Text(L.Timer.sleepTimer.localized)
                     .font(.system(size: 20, weight: .bold))
                     .foregroundColor(Color(.TitleText))
             }
@@ -87,9 +87,8 @@ struct SettingsView: View {
                     selectSoundButton()
                         .cornerRadius(10)
                 }
-                .sheet(isPresented: $isShowingSelectorView) {
+                .navigationDestination(isPresented: $isShowingSelectorView) {
                     TimerSoundSelectModalView()
-                        .presentationDetents([.fraction(0.88)])
                 }
 
                 // 컨트롤 버튼들
@@ -162,7 +161,7 @@ struct SettingsView: View {
     @ViewBuilder
     private func selectSoundButton() -> some View {
         HStack {
-            Text(viewModel.selectedSound?.title ?? "나만의 소리를 선택해주세요")
+            Text(viewModel.selectedSound?.title ?? L.SaveView.selectYourSound.localized)
                 .foregroundColor(Color(.TimerMyListText))
 
             Spacer()

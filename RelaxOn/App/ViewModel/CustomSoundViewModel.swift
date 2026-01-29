@@ -37,13 +37,16 @@ final class CustomSoundViewModel: ObservableObject {
     /// 각 오디오 필터에 대한 서브 필터를 저장하는 딕셔너리
     let filterDictionary: [SoundCategory: [AudioFilter]] = [
         .WaterDrop: [.WaterDrop, .Basement, .Cave, .Pipe, .Sink],
-        .SingingBowl: [.SingingBowl, .Focus, .Training, .Empty, .Vibration],
-        .Bird: [.Bird, .Owl, .Woodpecker, .Forest, .Cuckoo],
+        .SingingBowl: [.SingingBowl, .Focus, .Training, .Empty, .Vibration, .TibetanBowl, .Bell, .BowlDeep, .BowlLoud],
+        .Bird: [.Bird, .Owl, .Woodpecker, .Forest, .Cuckoo, .Jungle, .ForestBird, .SpringForest],
+        .Rain: [.SoftRain, .CityRain, .RainMaker],
+        .Ambient: [.AmbientKeys, .Underwater, .MeditationPad, .Atmosphere, .IndigoMusic],
+        .ASMR: [.Keyboard, .Camera],
     ]
   
     /// 현재 재생되는 소리
     /// - 기본값 : OriginalSound(name: "물방울", filter: .WaterDrop, category: .waterDrop)
-    @Published var sound: Playable = OriginalSound(name: "물방울", filter: .WaterDrop, category: .WaterDrop)
+    @Published var sound: Playable = OriginalSound(name: AudioFilter.WaterDrop.displayName, filter: .WaterDrop, category: .WaterDrop)
     
     @Published var color = ""
     @Published var searchText = ""
@@ -145,6 +148,16 @@ final class CustomSoundViewModel: ObservableObject {
             return customSounds.filter { $0.title.contains(searchText) }
         }
     }
+
+    /// 즐겨찾기한 음원 배열
+    var favoriteSounds: [CustomSound] {
+        customSounds.filter { $0.isFavorite }
+    }
+
+    /// 프리셋 음원 배열
+    var presetSounds: [CustomSound] {
+        customSounds.filter { $0.isPreset }
+    }
     
     // MARK: - Initialization
     init(customSound: CustomSound? = nil, filter: AudioFilter = .none) {
@@ -164,6 +177,11 @@ extension CustomSoundViewModel {
             isPlaying = true
         }
         audioEngineManager.play(with: sound)
+
+        // CustomSound인 경우 재생 통계 업데이트
+        if let customSound = sound as? CustomSound {
+            updatePlayStatistics(customSound)
+        }
     }
     
     func stopSound() {
@@ -284,16 +302,16 @@ extension CustomSoundViewModel {
     /// 샘플 데이터 생성 (테스트용)
     func createSampleData() {
         let sampleSounds: [(String, SoundCategory, AudioFilter, AudioVariation, String)] = [
-            ("아침 명상", .Bird, .Forest, AudioVariation(volume: 0.5, pitch: -1.0, interval: 1.8), "C8E6C9"),
-            ("집중 타임", .WaterDrop, .WaterDrop, AudioVariation(volume: 0.7, pitch: 0.5, interval: 0.8), "D0E3F0"),
-            ("숙면 도우미", .SingingBowl, .Empty, AudioVariation(volume: 0.4, pitch: -1.5, interval: 2.0), "F5C89B"),
-            ("빗소리 감성", .WaterDrop, .Sink, AudioVariation(volume: 0.8, pitch: -1.5, interval: 0.6), "A8C8E0"),
-            ("차분한 밤", .Bird, .Owl, AudioVariation(volume: 0.6, pitch: -0.5, interval: 1.5), "9EC49A"),
-            ("동굴의 물소리", .WaterDrop, .Cave, AudioVariation(volume: 0.6, pitch: -2.0, interval: 1.5), "B8D4E8"),
-            ("명상 벨", .SingingBowl, .SingingBowl, AudioVariation(volume: 0.5, pitch: 0.0, interval: 1.2), "FFD4A3"),
-            ("새벽 새소리", .Bird, .Cuckoo, AudioVariation(volume: 0.5, pitch: -0.5, interval: 1.5), "ACD6A6"),
-            ("휴식의 시간", .SingingBowl, .Focus, AudioVariation(volume: 0.6, pitch: -0.5, interval: 1.8), "FDD0A8"),
-            ("자연의 소리", .Bird, .Woodpecker, AudioVariation(volume: 0.7, pitch: 0.0, interval: 1.0), "B5D8A7")
+            (L.Sample.morningMeditation.localized, .Bird, .Forest, AudioVariation(volume: 0.5, pitch: -1.0, interval: 1.8), "C8E6C9"),
+            (L.Sample.focusTime.localized, .WaterDrop, .WaterDrop, AudioVariation(volume: 0.7, pitch: 0.5, interval: 0.8), "D0E3F0"),
+            (L.Sample.sleepHelper.localized, .SingingBowl, .Empty, AudioVariation(volume: 0.4, pitch: -1.5, interval: 2.0), "F5C89B"),
+            (L.Sample.rainFeeling.localized, .WaterDrop, .Sink, AudioVariation(volume: 0.8, pitch: -1.5, interval: 0.6), "A8C8E0"),
+            (L.Sample.calmNight.localized, .Bird, .Owl, AudioVariation(volume: 0.6, pitch: -0.5, interval: 1.5), "9EC49A"),
+            (L.Sample.caveWater.localized, .WaterDrop, .Cave, AudioVariation(volume: 0.6, pitch: -2.0, interval: 1.5), "B8D4E8"),
+            (L.Sample.meditationBell.localized, .SingingBowl, .SingingBowl, AudioVariation(volume: 0.5, pitch: 0.0, interval: 1.2), "FFD4A3"),
+            (L.Sample.dawnBirds.localized, .Bird, .Cuckoo, AudioVariation(volume: 0.5, pitch: -0.5, interval: 1.5), "ACD6A6"),
+            (L.Sample.restTime.localized, .SingingBowl, .Focus, AudioVariation(volume: 0.6, pitch: -0.5, interval: 1.8), "FDD0A8"),
+            (L.Sample.natureSound.localized, .Bird, .Woodpecker, AudioVariation(volume: 0.7, pitch: 0.0, interval: 1.0), "B5D8A7")
         ]
 
         var customSounds = userDefaults.customSounds
@@ -325,10 +343,121 @@ extension CustomSoundViewModel {
 }
 
 extension CustomSoundViewModel {
-    
+
     func setSelectedSound(_ selectedSound: CustomSound) {
         self.selectedSound = selectedSound
         self.sound = selectedSound
     }
-    
+
+}
+
+// MARK: - Favorites & Presets
+extension CustomSoundViewModel {
+
+    /// 즐겨찾기 토글
+    func toggleFavorite(_ sound: CustomSound) {
+        guard let index = customSounds.firstIndex(where: { $0.id == sound.id }) else {
+            return
+        }
+
+        customSounds[index].isFavorite.toggle()
+        userDefaults.customSounds = customSounds
+        loadSound()
+    }
+
+    /// 프리셋 사운드 로드 (앱 최초 실행 시)
+    func loadPresetSounds() {
+        var customSounds = userDefaults.customSounds
+
+        // 이미 프리셋이 로드되어 있는지 확인
+        if customSounds.contains(where: { $0.isPreset }) {
+            return
+        }
+
+        // 프리셋 사운드를 CustomSound로 변환하여 추가
+        for preset in PresetSound.allPresets {
+            var customSound = preset.toCustomSound()
+            customSound.isPreset = true
+
+            // 파일 저장은 하지 않음 (프리셋은 메모리에만 존재)
+            customSounds.append(customSound)
+        }
+
+        userDefaults.customSounds = customSounds
+        loadSound()
+    }
+
+    /// 재생 시 통계 업데이트
+    func updatePlayStatistics(_ sound: CustomSound) {
+        guard let index = customSounds.firstIndex(where: { $0.id == sound.id }) else {
+            return
+        }
+
+        customSounds[index].playCount += 1
+        customSounds[index].lastPlayed = Date()
+        userDefaults.customSounds = customSounds
+    }
+
+    /// 현재 시간대에 맞는 스마트 추천 사운드 (최대 3개)
+    func getSmartRecommendations() -> [CustomSound] {
+        let hour = Calendar.current.component(.hour, from: Date())
+
+        // 시간대별 추천 카테고리
+        let recommendedCategories: [PresetCategory]
+        switch hour {
+        case 6..<12:  // 아침 (6시-12시)
+            recommendedCategories = [.meditation, .nature, .focus]
+        case 12..<18: // 오후 (12시-6시)
+            recommendedCategories = [.focus, .nature]
+        case 18..<22: // 저녁 (6시-10시)
+            recommendedCategories = [.meditation, .rain, .nature]
+        default:      // 밤 (10시-6시)
+            recommendedCategories = [.sleep, .rain]
+        }
+
+        // 해당 카테고리의 프리셋 찾기
+        let categoryPresets = PresetSound.allPresets.filter { preset in
+            recommendedCategories.contains(preset.category)
+        }
+
+        // 사용자의 재생 이력이 있으면 이를 고려
+        let userFavorites = customSounds.filter { $0.isFavorite }
+        let recentlyPlayed = customSounds
+            .filter { $0.lastPlayed != nil }
+            .sorted { ($0.playCount, $0.lastPlayed!) > ($1.playCount, $1.lastPlayed!) }
+            .prefix(2)
+
+        // 추천 목록 구성: 즐겨찾기 1개 + 최근 재생 1개 + 시간대별 프리셋 1개
+        var recommendations: [CustomSound] = []
+
+        // 1. 즐겨찾기 중 하나
+        if let favorite = userFavorites.randomElement() {
+            recommendations.append(favorite)
+        }
+
+        // 2. 최근 재생한 사운드 중 하나
+        if let recent = recentlyPlayed.first, !recommendations.contains(where: { $0.id == recent.id }) {
+            recommendations.append(recent)
+        }
+
+        // 3. 시간대별 프리셋 중 하나
+        if let preset = categoryPresets.randomElement() {
+            let presetCustomSound = preset.toCustomSound()
+            if !recommendations.contains(where: { $0.title == presetCustomSound.title }) {
+                recommendations.append(presetCustomSound)
+            }
+        }
+
+        // 추천이 부족하면 인기 프리셋으로 채우기
+        while recommendations.count < 3 && recommendations.count < categoryPresets.count {
+            if let preset = categoryPresets.randomElement() {
+                let presetCustomSound = preset.toCustomSound()
+                if !recommendations.contains(where: { $0.title == presetCustomSound.title }) {
+                    recommendations.append(presetCustomSound)
+                }
+            }
+        }
+
+        return Array(recommendations.prefix(3))
+    }
 }

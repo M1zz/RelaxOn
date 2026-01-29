@@ -30,7 +30,7 @@ struct TimerMainView: View {
                 .ignoresSafeArea()
             
             VStack(alignment: .leading) {
-                Text("타이머")
+                Text(L.Timer.title.localized)
                     .foregroundColor(Color(.TitleText))
                     .font(.system(size: 24, weight: .bold))
                     .padding(.horizontal, 24)
@@ -60,12 +60,11 @@ struct TimerMainView: View {
                             .padding(.horizontal, 38)
                             .padding(.vertical, 50)
                     }
-                    
-                    .sheet(isPresented: $isShowingSelectorView) {
+
+                    .navigationDestination(isPresented: $isShowingSelectorView) {
                         TimerSoundSelectModalView()
-                            .presentationDetents([.fraction(0.88)])
                     }
-                    
+
                     Spacer()
                     
                     HStack {
@@ -144,7 +143,7 @@ struct TimerMainView: View {
     @ViewBuilder
     private func selectSoundButton() -> some View {
         HStack {
-            Text(viewModel.selectedSound?.title ?? "나만의 소리를 선택해주세요")
+            Text(viewModel.selectedSound?.title ?? L.SaveView.selectYourSound.localized)
                 .foregroundColor(Color(.TimerMyListText))
             
             Spacer()

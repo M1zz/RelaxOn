@@ -47,16 +47,16 @@ struct Preset: Identifiable {
     static let recommended: [Preset] = [
         // 수면 관련
         Preset(
-            title: "깊은 수면",
-            description: "편안한 물방울 소리로 깊은 잠에 빠져보세요",
+            title: L.Preset.DeepSleep.title.localized,
+            description: L.Preset.DeepSleep.description.localized,
             category: .WaterDrop,
             filter: .Cave,
             audioVariation: AudioVariation(volume: 0.6, pitch: -2.0, interval: 1.5),
             color: "B8D4E8"
         ),
         Preset(
-            title: "빠른 수면",
-            description: "싱잉볼의 울림으로 마음을 차분하게",
+            title: L.Preset.QuickSleep.title.localized,
+            description: L.Preset.QuickSleep.description.localized,
             category: .SingingBowl,
             filter: .Empty,
             audioVariation: AudioVariation(volume: 0.5, pitch: 0.0, interval: 1.2),
@@ -65,16 +65,16 @@ struct Preset: Identifiable {
 
         // 휴식 관련
         Preset(
-            title: "명상",
-            description: "자연의 새소리와 함께하는 명상 시간",
+            title: L.Preset.Meditation.title.localized,
+            description: L.Preset.Meditation.description.localized,
             category: .Bird,
             filter: .Forest,
             audioVariation: AudioVariation(volume: 0.5, pitch: -1.0, interval: 1.8),
             color: "9EC49A"
         ),
         Preset(
-            title: "휴식",
-            description: "부드러운 싱잉볼 소리로 완벽한 휴식",
+            title: L.Preset.Rest.title.localized,
+            description: L.Preset.Rest.description.localized,
             category: .SingingBowl,
             filter: .SingingBowl,
             audioVariation: AudioVariation(volume: 0.4, pitch: -0.5, interval: 2.0),
@@ -83,16 +83,16 @@ struct Preset: Identifiable {
 
         // 집중 관련
         Preset(
-            title: "집중력 향상",
-            description: "규칙적인 물방울 소리로 집중력 극대화",
+            title: L.Preset.Focus.title.localized,
+            description: L.Preset.Focus.description.localized,
             category: .WaterDrop,
             filter: .WaterDrop,
             audioVariation: AudioVariation(volume: 0.7, pitch: 0.5, interval: 0.8),
             color: "D0E3F0"
         ),
         Preset(
-            title: "독서",
-            description: "잔잔한 새소리와 함께하는 독서 시간",
+            title: L.Preset.Reading.title.localized,
+            description: L.Preset.Reading.description.localized,
             category: .Bird,
             filter: .Bird,
             audioVariation: AudioVariation(volume: 0.6, pitch: 0.0, interval: 1.0),
@@ -101,20 +101,94 @@ struct Preset: Identifiable {
 
         // 자연의 소리
         Preset(
-            title: "빗소리",
-            description: "차분한 빗소리처럼 들리는 물방울",
-            category: .WaterDrop,
-            filter: .Sink,
-            audioVariation: AudioVariation(volume: 0.8, pitch: -1.5, interval: 0.6),
-            color: "A8C8E0"
-        ),
-        Preset(
-            title: "숲속 새벽",
-            description: "새벽 숲속의 고요함과 새소리",
+            title: L.Preset.ForestDawn.title.localized,
+            description: L.Preset.ForestDawn.description.localized,
             category: .Bird,
             filter: .Cuckoo,
             audioVariation: AudioVariation(volume: 0.5, pitch: -0.5, interval: 1.5),
             color: "C8E6C9"
+        ),
+
+        // Rain 카테고리
+        Preset(
+            title: L.Preset.SoftRain.title.localized,
+            description: L.Preset.SoftRain.description.localized,
+            category: .Rain,
+            filter: .SoftRain,
+            audioVariation: AudioVariation(volume: 0.7, pitch: 0.0, interval: 1.0),
+            color: "A8D4E6"
+        ),
+        Preset(
+            title: L.Preset.CityRain.title.localized,
+            description: L.Preset.CityRain.description.localized,
+            category: .Rain,
+            filter: .CityRain,
+            audioVariation: AudioVariation(volume: 0.6, pitch: -0.5, interval: 1.2),
+            color: "8BC4D8"
+        ),
+
+        // Ambient 카테고리
+        Preset(
+            title: L.Preset.Underwater.title.localized,
+            description: L.Preset.Underwater.description.localized,
+            category: .Ambient,
+            filter: .Underwater,
+            audioVariation: AudioVariation(volume: 0.5, pitch: -1.0, interval: 1.5),
+            color: "B8D8E8"
+        ),
+        Preset(
+            title: L.Preset.DeepMeditation.title.localized,
+            description: L.Preset.DeepMeditation.description.localized,
+            category: .Ambient,
+            filter: .MeditationPad,
+            audioVariation: AudioVariation(volume: 0.4, pitch: 0.0, interval: 2.0),
+            color: "D4C8E8"
+        ),
+        Preset(
+            title: L.Preset.CosmicAtmosphere.title.localized,
+            description: L.Preset.CosmicAtmosphere.description.localized,
+            category: .Ambient,
+            filter: .Atmosphere,
+            audioVariation: AudioVariation(volume: 0.5, pitch: -0.5, interval: 1.8),
+            color: "C5B8E8"
+        ),
+
+        // ASMR 카테고리
+        Preset(
+            title: L.Preset.TypingFocus.title.localized,
+            description: L.Preset.TypingFocus.description.localized,
+            category: .ASMR,
+            filter: .Keyboard,
+            audioVariation: AudioVariation(volume: 0.6, pitch: 0.0, interval: 0.8),
+            color: "F5D0E0"
+        ),
+        Preset(
+            title: L.Preset.CameraClick.title.localized,
+            description: L.Preset.CameraClick.description.localized,
+            category: .ASMR,
+            filter: .Camera,
+            audioVariation: AudioVariation(volume: 0.5, pitch: 0.5, interval: 1.0),
+            color: "E8C8D8"
+        ),
+
+        // 확장된 SingingBowl
+        Preset(
+            title: L.Preset.TibetanMeditation.title.localized,
+            description: L.Preset.TibetanMeditation.description.localized,
+            category: .SingingBowl,
+            filter: .TibetanBowl,
+            audioVariation: AudioVariation(volume: 0.5, pitch: 0.0, interval: 1.5),
+            color: "FDD0A8"
+        ),
+
+        // 확장된 Bird
+        Preset(
+            title: L.Preset.JungleMorning.title.localized,
+            description: L.Preset.JungleMorning.description.localized,
+            category: .Bird,
+            filter: .Jungle,
+            audioVariation: AudioVariation(volume: 0.6, pitch: 0.0, interval: 1.2),
+            color: "98D4A0"
         )
     ]
 }
@@ -123,13 +197,12 @@ extension SoundListView {
 
     /// 오리지널 사운드 리스트
     static let originalSounds = [
-        OriginalSound(name: "물방울", filter: .WaterDrop, category: .WaterDrop),
-
-        // FIXME: 이미지 업데이트 후 수정
-        OriginalSound(name: "싱잉볼", filter: .SingingBowl, category: .SingingBowl),
-
-        // FIXME: 이미지 업데이트 후 수정
-        OriginalSound(name: "새소리", filter: .Bird, category: .Bird)
+        OriginalSound(name: L.Category.waterdrop.localized, filter: .WaterDrop, category: .WaterDrop),
+        OriginalSound(name: L.Category.singingBowl.localized, filter: .SingingBowl, category: .SingingBowl),
+        OriginalSound(name: L.Category.bird.localized, filter: .Bird, category: .Bird),
+        OriginalSound(name: L.Category.rain.localized, filter: .SoftRain, category: .Rain),
+        OriginalSound(name: L.Category.ambient.localized, filter: .AmbientKeys, category: .Ambient),
+        OriginalSound(name: L.Category.asmr.localized, filter: .Keyboard, category: .ASMR)
     ]
 
 }

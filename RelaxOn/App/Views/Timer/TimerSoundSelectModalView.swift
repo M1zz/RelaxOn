@@ -31,7 +31,7 @@ struct TimerSoundSelectModalView: View {
                         }
                         presentationMode.wrappedValue.dismiss()
                     }) {
-                        Text("완료")
+                        Text(L.Common.done.localized)
                             .foregroundColor(Color(.PrimaryPurple))
                             .padding()
                     }

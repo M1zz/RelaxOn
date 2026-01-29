@@ -8,30 +8,38 @@
 import SwiftUI
 
 struct MainTabView: View {
-    
+
     @EnvironmentObject var appState: AppState
     @State var isFirstVisit: Bool = UserDefaultsManager.shared.isFirstVisit
-    
+
     var body: some View {
         ZStack {
             if !isFirstVisit {
-                ListenListView()
-                    .environmentObject(appState)
+                NavigationStack {
+                    ListenListView()
+                        .environmentObject(appState)
+                }
             }
 
             if isFirstVisit && appState.showSoundDetail {
-                ListenListView()
+                NavigationStack {
+                    ListenListView()
+                }
             }
 
             if isFirstVisit && !appState.showSoundDetail {
                 OnboardingView(isFirstVisit: $isFirstVisit)
             }
         }
+        .onChange(of: isFirstVisit) { newValue in
+            UserDefaultsManager.shared.isFirstVisit = newValue
+        }
     }
 }
 
 struct CustomTabBar_Previews: PreviewProvider {
     static var previews: some View {
-        MainTabView(isFirstVisit: true)
+        MainTabView()
+            .environmentObject(AppState())
     }
 }

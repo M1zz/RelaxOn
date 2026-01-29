@@ -21,7 +21,7 @@ struct SearchBar: View {
                     text.isEmpty ?
                     Color(.SearchBarText) : Color(.SearchBarText))
 
-            TextField("저장한 나만의 소리를 검색해보세요", text: $text)
+            TextField(L.SoundList.searchPlaceholder.localized, text: $text)
                 .autocorrectionDisabled(true)
                 .foregroundColor(Color(.SearchBarText))
                 .overlay(

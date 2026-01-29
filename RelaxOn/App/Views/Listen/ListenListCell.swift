@@ -17,18 +17,37 @@ struct ListenListCell: View {
     var body: some View {
         VStack {
             HStack {
-                Image(customSound.category.imageName)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 60, height: 60)
-                    .background(Color(hex: customSound.color))
-                    .cornerRadius(8)
-                
-                Text(customSound.title)
-                    .font(.system(size: 18, weight: .bold))
-                    .padding(.leading, 20)
-                    .foregroundColor(Color(.Text))
-                
+                // 레이어 사운드면 썸네일, 아니면 기존 이미지
+                if customSound.isLayeredSound {
+                    SoundThumbnailView(sound: customSound, size: 60)
+                        .cornerRadius(8)
+                } else {
+                    Image(customSound.category.imageName)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 60, height: 60)
+                        .background(Color(hex: customSound.color))
+                        .cornerRadius(8)
+                }
+
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(customSound.title)
+                        .font(.system(size: 18, weight: .bold))
+                        .foregroundColor(Color(.Text))
+
+                    // 레이어 개수 표시
+                    if let layers = customSound.soundLayers, layers.count > 1 {
+                        HStack(spacing: 4) {
+                            Image(systemName: "square.3.layers.3d")
+                                .font(.system(size: 10))
+                            Text("\(layers.count)개 레이어")
+                                .font(.system(size: 12))
+                        }
+                        .foregroundColor(Color(.PrimaryPurple).opacity(0.8))
+                    }
+                }
+                .padding(.leading, 20)
+
                 Spacer()
             }
             Rectangle()

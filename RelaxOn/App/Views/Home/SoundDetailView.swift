@@ -7,6 +7,7 @@
 
 import SwiftUI
 import AVFoundation
+import Combine
 
 /**
  사용자가 Sound를 커스텀하는 View
@@ -41,17 +42,23 @@ struct SoundDetailView: View {
             ScrollView {
                 VStack(spacing: 16) {
                     VStack(spacing: 6) {
-                        Text("당신이 원하는 소리를 찾아가보세요")
+                        Text(L.Customize.findYourSound.localized)
                             .foregroundColor(Color(.Text))
                             .font(.system(size: 18, weight: .bold))
                             .padding(.top, 8)
-                        Text("슬라이더를 조절하여 완벽한 소리를 만드세요")
+                        Text(L.Customize.adjustSlider.localized)
                             .foregroundColor(Color(.Text).opacity(0.7))
                             .font(.system(size: 13, weight: .regular))
                     }
 
-                    // 사운드 이미지
-                    soundImageView()
+                    // 실시간 물방울 시각화
+                    if viewModel.isPlaying {
+                        WaterDropVisualization(viewModel: viewModel)
+                            .padding(.vertical, 8)
+                    } else {
+                        // 사운드 이미지 (재생 중이 아닐 때)
+                        soundImageView()
+                    }
 
                     // 새로운 슬라이더 컨트롤
                     simpleSliderControls()
@@ -78,10 +85,10 @@ struct SoundDetailView: View {
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
-                        
+
                         isShowingSheet.toggle()
                     } label: {
-                        Text("다음")
+                        Text(L.Common.next.localized)
                             .foregroundColor(Color(.PrimaryPurple))
                             .font(.system(size: 14, weight: .semibold))
                     }
@@ -89,10 +96,10 @@ struct SoundDetailView: View {
             }
             .navigationBarBackButtonHidden(true)
 
-            .fullScreenCover(isPresented: $isShowingSheet) {
+            .navigationDestination(isPresented: $isShowingSheet) {
                 SoundSaveView(originalSound: originalSound, editingSound: editingSound)
             }
-            
+
             // MARK: - Life Cycle
             .onAppear() {
                 if UserDefaultsManager.shared.isFirstVisit {
@@ -156,7 +163,7 @@ struct SoundDetailView: View {
             // 볼륨 슬라이더
             sliderControl(
                 icon: "speaker.wave.2.fill",
-                label: "볼륨",
+                label: L.Customize.volume.localized,
                 value: $viewModel.volume,
                 range: 0.1...1.0,
                 step: 0.01,
@@ -168,11 +175,11 @@ struct SoundDetailView: View {
             // 간격 슬라이더
             sliderControl(
                 icon: "timer",
-                label: "간격",
+                label: L.Customize.interval.localized,
                 value: $viewModel.interval,
                 range: 0.1...2.0,
                 step: 0.1,
-                displayValue: String(format: "%.1f초", viewModel.interval),
+                displayValue: String(format: "%.1f%@", viewModel.interval, L.Customize.seconds.localized),
                 color: .blue,
                 variationValue: $viewModel.intervalVariation
             )
@@ -180,7 +187,7 @@ struct SoundDetailView: View {
             // 피치 슬라이더
             sliderControl(
                 icon: "tuningfork",
-                label: "피치",
+                label: L.Customize.pitch.localized,
                 value: $viewModel.pitch,
                 range: -5.0...5.0,
                 step: 0.5,
@@ -234,16 +241,19 @@ struct SoundDetailView: View {
                     .padding(.vertical, 4)
 
                 HStack {
-                    Image(systemName: "dice")
+                    Image(systemName: "arrow.left.and.right")
                         .font(.system(size: 14))
                         .foregroundColor(color.opacity(0.7))
                         .frame(width: 20)
 
-                    Text("자연스러움")
+                    Text(L.Customize.variationRange.localized)
                         .font(.system(size: 13))
                         .foregroundColor(Color(.Text).opacity(0.8))
 
                     Spacer()
+
+                    // 인디케이터
+                    VariationIndicator(value: variationValue.wrappedValue, color: color)
 
                     Text(String(format: "±%.0f%%", variationValue.wrappedValue * 100))
                         .font(.system(size: 14, weight: .semibold))
@@ -253,11 +263,37 @@ struct SoundDetailView: View {
 
                 Slider(value: variationValue, in: 0.0...0.5, step: 0.05)
                     .tint(color.opacity(0.6))
+
+                // 범위 시각화 바
+                if variationValue.wrappedValue > 0 {
+                    VariationRangeBar(
+                        baseValue: value.wrappedValue,
+                        variation: variationValue.wrappedValue,
+                        range: range,
+                        color: color,
+                        unit: getUnit(for: label)
+                    )
+                    .padding(.top, 8)
+                }
             }
         }
         .padding(12)
         .background(Color(.CircularSliderBackground).opacity(0.3))
         .cornerRadius(10)
+    }
+
+    // 라벨에 따라 적절한 단위 반환
+    func getUnit(for label: String) -> String {
+        switch label {
+        case L.Customize.volume.localized:
+            return "%"
+        case L.Customize.interval.localized:
+            return L.Customize.seconds.localized
+        case L.Customize.pitch.localized:
+            return ""
+        default:
+            return ""
+        }
     }
 
     @ViewBuilder
@@ -269,13 +305,13 @@ struct SoundDetailView: View {
                     .foregroundColor(.purple)
                     .frame(width: 20)
 
-                Text("필터")
+                Text(L.Common.filter.localized)
                     .font(.system(size: 15, weight: .semibold))
                     .foregroundColor(Color(.Text))
 
                 Spacer()
 
-                Text(viewModel.filter.rawValue)
+                Text(viewModel.filter.displayName)
                     .font(.system(size: 14, weight: .bold))
                     .foregroundColor(.purple)
             }
@@ -298,7 +334,7 @@ struct SoundDetailView: View {
         Button(action: {
             viewModel.filter = filter
         }) {
-            Text(filter.rawValue)
+            Text(filter.displayName)
                 .font(.system(size: 14, weight: .medium))
                 .foregroundColor(viewModel.filter == filter ? .white : Color(.Text))
                 .padding(.horizontal, 16)
