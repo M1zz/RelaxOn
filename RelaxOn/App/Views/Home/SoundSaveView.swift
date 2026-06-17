@@ -85,7 +85,7 @@ struct SoundSaveView: View {
                     } label: {
                         Text(L.Common.save.localized)
                     }
-                    .buttonStyle(PrimaryButtonStyle())
+                    .buttonStyle(PrimaryButtonStyle(fullWidth: false))
                 }
                 .padding(.horizontal, DS.Spacing.md)
                 .padding(.vertical, DS.Spacing.xs)
