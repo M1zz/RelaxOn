@@ -17,7 +17,7 @@ struct TimePickerView: View {
         HStack {
             Spacer ()
             
-            HStack(alignment: .center){
+            HStack(alignment: .center, spacing: DS.Spacing.xs) {
                 Picker(L.A11y.hoursPicker.localized, selection: $selectedTimeIndexHours, content: {
                     ForEach(hours, id: \.self) {
                         index in
@@ -25,11 +25,15 @@ struct TimePickerView: View {
                     }
                 })
                 .pickerStyle(.wheel)
+                .frame(width: 72)
+                .clipped()
                 .accessibilityLabel(L.A11y.hoursPicker.localized)
 
                 Text(L.Timer.hours.localized)
-                    .font(.system(size: 23))
-                    .padding(.horizontal, 10)
+                    .font(.system(size: 20, weight: .medium))
+                    .foregroundColor(DS.Colors.textSecondary)
+                    .fixedSize()
+                    .lineLimit(1)
                     .accessibilityHidden(true)
 
                 Picker(L.A11y.minutesPicker.localized, selection: $selectedTimeIndexMinutes, content: {
@@ -39,16 +43,18 @@ struct TimePickerView: View {
                     }
                 })
                 .pickerStyle(.wheel)
+                .frame(width: 72)
+                .clipped()
                 .accessibilityLabel(L.A11y.minutesPicker.localized)
 
                 Text(L.Timer.minutes.localized)
-                    .font(.system(size: 23))
-                    .padding(.horizontal, 10)
+                    .font(.system(size: 20, weight: .medium))
+                    .foregroundColor(DS.Colors.textSecondary)
+                    .fixedSize()
+                    .lineLimit(1)
                     .accessibilityHidden(true)
-
             }
-            .frame(maxWidth: .infinity)
-            .padding(20)
+            .padding(DS.Spacing.md)
 
             Spacer ()
         }

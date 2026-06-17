@@ -428,13 +428,13 @@ struct CampfireView: View {
             }
             .frame(width: 210, height: 210)
 
-            // 안내 문구 (오브 아래 자연스럽게 배치)
+            // 안내 문구 (오브 아래 자연스럽게 배치, 길이가 길어도 줄바꿈)
             Text(isPlaying ? L.Listen.relaxWithWhiteNoise.localized : L.Listen.playSoundForCampfire.localized)
                 .font(DS.Font.callout())
                 .foregroundColor(DS.Colors.textSecondary)
                 .multilineTextAlignment(.center)
-                .lineLimit(2)
-                .minimumScaleFactor(0.85)
+                .fixedSize(horizontal: false, vertical: true)
+                .frame(maxWidth: .infinity)
                 .padding(.horizontal, DS.Spacing.xl)
 
             Spacer(minLength: 0)
