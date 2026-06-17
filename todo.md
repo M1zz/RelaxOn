@@ -67,6 +67,21 @@
 - [ ] 라이트/다크 모드 양쪽 실기기 점검
 - [ ] 레거시 중복 파일 정리(Views/ 루트의 SoundListView/SoundSaveView/SoundSelectView, 미사용 슬라이더)
 
+## 반응형 + iPad 정식 지원 - 완료
+- [x] Universal 전환 (TARGETED_DEVICE_FAMILY 1 → 1,2)
+- [x] iPad 아이폰호환(가운데 창) 원인 제거: AppDelegate 커스텀 SceneConfiguration 오버라이드 삭제 → SwiftUI WindowGroup이 Scene 관리 → iPad 전체화면
+- [x] 반응형 헬퍼: DS.Layout.contentMaxWidth/.grid(), .dsConstrainedWidth()
+- [x] 저장목록 그리드 적응형(폰 2열 / iPad 3~4열)
+- [x] 폼 화면 최대폭 제한·중앙 정렬(홈/타이머/구독/편집/제작/저장/설정)
+- [x] iPad Pro 실측: 홈 전체화면 / 저장목록 적응형 / 구독 폼 중앙정렬 확인
+- [x] iPhone 회귀 없음 확인
+- 주의: 기존에 앱이 설치돼 있던 iPad **시뮬레이터**는 아이폰전용 등록을 캐시 → 가운데 창 유지. 신규/실기기 설치는 전체화면 정상. (해당 시뮬레이터는 앱 삭제 후 재설치 또는 Erase 필요)
+
+### 남은 후보
+- [ ] 온보딩 iPad 가로/세로 미세 조정(현재 TabView 중앙 배치라 동작은 정상)
+- [ ] iPad 가로(landscape) 레이아웃 점검
+- [ ] App Store: iPad 스크린샷 추가 필요(Universal이므로)
+
 ## 남은 작업 (수동 - 코드 아님)
 - [ ] dev 브랜치 코드 변경 push / PR (원하면 진행)
 - [ ] App Store Connect: App Description 또는 EULA 필드에 표준 약관 링크 추가
