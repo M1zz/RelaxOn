@@ -28,17 +28,8 @@ struct ListenListView: View {
     // MARK: - Body
     var body: some View {
         ZStack {
-            // 배경 그라데이션
-            LinearGradient(
-                gradient: Gradient(colors: [
-                    Color(red: 0.1, green: 0.05, blue: 0.15),
-                    Color(red: 0.15, green: 0.1, blue: 0.2),
-                    Color(red: 0.2, green: 0.15, blue: 0.25)
-                ]),
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            .ignoresSafeArea()
+            // 표준 배경 (고요한 라이트/다크 그라데이션)
+            ScreenBackground()
 
             VStack(spacing: 0) {
                 // 헤더
@@ -46,9 +37,9 @@ struct ListenListView: View {
 
                 // 스마트 추천 캐러셀
                 smartRecommendationsView()
-                    .padding(.bottom, 16)
+                    .padding(.bottom, DS.Spacing.md)
 
-                // 캠프파이어 중앙 배치 (사운드 바 공간 확보)
+                // 중앙 브리딩 오브 (사운드 바 공간 확보)
                 // 장식용 비주얼이므로 VoiceOver에서는 숨김
                 CampfireView(isPlaying: viewModel.isPlaying)
                     .frame(maxHeight: .infinity)
@@ -146,59 +137,34 @@ struct ListenListView: View {
     // MARK: - Header View
     @ViewBuilder
     private func headerView() -> some View {
-        HStack {
+        let timerActive = timerManager.textTimer != nil && timerManager.remainingSeconds > 0
+        HStack(spacing: DS.Spacing.sm) {
             Text(L.Tab.listen.localized)
-                .foregroundColor(.white)
-                .font(.system(size: 28, weight: .bold))
+                .font(DS.Font.largeTitle())
+                .foregroundColor(DS.Colors.textPrimary)
 
             Spacer()
 
             // 저장된 사운드 목록 버튼
-            Button(action: {
+            CircleIconButton(systemName: "music.note.list") {
                 isShowingCreateModal = true
-            }) {
-                Image(systemName: "music.note.list")
-                    .font(.system(size: 24))
-                    .foregroundColor(Color(.PrimaryPurple))
-                    .frame(width: 44, height: 44)
             }
-            .padding(.trailing, 4)
             .accessibilityLabel(L.A11y.savedSoundsButton.localized)
 
             // 타이머 버튼
-            Button(action: {
+            CircleIconButton(systemName: "timer", active: timerActive) {
                 isShowingTimer = true
-            }) {
-                ZStack {
-                    if timerManager.textTimer != nil && timerManager.remainingSeconds > 0 {
-                        // 타이머 활성화 중
-                        ZStack {
-                            Circle()
-                                .fill(Color(.PrimaryPurple).opacity(0.2))
-                                .frame(width: 40, height: 40)
-
-                            Image(systemName: "timer")
-                                .font(.system(size: 20))
-                                .foregroundColor(Color(.PrimaryPurple))
-                        }
-                    } else {
-                        // 타이머 비활성화
-                        Image(systemName: "timer")
-                            .font(.system(size: 24))
-                            .foregroundColor(.white.opacity(0.8))
-                    }
-                }
-                .frame(width: 44, height: 44)
             }
             .accessibilityLabel(L.A11y.timerButton.localized)
             .accessibilityValue(
-                timerManager.textTimer != nil && timerManager.remainingSeconds > 0
+                timerActive
                 ? String(format: L.A11y.timerActiveValue.localized, formatRemainingTime(timerManager.remainingSeconds))
                 : ""
             )
         }
-        .padding(.horizontal, 24)
-        .padding(.vertical, 16)
+        .padding(.horizontal, DS.Spacing.screen)
+        .padding(.top, DS.Spacing.xs)
+        .padding(.bottom, DS.Spacing.md)
     }
 
     // MARK: - Smart Recommendations View
@@ -207,24 +173,14 @@ struct ListenListView: View {
         let recommendations = viewModel.getSmartRecommendations()
 
         if !recommendations.isEmpty {
-            VStack(alignment: .leading, spacing: 12) {
+            VStack(alignment: .leading, spacing: DS.Spacing.sm) {
                 // 헤더
-                HStack(spacing: 8) {
-                    Image(systemName: "sparkles")
-                        .font(.system(size: 16))
-                        .foregroundColor(.yellow)
-
-                    Text(getRecommendationTitle())
-                        .font(.system(size: 17, weight: .bold))
-                        .foregroundColor(.white)
-
-                    Spacer()
-                }
-                .padding(.horizontal, 24)
+                SectionHeader(title: getRecommendationTitle(), systemIcon: "sparkles")
+                    .padding(.horizontal, DS.Spacing.screen)
 
                 // 가로 스크롤 카드
                 ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 12) {
+                    HStack(spacing: DS.Spacing.sm) {
                         ForEach(recommendations) { sound in
                             RecommendationCard(sound: sound)
                                 .onTapGesture {
@@ -236,10 +192,10 @@ struct ListenListView: View {
                                 .accessibilityHint(L.A11y.playSoundHint.localized)
                         }
                     }
-                    .padding(.horizontal, 24)
+                    .padding(.horizontal, DS.Spacing.screen)
                 }
             }
-            .padding(.vertical, 8)
+            .padding(.vertical, DS.Spacing.xs)
         }
     }
 
@@ -264,54 +220,51 @@ struct ListenListView: View {
         HStack(spacing: 16) {
             // 정보 영역(앨범 아트 + 제목/카테고리)을 하나의 접근성 요소로 묶어
             // "전체 플레이어 열기" 버튼으로 노출
-            HStack(spacing: 16) {
-                // 앨범 아트 (작은 캠프파이어) - 장식용
+            HStack(spacing: DS.Spacing.md) {
+                // 앨범 아트 (부드러운 오브) - 장식용
                 ZStack {
                     Circle()
                         .fill(
                             LinearGradient(
-                                gradient: Gradient(colors: [
-                                    Color.orange.opacity(0.3),
-                                    Color.red.opacity(0.2)
-                                ]),
-                                startPoint: .top,
-                                endPoint: .bottom
+                                colors: [DS.Colors.accent.opacity(0.85), DS.Colors.accent.opacity(0.55)],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
                             )
                         )
-                        .frame(width: 50, height: 50)
+                        .frame(width: 46, height: 46)
 
-                    Image(systemName: "flame.fill")
-                        .font(.system(size: 24))
-                        .foregroundColor(.orange)
+                    Image(systemName: viewModel.isPlaying ? "waveform" : "moon.stars.fill")
+                        .font(.system(size: 18, weight: .semibold))
+                        .foregroundColor(.white)
                 }
-                .accessibilityHidden(true) // 장식용 불꽃 아이콘
+                .accessibilityHidden(true) // 장식용 아이콘
 
                 // 사운드 정보
-                VStack(alignment: .leading, spacing: 4) {
+                VStack(alignment: .leading, spacing: 3) {
                     if let sound = viewModel.selectedSound {
                         Text(sound.title)
-                            .font(.system(size: 15, weight: .semibold))
-                            .foregroundColor(.white)
+                            .font(DS.Font.headline())
+                            .foregroundColor(DS.Colors.textPrimary)
                             .lineLimit(1)
 
-                        HStack(spacing: 6) {
+                        HStack(spacing: DS.Spacing.xs) {
                             Text(sound.category.displayName)
-                                .font(.system(size: 12))
-                                .foregroundColor(.white.opacity(0.7))
+                                .font(DS.Font.caption())
+                                .foregroundColor(DS.Colors.textSecondary)
 
                             // 타이머 활성화 시 남은 시간 표시
                             if timerManager.textTimer != nil && timerManager.remainingSeconds > 0 {
                                 Text("•")
-                                    .font(.system(size: 10))
-                                    .foregroundColor(.white.opacity(0.5))
+                                    .font(DS.Font.caption())
+                                    .foregroundColor(DS.Colors.textTertiary)
 
                                 HStack(spacing: 3) {
                                     Image(systemName: "timer")
                                         .font(.system(size: 10))
                                     Text(formatRemainingTime(timerManager.remainingSeconds))
-                                        .font(.system(size: 11, weight: .medium))
+                                        .font(DS.Font.caption().weight(.medium))
                                 }
-                                .foregroundColor(Color(.PrimaryPurple))
+                                .foregroundColor(DS.Colors.accent)
                             }
                         }
                     }
@@ -338,25 +291,23 @@ struct ListenListView: View {
                 }
             }) {
                 Image(systemName: viewModel.isPlaying ? "pause.fill" : "play.fill")
-                    .font(.system(size: 20))
+                    .font(.system(size: 18, weight: .bold))
                     .foregroundColor(.white)
-                    .frame(width: 44, height: 44)
+                    .frame(width: 48, height: 48)
+                    .background(Circle().fill(DS.Colors.accent))
             }
             .buttonStyle(PlainButtonStyle())
             .accessibilityLabel(viewModel.isPlaying ? L.A11y.pause.localized : L.A11y.play.localized)
         }
-        .padding(.horizontal, 20)
-        .padding(.vertical, 12)
+        .padding(.horizontal, DS.Spacing.md)
+        .padding(.vertical, DS.Spacing.sm)
         .background(
-            RoundedRectangle(cornerRadius: 16)
-                .fill(Color.black.opacity(0.4))
-                .overlay(
-                    RoundedRectangle(cornerRadius: 16)
-                        .stroke(Color.white.opacity(0.1), lineWidth: 1)
-                )
+            RoundedRectangle(cornerRadius: DS.Radius.lg, style: .continuous)
+                .fill(DS.Colors.surface)
+                .shadow(color: DS.Shadow.floating.color, radius: DS.Shadow.floating.radius, x: 0, y: DS.Shadow.floating.y)
         )
-        .padding(.horizontal, 16)
-        .padding(.bottom, 20)
+        .padding(.horizontal, DS.Spacing.md)
+        .padding(.bottom, DS.Spacing.lg)
         .navigationDestination(isPresented: $isShowingSheet) {
             SoundPlayerFullModalView()
         }
@@ -380,29 +331,32 @@ struct ListenListView: View {
         Button {
             isShowingCreateModal = true
         } label: {
-            VStack(spacing: 12) {
-                HStack(spacing: 12) {
-                    Image(systemName: "music.note")
-                        .font(.system(size: 20))
-                        .foregroundColor(.white.opacity(0.6))
+            HStack(spacing: DS.Spacing.sm) {
+                Image(systemName: "music.note")
+                    .font(.system(size: 18, weight: .semibold))
+                    .foregroundColor(DS.Colors.accent)
+                    .accessibilityHidden(true)
 
-                    Text(L.Listen.selectSoundToPlay.localized)
-                        .font(.system(size: 15))
-                        .foregroundColor(.white.opacity(0.7))
-                }
-                .padding(.horizontal, 20)
-                .padding(.vertical, 16)
-                .background(
-                    RoundedRectangle(cornerRadius: 16)
-                        .fill(Color.black.opacity(0.3))
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 16)
-                                .stroke(Color.white.opacity(0.1), lineWidth: 1)
-                        )
-                )
+                Text(L.Listen.selectSoundToPlay.localized)
+                    .font(DS.Font.callout())
+                    .foregroundColor(DS.Colors.textSecondary)
+
+                Spacer(minLength: 0)
+
+                Image(systemName: "chevron.right")
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundColor(DS.Colors.textTertiary)
+                    .accessibilityHidden(true)
             }
-            .padding(.horizontal, 16)
-            .padding(.bottom, 20)
+            .padding(.horizontal, DS.Spacing.lg)
+            .padding(.vertical, DS.Spacing.md)
+            .background(
+                RoundedRectangle(cornerRadius: DS.Radius.lg, style: .continuous)
+                    .fill(DS.Colors.surface)
+                    .shadow(color: DS.Shadow.card.color, radius: DS.Shadow.card.radius, x: 0, y: DS.Shadow.card.y)
+            )
+            .padding(.horizontal, DS.Spacing.md)
+            .padding(.bottom, DS.Spacing.lg)
         }
         .buttonStyle(PlainButtonStyle())
     }
@@ -412,339 +366,82 @@ struct ListenListView: View {
 
 struct CampfireView: View {
     let isPlaying: Bool
-    @State private var flameScale1: CGFloat = 1.0
-    @State private var flameScale2: CGFloat = 1.0
-    @State private var flameScale3: CGFloat = 1.0
-    @State private var flameScale4: CGFloat = 1.0
-    @State private var flameScale5: CGFloat = 1.0
-    @State private var flameOpacity1: Double = 0.9
-    @State private var flameOpacity2: Double = 0.7
-    @State private var flameOpacity3: Double = 0.5
-    @State private var flameOpacity4: Double = 0.3
-    @State private var flameOpacity5: Double = 0.2
-    @State private var glowIntensity: CGFloat = 0.3
-    @State private var sparkOffset1: CGFloat = 0
-    @State private var sparkOffset2: CGFloat = 0
-    @State private var sparkOpacity1: Double = 0.0
-    @State private var sparkOpacity2: Double = 0.0
+
+    @State private var breathe = false
+    @State private var glow = false
 
     var body: some View {
         ZStack {
-            // 바닥 빛 반사 (glow effect)
-            if isPlaying {
-                Circle()
-                    .fill(
-                        RadialGradient(
-                            gradient: Gradient(colors: [
-                                Color.orange.opacity(glowIntensity * 0.4),
-                                Color.red.opacity(glowIntensity * 0.2),
-                                Color.clear
-                            ]),
-                            center: .center,
-                            startRadius: 20,
-                            endRadius: 150
-                        )
+            // 부드러운 외곽 글로우
+            Circle()
+                .fill(
+                    RadialGradient(
+                        colors: [DS.Colors.accent.opacity(isPlaying ? 0.30 : 0.14), .clear],
+                        center: .center,
+                        startRadius: 10,
+                        endRadius: 200
                     )
-                    .frame(width: 300, height: 150)
-                    .offset(y: 80)
-                    .blur(radius: 20)
-            }
+                )
+                .frame(width: 360, height: 360)
+                .scaleEffect(glow ? 1.08 : 0.92)
+                .blur(radius: 30)
 
-            // 불꽃들 (5개 레이어로 깊이감 증대)
-            ZStack {
-                // 가장 뒤 불꽃 (레드 계열)
-                Image(systemName: "flame.fill")
-                    .font(.system(size: 140))
-                    .foregroundStyle(
-                        LinearGradient(
-                            gradient: Gradient(colors: [
-                                Color.red.opacity(0.3),
-                                Color.orange.opacity(0.2)
-                            ]),
-                            startPoint: .bottom,
-                            endPoint: .top
-                        )
+            // 메인 브리딩 오브
+            Circle()
+                .fill(
+                    LinearGradient(
+                        colors: [
+                            DS.Colors.accent.opacity(0.9),
+                            DS.Colors.accent.opacity(0.5)
+                        ],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
                     )
-                    .scaleEffect(flameScale5)
-                    .opacity(flameOpacity5)
-                    .offset(y: -5)
-                    .blur(radius: 3)
-
-                // 뒤에서 두번째 불꽃
-                Image(systemName: "flame.fill")
-                    .font(.system(size: 120))
-                    .foregroundStyle(
-                        LinearGradient(
-                            gradient: Gradient(colors: [
-                                Color.orange.opacity(0.4),
-                                Color.yellow.opacity(0.3)
-                            ]),
-                            startPoint: .bottom,
-                            endPoint: .top
-                        )
-                    )
-                    .scaleEffect(flameScale4)
-                    .opacity(flameOpacity4)
-                    .offset(y: -8)
-                    .blur(radius: 2)
-
-                // 중간 불꽃
-                Image(systemName: "flame.fill")
-                    .font(.system(size: 100))
-                    .foregroundStyle(
-                        LinearGradient(
-                            gradient: Gradient(colors: [
-                                Color.orange.opacity(0.7),
-                                Color.yellow.opacity(0.5)
-                            ]),
-                            startPoint: .bottom,
-                            endPoint: .top
-                        )
-                    )
-                    .scaleEffect(flameScale3)
-                    .opacity(flameOpacity3)
-                    .offset(y: -10)
-                    .shadow(color: .orange.opacity(0.5), radius: 10, x: 0, y: 0)
-
-                // 앞에서 두번째 불꽃
-                Image(systemName: "flame.fill")
-                    .font(.system(size: 85))
-                    .foregroundStyle(
-                        LinearGradient(
-                            gradient: Gradient(colors: [
-                                Color.orange,
-                                Color.yellow.opacity(0.8)
-                            ]),
-                            startPoint: .bottom,
-                            endPoint: .top
-                        )
-                    )
-                    .scaleEffect(flameScale2)
-                    .opacity(flameOpacity2)
-                    .offset(y: -12)
-                    .shadow(color: .orange.opacity(0.7), radius: 15, x: 0, y: 0)
-
-                // 가장 앞 불꽃 (가장 밝음)
-                Image(systemName: "flame.fill")
-                    .font(.system(size: 75))
-                    .foregroundStyle(
-                        LinearGradient(
-                            gradient: Gradient(colors: [
-                                Color.yellow,
-                                Color.white.opacity(0.9)
-                            ]),
-                            startPoint: .bottom,
-                            endPoint: .top
-                        )
-                    )
-                    .scaleEffect(flameScale1)
-                    .opacity(flameOpacity1)
-                    .offset(y: -15)
-                    .shadow(color: .yellow.opacity(0.8), radius: 20, x: 0, y: 0)
-
-                // 불꽃 파편들 (sparkles)
-                if isPlaying {
+                )
+                .frame(width: 200, height: 200)
+                .overlay(
+                    // 안쪽 하이라이트
                     Circle()
-                        .fill(Color.yellow)
-                        .frame(width: 4, height: 4)
-                        .offset(x: -30, y: sparkOffset1 - 50)
-                        .opacity(sparkOpacity1)
-                        .blur(radius: 1)
+                        .fill(
+                            RadialGradient(
+                                colors: [Color.white.opacity(0.35), .clear],
+                                center: UnitPoint(x: 0.35, y: 0.3),
+                                startRadius: 4,
+                                endRadius: 120
+                            )
+                        )
+                )
+                .scaleEffect(breathe ? 1.06 : 0.94)
+                .shadow(color: DS.Colors.accent.opacity(0.4), radius: 40, x: 0, y: 12)
 
-                    Circle()
-                        .fill(Color.orange)
-                        .frame(width: 3, height: 3)
-                        .offset(x: 25, y: sparkOffset2 - 45)
-                        .opacity(sparkOpacity2)
-                        .blur(radius: 1)
-                }
-            }
+            // 중앙 아이콘
+            Image(systemName: isPlaying ? "waveform" : "moon.stars.fill")
+                .font(.system(size: 44, weight: .light))
+                .foregroundColor(.white.opacity(0.95))
+                .scaleEffect(breathe ? 1.04 : 0.96)
 
-            // 장작 (더 입체적으로)
-            VStack(spacing: 4) {
+            // 안내 문구
+            VStack {
                 Spacer()
-
-                ZStack {
-                    // 뒤쪽 장작
-                    RoundedRectangle(cornerRadius: 5)
-                        .fill(
-                            LinearGradient(
-                                gradient: Gradient(colors: [
-                                    Color(red: 0.35, green: 0.2, blue: 0.1),
-                                    Color(red: 0.25, green: 0.15, blue: 0.05)
-                                ]),
-                                startPoint: .top,
-                                endPoint: .bottom
-                            )
-                        )
-                        .frame(width: 70, height: 14)
-                        .rotationEffect(.degrees(-20))
-                        .offset(x: -15, y: 5)
-                        .shadow(color: .black.opacity(0.5), radius: 5, x: -2, y: 3)
-
-                    // 오른쪽 장작
-                    RoundedRectangle(cornerRadius: 5)
-                        .fill(
-                            LinearGradient(
-                                gradient: Gradient(colors: [
-                                    Color(red: 0.4, green: 0.25, blue: 0.1),
-                                    Color(red: 0.3, green: 0.18, blue: 0.08)
-                                ]),
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
-                            )
-                        )
-                        .frame(width: 75, height: 15)
-                        .rotationEffect(.degrees(18))
-                        .offset(x: 20, y: 8)
-                        .shadow(color: .black.opacity(0.6), radius: 5, x: 2, y: 4)
-
-                    // 왼쪽 장작
-                    RoundedRectangle(cornerRadius: 5)
-                        .fill(
-                            LinearGradient(
-                                gradient: Gradient(colors: [
-                                    Color(red: 0.38, green: 0.23, blue: 0.12),
-                                    Color(red: 0.28, green: 0.16, blue: 0.07)
-                                ]),
-                                startPoint: .topTrailing,
-                                endPoint: .bottomLeading
-                            )
-                        )
-                        .frame(width: 65, height: 13)
-                        .rotationEffect(.degrees(-12))
-                        .offset(x: -8, y: 12)
-                        .shadow(color: .black.opacity(0.4), radius: 4, x: -1, y: 3)
-                }
-                .offset(y: 40)
-            }
-
-            // 재생 중일 때만 텍스트 표시
-            if isPlaying {
-                VStack {
-                    Spacer()
-
-                    Text(L.Listen.relaxWithWhiteNoise.localized)
-                        .font(.system(size: 16, weight: .medium))
-                        .foregroundColor(.white.opacity(0.8))
-                        .shadow(color: .black.opacity(0.5), radius: 4, x: 0, y: 2)
-                        .padding(.top, 200)
-                }
-            } else {
-                VStack {
-                    Spacer()
-
-                    VStack(spacing: 12) {
-                        Image(systemName: "flame")
-                            .font(.system(size: 40))
-                            .foregroundColor(.white.opacity(0.3))
-
-                        Text(L.Listen.playSoundForCampfire.localized)
-                            .font(.system(size: 15))
-                            .foregroundColor(.white.opacity(0.5))
-                            .multilineTextAlignment(.center)
-                    }
-                    .padding(.top, 100)
-                }
+                Text(isPlaying ? L.Listen.relaxWithWhiteNoise.localized : L.Listen.playSoundForCampfire.localized)
+                    .font(DS.Font.callout())
+                    .foregroundColor(DS.Colors.textSecondary)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, DS.Spacing.xl)
+                    .padding(.top, 260)
             }
         }
-        .onAppear {
-            if isPlaying {
-                startAnimation()
-            }
-        }
-        .onChange(of: isPlaying) { newValue in
-            if newValue {
-                startAnimation()
-            }
-        }
+        .onAppear { startBreathing() }
+        .onChange(of: isPlaying) { _ in startBreathing() }
     }
 
-    private func startAnimation() {
-        // 가장 앞 불꽃 (빠른 애니메이션)
-        withAnimation(
-            .easeInOut(duration: 1.2)
-            .repeatForever(autoreverses: true)
-        ) {
-            flameScale1 = 1.15
-            flameOpacity1 = 1.0
+    private func startBreathing() {
+        let duration: Double = isPlaying ? 3.2 : 4.5
+        withAnimation(.easeInOut(duration: duration).repeatForever(autoreverses: true)) {
+            breathe = true
         }
-
-        // 앞에서 두번째
-        withAnimation(
-            .easeInOut(duration: 1.8)
-            .repeatForever(autoreverses: true)
-        ) {
-            flameScale2 = 1.25
-            flameOpacity2 = 0.85
-        }
-
-        // 중간
-        withAnimation(
-            .easeInOut(duration: 2.2)
-            .repeatForever(autoreverses: true)
-        ) {
-            flameScale3 = 1.35
-            flameOpacity3 = 0.7
-        }
-
-        // 뒤에서 두번째
-        withAnimation(
-            .easeInOut(duration: 2.8)
-            .repeatForever(autoreverses: true)
-        ) {
-            flameScale4 = 1.4
-            flameOpacity4 = 0.5
-        }
-
-        // 가장 뒤
-        withAnimation(
-            .easeInOut(duration: 3.2)
-            .repeatForever(autoreverses: true)
-        ) {
-            flameScale5 = 1.5
-            flameOpacity5 = 0.35
-        }
-
-        // 빛 반사 효과
-        withAnimation(
-            .easeInOut(duration: 2.0)
-            .repeatForever(autoreverses: true)
-        ) {
-            glowIntensity = 0.6
-        }
-
-        // 불꽃 파편 1
-        withAnimation(
-            .easeOut(duration: 2.5)
-            .repeatForever(autoreverses: false)
-        ) {
-            sparkOffset1 = -60
-            sparkOpacity1 = 0.0
-        }
-        withAnimation(
-            .easeIn(duration: 0.3)
-            .delay(0)
-            .repeatForever(autoreverses: false)
-        ) {
-            sparkOpacity1 = 0.8
-        }
-
-        // 불꽃 파편 2 (약간 지연)
-        withAnimation(
-            .easeOut(duration: 3.0)
-            .delay(1.2)
-            .repeatForever(autoreverses: false)
-        ) {
-            sparkOffset2 = -70
-            sparkOpacity2 = 0.0
-        }
-        withAnimation(
-            .easeIn(duration: 0.4)
-            .delay(1.2)
-            .repeatForever(autoreverses: false)
-        ) {
-            sparkOpacity2 = 0.7
+        withAnimation(.easeInOut(duration: duration * 1.3).repeatForever(autoreverses: true)) {
+            glow = true
         }
     }
 }
@@ -761,17 +458,7 @@ struct TimerView: View {
 
     var body: some View {
         ZStack {
-            // 배경
-            LinearGradient(
-                gradient: Gradient(colors: [
-                    Color(red: 0.1, green: 0.05, blue: 0.15),
-                    Color(red: 0.15, green: 0.1, blue: 0.2),
-                    Color(red: 0.2, green: 0.15, blue: 0.25)
-                ]),
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            .ignoresSafeArea()
+            ScreenBackground()
 
             VStack(spacing: 0) {
                 if isTimerRunning {
@@ -807,28 +494,30 @@ struct TimerView: View {
     // MARK: - Timer Setting View
     @ViewBuilder
     private func timerSettingView() -> some View {
-        VStack(spacing: 40) {
+        VStack(spacing: DS.Spacing.xxl) {
             Spacer()
 
             // 타이머 아이콘
             ZStack {
                 Circle()
-                    .fill(Color(.PrimaryPurple).opacity(0.2))
+                    .fill(DS.Colors.accentSoft)
                     .frame(width: 120, height: 120)
 
                 Image(systemName: "moon.stars.fill")
-                    .font(.system(size: 60))
-                    .foregroundColor(Color(.PrimaryPurple))
+                    .font(.system(size: 52, weight: .light))
+                    .foregroundColor(DS.Colors.accent)
             }
+            .accessibilityHidden(true)
 
-            VStack(spacing: 12) {
+            VStack(spacing: DS.Spacing.xs) {
                 Text(L.Timer.forGoodSleep.localized)
-                    .font(.system(size: 24, weight: .bold))
-                    .foregroundColor(.white)
+                    .font(DS.Font.title())
+                    .foregroundColor(DS.Colors.textPrimary)
 
                 Text(L.Timer.autoStopDescription.localized)
-                    .font(.system(size: 15))
-                    .foregroundColor(.white.opacity(0.6))
+                    .font(DS.Font.callout())
+                    .foregroundColor(DS.Colors.textSecondary)
+                    .multilineTextAlignment(.center)
             }
 
             Spacer()
@@ -844,7 +533,7 @@ struct TimerView: View {
             Spacer()
 
             // 시작 버튼
-            Button(action: {
+            Button {
                 if let sound = viewModel.selectedSound {
                     viewModel.play(with: sound)
                 }
@@ -852,31 +541,15 @@ struct TimerView: View {
                 withAnimation {
                     isTimerRunning = true
                 }
-            }) {
-                HStack(spacing: 12) {
+            } label: {
+                HStack(spacing: DS.Spacing.xs) {
                     Image(systemName: "play.fill")
-                        .font(.system(size: 18))
                     Text(L.Timer.startTimer.localized)
-                        .font(.system(size: 17, weight: .semibold))
                 }
-                .foregroundColor(.white)
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 18)
-                .background(
-                    LinearGradient(
-                        gradient: Gradient(colors: [
-                            Color(.PrimaryPurple),
-                            Color(.PrimaryPurple).opacity(0.8)
-                        ]),
-                        startPoint: .leading,
-                        endPoint: .trailing
-                    )
-                )
-                .cornerRadius(16)
-                .shadow(color: Color(.PrimaryPurple).opacity(0.4), radius: 12, x: 0, y: 6)
             }
-            .padding(.horizontal, 40)
-            .padding(.bottom, 40)
+            .buttonStyle(PrimaryButtonStyle())
+            .padding(.horizontal, DS.Spacing.xxl)
+            .padding(.bottom, DS.Spacing.xxl)
         }
     }
 
@@ -892,13 +565,13 @@ struct TimerView: View {
                     .frame(width: 280, height: 280)
                     .accessibilityHidden(true)
 
-                VStack(spacing: 12) {
+                VStack(spacing: DS.Spacing.xs) {
                     timerManager.getTimeText()
-                        .foregroundColor(.white)
+                        .foregroundColor(DS.Colors.textPrimary)
 
                     Text(L.Timer.remainingTime.localized)
-                        .font(.system(size: 15))
-                        .foregroundColor(.white.opacity(0.6))
+                        .font(DS.Font.callout())
+                        .foregroundColor(DS.Colors.textSecondary)
                 }
                 // 남은 시간을 하나의 요소로 묶고, 값이 바뀔 때마다 VoiceOver가 갱신
                 .accessibilityElement(children: .combine)
@@ -918,20 +591,20 @@ struct TimerView: View {
                         isTimerRunning = false
                     }
                 }) {
-                    VStack(spacing: 8) {
+                    VStack(spacing: DS.Spacing.xs) {
                         ZStack {
                             Circle()
-                                .fill(Color.white.opacity(0.1))
+                                .fill(DS.Colors.surfaceSunken)
                                 .frame(width: 70, height: 70)
 
                             Image(systemName: "stop.fill")
-                                .font(.system(size: 28))
-                                .foregroundColor(.white)
+                                .font(.system(size: 24))
+                                .foregroundColor(DS.Colors.textSecondary)
                         }
 
                         Text(L.Timer.stop.localized)
-                            .font(.system(size: 13))
-                            .foregroundColor(.white.opacity(0.8))
+                            .font(DS.Font.caption())
+                            .foregroundColor(DS.Colors.textSecondary)
                     }
                 }
                 .accessibilityElement(children: .ignore)
@@ -950,27 +623,21 @@ struct TimerView: View {
                         }
                     }
                 }) {
-                    VStack(spacing: 8) {
+                    VStack(spacing: DS.Spacing.xs) {
                         ZStack {
                             Circle()
-                                .fill(Color(.PrimaryPurple))
+                                .fill(DS.Colors.accent)
                                 .frame(width: 90, height: 90)
-                                .shadow(color: Color(.PrimaryPurple).opacity(0.4), radius: 12, x: 0, y: 6)
+                                .shadow(color: DS.Colors.accent.opacity(0.4), radius: 16, x: 0, y: 8)
 
-                            if let timer = timerManager.textTimer, timer.isValid {
-                                Image(systemName: "pause.fill")
-                                    .font(.system(size: 36))
-                                    .foregroundColor(.white)
-                            } else {
-                                Image(systemName: "play.fill")
-                                    .font(.system(size: 36))
-                                    .foregroundColor(.white)
-                            }
+                            Image(systemName: timerManager.textTimer?.isValid == true ? "pause.fill" : "play.fill")
+                                .font(.system(size: 32))
+                                .foregroundColor(.white)
                         }
 
                         Text(timerManager.textTimer?.isValid == true ? L.Timer.pause.localized : L.Timer.resume.localized)
-                            .font(.system(size: 13))
-                            .foregroundColor(.white.opacity(0.8))
+                            .font(DS.Font.caption())
+                            .foregroundColor(DS.Colors.textSecondary)
                     }
                 }
                 .accessibilityElement(children: .ignore)
@@ -999,17 +666,7 @@ struct SavedSoundsListView: View {
 
     var body: some View {
         ZStack {
-            // 배경
-            LinearGradient(
-                gradient: Gradient(colors: [
-                    Color(red: 0.1, green: 0.05, blue: 0.15),
-                    Color(red: 0.15, green: 0.1, blue: 0.2),
-                    Color(red: 0.2, green: 0.15, blue: 0.25)
-                ]),
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            .ignoresSafeArea()
+            ScreenBackground()
 
             if viewModel.customSounds.isEmpty {
                 emptyStateView()
@@ -1021,17 +678,16 @@ struct SavedSoundsListView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                HStack(spacing: 8) {
+                HStack(spacing: DS.Spacing.xs) {
                     // 무료 유저 사운드 카운트 표시
                     if !subscriptionManager.isPremium {
                         let userCount = viewModel.customSounds.filter { !$0.isPreset }.count
                         Text("\(userCount)/\(SubscriptionManager.freeMaxCustomSounds)")
-                            .font(.system(size: 12, weight: .bold))
-                            .foregroundColor(userCount >= SubscriptionManager.freeMaxCustomSounds ? .orange : Color(.PrimaryPurple))
-                            .padding(.horizontal, 8)
+                            .font(DS.Font.caption().weight(.bold))
+                            .foregroundColor(userCount >= SubscriptionManager.freeMaxCustomSounds ? DS.Colors.warm : DS.Colors.accent)
+                            .padding(.horizontal, DS.Spacing.xs)
                             .padding(.vertical, 4)
-                            .background(Color(.PrimaryPurple).opacity(0.15))
-                            .cornerRadius(8)
+                            .background(Capsule().fill(DS.Colors.accentSoft))
                     }
 
                     Button {
@@ -1042,14 +698,15 @@ struct SavedSoundsListView: View {
                             showSubscription = true
                         }
                     } label: {
-                        HStack(spacing: 4) {
+                        HStack(spacing: DS.Spacing.xxs) {
                             Image(systemName: "plus.circle.fill")
-                                .font(.system(size: 18))
+                                .font(.system(size: 17, weight: .semibold))
                             Text(L.SoundList.createNew.localized)
-                                .font(.system(size: 15, weight: .medium))
+                                .font(DS.Font.subhead().weight(.medium))
                         }
-                        .foregroundColor(Color(.PrimaryPurple))
+                        .foregroundColor(DS.Colors.accent)
                     }
+                    .accessibilityLabel(L.A11y.createNewButton.localized)
                 }
             }
         }
@@ -1075,46 +732,42 @@ struct SavedSoundsListView: View {
     // MARK: - Empty State
     @ViewBuilder
     private func emptyStateView() -> some View {
-        VStack(spacing: 24) {
+        VStack(spacing: DS.Spacing.xl) {
             Image(systemName: "music.note.list")
-                .font(.system(size: 64))
-                .foregroundColor(.white.opacity(0.3))
+                .font(.system(size: 56, weight: .light))
+                .foregroundColor(DS.Colors.accent.opacity(0.5))
+                .accessibilityHidden(true)
 
-            VStack(spacing: 8) {
+            VStack(spacing: DS.Spacing.xs) {
                 Text(L.Listen.noSavedSounds.localized)
-                    .font(.system(size: 20, weight: .bold))
-                    .foregroundColor(.white)
+                    .font(DS.Font.title())
+                    .foregroundColor(DS.Colors.textPrimary)
 
                 Text(L.Listen.createFirstSound.localized)
-                    .font(.system(size: 15))
-                    .foregroundColor(.white.opacity(0.6))
+                    .font(DS.Font.callout())
+                    .foregroundColor(DS.Colors.textSecondary)
                     .multilineTextAlignment(.center)
             }
 
-            Button(action: {
+            Button {
                 showCreateView = true
-            }) {
-                HStack(spacing: 8) {
+            } label: {
+                HStack(spacing: DS.Spacing.xs) {
                     Image(systemName: "plus.circle.fill")
-                        .font(.system(size: 16))
                     Text(L.Listen.newSoundCreate.localized)
-                        .font(.system(size: 16, weight: .semibold))
                 }
-                .foregroundColor(.white)
-                .padding(.horizontal, 24)
-                .padding(.vertical, 14)
-                .background(Color(.PrimaryPurple))
-                .cornerRadius(12)
             }
-            .padding(.top, 8)
+            .buttonStyle(PrimaryButtonStyle(fullWidth: false))
+            .padding(.top, DS.Spacing.xs)
         }
+        .padding(.horizontal, DS.Spacing.xxl)
     }
 
     // MARK: - Sounds List
     @ViewBuilder
     private func soundsListView() -> some View {
         ScrollView {
-            VStack(spacing: 24) {
+            VStack(spacing: DS.Spacing.xl) {
                 // 검색 바
                 searchBar()
 
@@ -1133,7 +786,7 @@ struct SavedSoundsListView: View {
                     searchResultsSection()
                 }
             }
-            .padding(.top, 16)
+            .padding(.top, DS.Spacing.md)
             .padding(.bottom, 100)
         }
     }
@@ -1147,26 +800,16 @@ struct SavedSoundsListView: View {
 
         ForEach(PresetCategory.allCases, id: \.self) { category in
             if let presets = groupedPresets[category], !presets.isEmpty {
-                VStack(alignment: .leading, spacing: 12) {
+                VStack(alignment: .leading, spacing: DS.Spacing.sm) {
                     // 카테고리 헤더
-                    HStack(spacing: 8) {
-                        Image(systemName: category.icon)
-                            .font(.system(size: 18))
-                            .foregroundColor(category.color)
-
-                        Text(category.displayName)
-                            .font(.system(size: 18, weight: .bold))
-                            .foregroundColor(.white)
-
-                        Spacer()
-                    }
-                    .padding(.horizontal, 20)
+                    SectionHeader(title: category.displayName, systemIcon: category.icon)
+                        .padding(.horizontal, DS.Spacing.screen)
 
                     // 프리셋 그리드
                     LazyVGrid(columns: [
-                        GridItem(.flexible(), spacing: 16),
-                        GridItem(.flexible(), spacing: 16)
-                    ], spacing: 16) {
+                        GridItem(.flexible(), spacing: DS.Spacing.md),
+                        GridItem(.flexible(), spacing: DS.Spacing.md)
+                    ], spacing: DS.Spacing.md) {
                         ForEach(presets) { sound in
                             SoundCardView(sound: sound, viewModel: viewModel)
                                 .onTapGesture {
@@ -1174,7 +817,7 @@ struct SavedSoundsListView: View {
                                 }
                         }
                     }
-                    .padding(.horizontal, 20)
+                    .padding(.horizontal, DS.Spacing.screen)
                 }
             }
         }
@@ -1183,34 +826,18 @@ struct SavedSoundsListView: View {
     // MARK: - My Created Sounds Section
     @ViewBuilder
     private func myCreatedSoundsSection() -> some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: DS.Spacing.sm) {
             // 섹션 헤더
-            HStack(spacing: 8) {
-                Image(systemName: "person.fill")
-                    .font(.system(size: 18))
-                    .foregroundColor(Color(.PrimaryPurple))
-
-                Text(L.Listen.mySounds.localized)
-                    .font(.system(size: 18, weight: .bold))
-                    .foregroundColor(.white)
-
-                Text("\(myCreatedSounds.count)")
-                    .font(.system(size: 14, weight: .bold))
-                    .foregroundColor(Color(.PrimaryPurple))
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 4)
-                    .background(Color(.PrimaryPurple).opacity(0.2))
-                    .cornerRadius(8)
-
-                Spacer()
-            }
-            .padding(.horizontal, 20)
+            SectionHeader(title: L.Listen.mySounds.localized,
+                          systemIcon: "person.fill",
+                          accessory: "\(myCreatedSounds.count)")
+                .padding(.horizontal, DS.Spacing.screen)
 
             // 사운드 그리드
             LazyVGrid(columns: [
-                GridItem(.flexible(), spacing: 16),
-                GridItem(.flexible(), spacing: 16)
-            ], spacing: 16) {
+                GridItem(.flexible(), spacing: DS.Spacing.md),
+                GridItem(.flexible(), spacing: DS.Spacing.md)
+            ], spacing: DS.Spacing.md) {
                 ForEach(myCreatedSounds) { sound in
                     SoundCardView(sound: sound, viewModel: viewModel)
                         .onTapGesture {
@@ -1218,55 +845,39 @@ struct SavedSoundsListView: View {
                         }
                 }
             }
-            .padding(.horizontal, 20)
+            .padding(.horizontal, DS.Spacing.screen)
         }
     }
 
     // MARK: - Search Results Section
     @ViewBuilder
     private func searchResultsSection() -> some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: DS.Spacing.sm) {
             // 검색 결과 헤더
-            HStack(spacing: 8) {
-                Image(systemName: "magnifyingglass")
-                    .font(.system(size: 18))
-                    .foregroundColor(.white.opacity(0.6))
-
-                Text(L.Listen.searchResults.localized)
-                    .font(.system(size: 18, weight: .bold))
-                    .foregroundColor(.white)
-
-                Text("\(filteredSounds.count)")
-                    .font(.system(size: 14, weight: .bold))
-                    .foregroundColor(.white)
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 4)
-                    .background(Color.white.opacity(0.2))
-                    .cornerRadius(8)
-
-                Spacer()
-            }
-            .padding(.horizontal, 20)
+            SectionHeader(title: L.Listen.searchResults.localized,
+                          systemIcon: "magnifyingglass",
+                          accessory: "\(filteredSounds.count)")
+                .padding(.horizontal, DS.Spacing.screen)
 
             if filteredSounds.isEmpty {
                 // 검색 결과 없음
-                VStack(spacing: 12) {
+                VStack(spacing: DS.Spacing.sm) {
                     Image(systemName: "magnifyingglass")
-                        .font(.system(size: 48))
-                        .foregroundColor(.white.opacity(0.3))
+                        .font(.system(size: 44, weight: .light))
+                        .foregroundColor(DS.Colors.textTertiary)
 
                     Text(L.Listen.noSearchResults.localized)
-                        .font(.system(size: 16, weight: .medium))
-                        .foregroundColor(.white.opacity(0.6))
+                        .font(DS.Font.callout())
+                        .foregroundColor(DS.Colors.textSecondary)
                 }
                 .frame(maxWidth: .infinity)
-                .padding(.vertical, 40)
+                .padding(.vertical, DS.Spacing.xxxl)
             } else {
                 // 검색 결과 그리드
                 LazyVGrid(columns: [
-                    GridItem(.flexible(), spacing: 16),
-                    GridItem(.flexible(), spacing: 16)
-                ], spacing: 16) {
+                    GridItem(.flexible(), spacing: DS.Spacing.md),
+                    GridItem(.flexible(), spacing: DS.Spacing.md)
+                ], spacing: DS.Spacing.md) {
                     ForEach(filteredSounds) { sound in
                         SoundCardView(sound: sound, viewModel: viewModel)
                             .onTapGesture {
@@ -1281,7 +892,7 @@ struct SavedSoundsListView: View {
                             }
                     }
                 }
-                .padding(.horizontal, 20)
+                .padding(.horizontal, DS.Spacing.screen)
             }
         }
     }
@@ -1289,21 +900,23 @@ struct SavedSoundsListView: View {
     // MARK: - Search Bar
     @ViewBuilder
     private func searchBar() -> some View {
-        HStack(spacing: 12) {
+        HStack(spacing: DS.Spacing.sm) {
             Image(systemName: "magnifyingglass")
-                .foregroundColor(.white.opacity(0.5))
+                .foregroundColor(DS.Colors.textTertiary)
+                .accessibilityHidden(true)
 
             TextField(L.Listen.soundSearch.localized, text: $searchText)
-                .foregroundColor(.white)
-                .font(.system(size: 15))
+                .foregroundColor(DS.Colors.textPrimary)
+                .font(DS.Font.body())
+                .tint(DS.Colors.accent)
         }
-        .padding(.horizontal, 16)
-        .padding(.vertical, 12)
+        .padding(.horizontal, DS.Spacing.md)
+        .padding(.vertical, DS.Spacing.sm + 2)
         .background(
-            RoundedRectangle(cornerRadius: 12)
-                .fill(Color.white.opacity(0.1))
+            RoundedRectangle(cornerRadius: DS.Radius.md, style: .continuous)
+                .fill(DS.Colors.surfaceSunken)
         )
-        .padding(.horizontal, 20)
+        .padding(.horizontal, DS.Spacing.screen)
     }
 
     // MARK: - Computed Properties
@@ -1348,33 +961,33 @@ struct SoundCardView: View {
         VStack(spacing: 0) {
             // 상단 썸네일 영역
             ZStack {
-                // 레이어 사운드면 썸네일, 아니면 기존 배경
+                // 레이어 사운드면 썸네일, 아니면 부드러운 색 배경
                 if sound.isLayeredSound {
                     Rectangle()
-                        .fill(Color.black.opacity(0.3))
-                        .frame(height: 100)
+                        .fill(DS.Colors.accentSoft)
+                        .frame(height: 104)
 
                     SoundThumbnailView(sound: sound, size: 60)
                 } else {
                     Rectangle()
                         .fill(
                             LinearGradient(
-                                gradient: Gradient(colors: [
-                                    Color(hex: sound.color).opacity(0.8),
-                                    Color(hex: sound.color)
-                                ]),
-                                startPoint: .top,
-                                endPoint: .bottom
+                                colors: [
+                                    Color(hex: sound.color).opacity(0.55),
+                                    Color(hex: sound.color).opacity(0.85)
+                                ],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
                             )
                         )
-                        .frame(height: 100)
+                        .frame(height: 104)
 
                     // 카테고리 아이콘
                     Image(sound.category.imageName)
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 50, height: 50)
-                        .foregroundColor(.white.opacity(0.9))
+                        .frame(width: 48, height: 48)
+                        .foregroundColor(.white.opacity(0.95))
                 }
 
                 // 즐겨찾기 하트 아이콘 (우측 상단)
@@ -1386,13 +999,12 @@ struct SoundCardView: View {
                                 vm.toggleFavorite(sound)
                             }) {
                                 Image(systemName: sound.isFavorite ? "heart.fill" : "heart")
-                                    .font(.system(size: 18))
-                                    .foregroundColor(sound.isFavorite ? .red : .white.opacity(0.8))
-                                    .padding(8)
-                                    .background(Color.black.opacity(0.3))
-                                    .clipShape(Circle())
+                                    .font(.system(size: 15, weight: .semibold))
+                                    .foregroundColor(sound.isFavorite ? DS.Colors.danger : .white)
+                                    .frame(width: 34, height: 34)
+                                    .background(.ultraThinMaterial, in: Circle())
                             }
-                            .padding(8)
+                            .padding(DS.Spacing.xs)
                         }
                         Spacer()
                     }
@@ -1402,18 +1014,17 @@ struct SoundCardView: View {
                 if sound.isPreset {
                     VStack {
                         HStack {
-                            HStack(spacing: 4) {
+                            HStack(spacing: 3) {
                                 Image(systemName: "star.fill")
-                                    .font(.system(size: 10))
+                                    .font(.system(size: 9))
                                 Text(L.Listen.presets.localized)
-                                    .font(.system(size: 10, weight: .semibold))
+                                    .font(DS.Font.caption().weight(.semibold))
                             }
                             .foregroundColor(.white)
-                            .padding(.horizontal, 8)
+                            .padding(.horizontal, DS.Spacing.xs)
                             .padding(.vertical, 4)
-                            .background(Color(.PrimaryPurple).opacity(0.9))
-                            .cornerRadius(8)
-                            .padding(8)
+                            .background(Capsule().fill(DS.Colors.accent.opacity(0.95)))
+                            .padding(DS.Spacing.xs)
 
                             Spacer()
                         }
@@ -1423,43 +1034,34 @@ struct SoundCardView: View {
             }
 
             // 하단 정보 영역
-            VStack(alignment: .leading, spacing: 8) {
+            VStack(alignment: .leading, spacing: DS.Spacing.xs) {
                 Text(sound.title)
-                    .font(.system(size: 15, weight: .semibold))
-                    .foregroundColor(.white)
+                    .font(DS.Font.subhead().weight(.semibold))
+                    .foregroundColor(DS.Colors.textPrimary)
                     .lineLimit(1)
 
-                HStack(spacing: 6) {
+                HStack(spacing: DS.Spacing.xxs + 2) {
                     // 레이어 개수 또는 카테고리 표시
                     if let layers = sound.soundLayers, layers.count > 1 {
                         Image(systemName: "square.3.layers.3d")
                             .font(.system(size: 10))
-                            .foregroundColor(.white.opacity(0.6))
-
                         Text(String(format: L.Listen.layerCount.localized, layers.count))
-                            .font(.system(size: 12))
-                            .foregroundColor(.white.opacity(0.6))
+                            .font(DS.Font.caption())
                     } else {
                         Image(systemName: "waveform")
                             .font(.system(size: 10))
-                            .foregroundColor(.white.opacity(0.6))
-
                         Text(sound.category.displayName)
-                            .font(.system(size: 12))
-                            .foregroundColor(.white.opacity(0.6))
+                            .font(DS.Font.caption())
                     }
                 }
+                .foregroundColor(DS.Colors.textSecondary)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(12)
-            .background(Color.black.opacity(0.3))
+            .padding(DS.Spacing.sm)
+            .background(DS.Colors.surface)
         }
-        .cornerRadius(12)
-        .overlay(
-            RoundedRectangle(cornerRadius: 12)
-                .stroke(Color.white.opacity(0.1), lineWidth: 1)
-        )
-        .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
+        .clipShape(RoundedRectangle(cornerRadius: DS.Radius.md, style: .continuous))
+        .shadow(color: DS.Shadow.card.color, radius: DS.Shadow.card.radius, x: 0, y: DS.Shadow.card.y)
     }
 }
 
@@ -1468,76 +1070,52 @@ struct RecommendationCard: View {
     let sound: CustomSound
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: DS.Spacing.sm) {
             // 상단 아이콘 영역
             ZStack {
                 Circle()
                     .fill(
                         LinearGradient(
-                            gradient: Gradient(colors: [
-                                Color(hex: sound.color).opacity(0.6),
-                                Color(hex: sound.color)
-                            ]),
+                            colors: [
+                                Color(hex: sound.color).opacity(0.55),
+                                Color(hex: sound.color).opacity(0.85)
+                            ],
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
                         )
                     )
-                    .frame(width: 60, height: 60)
+                    .frame(width: 56, height: 56)
 
                 if sound.isLayeredSound {
-                    SoundThumbnailView(sound: sound, size: 35)
+                    SoundThumbnailView(sound: sound, size: 32)
                 } else {
                     Image(sound.category.imageName)
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 35, height: 35)
+                        .frame(width: 32, height: 32)
                         .foregroundColor(.white)
                 }
-
-                // 추천 배지
-                VStack {
-                    HStack {
-                        Spacer()
-                        Image(systemName: "sparkles")
-                            .font(.system(size: 12))
-                            .foregroundColor(.yellow)
-                            .padding(6)
-                            .background(Color.black.opacity(0.4))
-                            .clipShape(Circle())
-                    }
-                    Spacer()
-                }
-                .frame(width: 60, height: 60)
             }
 
             // 사운드 정보
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: DS.Spacing.xxs) {
                 Text(sound.title)
-                    .font(.system(size: 14, weight: .semibold))
-                    .foregroundColor(.white)
+                    .font(DS.Font.subhead().weight(.semibold))
+                    .foregroundColor(DS.Colors.textPrimary)
                     .lineLimit(2)
                     .fixedSize(horizontal: false, vertical: true)
 
-                HStack(spacing: 4) {
+                HStack(spacing: DS.Spacing.xxs) {
                     Image(systemName: "waveform")
                         .font(.system(size: 9))
                     Text(sound.category.displayName)
-                        .font(.system(size: 11))
+                        .font(DS.Font.caption())
                 }
-                .foregroundColor(.white.opacity(0.6))
+                .foregroundColor(DS.Colors.textSecondary)
             }
         }
-        .frame(width: 140)
-        .padding(12)
-        .background(
-            RoundedRectangle(cornerRadius: 12)
-                .fill(Color.black.opacity(0.3))
-        )
-        .overlay(
-            RoundedRectangle(cornerRadius: 12)
-                .stroke(Color.white.opacity(0.15), lineWidth: 1)
-        )
-        .shadow(color: Color.black.opacity(0.2), radius: 6, x: 0, y: 3)
+        .frame(width: 150, alignment: .leading)
+        .dsCard(padding: DS.Spacing.md, radius: DS.Radius.md)
     }
 }
 
