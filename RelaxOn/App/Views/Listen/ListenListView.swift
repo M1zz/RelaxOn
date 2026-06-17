@@ -371,66 +371,74 @@ struct CampfireView: View {
     @State private var glow = false
 
     var body: some View {
-        ZStack {
-            // 부드러운 외곽 글로우
-            Circle()
-                .fill(
-                    RadialGradient(
-                        colors: [DS.Colors.accent.opacity(isPlaying ? 0.30 : 0.14), .clear],
-                        center: .center,
-                        startRadius: 10,
-                        endRadius: 200
-                    )
-                )
-                .frame(width: 360, height: 360)
-                .scaleEffect(glow ? 1.08 : 0.92)
-                .blur(radius: 30)
+        // 오브와 안내 문구를 세로로 쌓아 어떤 화면 크기에서도 깨지지 않게 중앙 정렬
+        VStack(spacing: DS.Spacing.xl) {
+            Spacer(minLength: 0)
 
-            // 메인 브리딩 오브
-            Circle()
-                .fill(
-                    LinearGradient(
-                        colors: [
-                            DS.Colors.accent.opacity(0.9),
-                            DS.Colors.accent.opacity(0.5)
-                        ],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
-                )
-                .frame(width: 200, height: 200)
-                .overlay(
-                    // 안쪽 하이라이트
-                    Circle()
-                        .fill(
-                            RadialGradient(
-                                colors: [Color.white.opacity(0.35), .clear],
-                                center: UnitPoint(x: 0.35, y: 0.3),
-                                startRadius: 4,
-                                endRadius: 120
-                            )
+            // 오브 클러스터 (글로우는 장식이라 레이아웃 공간을 차지하지 않도록 고정 프레임 안에서 오버플로우)
+            ZStack {
+                // 부드러운 외곽 글로우
+                Circle()
+                    .fill(
+                        RadialGradient(
+                            colors: [DS.Colors.accent.opacity(isPlaying ? 0.30 : 0.14), .clear],
+                            center: .center,
+                            startRadius: 10,
+                            endRadius: 200
                         )
-                )
-                .scaleEffect(breathe ? 1.06 : 0.94)
-                .shadow(color: DS.Colors.accent.opacity(0.4), radius: 40, x: 0, y: 12)
+                    )
+                    .frame(width: 320, height: 320)
+                    .scaleEffect(glow ? 1.06 : 0.92)
+                    .blur(radius: 28)
 
-            // 중앙 아이콘
-            Image(systemName: isPlaying ? "waveform" : "moon.stars.fill")
-                .font(.system(size: 44, weight: .light))
-                .foregroundColor(.white.opacity(0.95))
-                .scaleEffect(breathe ? 1.04 : 0.96)
+                // 메인 브리딩 오브
+                Circle()
+                    .fill(
+                        LinearGradient(
+                            colors: [
+                                DS.Colors.accent.opacity(0.9),
+                                DS.Colors.accent.opacity(0.5)
+                            ],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                    .frame(width: 190, height: 190)
+                    .overlay(
+                        // 안쪽 하이라이트
+                        Circle()
+                            .fill(
+                                RadialGradient(
+                                    colors: [Color.white.opacity(0.35), .clear],
+                                    center: UnitPoint(x: 0.35, y: 0.3),
+                                    startRadius: 4,
+                                    endRadius: 120
+                                )
+                            )
+                    )
+                    .scaleEffect(breathe ? 1.06 : 0.94)
+                    .shadow(color: DS.Colors.accent.opacity(0.4), radius: 36, x: 0, y: 12)
 
-            // 안내 문구
-            VStack {
-                Spacer()
-                Text(isPlaying ? L.Listen.relaxWithWhiteNoise.localized : L.Listen.playSoundForCampfire.localized)
-                    .font(DS.Font.callout())
-                    .foregroundColor(DS.Colors.textSecondary)
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal, DS.Spacing.xl)
-                    .padding(.top, 260)
+                // 중앙 아이콘
+                Image(systemName: isPlaying ? "waveform" : "moon.stars.fill")
+                    .font(.system(size: 42, weight: .light))
+                    .foregroundColor(.white.opacity(0.95))
+                    .scaleEffect(breathe ? 1.04 : 0.96)
             }
+            .frame(width: 210, height: 210)
+
+            // 안내 문구 (오브 아래 자연스럽게 배치)
+            Text(isPlaying ? L.Listen.relaxWithWhiteNoise.localized : L.Listen.playSoundForCampfire.localized)
+                .font(DS.Font.callout())
+                .foregroundColor(DS.Colors.textSecondary)
+                .multilineTextAlignment(.center)
+                .lineLimit(2)
+                .minimumScaleFactor(0.85)
+                .padding(.horizontal, DS.Spacing.xl)
+
+            Spacer(minLength: 0)
         }
+        .frame(maxWidth: .infinity)
         .onAppear { startBreathing() }
         .onChange(of: isPlaying) { _ in startBreathing() }
     }
@@ -513,12 +521,17 @@ struct TimerView: View {
                 Text(L.Timer.forGoodSleep.localized)
                     .font(DS.Font.title())
                     .foregroundColor(DS.Colors.textPrimary)
+                    .multilineTextAlignment(.center)
+                    .lineLimit(2)
+                    .minimumScaleFactor(0.7)
 
                 Text(L.Timer.autoStopDescription.localized)
                     .font(DS.Font.callout())
                     .foregroundColor(DS.Colors.textSecondary)
                     .multilineTextAlignment(.center)
+                    .minimumScaleFactor(0.8)
             }
+            .padding(.horizontal, DS.Spacing.xl)
 
             Spacer()
 
