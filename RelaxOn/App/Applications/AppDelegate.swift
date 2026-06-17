@@ -15,15 +15,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         // ...
         return true
     }
-    func application(
-        _ application: UIApplication,
-        configurationForConnecting connectingSceneSession: UISceneSession,
-        options: UIScene.ConnectionOptions
-    ) -> UISceneConfiguration {
-        let sceneConfig = UISceneConfiguration(name: nil, sessionRole: connectingSceneSession.role)
-        sceneConfig.delegateClass = SceneDelegate.self
-        return sceneConfig
-    }
+    // NOTE: SwiftUI의 WindowGroup이 Scene을 직접 관리하도록 커스텀 SceneConfiguration 오버라이드를 제거했다.
+    // (기존 SceneDelegate는 빈 구현이었고, 이 오버라이드가 iPad에서 전체화면 대신
+    //  아이폰 호환(가운데 창) 모드로 렌더되게 만들던 원인이었다.)
 }
 
 

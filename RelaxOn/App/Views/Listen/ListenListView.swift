@@ -53,6 +53,7 @@ struct ListenListView: View {
                     emptyPlayerView()
                 }
             }
+            .dsConstrainedWidth()
         }
 
         .navigationDestination(isPresented: $isShowingEditView) {
@@ -819,10 +820,7 @@ struct SavedSoundsListView: View {
                         .padding(.horizontal, DS.Spacing.screen)
 
                     // 프리셋 그리드
-                    LazyVGrid(columns: [
-                        GridItem(.flexible(), spacing: DS.Spacing.md),
-                        GridItem(.flexible(), spacing: DS.Spacing.md)
-                    ], spacing: DS.Spacing.md) {
+                    LazyVGrid(columns: DS.Layout.grid(), spacing: DS.Spacing.md) {
                         ForEach(presets) { sound in
                             SoundCardView(sound: sound, viewModel: viewModel)
                                 .onTapGesture {
@@ -847,10 +845,7 @@ struct SavedSoundsListView: View {
                 .padding(.horizontal, DS.Spacing.screen)
 
             // 사운드 그리드
-            LazyVGrid(columns: [
-                GridItem(.flexible(), spacing: DS.Spacing.md),
-                GridItem(.flexible(), spacing: DS.Spacing.md)
-            ], spacing: DS.Spacing.md) {
+            LazyVGrid(columns: DS.Layout.grid(), spacing: DS.Spacing.md) {
                 ForEach(myCreatedSounds) { sound in
                     SoundCardView(sound: sound, viewModel: viewModel)
                         .onTapGesture {
@@ -887,10 +882,7 @@ struct SavedSoundsListView: View {
                 .padding(.vertical, DS.Spacing.xxxl)
             } else {
                 // 검색 결과 그리드
-                LazyVGrid(columns: [
-                    GridItem(.flexible(), spacing: DS.Spacing.md),
-                    GridItem(.flexible(), spacing: DS.Spacing.md)
-                ], spacing: DS.Spacing.md) {
+                LazyVGrid(columns: DS.Layout.grid(), spacing: DS.Spacing.md) {
                     ForEach(filteredSounds) { sound in
                         SoundCardView(sound: sound, viewModel: viewModel)
                             .onTapGesture {

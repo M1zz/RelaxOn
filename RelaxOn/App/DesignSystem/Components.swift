@@ -8,6 +8,36 @@
 
 import SwiftUI
 
+// MARK: - Responsive Layout
+
+extension DS {
+    /// 넓은 화면(iPad·가로)에서 콘텐츠가 과도하게 늘어나지 않도록 하는 기준 최대 폭
+    enum Layout {
+        static let contentMaxWidth: CGFloat = 560
+        /// 사운드 카드 그리드용 적응형 컬럼 (폰 2열, iPad 다열 자동)
+        static func grid(spacing: CGFloat = DS.Spacing.md) -> [GridItem] {
+            [GridItem(.adaptive(minimum: 150, maximum: 240), spacing: spacing)]
+        }
+    }
+}
+
+/// 콘텐츠 폭을 제한하고 가로 중앙 정렬 (큰 화면에서 일관된 비율 유지)
+struct ConstrainedWidth: ViewModifier {
+    var maxWidth: CGFloat = DS.Layout.contentMaxWidth
+    func body(content: Content) -> some View {
+        content
+            .frame(maxWidth: maxWidth)
+            .frame(maxWidth: .infinity)
+    }
+}
+
+extension View {
+    /// 큰 화면에서 콘텐츠 최대 폭 제한 + 중앙 정렬
+    func dsConstrainedWidth(_ maxWidth: CGFloat = DS.Layout.contentMaxWidth) -> some View {
+        modifier(ConstrainedWidth(maxWidth: maxWidth))
+    }
+}
+
 // MARK: - Screen Background
 
 /// 모든 화면의 표준 배경 (은은한 라이트/다크 그라데이션)
