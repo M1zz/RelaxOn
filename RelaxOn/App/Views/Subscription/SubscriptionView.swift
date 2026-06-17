@@ -12,9 +12,14 @@ struct SubscriptionView: View {
 
     @EnvironmentObject var subscriptionManager: SubscriptionManager
     @Environment(\.dismiss) var dismiss
+    @Environment(\.openURL) var openURL
     @State private var isPurchasing = false
     @State private var showError = false
     @State private var errorMessage = ""
+
+    // 법적 링크 (App Store 가이드라인 3.1.2 필수)
+    private let termsOfUseURL = URL(string: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/")!
+    private let privacyPolicyURL = URL(string: "https://m1zz.github.io/RelaxOn/privacy.html")!
 
     var body: some View {
         ZStack {
@@ -67,7 +72,10 @@ struct SubscriptionView: View {
                                 .foregroundColor(.white.opacity(0.6))
                                 .underline()
                         }
-                        .padding(.bottom, 40)
+
+                        // 법적 고지 및 약관/개인정보 링크
+                        legalSection()
+                            .padding(.bottom, 40)
                     }
                     .padding(.horizontal, 24)
                 }
@@ -274,5 +282,41 @@ struct SubscriptionView: View {
                 .padding()
             }
         }
+    }
+
+    // MARK: - Legal Section
+
+    @ViewBuilder
+    private func legalSection() -> some View {
+        VStack(spacing: 12) {
+            // 자동 갱신 안내 문구
+            Text(L.Subscription.legalNotice.localized)
+                .font(.system(size: 11))
+                .foregroundColor(.white.opacity(0.45))
+                .multilineTextAlignment(.center)
+                .fixedSize(horizontal: false, vertical: true)
+
+            // 이용약관(EULA) / 개인정보 처리방침 링크
+            HStack(spacing: 16) {
+                Button(action: { openURL(termsOfUseURL) }) {
+                    Text(L.Subscription.termsOfUse.localized)
+                        .font(.system(size: 12, weight: .medium))
+                        .foregroundColor(.white.opacity(0.7))
+                        .underline()
+                }
+
+                Text("·")
+                    .font(.system(size: 12))
+                    .foregroundColor(.white.opacity(0.4))
+
+                Button(action: { openURL(privacyPolicyURL) }) {
+                    Text(L.Subscription.privacyPolicy.localized)
+                        .font(.system(size: 12, weight: .medium))
+                        .foregroundColor(.white.opacity(0.7))
+                        .underline()
+                }
+            }
+        }
+        .padding(.top, 8)
     }
 }

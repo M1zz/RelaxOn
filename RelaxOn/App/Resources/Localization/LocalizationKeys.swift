@@ -466,6 +466,9 @@ enum L {
         static let freeTrialWeek = "subscription.free_trial_week"
         static let loadingProducts = "subscription.loading_products"
         static let retry = "subscription.retry"
+        static let termsOfUse = "subscription.terms_of_use"
+        static let privacyPolicy = "subscription.privacy_policy"
+        static let legalNotice = "subscription.legal_notice"
     }
 
     // MARK: - Preset Categories
