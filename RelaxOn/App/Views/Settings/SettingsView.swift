@@ -21,28 +21,32 @@ struct SettingsView: View {
     @State var isShowingTimerProgressView: Bool = false
     @State var progress: Double = 1.0
 
+    // 타이머가 실행 중인지 여부 (시작/일시정지 버튼의 접근성 라벨용)
+    private var isTimerRunning: Bool {
+        isShowingTimerProgressView && (timerManager.textTimer?.isValid ?? false)
+    }
+
     var body: some View {
 
         ZStack {
-            Color(.DefaultBackground)
-                .ignoresSafeArea()
+            ScreenBackground()
 
             VStack(alignment: .leading, spacing: 0) {
                 // 타이틀
                 Text("Settings")
-                    .foregroundColor(Color(.TitleText))
-                    .font(.system(size: 24, weight: .bold))
-                    .padding(.horizontal, 24)
-                    .padding(.vertical, 16)
+                    .foregroundColor(DS.Colors.textPrimary)
+                    .font(DS.Font.title())
+                    .padding(.horizontal, DS.Spacing.screen)
+                    .padding(.vertical, DS.Spacing.md)
 
                 ScrollView {
-                    VStack(spacing: 24) {
+                    VStack(spacing: DS.Spacing.xl) {
                         // 타이머 섹션
                         timerSection()
 
                         // 향후 다른 설정 추가 가능
                     }
-                    .padding(.horizontal, 24)
+                    .padding(.horizontal, DS.Spacing.screen)
                 }
             }
         }
@@ -56,19 +60,19 @@ struct SettingsView: View {
 
     @ViewBuilder
     private func timerSection() -> some View {
-        VStack(alignment: .leading, spacing: 16) {
+        VStack(alignment: .leading, spacing: DS.Spacing.md) {
             // 섹션 제목
             HStack {
                 Image(systemName: "timer")
-                    .font(.system(size: 18))
-                    .foregroundColor(Color(.PrimaryPurple))
+                    .font(DS.Font.headline())
+                    .foregroundColor(DS.Colors.accent)
                 Text(L.Timer.sleepTimer.localized)
-                    .font(.system(size: 20, weight: .bold))
-                    .foregroundColor(Color(.TitleText))
+                    .font(DS.Font.headline())
+                    .foregroundColor(DS.Colors.textPrimary)
             }
 
             // 타이머 컨텐츠
-            VStack(spacing: 20) {
+            VStack(spacing: DS.Spacing.lg) {
 
                 // 타이머 or 프로그레스
                 if isShowingTimerProgressView == false {
@@ -85,14 +89,14 @@ struct SettingsView: View {
                     isShowingSelectorView.toggle()
                 } label: {
                     selectSoundButton()
-                        .cornerRadius(10)
+                        .cornerRadius(DS.Radius.sm)
                 }
                 .navigationDestination(isPresented: $isShowingSelectorView) {
                     TimerSoundSelectModalView()
                 }
 
                 // 컨트롤 버튼들
-                HStack(spacing: 20) {
+                HStack(spacing: DS.Spacing.lg) {
                     // 리셋 버튼
                     Button {
                         timerManager.stopTimer(timerManager: timerManager)
@@ -108,6 +112,8 @@ struct SettingsView: View {
                                 .frame(width: 70, height: 70)
                         }
                     }
+                    .frame(minWidth: 44, minHeight: 44)
+                    .accessibilityLabel("초기화")
 
                     Spacer()
 
@@ -149,12 +155,17 @@ struct SettingsView: View {
                             }
                         }
                     }
+                    .frame(minWidth: 44, minHeight: 44)
+                    .accessibilityLabel(isTimerRunning ? L.A11y.pause.localized : L.A11y.play.localized)
                 }
-                .padding(.top, 8)
+                .padding(.top, DS.Spacing.xs)
             }
-            .padding(20)
-            .background(Color(.CircularSliderBackground).opacity(0.3))
-            .cornerRadius(16)
+            .padding(DS.Spacing.lg)
+            .background(DS.Colors.surface)
+            .cornerRadius(DS.Radius.lg)
+            .shadow(color: DS.Shadow.card.color,
+                    radius: DS.Shadow.card.radius,
+                    y: DS.Shadow.card.y)
         }
     }
 
@@ -162,16 +173,17 @@ struct SettingsView: View {
     private func selectSoundButton() -> some View {
         HStack {
             Text(viewModel.selectedSound?.title ?? L.SaveView.selectYourSound.localized)
-                .foregroundColor(Color(.TimerMyListText))
+                .font(DS.Font.body())
+                .foregroundColor(DS.Colors.textPrimary)
 
             Spacer()
 
             Image(systemName: "chevron.right")
-                .foregroundColor(Color(.TimerMyListText))
+                .foregroundColor(DS.Colors.textSecondary)
         }
-        .padding(.horizontal, 24)
-        .padding(.vertical, 15)
-        .background(Color(.TimerMyListBackground))
+        .padding(.horizontal, DS.Spacing.lg)
+        .padding(.vertical, DS.Spacing.sm)
+        .background(DS.Colors.surfaceSunken)
     }
 }
 

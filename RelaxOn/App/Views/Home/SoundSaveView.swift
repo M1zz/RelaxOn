@@ -29,26 +29,26 @@ struct SoundSaveView: View {
 
     var body: some View {
         ZStack {
-            Color(.DefaultBackground)
-                .ignoresSafeArea()
+            ScreenBackground()
             VStack{
                 HStack {
                     Button {
                         presentationMode.wrappedValue.dismiss()
                     } label: {
                         Image(systemName: "chevron.backward")
-                            .foregroundColor(Color(.ChevronBack))
-                            .frame(width: 30, height: 30)
+                            .foregroundColor(DS.Colors.textPrimary)
+                            .frame(width: 44, height: 44)
                     }
-                    
+                    .accessibilityLabel(L.A11y.backButton.localized)
+
                     Spacer()
-                    
+
                     Text(originalSound.category.displayName)
-                        .font(.system(size: 18, weight: .bold))
-                        .foregroundColor(Color(.Text))
-                    
+                        .font(DS.Font.headline())
+                        .foregroundColor(DS.Colors.textPrimary)
+
                     Spacer()
-                    
+
                     Button {
 
                         if title.count <= 0 {
@@ -84,27 +84,30 @@ struct SoundSaveView: View {
 
                     } label: {
                         Text(L.Common.save.localized)
-                            .foregroundColor(Color(.PrimaryPurple))
                     }
+                    .buttonStyle(PrimaryButtonStyle())
                 }
-                .padding(.horizontal, 16)
-                .padding(.vertical, 9)
-                
+                .padding(.horizontal, DS.Spacing.md)
+                .padding(.vertical, DS.Spacing.xs)
+
                 VStack {
                     TextField(originalSound.name, text: $title)
-                        .font(.system(size: 24, weight: .bold))
-                        .foregroundColor(Color(.Text))
+                        .font(DS.Font.body())
+                        .foregroundColor(DS.Colors.textPrimary)
+                        .tint(DS.Colors.accent)
                         .multilineTextAlignment(.center)
                         .keyboardType(.default)
                         .autocorrectionDisabled(true)
                         .focused($isFocused)
-                    
-                    Rectangle()
-                        .frame(height: 1)
-                        .foregroundColor(Color(.TextFieldUnderLine))
+                        .padding(.horizontal, DS.Spacing.md)
+                        .padding(.vertical, DS.Spacing.sm)
+                        .background(
+                            RoundedRectangle(cornerRadius: DS.Radius.md, style: .continuous)
+                                .fill(DS.Colors.surfaceSunken)
+                        )
                 }
-                .padding(.horizontal, 34)
-                
+                .padding(.horizontal, DS.Spacing.xl)
+
                 ZStack {
                     ZStack(alignment: .topTrailing) {
                         Image(originalSound.category.imageName)
@@ -120,12 +123,13 @@ struct SoundSaveView: View {
                                 .scaledToFit()
                                 .frame(width: 20)
                                 .foregroundColor(Color(hex: "1F1F1F"))
-                                .padding(20)
+                                .frame(width: 44, height: 44)
                         }
+                        .accessibilityLabel("색상 바꾸기")
                     }
-                    .cornerRadius(15)
-                    .padding(.vertical, 40)
-                    .padding(.horizontal, 24)
+                    .cornerRadius(DS.Radius.md)
+                    .padding(.vertical, DS.Spacing.xxxl)
+                    .padding(.horizontal, DS.Spacing.xl)
                 }
                 Spacer()
             }
@@ -147,7 +151,7 @@ struct SoundSaveView: View {
             viewModel.stopSound()
             presentationMode.wrappedValue.dismiss()
         }
-        .background(Color(.DefaultBackground))
+        .background(DS.Colors.background)
         .onTapGesture {
             UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
         }

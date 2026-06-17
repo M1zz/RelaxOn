@@ -36,25 +36,24 @@ struct SoundDetailView: View {
     
     var body: some View {
         ZStack {
-            Color(.DefaultBackground)
-                .ignoresSafeArea()
-            
+            ScreenBackground()
+
             ScrollView {
-                VStack(spacing: 16) {
-                    VStack(spacing: 6) {
+                VStack(spacing: DS.Spacing.md) {
+                    VStack(spacing: DS.Spacing.xs) {
                         Text(L.Customize.findYourSound.localized)
-                            .foregroundColor(Color(.Text))
-                            .font(.system(size: 18, weight: .bold))
-                            .padding(.top, 8)
+                            .foregroundColor(DS.Colors.textPrimary)
+                            .font(DS.Font.title())
+                            .padding(.top, DS.Spacing.xs)
                         Text(L.Customize.adjustSlider.localized)
-                            .foregroundColor(Color(.Text).opacity(0.7))
-                            .font(.system(size: 13, weight: .regular))
+                            .foregroundColor(DS.Colors.textSecondary)
+                            .font(DS.Font.subhead())
                     }
 
                     // 실시간 물방울 시각화 (장식용 - VoiceOver에서 숨김)
                     if viewModel.isPlaying {
                         WaterDropVisualization(viewModel: viewModel)
-                            .padding(.vertical, 8)
+                            .padding(.vertical, DS.Spacing.xs)
                             .accessibilityHidden(true)
                     } else {
                         // 사운드 이미지 (재생 중이 아닐 때)
@@ -64,7 +63,7 @@ struct SoundDetailView: View {
 
                     // 새로운 슬라이더 컨트롤
                     simpleSliderControls()
-                        .padding(.bottom, 16)
+                        .padding(.bottom, DS.Spacing.md)
                 }
             }
             
@@ -80,7 +79,7 @@ struct SoundDetailView: View {
                         presentationMode.wrappedValue.dismiss()
                     } label: {
                         Image(systemName: "chevron.backward")
-                            .foregroundColor(Color(.ChevronBack))
+                            .foregroundColor(DS.Colors.textSecondary)
                             .frame(width: 44, height: 44)
                     }
                     .accessibilityLabel(L.A11y.backButton.localized)
@@ -92,8 +91,8 @@ struct SoundDetailView: View {
                         isShowingSheet.toggle()
                     } label: {
                         Text(L.Common.next.localized)
-                            .foregroundColor(Color(.PrimaryPurple))
-                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundColor(DS.Colors.accent)
+                            .font(DS.Font.subhead().weight(.semibold))
                     }
                 }
             }
@@ -156,13 +155,13 @@ struct SoundDetailView: View {
             .aspectRatio(contentMode: .fit)
             .frame(height: 100)
             .background(Color(hex: originalSound.color))
-            .cornerRadius(12)
-            .padding(.horizontal, 50)
+            .clipShape(RoundedRectangle(cornerRadius: DS.Radius.sm, style: .continuous))
+            .padding(.horizontal, DS.Spacing.xxxl)
     }
 
     @ViewBuilder
     func simpleSliderControls() -> some View {
-        VStack(spacing: 16) {
+        VStack(spacing: DS.Spacing.md) {
             // 볼륨 슬라이더
             sliderControl(
                 icon: "speaker.wave.2.fill",
@@ -202,7 +201,7 @@ struct SoundDetailView: View {
             // 필터 선택
             filterControl()
         }
-        .padding(.horizontal, 24)
+        .padding(.horizontal, DS.Spacing.xl)
     }
 
     @ViewBuilder
@@ -216,7 +215,7 @@ struct SoundDetailView: View {
         color: Color,
         variationValue: Binding<Float>? = nil
     ) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: DS.Spacing.xs) {
             HStack {
                 Image(systemName: icon)
                     .font(.system(size: 16))
@@ -225,13 +224,13 @@ struct SoundDetailView: View {
                     .accessibilityHidden(true)
 
                 Text(label)
-                    .font(.system(size: 15, weight: .semibold))
-                    .foregroundColor(Color(.Text))
+                    .font(DS.Font.headline())
+                    .foregroundColor(DS.Colors.textPrimary)
 
                 Spacer()
 
                 Text(displayValue)
-                    .font(.system(size: 16, weight: .bold))
+                    .font(DS.Font.headline())
                     .foregroundColor(color)
                     .frame(minWidth: 55, alignment: .trailing)
             }
@@ -245,7 +244,7 @@ struct SoundDetailView: View {
             // 변동폭 슬라이더 (있는 경우에만)
             if let variationValue = variationValue {
                 Divider()
-                    .padding(.vertical, 4)
+                    .padding(.vertical, DS.Spacing.xxs)
 
                 HStack {
                     Image(systemName: "arrow.left.and.right")
@@ -254,8 +253,8 @@ struct SoundDetailView: View {
                         .frame(width: 20)
 
                     Text(L.Customize.variationRange.localized)
-                        .font(.system(size: 13))
-                        .foregroundColor(Color(.Text).opacity(0.8))
+                        .font(DS.Font.subhead())
+                        .foregroundColor(DS.Colors.textSecondary)
 
                     Spacer()
 
@@ -263,7 +262,7 @@ struct SoundDetailView: View {
                     VariationIndicator(value: variationValue.wrappedValue, color: color)
 
                     Text(String(format: "±%.0f%%", variationValue.wrappedValue * 100))
-                        .font(.system(size: 14, weight: .semibold))
+                        .font(DS.Font.subhead().weight(.semibold))
                         .foregroundColor(color.opacity(0.7))
                         .frame(minWidth: 45, alignment: .trailing)
                 }
@@ -283,13 +282,16 @@ struct SoundDetailView: View {
                         color: color,
                         unit: getUnit(for: label)
                     )
-                    .padding(.top, 8)
+                    .padding(.top, DS.Spacing.xs)
                 }
             }
         }
-        .padding(12)
-        .background(Color(.CircularSliderBackground).opacity(0.3))
-        .cornerRadius(10)
+        .padding(DS.Spacing.md)
+        .background(
+            RoundedRectangle(cornerRadius: DS.Radius.lg, style: .continuous)
+                .fill(DS.Colors.surface)
+        )
+        .shadow(color: DS.Shadow.card.color, radius: DS.Shadow.card.radius, y: DS.Shadow.card.y)
     }
 
     // 라벨에 따라 적절한 단위 반환
@@ -308,35 +310,38 @@ struct SoundDetailView: View {
 
     @ViewBuilder
     func filterControl() -> some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: DS.Spacing.xs) {
             HStack {
                 Image(systemName: "waveform")
                     .font(.system(size: 16))
-                    .foregroundColor(.purple)
+                    .foregroundColor(DS.Colors.accent)
                     .frame(width: 20)
 
                 Text(L.Common.filter.localized)
-                    .font(.system(size: 15, weight: .semibold))
-                    .foregroundColor(Color(.Text))
+                    .font(DS.Font.headline())
+                    .foregroundColor(DS.Colors.textPrimary)
 
                 Spacer()
 
                 Text(viewModel.filter.displayName)
-                    .font(.system(size: 14, weight: .bold))
-                    .foregroundColor(.purple)
+                    .font(DS.Font.subhead().weight(.semibold))
+                    .foregroundColor(DS.Colors.accent)
             }
 
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 10) {
+                HStack(spacing: DS.Spacing.xs) {
                     ForEach(viewModel.filters, id: \.self) { filter in
                         filterButton(filter: filter)
                     }
                 }
             }
         }
-        .padding(12)
-        .background(Color(.CircularSliderBackground).opacity(0.3))
-        .cornerRadius(10)
+        .padding(DS.Spacing.md)
+        .background(
+            RoundedRectangle(cornerRadius: DS.Radius.lg, style: .continuous)
+                .fill(DS.Colors.surface)
+        )
+        .shadow(color: DS.Shadow.card.color, radius: DS.Shadow.card.radius, y: DS.Shadow.card.y)
     }
 
     @ViewBuilder
@@ -345,16 +350,14 @@ struct SoundDetailView: View {
             viewModel.filter = filter
         }) {
             Text(filter.displayName)
-                .font(.system(size: 14, weight: .medium))
-                .foregroundColor(viewModel.filter == filter ? .white : Color(.Text))
-                .padding(.horizontal, 16)
-                .padding(.vertical, 10)
+                .font(DS.Font.subhead().weight(.medium))
+                .foregroundColor(viewModel.filter == filter ? DS.Colors.onAccent : DS.Colors.textSecondary)
+                .padding(.horizontal, DS.Spacing.md)
+                .padding(.vertical, DS.Spacing.xs)
                 .background(
-                    viewModel.filter == filter
-                        ? Color.purple
-                        : Color(.CircularSliderBackground)
+                    Capsule(style: .continuous)
+                        .fill(viewModel.filter == filter ? DS.Colors.accent : DS.Colors.surfaceSunken)
                 )
-                .cornerRadius(20)
         }
         .accessibilityLabel(filter.displayName)
         .accessibilityAddTraits(viewModel.filter == filter ? [.isButton, .isSelected] : .isButton)

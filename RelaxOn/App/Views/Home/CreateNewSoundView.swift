@@ -29,12 +29,11 @@ struct CreateNewSoundView: View {
 
     var body: some View {
         ZStack {
-            Color(.DefaultBackground)
-                .ignoresSafeArea()
+            ScreenBackground()
 
             VStack(spacing: 0) {
                 ScrollView {
-                    VStack(spacing: 20) {
+                    VStack(spacing: DS.Spacing.lg) {
                         // 원본 사운드 섹션
                         originalSoundsSection()
 
@@ -46,9 +45,9 @@ struct CreateNewSoundView: View {
                             volumeControlSection()
                         }
                     }
-                    .padding(.horizontal, 20)
-                    .padding(.top, 16)
-                    .padding(.bottom, viewModel.addedSounds.isEmpty ? 20 : 120)
+                    .padding(.horizontal, DS.Spacing.screen)
+                    .padding(.top, DS.Spacing.md)
+                    .padding(.bottom, viewModel.addedSounds.isEmpty ? DS.Spacing.lg : 120)
                 }
                 .frame(maxWidth: .infinity)
             }
@@ -76,9 +75,11 @@ struct CreateNewSoundView: View {
                     }
                 }) {
                     Text(L.Common.done.localized)
-                        .font(.system(size: 16, weight: .semibold))
-                        .foregroundColor(viewModel.addedSounds.isEmpty ? Color(.Text).opacity(0.3) : Color(.PrimaryPurple))
+                        .font(DS.Font.headline())
+                        .foregroundColor(viewModel.addedSounds.isEmpty ? DS.Colors.textTertiary : DS.Colors.accent)
                 }
+                .buttonStyle(PrimaryButtonStyle(fullWidth: false))
+                .opacity(viewModel.addedSounds.isEmpty ? 0.4 : 1.0)
                 .disabled(viewModel.addedSounds.isEmpty)
             }
         }
@@ -177,33 +178,33 @@ struct CreateNewSoundView: View {
                     .allowsHitTesting(false)
 
                 // 사운드 칩들
-                HStack(spacing: 8) {
+                HStack(spacing: DS.Spacing.xs) {
                     ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: 6) {
+                        HStack(spacing: DS.Spacing.xxs) {
                             ForEach(viewModel.addedSounds) { sound in
                                 floatingSoundChip(sound: sound)
                             }
 
                             // 배경음 표시
                             if let bg = viewModel.selectedBackground {
-                                HStack(spacing: 4) {
+                                HStack(spacing: DS.Spacing.xxs) {
                                     Image(systemName: bg.icon)
                                         .font(.system(size: 11))
-                                        .foregroundColor(.white.opacity(0.9))
+                                        .foregroundColor(DS.Colors.textSecondary)
                                     Text(bg.displayName)
-                                        .font(.system(size: 11, weight: .medium))
-                                        .foregroundColor(.white.opacity(0.9))
+                                        .font(DS.Font.caption())
+                                        .foregroundColor(DS.Colors.textSecondary)
                                         .lineLimit(1)
                                 }
-                                .padding(.horizontal, 10)
-                                .padding(.vertical, 6)
-                                .background(Color.gray.opacity(0.6))
-                                .cornerRadius(16)
+                                .padding(.horizontal, DS.Spacing.xs)
+                                .padding(.vertical, DS.Spacing.xxs)
+                                .background(DS.Colors.surfaceSunken)
+                                .cornerRadius(DS.Radius.sm)
                             }
                         }
                     }
 
-                    Spacer(minLength: 4)
+                    Spacer(minLength: DS.Spacing.xxs)
 
                     // 미리듣기 버튼
                     Button(action: {
@@ -211,18 +212,19 @@ struct CreateNewSoundView: View {
                     }) {
                         Image(systemName: isPreviewPlaying ? "stop.fill" : "play.fill")
                             .font(.system(size: 13, weight: .medium))
-                            .foregroundColor(.white)
-                            .frame(width: 28, height: 28)
-                            .background(isPreviewPlaying ? Color.red : Color(.PrimaryPurple))
+                            .foregroundColor(DS.Colors.onAccent)
+                            .frame(width: 44, height: 44)
+                            .background(isPreviewPlaying ? DS.Colors.danger : DS.Colors.accent)
                             .clipShape(Circle())
                     }
+                    .accessibilityLabel(isPreviewPlaying ? L.A11y.stop.localized : L.A11y.play.localized)
 
                     // 레이어 수 뱃지
                     Text("\(viewModel.addedSounds.count)")
                         .font(.system(size: 13, weight: .bold))
-                        .foregroundColor(.white)
+                        .foregroundColor(DS.Colors.onAccent)
                         .frame(width: 28, height: 28)
-                        .background(Color(.PrimaryPurple))
+                        .background(DS.Colors.accent)
                         .clipShape(Circle())
 
                     // 초기화 버튼
@@ -237,23 +239,24 @@ struct CreateNewSoundView: View {
                     }) {
                         Image(systemName: "arrow.counterclockwise")
                             .font(.system(size: 14, weight: .medium))
-                            .foregroundColor(Color(.Text).opacity(0.6))
-                            .padding(8)
-                            .background(Color.white)
+                            .foregroundColor(DS.Colors.textSecondary)
+                            .frame(width: 44, height: 44)
+                            .background(DS.Colors.surface)
                             .clipShape(Circle())
-                            .shadow(color: Color.black.opacity(0.1), radius: 2, x: 0, y: 1)
+                            .shadow(color: DS.Shadow.card.color, radius: DS.Shadow.card.radius, x: 0, y: DS.Shadow.card.y)
                     }
+                    .accessibilityLabel("초기화")
                 }
-                .padding(.horizontal, 16)
-                .padding(.vertical, 12)
+                .padding(.horizontal, DS.Spacing.md)
+                .padding(.vertical, DS.Spacing.sm)
             }
             .background(
-                RoundedRectangle(cornerRadius: 20)
+                RoundedRectangle(cornerRadius: DS.Radius.lg)
                     .fill(.ultraThinMaterial)
-                    .shadow(color: Color.black.opacity(0.15), radius: 12, x: 0, y: -4)
+                    .shadow(color: DS.Shadow.floating.color, radius: DS.Shadow.floating.radius, x: 0, y: -4)
             )
-            .padding(.horizontal, 12)
-            .padding(.bottom, 8)
+            .padding(.horizontal, DS.Spacing.sm)
+            .padding(.bottom, DS.Spacing.xs)
         }
         .onAppear {
             if !isPreviewPlaying { startRippleTimer() }
@@ -318,17 +321,19 @@ struct CreateNewSoundView: View {
                     Image(systemName: "xmark")
                         .font(.system(size: 8, weight: .bold))
                         .foregroundColor(.white.opacity(0.8))
-                        .padding(3)
+                        .padding(8)
                         .background(Color.white.opacity(0.25))
                         .clipShape(Circle())
+                        .contentShape(Circle())
                 }
+                .accessibilityLabel("삭제")
             }
-            .padding(.horizontal, 10)
-            .padding(.vertical, 6)
+            .padding(.horizontal, DS.Spacing.xs)
+            .padding(.vertical, DS.Spacing.xxs)
             .background(sound.color.opacity(isEditing ? 1.0 : 0.85))
-            .cornerRadius(16)
+            .cornerRadius(DS.Radius.sm)
             .overlay(
-                RoundedRectangle(cornerRadius: 16)
+                RoundedRectangle(cornerRadius: DS.Radius.sm)
                     .stroke(Color.white.opacity(isEditing ? 0.8 : 0), lineWidth: 1.5)
             )
             .scaleEffect(isEditing ? 1.05 : 1.0)
@@ -431,7 +436,7 @@ struct CreateNewSoundView: View {
         if let index = safeIndex(for: soundId) {
             let sound = viewModel.addedSounds[index]
 
-            VStack(spacing: 6) {
+            VStack(spacing: DS.Spacing.xxs) {
                 // 헤더
                 HStack {
                     Image(systemName: sound.icon)
@@ -439,15 +444,18 @@ struct CreateNewSoundView: View {
                         .foregroundColor(sound.color)
                     Text(sound.name)
                         .font(.system(size: 13, weight: .bold))
-                        .foregroundColor(Color(.TitleText))
+                        .foregroundColor(DS.Colors.textPrimary)
                     Spacer()
                     Button(action: {
                         withAnimation { editingSoundId = nil }
                     }) {
                         Image(systemName: "chevron.down.circle.fill")
                             .font(.system(size: 16))
-                            .foregroundColor(Color(.Text).opacity(0.3))
+                            .foregroundColor(DS.Colors.textTertiary)
+                            .frame(width: 44, height: 44)
+                            .contentShape(Rectangle())
                     }
+                    .accessibilityLabel(L.A11y.closeButton.localized)
                 }
 
                 // 슬라이더들 (한 줄에 라벨 + 슬라이더 + 값)
@@ -499,14 +507,14 @@ struct CreateNewSoundView: View {
                     )
                 )
             }
-            .padding(10)
+            .padding(DS.Spacing.xs)
             .background(
-                RoundedRectangle(cornerRadius: 12)
-                    .fill(Color.white)
-                    .shadow(color: Color.black.opacity(0.1), radius: 6, x: 0, y: -2)
+                RoundedRectangle(cornerRadius: DS.Radius.sm)
+                    .fill(DS.Colors.surface)
+                    .shadow(color: DS.Shadow.card.color, radius: DS.Shadow.card.radius, x: 0, y: -2)
             )
-            .padding(.horizontal, 12)
-            .padding(.bottom, 2)
+            .padding(.horizontal, DS.Spacing.sm)
+            .padding(.bottom, DS.Spacing.xxs)
         }
     }
 
@@ -619,21 +627,21 @@ struct CreateNewSoundView: View {
     // MARK: - Original Sounds Section (카테고리별 정리)
     @ViewBuilder
     private func originalSoundsSection() -> some View {
-        VStack(spacing: 16) {
+        VStack(spacing: DS.Spacing.md) {
             // 헤더
             HStack {
-                VStack(alignment: .leading, spacing: 4) {
+                VStack(alignment: .leading, spacing: DS.Spacing.xxs) {
                     Text(L.CreateSound.originalSounds.localized)
-                        .font(.system(size: 18, weight: .bold))
-                        .foregroundColor(Color(.TitleText))
+                        .font(DS.Font.headline())
+                        .foregroundColor(DS.Colors.textPrimary)
 
-                    HStack(spacing: 6) {
+                    HStack(spacing: DS.Spacing.xxs) {
                         Image(systemName: "info.circle.fill")
                             .font(.system(size: 11))
                         Text(L.CreateSound.tapToSelectMultiple.localized)
-                            .font(.system(size: 11))
+                            .font(DS.Font.caption())
                     }
-                    .foregroundColor(Color(.Text).opacity(0.5))
+                    .foregroundColor(DS.Colors.textTertiary)
                 }
 
                 Spacer()
@@ -647,10 +655,7 @@ struct CreateNewSoundView: View {
                 }
             }
         }
-        .padding(16)
-        .background(Color.white)
-        .cornerRadius(16)
-        .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: 2)
+        .dsCard()
     }
 
     // MARK: - Sound Category Section
@@ -658,9 +663,9 @@ struct CreateNewSoundView: View {
     private func soundCategorySection(category: SoundCategory, sounds: [AvailableSound]) -> some View {
         let isLocked = subscriptionManager.isCategoryLocked(category)
 
-        return VStack(alignment: .leading, spacing: 10) {
+        return VStack(alignment: .leading, spacing: DS.Spacing.xs) {
             // 카테고리 헤더
-            HStack(spacing: 6) {
+            HStack(spacing: DS.Spacing.xxs) {
                 Image(systemName: category.iconName)
                     .font(.system(size: 12, weight: .semibold))
                     .foregroundColor(category.themeColor)
@@ -743,17 +748,17 @@ struct CreateNewSoundView: View {
     // MARK: - Background Music Section
     @ViewBuilder
     private func backgroundMusicSection() -> some View {
-        VStack(spacing: 16) {
+        VStack(spacing: DS.Spacing.md) {
             // 헤더
             HStack {
-                VStack(alignment: .leading, spacing: 4) {
+                VStack(alignment: .leading, spacing: DS.Spacing.xxs) {
                     Text(L.CreateSound.backgroundMusic.localized)
-                        .font(.system(size: 20, weight: .bold))
-                        .foregroundColor(Color(.TitleText))
+                        .font(DS.Font.title())
+                        .foregroundColor(DS.Colors.textPrimary)
 
                     Text(L.CreateSound.optionalAmbience.localized)
-                        .font(.system(size: 12))
-                        .foregroundColor(Color(.Text).opacity(0.5))
+                        .font(DS.Font.caption())
+                        .foregroundColor(DS.Colors.textTertiary)
                 }
 
                 Spacer()
@@ -768,18 +773,19 @@ struct CreateNewSoundView: View {
                             startPreviewPlayback()
                         }
                     }) {
-                        HStack(spacing: 6) {
+                        HStack(spacing: DS.Spacing.xxs) {
                             Image(systemName: "xmark.circle.fill")
                                 .font(.system(size: 16))
                             Text(L.CreateSound.deselect.localized)
-                                .font(.system(size: 13, weight: .medium))
+                                .font(DS.Font.subhead())
                         }
-                        .foregroundColor(.red)
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 6)
-                        .background(Color.red.opacity(0.1))
-                        .cornerRadius(12)
+                        .foregroundColor(DS.Colors.danger)
+                        .padding(.horizontal, DS.Spacing.sm)
+                        .padding(.vertical, DS.Spacing.xxs)
+                        .background(DS.Colors.danger.opacity(0.1))
+                        .cornerRadius(DS.Radius.sm)
                     }
+                    .accessibilityLabel(L.CreateSound.deselect.localized)
                 }
             }
 
@@ -808,63 +814,59 @@ struct CreateNewSoundView: View {
                 }
             }
         }
-        .padding(20)
-        .background(Color.white)
-        .cornerRadius(16)
-        .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: 2)
+        .dsCard()
     }
 
     // MARK: - Volume Control Section
     @ViewBuilder
     private func volumeControlSection() -> some View {
-        VStack(spacing: 16) {
+        VStack(spacing: DS.Spacing.md) {
             // 헤더
             HStack {
                 Image(systemName: "speaker.wave.2.fill")
                     .font(.system(size: 18))
-                    .foregroundColor(Color(.PrimaryPurple))
+                    .foregroundColor(DS.Colors.accent)
 
                 Text(L.CreateSound.backgroundMusicVolume.localized)
-                    .font(.system(size: 17, weight: .bold))
-                    .foregroundColor(Color(.TitleText))
+                    .font(DS.Font.headline())
+                    .foregroundColor(DS.Colors.textPrimary)
 
                 Spacer()
 
                 Text("\(Int(viewModel.backgroundVolume * 100))%")
-                    .font(.system(size: 16, weight: .bold))
-                    .foregroundColor(Color(.PrimaryPurple))
-                    .padding(.horizontal, 14)
-                    .padding(.vertical, 6)
-                    .background(Color(.PrimaryPurple).opacity(0.1))
-                    .cornerRadius(12)
+                    .font(DS.Font.callout())
+                    .foregroundColor(DS.Colors.accent)
+                    .padding(.horizontal, DS.Spacing.sm)
+                    .padding(.vertical, DS.Spacing.xxs)
+                    .background(DS.Colors.accentSoft)
+                    .cornerRadius(DS.Radius.sm)
             }
 
             // 슬라이더
-            VStack(spacing: 8) {
+            VStack(spacing: DS.Spacing.xs) {
                 Slider(value: $viewModel.backgroundVolume, in: 0...1)
-                    .tint(Color(.PrimaryPurple))
+                    .tint(DS.Colors.accent)
                     .onChange(of: viewModel.backgroundVolume) { newValue in
                         // 미리듣기 중이면 오디오 엔진의 배경 볼륨도 실시간 반영
                         if isPreviewPlaying {
                             audioManager.backgroundVolume = newValue
                         }
                     }
+                    .accessibilityLabel(L.A11y.volumeSlider.localized)
+                    .accessibilityValue("\(Int(viewModel.backgroundVolume * 100))%")
 
                 HStack {
                     Text(L.Common.quiet.localized)
-                        .font(.system(size: 11))
-                        .foregroundColor(Color(.Text).opacity(0.4))
+                        .font(DS.Font.caption())
+                        .foregroundColor(DS.Colors.textTertiary)
                     Spacer()
                     Text(L.Common.loud.localized)
-                        .font(.system(size: 11))
-                        .foregroundColor(Color(.Text).opacity(0.4))
+                        .font(DS.Font.caption())
+                        .foregroundColor(DS.Colors.textTertiary)
                 }
             }
         }
-        .padding(20)
-        .background(Color.white)
-        .cornerRadius(16)
-        .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: 2)
+        .dsCard()
     }
 
 }
@@ -878,7 +880,7 @@ struct BackgroundMusicCard: View {
 
     var body: some View {
         Button(action: onTap) {
-            VStack(spacing: 8) {
+            VStack(spacing: DS.Spacing.xs) {
                 // 아이콘
                 ZStack {
                     Circle()
@@ -893,32 +895,33 @@ struct BackgroundMusicCard: View {
 
                     Image(systemName: background.icon)
                         .font(.system(size: 22))
-                        .foregroundColor(isSelected ? .white : Color(.TitleText))
+                        .foregroundColor(isSelected ? DS.Colors.onAccent : DS.Colors.textPrimary)
                 }
 
                 // 이름
                 Text(background.displayName)
-                    .font(.system(size: 11, weight: isSelected ? .bold : .medium))
-                    .foregroundColor(isSelected ? Color(.PrimaryPurple) : Color(.TitleText))
+                    .font(DS.Font.caption())
+                    .fontWeight(isSelected ? .bold : .medium)
+                    .foregroundColor(isSelected ? DS.Colors.accent : DS.Colors.textPrimary)
                     .lineLimit(1)
                     .minimumScaleFactor(0.6)
             }
-            .padding(.vertical, 12)
-            .padding(.horizontal, 6)
+            .padding(.vertical, DS.Spacing.sm)
+            .padding(.horizontal, DS.Spacing.xxs)
             .frame(maxWidth: .infinity)
             .background(
-                RoundedRectangle(cornerRadius: 12)
-                    .fill(Color.white)
+                RoundedRectangle(cornerRadius: DS.Radius.sm)
+                    .fill(DS.Colors.surface)
                     .shadow(
-                        color: isSelected ? Color(.PrimaryPurple).opacity(0.3) : Color.black.opacity(0.06),
+                        color: isSelected ? DS.Colors.accent.opacity(0.3) : DS.Shadow.card.color,
                         radius: isSelected ? 6 : 3,
                         x: 0,
                         y: 2
                     )
             )
             .overlay(
-                RoundedRectangle(cornerRadius: 12)
-                    .stroke(isSelected ? Color(.PrimaryPurple) : Color.clear, lineWidth: 2)
+                RoundedRectangle(cornerRadius: DS.Radius.sm)
+                    .stroke(isSelected ? DS.Colors.accent : Color.clear, lineWidth: 2)
             )
             .scaleEffect(isSelected ? 1.05 : 1.0)
         }
@@ -935,7 +938,7 @@ struct CompactSoundCard: View {
 
     var body: some View {
         Button(action: onTap) {
-            VStack(spacing: 6) {
+            VStack(spacing: DS.Spacing.xxs) {
                 ZStack {
                     Circle()
                         .fill(
@@ -947,30 +950,31 @@ struct CompactSoundCard: View {
 
                     Image(systemName: sound.icon)
                         .font(.system(size: 20, weight: .medium))
-                        .foregroundColor(isSelected ? .white : sound.color)
+                        .foregroundColor(isSelected ? DS.Colors.onAccent : sound.color)
 
                     if isSelected {
                         Circle()
-                            .stroke(Color.white, lineWidth: 2)
+                            .stroke(DS.Colors.onAccent, lineWidth: 2)
                             .frame(width: 44, height: 44)
                     }
                 }
 
                 Text(sound.name)
-                    .font(.system(size: 12, weight: isSelected ? .bold : .medium))
-                    .foregroundColor(isSelected ? sound.color : Color(.TitleText))
+                    .font(DS.Font.caption())
+                    .fontWeight(isSelected ? .bold : .medium)
+                    .foregroundColor(isSelected ? sound.color : DS.Colors.textPrimary)
                     .lineLimit(1)
                     .minimumScaleFactor(0.7)
             }
-            .padding(.vertical, 10)
-            .padding(.horizontal, 4)
+            .padding(.vertical, DS.Spacing.xs)
+            .padding(.horizontal, DS.Spacing.xxs)
             .frame(maxWidth: .infinity)
             .background(
-                RoundedRectangle(cornerRadius: 8)
+                RoundedRectangle(cornerRadius: DS.Radius.sm)
                     .fill(isSelected ? sound.color.opacity(0.1) : Color.clear)
             )
             .overlay(
-                RoundedRectangle(cornerRadius: 8)
+                RoundedRectangle(cornerRadius: DS.Radius.sm)
                     .stroke(isSelected ? sound.color.opacity(0.5) : Color.clear, lineWidth: 1)
             )
         }
@@ -1025,17 +1029,18 @@ struct OriginalSoundCard: View {
 
                 // 이름
                 Text(sound.name)
-                    .font(.system(size: 11, weight: isSelected ? .bold : .medium))
-                    .foregroundColor(isSelected ? sound.color : Color(.TitleText))
+                    .font(DS.Font.caption())
+                    .fontWeight(isSelected ? .bold : .medium)
+                    .foregroundColor(isSelected ? sound.color : DS.Colors.textPrimary)
                     .lineLimit(1)
                     .minimumScaleFactor(0.6)
             }
-            .padding(.vertical, 12)
-            .padding(.horizontal, 6)
+            .padding(.vertical, DS.Spacing.sm)
+            .padding(.horizontal, DS.Spacing.xxs)
             .frame(maxWidth: .infinity)
             .background(
-                RoundedRectangle(cornerRadius: 12)
-                    .fill(Color.white)
+                RoundedRectangle(cornerRadius: DS.Radius.sm)
+                    .fill(DS.Colors.surface)
                     .shadow(
                         color: isSelected ? sound.color.opacity(0.3) : (isPressed ? sound.color.opacity(0.3) : Color.black.opacity(0.06)),
                         radius: isSelected ? 8 : (isPressed ? 6 : 3),

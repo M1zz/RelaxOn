@@ -15,10 +15,9 @@ struct TimerSoundSelectModalView: View {
     var body: some View {
         
         ZStack {
-            Color(.DefaultBackground)
-                .ignoresSafeArea()
-            
-            VStack {
+            ScreenBackground()
+
+            VStack(spacing: DS.Spacing.md) {
                 HStack {
                     Spacer()
                     Button(action: {
@@ -32,27 +31,43 @@ struct TimerSoundSelectModalView: View {
                         presentationMode.wrappedValue.dismiss()
                     }) {
                         Text(L.Common.done.localized)
-                            .foregroundColor(Color(.PrimaryPurple))
-                            .padding()
+                            .font(DS.Font.headline())
+                            .foregroundColor(DS.Colors.accent)
+                            .padding(.horizontal, DS.Spacing.lg)
+                            .padding(.vertical, DS.Spacing.sm)
                     }
+                    .accessibilityLabel(L.A11y.closeButton.localized)
                 }
-                
+                .padding(.horizontal, DS.Spacing.xs)
+
                 SearchBar(text: $viewModel.searchText)
-                    .padding(.horizontal, 24)
-                    .padding(.vertical, 16)
-                
+                    .padding(.horizontal, DS.Spacing.screen)
+                    .padding(.bottom, DS.Spacing.xs)
+
                 List {
                     ForEach(viewModel.filteredSounds) { file in
                         TimerSoundListCell(file: file)
                     }
-                    .listRowBackground(Color(.DefaultBackground))
+                    .listRowBackground(Color.clear)
                     .listRowSeparator(.hidden)
                 }
                 .listStyle(PlainListStyle())
+                .modifier(HiddenListBackgroundModifier())
             }
         }
         .onAppear {
             viewModel.loadSound()
+        }
+    }
+}
+
+// iOS 16+ 전용 List 배경 숨김 처리 (iOS 15 호환)
+private struct HiddenListBackgroundModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        if #available(iOS 16.0, *) {
+            content.scrollContentBackground(.hidden)
+        } else {
+            content
         }
     }
 }

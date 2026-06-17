@@ -24,17 +24,8 @@ struct OnboardingView: View {
 
     var body: some View {
         ZStack {
-            // 배경 그라데이션
-            LinearGradient(
-                gradient: Gradient(colors: [
-                    Color(red: 0.1, green: 0.05, blue: 0.15),
-                    Color(red: 0.15, green: 0.1, blue: 0.2),
-                    Color(red: 0.2, green: 0.15, blue: 0.25)
-                ]),
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            .ignoresSafeArea()
+            // 배경
+            ScreenBackground()
 
             VStack(spacing: 0) {
                 // 상단 스킵 버튼
@@ -45,48 +36,49 @@ struct OnboardingView: View {
                             isFirstVisit = false
                         }) {
                             Text(L.Onboarding.skip.localized)
-                                .font(.system(size: 15))
-                                .foregroundColor(.white.opacity(0.6))
-                                .padding(.horizontal, 20)
-                                .padding(.vertical, 10)
+                                .font(DS.Font.callout())
+                                .foregroundColor(DS.Colors.textSecondary)
+                                .padding(.horizontal, DS.Spacing.lg)
+                                .padding(.vertical, DS.Spacing.xs)
                         }
                     }
                 }
-                .padding(.top, 50)
+                .padding(.top, DS.Spacing.xxxl)
 
                 // 메인 컨텐츠
                 TabView(selection: $pageNumber) {
                     ForEach(onboardingItems.indices, id: \.self) { index in
                         GeometryReader { geo in
                             ScrollView(showsIndicators: false) {
-                                VStack(spacing: 30) {
-                                    Spacer(minLength: 20)
+                                VStack(spacing: DS.Spacing.xxxl) {
+                                    Spacer(minLength: DS.Spacing.lg)
 
-                                    // 이미지
+                                    // 이미지 (장식용)
                                     Image(onboardingItems[index].imageName)
                                         .resizable()
                                         .scaledToFit()
                                         .frame(maxHeight: geo.size.height * 0.4)
-                                        .padding(.horizontal, 60)
+                                        .padding(.horizontal, DS.Spacing.xxxl)
+                                        .accessibilityHidden(true)
 
                                     // 텍스트
-                                    VStack(spacing: 16) {
+                                    VStack(spacing: DS.Spacing.md) {
                                         Text(getTitleForPage(index))
-                                            .font(.system(size: 26, weight: .bold))
-                                            .foregroundColor(.white)
+                                            .font(DS.Font.largeTitle())
+                                            .foregroundColor(DS.Colors.textPrimary)
                                             .multilineTextAlignment(.center)
                                             .fixedSize(horizontal: false, vertical: true)
 
                                         Text(onboardingItems[index].description.localized)
-                                            .font(.system(size: 16))
-                                            .foregroundColor(.white.opacity(0.7))
+                                            .font(DS.Font.body())
+                                            .foregroundColor(DS.Colors.textSecondary)
                                             .multilineTextAlignment(.center)
                                             .lineSpacing(6)
-                                            .padding(.horizontal, 40)
+                                            .padding(.horizontal, DS.Spacing.xxl)
                                             .fixedSize(horizontal: false, vertical: true)
                                     }
 
-                                    Spacer(minLength: 20)
+                                    Spacer(minLength: DS.Spacing.lg)
                                 }
                                 .frame(minHeight: geo.size.height)
                             }
@@ -97,21 +89,22 @@ struct OnboardingView: View {
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
 
                 // 하단 영역
-                VStack(spacing: 24) {
-                    // 페이지 인디케이터
-                    HStack(spacing: 8) {
+                VStack(spacing: DS.Spacing.xl) {
+                    // 페이지 인디케이터 (장식용)
+                    HStack(spacing: DS.Spacing.xs) {
                         ForEach(onboardingItems.indices, id: \.self) { index in
                             if pageNumber == index {
                                 Capsule()
-                                    .fill(Color(.PrimaryPurple))
+                                    .fill(DS.Colors.accent)
                                     .frame(width: 24, height: 8)
                             } else {
                                 Circle()
-                                    .fill(Color.white.opacity(0.3))
+                                    .fill(DS.Colors.separator)
                                     .frame(width: 8, height: 8)
                             }
                         }
                     }
+                    .accessibilityHidden(true)
 
                     // 버튼
                     Button {
@@ -124,26 +117,11 @@ struct OnboardingView: View {
                         }
                     } label: {
                         Text(pageNumber == onboardingItems.count - 1 ? L.Onboarding.start.localized : L.Onboarding.next.localized)
-                            .font(.system(size: 17, weight: .semibold))
-                            .foregroundColor(.white)
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 16)
-                            .background(
-                                LinearGradient(
-                                    gradient: Gradient(colors: [
-                                        Color(.PrimaryPurple),
-                                        Color(.PrimaryPurple).opacity(0.8)
-                                    ]),
-                                    startPoint: .leading,
-                                    endPoint: .trailing
-                                )
-                            )
-                            .cornerRadius(16)
-                            .shadow(color: Color(.PrimaryPurple).opacity(0.4), radius: 12, x: 0, y: 6)
                     }
-                    .padding(.horizontal, 30)
+                    .buttonStyle(PrimaryButtonStyle())
+                    .padding(.horizontal, DS.Spacing.xl)
                 }
-                .padding(.bottom, 50)
+                .padding(.bottom, DS.Spacing.xxxl)
             }
         }
     }

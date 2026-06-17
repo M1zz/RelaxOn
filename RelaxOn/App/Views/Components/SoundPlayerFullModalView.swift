@@ -35,26 +35,27 @@ struct SoundPlayerFullModalView: View {
                 .resizable()
                 .scaledToFit()
                 .background(Color(hex: viewModel.selectedSound?.color ?? viewModel.lastSound.color))
-                .cornerRadius(12)
+                .clipShape(RoundedRectangle(cornerRadius: DS.Radius.lg, style: .continuous))
+                .shadow(color: DS.Shadow.floating.color, radius: DS.Shadow.floating.radius, y: DS.Shadow.floating.y)
                 .frame(maxWidth: .infinity)
-                .padding(.horizontal, 8)
+                .padding(.horizontal, DS.Spacing.xs)
                 .accessibilityHidden(true)
-            
+
             Spacer()
-            
+
             Text(viewModel.selectedSound?.title ?? viewModel.lastSound.title)
-                .font(.system(size: 24, weight: .bold))
-                .foregroundColor(Color(.Text))
+                .font(DS.Font.title())
+                .foregroundColor(DS.Colors.textPrimary)
             
-            HStack(alignment: .center, spacing: 40) {
-                
+            HStack(alignment: .center, spacing: DS.Spacing.xxxl) {
+
                 Button {
                     viewModel.playPreviousSound()
                 } label: {
                     Image(PlayerButton.fastRewind.rawValue)
                         .resizable()
                         .renderingMode(.template)
-                        .foregroundColor(Color(.Text))
+                        .foregroundColor(DS.Colors.textSecondary)
                         .frame(width: 44, height: 44)
                         .scaledToFit()
                 }
@@ -70,9 +71,15 @@ struct SoundPlayerFullModalView: View {
                     Image(viewModel.playPauseStatusImage)
                         .resizable()
                         .renderingMode(.template)
-                        .foregroundColor(Color(.Text))
-                        .frame(width: 44, height: 44)
+                        .foregroundColor(DS.Colors.onAccent)
+                        .frame(width: 28, height: 28)
                         .scaledToFit()
+                        .frame(width: 64, height: 64)
+                        .background(
+                            Circle()
+                                .fill(DS.Colors.accent)
+                                .shadow(color: DS.Shadow.floating.color, radius: DS.Shadow.floating.radius, y: DS.Shadow.floating.y)
+                        )
                 }
                 .accessibilityLabel(viewModel.isPlaying ? L.A11y.pause.localized : L.A11y.play.localized)
 
@@ -82,36 +89,33 @@ struct SoundPlayerFullModalView: View {
                     Image(PlayerButton.fastForward.rawValue)
                         .resizable()
                         .renderingMode(.template)
-                        .foregroundColor(Color(.Text))
+                        .foregroundColor(DS.Colors.textSecondary)
                         .frame(width: 44, height: 44)
                         .scaledToFit()
                 }
                 .accessibilityLabel(L.A11y.nextSound.localized)
             }
             .frame(minWidth: 200, maxWidth: .infinity)
-            .padding(.top, 32)
+            .padding(.top, DS.Spacing.xxl)
 
             // Spatial Audio Toggle
-            VStack(spacing: 12) {
+            VStack(spacing: DS.Spacing.sm) {
                 Toggle(isOn: $audioManager.isSpatialAudioEnabled) {
-                    HStack(spacing: 8) {
+                    HStack(spacing: DS.Spacing.xs) {
                         Image(systemName: "spatial.audio")
                             .font(.system(size: 18))
                         Text(L.Player.spatialAudio.localized)
-                            .font(.system(size: 16, weight: .medium))
+                            .font(DS.Font.body())
                     }
-                    .foregroundColor(Color(.Text))
+                    .foregroundColor(DS.Colors.textPrimary)
                 }
-                .toggleStyle(SwitchToggleStyle(tint: Color(.PrimaryPurple)))
-                .padding(.horizontal, 16)
-                .padding(.vertical, 12)
+                .toggleStyle(SwitchToggleStyle(tint: DS.Colors.accent))
+                .padding(.horizontal, DS.Spacing.md)
+                .padding(.vertical, DS.Spacing.sm)
                 .background(
-                    RoundedRectangle(cornerRadius: 12)
-                        .fill(Color(.DefaultBackground).opacity(0.5))
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 12)
-                                .stroke(Color(.Text).opacity(0.1), lineWidth: 1)
-                        )
+                    RoundedRectangle(cornerRadius: DS.Radius.lg, style: .continuous)
+                        .fill(DS.Colors.surface)
+                        .shadow(color: DS.Shadow.card.color, radius: DS.Shadow.card.radius, y: DS.Shadow.card.y)
                 )
                 .onChange(of: audioManager.isSpatialAudioEnabled) { _ in
                     // 공간음향 설정 변경 시 즉시 적용을 위해 재생 중인 사운드를 재시작
@@ -126,8 +130,8 @@ struct SoundPlayerFullModalView: View {
 
                 if audioManager.isSpatialAudioEnabled {
                     Text("3D 입체 음향이 활성화되어 있습니다")
-                        .font(.system(size: 12))
-                        .foregroundColor(Color(.Text).opacity(0.6))
+                        .font(DS.Font.caption())
+                        .foregroundColor(DS.Colors.textSecondary)
 
                     // 위치 조정 버튼
                     Button {
@@ -137,28 +141,28 @@ struct SoundPlayerFullModalView: View {
                     } label: {
                         HStack {
                             Text(L.Player.positionAdjust.localized)
-                                .font(.system(size: 14, weight: .medium))
+                                .font(DS.Font.subhead())
                             Image(systemName: showSpatialControls ? "chevron.up" : "chevron.down")
                                 .font(.system(size: 12))
                         }
-                        .foregroundColor(Color(.PrimaryPurple))
-                        .padding(.vertical, 8)
+                        .foregroundColor(DS.Colors.accent)
+                        .padding(.vertical, DS.Spacing.xs)
                     }
                 }
             }
-            .padding(.top, 24)
-            .padding(.horizontal, 16)
+            .padding(.top, DS.Spacing.xl)
+            .padding(.horizontal, DS.Spacing.md)
 
             // 레이어별 위치 조정 컨트롤
             if audioManager.isSpatialAudioEnabled && showSpatialControls {
                 ScrollView {
-                    VStack(spacing: 12) {
+                    VStack(spacing: DS.Spacing.sm) {
                         ForEach($layerPositions) { $position in
-                            VStack(alignment: .leading, spacing: 8) {
+                            VStack(alignment: .leading, spacing: DS.Spacing.xs) {
                                 HStack {
                                     Text(String(format: L.Player.layerFormat.localized, position.layerIndex + 1, position.layerName))
-                                        .font(.system(size: 14, weight: .semibold))
-                                        .foregroundColor(Color(.Text))
+                                        .font(DS.Font.subhead())
+                                        .foregroundColor(DS.Colors.textPrimary)
 
                                     Spacer()
 
@@ -168,25 +172,25 @@ struct SoundPlayerFullModalView: View {
                                     }) {
                                         Image(systemName: "xmark.circle.fill")
                                             .font(.system(size: 20))
-                                            .foregroundColor(.red)
+                                            .foregroundColor(DS.Colors.danger)
                                             .frame(width: 44, height: 44)
                                     }
                                     .accessibilityLabel("\(L.A11y.removeLayer.localized), \(position.layerName)")
                                 }
 
                                 // 거리 슬라이더
-                                VStack(alignment: .leading, spacing: 4) {
+                                VStack(alignment: .leading, spacing: DS.Spacing.xxs) {
                                     HStack {
                                         Text(L.Player.distance.localized)
-                                            .font(.system(size: 12))
+                                            .font(DS.Font.caption())
                                         Spacer()
                                         Text("\(String(format: "%.1f", position.distance))m")
-                                            .font(.system(size: 12, weight: .medium))
+                                            .font(DS.Font.caption())
                                     }
-                                    .foregroundColor(Color(.Text).opacity(0.7))
+                                    .foregroundColor(DS.Colors.textSecondary)
 
                                     Slider(value: $position.distance, in: 0.5...5.0, step: 0.1)
-                                        .accentColor(Color(.PrimaryPurple))
+                                        .accentColor(DS.Colors.accent)
                                         .accessibilityLabel("\(position.layerName), \(L.A11y.distanceSlider.localized)")
                                         .accessibilityValue("\(String(format: "%.1f", position.distance))m")
                                         .onChange(of: position.distance) { newValue in
@@ -200,18 +204,18 @@ struct SoundPlayerFullModalView: View {
                                 }
 
                                 // 각도 슬라이더
-                                VStack(alignment: .leading, spacing: 4) {
+                                VStack(alignment: .leading, spacing: DS.Spacing.xxs) {
                                     HStack {
                                         Text(L.Player.angle.localized)
-                                            .font(.system(size: 12))
+                                            .font(DS.Font.caption())
                                         Spacer()
                                         Text("\(Int(position.angle))°")
-                                            .font(.system(size: 12, weight: .medium))
+                                            .font(DS.Font.caption())
                                     }
-                                    .foregroundColor(Color(.Text).opacity(0.7))
+                                    .foregroundColor(DS.Colors.textSecondary)
 
                                     Slider(value: $position.angle, in: 0...360, step: 5)
-                                        .accentColor(Color(.PrimaryPurple))
+                                        .accentColor(DS.Colors.accent)
                                         .accessibilityLabel("\(position.layerName), \(L.A11y.angleSlider.localized)")
                                         .accessibilityValue("\(Int(position.angle))°")
                                         .onChange(of: position.angle) { newValue in
@@ -225,18 +229,18 @@ struct SoundPlayerFullModalView: View {
                                 }
 
                                 // 높이 슬라이더
-                                VStack(alignment: .leading, spacing: 4) {
+                                VStack(alignment: .leading, spacing: DS.Spacing.xxs) {
                                     HStack {
                                         Text(L.Player.height.localized)
-                                            .font(.system(size: 12))
+                                            .font(DS.Font.caption())
                                         Spacer()
                                         Text("\(String(format: "%.1f", position.height))m")
-                                            .font(.system(size: 12, weight: .medium))
+                                            .font(DS.Font.caption())
                                     }
-                                    .foregroundColor(Color(.Text).opacity(0.7))
+                                    .foregroundColor(DS.Colors.textSecondary)
 
                                     Slider(value: $position.height, in: -2.0...2.0, step: 0.1)
-                                        .accentColor(Color(.PrimaryPurple))
+                                        .accentColor(DS.Colors.accent)
                                         .accessibilityLabel("\(position.layerName), \(L.A11y.heightSlider.localized)")
                                         .accessibilityValue("\(String(format: "%.1f", position.height))m")
                                         .onChange(of: position.height) { newValue in
@@ -249,19 +253,16 @@ struct SoundPlayerFullModalView: View {
                                         }
                                 }
                             }
-                            .padding(12)
+                            .padding(DS.Spacing.sm)
                             .background(
-                                RoundedRectangle(cornerRadius: 8)
-                                    .fill(Color(.DefaultBackground).opacity(0.5))
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 8)
-                                            .stroke(Color(.Text).opacity(0.1), lineWidth: 1)
-                                    )
+                                RoundedRectangle(cornerRadius: DS.Radius.md, style: .continuous)
+                                    .fill(DS.Colors.surface)
+                                    .shadow(color: DS.Shadow.card.color, radius: DS.Shadow.card.radius, y: DS.Shadow.card.y)
                             )
                         }
                     }
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 8)
+                    .padding(.horizontal, DS.Spacing.md)
+                    .padding(.vertical, DS.Spacing.xs)
                 }
                 .frame(maxHeight: 300)
             }
@@ -269,10 +270,10 @@ struct SoundPlayerFullModalView: View {
             Spacer()
 
         }
-        .padding(.horizontal, 24)
-        .padding(.vertical, 32)
-        .background(Color(.DefaultBackground))
-        
+        .padding(.horizontal, DS.Spacing.screen)
+        .padding(.vertical, DS.Spacing.xxl)
+        .background(ScreenBackground())
+
         .onAppear {
             if let selectedSound = viewModel.selectedSound {
                 viewModel.lastSound = selectedSound

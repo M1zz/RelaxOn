@@ -157,14 +157,13 @@ class TimerManager: ObservableObject {
     func getCircularProgressBar() -> some View {
         ZStack {
             Circle()
-                .stroke(lineWidth: 7)
-                .opacity(0.3)
-                .foregroundColor(.gray)
-            
+                .stroke(lineWidth: 8)
+                .foregroundColor(DS.Colors.separator)
+
             Circle()
                 .trim(from: 0.0, to: CGFloat(min(self.progress, 1.0)))
-                .stroke(style: StrokeStyle(lineWidth: 7, lineCap: .round, lineJoin: .round))
-                .foregroundColor(Color(.TimerMyListBackground))
+                .stroke(style: StrokeStyle(lineWidth: 8, lineCap: .round, lineJoin: .round))
+                .foregroundColor(DS.Colors.accent)
                 .rotationEffect(Angle(degrees: 270.0))
                 .onAppear {
                     if self.remainingSeconds == 0 {

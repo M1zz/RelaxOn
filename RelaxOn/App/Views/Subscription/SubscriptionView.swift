@@ -23,16 +23,7 @@ struct SubscriptionView: View {
 
     var body: some View {
         ZStack {
-            LinearGradient(
-                gradient: Gradient(colors: [
-                    Color(red: 0.1, green: 0.05, blue: 0.15),
-                    Color(red: 0.15, green: 0.1, blue: 0.2),
-                    Color(red: 0.2, green: 0.15, blue: 0.25)
-                ]),
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            .ignoresSafeArea()
+            ScreenBackground()
 
             VStack(spacing: 0) {
                 // Close button
@@ -41,16 +32,16 @@ struct SubscriptionView: View {
                     Button(action: { dismiss() }) {
                         Image(systemName: "xmark.circle.fill")
                             .font(.system(size: 28))
-                            .foregroundColor(.white.opacity(0.5))
+                            .foregroundColor(DS.Colors.textTertiary)
                             .frame(width: 44, height: 44)
                     }
-                    .padding(.trailing, 16)
-                    .padding(.top, 12)
+                    .padding(.trailing, DS.Spacing.md)
+                    .padding(.top, DS.Spacing.sm)
                     .accessibilityLabel(L.A11y.closeButton.localized)
                 }
 
                 ScrollView {
-                    VStack(spacing: 32) {
+                    VStack(spacing: DS.Spacing.xxl) {
                         // Header
                         headerSection()
 
@@ -70,16 +61,16 @@ struct SubscriptionView: View {
                             }
                         }) {
                             Text(L.Subscription.restore.localized)
-                                .font(.system(size: 14))
-                                .foregroundColor(.white.opacity(0.6))
+                                .font(DS.Font.subhead())
+                                .foregroundColor(DS.Colors.textSecondary)
                                 .underline()
                         }
 
                         // 법적 고지 및 약관/개인정보 링크
                         legalSection()
-                            .padding(.bottom, 40)
+                            .padding(.bottom, DS.Spacing.xxxl)
                     }
-                    .padding(.horizontal, 24)
+                    .padding(.horizontal, DS.Spacing.screen)
                 }
             }
         }
@@ -94,40 +85,40 @@ struct SubscriptionView: View {
 
     @ViewBuilder
     private func headerSection() -> some View {
-        VStack(spacing: 16) {
+        VStack(spacing: DS.Spacing.md) {
             ZStack {
                 Circle()
-                    .fill(Color(.PrimaryPurple).opacity(0.3))
+                    .fill(DS.Colors.accentSoft)
                     .frame(width: 100, height: 100)
 
                 Image(systemName: "crown.fill")
                     .font(.system(size: 48))
-                    .foregroundColor(Color(.PrimaryPurple))
+                    .foregroundColor(DS.Colors.accent)
             }
 
             Text(L.Subscription.title.localized)
-                .font(.system(size: 28, weight: .bold))
-                .foregroundColor(.white)
+                .font(DS.Font.largeTitle().weight(.bold))
+                .foregroundColor(DS.Colors.textPrimary)
                 .multilineTextAlignment(.center)
 
             Text(L.Subscription.description.localized)
-                .font(.system(size: 15))
-                .foregroundColor(.white.opacity(0.7))
+                .font(DS.Font.callout())
+                .foregroundColor(DS.Colors.textSecondary)
                 .multilineTextAlignment(.center)
         }
-        .padding(.top, 16)
+        .padding(.top, DS.Spacing.md)
     }
 
     // MARK: - Feature Comparison
 
     @ViewBuilder
     private func featureComparison() -> some View {
-        VStack(spacing: 16) {
+        VStack(spacing: DS.Spacing.md) {
             // Free tier
             tierCard(
                 title: L.Subscription.freeTier.localized,
                 icon: "person.fill",
-                color: .gray,
+                color: DS.Colors.textSecondary,
                 features: [
                     (L.Subscription.freeSoundsLimit.localized, true),
                     (L.Subscription.freeCategoriesLimit.localized, true),
@@ -140,7 +131,7 @@ struct SubscriptionView: View {
             tierCard(
                 title: L.Subscription.premiumTier.localized,
                 icon: "crown.fill",
-                color: Color(.PrimaryPurple),
+                color: DS.Colors.accent,
                 features: [
                     (L.Subscription.unlimitedSounds.localized, true),
                     (L.Subscription.allCategories.localized, true),
@@ -160,37 +151,38 @@ struct SubscriptionView: View {
         features: [(String, Bool)],
         highlighted: Bool = false
     ) -> some View {
-        VStack(alignment: .leading, spacing: 12) {
-            HStack(spacing: 8) {
+        VStack(alignment: .leading, spacing: DS.Spacing.sm) {
+            HStack(spacing: DS.Spacing.xs) {
                 Image(systemName: icon)
                     .font(.system(size: 18))
                     .foregroundColor(color)
                 Text(title)
-                    .font(.system(size: 18, weight: .bold))
-                    .foregroundColor(.white)
+                    .font(DS.Font.headline().weight(.bold))
+                    .foregroundColor(DS.Colors.textPrimary)
             }
 
             ForEach(features.indices, id: \.self) { index in
                 let feature = features[index]
-                HStack(spacing: 10) {
+                HStack(spacing: DS.Spacing.xs) {
                     Image(systemName: feature.1 ? "checkmark.circle.fill" : "xmark.circle")
                         .font(.system(size: 16))
-                        .foregroundColor(feature.1 ? .green : .white.opacity(0.3))
+                        .foregroundColor(feature.1 ? DS.Colors.success : DS.Colors.textTertiary)
                     Text(feature.0)
-                        .font(.system(size: 14))
-                        .foregroundColor(feature.1 ? .white : .white.opacity(0.4))
+                        .font(DS.Font.subhead())
+                        .foregroundColor(feature.1 ? DS.Colors.textPrimary : DS.Colors.textTertiary)
                 }
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(16)
+        .padding(DS.Spacing.md)
         .background(
-            RoundedRectangle(cornerRadius: 12)
-                .fill(Color.white.opacity(highlighted ? 0.12 : 0.06))
+            RoundedRectangle(cornerRadius: DS.Radius.lg, style: .continuous)
+                .fill(highlighted ? DS.Colors.accentSoft : DS.Colors.surface)
+                .shadow(color: DS.Shadow.card.color, radius: DS.Shadow.card.radius, x: 0, y: DS.Shadow.card.y)
                 .overlay(
                     highlighted ?
-                    RoundedRectangle(cornerRadius: 12)
-                        .stroke(Color(.PrimaryPurple).opacity(0.5), lineWidth: 1.5)
+                    RoundedRectangle(cornerRadius: DS.Radius.lg, style: .continuous)
+                        .stroke(DS.Colors.accent, lineWidth: 1.5)
                     : nil
                 )
         )
@@ -200,23 +192,23 @@ struct SubscriptionView: View {
 
     @ViewBuilder
     private func purchaseSection() -> some View {
-        VStack(spacing: 12) {
+        VStack(spacing: DS.Spacing.sm) {
             if let product = subscriptionManager.monthlyProduct {
                 // Trial info
                 if let trial = subscriptionManager.trialText {
                     Text(trial)
-                        .font(.system(size: 14, weight: .semibold))
-                        .foregroundColor(Color(.PrimaryPurple))
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 6)
-                        .background(Color(.PrimaryPurple).opacity(0.15))
-                        .cornerRadius(8)
+                        .font(DS.Font.subhead().weight(.semibold))
+                        .foregroundColor(DS.Colors.accent)
+                        .padding(.horizontal, DS.Spacing.md)
+                        .padding(.vertical, DS.Spacing.xxs)
+                        .background(DS.Colors.accentSoft)
+                        .cornerRadius(DS.Radius.sm)
                 }
 
                 // Price
                 Text(L.Subscription.priceFormat.localized.replacingOccurrences(of: "{price}", with: product.displayPrice))
-                    .font(.system(size: 16))
-                    .foregroundColor(.white.opacity(0.8))
+                    .font(DS.Font.body())
+                    .foregroundColor(DS.Colors.textSecondary)
 
                 // Subscribe button
                 Button(action: {
@@ -234,42 +226,28 @@ struct SubscriptionView: View {
                         isPurchasing = false
                     }
                 }) {
-                    HStack(spacing: 8) {
+                    HStack(spacing: DS.Spacing.xs) {
                         if isPurchasing {
                             ProgressView()
-                                .tint(.white)
+                                .tint(DS.Colors.onAccent)
                         } else {
                             Image(systemName: "crown.fill")
                                 .font(.system(size: 16))
                             Text(L.Subscription.subscribe.localized)
-                                .font(.system(size: 17, weight: .bold))
+                                .font(DS.Font.headline().weight(.bold))
                         }
                     }
-                    .foregroundColor(.white)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 18)
-                    .background(
-                        LinearGradient(
-                            gradient: Gradient(colors: [
-                                Color(.PrimaryPurple),
-                                Color(.PrimaryPurple).opacity(0.8)
-                            ]),
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        )
-                    )
-                    .cornerRadius(16)
-                    .shadow(color: Color(.PrimaryPurple).opacity(0.4), radius: 12, x: 0, y: 6)
                 }
+                .buttonStyle(PrimaryButtonStyle())
                 .disabled(isPurchasing)
             } else {
-                VStack(spacing: 12) {
+                VStack(spacing: DS.Spacing.sm) {
                     ProgressView()
-                        .tint(.white)
+                        .tint(DS.Colors.accent)
 
                     Text(L.Subscription.loadingProducts.localized)
-                        .font(.system(size: 13))
-                        .foregroundColor(.white.opacity(0.5))
+                        .font(DS.Font.caption())
+                        .foregroundColor(DS.Colors.textTertiary)
 
                     Button(action: {
                         Task {
@@ -277,8 +255,8 @@ struct SubscriptionView: View {
                         }
                     }) {
                         Text(L.Subscription.retry.localized)
-                            .font(.system(size: 14, weight: .medium))
-                            .foregroundColor(Color(.PrimaryPurple))
+                            .font(DS.Font.subhead().weight(.medium))
+                            .foregroundColor(DS.Colors.accent)
                     }
                 }
                 .padding()
@@ -290,35 +268,35 @@ struct SubscriptionView: View {
 
     @ViewBuilder
     private func legalSection() -> some View {
-        VStack(spacing: 12) {
+        VStack(spacing: DS.Spacing.sm) {
             // 자동 갱신 안내 문구
             Text(L.Subscription.legalNotice.localized)
-                .font(.system(size: 11))
-                .foregroundColor(.white.opacity(0.45))
+                .font(DS.Font.caption())
+                .foregroundColor(DS.Colors.textTertiary)
                 .multilineTextAlignment(.center)
                 .fixedSize(horizontal: false, vertical: true)
 
             // 이용약관(EULA) / 개인정보 처리방침 링크
-            HStack(spacing: 16) {
+            HStack(spacing: DS.Spacing.md) {
                 Button(action: { openURL(termsOfUseURL) }) {
                     Text(L.Subscription.termsOfUse.localized)
-                        .font(.system(size: 12, weight: .medium))
-                        .foregroundColor(.white.opacity(0.7))
+                        .font(DS.Font.caption().weight(.medium))
+                        .foregroundColor(DS.Colors.textSecondary)
                         .underline()
                 }
 
                 Text("·")
-                    .font(.system(size: 12))
-                    .foregroundColor(.white.opacity(0.4))
+                    .font(DS.Font.caption())
+                    .foregroundColor(DS.Colors.textTertiary)
 
                 Button(action: { openURL(privacyPolicyURL) }) {
                     Text(L.Subscription.privacyPolicy.localized)
-                        .font(.system(size: 12, weight: .medium))
-                        .foregroundColor(.white.opacity(0.7))
+                        .font(DS.Font.caption().weight(.medium))
+                        .foregroundColor(DS.Colors.textSecondary)
                         .underline()
                 }
             }
         }
-        .padding(.top, 8)
+        .padding(.top, DS.Spacing.xs)
     }
 }
