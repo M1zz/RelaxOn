@@ -144,6 +144,9 @@ struct SectionHeader: View {
             Text(title)
                 .font(DS.Font.headline())
                 .foregroundColor(DS.Colors.textPrimary)
+                .lineLimit(2)
+                .minimumScaleFactor(0.7)
+                .fixedSize(horizontal: false, vertical: true)
 
             if let accessory {
                 Text(accessory)

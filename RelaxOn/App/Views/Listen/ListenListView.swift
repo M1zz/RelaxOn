@@ -27,33 +27,42 @@ struct ListenListView: View {
     
     // MARK: - Body
     var body: some View {
+        // 배경은 ZStack 뒤 레이어로 안전영역 밖까지 채우고, 콘텐츠 VStack은 안전영역을 지킨다.
+        // 헤더는 상단 고정(항상 안전영역 아래), 추천·오브만 스크롤, 미니 플레이어는 하단 고정.
+        // → 큰 글씨/작은 화면에서 콘텐츠가 넘쳐도 헤더가 상태바를 뚫지 않고 스크롤로 흡수된다.
         ZStack {
-            // 표준 배경 (고요한 라이트/다크 그라데이션)
             ScreenBackground()
 
             VStack(spacing: 0) {
-                // 헤더
+                // 헤더 (고정)
                 headerView()
+                    .dsConstrainedWidth()
 
-                // 스마트 추천 캐러셀
-                smartRecommendationsView()
-                    .padding(.bottom, DS.Spacing.md)
+                // 추천 + 오브 (스크롤)
+                ScrollView(.vertical, showsIndicators: false) {
+                    VStack(spacing: 0) {
+                        smartRecommendationsView()
+                            .padding(.bottom, DS.Spacing.md)
 
-                // 중앙 브리딩 오브 (사운드 바 공간 확보)
-                // 장식용 비주얼이므로 VoiceOver에서는 숨김
-                CampfireView(isPlaying: viewModel.isPlaying)
-                    .frame(maxHeight: .infinity)
-                    .padding(.bottom, 100) // 사운드 바 높이만큼 패딩
-                    .accessibilityHidden(true)
-
-                // 하단 미니 플레이어 (선택된 사운드가 있거나 재생 중이면 표시)
-                if viewModel.isPlaying || viewModel.selectedSound != nil {
-                    miniPlayerView()
-                } else {
-                    emptyPlayerView()
+                        // 중앙 브리딩 오브 (장식용 비주얼이므로 VoiceOver에서는 숨김)
+                        CampfireView(isPlaying: viewModel.isPlaying)
+                            .frame(minHeight: 300)
+                            .padding(.vertical, DS.Spacing.md)
+                            .accessibilityHidden(true)
+                    }
+                    .dsConstrainedWidth()
                 }
+
+                // 미니 플레이어 (고정)
+                Group {
+                    if viewModel.isPlaying || viewModel.selectedSound != nil {
+                        miniPlayerView()
+                    } else {
+                        emptyPlayerView()
+                    }
+                }
+                .dsConstrainedWidth()
             }
-            .dsConstrainedWidth()
         }
 
         .navigationDestination(isPresented: $isShowingEditView) {
@@ -143,8 +152,10 @@ struct ListenListView: View {
             Text(L.Tab.listen.localized)
                 .font(DS.Font.largeTitle())
                 .foregroundColor(DS.Colors.textPrimary)
+                .lineLimit(1)
+                .minimumScaleFactor(0.6)
 
-            Spacer()
+            Spacer(minLength: DS.Spacing.xs)
 
             // 저장된 사운드 목록 버튼
             CircleIconButton(systemName: "music.note.list") {
