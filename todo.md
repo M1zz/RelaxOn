@@ -42,6 +42,31 @@
 - [ ] Dynamic Type: 하드코딩 폰트(약 211곳) semantic 전환 (저시력자, 레이아웃 검증 필요)
 - [ ] 미사용 레거시 파일 정리(DragCircularSlider/SnapCircularSlider, pbxproj 수정 필요)
 
+## UI 전면 개편 (고요한 미니멀) - 1차 완료
+방향: 고요한 미니멀 + 디자인 시스템부터 재구축, 라이트/다크 적응형
+- [x] 디자인 시스템 구축: DesignSystem/Theme.swift(색/타이포/간격/라운드/그림자), Components.swift(ScreenBackground, dsCard, Primary/SecondaryButtonStyle, SectionHeader, DSChip, CircleIconButton)
+- [x] pbxproj에 DesignSystem 그룹/파일 추가
+- [x] 홈(Listen): 캠프파이어 → 브리딩 오브, 헤더/추천/미니플레이어/빈상태
+- [x] 타이머 설정/진행 화면
+- [x] 저장목록(카드/섹션/검색/빈상태)
+- [x] 구독 화면(SubscriptionView)
+- [x] 사운드 편집(SoundDetailView) - 슬라이더 카드
+- [x] 전체 플레이어(SoundPlayerFullModalView)
+- [x] 사운드 제작(CreateNewSoundView)
+- [x] 사운드 저장(SoundSaveView)
+- [x] 온보딩(OnboardingView)
+- [x] 설정(SettingsView)
+- [x] 타이머 사운드 선택(TimerSoundSelectModalView)
+- [x] 타이머 원형 프로그레스 바 색상 정렬
+- [x] 빌드 성공 + 시뮬레이터 스크린샷 확인(온보딩/홈)
+- [x] 앱 버전 4.0.1 유지
+
+### UI 개편 - 2차 후보
+- [ ] 보조 컴포넌트 미세 조정(SoundThumbnailView, TimerSoundListCell, ListenListCell 등)
+- [ ] Dynamic Type 전수 검증(이미 DS.Font는 semantic이라 대부분 확대 대응)
+- [ ] 라이트/다크 모드 양쪽 실기기 점검
+- [ ] 레거시 중복 파일 정리(Views/ 루트의 SoundListView/SoundSaveView/SoundSelectView, 미사용 슬라이더)
+
 ## 남은 작업 (수동 - 코드 아님)
 - [ ] dev 브랜치 코드 변경 push / PR (원하면 진행)
 - [ ] App Store Connect: App Description 또는 EULA 필드에 표준 약관 링크 추가
