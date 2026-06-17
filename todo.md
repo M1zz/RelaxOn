@@ -19,6 +19,29 @@
 ## 버전
 - [x] 앱 버전 4.0.1 유지 (MARKETING_VERSION 변경 없음)
 
+## 접근성 개선 (시각장애인 사용 / 구조 단순화) - 1차 완료
+방향: 네이티브 컨트롤로 교체 + 핵심 플로우(듣기→재생→타이머→구독) 우선
+- [x] ListenListView 헤더 아이콘 버튼 라벨 (저장목록/타이머+남은시간 값)
+- [x] 캠프파이어/물방울 등 장식 비주얼 VoiceOver 숨김
+- [x] 미니플레이어: 정보영역 1개 버튼으로 그룹화(전체플레이어 열기)+재생/일시정지 분리 라벨
+- [x] SavedSoundsListView 사운드 카드 라벨·버튼 trait·재생 힌트·즐겨찾기 커스텀 액션
+- [x] 추천 카드 버튼 trait·힌트
+- [x] TimerView 피커 라벨, 남은시간 live region(updatesFrequently), 중지/일시정지 라벨
+- [x] TimePickerView 휠 라벨 + 단위 텍스트 로컬라이즈
+- [x] SubscriptionView 닫기 버튼 라벨 + 44pt 터치영역
+- [x] SoundDetailView 네이티브 Slider 라벨·값(볼륨/간격/피치/변동폭), 필터 선택상태, 뒤로 버튼
+- [x] SoundPlayerFullModalView 이전/재생/다음·공간음향 슬라이더 라벨·값
+- [x] a11y 로컬라이제이션 키 36개(ko/en) 추가
+- [x] 빌드 검증 (BUILD SUCCEEDED)
+- 참고: DragCircularSlider/SnapCircularSlider는 미사용 레거시(실제 UI는 이미 네이티브 Slider)
+
+### 접근성 - 2차 후보 (다음 단계)
+- [ ] 온보딩 이미지 라벨/숨김, 페이지 인디케이터 정리
+- [ ] CreateNewSoundView(사운드 제작) 칩/볼륨/미리듣기 접근성
+- [ ] SettingsView 타이머 컨트롤 접근성
+- [ ] Dynamic Type: 하드코딩 폰트(약 211곳) semantic 전환 (저시력자, 레이아웃 검증 필요)
+- [ ] 미사용 레거시 파일 정리(DragCircularSlider/SnapCircularSlider, pbxproj 수정 필요)
+
 ## 남은 작업 (수동 - 코드 아님)
 - [ ] dev 브랜치 코드 변경 push / PR (원하면 진행)
 - [ ] App Store Connect: App Description 또는 EULA 필드에 표준 약관 링크 추가

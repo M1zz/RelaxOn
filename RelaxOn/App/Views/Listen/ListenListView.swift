@@ -49,9 +49,11 @@ struct ListenListView: View {
                     .padding(.bottom, 16)
 
                 // 캠프파이어 중앙 배치 (사운드 바 공간 확보)
+                // 장식용 비주얼이므로 VoiceOver에서는 숨김
                 CampfireView(isPlaying: viewModel.isPlaying)
                     .frame(maxHeight: .infinity)
                     .padding(.bottom, 100) // 사운드 바 높이만큼 패딩
+                    .accessibilityHidden(true)
 
                 // 하단 미니 플레이어 (선택된 사운드가 있거나 재생 중이면 표시)
                 if viewModel.isPlaying || viewModel.selectedSound != nil {
@@ -158,8 +160,10 @@ struct ListenListView: View {
                 Image(systemName: "music.note.list")
                     .font(.system(size: 24))
                     .foregroundColor(Color(.PrimaryPurple))
+                    .frame(width: 44, height: 44)
             }
-            .padding(.trailing, 12)
+            .padding(.trailing, 4)
+            .accessibilityLabel(L.A11y.savedSoundsButton.localized)
 
             // 타이머 버튼
             Button(action: {
@@ -184,7 +188,14 @@ struct ListenListView: View {
                             .foregroundColor(.white.opacity(0.8))
                     }
                 }
+                .frame(width: 44, height: 44)
             }
+            .accessibilityLabel(L.A11y.timerButton.localized)
+            .accessibilityValue(
+                timerManager.textTimer != nil && timerManager.remainingSeconds > 0
+                ? String(format: L.A11y.timerActiveValue.localized, formatRemainingTime(timerManager.remainingSeconds))
+                : ""
+            )
         }
         .padding(.horizontal, 24)
         .padding(.vertical, 16)
@@ -220,6 +231,9 @@ struct ListenListView: View {
                                     viewModel.selectedSound = sound
                                     viewModel.play(with: sound)
                                 }
+                                .accessibilityElement(children: .combine)
+                                .accessibilityAddTraits(.isButton)
+                                .accessibilityHint(L.A11y.playSoundHint.localized)
                         }
                     }
                     .padding(.horizontal, 24)
@@ -248,67 +262,70 @@ struct ListenListView: View {
     @ViewBuilder
     private func miniPlayerView() -> some View {
         HStack(spacing: 16) {
-            // 앨범 아트 (작은 캠프파이어) - 탭하면 전체 플레이어 열기
-            ZStack {
-                Circle()
-                    .fill(
-                        LinearGradient(
-                            gradient: Gradient(colors: [
-                                Color.orange.opacity(0.3),
-                                Color.red.opacity(0.2)
-                            ]),
-                            startPoint: .top,
-                            endPoint: .bottom
+            // 정보 영역(앨범 아트 + 제목/카테고리)을 하나의 접근성 요소로 묶어
+            // "전체 플레이어 열기" 버튼으로 노출
+            HStack(spacing: 16) {
+                // 앨범 아트 (작은 캠프파이어) - 장식용
+                ZStack {
+                    Circle()
+                        .fill(
+                            LinearGradient(
+                                gradient: Gradient(colors: [
+                                    Color.orange.opacity(0.3),
+                                    Color.red.opacity(0.2)
+                                ]),
+                                startPoint: .top,
+                                endPoint: .bottom
+                            )
                         )
-                    )
-                    .frame(width: 50, height: 50)
+                        .frame(width: 50, height: 50)
 
-                Image(systemName: "flame.fill")
-                    .font(.system(size: 24))
-                    .foregroundColor(.orange)
-            }
-            .onTapGesture {
-                isShowingSheet = true
-            }
+                    Image(systemName: "flame.fill")
+                        .font(.system(size: 24))
+                        .foregroundColor(.orange)
+                }
+                .accessibilityHidden(true) // 장식용 불꽃 아이콘
 
-            // 사운드 정보 - 탭하면 전체 플레이어 열기
-            VStack(alignment: .leading, spacing: 4) {
-                if let sound = viewModel.selectedSound {
-                    Text(sound.title)
-                        .font(.system(size: 15, weight: .semibold))
-                        .foregroundColor(.white)
-                        .lineLimit(1)
+                // 사운드 정보
+                VStack(alignment: .leading, spacing: 4) {
+                    if let sound = viewModel.selectedSound {
+                        Text(sound.title)
+                            .font(.system(size: 15, weight: .semibold))
+                            .foregroundColor(.white)
+                            .lineLimit(1)
 
-                    HStack(spacing: 6) {
-                        Text(sound.category.displayName)
-                            .font(.system(size: 12))
-                            .foregroundColor(.white.opacity(0.7))
+                        HStack(spacing: 6) {
+                            Text(sound.category.displayName)
+                                .font(.system(size: 12))
+                                .foregroundColor(.white.opacity(0.7))
 
-                        // 타이머 활성화 시 남은 시간 표시
-                        if timerManager.textTimer != nil && timerManager.remainingSeconds > 0 {
-                            Text("•")
-                                .font(.system(size: 10))
-                                .foregroundColor(.white.opacity(0.5))
-
-                            HStack(spacing: 3) {
-                                Image(systemName: "timer")
+                            // 타이머 활성화 시 남은 시간 표시
+                            if timerManager.textTimer != nil && timerManager.remainingSeconds > 0 {
+                                Text("•")
                                     .font(.system(size: 10))
-                                Text(formatRemainingTime(timerManager.remainingSeconds))
-                                    .font(.system(size: 11, weight: .medium))
+                                    .foregroundColor(.white.opacity(0.5))
+
+                                HStack(spacing: 3) {
+                                    Image(systemName: "timer")
+                                        .font(.system(size: 10))
+                                    Text(formatRemainingTime(timerManager.remainingSeconds))
+                                        .font(.system(size: 11, weight: .medium))
+                                }
+                                .foregroundColor(Color(.PrimaryPurple))
                             }
-                            .foregroundColor(Color(.PrimaryPurple))
                         }
                     }
                 }
+
+                Spacer()
             }
+            .contentShape(Rectangle())
             .onTapGesture {
                 isShowingSheet = true
             }
-
-            Spacer()
-                .onTapGesture {
-                    isShowingSheet = true
-                }
+            .accessibilityElement(children: .combine)
+            .accessibilityAddTraits(.isButton)
+            .accessibilityHint(L.A11y.openFullPlayerHint.localized)
 
             // 재생/일시정지 버튼 (독립된 버튼 - 전체 플레이어 열지 않음)
             Button(action: {
@@ -326,6 +343,7 @@ struct ListenListView: View {
                     .frame(width: 44, height: 44)
             }
             .buttonStyle(PlainButtonStyle())
+            .accessibilityLabel(viewModel.isPlaying ? L.A11y.pause.localized : L.A11y.play.localized)
         }
         .padding(.horizontal, 20)
         .padding(.vertical, 12)
@@ -772,6 +790,20 @@ struct TimerView: View {
         }
     }
 
+    // 남은 시간을 VoiceOver용 문자열로 변환
+    private func formatRemainingTime(_ seconds: Int) -> String {
+        let hours = seconds / 3600
+        let minutes = (seconds % 3600) / 60
+        let secs = seconds % 60
+        if hours > 0 {
+            return "\(hours)\(L.Timer.hour.localized) \(minutes)\(L.Timer.minute.localized)"
+        } else if minutes > 0 {
+            return "\(minutes)\(L.Timer.minute.localized) \(secs)\(L.Timer.second.localized)"
+        } else {
+            return "\(secs)\(L.Timer.second.localized)"
+        }
+    }
+
     // MARK: - Timer Setting View
     @ViewBuilder
     private func timerSettingView() -> some View {
@@ -858,6 +890,7 @@ struct TimerView: View {
             ZStack {
                 timerManager.getCircularProgressBar()
                     .frame(width: 280, height: 280)
+                    .accessibilityHidden(true)
 
                 VStack(spacing: 12) {
                     timerManager.getTimeText()
@@ -867,6 +900,11 @@ struct TimerView: View {
                         .font(.system(size: 15))
                         .foregroundColor(.white.opacity(0.6))
                 }
+                // 남은 시간을 하나의 요소로 묶고, 값이 바뀔 때마다 VoiceOver가 갱신
+                .accessibilityElement(children: .combine)
+                .accessibilityLabel(L.A11y.remainingTimeLabel.localized)
+                .accessibilityValue(formatRemainingTime(timerManager.remainingSeconds))
+                .accessibilityAddTraits(.updatesFrequently)
             }
 
             Spacer()
@@ -896,6 +934,8 @@ struct TimerView: View {
                             .foregroundColor(.white.opacity(0.8))
                     }
                 }
+                .accessibilityElement(children: .ignore)
+                .accessibilityLabel(L.Timer.stop.localized)
 
                 Spacer()
 
@@ -933,6 +973,8 @@ struct TimerView: View {
                             .foregroundColor(.white.opacity(0.8))
                     }
                 }
+                .accessibilityElement(children: .ignore)
+                .accessibilityLabel(timerManager.textTimer?.isValid == true ? L.Timer.pause.localized : L.Timer.resume.localized)
             }
             .padding(.horizontal, 60)
             .padding(.bottom, 60)
@@ -1230,6 +1272,13 @@ struct SavedSoundsListView: View {
                             .onTapGesture {
                                 selectSound(sound)
                             }
+                            .accessibilityElement(children: .ignore)
+                            .accessibilityLabel(soundCardAccessibilityLabel(sound))
+                            .accessibilityAddTraits(.isButton)
+                            .accessibilityHint(L.A11y.playSoundHint.localized)
+                            .accessibilityAction(named: Text(L.A11y.favorite.localized)) {
+                                viewModel.toggleFavorite(sound)
+                            }
                     }
                 }
                 .padding(.horizontal, 20)
@@ -1279,6 +1328,14 @@ struct SavedSoundsListView: View {
         viewModel.selectedSound = sound
         viewModel.play(with: sound)
         dismiss()
+    }
+
+    // MARK: - Accessibility
+    /// 사운드 카드를 VoiceOver에서 읽어줄 라벨 (제목, 카테고리, 즐겨찾기 상태)
+    private func soundCardAccessibilityLabel(_ sound: CustomSound) -> String {
+        var parts = [sound.title, sound.category.displayName]
+        if sound.isFavorite { parts.append(L.A11y.favoriteOn.localized) }
+        return parts.joined(separator: ", ")
     }
 }
 

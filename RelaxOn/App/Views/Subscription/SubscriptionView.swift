@@ -42,9 +42,11 @@ struct SubscriptionView: View {
                         Image(systemName: "xmark.circle.fill")
                             .font(.system(size: 28))
                             .foregroundColor(.white.opacity(0.5))
+                            .frame(width: 44, height: 44)
                     }
-                    .padding(.trailing, 20)
-                    .padding(.top, 16)
+                    .padding(.trailing, 16)
+                    .padding(.top, 12)
+                    .accessibilityLabel(L.A11y.closeButton.localized)
                 }
 
                 ScrollView {

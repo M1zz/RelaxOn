@@ -51,13 +51,15 @@ struct SoundDetailView: View {
                             .font(.system(size: 13, weight: .regular))
                     }
 
-                    // 실시간 물방울 시각화
+                    // 실시간 물방울 시각화 (장식용 - VoiceOver에서 숨김)
                     if viewModel.isPlaying {
                         WaterDropVisualization(viewModel: viewModel)
                             .padding(.vertical, 8)
+                            .accessibilityHidden(true)
                     } else {
                         // 사운드 이미지 (재생 중이 아닐 때)
                         soundImageView()
+                            .accessibilityHidden(true)
                     }
 
                     // 새로운 슬라이더 컨트롤
@@ -79,8 +81,9 @@ struct SoundDetailView: View {
                     } label: {
                         Image(systemName: "chevron.backward")
                             .foregroundColor(Color(.ChevronBack))
-                            .frame(width: 30, height: 30)
+                            .frame(width: 44, height: 44)
                     }
+                    .accessibilityLabel(L.A11y.backButton.localized)
                 }
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -219,6 +222,7 @@ struct SoundDetailView: View {
                     .font(.system(size: 16))
                     .foregroundColor(color)
                     .frame(width: 20)
+                    .accessibilityHidden(true)
 
                 Text(label)
                     .font(.system(size: 15, weight: .semibold))
@@ -231,9 +235,12 @@ struct SoundDetailView: View {
                     .foregroundColor(color)
                     .frame(minWidth: 55, alignment: .trailing)
             }
+            .accessibilityHidden(true) // 슬라이더가 라벨·값을 직접 읽어줌
 
             Slider(value: value, in: range, step: step)
                 .tint(color)
+                .accessibilityLabel(label)
+                .accessibilityValue(displayValue)
 
             // 변동폭 슬라이더 (있는 경우에만)
             if let variationValue = variationValue {
@@ -260,9 +267,12 @@ struct SoundDetailView: View {
                         .foregroundColor(color.opacity(0.7))
                         .frame(minWidth: 45, alignment: .trailing)
                 }
+                .accessibilityHidden(true)
 
                 Slider(value: variationValue, in: 0.0...0.5, step: 0.05)
                     .tint(color.opacity(0.6))
+                    .accessibilityLabel("\(label), \(L.Customize.variationRange.localized)")
+                    .accessibilityValue(String(format: "±%.0f%%", variationValue.wrappedValue * 100))
 
                 // 범위 시각화 바
                 if variationValue.wrappedValue > 0 {
@@ -346,8 +356,10 @@ struct SoundDetailView: View {
                 )
                 .cornerRadius(20)
         }
+        .accessibilityLabel(filter.displayName)
+        .accessibilityAddTraits(viewModel.filter == filter ? [.isButton, .isSelected] : .isButton)
     }
-    
+
 }
 
 struct SoundDetailView_Previews: PreviewProvider {

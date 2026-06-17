@@ -38,6 +38,7 @@ struct SoundPlayerFullModalView: View {
                 .cornerRadius(12)
                 .frame(maxWidth: .infinity)
                 .padding(.horizontal, 8)
+                .accessibilityHidden(true)
             
             Spacer()
             
@@ -54,10 +55,11 @@ struct SoundPlayerFullModalView: View {
                         .resizable()
                         .renderingMode(.template)
                         .foregroundColor(Color(.Text))
-                        .frame(width: 40, height: 40)
+                        .frame(width: 44, height: 44)
                         .scaledToFit()
                 }
-                
+                .accessibilityLabel(L.A11y.previousSound.localized)
+
                 Button {
                     if viewModel.isPlaying {
                         viewModel.stopSound()
@@ -69,10 +71,11 @@ struct SoundPlayerFullModalView: View {
                         .resizable()
                         .renderingMode(.template)
                         .foregroundColor(Color(.Text))
-                        .frame(width: 40, height: 40)
+                        .frame(width: 44, height: 44)
                         .scaledToFit()
                 }
-                
+                .accessibilityLabel(viewModel.isPlaying ? L.A11y.pause.localized : L.A11y.play.localized)
+
                 Button {
                     viewModel.playNextSound()
                 } label: {
@@ -80,9 +83,10 @@ struct SoundPlayerFullModalView: View {
                         .resizable()
                         .renderingMode(.template)
                         .foregroundColor(Color(.Text))
-                        .frame(width: 40, height: 40)
+                        .frame(width: 44, height: 44)
                         .scaledToFit()
                 }
+                .accessibilityLabel(L.A11y.nextSound.localized)
             }
             .frame(minWidth: 200, maxWidth: .infinity)
             .padding(.top, 32)
@@ -165,7 +169,9 @@ struct SoundPlayerFullModalView: View {
                                         Image(systemName: "xmark.circle.fill")
                                             .font(.system(size: 20))
                                             .foregroundColor(.red)
+                                            .frame(width: 44, height: 44)
                                     }
+                                    .accessibilityLabel("\(L.A11y.removeLayer.localized), \(position.layerName)")
                                 }
 
                                 // 거리 슬라이더
@@ -181,6 +187,8 @@ struct SoundPlayerFullModalView: View {
 
                                     Slider(value: $position.distance, in: 0.5...5.0, step: 0.1)
                                         .accentColor(Color(.PrimaryPurple))
+                                        .accessibilityLabel("\(position.layerName), \(L.A11y.distanceSlider.localized)")
+                                        .accessibilityValue("\(String(format: "%.1f", position.distance))m")
                                         .onChange(of: position.distance) { newValue in
                                             audioManager.updateLayerPosition(
                                                 index: position.layerIndex,
@@ -204,6 +212,8 @@ struct SoundPlayerFullModalView: View {
 
                                     Slider(value: $position.angle, in: 0...360, step: 5)
                                         .accentColor(Color(.PrimaryPurple))
+                                        .accessibilityLabel("\(position.layerName), \(L.A11y.angleSlider.localized)")
+                                        .accessibilityValue("\(Int(position.angle))°")
                                         .onChange(of: position.angle) { newValue in
                                             audioManager.updateLayerPosition(
                                                 index: position.layerIndex,
@@ -227,6 +237,8 @@ struct SoundPlayerFullModalView: View {
 
                                     Slider(value: $position.height, in: -2.0...2.0, step: 0.1)
                                         .accentColor(Color(.PrimaryPurple))
+                                        .accessibilityLabel("\(position.layerName), \(L.A11y.heightSlider.localized)")
+                                        .accessibilityValue("\(String(format: "%.1f", position.height))m")
                                         .onChange(of: position.height) { newValue in
                                             audioManager.updateLayerPosition(
                                                 index: position.layerIndex,

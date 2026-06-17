@@ -306,6 +306,9 @@ enum L {
         static let resume = "timer.resume"
         static let hours = "timer.hours"
         static let minutes = "timer.minutes"
+        static let hour = "timer.hour"
+        static let minute = "timer.minute"
+        static let second = "timer.second"
     }
 
     // MARK: - Player
@@ -478,5 +481,39 @@ enum L {
         static let meditation = "preset_category.meditation"
         static let nature = "preset_category.nature"
         static let rain = "preset_category.rain"
+    }
+
+    // MARK: - Accessibility (VoiceOver)
+    enum A11y {
+        static let savedSoundsButton = "a11y.saved_sounds_button"
+        static let timerButton = "a11y.timer_button"
+        static let timerActiveValue = "a11y.timer_active_value"          // %@ = 남은 시간
+        static let play = "a11y.play"
+        static let pause = "a11y.pause"
+        static let stop = "a11y.stop"
+        static let closeButton = "a11y.close_button"
+        static let backButton = "a11y.back_button"
+        static let nowPlaying = "a11y.now_playing"                       // %1$@ 제목, %2$@ 카테고리
+        static let openFullPlayerHint = "a11y.open_full_player_hint"
+        static let playSoundHint = "a11y.play_sound_hint"
+        static let favorite = "a11y.favorite"
+        static let favoriteOn = "a11y.favorite_on"
+        static let favoriteOff = "a11y.favorite_off"
+        static let createNewButton = "a11y.create_new_button"
+        static let hoursPicker = "a11y.hours_picker"
+        static let minutesPicker = "a11y.minutes_picker"
+        static let remainingTimeLabel = "a11y.remaining_time_label"
+        static let volumeSlider = "a11y.volume_slider"
+        static let pitchSlider = "a11y.pitch_slider"
+        static let intervalSlider = "a11y.interval_slider"
+        static let filterPicker = "a11y.filter_picker"
+        static let clearSearch = "a11y.clear_search"
+        static let decorativeAnimation = "a11y.decorative_animation"
+        static let previousSound = "a11y.previous_sound"
+        static let nextSound = "a11y.next_sound"
+        static let removeLayer = "a11y.remove_layer"
+        static let distanceSlider = "a11y.distance_slider"
+        static let angleSlider = "a11y.angle_slider"
+        static let heightSlider = "a11y.height_slider"
     }
 }

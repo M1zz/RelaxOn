@@ -18,30 +18,34 @@ struct TimePickerView: View {
             Spacer ()
             
             HStack(alignment: .center){
-                Picker("Time Picker - hours", selection: $selectedTimeIndexHours, content: {
+                Picker(L.A11y.hoursPicker.localized, selection: $selectedTimeIndexHours, content: {
                     ForEach(hours, id: \.self) {
                         index in
                         Text("\(hours[index])").tag(index)
                     }
                 })
                 .pickerStyle(.wheel)
-                
-                Text("hours")
+                .accessibilityLabel(L.A11y.hoursPicker.localized)
+
+                Text(L.Timer.hours.localized)
                     .font(.system(size: 23))
                     .padding(.horizontal, 10)
-                
-                Picker("Time Picker - minutes", selection: $selectedTimeIndexMinutes, content: {
+                    .accessibilityHidden(true)
+
+                Picker(L.A11y.minutesPicker.localized, selection: $selectedTimeIndexMinutes, content: {
                     ForEach(minutes, id: \.self) {
                         index in
                         Text("\(minutes[index])").tag(index)
                     }
                 })
                 .pickerStyle(.wheel)
-                
-                Text("min")
+                .accessibilityLabel(L.A11y.minutesPicker.localized)
+
+                Text(L.Timer.minutes.localized)
                     .font(.system(size: 23))
                     .padding(.horizontal, 10)
-                
+                    .accessibilityHidden(true)
+
             }
             .frame(maxWidth: .infinity)
             .padding(20)
