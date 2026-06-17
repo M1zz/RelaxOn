@@ -49,6 +49,7 @@ struct SettingsView: View {
                     .padding(.horizontal, DS.Spacing.screen)
                 }
             }
+            .dsConstrainedWidth()
         }
         .onAppear {
             timerManager.viewModel = viewModel

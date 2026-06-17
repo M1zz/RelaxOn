@@ -73,6 +73,7 @@ struct SubscriptionView: View {
                     .padding(.horizontal, DS.Spacing.screen)
                 }
             }
+            .dsConstrainedWidth()
         }
         .alert(L.Subscription.error.localized, isPresented: $showError) {
             Button("OK") {}

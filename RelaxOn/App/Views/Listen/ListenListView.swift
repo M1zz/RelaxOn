@@ -478,6 +478,7 @@ struct TimerView: View {
                     timerSettingView()
                 }
             }
+            .dsConstrainedWidth()
         }
         .navigationTitle(L.Timer.sleepTimer.localized)
         .navigationBarTitleDisplayMode(.inline)

@@ -50,6 +50,7 @@ struct CreateNewSoundView: View {
                     .padding(.bottom, viewModel.addedSounds.isEmpty ? DS.Spacing.lg : 120)
                 }
                 .frame(maxWidth: .infinity)
+                .dsConstrainedWidth()
             }
 
             // 하단 플로팅 선택된 레이어

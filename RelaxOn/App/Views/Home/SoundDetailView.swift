@@ -66,7 +66,8 @@ struct SoundDetailView: View {
                         .padding(.bottom, DS.Spacing.md)
                 }
             }
-            
+            .dsConstrainedWidth()
+
             .navigationBarTitle(originalSound.name, displayMode: .inline)
             .font(.system(size: 24, weight: .bold))
             

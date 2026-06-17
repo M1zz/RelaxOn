@@ -133,6 +133,7 @@ struct SoundSaveView: View {
                 }
                 Spacer()
             }
+            .dsConstrainedWidth()
         }
         .onAppear {
             viewModel.stopSound()
