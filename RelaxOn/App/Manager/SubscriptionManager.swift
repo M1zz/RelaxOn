@@ -22,6 +22,10 @@ class SubscriptionManager: ObservableObject {
 
     init() {
         transactionListener = listenForTransactions()
+        #if DEBUG
+        // 개발(DEBUG) 빌드에서는 결제 없이 프리미엄 사용 — App Store/TestFlight 빌드는 정상 과금
+        isPremium = true
+        #endif
         Task {
             await fetchProducts()
             await checkEntitlements()
@@ -83,6 +87,11 @@ class SubscriptionManager: ObservableObject {
     // MARK: - Check Entitlements
 
     func checkEntitlements() async {
+        #if DEBUG
+        // 개발 빌드: 항상 프리미엄 (실제 영수증 검사 건너뜀)
+        isPremium = true
+        return
+        #else
         for await result in Transaction.currentEntitlements {
             if let transaction = try? checkVerified(result) {
                 if transaction.productID == Self.productId {
@@ -92,6 +101,7 @@ class SubscriptionManager: ObservableObject {
             }
         }
         isPremium = false
+        #endif
     }
 
     // MARK: - Transaction Listener
