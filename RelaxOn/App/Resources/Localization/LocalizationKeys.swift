@@ -53,6 +53,8 @@ enum L {
         static let save = "common.save"
         static let cancel = "common.cancel"
         static let remove = "common.remove"
+        static let edit = "common.edit"
+        static let delete = "common.delete"
         static let reset = "common.reset"
         static let done = "common.done"
         static let next = "common.next"

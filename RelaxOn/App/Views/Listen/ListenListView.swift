@@ -696,6 +696,8 @@ struct SavedSoundsListView: View {
     @State private var searchText = ""
     @State private var showCreateView = false
     @State private var showSubscription = false
+    @State private var editingSound: CustomSound? = nil
+    @State private var showEditView = false
 
     var body: some View {
         ZStack {
@@ -738,6 +740,21 @@ struct SavedSoundsListView: View {
                     viewModel.loadSound()
                     print("🔄 [SavedSoundsListView] 리스트 새로고침 - 저장된 사운드 개수: \(viewModel.customSounds.count)")
                 }
+        }
+        .navigationDestination(isPresented: $showEditView) {
+            if let editing = editingSound {
+                SoundDetailView(
+                    isTutorial: false,
+                    originalSound: OriginalSound(
+                        name: editing.category.displayName,
+                        filter: editing.filter,
+                        category: editing.category
+                    ),
+                    editingSound: editing
+                )
+                .environmentObject(viewModel)
+                .onDisappear { viewModel.loadSound() }
+            }
         }
         .onAppear {
             viewModel.loadSound()
@@ -869,6 +886,13 @@ struct SavedSoundsListView: View {
                         .onTapGesture {
                             selectSound(sound)
                         }
+                        .accessibilityElement(children: .ignore)
+                        .accessibilityLabel(soundCardAccessibilityLabel(sound))
+                        .accessibilityAddTraits(.isButton)
+                        .accessibilityHint(L.A11y.playSoundHint.localized)
+                        .accessibilityAction(named: Text(L.Common.edit.localized)) { startEdit(sound) }
+                        .accessibilityAction(named: Text(L.Common.delete.localized)) { deleteSound(sound) }
+                        .contextMenu { cardContextMenu(for: sound) }
                 }
             }
             .padding(.horizontal, DS.Spacing.screen)
@@ -913,6 +937,7 @@ struct SavedSoundsListView: View {
                             .accessibilityAction(named: Text(L.A11y.favorite.localized)) {
                                 viewModel.toggleFavorite(sound)
                             }
+                            .contextMenu { cardContextMenu(for: sound) }
                     }
                 }
                 .padding(.horizontal, DS.Spacing.screen)
@@ -964,6 +989,36 @@ struct SavedSoundsListView: View {
         viewModel.selectedSound = sound
         viewModel.play(with: sound)
         dismiss()
+    }
+
+    /// 사운드 수정 화면으로 이동
+    private func startEdit(_ sound: CustomSound) {
+        if viewModel.isPlaying { viewModel.stopSound() }
+        editingSound = sound
+        showEditView = true
+    }
+
+    /// 사운드 삭제 (내가 만든 사운드만)
+    private func deleteSound(_ sound: CustomSound) {
+        guard let index = viewModel.customSounds.firstIndex(where: { $0.id == sound.id }) else { return }
+        viewModel.remove(at: index)
+    }
+
+    /// 카드에 길게 눌러 수정/삭제하는 컨텍스트 메뉴 (내가 만든 사운드 전용)
+    @ViewBuilder
+    private func cardContextMenu(for sound: CustomSound) -> some View {
+        if !sound.isPreset {
+            Button {
+                startEdit(sound)
+            } label: {
+                Label(L.Common.edit.localized, systemImage: "slider.horizontal.3")
+            }
+            Button(role: .destructive) {
+                deleteSound(sound)
+            } label: {
+                Label(L.Common.delete.localized, systemImage: "trash")
+            }
+        }
     }
 
     // MARK: - Accessibility
