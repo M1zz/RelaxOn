@@ -23,6 +23,7 @@ struct ListenListView: View {
     @State private var isShowingEditView = false
     @State private var isShowingCreateModal = false
     @State private var isShowingTimer = false
+    @State private var orbPressed = false
     @StateObject private var timerManager = TimerManager(viewModel: CustomSoundViewModel())
     
     // MARK: - Body
@@ -44,11 +45,28 @@ struct ListenListView: View {
                         smartRecommendationsView()
                             .padding(.bottom, DS.Spacing.md)
 
-                        // 중앙 브리딩 오브 (장식용 비주얼이므로 VoiceOver에서는 숨김)
+                        // 중앙 브리딩 오브 - 탭하면 재생/일시정지(소리 없으면 소리 고르기)
+                        // 시각(애니메이션) 레이어와 탭 레이어를 분리해 히트 테스트를 안정화한다.
                         CampfireView(isPlaying: viewModel.isPlaying)
                             .frame(minHeight: 300)
                             .padding(.vertical, DS.Spacing.md)
-                            .accessibilityHidden(true)
+                            .scaleEffect(orbPressed ? 0.95 : 1.0)
+                            .overlay(
+                                Color.clear
+                                    .contentShape(Rectangle())
+                                    .onTapGesture {
+                                        // 눌리는 느낌(짧은 스케일 바운스)
+                                        withAnimation(.easeOut(duration: 0.12)) { orbPressed = true }
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.13) {
+                                            withAnimation(.spring(response: 0.3, dampingFraction: 0.5)) { orbPressed = false }
+                                        }
+                                        toggleOrbTap()
+                                    }
+                            )
+                            .accessibilityElement(children: .ignore)
+                            .accessibilityLabel(orbAccessibilityLabel)
+                            .accessibilityAddTraits(.isButton)
+                            .accessibilityHint(orbAccessibilityHint)
                     }
                     .dsConstrainedWidth()
                 }
@@ -224,6 +242,34 @@ struct ListenListView: View {
         default:
             return L.Listen.recommendationSleep.localized
         }
+    }
+
+    // MARK: - Orb Interaction
+    /// 중앙 오브 탭: 선택된 소리가 있으면 재생/일시정지, 없으면 소리 고르기
+    private func toggleOrbTap() {
+        if let sound = viewModel.selectedSound {
+            if viewModel.isPlaying {
+                viewModel.stopSound()
+            } else {
+                viewModel.play(with: sound)
+            }
+        } else {
+            isShowingCreateModal = true
+        }
+    }
+
+    private var orbAccessibilityLabel: String {
+        if let sound = viewModel.selectedSound {
+            return sound.title
+        }
+        return L.Listen.selectSoundToPlay.localized
+    }
+
+    private var orbAccessibilityHint: String {
+        if viewModel.selectedSound != nil {
+            return viewModel.isPlaying ? L.A11y.pause.localized : L.A11y.play.localized
+        }
+        return L.A11y.playSoundHint.localized
     }
 
     // MARK: - Mini Player View
