@@ -4597,6 +4597,23 @@
         }
       }
     },
+    "sound_list.free_count": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "My sounds %1$d / %2$d"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "내 사운드 %1$d / %2$d"
+          }
+        }
+      }
+    },
     "sound_list.original_sounds": {
       "extractionState": "manual",
       "localizations": {

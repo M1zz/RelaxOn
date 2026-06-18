@@ -18,6 +18,7 @@ enum L {
         static let recommended = "sound_list.recommended"
         static let originalSounds = "sound_list.original_sounds"
         static let searchPlaceholder = "sound_list.search_placeholder"
+        static let freeCount = "sound_list.free_count"
     }
 
     // MARK: - Create Sound

@@ -710,37 +710,21 @@ struct SavedSoundsListView: View {
         .navigationTitle(L.Listen.savedSounds.localized)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
+            // 제목이 잘리지 않도록 우측에는 컴팩트한 '+' 버튼 하나만 둔다.
             ToolbarItem(placement: .navigationBarTrailing) {
-                HStack(spacing: DS.Spacing.xs) {
-                    // 무료 유저 사운드 카운트 표시
-                    if !subscriptionManager.isPremium {
-                        let userCount = viewModel.customSounds.filter { !$0.isPreset }.count
-                        Text("\(userCount)/\(SubscriptionManager.freeMaxCustomSounds)")
-                            .font(DS.Font.caption().weight(.bold))
-                            .foregroundColor(userCount >= SubscriptionManager.freeMaxCustomSounds ? DS.Colors.warm : DS.Colors.accent)
-                            .padding(.horizontal, DS.Spacing.xs)
-                            .padding(.vertical, 4)
-                            .background(Capsule().fill(DS.Colors.accentSoft))
+                Button {
+                    let userCount = viewModel.customSounds.filter { !$0.isPreset }.count
+                    if subscriptionManager.canCreateMoreSounds(currentCount: userCount) {
+                        showCreateView = true
+                    } else {
+                        showSubscription = true
                     }
-
-                    Button {
-                        let userCount = viewModel.customSounds.filter { !$0.isPreset }.count
-                        if subscriptionManager.canCreateMoreSounds(currentCount: userCount) {
-                            showCreateView = true
-                        } else {
-                            showSubscription = true
-                        }
-                    } label: {
-                        HStack(spacing: DS.Spacing.xxs) {
-                            Image(systemName: "plus.circle.fill")
-                                .font(.system(size: 17, weight: .semibold))
-                            Text(L.SoundList.createNew.localized)
-                                .font(DS.Font.subhead().weight(.medium))
-                        }
+                } label: {
+                    Image(systemName: "plus.circle.fill")
+                        .font(.system(size: 22, weight: .semibold))
                         .foregroundColor(DS.Colors.accent)
-                    }
-                    .accessibilityLabel(L.A11y.createNewButton.localized)
                 }
+                .accessibilityLabel(L.A11y.createNewButton.localized)
             }
         }
         .sheet(isPresented: $showSubscription) {
@@ -801,6 +785,21 @@ struct SavedSoundsListView: View {
     private func soundsListView() -> some View {
         ScrollView {
             VStack(spacing: DS.Spacing.xl) {
+                // 무료 사용자 사운드 개수 표시 (네비게이션 바 대신 콘텐츠 안에)
+                if !subscriptionManager.isPremium {
+                    let userCount = viewModel.customSounds.filter { !$0.isPreset }.count
+                    let reached = userCount >= SubscriptionManager.freeMaxCustomSounds
+                    HStack(spacing: DS.Spacing.xxs) {
+                        Image(systemName: "person.fill")
+                            .font(.system(size: 11, weight: .semibold))
+                        Text(String(format: L.SoundList.freeCount.localized, userCount, SubscriptionManager.freeMaxCustomSounds))
+                            .font(DS.Font.caption().weight(.semibold))
+                        Spacer()
+                    }
+                    .foregroundColor(reached ? DS.Colors.warm : DS.Colors.textSecondary)
+                    .padding(.horizontal, DS.Spacing.screen)
+                }
+
                 // 검색 바
                 searchBar()
 
