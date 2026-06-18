@@ -28,60 +28,73 @@ struct ListenListView: View {
     
     // MARK: - Body
     var body: some View {
-        // 배경은 ZStack 뒤 레이어로 안전영역 밖까지 채우고, 콘텐츠 VStack은 안전영역을 지킨다.
-        // 헤더는 상단 고정(항상 안전영역 아래), 추천·오브만 스크롤, 미니 플레이어는 하단 고정.
-        // → 큰 글씨/작은 화면에서 콘텐츠가 넘쳐도 헤더가 상태바를 뚫지 않고 스크롤로 흡수된다.
+        // 가장 단순한 첫 화면: 화면 가운데의 큰 "재생/일시정지" 버튼 하나.
+        // 제목·추천·떠다니는 미니 플레이어 없음. 시각장애인은 큰 버튼 하나만 두 번 탭하면 된다.
+        let timerActive = timerManager.textTimer != nil && timerManager.remainingSeconds > 0
         ZStack {
             ScreenBackground()
 
             VStack(spacing: 0) {
-                // 헤더 (고정)
-                headerView()
-                    .dsConstrainedWidth()
-
-                // 추천 + 오브 (스크롤)
-                ScrollView(.vertical, showsIndicators: false) {
-                    VStack(spacing: 0) {
-                        smartRecommendationsView()
-                            .padding(.bottom, DS.Spacing.md)
-
-                        // 중앙 브리딩 오브 - 탭하면 재생/일시정지(소리 없으면 소리 고르기)
-                        // 시각(애니메이션) 레이어와 탭 레이어를 분리해 히트 테스트를 안정화한다.
-                        CampfireView(isPlaying: viewModel.isPlaying)
-                            .frame(minHeight: 300)
-                            .padding(.vertical, DS.Spacing.md)
-                            .scaleEffect(orbPressed ? 0.95 : 1.0)
-                            .overlay(
-                                Color.clear
-                                    .contentShape(Rectangle())
-                                    .onTapGesture {
-                                        // 눌리는 느낌(짧은 스케일 바운스)
-                                        withAnimation(.easeOut(duration: 0.12)) { orbPressed = true }
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.13) {
-                                            withAnimation(.spring(response: 0.3, dampingFraction: 0.5)) { orbPressed = false }
-                                        }
-                                        toggleOrbTap()
-                                    }
-                            )
-                            .accessibilityElement(children: .ignore)
-                            .accessibilityLabel(orbAccessibilityLabel)
-                            .accessibilityAddTraits(.isButton)
-                            .accessibilityHint(orbAccessibilityHint)
+                // 상단 보조 버튼 (소리 선택 / 타이머) — 작게
+                HStack(spacing: DS.Spacing.sm) {
+                    Spacer()
+                    CircleIconButton(systemName: "music.note.list") {
+                        isShowingCreateModal = true
                     }
-                    .dsConstrainedWidth()
-                }
+                    .accessibilityLabel(L.A11y.savedSoundsButton.localized)
 
-                // 미니 플레이어 (고정)
-                Group {
-                    if viewModel.isPlaying || viewModel.selectedSound != nil {
-                        miniPlayerView()
-                    } else {
-                        emptyPlayerView()
+                    CircleIconButton(systemName: "timer", active: timerActive) {
+                        isShowingTimer = true
                     }
+                    .accessibilityLabel(L.A11y.timerButton.localized)
+                    .accessibilityValue(timerActive
+                        ? String(format: L.A11y.timerActiveValue.localized, formatRemainingTime(timerManager.remainingSeconds))
+                        : "")
                 }
-                .dsConstrainedWidth()
+                .padding(.horizontal, DS.Spacing.screen)
+                .padding(.top, DS.Spacing.xs)
+
+                Spacer()
+
+                // 거대한 재생/일시정지 버튼 (앱을 재생하는 메인 버튼)
+                Button {
+                    withAnimation(.easeOut(duration: 0.12)) { orbPressed = true }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.13) {
+                        withAnimation(.spring(response: 0.3, dampingFraction: 0.5)) { orbPressed = false }
+                    }
+                    togglePlay()
+                } label: {
+                    CampfireView(isPlaying: viewModel.isPlaying)
+                        .scaleEffect(orbPressed ? 0.95 : 1.0)
+                        .contentShape(Circle())
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel(viewModel.isPlaying ? L.A11y.pause.localized : L.A11y.play.localized)
+                .accessibilityValue(currentSoundTitle)
+
+                // 현재 소리 이름 + 상태 (시각 사용자용, VoiceOver는 버튼이 대신 읽음)
+                VStack(spacing: DS.Spacing.xs) {
+                    Text(currentSoundTitle)
+                        .font(DS.Font.title())
+                        .foregroundColor(DS.Colors.textPrimary)
+                        .multilineTextAlignment(.center)
+                        .lineLimit(2)
+                        .minimumScaleFactor(0.7)
+
+                    Text(viewModel.isPlaying ? L.Listen.nowPlayingState.localized : L.Listen.tapToPlay.localized)
+                        .font(DS.Font.callout())
+                        .foregroundColor(DS.Colors.textSecondary)
+                        .multilineTextAlignment(.center)
+                }
+                .padding(.horizontal, DS.Spacing.xl)
+                .padding(.top, DS.Spacing.xl)
+                .accessibilityHidden(true)
+
+                Spacer()
             }
+            .dsConstrainedWidth()
         }
+        .navigationBarHidden(true)
 
         .navigationDestination(isPresented: $isShowingEditView) {
             if let editing = editingSound {
@@ -244,32 +257,21 @@ struct ListenListView: View {
         }
     }
 
-    // MARK: - Orb Interaction
-    /// 중앙 오브 탭: 선택된 소리가 있으면 재생/일시정지, 없으면 소리 고르기
-    private func toggleOrbTap() {
-        if let sound = viewModel.selectedSound {
-            if viewModel.isPlaying {
-                viewModel.stopSound()
-            } else {
-                viewModel.play(with: sound)
-            }
+    // MARK: - Play Button
+    /// 메인 버튼: 재생 중이면 멈추고, 아니면 (선택된 소리 또는 마지막 소리를) 재생
+    private func togglePlay() {
+        if viewModel.isPlaying {
+            viewModel.stopSound()
         } else {
-            isShowingCreateModal = true
+            let sound = viewModel.selectedSound ?? viewModel.lastSound
+            viewModel.selectedSound = sound
+            viewModel.play(with: sound)
         }
     }
 
-    private var orbAccessibilityLabel: String {
-        if let sound = viewModel.selectedSound {
-            return sound.title
-        }
-        return L.Listen.selectSoundToPlay.localized
-    }
-
-    private var orbAccessibilityHint: String {
-        if viewModel.selectedSound != nil {
-            return viewModel.isPlaying ? L.A11y.pause.localized : L.A11y.play.localized
-        }
-        return L.A11y.playSoundHint.localized
+    /// 현재(또는 마지막) 소리 제목
+    private var currentSoundTitle: String {
+        (viewModel.selectedSound ?? viewModel.lastSound).title
     }
 
     // MARK: - Mini Player View
@@ -429,74 +431,53 @@ struct CampfireView: View {
     @State private var glow = false
 
     var body: some View {
-        // 오브와 안내 문구를 세로로 쌓아 어떤 화면 크기에서도 깨지지 않게 중앙 정렬
-        VStack(spacing: DS.Spacing.xl) {
-            Spacer(minLength: 0)
-
-            // 오브 클러스터 (글로우는 장식이라 레이아웃 공간을 차지하지 않도록 고정 프레임 안에서 오버플로우)
-            ZStack {
-                // 부드러운 외곽 글로우
-                Circle()
-                    .fill(
-                        RadialGradient(
-                            colors: [DS.Colors.accent.opacity(isPlaying ? 0.30 : 0.14), .clear],
-                            center: .center,
-                            startRadius: 10,
-                            endRadius: 200
-                        )
+        // 큰 재생/일시정지 버튼 오브 (가운데 아이콘으로 상태를 명확히 표시)
+        ZStack {
+            // 부드러운 외곽 글로우
+            Circle()
+                .fill(
+                    RadialGradient(
+                        colors: [DS.Colors.accent.opacity(isPlaying ? 0.35 : 0.16), .clear],
+                        center: .center,
+                        startRadius: 10,
+                        endRadius: 220
                     )
-                    .frame(width: 320, height: 320)
-                    .scaleEffect(glow ? 1.06 : 0.92)
-                    .blur(radius: 28)
+                )
+                .frame(width: 300, height: 300)
+                .scaleEffect(glow ? 1.05 : 0.9)
+                .blur(radius: 30)
 
-                // 메인 브리딩 오브
-                Circle()
-                    .fill(
-                        LinearGradient(
-                            colors: [
-                                DS.Colors.accent.opacity(0.9),
-                                DS.Colors.accent.opacity(0.5)
-                            ],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
+            // 메인 오브
+            Circle()
+                .fill(
+                    LinearGradient(
+                        colors: [DS.Colors.accent.opacity(0.95), DS.Colors.accent.opacity(0.55)],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
                     )
-                    .frame(width: 190, height: 190)
-                    .overlay(
-                        // 안쪽 하이라이트
-                        Circle()
-                            .fill(
-                                RadialGradient(
-                                    colors: [Color.white.opacity(0.35), .clear],
-                                    center: UnitPoint(x: 0.35, y: 0.3),
-                                    startRadius: 4,
-                                    endRadius: 120
-                                )
+                )
+                .frame(width: 220, height: 220)
+                .overlay(
+                    Circle()
+                        .fill(
+                            RadialGradient(
+                                colors: [Color.white.opacity(0.35), .clear],
+                                center: UnitPoint(x: 0.35, y: 0.3),
+                                startRadius: 4,
+                                endRadius: 140
                             )
-                    )
-                    .scaleEffect(breathe ? 1.06 : 0.94)
-                    .shadow(color: DS.Colors.accent.opacity(0.4), radius: 36, x: 0, y: 12)
+                        )
+                )
+                .scaleEffect(breathe ? 1.04 : 0.97)
+                .shadow(color: DS.Colors.accent.opacity(0.45), radius: 40, x: 0, y: 14)
 
-                // 중앙 아이콘
-                Image(systemName: isPlaying ? "waveform" : "moon.stars.fill")
-                    .font(.system(size: 42, weight: .light))
-                    .foregroundColor(.white.opacity(0.95))
-                    .scaleEffect(breathe ? 1.04 : 0.96)
-            }
-            .frame(width: 210, height: 210)
-
-            // 안내 문구 (오브 아래 자연스럽게 배치, 길이가 길어도 줄바꿈)
-            Text(isPlaying ? L.Listen.relaxWithWhiteNoise.localized : L.Listen.playSoundForCampfire.localized)
-                .font(DS.Font.callout())
-                .foregroundColor(DS.Colors.textSecondary)
-                .multilineTextAlignment(.center)
-                .fixedSize(horizontal: false, vertical: true)
-                .frame(maxWidth: .infinity)
-                .padding(.horizontal, DS.Spacing.xl)
-
-            Spacer(minLength: 0)
+            // 재생/일시정지 아이콘 (명확하게)
+            Image(systemName: isPlaying ? "pause.fill" : "play.fill")
+                .font(.system(size: 72, weight: .medium))
+                .foregroundColor(.white)
+                .offset(x: isPlaying ? 0 : 6) // play 삼각형 시각 보정
         }
-        .frame(maxWidth: .infinity)
+        .frame(width: 240, height: 240)
         .onAppear { startBreathing() }
         .onChange(of: isPlaying) { _ in startBreathing() }
     }

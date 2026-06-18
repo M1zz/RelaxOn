@@ -285,6 +285,8 @@ enum L {
         static let recommendationEvening = "listen.recommendation_evening"
         static let recommendationSleep = "listen.recommendation_sleep"
         static let layerCount = "listen.layer_count"
+        static let tapToPlay = "listen.tap_to_play"
+        static let nowPlayingState = "listen.now_playing_state"
         static let campfire = "listen.campfire"
         static let campfireDescription = "listen.campfire_description"
         static let rainSound = "listen.rain_sound"
