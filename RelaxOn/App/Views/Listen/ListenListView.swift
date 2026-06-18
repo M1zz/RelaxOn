@@ -35,25 +35,6 @@ struct ListenListView: View {
             ScreenBackground()
 
             VStack(spacing: 0) {
-                // 상단 보조 버튼 (소리 선택 / 타이머) — 작게
-                HStack(spacing: DS.Spacing.sm) {
-                    Spacer()
-                    CircleIconButton(systemName: "music.note.list") {
-                        isShowingCreateModal = true
-                    }
-                    .accessibilityLabel(L.A11y.savedSoundsButton.localized)
-
-                    CircleIconButton(systemName: "timer", active: timerActive) {
-                        isShowingTimer = true
-                    }
-                    .accessibilityLabel(L.A11y.timerButton.localized)
-                    .accessibilityValue(timerActive
-                        ? String(format: L.A11y.timerActiveValue.localized, formatRemainingTime(timerManager.remainingSeconds))
-                        : "")
-                }
-                .padding(.horizontal, DS.Spacing.screen)
-                .padding(.top, DS.Spacing.xs)
-
                 Spacer()
 
                 // 거대한 재생/일시정지 버튼 (앱을 재생하는 메인 버튼)
@@ -73,6 +54,23 @@ struct ListenListView: View {
                 .accessibilityValue(currentSoundTitle)
 
                 Spacer()
+
+                // 하단 보조 버튼 (소리 선택 / 타이머) — 리퀴드 글래스
+                HStack(spacing: DS.Spacing.lg) {
+                    GlassIconButton(systemName: "music.note.list") {
+                        isShowingCreateModal = true
+                    }
+                    .accessibilityLabel(L.A11y.savedSoundsButton.localized)
+
+                    GlassIconButton(systemName: "timer", active: timerActive) {
+                        isShowingTimer = true
+                    }
+                    .accessibilityLabel(L.A11y.timerButton.localized)
+                    .accessibilityValue(timerActive
+                        ? String(format: L.A11y.timerActiveValue.localized, formatRemainingTime(timerManager.remainingSeconds))
+                        : "")
+                }
+                .padding(.bottom, DS.Spacing.xxl)
             }
             .dsConstrainedWidth()
         }
