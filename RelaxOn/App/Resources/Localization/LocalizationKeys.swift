@@ -247,6 +247,16 @@ enum L {
         static let findYourSound = "customize.find_your_sound"
         static let adjustSlider = "customize.adjust_slider"
         static let variationRange = "customize.variation_range"
+        // 무드 프리셋 개편
+        static let shapeSound = "customize.shape_sound"
+        static let pickFeel = "customize.pick_feel"
+        static let soundType = "customize.sound_type"
+        static let moodCalm = "customize.mood_calm"
+        static let moodClear = "customize.mood_clear"
+        static let moodDeep = "customize.mood_deep"
+        static let moodCozy = "customize.mood_cozy"
+        static let moodLively = "customize.mood_lively"
+        static let moodNatural = "customize.mood_natural"
     }
 
     // MARK: - Tab

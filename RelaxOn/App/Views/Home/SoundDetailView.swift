@@ -23,6 +23,7 @@ struct SoundDetailView: View {
     @State var isShowingSheet: Bool = false
     @State var originalSound: OriginalSound
     @State private var filters: [AudioFilter] = []
+    @State private var selectedMoodId: String? = nil
     var editingSound: CustomSound? = nil
     var presetVariation: AudioVariation? = nil
 
@@ -41,11 +42,11 @@ struct SoundDetailView: View {
             ScrollView {
                 VStack(spacing: DS.Spacing.md) {
                     VStack(spacing: DS.Spacing.xs) {
-                        Text(L.Customize.findYourSound.localized)
+                        Text(L.Customize.shapeSound.localized)
                             .foregroundColor(DS.Colors.textPrimary)
                             .font(DS.Font.title())
                             .padding(.top, DS.Spacing.xs)
-                        Text(L.Customize.adjustSlider.localized)
+                        Text(L.Customize.pickFeel.localized)
                             .foregroundColor(DS.Colors.textSecondary)
                             .font(DS.Font.subhead())
                     }
@@ -61,8 +62,8 @@ struct SoundDetailView: View {
                             .accessibilityHidden(true)
                     }
 
-                    // 새로운 슬라이더 컨트롤
-                    simpleSliderControls()
+                    // 무드 프리셋 + 볼륨 + 음원 종류
+                    moodControls()
                         .padding(.bottom, DS.Spacing.md)
                 }
             }
@@ -160,132 +161,79 @@ struct SoundDetailView: View {
             .padding(.horizontal, DS.Spacing.xxxl)
     }
 
+    // MARK: - Mood Controls
+
     @ViewBuilder
-    func simpleSliderControls() -> some View {
+    func moodControls() -> some View {
         VStack(spacing: DS.Spacing.md) {
-            // 볼륨 슬라이더
-            sliderControl(
-                icon: "speaker.wave.2.fill",
-                label: L.Customize.volume.localized,
-                value: $viewModel.volume,
-                range: 0.1...1.0,
-                step: 0.01,
-                displayValue: String(format: "%.0f%%", viewModel.volume * 100),
-                color: .green,
-                variationValue: $viewModel.volumeVariation
-            )
+            // 무드 프리셋 타일
+            LazyVGrid(columns: [GridItem(.flexible(), spacing: DS.Spacing.sm),
+                                GridItem(.flexible(), spacing: DS.Spacing.sm)],
+                      spacing: DS.Spacing.sm) {
+                ForEach(Self.moods) { mood in
+                    moodTile(mood)
+                }
+            }
 
-            // 간격 슬라이더
-            sliderControl(
-                icon: "timer",
-                label: L.Customize.interval.localized,
-                value: $viewModel.interval,
-                range: 0.1...2.0,
-                step: 0.1,
-                displayValue: String(format: "%.1f%@", viewModel.interval, L.Customize.seconds.localized),
-                color: .blue,
-                variationValue: $viewModel.intervalVariation
-            )
+            // 볼륨 (유일한 미세 조정)
+            volumeControl()
 
-            // 피치 슬라이더
-            sliderControl(
-                icon: "tuningfork",
-                label: L.Customize.pitch.localized,
-                value: $viewModel.pitch,
-                range: -5.0...5.0,
-                step: 0.5,
-                displayValue: String(format: "%+.1f", viewModel.pitch),
-                color: .orange,
-                variationValue: $viewModel.pitchVariation
-            )
-
-            // 필터 선택
+            // 음원 종류 (필터)
             filterControl()
         }
         .padding(.horizontal, DS.Spacing.xl)
     }
 
     @ViewBuilder
-    func sliderControl(
-        icon: String,
-        label: String,
-        value: Binding<Float>,
-        range: ClosedRange<Float>,
-        step: Float,
-        displayValue: String,
-        color: Color,
-        variationValue: Binding<Float>? = nil
-    ) -> some View {
+    private func moodTile(_ mood: SoundMood) -> some View {
+        let selected = selectedMoodId == mood.id
+        Button {
+            applyMood(mood)
+        } label: {
+            VStack(spacing: DS.Spacing.xs) {
+                Image(systemName: mood.icon)
+                    .font(.system(size: 26, weight: .medium))
+                    .foregroundColor(selected ? DS.Colors.onAccent : DS.Colors.accent)
+                Text(mood.nameKey.localized)
+                    .font(DS.Font.headline())
+                    .foregroundColor(selected ? DS.Colors.onAccent : DS.Colors.textPrimary)
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, DS.Spacing.lg)
+            .background(
+                RoundedRectangle(cornerRadius: DS.Radius.lg, style: .continuous)
+                    .fill(selected ? DS.Colors.accent : DS.Colors.surface)
+            )
+            .shadow(color: DS.Shadow.card.color, radius: DS.Shadow.card.radius, y: DS.Shadow.card.y)
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(mood.nameKey.localized)
+        .accessibilityAddTraits(selected ? [.isButton, .isSelected] : .isButton)
+    }
+
+    @ViewBuilder
+    private func volumeControl() -> some View {
         VStack(alignment: .leading, spacing: DS.Spacing.xs) {
             HStack {
-                Image(systemName: icon)
+                Image(systemName: "speaker.wave.2.fill")
                     .font(.system(size: 16))
-                    .foregroundColor(color)
+                    .foregroundColor(DS.Colors.accent)
                     .frame(width: 20)
                     .accessibilityHidden(true)
-
-                Text(label)
+                Text(L.Customize.volume.localized)
                     .font(DS.Font.headline())
                     .foregroundColor(DS.Colors.textPrimary)
-
                 Spacer()
-
-                Text(displayValue)
+                Text(String(format: "%.0f%%", viewModel.volume * 100))
                     .font(DS.Font.headline())
-                    .foregroundColor(color)
-                    .frame(minWidth: 55, alignment: .trailing)
+                    .foregroundColor(DS.Colors.accent)
             }
-            .accessibilityHidden(true) // 슬라이더가 라벨·값을 직접 읽어줌
+            .accessibilityHidden(true)
 
-            Slider(value: value, in: range, step: step)
-                .tint(color)
-                .accessibilityLabel(label)
-                .accessibilityValue(displayValue)
-
-            // 변동폭 슬라이더 (있는 경우에만)
-            if let variationValue = variationValue {
-                Divider()
-                    .padding(.vertical, DS.Spacing.xxs)
-
-                HStack {
-                    Image(systemName: "arrow.left.and.right")
-                        .font(.system(size: 14))
-                        .foregroundColor(color.opacity(0.7))
-                        .frame(width: 20)
-
-                    Text(L.Customize.variationRange.localized)
-                        .font(DS.Font.subhead())
-                        .foregroundColor(DS.Colors.textSecondary)
-
-                    Spacer()
-
-                    // 인디케이터
-                    VariationIndicator(value: variationValue.wrappedValue, color: color)
-
-                    Text(String(format: "±%.0f%%", variationValue.wrappedValue * 100))
-                        .font(DS.Font.subhead().weight(.semibold))
-                        .foregroundColor(color.opacity(0.7))
-                        .frame(minWidth: 45, alignment: .trailing)
-                }
-                .accessibilityHidden(true)
-
-                Slider(value: variationValue, in: 0.0...0.5, step: 0.05)
-                    .tint(color.opacity(0.6))
-                    .accessibilityLabel("\(label), \(L.Customize.variationRange.localized)")
-                    .accessibilityValue(String(format: "±%.0f%%", variationValue.wrappedValue * 100))
-
-                // 범위 시각화 바
-                if variationValue.wrappedValue > 0 {
-                    VariationRangeBar(
-                        baseValue: value.wrappedValue,
-                        variation: variationValue.wrappedValue,
-                        range: range,
-                        color: color,
-                        unit: getUnit(for: label)
-                    )
-                    .padding(.top, DS.Spacing.xs)
-                }
-            }
+            Slider(value: $viewModel.volume, in: 0.1...1.0, step: 0.01)
+                .tint(DS.Colors.accent)
+                .accessibilityLabel(L.Customize.volume.localized)
+                .accessibilityValue(String(format: "%.0f%%", viewModel.volume * 100))
         }
         .padding(DS.Spacing.md)
         .background(
@@ -295,18 +243,14 @@ struct SoundDetailView: View {
         .shadow(color: DS.Shadow.card.color, radius: DS.Shadow.card.radius, y: DS.Shadow.card.y)
     }
 
-    // 라벨에 따라 적절한 단위 반환
-    func getUnit(for label: String) -> String {
-        switch label {
-        case L.Customize.volume.localized:
-            return "%"
-        case L.Customize.interval.localized:
-            return L.Customize.seconds.localized
-        case L.Customize.pitch.localized:
-            return ""
-        default:
-            return ""
-        }
+    /// 무드 적용: 파라미터를 한 번에 세팅 (재생 중이면 시각화/오디오에 바로 반영)
+    private func applyMood(_ mood: SoundMood) {
+        selectedMoodId = mood.id
+        viewModel.interval = mood.interval
+        viewModel.pitch = mood.pitch
+        viewModel.intervalVariation = mood.intervalVariation
+        viewModel.volumeVariation = mood.volumeVariation
+        viewModel.pitchVariation = mood.pitchVariation
     }
 
     @ViewBuilder
@@ -318,7 +262,7 @@ struct SoundDetailView: View {
                     .foregroundColor(DS.Colors.accent)
                     .frame(width: 20)
 
-                Text(L.Common.filter.localized)
+                Text(L.Customize.soundType.localized)
                     .font(DS.Font.headline())
                     .foregroundColor(DS.Colors.textPrimary)
 
@@ -364,6 +308,30 @@ struct SoundDetailView: View {
         .accessibilityAddTraits(viewModel.filter == filter ? [.isButton, .isSelected] : .isButton)
     }
 
+}
+
+// MARK: - Sound Mood Preset
+/// 느낌(무드) 프리셋 — 슬라이더 대신 한 번의 탭으로 여러 파라미터를 세팅
+struct SoundMood: Identifiable {
+    let id: String
+    let nameKey: String
+    let icon: String
+    let interval: Float
+    let pitch: Float
+    let intervalVariation: Float
+    let volumeVariation: Float
+    let pitchVariation: Float
+}
+
+extension SoundDetailView {
+    static let moods: [SoundMood] = [
+        SoundMood(id: "calm",    nameKey: L.Customize.moodCalm,    icon: "moon.stars.fill", interval: 1.8, pitch: -1.5, intervalVariation: 0.30, volumeVariation: 0.15, pitchVariation: 0.10),
+        SoundMood(id: "clear",   nameKey: L.Customize.moodClear,   icon: "sparkles",        interval: 0.7, pitch:  1.0, intervalVariation: 0.10, volumeVariation: 0.05, pitchVariation: 0.00),
+        SoundMood(id: "deep",    nameKey: L.Customize.moodDeep,    icon: "waveform.path",   interval: 1.5, pitch: -3.0, intervalVariation: 0.20, volumeVariation: 0.10, pitchVariation: 0.20),
+        SoundMood(id: "cozy",    nameKey: L.Customize.moodCozy,    icon: "cloud.fill",      interval: 1.1, pitch: -0.5, intervalVariation: 0.25, volumeVariation: 0.20, pitchVariation: 0.15),
+        SoundMood(id: "lively",  nameKey: L.Customize.moodLively,  icon: "bolt.fill",       interval: 0.5, pitch:  2.0, intervalVariation: 0.15, volumeVariation: 0.10, pitchVariation: 0.10),
+        SoundMood(id: "natural", nameKey: L.Customize.moodNatural, icon: "leaf.fill",       interval: 1.0, pitch:  0.0, intervalVariation: 0.40, volumeVariation: 0.25, pitchVariation: 0.20)
+    ]
 }
 
 struct SoundDetailView_Previews: PreviewProvider {
