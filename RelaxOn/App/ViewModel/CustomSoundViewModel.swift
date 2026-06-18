@@ -188,7 +188,8 @@ extension CustomSoundViewModel {
         if isPlaying {
             isPlaying = false
         }
-        audioEngineManager.stop()
+        // 뚝 끊기지 않도록 페이드 아웃 후 정지
+        audioEngineManager.masterFadeOutAndStop(duration: 1.0)
     }
     
     func loadSound() {

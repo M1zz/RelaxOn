@@ -28,6 +28,8 @@ final class AudioEngineManager: ObservableObject {
     private var fadeTimer: Timer?
     private var targetVolume: Float = 1.0
     private var stopRequestId: UInt64 = 0
+    /// 재생/일시정지 버튼용 마스터 페이드 타이머 (마스터 볼륨 0↔1)
+    private var masterFadeTimer: Timer?
 
     // 다중 레이어 재생용 (새로운 LayerManager 사용)
     private var layerManager: AudioLayerManager?
@@ -365,6 +367,8 @@ extension AudioEngineManager {
         // 기존 재생 정리 (엔진은 중지하지 않고 노드만 정리)
         fadeTimer?.invalidate()
         fadeTimer = nil
+        masterFadeTimer?.invalidate()
+        masterFadeTimer = nil
         timerSubscription?.cancel()
         player.stop()
         stopLayers()
@@ -372,11 +376,15 @@ extension AudioEngineManager {
         currentBackgroundSound = nil
         clearBuffer()
 
+        // 페이드 인을 위해 마스터 볼륨을 0에서 시작
+        engine.mainMixerNode.outputVolume = 0
+
         currentPlayingSound = sound
 
         // CustomSound이면서 레이어 방식인 경우
         if let customSound = sound as? CustomSound, customSound.isLayeredSound {
             playLayeredSound(customSound)
+            masterFadeIn()
             return
         }
 
@@ -411,10 +419,12 @@ extension AudioEngineManager {
             }
 
             scheduleNextBuffer(with: sound)
+            masterFadeIn() // 부드럽게 페이드 인
             print("✅ [AudioEngineManager] 메인 사운드 재생 시작 완료")
 
         } catch {
             print("❌ [AudioEngineManager] 재생 오류: \(error.localizedDescription)")
+            engine.mainMixerNode.outputVolume = 1.0 // 실패 시 볼륨 복원
         }
     }
 
@@ -555,6 +565,8 @@ extension AudioEngineManager {
 
         fadeTimer?.invalidate()
         fadeTimer = nil
+        masterFadeTimer?.invalidate()
+        masterFadeTimer = nil
         timerSubscription?.cancel()
 
         // 메인 플레이어 즉시 중지
@@ -684,6 +696,57 @@ extension AudioEngineManager {
         fadeTimer = nil
         // 원래 볼륨으로 복원
         volumeEffect.outputVolume = targetVolume
+    }
+
+    // MARK: - Master Fade (재생/일시정지 버튼용)
+
+    /// 재생 시작 시: 마스터 볼륨을 0 → 1로 부드럽게 (단일·레이어·배경음 모두 포함)
+    func masterFadeIn(duration: TimeInterval = 1.2) {
+        masterFadeTimer?.invalidate()
+        let steps = 30
+        let stepDuration = duration / Double(steps)
+        let increment = 1.0 / Float(steps)
+        engine.mainMixerNode.outputVolume = 0
+        var currentStep = 0
+        masterFadeTimer = Timer.scheduledTimer(withTimeInterval: stepDuration, repeats: true) { [weak self] timer in
+            guard let self = self else { timer.invalidate(); return }
+            currentStep += 1
+            if currentStep >= steps {
+                self.engine.mainMixerNode.outputVolume = 1.0
+                timer.invalidate()
+                self.masterFadeTimer = nil
+            } else {
+                self.engine.mainMixerNode.outputVolume = increment * Float(currentStep)
+            }
+        }
+    }
+
+    /// 일시정지 시: 마스터 볼륨을 0으로 줄인 뒤 정지하고, 다음 재생을 위해 1로 복원
+    func masterFadeOutAndStop(duration: TimeInterval = 1.0) {
+        masterFadeTimer?.invalidate()
+        let startVolume = engine.mainMixerNode.outputVolume
+        guard startVolume > 0 else {
+            stop()
+            engine.mainMixerNode.outputVolume = 1.0
+            return
+        }
+        let steps = 30
+        let stepDuration = duration / Double(steps)
+        let decrement = startVolume / Float(steps)
+        var currentStep = 0
+        masterFadeTimer = Timer.scheduledTimer(withTimeInterval: stepDuration, repeats: true) { [weak self] timer in
+            guard let self = self else { timer.invalidate(); return }
+            currentStep += 1
+            if currentStep >= steps {
+                timer.invalidate()
+                self.masterFadeTimer = nil
+                self.stop()
+                // 다음 재생을 위해 마스터 볼륨 복원 (play()에서 다시 0으로 시작)
+                self.engine.mainMixerNode.outputVolume = 1.0
+            } else {
+                self.engine.mainMixerNode.outputVolume = startVolume - (decrement * Float(currentStep))
+            }
+        }
     }
 }
 
