@@ -72,24 +72,6 @@ struct ListenListView: View {
                 .accessibilityLabel(viewModel.isPlaying ? L.A11y.pause.localized : L.A11y.play.localized)
                 .accessibilityValue(currentSoundTitle)
 
-                // 현재 소리 이름 + 상태 (시각 사용자용, VoiceOver는 버튼이 대신 읽음)
-                VStack(spacing: DS.Spacing.xs) {
-                    Text(currentSoundTitle)
-                        .font(DS.Font.title())
-                        .foregroundColor(DS.Colors.textPrimary)
-                        .multilineTextAlignment(.center)
-                        .lineLimit(2)
-                        .minimumScaleFactor(0.7)
-
-                    Text(viewModel.isPlaying ? L.Listen.nowPlayingState.localized : L.Listen.tapToPlay.localized)
-                        .font(DS.Font.callout())
-                        .foregroundColor(DS.Colors.textSecondary)
-                        .multilineTextAlignment(.center)
-                }
-                .padding(.horizontal, DS.Spacing.xl)
-                .padding(.top, DS.Spacing.xl)
-                .accessibilityHidden(true)
-
                 Spacer()
             }
             .dsConstrainedWidth()
