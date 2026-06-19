@@ -498,6 +498,32 @@ enum L {
         static let rain = "preset_category.rain"
     }
 
+    // MARK: - Sound Studio (생성 개편)
+    enum Studio {
+        static let title = "studio.title"
+        static let whereHeard = "studio.where_heard"
+        static let fineTune = "studio.fine_tune"
+        static let interval = "studio.interval"
+        static let intervalHint = "studio.interval_hint"
+        static let irregularity = "studio.irregularity"
+        static let regular = "studio.regular"
+        static let natural = "studio.natural"
+        static let space = "studio.space"
+        static let narrow = "studio.narrow"
+        static let wide = "studio.wide"
+    }
+
+    enum Place {
+        static let cave = "place.cave"
+        static let basement = "place.basement"
+        static let sink = "place.sink"
+        static let forest = "place.forest"
+        static let jungle = "place.jungle"
+        static let rain = "place.rain"
+        static let cityRain = "place.city_rain"
+        static let temple = "place.temple"
+    }
+
     // MARK: - Accessibility (VoiceOver)
     enum A11y {
         static let savedSoundsButton = "a11y.saved_sounds_button"

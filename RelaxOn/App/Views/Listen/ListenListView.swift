@@ -734,7 +734,7 @@ struct SavedSoundsListView: View {
                 .environmentObject(subscriptionManager)
         }
         .navigationDestination(isPresented: $showCreateView) {
-            CreateNewSoundView()
+            SoundStudioView()
                 .environmentObject(viewModel)
                 .onDisappear {
                     viewModel.loadSound()

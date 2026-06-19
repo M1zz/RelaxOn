@@ -63,6 +63,7 @@
 		8F8B0F532A248B9B009A1757 /* FileManager+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8B0F522A248B9A009A1757 /* FileManager+Extension.swift */; };
 		8F95E45B2A1F85EC00CDB8D2 /* SoundListView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F95E45A2A1F85EC00CDB8D2 /* SoundListView+Extension.swift */; };
 		8FCB23EB2A15F71500188024 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FCB23EA2A15F71500188024 /* Color+Extension.swift */; };
+		STDO00022F28000000000022 /* SoundStudioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = STDO00022F28000000000021 /* SoundStudioView.swift */; };
 		DSTH00022F28000000000012 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = DSTH00022F28000000000011 /* Theme.swift */; };
 		DSCP00022F28000000000014 /* Components.swift in Sources */ = {isa = PBXBuildFile; fileRef = DSCP00022F28000000000013 /* Components.swift */; };
 		8FCB23EF2A15F73500188024 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FCB23EE2A15F73500188024 /* String+Extension.swift */; };
@@ -206,6 +207,7 @@
 		8F8B0F522A248B9A009A1757 /* FileManager+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+Extension.swift"; sourceTree = "<group>"; };
 		8F95E45A2A1F85EC00CDB8D2 /* SoundListView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SoundListView+Extension.swift"; sourceTree = "<group>"; };
 		8FCB23EA2A15F71500188024 /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
+		STDO00022F28000000000021 /* SoundStudioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundStudioView.swift; sourceTree = "<group>"; };
 		DSTH00022F28000000000011 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		DSCP00022F28000000000013 /* Components.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Components.swift; sourceTree = "<group>"; };
 		8FCB23EE2A15F73500188024 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
@@ -405,6 +407,7 @@
 				8F53BD1829B77A83009AE6D1 /* SoundDetailView.swift */,
 				8F53BD1A29B77A92009AE6D1 /* SoundSaveView.swift */,
 				CNSV00012F28000000000001 /* CreateNewSoundView.swift */,
+				STDO00022F28000000000021 /* SoundStudioView.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -759,6 +762,7 @@
 				99AA00022EF1960000000002 /* SoundThumbnailView.swift in Sources */,
 				8FFCCCE429EE686B00079DCC /* Errors.swift in Sources */,
 				8FCB23EB2A15F71500188024 /* Color+Extension.swift in Sources */,
+				STDO00022F28000000000022 /* SoundStudioView.swift in Sources */,
 				DSTH00022F28000000000012 /* Theme.swift in Sources */,
 				DSCP00022F28000000000014 /* Components.swift in Sources */,
 				8FFCCCDF29EE55DD00079DCC /* AppState.swift in Sources */,
