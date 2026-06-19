@@ -2783,6 +2783,23 @@
         }
       }
     },
+    "listen.swipe_hint": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Swipe to change the sound"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "옆으로 넘기면 다른 소리"
+          }
+        }
+      }
+    },
     "listen.tap_to_play": {
       "extractionState": "manual",
       "localizations": {

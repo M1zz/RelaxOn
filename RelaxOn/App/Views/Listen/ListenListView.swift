@@ -24,6 +24,12 @@ struct ListenListView: View {
     @State private var isShowingCreateModal = false
     @State private var isShowingTimer = false
     @State private var orbPressed = false
+    // 오브 스와이프(다음 소리) + 소리 이름 토스트
+    @State private var orbDragX: CGFloat = 0
+    @State private var showNameLabel = false
+    @State private var nameLabelText = ""
+    @State private var nameToken = 0
+    @AppStorage("didShowSwipeHint") private var didShowSwipeHint = false
     @StateObject private var timerManager = TimerManager(viewModel: CustomSoundViewModel())
     
     // MARK: - Body
@@ -37,21 +43,47 @@ struct ListenListView: View {
             VStack(spacing: 0) {
                 Spacer()
 
-                // 거대한 재생/일시정지 버튼 (앱을 재생하는 메인 버튼)
-                Button {
-                    withAnimation(.easeOut(duration: 0.12)) { orbPressed = true }
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.13) {
-                        withAnimation(.spring(response: 0.3, dampingFraction: 0.5)) { orbPressed = false }
-                    }
-                    togglePlay()
-                } label: {
+                // 메인 오브: 탭=재생/일시정지, 좌우 스와이프=다음 배경음
+                VStack(spacing: DS.Spacing.md) {
                     CampfireView(isPlaying: viewModel.isPlaying)
                         .scaleEffect(orbPressed ? 0.95 : 1.0)
+                        .offset(x: orbDragX)
                         .contentShape(Circle())
+                        .gesture(
+                            DragGesture(minimumDistance: 0)
+                                .onChanged { value in
+                                    orbPressed = true
+                                    orbDragX = value.translation.width * 0.25 // 살짝 따라오는 느낌
+                                }
+                                .onEnded { value in
+                                    let dx = value.translation.width
+                                    let dist = hypot(value.translation.width, value.translation.height)
+                                    withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
+                                        orbDragX = 0
+                                        orbPressed = false
+                                    }
+                                    if abs(dx) > 50 {
+                                        nextSound()           // 스와이프 → 다음 소리
+                                    } else if dist < 12 {
+                                        togglePlay()          // 탭 → 재생/일시정지
+                                    }
+                                }
+                        )
+                        .accessibilityElement()
+                        .accessibilityLabel(viewModel.isPlaying ? L.A11y.pause.localized : L.A11y.play.localized)
+                        .accessibilityValue(currentSoundTitle)
+                        .accessibilityAddTraits(.isButton)
+                        .accessibilityAction(named: Text(L.A11y.nextSound.localized)) { nextSound() }
+
+                    // 소리 이름 / 첫 사용 힌트 (잠깐만 표시)
+                    Text(nameLabelText)
+                        .font(DS.Font.callout())
+                        .foregroundColor(DS.Colors.textSecondary)
+                        .lineLimit(1)
+                        .opacity(showNameLabel ? 1 : 0)
+                        .frame(height: 22)
+                        .accessibilityHidden(true)
                 }
-                .buttonStyle(.plain)
-                .accessibilityLabel(viewModel.isPlaying ? L.A11y.pause.localized : L.A11y.play.localized)
-                .accessibilityValue(currentSoundTitle)
 
                 Spacer()
 
@@ -111,6 +143,14 @@ struct ListenListView: View {
             timerManager.timerDidFinish = {
                 // 타이머 종료 시 처리
                 print("⏰ 타이머 종료")
+            }
+
+            // 처음 한 번: 옆으로 넘기면 소리가 바뀐다는 힌트
+            if !didShowSwipeHint {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                    flashLabel(L.Listen.swipeHint.localized, duration: 3.5)
+                    didShowSwipeHint = true
+                }
             }
         }
     }
@@ -258,6 +298,30 @@ struct ListenListView: View {
     /// 현재(또는 마지막) 소리 제목
     private var currentSoundTitle: String {
         (viewModel.selectedSound ?? viewModel.lastSound).title
+    }
+
+    /// 다음 배경음으로 전환 (마지막이면 처음으로 순환). 재생 중이 아니면 자동 재생.
+    private func nextSound() {
+        let pool = viewModel.customSounds
+        guard !pool.isEmpty else { return }
+        let idx = pool.firstIndex(where: { $0.id == viewModel.selectedSound?.id }) ?? -1
+        let next = pool[(idx + 1) % pool.count]
+        viewModel.selectedSound = next
+        viewModel.play(with: next) // 페이드 인으로 부드럽게
+        flashLabel(next.title)
+    }
+
+    /// 라벨(소리 이름/힌트)을 잠깐 보여주고 사라지게
+    private func flashLabel(_ text: String, duration: Double = 1.8) {
+        nameLabelText = text
+        nameToken += 1
+        let token = nameToken
+        withAnimation(.easeInOut(duration: 0.35)) { showNameLabel = true }
+        DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
+            if token == nameToken {
+                withAnimation(.easeInOut(duration: 0.5)) { showNameLabel = false }
+            }
+        }
     }
 
     // MARK: - Mini Player View

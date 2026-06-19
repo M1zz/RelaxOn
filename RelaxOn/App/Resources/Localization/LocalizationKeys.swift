@@ -300,6 +300,7 @@ enum L {
         static let layerCount = "listen.layer_count"
         static let tapToPlay = "listen.tap_to_play"
         static let nowPlayingState = "listen.now_playing_state"
+        static let swipeHint = "listen.swipe_hint"
         static let campfire = "listen.campfire"
         static let campfireDescription = "listen.campfire_description"
         static let rainSound = "listen.rain_sound"
