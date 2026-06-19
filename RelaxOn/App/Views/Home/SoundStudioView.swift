@@ -56,31 +56,45 @@ struct SoundStudioView: View {
         ZStack {
             ScreenBackground()
 
-            ScrollView(.vertical, showsIndicators: false) {
-                VStack(spacing: DS.Spacing.lg) {
-                    // STEP 1 — 장소
-                    placeSection()
+            ScrollViewReader { proxy in
+                ScrollView(.vertical, showsIndicators: false) {
+                    VStack(spacing: DS.Spacing.lg) {
+                        // STEP 1 — 장소
+                        placeSection()
 
-                    if selectedPlace != nil {
-                        // 실시간 시각화
-                        if viewModel.isPlaying {
-                            WaterDropVisualization(viewModel: viewModel)
-                                .frame(height: 120)
-                                .accessibilityHidden(true)
+                        if selectedPlace != nil {
+                            // STEP 2 — 세부 조정 (장소 선택 시 이 영역으로 포커스 이동)
+                            VStack(spacing: DS.Spacing.lg) {
+                                // 실시간 시각화
+                                if viewModel.isPlaying {
+                                    WaterDropVisualization(viewModel: viewModel)
+                                        .frame(height: 120)
+                                        .accessibilityHidden(true)
+                                }
+
+                                SectionHeader(title: L.Studio.fineTune.localized, systemIcon: "slider.horizontal.3")
+                                    .padding(.horizontal, DS.Spacing.screen)
+
+                                rhythmPad()
+                                irregularityControl()
+                                spaceControl()
+                                volumeControl()
+                            }
+                            .id("fineTune")
                         }
-
-                        // STEP 2 — 세부 조정
-                        SectionHeader(title: L.Studio.fineTune.localized, systemIcon: "slider.horizontal.3")
-                            .padding(.horizontal, DS.Spacing.screen)
-
-                        rhythmPad()
-                        irregularityControl()
-                        spaceControl()
-                        volumeControl()
+                    }
+                    .padding(.vertical, DS.Spacing.md)
+                    .dsConstrainedWidth()
+                }
+                .onChange(of: selectedPlace?.id) { newId in
+                    guard newId != nil else { return }
+                    // 레이아웃이 잡힌 뒤 세부 조정으로 부드럽게 스크롤
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+                        withAnimation(.easeInOut(duration: 0.45)) {
+                            proxy.scrollTo("fineTune", anchor: .top)
+                        }
                     }
                 }
-                .padding(.vertical, DS.Spacing.md)
-                .dsConstrainedWidth()
             }
         }
         .navigationTitle(L.Studio.title.localized)
