@@ -99,8 +99,14 @@ struct ListenListView: View {
         }
 
         .onAppear {
-            selectedFile = viewModel.lastSound
             viewModel.loadSound()
+            viewModel.loadPresetSounds() // 첫 설치 시 기본 소리(프리셋) 제공
+            // 선택된 소리가 없으면 기본 프리셋을 재생 대상으로 지정 → 큰 재생 버튼이 바로 재생 가능
+            if viewModel.selectedSound == nil, let firstPreset = viewModel.presetSounds.first {
+                viewModel.selectedSound = firstPreset
+                viewModel.lastSound = firstPreset
+            }
+            selectedFile = viewModel.lastSound
             timerManager.viewModel = viewModel
             timerManager.timerDidFinish = {
                 // 타이머 종료 시 처리
