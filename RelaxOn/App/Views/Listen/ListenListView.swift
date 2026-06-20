@@ -526,12 +526,25 @@ struct CampfireView: View {
     @State private var breathe = false
     @State private var glow = false
 
+    /// 구 표면 투영 반지름 (이 값까지 가장자리로 굴러감)
+    private let sphereR: CGFloat = 104
     private var rollRad: Double { roll * .pi / 180 }
-    /// 앞면 가시성 (0°=정면 1, 90°=옆모서리 0, 뒷면 0)
-    private var frontFacing: Double { max(0, cos(rollRad)) }
-    /// 표면 가로 압축(모서리에서 납작) + 가로 이동량
-    private var surfaceSquashX: CGFloat { CGFloat(max(0.1, abs(cos(rollRad)))) }
-    private var surfaceTravel: CGFloat { CGFloat(sin(rollRad)) }
+
+    // 표면 위 한 점(경도 lon)의 화면 투영: 위치·압축·가시성
+    private func markX(_ lon: Double) -> CGFloat { CGFloat(sin(rollRad + lon)) * sphereR }
+    private func markSquash(_ lon: Double) -> CGFloat { CGFloat(max(0.05, abs(cos(rollRad + lon)))) }
+    private func markOpacity(_ lon: Double) -> Double { max(0, cos(rollRad + lon)) }
+
+    /// 표면 질감용 점들 (경도가 달라 굴릴 때 한쪽으로 사라지고 반대쪽에서 나타남)
+    private struct Spot {
+        let lon: Double; let y: CGFloat; let size: CGFloat; let white: Bool; let maxOpacity: Double
+    }
+    private static let spots: [Spot] = [
+        Spot(lon: 1.6, y: 36,  size: 48, white: true,  maxOpacity: 0.14),
+        Spot(lon: 3.0, y: -28, size: 58, white: false, maxOpacity: 0.07),
+        Spot(lon: 4.4, y: 22,  size: 40, white: true,  maxOpacity: 0.11),
+        Spot(lon: 5.4, y: -44, size: 34, white: false, maxOpacity: 0.06)
+    ]
 
     var body: some View {
         ZStack {
@@ -572,23 +585,28 @@ struct CampfireView: View {
                         )
                 )
                 .overlay(
-                    // 표면 위 부드러운 반사 — 굴러가면 같이 이동/소멸
-                    Circle()
-                        .fill(Color.white.opacity(0.22))
-                        .frame(width: 64, height: 64)
-                        .blur(radius: 16)
-                        .scaleEffect(x: surfaceSquashX, y: 1, anchor: .center)
-                        .offset(x: surfaceTravel * 66, y: -8)
-                        .opacity(frontFacing)
+                    // 표면 질감 점들 — 구가 굴러가는 걸 표현 (가장자리까지 이동 후 반대편에서 등장)
+                    ZStack {
+                        ForEach(Self.spots.indices, id: \.self) { i in
+                            let s = Self.spots[i]
+                            Circle()
+                                .fill((s.white ? Color.white : Color.black))
+                                .frame(width: s.size, height: s.size)
+                                .blur(radius: s.size * 0.35)
+                                .scaleEffect(x: markSquash(s.lon), y: 1, anchor: .center)
+                                .offset(x: markX(s.lon), y: s.y)
+                                .opacity(markOpacity(s.lon) * s.maxOpacity)
+                        }
+                    }
                 )
                 .overlay(
-                    // 표면 위 아이콘 — 앞면에서만 보이고 굴러서 뒤로 사라졌다 돌아옴
+                    // 표면 위 아이콘 — 가장자리까지 굴러 사라졌다가 반대편에서 등장
                     Image(systemName: isPlaying ? "pause.fill" : "play.fill")
                         .font(.system(size: 72, weight: .medium))
                         .foregroundColor(.white)
-                        .scaleEffect(x: surfaceSquashX, y: 1, anchor: .center)
-                        .offset(x: surfaceTravel * 60 + (isPlaying ? 0 : 6))
-                        .opacity(frontFacing)
+                        .scaleEffect(x: markSquash(0), y: 1, anchor: .center)
+                        .offset(x: markX(0) + (isPlaying ? 0 : 6))
+                        .opacity(markOpacity(0))
                 )
                 .clipShape(Circle())   // ← 표면이 굴러도 윤곽은 항상 원형
                 .scaleEffect(breathe ? 1.04 : 0.97)
