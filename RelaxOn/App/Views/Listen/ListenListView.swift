@@ -24,9 +24,9 @@ struct ListenListView: View {
     @State private var isShowingCreateModal = false
     @State private var isShowingTimer = false
     @State private var orbPressed = false
-    // 오브 스와이프(다음 소리) + 소리 이름 토스트
-    @State private var orbDragX: CGFloat = 0
-    @State private var orbSpin: Double = 0
+    // 오브 스와이프(다음 소리) — 손가락 따라 3D로 굴러가는 느낌
+    @State private var orbCommitted: Double = 0   // 확정된 회전(전환 시 ±360 누적)
+    @State private var orbDragAngle: Double = 0   // 드래그 중 실시간 회전
     @State private var showNameLabel = false
     @State private var nameLabelText = ""
     @State private var nameToken = 0
@@ -47,27 +47,44 @@ struct ListenListView: View {
                 // 메인 오브: 탭=재생/일시정지, 좌우 스와이프=다음 배경음
                 VStack(spacing: DS.Spacing.md) {
                     CampfireView(isPlaying: viewModel.isPlaying)
-                        .rotationEffect(.degrees(orbSpin)) // 다음 곡 전환 시 빙글
-                        .scaleEffect(orbPressed ? 0.95 : 1.0)
-                        .offset(x: orbDragX)
+                        // 손가락 방향으로 구체가 3D로 굴러가는 느낌 (Y축 회전)
+                        .rotation3DEffect(.degrees(orbCommitted + orbDragAngle),
+                                          axis: (x: 0, y: 1, z: 0),
+                                          perspective: 0.45)
+                        .scaleEffect(orbPressed ? 0.97 : 1.0)
                         .contentShape(Circle())
                         .gesture(
                             DragGesture(minimumDistance: 0)
                                 .onChanged { value in
                                     orbPressed = true
-                                    orbDragX = value.translation.width * 0.25 // 살짝 따라오는 느낌
+                                    // 드래그를 따라 실시간 회전 (가장자리에서 너무 넘어가지 않게 제한)
+                                    orbDragAngle = max(-85, min(85, Double(value.translation.width) * 0.55))
                                 }
                                 .onEnded { value in
                                     let dx = value.translation.width
                                     let dist = hypot(value.translation.width, value.translation.height)
-                                    withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
-                                        orbDragX = 0
-                                        orbPressed = false
-                                    }
                                     if abs(dx) > 50 {
-                                        nextSound()           // 스와이프 → 다음 소리
+                                        // 그 방향으로 한 바퀴 굴러서 다음 곡으로 전환
+                                        let dir: Double = dx < 0 ? -1 : 1
+                                        withAnimation(.easeOut(duration: 0.6)) {
+                                            orbCommitted += dir * 360
+                                            orbDragAngle = 0
+                                            orbPressed = false
+                                        }
+                                        nextSound()
                                     } else if dist < 12 {
-                                        togglePlay()          // 탭 → 재생/일시정지
+                                        // 탭 → 재생/일시정지
+                                        withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
+                                            orbDragAngle = 0
+                                            orbPressed = false
+                                        }
+                                        togglePlay()
+                                    } else {
+                                        // 살짝만 밀었으면 도로 제자리
+                                        withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
+                                            orbDragAngle = 0
+                                            orbPressed = false
+                                        }
                                     }
                                 }
                         )
@@ -308,10 +325,12 @@ struct ListenListView: View {
         guard !pool.isEmpty else { return }
         let idx = pool.firstIndex(where: { $0.id == viewModel.selectedSound?.id }) ?? -1
         let next = pool[(idx + 1) % pool.count]
-        // 구체가 한 바퀴 빙글 돌면서 다음 곡으로 전환
-        withAnimation(.easeInOut(duration: 0.55)) { orbSpin += 360 }
+        let wasPlaying = viewModel.isPlaying
         viewModel.selectedSound = next
-        viewModel.play(with: next) // 페이드 인으로 부드럽게
+        // 재생 중이었으면 다음 곡을 이어서 재생, 멈춰있었으면 선택만 바꿈
+        if wasPlaying {
+            viewModel.play(with: next) // 페이드 인으로 부드럽게
+        }
         flashLabel(next.title)
     }
 
