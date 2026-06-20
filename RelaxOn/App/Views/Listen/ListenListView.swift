@@ -521,15 +521,19 @@ struct ListenListView: View {
 
 // MARK: - Campfire View
 
-struct CampfireView: View {
+/// 구 표면(질감 점 + 아이콘)만 따로 그리는 뷰.
+/// Animatable 채택 → SwiftUI가 offset/opacity 최종값이 아니라 "회전각(roll) 자체"를
+/// 보간하고 매 프레임 sin/cos를 다시 계산한다. (안 그러면 roll 0→-360 시 시작·끝 위치가
+/// 같아서 "변화 없음"으로 처리되어 아이콘이 안 굴러간다.)
+struct RollingSphereSurface: View, Animatable {
+    var roll: Double            // 표면 회전 각도(도)
     let isPlaying: Bool
-    var tint: Color = DS.Colors.accent
-    var roll: Double = 0   // 표면 회전 각도(도) — 윤곽은 원형 유지, 표면만 굴러감
 
-    @State private var breathe = false
-    @State private var glow = false
+    var animatableData: Double {
+        get { roll }
+        set { roll = newValue }
+    }
 
-    /// 구 표면 투영 반지름 (이 값까지 가장자리로 굴러감)
     private let sphereR: CGFloat = 104
     private var rollRad: Double { roll * .pi / 180 }
 
@@ -538,7 +542,6 @@ struct CampfireView: View {
     private func markSquash(_ lon: Double) -> CGFloat { CGFloat(max(0.05, abs(cos(rollRad + lon)))) }
     private func markOpacity(_ lon: Double) -> Double { max(0, cos(rollRad + lon)) }
 
-    /// 표면 질감용 점들 (경도가 달라 굴릴 때 한쪽으로 사라지고 반대쪽에서 나타남)
     private struct Spot {
         let lon: Double; let y: CGFloat; let size: CGFloat; let white: Bool; let maxOpacity: Double
     }
@@ -548,6 +551,38 @@ struct CampfireView: View {
         Spot(lon: 4.4, y: 22,  size: 40, white: true,  maxOpacity: 0.11),
         Spot(lon: 5.4, y: -44, size: 34, white: false, maxOpacity: 0.06)
     ]
+
+    var body: some View {
+        ZStack {
+            // 표면 질감 점들 — 한쪽 가장자리로 사라지고 반대쪽에서 나타남
+            ForEach(Self.spots.indices, id: \.self) { i in
+                let s = Self.spots[i]
+                Circle()
+                    .fill(s.white ? Color.white : Color.black)
+                    .frame(width: s.size, height: s.size)
+                    .blur(radius: s.size * 0.35)
+                    .scaleEffect(x: markSquash(s.lon), y: 1, anchor: .center)
+                    .offset(x: markX(s.lon), y: s.y)
+                    .opacity(markOpacity(s.lon) * s.maxOpacity)
+            }
+            // 표면 위 아이콘 — 가장자리까지 굴러 사라졌다가 반대편에서 등장
+            Image(systemName: isPlaying ? "pause.fill" : "play.fill")
+                .font(.system(size: 72, weight: .medium))
+                .foregroundColor(.white)
+                .scaleEffect(x: markSquash(0), y: 1, anchor: .center)
+                .offset(x: markX(0) + (isPlaying ? 0 : 6))
+                .opacity(markOpacity(0))
+        }
+    }
+}
+
+struct CampfireView: View {
+    let isPlaying: Bool
+    var tint: Color = DS.Colors.accent
+    var roll: Double = 0   // 표면 회전 각도(도) — 윤곽은 원형 유지, 표면만 굴러감
+
+    @State private var breathe = false
+    @State private var glow = false
 
     var body: some View {
         ZStack {
@@ -588,28 +623,9 @@ struct CampfireView: View {
                         )
                 )
                 .overlay(
-                    // 표면 질감 점들 — 구가 굴러가는 걸 표현 (가장자리까지 이동 후 반대편에서 등장)
-                    ZStack {
-                        ForEach(Self.spots.indices, id: \.self) { i in
-                            let s = Self.spots[i]
-                            Circle()
-                                .fill((s.white ? Color.white : Color.black))
-                                .frame(width: s.size, height: s.size)
-                                .blur(radius: s.size * 0.35)
-                                .scaleEffect(x: markSquash(s.lon), y: 1, anchor: .center)
-                                .offset(x: markX(s.lon), y: s.y)
-                                .opacity(markOpacity(s.lon) * s.maxOpacity)
-                        }
-                    }
-                )
-                .overlay(
-                    // 표면 위 아이콘 — 가장자리까지 굴러 사라졌다가 반대편에서 등장
-                    Image(systemName: isPlaying ? "pause.fill" : "play.fill")
-                        .font(.system(size: 72, weight: .medium))
-                        .foregroundColor(.white)
-                        .scaleEffect(x: markSquash(0), y: 1, anchor: .center)
-                        .offset(x: markX(0) + (isPlaying ? 0 : 6))
-                        .opacity(markOpacity(0))
+                    // 굴러가는 표면(질감 점 + 아이콘) — Animatable로 각도 자체를 보간
+                    RollingSphereSurface(roll: roll, isPlaying: isPlaying)
+                        .frame(width: 220, height: 220)
                 )
                 .clipShape(Circle())   // ← 표면이 굴러도 윤곽은 항상 원형
                 .scaleEffect(breathe ? 1.04 : 0.97)
