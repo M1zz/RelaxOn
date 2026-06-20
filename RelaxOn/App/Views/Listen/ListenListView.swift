@@ -31,6 +31,9 @@ struct ListenListView: View {
     @State private var page: Int = 1
     @State private var dragY: CGFloat = 0
     @State private var vLock: Bool? = nil   // nil=미결정, true=세로, false=가로
+    // 구체 세로 회전(전환 시 위/아래로 굴러가는 모습)
+    @State private var orbCommittedV: Double = 0
+    @State private var orbDragV: Double = 0
     @State private var showNameLabel = false
     @State private var nameLabelText = ""
     @State private var nameToken = 0
@@ -129,7 +132,8 @@ struct ListenListView: View {
             VStack(spacing: DS.Spacing.md) {
                 CampfireView(isPlaying: viewModel.isPlaying,
                              tint: orbTint,
-                             roll: orbCommitted + orbDragAngle)
+                             roll: orbCommitted + orbDragAngle,
+                             rollY: orbCommittedV + orbDragV)
                     .scaleEffect(orbPressed ? 0.97 : 1.0)
                     .contentShape(Circle())
                     .animation(.easeInOut(duration: 0.6), value: orbTint)
@@ -244,6 +248,8 @@ struct ListenListView: View {
                 }
                 if vLock == true {
                     dragY = value.translation.height   // 세로: 페이저 미리보기
+                    // 구체도 손가락 따라 위/아래로 굴림
+                    orbDragV = max(-150, min(150, Double(value.translation.height) * 0.5))
                 } else if vLock == false {
                     orbPressed = true
                     orbDragAngle = max(-85, min(85, Double(value.translation.width) * 0.55))
@@ -253,13 +259,17 @@ struct ListenListView: View {
                 let dx = value.translation.width
                 let dy = value.translation.height
                 if vLock == true {
-                    // 세로 굴림 → 모드 전환
+                    // 세로 굴림 → 모드 전환 (구체가 그 방향으로 굴러가며 전환)
                     let predicted = value.predictedEndTranslation.height
                     let decisive = abs(dy) > abs(predicted) ? dy : predicted
-                    withAnimation(.spring(response: 0.5, dampingFraction: 0.85)) {
-                        if decisive < -40 { page = 2 }        // 위로 → 타이머
-                        else if decisive > 40 { page = 0 }    // 아래로 → 보관함
-                        dragY = 0
+                    if decisive < -40 { goTo(2) }        // 위로 → 타이머
+                    else if decisive > 40 { goTo(0) }    // 아래로 → 보관함
+                    else {
+                        // 부족하면 도로 제자리 (구체도 원위치)
+                        withAnimation(.spring(response: 0.45, dampingFraction: 0.85)) {
+                            orbDragV = 0
+                            dragY = 0
+                        }
                     }
                 } else if vLock == false {
                     // 가로 굴림 → 다음 소리
@@ -299,9 +309,13 @@ struct ListenListView: View {
         return base + dy
     }
 
-    /// 페이지 전환 (스프링)
+    /// 페이지 전환 — 구체가 그 방향으로 한 바퀴 굴러가며 화면이 바뀐다.
+    /// (아래 페이지로 갈수록 화면이 위로 슬라이드 → 구체는 위로 굴림 = rollY 감소)
     private func goTo(_ p: Int) {
-        withAnimation(.spring(response: 0.5, dampingFraction: 0.85)) {
+        let dir = p > page ? 1.0 : (p < page ? -1.0 : 0.0)
+        withAnimation(.spring(response: 0.6, dampingFraction: 0.82)) {
+            orbCommittedV -= 360 * dir   // 손가락 따라 굴러간 상태에서 이어서 한 바퀴
+            orbDragV = 0
             page = p
             dragY = 0
         }
@@ -657,21 +671,27 @@ struct ListenListView: View {
 /// 보간하고 매 프레임 sin/cos를 다시 계산한다. (안 그러면 roll 0→-360 시 시작·끝 위치가
 /// 같아서 "변화 없음"으로 처리되어 아이콘이 안 굴러간다.)
 struct RollingSphereSurface: View, Animatable {
-    var roll: Double            // 표면 회전 각도(도)
+    var roll: Double            // 가로 회전 각도(도) — 좌우 굴림(소리 전환)
+    var rollY: Double           // 세로 회전 각도(도) — 위아래 굴림(모드 전환)
     let isPlaying: Bool
 
-    var animatableData: Double {
-        get { roll }
-        set { roll = newValue }
+    // 두 축을 함께 보간 → 가로/세로 모두 표면 회전이 실제로 굴러간다.
+    var animatableData: AnimatablePair<Double, Double> {
+        get { AnimatablePair(roll, rollY) }
+        set { roll = newValue.first; rollY = newValue.second }
     }
 
     private let sphereR: CGFloat = 104
-    private var rollRad: Double { roll * .pi / 180 }
+    private var rx: Double { roll * .pi / 180 }
+    private var ry: Double { rollY * .pi / 180 }
 
-    // 표면 위 한 점(경도 lon)의 화면 투영: 위치·압축·가시성
-    private func markX(_ lon: Double) -> CGFloat { CGFloat(sin(rollRad + lon)) * sphereR }
-    private func markSquash(_ lon: Double) -> CGFloat { CGFloat(max(0.05, abs(cos(rollRad + lon)))) }
-    private func markOpacity(_ lon: Double) -> Double { max(0, cos(rollRad + lon)) }
+    // 표면 위 한 점(경도 lon, 기준 y=baseY)의 화면 투영: 위치·압축·가시성
+    private func markX(_ lon: Double) -> CGFloat { CGFloat(sin(rx + lon)) * sphereR }
+    private func markY(_ baseY: CGFloat) -> CGFloat { baseY * CGFloat(cos(ry)) + CGFloat(sin(ry)) * sphereR }
+    private func squashX(_ lon: Double) -> CGFloat { CGFloat(max(0.05, abs(cos(rx + lon)))) }
+    private func squashY() -> CGFloat { CGFloat(max(0.05, abs(cos(ry)))) }
+    // 앞면(양 축 모두 정면)일 때만 보임
+    private func markOpacity(_ lon: Double) -> Double { max(0, cos(rx + lon)) * max(0, cos(ry)) }
 
     private struct Spot {
         let lon: Double; let y: CGFloat; let size: CGFloat; let white: Bool; let maxOpacity: Double
@@ -692,16 +712,16 @@ struct RollingSphereSurface: View, Animatable {
                     .fill(s.white ? Color.white : Color.black)
                     .frame(width: s.size, height: s.size)
                     .blur(radius: s.size * 0.35)
-                    .scaleEffect(x: markSquash(s.lon), y: 1, anchor: .center)
-                    .offset(x: markX(s.lon), y: s.y)
+                    .scaleEffect(x: squashX(s.lon), y: squashY(), anchor: .center)
+                    .offset(x: markX(s.lon), y: markY(s.y))
                     .opacity(markOpacity(s.lon) * s.maxOpacity)
             }
             // 표면 위 아이콘 — 가장자리까지 굴러 사라졌다가 반대편에서 등장
             Image(systemName: isPlaying ? "pause.fill" : "play.fill")
                 .font(.system(size: 72, weight: .medium))
                 .foregroundColor(.white)
-                .scaleEffect(x: markSquash(0), y: 1, anchor: .center)
-                .offset(x: markX(0) + (isPlaying ? 0 : 6))
+                .scaleEffect(x: squashX(0), y: squashY(), anchor: .center)
+                .offset(x: markX(0) + (isPlaying ? 0 : 6), y: markY(0))
                 .opacity(markOpacity(0))
         }
     }
@@ -710,7 +730,8 @@ struct RollingSphereSurface: View, Animatable {
 struct CampfireView: View {
     let isPlaying: Bool
     var tint: Color = DS.Colors.accent
-    var roll: Double = 0   // 표면 회전 각도(도) — 윤곽은 원형 유지, 표면만 굴러감
+    var roll: Double = 0    // 가로 회전(좌우 굴림)
+    var rollY: Double = 0   // 세로 회전(위아래 굴림)
 
     @State private var breathe = false
     @State private var glow = false
@@ -755,7 +776,7 @@ struct CampfireView: View {
                 )
                 .overlay(
                     // 굴러가는 표면(질감 점 + 아이콘) — Animatable로 각도 자체를 보간
-                    RollingSphereSurface(roll: roll, isPlaying: isPlaying)
+                    RollingSphereSurface(roll: roll, rollY: rollY, isPlaying: isPlaying)
                         .frame(width: 220, height: 220)
                 )
                 .clipShape(Circle())   // ← 표면이 굴러도 윤곽은 항상 원형
