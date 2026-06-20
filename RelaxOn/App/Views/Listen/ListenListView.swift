@@ -38,6 +38,10 @@ struct ListenListView: View {
     @State private var nameLabelText = ""
     @State private var nameToken = 0
     @AppStorage("didShowSwipeHint") private var didShowSwipeHint = false
+    // 모드 전환 안내 칩(타이머/보관함): 뉴비에게만 노출 — 써봤거나 몇 번 열면 숨김
+    @AppStorage("homeAppearCount") private var homeAppearCount = 0
+    @AppStorage("didUseModeSwitch") private var didUseModeSwitch = false
+    @State private var countedThisSession = false
     @StateObject private var timerManager = TimerManager(viewModel: CustomSoundViewModel())
     
     // MARK: - Body
@@ -89,6 +93,11 @@ struct ListenListView: View {
         }
 
         .onAppear {
+            // 앱 실행당 1회만 카운트 (뉴비 안내 칩 노출 판단용)
+            if !countedThisSession {
+                countedThisSession = true
+                homeAppearCount += 1
+            }
             viewModel.loadSound()
             viewModel.loadPresetSounds() // 첫 설치 시 기본 소리(프리셋) 제공
             // 선택된 소리가 없으면 기본 프리셋을 재생 대상으로 지정 → 큰 재생 버튼이 바로 재생 가능
@@ -115,6 +124,11 @@ struct ListenListView: View {
 
     // MARK: - Vertical Pager Pages
 
+    /// 모드 전환 안내 칩 노출 여부 — 아직 한 번도 안 써봤고, 앱을 3번 미만 열었을 때만
+    private var showModeHints: Bool {
+        !didUseModeSwitch && homeAppearCount < 3
+    }
+
     /// page 1 — 홈(구체). 탭=재생/일시정지, 좌우=다음 소리, 위/아래=모드 전환
     @ViewBuilder
     private func homePage() -> some View {
@@ -122,11 +136,14 @@ struct ListenListView: View {
         VStack(spacing: 0) {
             Spacer()
 
-            // 위로 굴리면 타이머 (탭으로도 열림)
-            modeHint(icon: "chevron.up", title: L.A11y.timerButton.localized, active: timerActive) {
-                goTo(2)
+            // 위로 굴리면 타이머 (탭으로도 열림) — 뉴비에게만 안내
+            if showModeHints {
+                modeHint(icon: "chevron.up", title: L.A11y.timerButton.localized, active: timerActive) {
+                    goTo(2)
+                }
+                .padding(.bottom, DS.Spacing.lg)
+                .transition(.opacity)
             }
-            .padding(.bottom, DS.Spacing.lg)
 
             // 메인 오브
             VStack(spacing: DS.Spacing.md) {
@@ -155,11 +172,14 @@ struct ListenListView: View {
                     .accessibilityHidden(true)
             }
 
-            // 아래로 굴리면 보관함
-            modeHint(icon: "chevron.down", title: L.A11y.savedSoundsButton.localized, active: false) {
-                goTo(0)
+            // 아래로 굴리면 보관함 — 뉴비에게만 안내
+            if showModeHints {
+                modeHint(icon: "chevron.down", title: L.A11y.savedSoundsButton.localized, active: false) {
+                    goTo(0)
+                }
+                .padding(.top, DS.Spacing.lg)
+                .transition(.opacity)
             }
-            .padding(.top, DS.Spacing.lg)
 
             Spacer()
         }
@@ -308,6 +328,7 @@ struct ListenListView: View {
     private func goTo(_ p: Int) {
         let from = page
         guard p != from else { return }
+        didUseModeSwitch = true   // 한 번 써봤으면 안내 칩은 다음부터 숨김
         let dir = p > from ? 1.0 : -1.0
         let rollDur = 0.55
 
