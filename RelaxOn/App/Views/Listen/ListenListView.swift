@@ -26,6 +26,7 @@ struct ListenListView: View {
     @State private var orbPressed = false
     // 오브 스와이프(다음 소리) + 소리 이름 토스트
     @State private var orbDragX: CGFloat = 0
+    @State private var orbSpin: Double = 0
     @State private var showNameLabel = false
     @State private var nameLabelText = ""
     @State private var nameToken = 0
@@ -46,6 +47,7 @@ struct ListenListView: View {
                 // 메인 오브: 탭=재생/일시정지, 좌우 스와이프=다음 배경음
                 VStack(spacing: DS.Spacing.md) {
                     CampfireView(isPlaying: viewModel.isPlaying)
+                        .rotationEffect(.degrees(orbSpin)) // 다음 곡 전환 시 빙글
                         .scaleEffect(orbPressed ? 0.95 : 1.0)
                         .offset(x: orbDragX)
                         .contentShape(Circle())
@@ -306,6 +308,8 @@ struct ListenListView: View {
         guard !pool.isEmpty else { return }
         let idx = pool.firstIndex(where: { $0.id == viewModel.selectedSound?.id }) ?? -1
         let next = pool[(idx + 1) % pool.count]
+        // 구체가 한 바퀴 빙글 돌면서 다음 곡으로 전환
+        withAnimation(.easeInOut(duration: 0.55)) { orbSpin += 360 }
         viewModel.selectedSound = next
         viewModel.play(with: next) // 페이드 인으로 부드럽게
         flashLabel(next.title)
@@ -479,16 +483,15 @@ struct CampfireView: View {
 
     @State private var breathe = false
     @State private var glow = false
-    @State private var rotation: Double = 0
 
     var body: some View {
         // 큰 재생/일시정지 버튼 오브 (가운데 아이콘으로 상태를 명확히 표시)
         ZStack {
-            // 부드러운 외곽 글로우 (재생 중엔 더 밝게)
+            // 부드러운 외곽 글로우
             Circle()
                 .fill(
                     RadialGradient(
-                        colors: [DS.Colors.accent.opacity(isPlaying ? 0.40 : 0.16), .clear],
+                        colors: [DS.Colors.accent.opacity(isPlaying ? 0.35 : 0.16), .clear],
                         center: .center,
                         startRadius: 10,
                         endRadius: 220
@@ -520,37 +523,8 @@ struct CampfireView: View {
                             )
                         )
                 )
-                .overlay(
-                    // 재생 중일 때 따뜻한 색감이 살짝 섞임
-                    Circle()
-                        .fill(DS.Colors.warm)
-                        .opacity(isPlaying ? 0.20 : 0.0)
-                        .blendMode(.overlay)
-                )
-                .overlay(
-                    // 빙글 도는 광택 (재생 중에만 또렷)
-                    Circle()
-                        .fill(
-                            AngularGradient(
-                                gradient: Gradient(stops: [
-                                    .init(color: .clear, location: 0.00),
-                                    .init(color: .white.opacity(0.32), location: 0.12),
-                                    .init(color: .clear, location: 0.30),
-                                    .init(color: .clear, location: 0.58),
-                                    .init(color: .white.opacity(0.14), location: 0.68),
-                                    .init(color: .clear, location: 0.86),
-                                    .init(color: .clear, location: 1.00)
-                                ]),
-                                center: .center
-                            )
-                        )
-                        .blendMode(.plusLighter)
-                        .rotationEffect(.degrees(rotation))
-                        .opacity(isPlaying ? 1 : 0)
-                )
-                .clipShape(Circle())
                 .scaleEffect(breathe ? 1.04 : 0.97)
-                .shadow(color: (isPlaying ? DS.Colors.warm : DS.Colors.accent).opacity(0.45), radius: 40, x: 0, y: 14)
+                .shadow(color: DS.Colors.accent.opacity(0.45), radius: 40, x: 0, y: 14)
 
             // 재생/일시정지 아이콘 (명확하게)
             Image(systemName: isPlaying ? "pause.fill" : "play.fill")
@@ -559,15 +533,7 @@ struct CampfireView: View {
                 .offset(x: isPlaying ? 0 : 6) // play 삼각형 시각 보정
         }
         .frame(width: 240, height: 240)
-        // 재생/일시정지 전환 시 색·광택이 부드럽게 바뀌도록
-        .animation(.easeInOut(duration: 0.6), value: isPlaying)
-        .onAppear {
-            startBreathing()
-            // 광택은 항상 천천히 회전 (보일지 말지는 opacity로 제어)
-            withAnimation(.linear(duration: 7).repeatForever(autoreverses: false)) {
-                rotation = 360
-            }
-        }
+        .onAppear { startBreathing() }
         .onChange(of: isPlaying) { _ in startBreathing() }
     }
 
