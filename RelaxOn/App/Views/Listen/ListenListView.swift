@@ -247,9 +247,8 @@ struct ListenListView: View {
                     vLock = ady > adx   // 처음 의미있게 움직인 축으로 고정
                 }
                 if vLock == true {
-                    dragY = value.translation.height   // 세로: 페이저 미리보기
-                    // 구체도 손가락 따라 위/아래로 굴림
-                    orbDragV = max(-150, min(150, Double(value.translation.height) * 0.5))
+                    // 세로: 구체만 손가락 따라 굴림 (화면은 그대로 — 다 구른 뒤 전환)
+                    orbDragV = max(-170, min(170, Double(value.translation.height) * 0.5))
                 } else if vLock == false {
                     orbPressed = true
                     orbDragAngle = max(-85, min(85, Double(value.translation.width) * 0.55))
@@ -268,7 +267,6 @@ struct ListenListView: View {
                         // 부족하면 도로 제자리 (구체도 원위치)
                         withAnimation(.spring(response: 0.45, dampingFraction: 0.85)) {
                             orbDragV = 0
-                            dragY = 0
                         }
                     }
                 } else if vLock == false {
@@ -301,23 +299,32 @@ struct ListenListView: View {
             }
     }
 
-    /// 페이지 i의 세로 오프셋 (현재 page 기준 + 드래그 미리보기, 양 끝 고무줄 제한)
+    /// 페이지 i의 세로 오프셋 (전환은 page 값으로만 — 구체가 다 구른 뒤 슬라이드)
     private func pageOffset(_ i: Int, _ H: CGFloat) -> CGFloat {
-        let base = CGFloat(i - page) * H
-        // 홈(1)에서만 드래그로 미리보기 — 0↔2로 바로 넘어가지 않게 끝에서 제한
-        let dy = page == 1 ? dragY : 0
-        return base + dy
+        CGFloat(i - page) * H
     }
 
-    /// 페이지 전환 — 구체가 그 방향으로 한 바퀴 굴러가며 화면이 바뀐다.
-    /// (아래 페이지로 갈수록 화면이 위로 슬라이드 → 구체는 위로 굴림 = rollY 감소)
+    /// 모드 전환: ① 구체가 제자리에서 한 바퀴 다 굴러가고 → ② 화면이 슬라이드 전환.
     private func goTo(_ p: Int) {
-        let dir = p > page ? 1.0 : (p < page ? -1.0 : 0.0)
-        withAnimation(.spring(response: 0.6, dampingFraction: 0.82)) {
-            orbCommittedV -= 360 * dir   // 손가락 따라 굴러간 상태에서 이어서 한 바퀴
+        let from = page
+        guard p != from else { return }
+        let dir = p > from ? 1.0 : -1.0
+        let rollDur = 0.55
+
+        if from == 1 {
+            // 홈 출발: 구체가 보이므로 먼저 한 바퀴 다 굴린 뒤 화면 전환
+            withAnimation(.easeInOut(duration: rollDur)) {
+                orbCommittedV -= 360 * dir   // 손가락 따라 굴러간 상태에서 이어서 한 바퀴
+                orbDragV = 0
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + rollDur) {
+                withAnimation(.easeInOut(duration: 0.42)) { page = p }
+            }
+        } else {
+            // 홈으로 복귀: 구체가 가려져 안 보이므로 바로 슬라이드 (회전값은 원위치로 정렬)
+            withAnimation(.easeInOut(duration: 0.42)) { page = p }
+            orbCommittedV -= 360 * dir
             orbDragV = 0
-            page = p
-            dragY = 0
         }
     }
 
