@@ -61,17 +61,20 @@ struct ListenListView: View {
                                 }
                                 .onEnded { value in
                                     let dx = value.translation.width
+                                    let predicted = value.predictedEndTranslation.width // 속도(플릭) 반영
                                     let dist = hypot(value.translation.width, value.translation.height)
-                                    if abs(dx) > 50 {
-                                        // 그 방향으로 한 바퀴 굴러서 다음 곡으로 전환
-                                        let dir: Double = dx < 0 ? -1 : 1
+                                    // 어느 정도 끌거나(>24) 빠르게 튕기면(예측 >60) 그 방향으로 한 바퀴 굴림
+                                    if abs(dx) > 24 || abs(predicted) > 60 {
+                                        let decisive = abs(dx) > abs(predicted) ? dx : predicted
+                                        let dir: Double = decisive < 0 ? -1 : 1
+                                        // 손가락 따라 굴러간 상태에서 "이어서" 한 바퀴 → 반대편에서 나타나 가운데로
                                         withAnimation(.easeOut(duration: 0.6)) {
                                             orbCommitted += dir * 360
                                             orbDragAngle = 0
                                             orbPressed = false
                                         }
                                         nextSound()
-                                    } else if dist < 12 {
+                                    } else if dist < 10 {
                                         // 탭 → 재생/일시정지
                                         withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
                                             orbDragAngle = 0
@@ -79,7 +82,7 @@ struct ListenListView: View {
                                         }
                                         togglePlay()
                                     } else {
-                                        // 살짝만 밀었으면 도로 제자리
+                                        // 아주 살짝만 움직였으면 도로 제자리
                                         withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
                                             orbDragAngle = 0
                                             orbPressed = false
