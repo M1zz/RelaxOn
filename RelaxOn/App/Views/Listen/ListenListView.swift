@@ -479,15 +479,16 @@ struct CampfireView: View {
 
     @State private var breathe = false
     @State private var glow = false
+    @State private var rotation: Double = 0
 
     var body: some View {
         // 큰 재생/일시정지 버튼 오브 (가운데 아이콘으로 상태를 명확히 표시)
         ZStack {
-            // 부드러운 외곽 글로우
+            // 부드러운 외곽 글로우 (재생 중엔 더 밝게)
             Circle()
                 .fill(
                     RadialGradient(
-                        colors: [DS.Colors.accent.opacity(isPlaying ? 0.35 : 0.16), .clear],
+                        colors: [DS.Colors.accent.opacity(isPlaying ? 0.40 : 0.16), .clear],
                         center: .center,
                         startRadius: 10,
                         endRadius: 220
@@ -508,6 +509,7 @@ struct CampfireView: View {
                 )
                 .frame(width: 220, height: 220)
                 .overlay(
+                    // 안쪽 하이라이트
                     Circle()
                         .fill(
                             RadialGradient(
@@ -518,8 +520,37 @@ struct CampfireView: View {
                             )
                         )
                 )
+                .overlay(
+                    // 재생 중일 때 따뜻한 색감이 살짝 섞임
+                    Circle()
+                        .fill(DS.Colors.warm)
+                        .opacity(isPlaying ? 0.20 : 0.0)
+                        .blendMode(.overlay)
+                )
+                .overlay(
+                    // 빙글 도는 광택 (재생 중에만 또렷)
+                    Circle()
+                        .fill(
+                            AngularGradient(
+                                gradient: Gradient(stops: [
+                                    .init(color: .clear, location: 0.00),
+                                    .init(color: .white.opacity(0.32), location: 0.12),
+                                    .init(color: .clear, location: 0.30),
+                                    .init(color: .clear, location: 0.58),
+                                    .init(color: .white.opacity(0.14), location: 0.68),
+                                    .init(color: .clear, location: 0.86),
+                                    .init(color: .clear, location: 1.00)
+                                ]),
+                                center: .center
+                            )
+                        )
+                        .blendMode(.plusLighter)
+                        .rotationEffect(.degrees(rotation))
+                        .opacity(isPlaying ? 1 : 0)
+                )
+                .clipShape(Circle())
                 .scaleEffect(breathe ? 1.04 : 0.97)
-                .shadow(color: DS.Colors.accent.opacity(0.45), radius: 40, x: 0, y: 14)
+                .shadow(color: (isPlaying ? DS.Colors.warm : DS.Colors.accent).opacity(0.45), radius: 40, x: 0, y: 14)
 
             // 재생/일시정지 아이콘 (명확하게)
             Image(systemName: isPlaying ? "pause.fill" : "play.fill")
@@ -528,7 +559,15 @@ struct CampfireView: View {
                 .offset(x: isPlaying ? 0 : 6) // play 삼각형 시각 보정
         }
         .frame(width: 240, height: 240)
-        .onAppear { startBreathing() }
+        // 재생/일시정지 전환 시 색·광택이 부드럽게 바뀌도록
+        .animation(.easeInOut(duration: 0.6), value: isPlaying)
+        .onAppear {
+            startBreathing()
+            // 광택은 항상 천천히 회전 (보일지 말지는 opacity로 제어)
+            withAnimation(.linear(duration: 7).repeatForever(autoreverses: false)) {
+                rotation = 360
+            }
+        }
         .onChange(of: isPlaying) { _ in startBreathing() }
     }
 
