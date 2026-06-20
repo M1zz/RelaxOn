@@ -57,6 +57,7 @@ enum L {
         static let delete = "common.delete"
         static let reset = "common.reset"
         static let done = "common.done"
+        static let close = "common.close"
         static let next = "common.next"
         static let filter = "common.filter"
         static let customized = "common.customized"

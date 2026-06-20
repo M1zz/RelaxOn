@@ -27,6 +27,10 @@ struct ListenListView: View {
     // 오브 스와이프(다음 소리) — 손가락 따라 3D로 굴러가는 느낌
     @State private var orbCommitted: Double = 0   // 확정된 회전(전환 시 ±360 누적)
     @State private var orbDragAngle: Double = 0   // 드래그 중 실시간 회전
+    // 세로 굴림(모드 전환): 0=보관함(위), 1=홈(구체), 2=타이머(아래)
+    @State private var page: Int = 1
+    @State private var dragY: CGFloat = 0
+    @State private var vLock: Bool? = nil   // nil=미결정, true=세로, false=가로
     @State private var showNameLabel = false
     @State private var nameLabelText = ""
     @State private var nameToken = 0
@@ -35,97 +39,35 @@ struct ListenListView: View {
     
     // MARK: - Body
     var body: some View {
-        // 가장 단순한 첫 화면: 화면 가운데의 큰 "재생/일시정지" 버튼 하나.
-        // 제목·추천·떠다니는 미니 플레이어 없음. 시각장애인은 큰 버튼 하나만 두 번 탭하면 된다.
-        let timerActive = timerManager.textTimer != nil && timerManager.remainingSeconds > 0
+        // 세로 굴림 페이저: 위로 스와이프=타이머(아래에서 올라옴), 아래로 스와이프=보관함(위에서 내려옴)
         ZStack {
-            ScreenBackground()
+            // 배경만 화면 전체를 채우고, 페이지는 safe area 안에 둬서
+            // 중첩 NavigationStack(타이머/보관함)의 상단 바가 상태바에 가리지 않게 한다.
+            ScreenBackground().ignoresSafeArea()
 
-            VStack(spacing: 0) {
-                Spacer()
+            GeometryReader { geo in
+                let H = geo.size.height
+                let W = geo.size.width
+                // 각 페이지를 개별 오프셋으로 배치: 보관함=위(-H), 홈=가운데(0), 타이머=아래(+H)
+                ZStack {
+                    libraryPage()
+                        .frame(width: W, height: H)
+                        .offset(y: pageOffset(0, H))
+                        .zIndex(page == 0 ? 1 : 0)
 
-                // 메인 오브: 탭=재생/일시정지, 좌우 스와이프=다음 배경음
-                VStack(spacing: DS.Spacing.md) {
-                    CampfireView(isPlaying: viewModel.isPlaying,
-                                 tint: orbTint,
-                                 roll: orbCommitted + orbDragAngle)
-                        .scaleEffect(orbPressed ? 0.97 : 1.0)
-                        .contentShape(Circle())
-                        .animation(.easeInOut(duration: 0.6), value: orbTint) // 색 전환 부드럽게
-                        .gesture(
-                            DragGesture(minimumDistance: 0)
-                                .onChanged { value in
-                                    orbPressed = true
-                                    // 드래그를 따라 실시간 회전 (가장자리에서 너무 넘어가지 않게 제한)
-                                    orbDragAngle = max(-85, min(85, Double(value.translation.width) * 0.55))
-                                }
-                                .onEnded { value in
-                                    let dx = value.translation.width
-                                    let predicted = value.predictedEndTranslation.width // 속도(플릭) 반영
-                                    let dist = hypot(value.translation.width, value.translation.height)
-                                    // 어느 정도 끌거나(>24) 빠르게 튕기면(예측 >60) 그 방향으로 한 바퀴 굴림
-                                    if abs(dx) > 24 || abs(predicted) > 60 {
-                                        let decisive = abs(dx) > abs(predicted) ? dx : predicted
-                                        let dir: Double = decisive < 0 ? -1 : 1
-                                        // 손가락 따라 굴러간 상태에서 "이어서" 한 바퀴 → 반대편에서 나타나 가운데로
-                                        withAnimation(.easeOut(duration: 0.6)) {
-                                            orbCommitted += dir * 360
-                                            orbDragAngle = 0
-                                            orbPressed = false
-                                        }
-                                        nextSound()
-                                    } else if dist < 10 {
-                                        // 탭 → 재생/일시정지
-                                        withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
-                                            orbDragAngle = 0
-                                            orbPressed = false
-                                        }
-                                        togglePlay()
-                                    } else {
-                                        // 아주 살짝만 움직였으면 도로 제자리
-                                        withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
-                                            orbDragAngle = 0
-                                            orbPressed = false
-                                        }
-                                    }
-                                }
-                        )
-                        .accessibilityElement()
-                        .accessibilityLabel(viewModel.isPlaying ? L.A11y.pause.localized : L.A11y.play.localized)
-                        .accessibilityValue(currentSoundTitle)
-                        .accessibilityAddTraits(.isButton)
-                        .accessibilityAction(named: Text(L.A11y.nextSound.localized)) { nextSound() }
+                    homePage()
+                        .frame(width: W, height: H)
+                        .offset(y: pageOffset(1, H))
+                        .zIndex(page == 1 ? 1 : 0)
 
-                    // 소리 이름 / 첫 사용 힌트 (잠깐만 표시)
-                    Text(nameLabelText)
-                        .font(DS.Font.callout())
-                        .foregroundColor(DS.Colors.textSecondary)
-                        .lineLimit(1)
-                        .opacity(showNameLabel ? 1 : 0)
-                        .frame(height: 22)
-                        .accessibilityHidden(true)
+                    timerPage()
+                        .frame(width: W, height: H)
+                        .offset(y: pageOffset(2, H))
+                        .zIndex(page == 2 ? 1 : 0)
                 }
-
-                Spacer()
-
-                // 하단 보조 버튼 (소리 선택 / 타이머) — 리퀴드 글래스
-                HStack(spacing: DS.Spacing.lg) {
-                    GlassIconButton(systemName: "music.note.list") {
-                        isShowingCreateModal = true
-                    }
-                    .accessibilityLabel(L.A11y.savedSoundsButton.localized)
-
-                    GlassIconButton(systemName: "timer", active: timerActive) {
-                        isShowingTimer = true
-                    }
-                    .accessibilityLabel(L.A11y.timerButton.localized)
-                    .accessibilityValue(timerActive
-                        ? String(format: L.A11y.timerActiveValue.localized, formatRemainingTime(timerManager.remainingSeconds))
-                        : "")
-                }
-                .padding(.bottom, DS.Spacing.xxl)
+                .frame(width: W, height: H)
+                .clipped()
             }
-            .dsConstrainedWidth()
         }
         .navigationBarHidden(true)
 
@@ -141,14 +83,6 @@ struct ListenListView: View {
                     editingSound: editing
                 )
             }
-        }
-
-        .navigationDestination(isPresented: $isShowingCreateModal) {
-            SavedSoundsListView()
-        }
-
-        .navigationDestination(isPresented: $isShowingTimer) {
-            TimerView(timerManager: timerManager, isShowingTimer: $isShowingTimer)
         }
 
         .onAppear {
@@ -173,6 +107,203 @@ struct ListenListView: View {
                     didShowSwipeHint = true
                 }
             }
+        }
+    }
+
+    // MARK: - Vertical Pager Pages
+
+    /// page 1 — 홈(구체). 탭=재생/일시정지, 좌우=다음 소리, 위/아래=모드 전환
+    @ViewBuilder
+    private func homePage() -> some View {
+        let timerActive = timerManager.textTimer != nil && timerManager.remainingSeconds > 0
+        VStack(spacing: 0) {
+            Spacer()
+
+            // 위로 굴리면 타이머 (탭으로도 열림)
+            modeHint(icon: "chevron.up", title: L.A11y.timerButton.localized, active: timerActive) {
+                goTo(2)
+            }
+            .padding(.bottom, DS.Spacing.lg)
+
+            // 메인 오브
+            VStack(spacing: DS.Spacing.md) {
+                CampfireView(isPlaying: viewModel.isPlaying,
+                             tint: orbTint,
+                             roll: orbCommitted + orbDragAngle)
+                    .scaleEffect(orbPressed ? 0.97 : 1.0)
+                    .contentShape(Circle())
+                    .animation(.easeInOut(duration: 0.6), value: orbTint)
+                    .gesture(orbGesture())
+                    .accessibilityElement()
+                    .accessibilityLabel(viewModel.isPlaying ? L.A11y.pause.localized : L.A11y.play.localized)
+                    .accessibilityValue(currentSoundTitle)
+                    .accessibilityAddTraits(.isButton)
+                    .accessibilityAction(named: Text(L.A11y.nextSound.localized)) { nextSound() }
+                    .accessibilityAction(named: Text(L.A11y.timerButton.localized)) { goTo(2) }
+                    .accessibilityAction(named: Text(L.A11y.savedSoundsButton.localized)) { goTo(0) }
+
+                Text(nameLabelText)
+                    .font(DS.Font.callout())
+                    .foregroundColor(DS.Colors.textSecondary)
+                    .lineLimit(1)
+                    .opacity(showNameLabel ? 1 : 0)
+                    .frame(height: 22)
+                    .accessibilityHidden(true)
+            }
+
+            // 아래로 굴리면 보관함
+            modeHint(icon: "chevron.down", title: L.A11y.savedSoundsButton.localized, active: false) {
+                goTo(0)
+            }
+            .padding(.top, DS.Spacing.lg)
+
+            Spacer()
+        }
+        .dsConstrainedWidth()
+        .allowsHitTesting(page == 1)
+    }
+
+    /// 위/아래 굴림 안내 + 탭 단축 (작은 글래스 칩)
+    @ViewBuilder
+    private func modeHint(icon: String, title: String, active: Bool, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            HStack(spacing: DS.Spacing.xxs) {
+                Image(systemName: icon)
+                    .font(.system(size: 12, weight: .semibold))
+                Text(title)
+                    .font(DS.Font.caption().weight(.medium))
+            }
+            .foregroundColor(active ? DS.Colors.accent : DS.Colors.textSecondary.opacity(0.7))
+            .padding(.horizontal, DS.Spacing.md)
+            .padding(.vertical, DS.Spacing.xs)
+            .background(
+                Capsule().fill(DS.Colors.surfaceSunken.opacity(0.5))
+            )
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(title)
+    }
+
+    /// page 0 — 보관함 (위에서 내려옴). 자체 커스텀 헤더(닫기+제목+추가) 사용.
+    @ViewBuilder
+    private func libraryPage() -> some View {
+        SavedSoundsListView(onClose: { goTo(1) })
+            .allowsHitTesting(page == 0)
+    }
+
+    /// page 2 — 타이머 (아래에서 올라옴)
+    @ViewBuilder
+    private func timerPage() -> some View {
+        TimerView(timerManager: timerManager,
+                  isShowingTimer: Binding(get: { page == 2 },
+                                          set: { if !$0 { goTo(1) } }))
+            .safeAreaInset(edge: .top) {
+                pageTopBar(icon: "chevron.down",
+                           title: L.Timer.sleepTimer.localized,
+                           onClose: { goTo(1) })
+            }
+            .allowsHitTesting(page == 2)
+    }
+
+    /// 페이지 상단 커스텀 바 (중첩 NavigationStack 없이 닫기 chevron + 제목)
+    @ViewBuilder
+    private func pageTopBar(icon: String, title: String, onClose: @escaping () -> Void) -> some View {
+        HStack(spacing: DS.Spacing.xs) {
+            Button(action: onClose) {
+                Image(systemName: icon)
+                    .font(.system(size: 17, weight: .semibold))
+                    .foregroundColor(DS.Colors.accent)
+                    .frame(width: 44, height: 44)
+            }
+            .accessibilityLabel(L.Common.close.localized)
+
+            Spacer()
+
+            Text(title)
+                .font(.system(size: 17, weight: .semibold))
+                .foregroundColor(DS.Colors.textPrimary)
+                .lineLimit(1)
+
+            Spacer()
+
+            // 좌우 균형용 더미 (제목 가운데 정렬)
+            Color.clear.frame(width: 44, height: 44)
+        }
+        .padding(.horizontal, DS.Spacing.sm)
+        .background(.ultraThinMaterial)
+    }
+
+    // MARK: - Orb Gesture (탭 / 좌우 소리 전환 / 상하 모드 전환)
+    private func orbGesture() -> some Gesture {
+        DragGesture(minimumDistance: 0)
+            .onChanged { value in
+                let adx = abs(value.translation.width)
+                let ady = abs(value.translation.height)
+                if vLock == nil, max(adx, ady) > 10 {
+                    vLock = ady > adx   // 처음 의미있게 움직인 축으로 고정
+                }
+                if vLock == true {
+                    dragY = value.translation.height   // 세로: 페이저 미리보기
+                } else if vLock == false {
+                    orbPressed = true
+                    orbDragAngle = max(-85, min(85, Double(value.translation.width) * 0.55))
+                }
+            }
+            .onEnded { value in
+                let dx = value.translation.width
+                let dy = value.translation.height
+                if vLock == true {
+                    // 세로 굴림 → 모드 전환
+                    let predicted = value.predictedEndTranslation.height
+                    let decisive = abs(dy) > abs(predicted) ? dy : predicted
+                    withAnimation(.spring(response: 0.5, dampingFraction: 0.85)) {
+                        if decisive < -40 { page = 2 }        // 위로 → 타이머
+                        else if decisive > 40 { page = 0 }    // 아래로 → 보관함
+                        dragY = 0
+                    }
+                } else if vLock == false {
+                    // 가로 굴림 → 다음 소리
+                    let predicted = value.predictedEndTranslation.width
+                    if abs(dx) > 24 || abs(predicted) > 60 {
+                        let dec = abs(dx) > abs(predicted) ? dx : predicted
+                        let dir: Double = dec < 0 ? -1 : 1
+                        withAnimation(.easeOut(duration: 0.6)) {
+                            orbCommitted += dir * 360
+                            orbDragAngle = 0
+                            orbPressed = false
+                        }
+                        nextSound()
+                    } else {
+                        withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
+                            orbDragAngle = 0
+                            orbPressed = false
+                        }
+                    }
+                } else {
+                    // 거의 안 움직임 → 탭 = 재생/일시정지
+                    if hypot(dx, dy) < 10 { togglePlay() }
+                    withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
+                        orbDragAngle = 0
+                        orbPressed = false
+                    }
+                }
+                vLock = nil
+            }
+    }
+
+    /// 페이지 i의 세로 오프셋 (현재 page 기준 + 드래그 미리보기, 양 끝 고무줄 제한)
+    private func pageOffset(_ i: Int, _ H: CGFloat) -> CGFloat {
+        let base = CGFloat(i - page) * H
+        // 홈(1)에서만 드래그로 미리보기 — 0↔2로 바로 넘어가지 않게 끝에서 제한
+        let dy = page == 1 ? dragY : 0
+        return base + dy
+    }
+
+    /// 페이지 전환 (스프링)
+    private func goTo(_ p: Int) {
+        withAnimation(.spring(response: 0.5, dampingFraction: 0.85)) {
+            page = p
+            dragY = 0
         }
     }
 
@@ -872,6 +1003,8 @@ struct SavedSoundsListView: View {
     @State private var showSubscription = false
     @State private var editingSound: CustomSound? = nil
     @State private var showEditView = false
+    /// 페이저에 임베드될 때 닫기(홈으로) 콜백. nil이면 일반 네비게이션 화면으로 동작.
+    var onClose: (() -> Void)? = nil
 
     var body: some View {
         ZStack {
@@ -883,24 +1016,23 @@ struct SavedSoundsListView: View {
                 soundsListView()
             }
         }
-        .navigationTitle(L.Listen.savedSounds.localized)
+        // 임베드 모드: 중첩 NavigationStack 대신 상단에 커스텀 헤더(닫기+제목+추가)를 둔다.
+        .safeAreaInset(edge: .top) {
+            if let onClose { embeddedHeader(onClose: onClose) }
+        }
+        .navigationTitle(onClose == nil ? L.Listen.savedSounds.localized : "")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            // 제목이 잘리지 않도록 우측에는 컴팩트한 '+' 버튼 하나만 둔다.
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button {
-                    let userCount = viewModel.customSounds.filter { !$0.isPreset }.count
-                    if subscriptionManager.canCreateMoreSounds(currentCount: userCount) {
-                        showCreateView = true
-                    } else {
-                        showSubscription = true
+            // 제목이 잘리지 않도록 우측에는 컴팩트한 '+' 버튼 하나만 둔다. (일반 모드에서만)
+            if onClose == nil {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button { createTapped() } label: {
+                        Image(systemName: "plus.circle.fill")
+                            .font(.system(size: 22, weight: .semibold))
+                            .foregroundColor(DS.Colors.accent)
                     }
-                } label: {
-                    Image(systemName: "plus.circle.fill")
-                        .font(.system(size: 22, weight: .semibold))
-                        .foregroundColor(DS.Colors.accent)
+                    .accessibilityLabel(L.A11y.createNewButton.localized)
                 }
-                .accessibilityLabel(L.A11y.createNewButton.localized)
             }
         }
         .sheet(isPresented: $showSubscription) {
@@ -935,6 +1067,49 @@ struct SavedSoundsListView: View {
             viewModel.loadPresetSounds() // 프리셋 사운드 로드
             print("📋 [SavedSoundsListView] 저장된 사운드 개수: \(viewModel.customSounds.count)")
         }
+    }
+
+    // 새 사운드 만들기 (무료 한도 체크)
+    private func createTapped() {
+        let userCount = viewModel.customSounds.filter { !$0.isPreset }.count
+        if subscriptionManager.canCreateMoreSounds(currentCount: userCount) {
+            showCreateView = true
+        } else {
+            showSubscription = true
+        }
+    }
+
+    // MARK: - Embedded Header (페이저용 상단 바)
+    @ViewBuilder
+    private func embeddedHeader(onClose: @escaping () -> Void) -> some View {
+        HStack(spacing: DS.Spacing.xs) {
+            Button(action: onClose) {
+                Image(systemName: "chevron.up")
+                    .font(.system(size: 17, weight: .semibold))
+                    .foregroundColor(DS.Colors.accent)
+                    .frame(width: 44, height: 44)
+            }
+            .accessibilityLabel(L.Common.close.localized)
+
+            Spacer()
+
+            Text(L.Listen.savedSounds.localized)
+                .font(.system(size: 17, weight: .semibold))
+                .foregroundColor(DS.Colors.textPrimary)
+                .lineLimit(1)
+
+            Spacer()
+
+            Button(action: createTapped) {
+                Image(systemName: "plus.circle.fill")
+                    .font(.system(size: 22, weight: .semibold))
+                    .foregroundColor(DS.Colors.accent)
+                    .frame(width: 44, height: 44)
+            }
+            .accessibilityLabel(L.A11y.createNewButton.localized)
+        }
+        .padding(.horizontal, DS.Spacing.sm)
+        .background(.ultraThinMaterial)
     }
 
     // MARK: - Empty State
