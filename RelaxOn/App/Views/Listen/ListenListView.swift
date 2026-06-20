@@ -46,13 +46,12 @@ struct ListenListView: View {
 
                 // 메인 오브: 탭=재생/일시정지, 좌우 스와이프=다음 배경음
                 VStack(spacing: DS.Spacing.md) {
-                    CampfireView(isPlaying: viewModel.isPlaying)
-                        // 손가락 방향으로 구체가 3D로 굴러가는 느낌 (Y축 회전)
-                        .rotation3DEffect(.degrees(orbCommitted + orbDragAngle),
-                                          axis: (x: 0, y: 1, z: 0),
-                                          perspective: 0.45)
+                    CampfireView(isPlaying: viewModel.isPlaying,
+                                 tint: orbTint,
+                                 roll: orbCommitted + orbDragAngle)
                         .scaleEffect(orbPressed ? 0.97 : 1.0)
                         .contentShape(Circle())
+                        .animation(.easeInOut(duration: 0.6), value: orbTint) // 색 전환 부드럽게
                         .gesture(
                             DragGesture(minimumDistance: 0)
                                 .onChanged { value in
@@ -319,6 +318,28 @@ struct ListenListView: View {
         (viewModel.selectedSound ?? viewModel.lastSound).title
     }
 
+    /// 비슷한 채도의 차분한 색 팔레트 (소리/분위기마다 다른 색)
+    private static let orbPalette: [Color] = [
+        Color(hex: "6F6AD6"), // 라벤더
+        Color(hex: "4FA2C4"), // 청록
+        Color(hex: "5DAE84"), // 세이지
+        Color(hex: "C77BA8"), // 모브 로즈
+        Color(hex: "D2A158"), // 머스타드
+        Color(hex: "6580C0"), // 슬레이트 블루
+        Color(hex: "A579CE"), // 라일락
+        Color(hex: "DA8A78")  // 코랄
+    ]
+
+    /// 현재 소리에 대응하는 오브 색 (목록 위치 기반 → 곡마다 일관)
+    private var orbTint: Color {
+        let pool = viewModel.customSounds
+        guard !pool.isEmpty,
+              let idx = pool.firstIndex(where: { $0.id == viewModel.selectedSound?.id }) else {
+            return DS.Colors.accent
+        }
+        return Self.orbPalette[idx % Self.orbPalette.count]
+    }
+
     /// 다음 배경음으로 전환 (마지막이면 처음으로 순환). 재생 중이 아니면 자동 재생.
     private func nextSound() {
         let pool = viewModel.customSounds
@@ -499,18 +520,26 @@ struct ListenListView: View {
 
 struct CampfireView: View {
     let isPlaying: Bool
+    var tint: Color = DS.Colors.accent
+    var roll: Double = 0   // 표면 회전 각도(도) — 윤곽은 원형 유지, 표면만 굴러감
 
     @State private var breathe = false
     @State private var glow = false
 
+    private var rollRad: Double { roll * .pi / 180 }
+    /// 앞면 가시성 (0°=정면 1, 90°=옆모서리 0, 뒷면 0)
+    private var frontFacing: Double { max(0, cos(rollRad)) }
+    /// 표면 가로 압축(모서리에서 납작) + 가로 이동량
+    private var surfaceSquashX: CGFloat { CGFloat(max(0.1, abs(cos(rollRad)))) }
+    private var surfaceTravel: CGFloat { CGFloat(sin(rollRad)) }
+
     var body: some View {
-        // 큰 재생/일시정지 버튼 오브 (가운데 아이콘으로 상태를 명확히 표시)
         ZStack {
-            // 부드러운 외곽 글로우
+            // 부드러운 외곽 글로우 (윤곽 고정)
             Circle()
                 .fill(
                     RadialGradient(
-                        colors: [DS.Colors.accent.opacity(isPlaying ? 0.35 : 0.16), .clear],
+                        colors: [tint.opacity(isPlaying ? 0.35 : 0.16), .clear],
                         center: .center,
                         startRadius: 10,
                         endRadius: 220
@@ -520,36 +549,50 @@ struct CampfireView: View {
                 .scaleEffect(glow ? 1.05 : 0.9)
                 .blur(radius: 30)
 
-            // 메인 오브
+            // 솔리드 구체 — 윤곽은 항상 원형, 표면(반사·아이콘)만 굴러감
             Circle()
                 .fill(
                     LinearGradient(
-                        colors: [DS.Colors.accent.opacity(0.95), DS.Colors.accent.opacity(0.55)],
+                        colors: [tint.opacity(0.95), tint.opacity(0.55)],
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
                     )
                 )
                 .frame(width: 220, height: 220)
                 .overlay(
-                    // 안쪽 하이라이트
+                    // 고정 스펙큘러 하이라이트 (광원은 고정)
                     Circle()
                         .fill(
                             RadialGradient(
-                                colors: [Color.white.opacity(0.35), .clear],
-                                center: UnitPoint(x: 0.35, y: 0.3),
+                                colors: [Color.white.opacity(0.32), .clear],
+                                center: UnitPoint(x: 0.3, y: 0.26),
                                 startRadius: 4,
                                 endRadius: 140
                             )
                         )
                 )
+                .overlay(
+                    // 표면 위 부드러운 반사 — 굴러가면 같이 이동/소멸
+                    Circle()
+                        .fill(Color.white.opacity(0.22))
+                        .frame(width: 64, height: 64)
+                        .blur(radius: 16)
+                        .scaleEffect(x: surfaceSquashX, y: 1, anchor: .center)
+                        .offset(x: surfaceTravel * 66, y: -8)
+                        .opacity(frontFacing)
+                )
+                .overlay(
+                    // 표면 위 아이콘 — 앞면에서만 보이고 굴러서 뒤로 사라졌다 돌아옴
+                    Image(systemName: isPlaying ? "pause.fill" : "play.fill")
+                        .font(.system(size: 72, weight: .medium))
+                        .foregroundColor(.white)
+                        .scaleEffect(x: surfaceSquashX, y: 1, anchor: .center)
+                        .offset(x: surfaceTravel * 60 + (isPlaying ? 0 : 6))
+                        .opacity(frontFacing)
+                )
+                .clipShape(Circle())   // ← 표면이 굴러도 윤곽은 항상 원형
                 .scaleEffect(breathe ? 1.04 : 0.97)
-                .shadow(color: DS.Colors.accent.opacity(0.45), radius: 40, x: 0, y: 14)
-
-            // 재생/일시정지 아이콘 (명확하게)
-            Image(systemName: isPlaying ? "pause.fill" : "play.fill")
-                .font(.system(size: 72, weight: .medium))
-                .foregroundColor(.white)
-                .offset(x: isPlaying ? 0 : 6) // play 삼각형 시각 보정
+                .shadow(color: tint.opacity(0.45), radius: 40, x: 0, y: 14)
         }
         .frame(width: 240, height: 240)
         .onAppear { startBreathing() }
