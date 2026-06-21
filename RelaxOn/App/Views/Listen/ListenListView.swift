@@ -6,6 +6,9 @@
 //
 
 import SwiftUI
+import UIKit
+import MediaPlayer
+import CoreMotion
 
 /**
  커스텀 음원 목록이 노출되는 View
@@ -24,6 +27,7 @@ struct ListenListView: View {
     @State private var isShowingCreateModal = false
     @State private var isShowingTimer = false
     @State private var orbPressed = false
+    @State private var orbTapPress = false   // 재생/일시정지 탭 시 옴폭 눌리는 효과
     // 오브 스와이프(다음 소리) — 손가락 따라 3D로 굴러가는 느낌
     @State private var orbCommitted: Double = 0   // 확정된 회전(전환 시 ±360 누적)
     @State private var orbDragAngle: Double = 0   // 드래그 중 실시간 회전
@@ -34,6 +38,15 @@ struct ListenListView: View {
     // 구체 세로 회전(전환 시 위/아래로 굴러가는 모습)
     @State private var orbCommittedV: Double = 0
     @State private var orbDragV: Double = 0
+    // 앱 시작 시 구체가 데굴데굴 굴러 들어오는 등장 애니메이션 (매번 다른 위치 + 기울기 방향)
+    @State private var orbAppearOffsetX: CGFloat = 0
+    @State private var orbAppearOffsetY: CGFloat = 0
+    @State private var orbAppearRoll: Double = 0
+    @State private var orbAppearRollY: Double = 0
+    @State private var orbEntranceReady = false   // 시작 위치를 잡기 전엔 숨김(중앙 깜빡임 방지)
+    @State private var didOrbEntrance = false
+    @State private var didAutoPlay = false         // 앱 시작 시 우주 앰비언트 1회 자동재생
+    @State private var motionManager = CMMotionManager()
     @State private var showNameLabel = false
     @State private var nameLabelText = ""
     @State private var nameToken = 0
@@ -41,6 +54,9 @@ struct ListenListView: View {
     // 모드 전환 안내 칩(타이머/보관함): 뉴비에게만 노출 — 써봤거나 몇 번 열면 숨김
     @AppStorage("homeAppearCount") private var homeAppearCount = 0
     @AppStorage("didUseModeSwitch") private var didUseModeSwitch = false
+    // 첫 실행 1회 제스처 안내
+    @AppStorage("didShowGestureCoach") private var didShowGestureCoach = false
+    @State private var showCoach = false
     @State private var countedThisSession = false
     @StateObject private var timerManager = TimerManager(viewModel: CustomSoundViewModel())
     
@@ -51,6 +67,8 @@ struct ListenListView: View {
             // 배경만 화면 전체를 채우고, 페이지는 safe area 안에 둬서
             // 중첩 NavigationStack(타이머/보관함)의 상단 바가 상태바에 가리지 않게 한다.
             ScreenBackground().ignoresSafeArea()
+            // 우주 느낌의 은은한 별 (홈 배경)
+            Starfield().ignoresSafeArea()
 
             GeometryReader { geo in
                 let H = geo.size.height
@@ -74,6 +92,13 @@ struct ListenListView: View {
                 }
                 .frame(width: W, height: H)
                 .clipped()
+            }
+
+            // 첫 실행 1회: 제스처 사용법 안내 (스킵 가능)
+            if showCoach {
+                GestureCoachmark { dismissCoach() }
+                    .zIndex(10)
+                    .transition(.opacity)
             }
         }
         .navigationBarHidden(true)
@@ -112,6 +137,17 @@ struct ListenListView: View {
                 print("⏰ 타이머 종료")
             }
 
+            // 앱 시작 시 1회: 우주 앰비언트(space_1min) 자동 재생 (무한 루프)
+            if !didAutoPlay {
+                didAutoPlay = true
+                let space = CustomSound(title: "Space",
+                                        backgroundSound: BackgroundSound.space.rawValue,
+                                        backgroundVolume: 0.5)
+                viewModel.selectedSound = space
+                viewModel.lastSound = space
+                viewModel.play(with: space)
+            }
+
             // 처음 한 번: 옆으로 넘기면 소리가 바뀐다는 힌트
             if !didShowSwipeHint {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
@@ -119,7 +155,63 @@ struct ListenListView: View {
                     didShowSwipeHint = true
                 }
             }
+
+            // 잠금화면/제어센터 컨트롤 연결
+            setupNowPlaying()
+
+            // 앱 시작 시 1회: 기기 기울기(중력)를 읽어 그 방향에서 데굴데굴 굴러옴
+            if !didOrbEntrance {
+                didOrbEntrance = true
+                // 기울기 샘플을 얻기 위해 모션 업데이트 시작
+                if motionManager.isDeviceMotionAvailable {
+                    motionManager.deviceMotionUpdateInterval = 0.05
+                    motionManager.startDeviceMotionUpdates()
+                }
+                // 잠깐 기다렸다 중력 읽고 → 그 방향 화면 밖에서 굴러 들어옴
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.22) {
+                    let start = computeEntranceStart()
+                    motionManager.stopDeviceMotionUpdates()
+                    orbAppearOffsetX = start.x
+                    orbAppearOffsetY = start.y
+                    orbAppearRoll = start.roll
+                    orbAppearRollY = start.rollY
+                    orbEntranceReady = true   // 시작 위치(화면 밖)에서 등장
+                    // 다음 런루프에 가운데로 굴러오기 (시작값이 먼저 반영되어야 애니메이션됨)
+                    DispatchQueue.main.async {
+                        withAnimation(.spring(response: 0.85, dampingFraction: 0.62)) {
+                            orbAppearOffsetX = 0
+                            orbAppearOffsetY = 0
+                            orbAppearRoll = 0
+                            orbAppearRollY = 0
+                        }
+                        // 착지하는 순간 살짝 눌리는(누르는) 느낌
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.62) {
+                            withAnimation(.easeOut(duration: 0.1)) { orbPressed = true }
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                withAnimation(.spring(response: 0.3, dampingFraction: 0.5)) { orbPressed = false }
+                            }
+                        }
+                    }
+                }
+            } else {
+                orbEntranceReady = true   // 이미 등장했으면 그냥 보이게
+            }
+
+            // 첫 실행 1회: 구체가 굴러 들어온 뒤 제스처 안내를 띄움
+            if !didShowGestureCoach {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
+                    withAnimation(.easeInOut(duration: 0.4)) { showCoach = true }
+                }
+            }
         }
+        // 재생 상태/곡 변경 시 잠금화면 정보 갱신
+        .onChange(of: viewModel.isPlaying) { _, _ in updateNowPlaying() }
+        .onChange(of: currentSoundTitle) { _, _ in updateNowPlaying() }
+    }
+
+    private func dismissCoach() {
+        didShowGestureCoach = true
+        withAnimation(.easeInOut(duration: 0.3)) { showCoach = false }
     }
 
     // MARK: - Vertical Pager Pages
@@ -127,6 +219,35 @@ struct ListenListView: View {
     /// 모드 전환 안내 칩 노출 여부 — 아직 한 번도 안 써봤고, 앱을 3번 미만 열었을 때만
     private var showModeHints: Bool {
         !didUseModeSwitch && homeAppearCount < 3
+    }
+
+    /// 등장 시작 위치/회전 계산: 기기가 기울어진 방향(중력)에서, 매번 다른 높이에서 굴러오게
+    private func computeEntranceStart() -> (x: CGFloat, y: CGFloat, roll: Double, rollY: Double) {
+        let distance = CGFloat.random(in: 340...440)
+        let gravity = motionManager.deviceMotion?.gravity
+
+        // 가로 방향: 기울기가 뚜렷하면 그쪽에서, 아니면(시뮬레이터 등) 랜덤
+        let horiz: Double
+        if let g = gravity, abs(g.x) > 0.06 {
+            horiz = g.x > 0 ? 1 : -1   // 오른쪽으로 기울면 오른쪽에서 굴러옴
+        } else {
+            horiz = Bool.random() ? 1 : -1
+        }
+        // 세로 시작 높이는 매번 랜덤 → 실행마다 다른 위치에서 굴러옴
+        let vert = Double.random(in: -0.65...0.65)
+
+        let startX = CGFloat(horiz) * distance
+        let startY = CGFloat(vert) * 260
+        // 이동량에 비례한 회전 → 실제로 굴러오는 모습
+        return (startX, startY, Double(startX) * 1.05, Double(startY) * 1.05)
+    }
+
+    /// 재생/일시정지 탭 시: 안쪽으로 옴폭 눌렸다가 스프링으로 통통 튀어나옴
+    private func pressOrb() {
+        withAnimation(.easeIn(duration: 0.08)) { orbTapPress = true }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.08) {
+            withAnimation(.spring(response: 0.34, dampingFraction: 0.42)) { orbTapPress = false }
+        }
     }
 
     /// page 1 — 홈(구체). 탭=재생/일시정지, 좌우=다음 소리, 위/아래=모드 전환
@@ -147,14 +268,16 @@ struct ListenListView: View {
 
             // 메인 오브
             VStack(spacing: DS.Spacing.md) {
-                CampfireView(isPlaying: viewModel.isPlaying,
-                             tint: orbTint,
-                             roll: orbCommitted + orbDragAngle,
-                             rollY: orbCommittedV + orbDragV)
+                ZStack {
+                    CampfireView(isPlaying: viewModel.isPlaying,
+                                 tint: orbTint,
+                                 roll: orbCommitted + orbDragAngle + orbAppearRoll,
+                                 rollY: orbCommittedV + orbDragV + orbAppearRollY)
                     .scaleEffect(orbPressed ? 0.97 : 1.0)
-                    .contentShape(Circle())
+                    .scaleEffect(orbTapPress ? 0.92 : 1.0)              // 탭 시 옴폭
+                    .offset(x: orbAppearOffsetX, y: orbAppearOffsetY)   // 등장 시 기울어진 방향에서 굴러옴
+                    .opacity(orbEntranceReady ? 1 : 0)                  // 시작 위치 잡기 전 숨김
                     .animation(.easeInOut(duration: 0.6), value: orbTint)
-                    .gesture(orbGesture())
                     .accessibilityElement()
                     .accessibilityLabel(viewModel.isPlaying ? L.A11y.pause.localized : L.A11y.play.localized)
                     .accessibilityValue(currentSoundTitle)
@@ -162,6 +285,7 @@ struct ListenListView: View {
                     .accessibilityAction(named: Text(L.A11y.nextSound.localized)) { nextSound() }
                     .accessibilityAction(named: Text(L.A11y.timerButton.localized)) { goTo(2) }
                     .accessibilityAction(named: Text(L.A11y.savedSoundsButton.localized)) { goTo(0) }
+                }
 
                 Text(nameLabelText)
                     .font(DS.Font.callout())
@@ -184,6 +308,10 @@ struct ListenListView: View {
             Spacer()
         }
         .dsConstrainedWidth()
+        // 스와이프 영역을 화면 전체로 — 빈 곳에서도 탭/좌우/상하 제스처가 동작한다.
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .contentShape(Rectangle())
+        .gesture(orbGesture())
         .allowsHitTesting(page == 1)
     }
 
@@ -222,7 +350,7 @@ struct ListenListView: View {
                   isShowingTimer: Binding(get: { page == 2 },
                                           set: { if !$0 { goTo(1) } }))
             .safeAreaInset(edge: .top) {
-                pageTopBar(icon: "chevron.down",
+                pageTopBar(icon: "chevron.up",
                            title: L.Timer.sleepTimer.localized,
                            onClose: { goTo(1) })
             }
@@ -308,8 +436,11 @@ struct ListenListView: View {
                         }
                     }
                 } else {
-                    // 거의 안 움직임 → 탭 = 재생/일시정지
-                    if hypot(dx, dy) < 10 { togglePlay() }
+                    // 거의 안 움직임 → 탭 = 재생/일시정지 (옴폭 눌렸다 나오는 효과)
+                    if hypot(dx, dy) < 10 {
+                        togglePlay()
+                        pressOrb()
+                    }
                     withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
                         orbDragAngle = 0
                         orbPressed = false
@@ -328,18 +459,21 @@ struct ListenListView: View {
     private func goTo(_ p: Int) {
         let from = page
         guard p != from else { return }
+        Haptics.light()
         didUseModeSwitch = true   // 한 번 써봤으면 안내 칩은 다음부터 숨김
         let dir = p > from ? 1.0 : -1.0
-        let rollDur = 0.55
+        let rollDur = 0.5
 
         if from == 1 {
-            // 홈 출발: 구체가 보이므로 먼저 한 바퀴 다 굴린 뒤 화면 전환
-            withAnimation(.easeInOut(duration: rollDur)) {
+            // 홈 출발: 구체가 한 바퀴 굴러가며(가속) → 끝나기 직전 화면이 슬라이드(감속)로
+            // 이어받아 멈칫 없이 흐른다.
+            withAnimation(.easeIn(duration: rollDur)) {
                 orbCommittedV -= 360 * dir   // 손가락 따라 굴러간 상태에서 이어서 한 바퀴
                 orbDragV = 0
             }
-            DispatchQueue.main.asyncAfter(deadline: .now() + rollDur) {
-                withAnimation(.easeInOut(duration: 0.42)) { page = p }
+            // 회전이 거의 끝난 시점(82%)에 슬라이드를 겹쳐 시작 → 이음매 정지 제거
+            DispatchQueue.main.asyncAfter(deadline: .now() + rollDur * 0.82) {
+                withAnimation(.easeOut(duration: 0.4)) { page = p }
             }
         } else {
             // 홈으로 복귀: 구체가 가려져 안 보이므로 바로 슬라이드 (회전값은 원위치로 정렬)
@@ -480,6 +614,7 @@ struct ListenListView: View {
     // MARK: - Play Button
     /// 메인 버튼: 재생 중이면 멈추고, 아니면 (선택된 소리 또는 마지막 소리를) 재생
     private func togglePlay() {
+        Haptics.soft()
         if viewModel.isPlaying {
             viewModel.stopSound()
         } else {
@@ -520,6 +655,7 @@ struct ListenListView: View {
     private func nextSound() {
         let pool = viewModel.customSounds
         guard !pool.isEmpty else { return }
+        Haptics.selection()
         let idx = pool.firstIndex(where: { $0.id == viewModel.selectedSound?.id }) ?? -1
         let next = pool[(idx + 1) % pool.count]
         let wasPlaying = viewModel.isPlaying
@@ -529,6 +665,42 @@ struct ListenListView: View {
             viewModel.play(with: next) // 페이드 인으로 부드럽게
         }
         flashLabel(next.title)
+    }
+
+    /// 이전 배경음으로 전환 (처음이면 마지막으로 순환). 잠금화면 ⏮ 버튼용.
+    private func prevSound() {
+        let pool = viewModel.customSounds
+        guard !pool.isEmpty else { return }
+        let idx = pool.firstIndex(where: { $0.id == viewModel.selectedSound?.id }) ?? 0
+        let prev = pool[(idx - 1 + pool.count) % pool.count]
+        let wasPlaying = viewModel.isPlaying
+        viewModel.selectedSound = prev
+        if wasPlaying {
+            viewModel.play(with: prev)
+        }
+        flashLabel(prev.title)
+    }
+
+    // MARK: - Now Playing (잠금화면 / 제어센터)
+    /// 리모트 커맨드를 한 번 등록하고 현재 상태를 잠금화면에 반영
+    private func setupNowPlaying() {
+        let np = NowPlayingManager.shared
+        np.setupRemoteCommands()
+        np.onPlay = { if !viewModel.isPlaying { togglePlay() } }
+        np.onPause = { if viewModel.isPlaying { togglePlay() } }
+        np.onToggle = { togglePlay() }
+        np.onNext = { nextSound() }
+        np.onPrevious = { prevSound() }
+        updateNowPlaying()
+    }
+
+    /// 현재 곡 제목/재생 상태/색을 잠금화면 정보에 반영
+    private func updateNowPlaying() {
+        NowPlayingManager.shared.update(
+            title: currentSoundTitle,
+            isPlaying: viewModel.isPlaying,
+            tint: UIColor(orbTint)
+        )
     }
 
     /// 라벨(소리 이름/힌트)을 잠깐 보여주고 사라지게
@@ -702,6 +874,9 @@ struct RollingSphereSurface: View, Animatable {
     var roll: Double            // 가로 회전 각도(도) — 좌우 굴림(소리 전환)
     var rollY: Double           // 세로 회전 각도(도) — 위아래 굴림(모드 전환)
     let isPlaying: Bool
+    var showIcon: Bool = true    // 재생/일시정지 심볼 표시
+    var showSpots: Bool = true   // 분화구(크레이터) 표시
+    var iconColor: Color = .white
 
     // 두 축을 함께 보간 → 가로/세로 모두 표면 회전이 실제로 굴러간다.
     var animatableData: AnimatablePair<Double, Double> {
@@ -722,39 +897,96 @@ struct RollingSphereSurface: View, Animatable {
     private func markOpacity(_ lon: Double) -> Double { max(0, cos(rx + lon)) * max(0, cos(ry)) }
 
     private struct Spot {
-        let lon: Double; let y: CGFloat; let size: CGFloat; let white: Bool; let maxOpacity: Double
+        let lon: Double; let y: CGFloat; let size: CGFloat; let light: Bool; let maxOpacity: Double
     }
+    // 달 표면: 큰 바다(어두운 마리아) + 작은 크레이터(밝은 점)들이 섞여 달처럼 보이게
     private static let spots: [Spot] = [
-        Spot(lon: 1.6, y: 36,  size: 48, white: true,  maxOpacity: 0.14),
-        Spot(lon: 3.0, y: -28, size: 58, white: false, maxOpacity: 0.07),
-        Spot(lon: 4.4, y: 22,  size: 40, white: true,  maxOpacity: 0.11),
-        Spot(lon: 5.4, y: -44, size: 34, white: false, maxOpacity: 0.06)
+        Spot(lon: 1.5, y: 28,  size: 74, light: false, maxOpacity: 0.28),  // 큰 마리아
+        Spot(lon: 4.2, y: 6,   size: 62, light: false, maxOpacity: 0.24),
+        Spot(lon: 2.4, y: -36, size: 50, light: false, maxOpacity: 0.20),
+        Spot(lon: 0.7, y: -8,  size: 34, light: false, maxOpacity: 0.18),
+        Spot(lon: 3.1, y: 48,  size: 38, light: false, maxOpacity: 0.16),
+        Spot(lon: 5.3, y: -42, size: 28, light: false, maxOpacity: 0.16),
+        Spot(lon: 1.0, y: 54,  size: 20, light: false, maxOpacity: 0.18),
+        Spot(lon: 2.0, y: 62,  size: 22, light: true,  maxOpacity: 0.20),  // 밝은 크레이터
+        Spot(lon: 4.9, y: 34,  size: 18, light: true,  maxOpacity: 0.18),
+        Spot(lon: 3.7, y: -20, size: 16, light: true,  maxOpacity: 0.16)
     ]
 
     var body: some View {
         ZStack {
-            // 표면 질감 점들 — 한쪽 가장자리로 사라지고 반대쪽에서 나타남
-            ForEach(Self.spots.indices, id: \.self) { i in
-                let s = Self.spots[i]
-                Circle()
-                    .fill(s.white ? Color.white : Color.black)
-                    .frame(width: s.size, height: s.size)
-                    .blur(radius: s.size * 0.35)
-                    .scaleEffect(x: squashX(s.lon), y: squashY(), anchor: .center)
-                    .offset(x: markX(s.lon), y: markY(s.y))
-                    .opacity(markOpacity(s.lon) * s.maxOpacity)
+            // 분화구(크레이터) — 표면을 따라 굴러간다
+            if showSpots {
+                ForEach(Self.spots.indices, id: \.self) { i in
+                    craterView(Self.spots[i])
+                }
             }
-            // 표면 위 아이콘 — 가장자리까지 굴러 사라졌다가 반대편에서 등장
-            Image(systemName: isPlaying ? "pause.fill" : "play.fill")
-                .font(.system(size: 72, weight: .medium))
-                .foregroundColor(.white)
-                .scaleEffect(x: squashX(0), y: squashY(), anchor: .center)
-                .offset(x: markX(0) + (isPlaying ? 0 : 6), y: markY(0))
-                .opacity(markOpacity(0))
+            // 표면 위 재생/일시정지 심볼 — 표면과 함께 굴러간다
+            if showIcon {
+                Image(systemName: isPlaying ? "pause.fill" : "play.fill")
+                    .font(.system(size: 60, weight: .medium))
+                    .foregroundColor(iconColor)
+                    .scaleEffect(x: squashX(0), y: squashY(), anchor: .center)
+                    .offset(x: markX(0) + (isPlaying ? 0 : 5), y: markY(0))
+                    .opacity(markOpacity(0))
+            }
         }
+    }
+
+    /// 분화구 1개 — 테두리 없이 부드럽고 흐릿한 얼룩으로 (또렷한 문양이 아니라 은은한 질감)
+    @ViewBuilder
+    private func craterView(_ s: Spot) -> some View {
+        let base = s.light ? Color.white : Color(white: 0.28)
+        Circle()
+            .fill(
+                RadialGradient(
+                    colors: [base.opacity(s.maxOpacity), .clear],
+                    center: .center, startRadius: 0, endRadius: s.size * 0.78
+                )
+            )
+            .frame(width: s.size * 1.7, height: s.size * 1.7)
+            .scaleEffect(x: squashX(s.lon), y: squashY(), anchor: .center)
+            .offset(x: markX(s.lon), y: markY(s.y))
+            .opacity(markOpacity(s.lon))
     }
 }
 
+// MARK: - Moon Phase Shadow
+
+/// 달 위상 그림자: phase 1 = 보름달(그림자 없음), 0 = 반달, -1 = 신월(전부 그림자).
+/// 오른쪽에서 그림자가 차오르며 보름→반달→초승달로 변한다. Animatable로 부드럽게 보간.
+struct MoonShadow: Shape, Animatable {
+    var phase: Double
+    var animatableData: Double {
+        get { phase }
+        set { phase = newValue }
+    }
+
+    func path(in rect: CGRect) -> Path {
+        var p = Path()
+        let r = rect.width / 2
+        let cx = rect.midX, cy = rect.midY
+        let k = CGFloat(max(-1, min(1, phase)))
+        let steps = 96
+        var pts: [CGPoint] = []
+        // 명암 경계(터미네이터) 타원: 위(y=-r) → 아래(y=+r)
+        for i in 0...steps {
+            let t = CGFloat(i) / CGFloat(steps)
+            let y = -r + 2 * r * t
+            let xr = sqrt(max(0, r * r - y * y))
+            pts.append(CGPoint(x: cx + k * xr, y: cy + y))
+        }
+        // 터미네이터 오른쪽을 원 밖까지 가득 채움 → 바깥의 clipShape(Circle)이 림에 정확히 맞춰 자른다
+        // (외곽을 원호로 근사하지 않으므로 달이 삐져나오지 않음)
+        pts.append(CGPoint(x: rect.maxX + r, y: rect.maxY + r))
+        pts.append(CGPoint(x: rect.maxX + r, y: rect.minY - r))
+        p.addLines(pts)
+        p.closeSubpath()
+        return p
+    }
+}
+
+/// 홈의 메인 오브 — "달". 재생을 시작하면 그림자가 차올라 보름달→반달→초승달로 변한다.
 struct CampfireView: View {
     let isPlaying: Bool
     var tint: Color = DS.Colors.accent
@@ -763,57 +995,124 @@ struct CampfireView: View {
 
     @State private var breathe = false
     @State private var glow = false
+    @State private var moonPhase: Double = 1.0   // 1=보름달, 0=반달, -1=신월
+
+    private let moonSize: CGFloat = 220
 
     var body: some View {
         ZStack {
-            // 부드러운 외곽 글로우 (윤곽 고정)
+            // 달무리(외곽 글로우)
             Circle()
                 .fill(
                     RadialGradient(
-                        colors: [tint.opacity(isPlaying ? 0.35 : 0.16), .clear],
-                        center: .center,
-                        startRadius: 10,
-                        endRadius: 220
+                        colors: [tint.opacity(isPlaying ? 0.30 : 0.14),
+                                 Color.white.opacity(isPlaying ? 0.10 : 0.05),
+                                 .clear],
+                        center: .center, startRadius: 10, endRadius: 220
                     )
                 )
-                .frame(width: 300, height: 300)
-                .scaleEffect(glow ? 1.05 : 0.9)
-                .blur(radius: 30)
+                .frame(width: 320, height: 320)
+                .scaleEffect(glow ? 1.06 : 0.9)
+                .blur(radius: 34)
 
-            // 솔리드 구체 — 윤곽은 항상 원형, 표면(반사·아이콘)만 굴러감
-            Circle()
-                .fill(
-                    LinearGradient(
-                        colors: [tint.opacity(0.95), tint.opacity(0.55)],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
-                )
-                .frame(width: 220, height: 220)
-                .overlay(
-                    // 고정 스펙큘러 하이라이트 (광원은 고정)
-                    Circle()
-                        .fill(
-                            RadialGradient(
-                                colors: [Color.white.opacity(0.32), .clear],
-                                center: UnitPoint(x: 0.3, y: 0.26),
-                                startRadius: 4,
-                                endRadius: 140
-                            )
-                        )
-                )
-                .overlay(
-                    // 굴러가는 표면(질감 점 + 아이콘) — Animatable로 각도 자체를 보간
-                    RollingSphereSurface(roll: roll, rollY: rollY, isPlaying: isPlaying)
-                        .frame(width: 220, height: 220)
-                )
-                .clipShape(Circle())   // ← 표면이 굴러도 윤곽은 항상 원형
-                .scaleEffect(breathe ? 1.04 : 0.97)
-                .shadow(color: tint.opacity(0.45), radius: 40, x: 0, y: 14)
+            // 본체 — 소리마다 바뀌는 색(틴트)의 매끈한 구체
+            moonView
         }
         .frame(width: 240, height: 240)
-        .onAppear { startBreathing() }
-        .onChange(of: isPlaying) { _ in startBreathing() }
+        .onAppear {
+            startBreathing()
+            if isPlaying { startMoonCycle() } else { moonPhase = 1.0 }
+        }
+        .onChange(of: isPlaying) { _, playing in
+            startBreathing()
+            if playing {
+                startMoonCycle()
+            } else {
+                // 일시정지 → 천천히 보름달로 복귀
+                withAnimation(.easeInOut(duration: 6)) { moonPhase = 1.0 }
+            }
+        }
+    }
+
+    /// 달 본체 (식이 길어 별도 프로퍼티로 분리 — 컴파일러 타입체크 부담 완화)
+    private var moonView: some View {
+        Circle()
+            .fill(
+                LinearGradient(
+                    colors: [tint.opacity(0.95), tint.opacity(0.60)],
+                    startPoint: .topLeading, endPoint: .bottomTrailing
+                )
+            )
+            .frame(width: moonSize, height: moonSize)
+            .overlay(lightTexture)   // 여러 빛 → 불균일 질감
+            // 흐릿한 분화구 — 표면을 따라 굴러감
+            .overlay(
+                RollingSphereSurface(roll: roll, rollY: rollY, isPlaying: isPlaying,
+                                     showIcon: false, showSpots: true)
+                    .frame(width: moonSize, height: moonSize)
+                    .opacity(0.5)
+            )
+            // 위상 그림자 — 원 밖까지 채워 림에 딱 맞고, 경계(터미네이터)는 블러로 흐리게
+            .overlay(
+                MoonShadow(phase: moonPhase)
+                    .fill(
+                        LinearGradient(
+                            colors: [Color(red: 0.05, green: 0.06, blue: 0.13),
+                                     Color(red: 0.09, green: 0.10, blue: 0.20)],
+                            startPoint: .trailing, endPoint: .leading
+                        )
+                    )
+                    .opacity(0.9)
+                    .blur(radius: 7)   // 그림자 경계를 부드럽게
+            )
+            // 가장자리 음영
+            .overlay(
+                Circle().strokeBorder(Color.black.opacity(0.12), lineWidth: 1.5)
+                    .blur(radius: 1)
+            )
+            // 재생/일시정지 심볼 (그림자 위, 위상에 따라 색 대비)
+            .overlay(
+                RollingSphereSurface(
+                    roll: roll, rollY: rollY, isPlaying: isPlaying,
+                    showIcon: true, showSpots: false,
+                    iconColor: moonPhase > 0 ? Color(red: 0.18, green: 0.16, blue: 0.10) : .white
+                )
+                .frame(width: moonSize, height: moonSize)
+            )
+            .clipShape(Circle())
+            .scaleEffect(breathe ? 1.035 : 0.97)
+            .shadow(color: tint.opacity(0.35), radius: 36, x: 0, y: 12)
+    }
+
+    /// 여러 곳에서 쏜 빛(밝은 빛 4 + 그늘 3)을 묶은 불균일 질감 레이어
+    private var lightTexture: some View {
+        ZStack {
+            lightBlob(0.30, 0.26, 0.60, 130, true)
+            lightBlob(0.72, 0.38, 0.34, 86, true)
+            lightBlob(0.44, 0.76, 0.26, 100, true)
+            lightBlob(0.18, 0.56, 0.22, 72, true)
+            lightBlob(0.78, 0.80, 0.34, 88, false)
+            lightBlob(0.55, 0.12, 0.26, 66, false)
+            lightBlob(0.40, 0.42, 0.16, 50, false)
+        }
+    }
+
+    /// 재생 중: 약 10분에 걸쳐 보름달 → 그믐달, 다시 약 10분에 걸쳐 보름달로 (무한 반복)
+    private func startMoonCycle() {
+        withAnimation(.easeInOut(duration: 600).repeatForever(autoreverses: true)) {
+            moonPhase = -0.92   // 그믐달(아주 얇은 달)
+        }
+    }
+
+    /// 한 지점에서 쏜 빛(또는 그늘) — 여러 개 겹쳐 불균일한 표면 질감을 만든다
+    @ViewBuilder
+    private func lightBlob(_ x: Double, _ y: Double, _ op: Double, _ r: CGFloat, _ light: Bool) -> some View {
+        Circle().fill(
+            RadialGradient(
+                colors: [(light ? Color.white : Color.black).opacity(op), .clear],
+                center: UnitPoint(x: x, y: y), startRadius: 2, endRadius: r
+            )
+        )
     }
 
     private func startBreathing() {
@@ -823,6 +1122,74 @@ struct CampfireView: View {
         }
         withAnimation(.easeInOut(duration: duration * 1.3).repeatForever(autoreverses: true)) {
             glow = true
+        }
+    }
+}
+
+// MARK: - Now Playing Manager (잠금화면 / 제어센터 컨트롤)
+
+/// 잠금화면·제어센터·이어폰 버튼으로 재생/일시정지/다음/이전을 제어하고,
+/// 현재 곡 정보를 표시한다. 콜백(onPlay 등)은 화면에서 주입한다.
+final class NowPlayingManager {
+    static let shared = NowPlayingManager()
+    private init() {}
+
+    var onPlay: (() -> Void)?
+    var onPause: (() -> Void)?
+    var onToggle: (() -> Void)?
+    var onNext: (() -> Void)?
+    var onPrevious: (() -> Void)?
+
+    private var configured = false
+
+    /// 리모트 커맨드 등록 (앱 생애 1회)
+    func setupRemoteCommands() {
+        guard !configured else { return }
+        configured = true
+
+        let center = MPRemoteCommandCenter.shared()
+        center.playCommand.addTarget { [weak self] _ in
+            self?.onPlay?(); return .success
+        }
+        center.pauseCommand.addTarget { [weak self] _ in
+            self?.onPause?(); return .success
+        }
+        center.togglePlayPauseCommand.addTarget { [weak self] _ in
+            self?.onToggle?(); return .success
+        }
+        center.nextTrackCommand.addTarget { [weak self] _ in
+            self?.onNext?(); return .success
+        }
+        center.previousTrackCommand.addTarget { [weak self] _ in
+            self?.onPrevious?(); return .success
+        }
+        [center.playCommand, center.pauseCommand, center.togglePlayPauseCommand,
+         center.nextTrackCommand, center.previousTrackCommand].forEach { $0.isEnabled = true }
+    }
+
+    /// 잠금화면에 표시할 곡 정보 갱신
+    func update(title: String, isPlaying: Bool, tint: UIColor) {
+        var info: [String: Any] = [:]
+        info[MPMediaItemPropertyTitle] = title
+        info[MPMediaItemPropertyArtist] = "달빛"
+        info[MPNowPlayingInfoPropertyIsLiveStream] = true   // 백색소음 = 무한 재생(스크러버 숨김)
+        info[MPNowPlayingInfoPropertyPlaybackRate] = isPlaying ? 1.0 : 0.0
+
+        let art = Self.artwork(tint: tint)
+        info[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(boundsSize: art.size) { _ in art }
+
+        MPNowPlayingInfoCenter.default().nowPlayingInfo = info
+        MPNowPlayingInfoCenter.default().playbackState = isPlaying ? .playing : .paused
+    }
+
+    /// 곡 색에 맞춘 단순한 구체 아트워크 생성
+    private static func artwork(tint: UIColor) -> UIImage {
+        let size = CGSize(width: 400, height: 400)
+        return UIGraphicsImageRenderer(size: size).image { ctx in
+            UIColor(white: 0.07, alpha: 1).setFill()
+            ctx.fill(CGRect(origin: .zero, size: size))
+            tint.setFill()
+            ctx.cgContext.fillEllipse(in: CGRect(x: 90, y: 90, width: 220, height: 220))
         }
     }
 }
@@ -1133,7 +1500,7 @@ struct SavedSoundsListView: View {
     private func embeddedHeader(onClose: @escaping () -> Void) -> some View {
         HStack(spacing: DS.Spacing.xs) {
             Button(action: onClose) {
-                Image(systemName: "chevron.up")
+                Image(systemName: "chevron.down")
                     .font(.system(size: 17, weight: .semibold))
                     .foregroundColor(DS.Colors.accent)
                     .frame(width: 44, height: 44)
@@ -1195,150 +1562,109 @@ struct SavedSoundsListView: View {
         .padding(.horizontal, DS.Spacing.xxl)
     }
 
-    // MARK: - Sounds List
-    @ViewBuilder
+    // MARK: - Sounds List (네이티브 List + 스와이프: 삭제/즐겨찾기)
     private func soundsListView() -> some View {
-        ScrollView {
-            VStack(spacing: DS.Spacing.xl) {
-                // 무료 사용자 사운드 개수 표시 (네비게이션 바 대신 콘텐츠 안에)
+        VStack(spacing: 0) {
+            // 무료 카운트 + 검색
+            VStack(spacing: DS.Spacing.sm) {
                 if !subscriptionManager.isPremium {
                     let userCount = viewModel.customSounds.filter { !$0.isPreset }.count
                     let reached = userCount >= SubscriptionManager.freeMaxCustomSounds
                     HStack(spacing: DS.Spacing.xxs) {
-                        Image(systemName: "person.fill")
-                            .font(.system(size: 11, weight: .semibold))
+                        Image(systemName: "person.fill").font(.system(size: 11, weight: .semibold))
                         Text(String(format: L.SoundList.freeCount.localized, userCount, SubscriptionManager.freeMaxCustomSounds))
                             .font(DS.Font.caption().weight(.semibold))
                         Spacer()
                     }
                     .foregroundColor(reached ? DS.Colors.warm : DS.Colors.textSecondary)
-                    .padding(.horizontal, DS.Spacing.screen)
                 }
-
-                // 검색 바
                 searchBar()
-
-                // 프리셋 섹션 (카테고리별)
-                if searchText.isEmpty && !viewModel.presetSounds.isEmpty {
-                    presetSectionsView()
-                }
-
-                // 내가 만든 사운드 섹션
-                if !myCreatedSounds.isEmpty {
-                    myCreatedSoundsSection()
-                }
-
-                // 검색 결과 (검색 중일 때)
-                if !searchText.isEmpty {
-                    searchResultsSection()
-                }
-            }
-            .padding(.top, DS.Spacing.md)
-            .padding(.bottom, 100)
-        }
-    }
-
-    // MARK: - Preset Sections by Category
-    @ViewBuilder
-    private func presetSectionsView() -> some View {
-        let groupedPresets = Dictionary(grouping: viewModel.presetSounds) { preset in
-            PresetSound.allPresets.first(where: { $0.localizedName == preset.title })?.category ?? .sleep
-        }
-
-        ForEach(PresetCategory.allCases, id: \.self) { category in
-            if let presets = groupedPresets[category], !presets.isEmpty {
-                VStack(alignment: .leading, spacing: DS.Spacing.sm) {
-                    // 카테고리 헤더
-                    SectionHeader(title: category.displayName, systemIcon: category.icon)
-                        .padding(.horizontal, DS.Spacing.screen)
-
-                    // 프리셋 그리드
-                    LazyVGrid(columns: DS.Layout.grid(), spacing: DS.Spacing.md) {
-                        ForEach(presets) { sound in
-                            SoundCardView(sound: sound, viewModel: viewModel)
-                                .onTapGesture {
-                                    selectSound(sound)
-                                }
-                        }
-                    }
-                    .padding(.horizontal, DS.Spacing.screen)
-                }
-            }
-        }
-    }
-
-    // MARK: - My Created Sounds Section
-    @ViewBuilder
-    private func myCreatedSoundsSection() -> some View {
-        VStack(alignment: .leading, spacing: DS.Spacing.sm) {
-            // 섹션 헤더
-            SectionHeader(title: L.Listen.mySounds.localized,
-                          systemIcon: "person.fill",
-                          accessory: "\(myCreatedSounds.count)")
-                .padding(.horizontal, DS.Spacing.screen)
-
-            // 사운드 그리드
-            LazyVGrid(columns: DS.Layout.grid(), spacing: DS.Spacing.md) {
-                ForEach(myCreatedSounds) { sound in
-                    SoundCardView(sound: sound, viewModel: viewModel)
-                        .onTapGesture {
-                            selectSound(sound)
-                        }
-                        .accessibilityElement(children: .ignore)
-                        .accessibilityLabel(soundCardAccessibilityLabel(sound))
-                        .accessibilityAddTraits(.isButton)
-                        .accessibilityHint(L.A11y.playSoundHint.localized)
-                        .accessibilityAction(named: Text(L.Common.edit.localized)) { startEdit(sound) }
-                        .accessibilityAction(named: Text(L.Common.delete.localized)) { deleteSound(sound) }
-                        .contextMenu { cardContextMenu(for: sound) }
-                }
             }
             .padding(.horizontal, DS.Spacing.screen)
+            .padding(.top, DS.Spacing.sm)
+            .padding(.bottom, DS.Spacing.xs)
+
+            List {
+                if searchText.isEmpty {
+                    ForEach(PresetCategory.allCases, id: \.self) { category in
+                        if let presets = groupedPresets[category], !presets.isEmpty {
+                            Section(category.displayName) {
+                                ForEach(presets) { soundRow($0) }
+                            }
+                        }
+                    }
+                    if !myCreatedSounds.isEmpty {
+                        Section(L.Listen.mySounds.localized) {
+                            ForEach(myCreatedSounds) { soundRow($0) }
+                        }
+                    }
+                } else {
+                    Section(L.Listen.searchResults.localized) {
+                        if filteredSounds.isEmpty {
+                            Text(L.Listen.noSearchResults.localized)
+                                .font(DS.Font.callout())
+                                .foregroundColor(DS.Colors.textSecondary)
+                                .listRowBackground(Color.clear)
+                        } else {
+                            ForEach(filteredSounds) { soundRow($0) }
+                        }
+                    }
+                }
+            }
+            .listStyle(.plain)
+            .scrollContentBackground(.hidden)
         }
     }
 
-    // MARK: - Search Results Section
+    /// 프리셋을 카테고리별로 그룹화
+    private var groupedPresets: [PresetCategory: [CustomSound]] {
+        Dictionary(grouping: viewModel.presetSounds) { preset in
+            PresetSound.allPresets.first(where: { $0.localizedName == preset.title })?.category ?? .sleep
+        }
+    }
+
+    // MARK: - Sound Row (이름만 — 삭제/즐겨찾기는 스와이프)
     @ViewBuilder
-    private func searchResultsSection() -> some View {
-        VStack(alignment: .leading, spacing: DS.Spacing.sm) {
-            // 검색 결과 헤더
-            SectionHeader(title: L.Listen.searchResults.localized,
-                          systemIcon: "magnifyingglass",
-                          accessory: "\(filteredSounds.count)")
-                .padding(.horizontal, DS.Spacing.screen)
-
-            if filteredSounds.isEmpty {
-                // 검색 결과 없음
-                VStack(spacing: DS.Spacing.sm) {
-                    Image(systemName: "magnifyingglass")
-                        .font(.system(size: 44, weight: .light))
-                        .foregroundColor(DS.Colors.textTertiary)
-
-                    Text(L.Listen.noSearchResults.localized)
-                        .font(DS.Font.callout())
-                        .foregroundColor(DS.Colors.textSecondary)
+    private func soundRow(_ sound: CustomSound) -> some View {
+        HStack(spacing: DS.Spacing.sm) {
+            Text(sound.title)
+                .font(DS.Font.callout())
+                .foregroundColor(DS.Colors.textPrimary)
+                .lineLimit(2)
+            Spacer(minLength: 0)
+            if sound.isFavorite {
+                Image(systemName: "star.fill")
+                    .font(.system(size: 12))
+                    .foregroundColor(DS.Colors.warm)
+            }
+        }
+        .padding(.vertical, 6)
+        .contentShape(Rectangle())
+        .onTapGesture { selectSound(sound) }
+        .listRowBackground(Color.clear)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(soundCardAccessibilityLabel(sound))
+        .accessibilityAddTraits(.isButton)
+        .accessibilityHint(L.A11y.playSoundHint.localized)
+        .accessibilityAction(named: Text(L.A11y.favorite.localized)) { viewModel.toggleFavorite(sound) }
+        .accessibilityAction(named: Text(L.Common.delete.localized)) { if !sound.isPreset { deleteSound(sound) } }
+        // 왼쪽으로 밀기 → 즐겨찾기
+        .swipeActions(edge: .leading, allowsFullSwipe: true) {
+            Button { viewModel.toggleFavorite(sound) } label: {
+                Label(L.A11y.favorite.localized, systemImage: sound.isFavorite ? "star.slash.fill" : "star.fill")
+            }
+            .tint(DS.Colors.warm)
+        }
+        // 오른쪽으로 밀기 → 삭제(내 사운드만) + 편집
+        .swipeActions(edge: .trailing, allowsFullSwipe: !sound.isPreset) {
+            if !sound.isPreset {
+                Button(role: .destructive) { deleteSound(sound) } label: {
+                    Label(L.Common.delete.localized, systemImage: "trash")
                 }
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, DS.Spacing.xxxl)
-            } else {
-                // 검색 결과 그리드
-                LazyVGrid(columns: DS.Layout.grid(), spacing: DS.Spacing.md) {
-                    ForEach(filteredSounds) { sound in
-                        SoundCardView(sound: sound, viewModel: viewModel)
-                            .onTapGesture {
-                                selectSound(sound)
-                            }
-                            .accessibilityElement(children: .ignore)
-                            .accessibilityLabel(soundCardAccessibilityLabel(sound))
-                            .accessibilityAddTraits(.isButton)
-                            .accessibilityHint(L.A11y.playSoundHint.localized)
-                            .accessibilityAction(named: Text(L.A11y.favorite.localized)) {
-                                viewModel.toggleFavorite(sound)
-                            }
-                            .contextMenu { cardContextMenu(for: sound) }
-                    }
+                Button { startEdit(sound) } label: {
+                    Label(L.Common.edit.localized, systemImage: "slider.horizontal.3")
                 }
-                .padding(.horizontal, DS.Spacing.screen)
+                .tint(DS.Colors.accent)
             }
         }
     }
@@ -1541,6 +1867,60 @@ struct SoundCardView: View {
     }
 }
 
+// MARK: - Sound Name Card (썸네일 없는 심플 이름 카드)
+/// 보관함 목록용 — 썸네일 대신 색 점 + 제목만. 즐겨찾기/프리셋 배지는 유지.
+struct SoundNameCardView: View {
+    let sound: CustomSound
+    var viewModel: CustomSoundViewModel? = nil
+
+    var body: some View {
+        HStack(spacing: DS.Spacing.sm) {
+            // 색 구분용 작은 점 (썸네일 대체)
+            Circle()
+                .fill(Color(hex: sound.color))
+                .frame(width: 12, height: 12)
+
+            Text(sound.title)
+                .font(DS.Font.subhead().weight(.semibold))
+                .foregroundColor(DS.Colors.textPrimary)
+                .lineLimit(1)
+
+            // 프리셋 배지
+            if sound.isPreset {
+                HStack(spacing: 3) {
+                    Image(systemName: "star.fill")
+                        .font(.system(size: 8))
+                    Text(L.Listen.presets.localized)
+                        .font(DS.Font.caption().weight(.semibold))
+                }
+                .foregroundColor(.white)
+                .padding(.horizontal, DS.Spacing.xs)
+                .padding(.vertical, 3)
+                .background(Capsule().fill(DS.Colors.accent.opacity(0.95)))
+            }
+
+            Spacer(minLength: DS.Spacing.xs)
+
+            // 즐겨찾기
+            if let vm = viewModel {
+                Button(action: { vm.toggleFavorite(sound) }) {
+                    Image(systemName: sound.isFavorite ? "heart.fill" : "heart")
+                        .font(.system(size: 16, weight: .semibold))
+                        .foregroundColor(sound.isFavorite ? DS.Colors.danger : DS.Colors.textTertiary)
+                        .frame(width: 32, height: 32)
+                }
+                .buttonStyle(.plain)
+            }
+        }
+        .padding(.horizontal, DS.Spacing.md)
+        .padding(.vertical, DS.Spacing.sm)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(DS.Colors.surface)
+        .clipShape(RoundedRectangle(cornerRadius: DS.Radius.md, style: .continuous))
+        .shadow(color: DS.Shadow.card.color, radius: DS.Shadow.card.radius, x: 0, y: DS.Shadow.card.y)
+    }
+}
+
 // MARK: - Recommendation Card View
 struct RecommendationCard: View {
     let sound: CustomSound
@@ -1595,3 +1975,102 @@ struct RecommendationCard: View {
     }
 }
 
+
+// MARK: - Gesture Coachmark (첫 실행 1회 제스처 안내)
+
+struct GestureCoachmark: View {
+    let onDismiss: () -> Void
+
+    var body: some View {
+        ZStack {
+            Color.black.opacity(0.6).ignoresSafeArea()
+                .contentShape(Rectangle())
+                .onTapGesture { onDismiss() }
+
+            VStack(spacing: DS.Spacing.lg) {
+                Text("이렇게 사용해요")
+                    .font(DS.Font.title())
+                    .foregroundColor(.white)
+
+                VStack(alignment: .leading, spacing: DS.Spacing.md) {
+                    row("hand.tap.fill", "탭하면 재생 / 일시정지")
+                    row("arrow.left.and.right", "좌우로 밀면 다른 소리")
+                    row("arrow.up", "위로 밀면 수면 타이머")
+                    row("arrow.down", "아래로 밀면 보관함")
+                }
+
+                Button(action: onDismiss) {
+                    Text("시작하기")
+                        .font(DS.Font.headline())
+                        .foregroundColor(DS.Colors.onAccent)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, DS.Spacing.sm)
+                        .background(Capsule().fill(DS.Colors.accent))
+                }
+                .padding(.top, DS.Spacing.xs)
+            }
+            .padding(DS.Spacing.xl)
+            .background(
+                RoundedRectangle(cornerRadius: DS.Radius.xl, style: .continuous)
+                    .fill(.ultraThinMaterial)
+            )
+            .padding(.horizontal, DS.Spacing.xl)
+        }
+    }
+
+    @ViewBuilder
+    private func row(_ icon: String, _ text: String) -> some View {
+        HStack(spacing: DS.Spacing.md) {
+            Image(systemName: icon)
+                .font(.system(size: 20, weight: .semibold))
+                .foregroundColor(DS.Colors.accent)
+                .frame(width: 34, height: 34)
+                .background(Circle().fill(Color.white.opacity(0.12)))
+            Text(text)
+                .font(DS.Font.callout())
+                .foregroundColor(.white)
+            Spacer(minLength: 0)
+        }
+    }
+}
+
+// MARK: - Starfield (우주를 여행하듯 천천히 흐르는 별)
+
+struct Starfield: View {
+    private let count = 64
+    private func frac(_ v: Double) -> Double { v - floor(v) }
+
+    var body: some View {
+        // TimelineView + Canvas: 별 수십 개를 매 프레임 한 번에 그려 가볍게 애니메이션
+        TimelineView(.animation) { tl in
+            let t = tl.date.timeIntervalSinceReferenceDate
+            Canvas { ctx, size in
+                for i in 0..<count {
+                    let fi = Double(i)
+                    let bx = frac(sin(fi * 12.9898) * 43758.5453)
+                    let by = frac(sin(fi * 78.233) * 12543.1234)
+                    let sz = 0.7 + frac(sin(fi * 3.71) * 991.7) * 2.3
+                    let baseOp = 0.12 + frac(sin(fi * 5.13) * 311.1) * 0.5
+                    // 깊이감(시차): 큰(가까운) 별일수록 빠르게 아래로 흐름
+                    let speed = 0.006 + frac(sin(fi * 9.17) * 517.3) * 0.030
+                    let y = frac(by + t * speed) * size.height
+                    let x = bx * size.width
+                    // 은은한 반짝임
+                    let tw = 0.7 + 0.3 * sin(t * 1.4 + fi)
+                    let rect = CGRect(x: x, y: y, width: sz, height: sz)
+                    ctx.fill(Path(ellipseIn: rect), with: .color(.white.opacity(baseOp * tw)))
+                }
+            }
+        }
+        .allowsHitTesting(false)
+    }
+}
+
+// MARK: - Haptics (가벼운 촉각 피드백 — 휴식 앱답게 은은하게)
+
+enum Haptics {
+    static func soft()      { UIImpactFeedbackGenerator(style: .soft).impactOccurred() }
+    static func light()     { UIImpactFeedbackGenerator(style: .light).impactOccurred() }
+    static func selection() { UISelectionFeedbackGenerator().selectionChanged() }
+    static func success()   { UINotificationFeedbackGenerator().notificationOccurred(.success) }
+}

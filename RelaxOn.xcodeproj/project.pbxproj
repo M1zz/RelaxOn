@@ -7,11 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		00FBBC03CD1238D45921E028 /* Keyboard.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A9FDD1DB550B335455F5A721 /* Keyboard.mp3 */; };
+		0F874E616060AD39A4935B29 /* IndigoMusic.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 18F787B9DFE4DC8F447491C3 /* IndigoMusic.mp3 */; };
+		21706CE4C8B7EBA02D7029C1 /* BowlDeep.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 367F0E20D89EE7F0F06671CC /* BowlDeep.mp3 */; };
 		21EC2EDD80814105A172AAC3 /* AudioLayerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC23383B6EB64FEAAC27ACB4 /* AudioLayerManager.swift */; };
+		22DB7F52391111F67E37A500 /* AmbientKeys.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 68300BF92C4CBA2DCB1AB6E2 /* AmbientKeys.mp3 */; };
+		3DE87622142CE17C3291BC13 /* CityRain.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 93ED06BCF44652CAE8CE3BEE /* CityRain.mp3 */; };
+		438AE9E9D7E551CAF938FAD1 /* BowlLoud.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0B8A77712079DB40B0C16ED8 /* BowlLoud.mp3 */; };
 		4C408C2D0DE14B0D8C47B526 /* PresetSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E999CF36B64FB99C403643 /* PresetSound.swift */; };
+		588E497E2149E7014D230078 /* Underwater.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B4FEE92929BD0B763A07376B /* Underwater.mp3 */; };
 		58DE61832839C13900F25769 /* RelaxOnApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DE61822839C13900F25769 /* RelaxOnApp.swift */; };
 		58DE618A2839C13A00F25769 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58DE61892839C13A00F25769 /* Preview Assets.xcassets */; };
 		58DE61C22841C20A00F25769 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 58DE61C12841C20A00F25769 /* Launch Screen.storyboard */; };
+		58EB682F2FE81574006D84DF /* space_1min.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 58EB682E2FE81574006D84DF /* space_1min.mp3 */; };
 		58F3CDF92EF195C30059A247 /* meditation_10min.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 58F3CDF72EF195C30059A247 /* meditation_10min.mp3 */; };
 		58F3CDFA2EF195C30059A247 /* guitar_10min.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 58F3CDF52EF195C30059A247 /* guitar_10min.mp3 */; };
 		58F3CDFB2EF195C30059A247 /* lofi_10min.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 58F3CDF62EF195C30059A247 /* lofi_10min.mp3 */; };
@@ -34,8 +42,12 @@
 		594012732A17DD7900221DE7 /* Woodpecker.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5940126F2A17DD7800221DE7 /* Woodpecker.mp3 */; };
 		594012752A17DD7900221DE7 /* Owl.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 594012712A17DD7800221DE7 /* Owl.mp3 */; };
 		594012762A17DD7900221DE7 /* Forest.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 594012722A17DD7900221DE7 /* Forest.mp3 */; };
+		5970E2FBA12E4A9D4D95F257 /* MeditationPad.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7D8999CB90199853226247F6 /* MeditationPad.mp3 */; };
 		59DFA0772A30D65E006EB723 /* DragCircularSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59DFA0762A30D65E006EB723 /* DragCircularSlider.swift */; };
 		630903C8F065B61C9BFA760B /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 03C047869B83EAF5E36D4BC3 /* Localizable.xcstrings */; };
+		66377C5C0E9E1368AF2F267E /* SoftRain.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B53790AB535F668DEE440512 /* SoftRain.mp3 */; };
+		68D504FD5581CF0ED5A04FC3 /* TibetanBowl.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EFDBD9965458E87AF0E53BAD /* TibetanBowl.mp3 */; };
+		7AB1D9C3BDB047F962FCF0AA /* Atmosphere.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B44E72EC850D0D85EA34FB9A /* Atmosphere.mp3 */; };
 		8F00A2392A2332530062B816 /* TimerSoundSelectModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F00A2382A2332530062B816 /* TimerSoundSelectModalView.swift */; };
 		8F00A23B2A2348C20062B816 /* TimerSoundListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F00A23A2A2348C20062B816 /* TimerSoundListCell.swift */; };
 		8F00A23D2A235E5F0062B816 /* OnboardItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F00A23C2A235E5F0062B816 /* OnboardItem.swift */; };
@@ -63,9 +75,6 @@
 		8F8B0F532A248B9B009A1757 /* FileManager+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8B0F522A248B9A009A1757 /* FileManager+Extension.swift */; };
 		8F95E45B2A1F85EC00CDB8D2 /* SoundListView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F95E45A2A1F85EC00CDB8D2 /* SoundListView+Extension.swift */; };
 		8FCB23EB2A15F71500188024 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FCB23EA2A15F71500188024 /* Color+Extension.swift */; };
-		STDO00022F28000000000022 /* SoundStudioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = STDO00022F28000000000021 /* SoundStudioView.swift */; };
-		DSTH00022F28000000000012 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = DSTH00022F28000000000011 /* Theme.swift */; };
-		DSCP00022F28000000000014 /* Components.swift in Sources */ = {isa = PBXBuildFile; fileRef = DSCP00022F28000000000013 /* Components.swift */; };
 		8FCB23EF2A15F73500188024 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FCB23EE2A15F73500188024 /* String+Extension.swift */; };
 		8FCB23F22A15F83900188024 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FCB23F12A15F83900188024 /* SearchBar.swift */; };
 		8FCB23F42A15F85200188024 /* SoundPlayerBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FCB23F32A15F85200188024 /* SoundPlayerBottomView.swift */; };
@@ -77,31 +86,22 @@
 		8FFF99E92A1F4E1600E2474C /* WaterDrop.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8FFF99E82A1F4E1600E2474C /* WaterDrop.mp3 */; };
 		8FFF99EB2A1F4FD700E2474C /* CustomSoundViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FFF99EA2A1F4FD700E2474C /* CustomSoundViewModel.swift */; };
 		8FFF99ED2A1F51F100E2474C /* AudioVariation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FFF99EC2A1F51F100E2474C /* AudioVariation.swift */; };
+		917BADACE5F74E8766182402 /* Camera.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 890D79F8D71BA19717A96F8F /* Camera.mp3 */; };
 		99AA00022EF1960000000002 /* SoundThumbnailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99AA00012EF1960000000001 /* SoundThumbnailView.swift */; };
-		9C20353E2F2859D600AF1279 /* singing-bowl-69237.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9C2035392F2859D600AF1279 /* singing-bowl-69237.mp3 */; };
-		9C20353F2F2859D600AF1279 /* spring-forest-nature-332842.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9C20353C2F2859D600AF1279 /* spring-forest-nature-332842.mp3 */; };
-		9C2035402F2859D600AF1279 /* birds-forest-nature-445379.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9C20352C2F2859D600AF1279 /* birds-forest-nature-445379.mp3 */; };
-		9C2035412F2859D600AF1279 /* classic-atmospheric-cue-2-114739.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9C20352D2F2859D600AF1279 /* classic-atmospheric-cue-2-114739.mp3 */; };
-		9C2035422F2859D600AF1279 /* singing-bell-hit-2-75258.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9C2035382F2859D600AF1279 /* singing-bell-hit-2-75258.mp3 */; };
-		9C2035432F2859D600AF1279 /* singing-bowl-low-and-loud-76401.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9C20353A2F2859D600AF1279 /* singing-bowl-low-and-loud-76401.mp3 */; };
-		9C2035442F2859D600AF1279 /* rainmaker_01-raw-71311.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9C2035362F2859D600AF1279 /* rainmaker_01-raw-71311.mp3 */; };
-		9C2035452F2859D600AF1279 /* padsound-meditation-21384.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9C2035352F2859D600AF1279 /* padsound-meditation-21384.mp3 */; };
-		9C2035462F2859D600AF1279 /* keyboard-typing-sound-effect-2-439211.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9C2035322F2859D600AF1279 /* keyboard-typing-sound-effect-2-439211.mp3 */; };
-		9C2035472F2859D600AF1279 /* multiple-dslr-clicks-100275.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9C2035342F2859D600AF1279 /* multiple-dslr-clicks-100275.mp3 */; };
-		9C2035482F2859D600AF1279 /* e-flat-tibetan-singing-bowl-struck-38746.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9C20352F2F2859D600AF1279 /* e-flat-tibetan-singing-bowl-struck-38746.mp3 */; };
-		9C2035492F2859D600AF1279 /* classic-atmospheric-cue-114740.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9C20352E2F2859D600AF1279 /* classic-atmospheric-cue-114740.mp3 */; };
-		9C20354A2F2859D600AF1279 /* rainy-day-in-town-with-birds-singing-194011.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9C2035372F2859D600AF1279 /* rainy-day-in-town-with-birds-singing-194011.mp3 */; };
-		9C20354B2F2859D600AF1279 /* soft-rain-atmosphere-454683.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9C20353B2F2859D600AF1279 /* soft-rain-atmosphere-454683.mp3 */; };
-		9C20354C2F2859D600AF1279 /* jungle-nature-229896.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9C2035312F2859D600AF1279 /* jungle-nature-229896.mp3 */; };
-		9C20354D2F2859D600AF1279 /* minimalist-ambient-keys-471841.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9C2035332F2859D600AF1279 /* minimalist-ambient-keys-471841.mp3 */; };
-		9C20354E2F2859D600AF1279 /* indigo-music-template-340012.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9C2035302F2859D600AF1279 /* indigo-music-template-340012.mp3 */; };
-		9C20354F2F2859D600AF1279 /* underwater-white-noise-46423.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9C20353D2F2859D600AF1279 /* underwater-white-noise-46423.mp3 */; };
 		A81D4B61DC9FC788038A49E4 /* LocalizationKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9C11FBB3A19C84918309F6 /* LocalizationKeys.swift */; };
+		AF157A5052C0E1B7696712E2 /* Bell.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A8D694CBC9BA73FEEE972785 /* Bell.mp3 */; };
 		AMS000022F28000000000008 /* AudioMixingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AMS000012F28000000000007 /* AudioMixingService.swift */; };
+		B2574EF779062CB43FCF1653 /* SpringForest.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CDCA9FD95D97EBB427D679B1 /* SpringForest.mp3 */; };
+		BD5DD63A6A387694BDBA80EC /* ForestBird.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 63FEB2759AFCECB23E505073 /* ForestBird.mp3 */; };
 		CC04E26328BDA3F800509C60 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC04E26228BDA3F800509C60 /* AppDelegate.swift */; };
 		CC04E26528BDA45900509C60 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC04E26428BDA45900509C60 /* SceneDelegate.swift */; };
+		CCFF29742C8FC76940F1E802 /* Jungle.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 376796FB8C85B14BDDABC649 /* Jungle.mp3 */; };
 		CNSV00022F28000000000002 /* CreateNewSoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CNSV00012F28000000000001 /* CreateNewSoundView.swift */; };
+		DSCP00022F28000000000014 /* Components.swift in Sources */ = {isa = PBXBuildFile; fileRef = DSCP00022F28000000000013 /* Components.swift */; };
+		DSTH00022F28000000000012 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = DSTH00022F28000000000011 /* Theme.swift */; };
+		E60AC831B23D8791A00A6D47 /* RainMaker.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 39AA5589C6B322081300DF31 /* RainMaker.mp3 */; };
 		FIN000022F2800000000000A /* FileInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FIN000012F28000000000009 /* FileInfo.swift */; };
+		STDO00022F28000000000022 /* SoundStudioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = STDO00022F28000000000021 /* SoundStudioView.swift */; };
 		STV000022F2800000000000C /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = STV000012F2800000000000B /* SettingsView.swift */; };
 		SUB000022F29000000000002 /* SubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = SUB000012F29000000000001 /* SubscriptionManager.swift */; };
 		SUB000042F29000000000004 /* SubscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = SUB000032F29000000000003 /* SubscriptionView.swift */; };
@@ -148,7 +148,12 @@
 
 /* Begin PBXFileReference section */
 		03C047869B83EAF5E36D4BC3 /* Localizable.xcstrings */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.json.xcstrings; name = Localizable.xcstrings; path = App/Resources/Localizable.xcstrings; sourceTree = "<group>"; };
+		0B8A77712079DB40B0C16ED8 /* BowlLoud.mp3 */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = audio.mp3; path = BowlLoud.mp3; sourceTree = "<group>"; };
 		18E999CF36B64FB99C403643 /* PresetSound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresetSound.swift; sourceTree = "<group>"; };
+		18F787B9DFE4DC8F447491C3 /* IndigoMusic.mp3 */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = audio.mp3; path = IndigoMusic.mp3; sourceTree = "<group>"; };
+		367F0E20D89EE7F0F06671CC /* BowlDeep.mp3 */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = audio.mp3; path = BowlDeep.mp3; sourceTree = "<group>"; };
+		376796FB8C85B14BDDABC649 /* Jungle.mp3 */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = audio.mp3; path = Jungle.mp3; sourceTree = "<group>"; };
+		39AA5589C6B322081300DF31 /* RainMaker.mp3 */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = audio.mp3; path = RainMaker.mp3; sourceTree = "<group>"; };
 		4AA37CA828D3656800B0F8FF /* LockScreenWidgetExtensionExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LockScreenWidgetExtensionExtension.entitlements; sourceTree = "<group>"; };
 		4AA37CA928D370E400B0F8FF /* WatchOSLockScreenWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WatchOSLockScreenWidgetExtension.entitlements; sourceTree = "<group>"; };
 		583CFF872F28E8AA00F05CD0 /* Products.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = Products.storekit; sourceTree = "<group>"; };
@@ -157,6 +162,7 @@
 		58DE61892839C13A00F25769 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		58DE61BE283E77E700F25769 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		58DE61C12841C20A00F25769 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		58EB682E2FE81574006D84DF /* space_1min.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = space_1min.mp3; sourceTree = "<group>"; };
 		58F3CDF42EF195C30059A247 /* ambient_10min.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = ambient_10min.mp3; sourceTree = "<group>"; };
 		58F3CDF52EF195C30059A247 /* guitar_10min.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = guitar_10min.mp3; sourceTree = "<group>"; };
 		58F3CDF62EF195C30059A247 /* lofi_10min.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = lofi_10min.mp3; sourceTree = "<group>"; };
@@ -180,6 +186,10 @@
 		594012712A17DD7800221DE7 /* Owl.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Owl.mp3; sourceTree = "<group>"; };
 		594012722A17DD7900221DE7 /* Forest.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Forest.mp3; sourceTree = "<group>"; };
 		59DFA0762A30D65E006EB723 /* DragCircularSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragCircularSlider.swift; sourceTree = "<group>"; };
+		63FEB2759AFCECB23E505073 /* ForestBird.mp3 */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = audio.mp3; path = ForestBird.mp3; sourceTree = "<group>"; };
+		68300BF92C4CBA2DCB1AB6E2 /* AmbientKeys.mp3 */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = audio.mp3; path = AmbientKeys.mp3; sourceTree = "<group>"; };
+		7D8999CB90199853226247F6 /* MeditationPad.mp3 */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = audio.mp3; path = MeditationPad.mp3; sourceTree = "<group>"; };
+		890D79F8D71BA19717A96F8F /* Camera.mp3 */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = audio.mp3; path = Camera.mp3; sourceTree = "<group>"; };
 		8F00A2382A2332530062B816 /* TimerSoundSelectModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerSoundSelectModalView.swift; sourceTree = "<group>"; };
 		8F00A23A2A2348C20062B816 /* TimerSoundListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerSoundListCell.swift; sourceTree = "<group>"; };
 		8F00A23C2A235E5F0062B816 /* OnboardItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardItem.swift; sourceTree = "<group>"; };
@@ -207,9 +217,6 @@
 		8F8B0F522A248B9A009A1757 /* FileManager+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+Extension.swift"; sourceTree = "<group>"; };
 		8F95E45A2A1F85EC00CDB8D2 /* SoundListView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SoundListView+Extension.swift"; sourceTree = "<group>"; };
 		8FCB23EA2A15F71500188024 /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
-		STDO00022F28000000000021 /* SoundStudioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundStudioView.swift; sourceTree = "<group>"; };
-		DSTH00022F28000000000011 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
-		DSCP00022F28000000000013 /* Components.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Components.swift; sourceTree = "<group>"; };
 		8FCB23EE2A15F73500188024 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		8FCB23F12A15F83900188024 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		8FCB23F32A15F85200188024 /* SoundPlayerBottomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundPlayerBottomView.swift; sourceTree = "<group>"; };
@@ -221,36 +228,29 @@
 		8FFF99E82A1F4E1600E2474C /* WaterDrop.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = WaterDrop.mp3; sourceTree = "<group>"; };
 		8FFF99EA2A1F4FD700E2474C /* CustomSoundViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSoundViewModel.swift; sourceTree = "<group>"; };
 		8FFF99EC2A1F51F100E2474C /* AudioVariation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioVariation.swift; sourceTree = "<group>"; };
+		93ED06BCF44652CAE8CE3BEE /* CityRain.mp3 */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = audio.mp3; path = CityRain.mp3; sourceTree = "<group>"; };
 		99AA00012EF1960000000001 /* SoundThumbnailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundThumbnailView.swift; sourceTree = "<group>"; };
-		9C20352C2F2859D600AF1279 /* birds-forest-nature-445379.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "birds-forest-nature-445379.mp3"; sourceTree = "<group>"; };
-		9C20352D2F2859D600AF1279 /* classic-atmospheric-cue-2-114739.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "classic-atmospheric-cue-2-114739.mp3"; sourceTree = "<group>"; };
-		9C20352E2F2859D600AF1279 /* classic-atmospheric-cue-114740.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "classic-atmospheric-cue-114740.mp3"; sourceTree = "<group>"; };
-		9C20352F2F2859D600AF1279 /* e-flat-tibetan-singing-bowl-struck-38746.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "e-flat-tibetan-singing-bowl-struck-38746.mp3"; sourceTree = "<group>"; };
-		9C2035302F2859D600AF1279 /* indigo-music-template-340012.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "indigo-music-template-340012.mp3"; sourceTree = "<group>"; };
-		9C2035312F2859D600AF1279 /* jungle-nature-229896.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "jungle-nature-229896.mp3"; sourceTree = "<group>"; };
-		9C2035322F2859D600AF1279 /* keyboard-typing-sound-effect-2-439211.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "keyboard-typing-sound-effect-2-439211.mp3"; sourceTree = "<group>"; };
-		9C2035332F2859D600AF1279 /* minimalist-ambient-keys-471841.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "minimalist-ambient-keys-471841.mp3"; sourceTree = "<group>"; };
-		9C2035342F2859D600AF1279 /* multiple-dslr-clicks-100275.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "multiple-dslr-clicks-100275.mp3"; sourceTree = "<group>"; };
-		9C2035352F2859D600AF1279 /* padsound-meditation-21384.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "padsound-meditation-21384.mp3"; sourceTree = "<group>"; };
-		9C2035362F2859D600AF1279 /* rainmaker_01-raw-71311.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "rainmaker_01-raw-71311.mp3"; sourceTree = "<group>"; };
-		9C2035372F2859D600AF1279 /* rainy-day-in-town-with-birds-singing-194011.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "rainy-day-in-town-with-birds-singing-194011.mp3"; sourceTree = "<group>"; };
-		9C2035382F2859D600AF1279 /* singing-bell-hit-2-75258.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "singing-bell-hit-2-75258.mp3"; sourceTree = "<group>"; };
-		9C2035392F2859D600AF1279 /* singing-bowl-69237.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "singing-bowl-69237.mp3"; sourceTree = "<group>"; };
-		9C20353A2F2859D600AF1279 /* singing-bowl-low-and-loud-76401.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "singing-bowl-low-and-loud-76401.mp3"; sourceTree = "<group>"; };
-		9C20353B2F2859D600AF1279 /* soft-rain-atmosphere-454683.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "soft-rain-atmosphere-454683.mp3"; sourceTree = "<group>"; };
-		9C20353C2F2859D600AF1279 /* spring-forest-nature-332842.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "spring-forest-nature-332842.mp3"; sourceTree = "<group>"; };
-		9C20353D2F2859D600AF1279 /* underwater-white-noise-46423.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "underwater-white-noise-46423.mp3"; sourceTree = "<group>"; };
+		A8D694CBC9BA73FEEE972785 /* Bell.mp3 */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = audio.mp3; path = Bell.mp3; sourceTree = "<group>"; };
+		A9FDD1DB550B335455F5A721 /* Keyboard.mp3 */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = audio.mp3; path = Keyboard.mp3; sourceTree = "<group>"; };
 		AD9C11FBB3A19C84918309F6 /* LocalizationKeys.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LocalizationKeys.swift; path = App/Resources/Localization/LocalizationKeys.swift; sourceTree = "<group>"; };
 		AMS000012F28000000000007 /* AudioMixingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioMixingService.swift; sourceTree = "<group>"; };
+		B44E72EC850D0D85EA34FB9A /* Atmosphere.mp3 */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = audio.mp3; path = Atmosphere.mp3; sourceTree = "<group>"; };
+		B4FEE92929BD0B763A07376B /* Underwater.mp3 */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = audio.mp3; path = Underwater.mp3; sourceTree = "<group>"; };
+		B53790AB535F668DEE440512 /* SoftRain.mp3 */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = audio.mp3; path = SoftRain.mp3; sourceTree = "<group>"; };
 		CC04E26228BDA3F800509C60 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CC04E26428BDA45900509C60 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		CC5AC106289C033C00FE847B /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		CC5AC108289C033C00FE847B /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		CC5AC18E289D48DD00FE847B /* RelaxOn.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RelaxOn.entitlements; sourceTree = "<group>"; };
 		CC5AC18F289D573A00FE847B /* RelaxOnWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RelaxOnWidgetExtension.entitlements; sourceTree = "<group>"; };
+		CDCA9FD95D97EBB427D679B1 /* SpringForest.mp3 */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = audio.mp3; path = SpringForest.mp3; sourceTree = "<group>"; };
 		CNSV00012F28000000000001 /* CreateNewSoundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewSoundView.swift; sourceTree = "<group>"; };
+		DSCP00022F28000000000013 /* Components.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Components.swift; sourceTree = "<group>"; };
+		DSTH00022F28000000000011 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		EC23383B6EB64FEAAC27ACB4 /* AudioLayerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioLayerManager.swift; sourceTree = "<group>"; };
+		EFDBD9965458E87AF0E53BAD /* TibetanBowl.mp3 */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = audio.mp3; path = TibetanBowl.mp3; sourceTree = "<group>"; };
 		FIN000012F28000000000009 /* FileInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileInfo.swift; sourceTree = "<group>"; };
+		STDO00022F28000000000021 /* SoundStudioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundStudioView.swift; sourceTree = "<group>"; };
 		STV000012F2800000000000B /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		SUB000012F29000000000001 /* SubscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionManager.swift; sourceTree = "<group>"; };
 		SUB000032F29000000000003 /* SubscriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionView.swift; sourceTree = "<group>"; };
@@ -269,6 +269,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4305EB9BC117E8533A571E15 /* Ambient */ = {
+			isa = PBXGroup;
+			children = (
+				B44E72EC850D0D85EA34FB9A /* Atmosphere.mp3 */,
+				18F787B9DFE4DC8F447491C3 /* IndigoMusic.mp3 */,
+				68300BF92C4CBA2DCB1AB6E2 /* AmbientKeys.mp3 */,
+				7D8999CB90199853226247F6 /* MeditationPad.mp3 */,
+				B4FEE92929BD0B763A07376B /* Underwater.mp3 */,
+			);
+			path = Ambient;
+			sourceTree = "<group>";
+		};
 		58DE61762839C13900F25769 = {
 			isa = PBXGroup;
 			children = (
@@ -317,6 +329,7 @@
 				58F3CDF42EF195C30059A247 /* ambient_10min.mp3 */,
 				58F3CDF52EF195C30059A247 /* guitar_10min.mp3 */,
 				58F3CDF62EF195C30059A247 /* lofi_10min.mp3 */,
+				58EB682E2FE81574006D84DF /* space_1min.mp3 */,
 				58F3CDF72EF195C30059A247 /* meditation_10min.mp3 */,
 				58F3CDF82EF195C30059A247 /* piano_10min.mp3 */,
 			);
@@ -336,12 +349,14 @@
 		594012552A17DAFE00221DE7 /* Sound */ = {
 			isa = PBXGroup;
 			children = (
-				9C20352B2F2859CC00AF1279 /* New */,
 				58F3CDF32EF195B50059A247 /* music */,
 				58FBB9032ED8870C004231BE /* background */,
 				5940126E2A17DD6B00221DE7 /* Bird */,
 				594012632A17DD1400221DE7 /* SingingBowl */,
 				594012562A17DB0400221DE7 /* WaterDrop */,
+				4305EB9BC117E8533A571E15 /* Ambient */,
+				E7AABC8A4D718B21F75D50AA /* ASMR */,
+				BE38576B575750D83D676FCD /* Rain */,
 			);
 			path = Sound;
 			sourceTree = "<group>";
@@ -366,6 +381,10 @@
 				594012682A17DD3B00221DE7 /* Focus.mp3 */,
 				594012672A17DD3B00221DE7 /* Training.mp3 */,
 				594012642A17DD3B00221DE7 /* Vibration.mp3 */,
+				EFDBD9965458E87AF0E53BAD /* TibetanBowl.mp3 */,
+				A8D694CBC9BA73FEEE972785 /* Bell.mp3 */,
+				0B8A77712079DB40B0C16ED8 /* BowlLoud.mp3 */,
+				367F0E20D89EE7F0F06671CC /* BowlDeep.mp3 */,
 			);
 			path = SingingBowl;
 			sourceTree = "<group>";
@@ -378,6 +397,9 @@
 				594012722A17DD7900221DE7 /* Forest.mp3 */,
 				594012712A17DD7800221DE7 /* Owl.mp3 */,
 				5940126F2A17DD7800221DE7 /* Woodpecker.mp3 */,
+				376796FB8C85B14BDDABC649 /* Jungle.mp3 */,
+				63FEB2759AFCECB23E505073 /* ForestBird.mp3 */,
+				CDCA9FD95D97EBB427D679B1 /* SpringForest.mp3 */,
 			);
 			path = Bird;
 			sourceTree = "<group>";
@@ -531,29 +553,14 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
-		9C20352B2F2859CC00AF1279 /* New */ = {
+		BE38576B575750D83D676FCD /* Rain */ = {
 			isa = PBXGroup;
 			children = (
-				9C20352C2F2859D600AF1279 /* birds-forest-nature-445379.mp3 */,
-				9C20352D2F2859D600AF1279 /* classic-atmospheric-cue-2-114739.mp3 */,
-				9C20352E2F2859D600AF1279 /* classic-atmospheric-cue-114740.mp3 */,
-				9C20352F2F2859D600AF1279 /* e-flat-tibetan-singing-bowl-struck-38746.mp3 */,
-				9C2035302F2859D600AF1279 /* indigo-music-template-340012.mp3 */,
-				9C2035312F2859D600AF1279 /* jungle-nature-229896.mp3 */,
-				9C2035322F2859D600AF1279 /* keyboard-typing-sound-effect-2-439211.mp3 */,
-				9C2035332F2859D600AF1279 /* minimalist-ambient-keys-471841.mp3 */,
-				9C2035342F2859D600AF1279 /* multiple-dslr-clicks-100275.mp3 */,
-				9C2035352F2859D600AF1279 /* padsound-meditation-21384.mp3 */,
-				9C2035362F2859D600AF1279 /* rainmaker_01-raw-71311.mp3 */,
-				9C2035372F2859D600AF1279 /* rainy-day-in-town-with-birds-singing-194011.mp3 */,
-				9C2035382F2859D600AF1279 /* singing-bell-hit-2-75258.mp3 */,
-				9C2035392F2859D600AF1279 /* singing-bowl-69237.mp3 */,
-				9C20353A2F2859D600AF1279 /* singing-bowl-low-and-loud-76401.mp3 */,
-				9C20353B2F2859D600AF1279 /* soft-rain-atmosphere-454683.mp3 */,
-				9C20353C2F2859D600AF1279 /* spring-forest-nature-332842.mp3 */,
-				9C20353D2F2859D600AF1279 /* underwater-white-noise-46423.mp3 */,
+				B53790AB535F668DEE440512 /* SoftRain.mp3 */,
+				93ED06BCF44652CAE8CE3BEE /* CityRain.mp3 */,
+				39AA5589C6B322081300DF31 /* RainMaker.mp3 */,
 			);
-			path = New;
+			path = Rain;
 			sourceTree = "<group>";
 		};
 		C7C4C25528C239FE0048DCBA /* Assets */ = {
@@ -563,15 +570,6 @@
 				8F36BFCD2A14F57F00514BBE /* Assets.xcassets */,
 			);
 			path = Assets;
-			sourceTree = "<group>";
-		};
-		DSGP00022F28000000000010 /* DesignSystem */ = {
-			isa = PBXGroup;
-			children = (
-				DSTH00022F28000000000011 /* Theme.swift */,
-				DSCP00022F28000000000013 /* Components.swift */,
-			);
-			path = DesignSystem;
 			sourceTree = "<group>";
 		};
 		C7C4C25628C23A3B0048DCBA /* App */ = {
@@ -606,6 +604,24 @@
 				AD9C11FBB3A19C84918309F6 /* LocalizationKeys.swift */,
 			);
 			name = Localization;
+			sourceTree = "<group>";
+		};
+		DSGP00022F28000000000010 /* DesignSystem */ = {
+			isa = PBXGroup;
+			children = (
+				DSTH00022F28000000000011 /* Theme.swift */,
+				DSCP00022F28000000000013 /* Components.swift */,
+			);
+			path = DesignSystem;
+			sourceTree = "<group>";
+		};
+		E7AABC8A4D718B21F75D50AA /* ASMR */ = {
+			isa = PBXGroup;
+			children = (
+				A9FDD1DB550B335455F5A721 /* Keyboard.mp3 */,
+				890D79F8D71BA19717A96F8F /* Camera.mp3 */,
+			);
+			path = ASMR;
 			sourceTree = "<group>";
 		};
 		SET000012F2800000000000D /* Settings */ = {
@@ -712,25 +728,25 @@
 				594012732A17DD7900221DE7 /* Woodpecker.mp3 in Resources */,
 				5940126D2A17DD3B00221DE7 /* Focus.mp3 in Resources */,
 				594012692A17DD3B00221DE7 /* Vibration.mp3 in Resources */,
-				9C20353E2F2859D600AF1279 /* singing-bowl-69237.mp3 in Resources */,
-				9C20353F2F2859D600AF1279 /* spring-forest-nature-332842.mp3 in Resources */,
-				9C2035402F2859D600AF1279 /* birds-forest-nature-445379.mp3 in Resources */,
-				9C2035412F2859D600AF1279 /* classic-atmospheric-cue-2-114739.mp3 in Resources */,
-				9C2035422F2859D600AF1279 /* singing-bell-hit-2-75258.mp3 in Resources */,
-				9C2035432F2859D600AF1279 /* singing-bowl-low-and-loud-76401.mp3 in Resources */,
-				9C2035442F2859D600AF1279 /* rainmaker_01-raw-71311.mp3 in Resources */,
-				9C2035452F2859D600AF1279 /* padsound-meditation-21384.mp3 in Resources */,
-				9C2035462F2859D600AF1279 /* keyboard-typing-sound-effect-2-439211.mp3 in Resources */,
-				9C2035472F2859D600AF1279 /* multiple-dslr-clicks-100275.mp3 in Resources */,
-				9C2035482F2859D600AF1279 /* e-flat-tibetan-singing-bowl-struck-38746.mp3 in Resources */,
-				9C2035492F2859D600AF1279 /* classic-atmospheric-cue-114740.mp3 in Resources */,
-				9C20354A2F2859D600AF1279 /* rainy-day-in-town-with-birds-singing-194011.mp3 in Resources */,
-				9C20354B2F2859D600AF1279 /* soft-rain-atmosphere-454683.mp3 in Resources */,
-				9C20354C2F2859D600AF1279 /* jungle-nature-229896.mp3 in Resources */,
-				9C20354D2F2859D600AF1279 /* minimalist-ambient-keys-471841.mp3 in Resources */,
-				9C20354E2F2859D600AF1279 /* indigo-music-template-340012.mp3 in Resources */,
-				9C20354F2F2859D600AF1279 /* underwater-white-noise-46423.mp3 in Resources */,
 				630903C8F065B61C9BFA760B /* Localizable.xcstrings in Resources */,
+				CCFF29742C8FC76940F1E802 /* Jungle.mp3 in Resources */,
+				BD5DD63A6A387694BDBA80EC /* ForestBird.mp3 in Resources */,
+				B2574EF779062CB43FCF1653 /* SpringForest.mp3 in Resources */,
+				58EB682F2FE81574006D84DF /* space_1min.mp3 in Resources */,
+				68D504FD5581CF0ED5A04FC3 /* TibetanBowl.mp3 in Resources */,
+				AF157A5052C0E1B7696712E2 /* Bell.mp3 in Resources */,
+				438AE9E9D7E551CAF938FAD1 /* BowlLoud.mp3 in Resources */,
+				21706CE4C8B7EBA02D7029C1 /* BowlDeep.mp3 in Resources */,
+				7AB1D9C3BDB047F962FCF0AA /* Atmosphere.mp3 in Resources */,
+				0F874E616060AD39A4935B29 /* IndigoMusic.mp3 in Resources */,
+				22DB7F52391111F67E37A500 /* AmbientKeys.mp3 in Resources */,
+				5970E2FBA12E4A9D4D95F257 /* MeditationPad.mp3 in Resources */,
+				588E497E2149E7014D230078 /* Underwater.mp3 in Resources */,
+				00FBBC03CD1238D45921E028 /* Keyboard.mp3 in Resources */,
+				917BADACE5F74E8766182402 /* Camera.mp3 in Resources */,
+				66377C5C0E9E1368AF2F267E /* SoftRain.mp3 in Resources */,
+				3DE87622142CE17C3291BC13 /* CityRain.mp3 in Resources */,
+				E60AC831B23D8791A00A6D47 /* RainMaker.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -927,7 +943,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = "";
 				CODE_SIGN_ENTITLEMENTS = RelaxOn/RelaxOn.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -962,7 +978,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = "";
 				CODE_SIGN_ENTITLEMENTS = RelaxOn/RelaxOn.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;

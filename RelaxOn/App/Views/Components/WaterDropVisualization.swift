@@ -85,7 +85,7 @@ struct WaterDropVisualization: View {
         .onDisappear {
             stopVisualization()
         }
-        .onChange(of: viewModel.interval) { _ in
+        .onChange(of: viewModel.interval) { _, _ in
             // 간격 변경 시 시각화 재시작
             restartVisualization()
         }

@@ -1,8 +1,10 @@
-# RelaxOn - 프로젝트 컨텍스트
+# 달빛 (Dalbit) - 프로젝트 컨텍스트
+
+> 앱 표시 이름: **달빛 / Dalbit** (구 RelaxOn). 코드/스킴/번들ID(`com.leeo.LullabyRecipe`)·폴더명은 유지.
 
 ## 📱 프로젝트 개요
 
-**RelaxOn**은 여러 개의 자연 소리를 레이어처럼 겹쳐 나만의 완벽한 백색소음 사운드를 만들 수 있는 iOS 앱입니다.
+**달빛(Dalbit)**은 여러 개의 자연 소리를 레이어처럼 겹쳐 나만의 완벽한 백색소음 사운드를 만들 수 있는 iOS 앱입니다.
 
 ### 🎯 타겟 사용자
 
@@ -13,7 +15,7 @@
 - 마음에 드는 조합을 찾기 위해 시간을 낭비하고
 - 원하는 조합을 찾아도 매번 같은 과정을 반복해야 했습니다
 
-**RelaxOn은 이런 문제를 해결합니다:**
+**달빛은 이런 문제를 해결합니다:**
 - 원하는 소리들을 직접 선택하고 조합
 - 볼륨, 피치 등 세밀한 조정 가능
 - 한 번 만든 조합을 저장하여 언제든 재사용
@@ -33,7 +35,7 @@
 - **UI 프레임워크**: SwiftUI
 - **오디오**: AVFoundation (AVAudioEngine)
 - **아키텍처**: MVVM 패턴
-- **최소 지원**: iOS 15.0+
+- **최소 지원**: iOS 26.0+
 
 ### 주요 디자인 패턴
 - MVVM (Model-View-ViewModel)
@@ -462,5 +464,5 @@ refactor: 네비게이션 구조 전면 리팩토링
 ---
 
 **Last Updated**: 2025-01-17
-**Current Version**: 4.0.0
-**Maintained by**: RelaxOn Team
+**Current Version**: 4.0.1
+**Maintained by**: 달빛(Dalbit) Team

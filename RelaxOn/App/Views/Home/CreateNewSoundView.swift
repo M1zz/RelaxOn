@@ -20,9 +20,7 @@ struct CreateNewSoundView: View {
     @State private var isMixing = false
     @State private var mixingProgress: Float = 0.0
     @State private var showMixingOption = false
-    @State private var editingSoundId: String? = nil
     @State private var ripples: [RippleEffect] = []
-    @State private var rippleTimers: [String: Timer] = [:]
     @State private var isPreviewPlaying: Bool = false
     @State private var showSubscription: Bool = false
     @ObservedObject private var audioManager = AudioEngineManager.shared
@@ -163,18 +161,11 @@ struct CreateNewSoundView: View {
     @ViewBuilder
     private func floatingLayerBar() -> some View {
         VStack(spacing: 0) {
-            // 커스터마이징 패널 (선택된 사운드)
-            if let editingId = editingSoundId,
-               viewModel.addedSounds.contains(where: { $0.id == editingId }) {
-                soundCustomizePanel(soundId: editingId)
-                    .transition(.move(edge: .bottom).combined(with: .opacity))
-            }
-
             // 리플 시각화 + 사운드 칩
             ZStack {
-                // 리플 배경
+                // 실시간 음량에 반응하는 원형 파형 (효과음 시작/소멸 시 링)
                 rippleBackground()
-                    .frame(height: 80)
+                    .frame(height: 96)
                     .clipped()
                     .allowsHitTesting(false)
 
@@ -232,10 +223,9 @@ struct CreateNewSoundView: View {
                     Button(action: {
                         stopPreviewPlayback()
                         withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
-                            editingSoundId = nil
                             viewModel.addedSounds.removeAll()
                             viewModel.selectedBackground = nil
-                            stopRippleTimer()
+                            ripples.removeAll()
                         }
                     }) {
                         Image(systemName: "arrow.counterclockwise")
@@ -259,43 +249,18 @@ struct CreateNewSoundView: View {
             .padding(.horizontal, DS.Spacing.sm)
             .padding(.bottom, DS.Spacing.xs)
         }
-        .onAppear {
-            if !isPreviewPlaying { startRippleTimer() }
-        }
-        .onDisappear { stopRippleTimer() }
-        .onChange(of: viewModel.addedSounds.count) { _ in
-            if viewModel.addedSounds.isEmpty { stopRippleTimer() }
-            else if !isPreviewPlaying { startRippleTimer() }
-        }
+        .onDisappear { ripples.removeAll() }
         .onReceive(audioManager.layerSoundDidPlay) { event in
             guard isPreviewPlaying else { return }
-            // 재생된 필터에 해당하는 사운드를 찾아 리플 생성
-            if let sound = viewModel.addedSounds.first(where: { $0.filter == event.filter }) {
-                addRipple(for: sound)
-            }
-        }
-        .onChange(of: isPreviewPlaying) { playing in
-            if playing {
-                // 재생 시작: 타이머 기반 리플 중지 (오디오 이벤트로 대체)
-                stopRippleTimer()
-            } else {
-                // 재생 중지: 타이머 기반 리플 복원
-                if !viewModel.addedSounds.isEmpty {
-                    startRippleTimer()
-                }
-            }
+            // 효과음이 실제로 재생될 때마다 링을 생성 (시작→소멸)
+            addRipple(filter: event.filter, volume: event.volume)
         }
     }
 
-    // MARK: - Sound Chip (탭해서 커스터마이징 열기)
+    // MARK: - Sound Chip (효과음 라벨 + 삭제)
     @ViewBuilder
     private func floatingSoundChip(sound: AddedSound) -> some View {
-        let isEditing = editingSoundId == sound.id
-        Button(action: {
-            withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
-                editingSoundId = isEditing ? nil : sound.id
-            }
-        }) {
+        Group {
             HStack(spacing: 4) {
                 Image(systemName: sound.icon)
                     .font(.system(size: 12, weight: .semibold))
@@ -306,16 +271,9 @@ struct CreateNewSoundView: View {
                     .foregroundColor(.white)
                     .lineLimit(1)
 
-                if sound.isCustomized {
-                    Image(systemName: "slider.horizontal.3")
-                        .font(.system(size: 8))
-                        .foregroundColor(.white.opacity(0.8))
-                }
-
                 // 삭제
                 Button(action: {
                     withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
-                        if editingSoundId == sound.id { editingSoundId = nil }
                         viewModel.removeSound(sound)
                     }
                 }) {
@@ -331,239 +289,46 @@ struct CreateNewSoundView: View {
             }
             .padding(.horizontal, DS.Spacing.xs)
             .padding(.vertical, DS.Spacing.xxs)
-            .background(sound.color.opacity(isEditing ? 1.0 : 0.85))
+            .background(sound.color.opacity(0.85))
             .cornerRadius(DS.Radius.sm)
             .overlay(
                 RoundedRectangle(cornerRadius: DS.Radius.sm)
-                    .stroke(Color.white.opacity(isEditing ? 0.8 : 0), lineWidth: 1.5)
+                    .stroke(Color.white.opacity(0), lineWidth: 1.5)
             )
-            .scaleEffect(isEditing ? 1.05 : 1.0)
+            .scaleEffect(1.0)
         }
-        .buttonStyle(PlainButtonStyle())
     }
 
-    // MARK: - Ripple Background
+    // MARK: - Ripple Background (실시간 음량 동기화 원형 파형)
     @ViewBuilder
     private func rippleBackground() -> some View {
-        GeometryReader { geo in
-            ZStack {
-                ForEach(ripples) { ripple in
-                    RippleCircleView(ripple: ripple)
-                }
+        ZStack {
+            // 실시간 출력 음량에 맞춰 크기가 변하는 코어 원 — 나오는 사운드와 동기화
+            Circle()
+                .fill(DS.Colors.accent.opacity(0.15 + Double(audioManager.outputLevel) * 0.45))
+                .frame(width: 44, height: 44)
+                .scaleEffect(0.6 + CGFloat(audioManager.outputLevel) * 1.7)
+                .animation(.easeOut(duration: 0.1), value: audioManager.outputLevel)
+
+            // 효과음이 시작/소멸할 때 중앙에서 퍼지는 링
+            ForEach(ripples) { ripple in
+                RippleCircleView(ripple: ripple)
             }
-            .frame(width: geo.size.width, height: geo.size.height)
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 
-    /// 각 사운드의 interval에 맞춰 개별 리플 타이머 시작
-    private func startRippleTimer() {
-        stopRippleTimer()
-        for sound in viewModel.addedSounds {
-            startRippleForSound(sound)
-        }
-    }
-
-    private func startRippleForSound(_ sound: AddedSound) {
-        // 사운드의 interval + filter duration을 실제 주기로 사용
-        let baseInterval = TimeInterval(sound.interval)
-        let variation = TimeInterval(sound.intervalVariation)
-
-        func scheduleNext() {
-            // 변동폭 적용한 랜덤 간격
-            var nextInterval = baseInterval
-            if variation > 0 {
-                let randomFactor = Double.random(in: -variation...variation)
-                nextInterval = max(0.2, baseInterval * (1.0 + randomFactor))
-            }
-
-            let timer = Timer.scheduledTimer(withTimeInterval: nextInterval, repeats: false) { [self] _ in
-                // 해당 사운드가 아직 선택되어 있는지 확인
-                guard viewModel.addedSounds.contains(where: { $0.id == sound.id }) else {
-                    rippleTimers.removeValue(forKey: sound.id)
-                    return
-                }
-
-                // 최신 사운드 상태 가져오기
-                if let currentSound = viewModel.addedSounds.first(where: { $0.id == sound.id }) {
-                    addRipple(for: currentSound)
-                }
-
-                // 다음 리플 스케줄
-                scheduleNext()
-            }
-            rippleTimers[sound.id] = timer
-        }
-
-        // 첫 리플 즉시 표시
-        addRipple(for: sound)
-        scheduleNext()
-    }
-
-    private func addRipple(for sound: AddedSound) {
-        let screenWidth = UIScreen.main.bounds.width - 48
+    /// 효과음이 실제 재생될 때 호출 — 그 순간의 음량 크기로 링을 만들고 잠시 뒤 제거
+    private func addRipple(filter: AudioFilter, volume: Float) {
+        let color = viewModel.addedSounds.first(where: { $0.filter == filter })?.color ?? DS.Colors.accent
         let newRipple = RippleEffect(
-            position: CGPoint(
-                x: CGFloat.random(in: 20...(screenWidth - 20)),
-                y: CGFloat.random(in: 15...65)
-            ),
-            color: sound.color,
-            size: CGFloat(sound.volume) * 40 + 20
+            color: color,
+            size: CGFloat(volume) * 80 + 30
         )
-        withAnimation(.easeOut(duration: 0.3)) {
-            ripples.append(newRipple)
-        }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+        ripples.append(newRipple)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.2) {
             ripples.removeAll { $0.id == newRipple.id }
         }
-    }
-
-    private func stopRippleTimer() {
-        for (_, timer) in rippleTimers {
-            timer.invalidate()
-        }
-        rippleTimers.removeAll()
-        ripples.removeAll()
-    }
-
-    // MARK: - Per-Sound Customize Panel (컴팩트 버전)
-
-    /// id 기반으로 안전하게 addedSounds에서 인덱스를 찾는 헬퍼
-    private func safeIndex(for soundId: String) -> Int? {
-        viewModel.addedSounds.firstIndex(where: { $0.id == soundId })
-    }
-
-    @ViewBuilder
-    private func soundCustomizePanel(soundId: String) -> some View {
-        if let index = safeIndex(for: soundId) {
-            let sound = viewModel.addedSounds[index]
-
-            VStack(spacing: DS.Spacing.xxs) {
-                // 헤더
-                HStack {
-                    Image(systemName: sound.icon)
-                        .font(.system(size: 13, weight: .bold))
-                        .foregroundColor(sound.color)
-                    Text(sound.name)
-                        .font(.system(size: 13, weight: .bold))
-                        .foregroundColor(DS.Colors.textPrimary)
-                    Spacer()
-                    Button(action: {
-                        withAnimation { editingSoundId = nil }
-                    }) {
-                        Image(systemName: "chevron.down.circle.fill")
-                            .font(.system(size: 16))
-                            .foregroundColor(DS.Colors.textTertiary)
-                            .frame(width: 44, height: 44)
-                            .contentShape(Rectangle())
-                    }
-                    .accessibilityLabel(L.A11y.closeButton.localized)
-                }
-
-                // 슬라이더들 (한 줄에 라벨 + 슬라이더 + 값)
-                miniSlider(
-                    icon: "speaker.wave.2.fill",
-                    value: Binding(
-                        get: { self.safeIndex(for: soundId).map { viewModel.addedSounds[$0].volume } ?? 0.5 },
-                        set: { if let i = self.safeIndex(for: soundId) { viewModel.addedSounds[i].volume = $0; viewModel.addedSounds[i].isCustomized = true } }
-                    ),
-                    range: 0.1...1.0,
-                    step: 0.05,
-                    displayValue: String(format: "%.0f%%", sound.volume * 100),
-                    color: .green,
-                    variationValue: Binding(
-                        get: { self.safeIndex(for: soundId).map { viewModel.addedSounds[$0].volumeVariation } ?? 0.0 },
-                        set: { if let i = self.safeIndex(for: soundId) { viewModel.addedSounds[i].volumeVariation = $0; viewModel.addedSounds[i].isCustomized = true } }
-                    )
-                )
-
-                miniSlider(
-                    icon: "timer",
-                    value: Binding(
-                        get: { self.safeIndex(for: soundId).map { viewModel.addedSounds[$0].interval } ?? 1.0 },
-                        set: { if let i = self.safeIndex(for: soundId) { viewModel.addedSounds[i].interval = $0; viewModel.addedSounds[i].isCustomized = true } }
-                    ),
-                    range: 0.1...3.0,
-                    step: 0.1,
-                    displayValue: String(format: "%.1f%@", sound.interval, L.Customize.seconds.localized),
-                    color: .blue,
-                    variationValue: Binding(
-                        get: { self.safeIndex(for: soundId).map { viewModel.addedSounds[$0].intervalVariation } ?? 0.0 },
-                        set: { if let i = self.safeIndex(for: soundId) { viewModel.addedSounds[i].intervalVariation = $0; viewModel.addedSounds[i].isCustomized = true } }
-                    )
-                )
-
-                miniSlider(
-                    icon: "tuningfork",
-                    value: Binding(
-                        get: { self.safeIndex(for: soundId).map { viewModel.addedSounds[$0].pitch } ?? 0.0 },
-                        set: { if let i = self.safeIndex(for: soundId) { viewModel.addedSounds[i].pitch = $0; viewModel.addedSounds[i].isCustomized = true } }
-                    ),
-                    range: -5.0...5.0,
-                    step: 0.5,
-                    displayValue: String(format: "%+.1f", sound.pitch),
-                    color: .orange,
-                    variationValue: Binding(
-                        get: { self.safeIndex(for: soundId).map { viewModel.addedSounds[$0].pitchVariation } ?? 0.0 },
-                        set: { if let i = self.safeIndex(for: soundId) { viewModel.addedSounds[i].pitchVariation = $0; viewModel.addedSounds[i].isCustomized = true } }
-                    )
-                )
-            }
-            .padding(DS.Spacing.xs)
-            .background(
-                RoundedRectangle(cornerRadius: DS.Radius.sm)
-                    .fill(DS.Colors.surface)
-                    .shadow(color: DS.Shadow.card.color, radius: DS.Shadow.card.radius, x: 0, y: -2)
-            )
-            .padding(.horizontal, DS.Spacing.sm)
-            .padding(.bottom, DS.Spacing.xxs)
-        }
-    }
-
-    // MARK: - Mini Slider (절반 크기 슬라이더)
-    @ViewBuilder
-    private func miniSlider(
-        icon: String,
-        value: Binding<Float>,
-        range: ClosedRange<Float>,
-        step: Float,
-        displayValue: String,
-        color: Color,
-        variationValue: Binding<Float>
-    ) -> some View {
-        VStack(spacing: 2) {
-            // 메인 슬라이더 한 줄
-            HStack(spacing: 6) {
-                Image(systemName: icon)
-                    .font(.system(size: 11))
-                    .foregroundColor(color)
-                    .frame(width: 14)
-
-                Slider(value: value, in: range, step: step)
-                    .tint(color)
-
-                Text(displayValue)
-                    .font(.system(size: 11, weight: .bold))
-                    .foregroundColor(color)
-                    .frame(minWidth: 40, alignment: .trailing)
-            }
-
-            // 변동폭 한 줄
-            HStack(spacing: 6) {
-                Image(systemName: "arrow.left.and.right")
-                    .font(.system(size: 8))
-                    .foregroundColor(color.opacity(0.5))
-                    .frame(width: 14)
-
-                Slider(value: variationValue, in: 0.0...0.5, step: 0.05)
-                    .tint(color.opacity(0.4))
-
-                Text(String(format: "±%.0f%%", variationValue.wrappedValue * 100))
-                    .font(.system(size: 9, weight: .semibold))
-                    .foregroundColor(color.opacity(0.6))
-                    .frame(minWidth: 40, alignment: .trailing)
-            }
-        }
-        .padding(.vertical, 2)
     }
 
     // MARK: - Preview Playback (여러 소리 동시 재생)
@@ -614,6 +379,7 @@ struct CreateNewSoundView: View {
         )
 
         customSoundViewModel.play(with: previewSound)
+        audioManager.startMetering()   // 실시간 음량 측정 시작 (원형 파형 동기화)
         isPreviewPlaying = true
         print("▶️ [CreateNewSound] 미리듣기 시작 (\(viewModel.addedSounds.count)개 레이어)")
     }
@@ -621,6 +387,7 @@ struct CreateNewSoundView: View {
     private func stopPreviewPlayback() {
         guard isPreviewPlaying else { return }
         customSoundViewModel.stopSound()
+        audioManager.stopMetering()
         isPreviewPlaying = false
         print("⏹️ [CreateNewSound] 미리듣기 중지")
     }
@@ -660,7 +427,6 @@ struct CreateNewSoundView: View {
     }
 
     // MARK: - Sound Category Section
-    @ViewBuilder
     private func soundCategorySection(category: SoundCategory, sounds: [AvailableSound]) -> some View {
         let isLocked = subscriptionManager.isCategoryLocked(category)
 
@@ -724,15 +490,9 @@ struct CreateNewSoundView: View {
                         ) {
                             let wasAdded = viewModel.isSoundAdded(sound)
                             viewModel.toggleSound(sound)
-                            if !wasAdded, let added = viewModel.addedSounds.last {
-                                withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
-                                    editingSoundId = added.id
-                                }
+                            if !wasAdded {
                                 startPreviewPlayback()
-                            } else if wasAdded {
-                                withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
-                                    editingSoundId = nil
-                                }
+                            } else {
                                 if viewModel.addedSounds.isEmpty {
                                     stopPreviewPlayback()
                                 } else {
@@ -847,7 +607,7 @@ struct CreateNewSoundView: View {
             VStack(spacing: DS.Spacing.xs) {
                 Slider(value: $viewModel.backgroundVolume, in: 0...1)
                     .tint(DS.Colors.accent)
-                    .onChange(of: viewModel.backgroundVolume) { newValue in
+                    .onChange(of: viewModel.backgroundVolume) { _, newValue in
                         // 미리듣기 중이면 오디오 엔진의 배경 볼륨도 실시간 반영
                         if isPreviewPlaying {
                             audioManager.backgroundVolume = newValue
@@ -1390,7 +1150,7 @@ class CreateSoundViewModel: ObservableObject {
         if let existingIndex = addedSounds.firstIndex(where: { $0.filter == sound.filter }) {
             // 이미 추가되어 있으면 제거
             withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
-                addedSounds.remove(at: existingIndex)
+                _ = addedSounds.remove(at: existingIndex)
             }
             print("🔄 [CreateSoundViewModel] 사운드 제거: \(sound.name)")
         } else {
@@ -1462,10 +1222,8 @@ struct AddedSound: Identifiable {
 // MARK: - Ripple Effect
 struct RippleEffect: Identifiable {
     let id = UUID()
-    let position: CGPoint
     let color: Color
     let size: CGFloat
-    let createdAt = Date()
 }
 
 // MARK: - Flow Layout
@@ -1538,7 +1296,6 @@ struct RippleCircleView: View {
             .frame(width: ripple.size, height: ripple.size)
             .scaleEffect(scale)
             .opacity(opacity)
-            .position(ripple.position)
             .onAppear {
                 withAnimation(.easeOut(duration: 2.0)) {
                     scale = 2.5

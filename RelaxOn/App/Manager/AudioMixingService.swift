@@ -122,7 +122,7 @@ class AudioMixingService {
         }
 
         // 5. 모든 플레이어 시작
-        for (player, scheduleTimes) in playerNodes {
+        for (player, _) in playerNodes {
             player.play()
         }
 

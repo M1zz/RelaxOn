@@ -51,16 +51,9 @@ struct SoundDetailView: View {
                             .font(DS.Font.subhead())
                     }
 
-                    // 실시간 물방울 시각화 (장식용 - VoiceOver에서 숨김)
-                    if viewModel.isPlaying {
-                        WaterDropVisualization(viewModel: viewModel)
-                            .padding(.vertical, DS.Spacing.xs)
-                            .accessibilityHidden(true)
-                    } else {
-                        // 사운드 이미지 (재생 중이 아닐 때)
-                        soundImageView()
-                            .accessibilityHidden(true)
-                    }
+                    // 사운드 이미지
+                    soundImageView()
+                        .accessibilityHidden(true)
 
                     // 무드 프리셋 + 볼륨 + 음원 종류
                     moodControls()

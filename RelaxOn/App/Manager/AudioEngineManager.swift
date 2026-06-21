@@ -58,7 +58,50 @@ final class AudioEngineManager: ObservableObject {
 
     // 레이어 재생 이벤트 Publisher (filter 정보 포함, 단일/다중 레이어 모두 지원)
     let layerSoundDidPlay = PassthroughSubject<(filter: AudioFilter, volume: Float, pitch: Float), Never>()
-    
+
+    // 실시간 출력 음량(0~1) — 메인 믹서에 탭을 걸어 RMS로 계산. 시각화 동기화용.
+    @Published var outputLevel: Float = 0
+    private var meteringInstalled = false
+
+    /// 메인 믹서에 탭을 설치해 실시간 음량 측정 시작 (시각화가 켜질 때만 호출)
+    func startMetering() {
+        guard !meteringInstalled else { return }
+        let node = engine.mainMixerNode
+        let format = node.outputFormat(forBus: 0)
+        guard format.channelCount > 0 else { return }
+
+        node.installTap(onBus: 0, bufferSize: 1024, format: format) { [weak self] buffer, _ in
+            guard let self = self, let channelData = buffer.floatChannelData else { return }
+            let frames = Int(buffer.frameLength)
+            guard frames > 0 else { return }
+            let channels = Int(buffer.format.channelCount)
+
+            var sumSquares: Float = 0
+            for ch in 0..<channels {
+                let samples = channelData[ch]
+                for i in 0..<frames {
+                    let s = samples[i]
+                    sumSquares += s * s
+                }
+            }
+            let rms = sqrt(sumSquares / Float(frames * max(1, channels)))
+            // 정규화(작은 RMS를 보기 좋게 증폭) + 살짝 스무딩
+            let level = min(1.0, rms * 6.0)
+            DispatchQueue.main.async {
+                self.outputLevel = self.outputLevel * 0.6 + level * 0.4
+            }
+        }
+        meteringInstalled = true
+    }
+
+    /// 탭 제거 및 음량 0으로 리셋
+    func stopMetering() {
+        guard meteringInstalled else { return }
+        engine.mainMixerNode.removeTap(onBus: 0)
+        meteringInstalled = false
+        DispatchQueue.main.async { self.outputLevel = 0 }
+    }
+
     @Published var pitch: Double = 0 {
         didSet {
             pitchEffect.pitch = Float(pitch * 100)
@@ -384,6 +427,20 @@ extension AudioEngineManager {
         // CustomSound이면서 레이어 방식인 경우
         if let customSound = sound as? CustomSound, customSound.isLayeredSound {
             playLayeredSound(customSound)
+            masterFadeIn()
+            return
+        }
+
+        // 효과음 없이 배경음만 있는 경우 (스튜디오에서 배경음만 선택) → 배경음만 재생
+        if let customSound = sound as? CustomSound,
+           customSound.filter == .none,
+           let backgroundSoundName = customSound.backgroundSound,
+           let backgroundSound = BackgroundSound.from(backgroundSoundName) {
+            if let savedBackgroundVolume = customSound.backgroundVolume {
+                self.backgroundVolume = savedBackgroundVolume
+            }
+            audioVariation = customSound.audioVariation
+            playBackground(backgroundSound)
             masterFadeIn()
             return
         }
@@ -975,6 +1032,7 @@ enum BackgroundSound: String, CaseIterable {
     case ambient = "ambient"
     case lofi = "lofi"
     case meditation = "meditation"
+    case space = "space"   // 우주 앰비언트 (앱 시작 시 자동 재생)
 
     /// 기존 한국어 rawValue로 저장된 데이터 호환을 위한 매핑
     private static let legacyMapping: [String: BackgroundSound] = [
@@ -1003,6 +1061,7 @@ enum BackgroundSound: String, CaseIterable {
         case .ambient: return L.Background.ambient.localized
         case .lofi: return L.Background.lofi.localized
         case .meditation: return L.Background.meditation.localized
+        case .space: return "우주"
         }
     }
 
@@ -1016,6 +1075,7 @@ enum BackgroundSound: String, CaseIterable {
         case .ambient: return "ambient_10min"
         case .lofi: return "lofi_10min"
         case .meditation: return "meditation_10min"
+        case .space: return "space_1min"
         }
     }
 
@@ -1029,6 +1089,7 @@ enum BackgroundSound: String, CaseIterable {
         case .ambient: return "waveform"
         case .lofi: return "music.note.list"
         case .meditation: return "sparkles"
+        case .space: return "moon.stars.fill"
         }
     }
 
@@ -1074,6 +1135,11 @@ enum BackgroundSound: String, CaseIterable {
                 Color(red: 0.6, green: 0.8, blue: 0.7).opacity(0.15),
                 Color(red: 0.5, green: 0.7, blue: 0.6).opacity(0.1)
             ]
+        case .space:
+            return [
+                Color(red: 0.45, green: 0.45, blue: 0.85).opacity(0.15),
+                Color(red: 0.30, green: 0.30, blue: 0.60).opacity(0.1)
+            ]
         }
     }
 
@@ -1081,7 +1147,7 @@ enum BackgroundSound: String, CaseIterable {
         switch self {
         case .wave, .rain, .tv:
             return false
-        case .piano, .guitar, .ambient, .lofi, .meditation:
+        case .piano, .guitar, .ambient, .lofi, .meditation, .space:
             return true
         }
     }

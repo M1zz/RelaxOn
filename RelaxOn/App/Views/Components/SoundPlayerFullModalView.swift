@@ -117,7 +117,7 @@ struct SoundPlayerFullModalView: View {
                         .fill(DS.Colors.surface)
                         .shadow(color: DS.Shadow.card.color, radius: DS.Shadow.card.radius, y: DS.Shadow.card.y)
                 )
-                .onChange(of: audioManager.isSpatialAudioEnabled) { _ in
+                .onChange(of: audioManager.isSpatialAudioEnabled) { _, _ in
                     // 공간음향 설정 변경 시 즉시 적용을 위해 재생 중인 사운드를 재시작
                     if viewModel.isPlaying {
                         let currentSound = viewModel.selectedSound ?? viewModel.lastSound
@@ -193,7 +193,7 @@ struct SoundPlayerFullModalView: View {
                                         .accentColor(DS.Colors.accent)
                                         .accessibilityLabel("\(position.layerName), \(L.A11y.distanceSlider.localized)")
                                         .accessibilityValue("\(String(format: "%.1f", position.distance))m")
-                                        .onChange(of: position.distance) { newValue in
+                                        .onChange(of: position.distance) { _, newValue in
                                             audioManager.updateLayerPosition(
                                                 index: position.layerIndex,
                                                 distance: newValue,
@@ -218,7 +218,7 @@ struct SoundPlayerFullModalView: View {
                                         .accentColor(DS.Colors.accent)
                                         .accessibilityLabel("\(position.layerName), \(L.A11y.angleSlider.localized)")
                                         .accessibilityValue("\(Int(position.angle))°")
-                                        .onChange(of: position.angle) { newValue in
+                                        .onChange(of: position.angle) { _, newValue in
                                             audioManager.updateLayerPosition(
                                                 index: position.layerIndex,
                                                 distance: position.distance,
@@ -243,7 +243,7 @@ struct SoundPlayerFullModalView: View {
                                         .accentColor(DS.Colors.accent)
                                         .accessibilityLabel("\(position.layerName), \(L.A11y.heightSlider.localized)")
                                         .accessibilityValue("\(String(format: "%.1f", position.height))m")
-                                        .onChange(of: position.height) { newValue in
+                                        .onChange(of: position.height) { _, newValue in
                                             audioManager.updateLayerPosition(
                                                 index: position.layerIndex,
                                                 distance: position.distance,
