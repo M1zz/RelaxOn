@@ -181,12 +181,14 @@ extension CustomSoundViewModel {
         // CustomSound인 경우 재생 통계 업데이트
         if let customSound = sound as? CustomSound {
             updatePlayStatistics(customSound)
+            AnalyticsManager.shared.log(.soundPlay(title: customSound.title, isLayered: customSound.isLayeredSound))
         }
     }
-    
+
     func stopSound() {
         if isPlaying {
             isPlaying = false
+            AnalyticsManager.shared.log(.soundStop)
         }
         // 뚝 끊기지 않도록 페이드 아웃 후 정지
         audioEngineManager.masterFadeOutAndStop(duration: 1.0)
@@ -244,6 +246,8 @@ extension CustomSoundViewModel {
         userDefaults.customSounds = customSounds
         loadSound()
 
+        AnalyticsManager.shared.log(.soundSave(layerCount: customSound.soundLayers?.count ?? 1,
+                                               hasBackground: customSound.backgroundSound != nil))
         return true
     }
 
@@ -255,6 +259,8 @@ extension CustomSoundViewModel {
         customSounds.remove(at: index)
         userDefaults.customSounds = customSounds
         loadSound()
+
+        AnalyticsManager.shared.log(.soundDelete)
     }
 
     func update(originalSound: CustomSound, newTitle: String, newColor: String) -> Bool {

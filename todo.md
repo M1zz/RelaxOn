@@ -82,6 +82,17 @@
 - [ ] iPad 가로(landscape) 레이아웃 점검
 - [ ] App Store: iPad 스크린샷 추가 필요(Universal이므로)
 
+## Google Analytics (Firebase) 도입 - 완료
+- [x] Firebase SDK(SPM, firebase-ios-sdk 11.x) FirebaseAnalytics 의존성 추가
+- [x] AppDelegate에서 `FirebaseApp.configure()` 초기화
+- [x] AnalyticsManager.swift 래퍼 추가 (이벤트/화면/사용자속성 API)
+- [x] 핵심 이벤트 로깅: 사운드 재생/정지/저장/삭제
+- [x] 시뮬레이터 빌드 성공 확인
+- [x] 화면 조회(screen_view) 추적: `.trackScreen()` 모디파이어 + Home/CreateSound/Subscription 적용
+- [x] 타이머 이벤트: 시작(timer_start, 분)·취소(timer_cancel)
+- [x] 구독 이벤트: 페이월 노출(subscription_view)·결제(subscription_purchase) + is_premium 사용자 속성
+- [ ] (선택) Firebase 콘솔에서 Analytics 활성화 및 DebugView로 수신 확인
+
 ## 남은 작업 (수동 - 코드 아님)
 - [ ] dev 브랜치 코드 변경 push / PR (원하면 진행)
 - [ ] App Store Connect: App Description 또는 EULA 필드에 표준 약관 링크 추가

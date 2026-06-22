@@ -40,6 +40,9 @@ struct ListenListView: View {
     @State private var orbDragV: Double = 0
     // 오디오 전환 디바운스 (스와이프 중 디코딩으로 롤이 끊기는 것 방지)
     @State private var audioSwitchWork: DispatchWorkItem?
+    // 달을 돌리면 잠깐 나타나 궤도를 도는 위성
+    @State private var satelliteVisible = false
+    @State private var satelliteToken = 0
     // 앱 시작 시 구체가 데굴데굴 굴러 들어오는 등장 애니메이션 (매번 다른 위치 + 기울기 방향)
     @State private var orbAppearOffsetX: CGFloat = 0
     @State private var orbAppearOffsetY: CGFloat = 0
@@ -119,6 +122,7 @@ struct ListenListView: View {
             }
         }
 
+        .trackScreen("Home")
         .onAppear {
             // 앱 실행당 1회만 카운트 (뉴비 안내 칩 노출 판단용)
             if !countedThisSession {
@@ -274,7 +278,8 @@ struct ListenListView: View {
                     CampfireView(isPlaying: viewModel.isPlaying,
                                  tint: orbTint,
                                  roll: orbCommitted + orbDragAngle + orbAppearRoll,
-                                 rollY: orbCommittedV + orbDragV + orbAppearRollY)
+                                 rollY: orbCommittedV + orbDragV + orbAppearRollY,
+                                 satelliteVisible: satelliteVisible)
                     .scaleEffect(orbPressed ? 0.97 : 1.0)
                     .scaleEffect(orbTapPress ? 0.92 : 1.0)              // 탭 시 옴폭
                     .offset(x: orbAppearOffsetX, y: orbAppearOffsetY)   // 등장 시 기울어진 방향에서 굴러옴
@@ -430,6 +435,7 @@ struct ListenListView: View {
                             orbDragAngle = 0
                             orbPressed = false
                         }
+                        flashSatellite()   // 달을 돌리면 위성이 나와서 궤도를 돈다
                         nextSound()
                     } else {
                         withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
@@ -716,6 +722,16 @@ struct ListenListView: View {
             isPlaying: viewModel.isPlaying,
             tint: UIColor(orbTint)
         )
+    }
+
+    /// 달을 돌릴 때 위성을 잠깐(궤도 두어 바퀴) 나타냈다 사라지게
+    private func flashSatellite(duration: Double = 3.0) {
+        satelliteVisible = true
+        satelliteToken += 1
+        let token = satelliteToken
+        DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
+            if token == satelliteToken { satelliteVisible = false }
+        }
     }
 
     /// 라벨(소리 이름/힌트)을 잠깐 보여주고 사라지게
@@ -1007,10 +1023,13 @@ struct CampfireView: View {
     var tint: Color = DS.Colors.accent
     var roll: Double = 0    // 가로 회전(좌우 굴림)
     var rollY: Double = 0   // 세로 회전(위아래 굴림)
+    var satelliteVisible: Bool = false   // 달을 돌리면 위성이 나와서 궤도를 돈다
 
     @State private var breathe = false
     @State private var glow = false
     @State private var moonPhase: Double = 1.0   // 1=보름달, 0=반달, -1=신월
+    @State private var satOpacity: Double = 0    // 위성 표시 정도
+    @State private var satEmerge: Double = 0     // 위성이 달에서 "나오는" 정도(궤도 반지름 비율)
 
     private let moonSize: CGFloat = 220
 
@@ -1030,8 +1049,18 @@ struct CampfireView: View {
                 .scaleEffect(glow ? 1.06 : 0.9)
                 .blur(radius: 34)
 
+            // 위성 — 궤도 뒤쪽 반(달 뒤로 지나감)
+            if satOpacity > 0.001 || satelliteVisible {
+                satelliteView(front: false)
+            }
+
             // 본체 — 소리마다 바뀌는 색(틴트)의 매끈한 구체
             moonView
+
+            // 위성 — 궤도 앞쪽 반(달 앞으로 지나감)
+            if satOpacity > 0.001 || satelliteVisible {
+                satelliteView(front: true)
+            }
         }
         .frame(width: 240, height: 240)
         .onAppear {
@@ -1047,6 +1076,55 @@ struct CampfireView: View {
                 withAnimation(.easeInOut(duration: 6)) { moonPhase = 1.0 }
             }
         }
+        .onChange(of: satelliteVisible) { _, v in
+            // 나올 땐 빠르게 솟아오르고, 사라질 땐 천천히 달 속으로 들어감
+            withAnimation(.easeOut(duration: v ? 0.5 : 0.8)) {
+                satOpacity = v ? 1 : 0
+                satEmerge = v ? 1 : 0
+            }
+        }
+    }
+
+    /// 위성: 기울어진 타원 궤도를 연속으로 돈다. front=true면 앞쪽 반, false면 뒤쪽 반만 그려
+    /// 달 뒤로 자연스럽게 사라졌다 앞으로 나타난다. TimelineView로 매 프레임 위치를 다시 계산.
+    @ViewBuilder
+    private func satelliteView(front: Bool) -> some View {
+        TimelineView(.animation) { context in
+            let period = 600.0   // 한 바퀴(초) — 10분에 한 바퀴, 아주 느리게
+            let t = context.date.timeIntervalSinceReferenceDate
+            let phase = (t / period).truncatingRemainder(dividingBy: 1)
+            let ang = phase * 2 * Double.pi
+            // 기울어진 궤도: 가로 넓고 세로 얕게. 아래쪽(앞)일수록 앞·크게, 위쪽(뒤)이면 작게
+            let frontness = -cos(ang)              // +면 앞(아래), -면 뒤(위)
+            let isFrontHalf = frontness > 0
+            let rx = 142.0, ry = 48.0
+            let x = sin(ang) * rx * satEmerge
+            let y = (-cos(ang) * ry * satEmerge) - 6
+            let scale = 0.82 + 0.3 * max(0, frontness)
+            ZStack {
+                // 위성 둘레의 밝은 빛무리 (대비 확보)
+                Circle()
+                    .fill(Color.white.opacity(0.55))
+                    .frame(width: 44, height: 44)
+                    .blur(radius: 11)
+                // 위성 본체 — 작은 달(밝은 흰색, 한쪽만 살짝 음영)
+                Circle()
+                    .fill(
+                        RadialGradient(
+                            colors: [Color.white, Color(white: 0.95), Color(white: 0.72)],
+                            center: UnitPoint(x: 0.36, y: 0.3),
+                            startRadius: 1, endRadius: 18
+                        )
+                    )
+                    .frame(width: 28, height: 28)
+                    .overlay(Circle().stroke(Color.white.opacity(0.7), lineWidth: 0.5))
+                    .shadow(color: tint.opacity(0.7), radius: 6)
+            }
+            .scaleEffect(scale)
+            .offset(x: x, y: y)
+            .opacity((isFrontHalf == front) ? satOpacity : 0)
+        }
+        .allowsHitTesting(false)
     }
 
     /// 달 본체 (식이 길어 별도 프로퍼티로 분리 — 컴파일러 타입체크 부담 완화)
@@ -1059,6 +1137,9 @@ struct CampfireView: View {
                 )
             )
             .frame(width: moonSize, height: moonSize)
+            // 불투명 베이스 — 달 뒤로 지나가는 위성이 비쳐 보이지 않게 한다.
+            // (배경색과 동일 → 기존 반투명 룩은 그대로 유지하면서 뒤쪽만 가림)
+            .background(Circle().fill(DS.Colors.background))
             .overlay(lightTexture)   // 여러 빛 → 불균일 질감
             // 흐릿한 분화구 — 표면을 따라 굴러감
             .overlay(

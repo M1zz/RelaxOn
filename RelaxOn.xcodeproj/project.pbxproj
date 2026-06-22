@@ -88,6 +88,9 @@
 		8FFF99ED2A1F51F100E2474C /* AudioVariation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FFF99EC2A1F51F100E2474C /* AudioVariation.swift */; };
 		917BADACE5F74E8766182402 /* Camera.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 890D79F8D71BA19717A96F8F /* Camera.mp3 */; };
 		99AA00022EF1960000000002 /* SoundThumbnailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99AA00012EF1960000000001 /* SoundThumbnailView.swift */; };
+		9C0D31342FE8D8DD003F2B57 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9C0D31332FE8D8D7003F2B57 /* GoogleService-Info.plist */; };
+		FBA0000000000000000000A3 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = FBA0000000000000000000A2 /* FirebaseAnalytics */; };
+		FBA0000000000000000000B2 /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA0000000000000000000B1 /* AnalyticsManager.swift */; };
 		A81D4B61DC9FC788038A49E4 /* LocalizationKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9C11FBB3A19C84918309F6 /* LocalizationKeys.swift */; };
 		AF157A5052C0E1B7696712E2 /* Bell.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A8D694CBC9BA73FEEE972785 /* Bell.mp3 */; };
 		AMS000022F28000000000008 /* AudioMixingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AMS000012F28000000000007 /* AudioMixingService.swift */; };
@@ -173,6 +176,7 @@
 		58FBB9042ED88EE8004231BE /* rain_10min.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = rain_10min.mp3; sourceTree = "<group>"; };
 		591570B329F93A5400507DEA /* TimerProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerProgressView.swift; sourceTree = "<group>"; };
 		591570B529F93A7000507DEA /* TimerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerManager.swift; sourceTree = "<group>"; };
+		FBA0000000000000000000B1 /* AnalyticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsManager.swift; sourceTree = "<group>"; };
 		5931DC9C2A3B1D6000FFEF17 /* SnapCircularSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapCircularSlider.swift; sourceTree = "<group>"; };
 		594012592A17DCC300221DE7 /* Sink.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Sink.mp3; sourceTree = "<group>"; };
 		5940125B2A17DCEA00221DE7 /* Basement.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Basement.mp3; sourceTree = "<group>"; };
@@ -230,6 +234,7 @@
 		8FFF99EC2A1F51F100E2474C /* AudioVariation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioVariation.swift; sourceTree = "<group>"; };
 		93ED06BCF44652CAE8CE3BEE /* CityRain.mp3 */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = audio.mp3; path = CityRain.mp3; sourceTree = "<group>"; };
 		99AA00012EF1960000000001 /* SoundThumbnailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundThumbnailView.swift; sourceTree = "<group>"; };
+		9C0D31332FE8D8D7003F2B57 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A8D694CBC9BA73FEEE972785 /* Bell.mp3 */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = audio.mp3; path = Bell.mp3; sourceTree = "<group>"; };
 		A9FDD1DB550B335455F5A721 /* Keyboard.mp3 */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = audio.mp3; path = Keyboard.mp3; sourceTree = "<group>"; };
 		AD9C11FBB3A19C84918309F6 /* LocalizationKeys.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LocalizationKeys.swift; path = App/Resources/Localization/LocalizationKeys.swift; sourceTree = "<group>"; };
@@ -263,6 +268,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FBA0000000000000000000A3 /* FirebaseAnalytics in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -284,6 +290,7 @@
 		58DE61762839C13900F25769 = {
 			isa = PBXGroup;
 			children = (
+				9C0D31332FE8D8D7003F2B57 /* GoogleService-Info.plist */,
 				583CFF872F28E8AA00F05CD0 /* Products.storekit */,
 				4AA37CA928D370E400B0F8FF /* WatchOSLockScreenWidgetExtension.entitlements */,
 				4AA37CA828D3656800B0F8FF /* LockScreenWidgetExtensionExtension.entitlements */,
@@ -517,6 +524,7 @@
 				EC23383B6EB64FEAAC27ACB4 /* AudioLayerManager.swift */,
 				AMS000012F28000000000007 /* AudioMixingService.swift */,
 				SUB000012F29000000000001 /* SubscriptionManager.swift */,
+				FBA0000000000000000000B1 /* AnalyticsManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -659,6 +667,9 @@
 			dependencies = (
 			);
 			name = RelaxOn;
+			packageProductDependencies = (
+				FBA0000000000000000000A2 /* FirebaseAnalytics */,
+			);
 			productName = LullabyRecipe;
 			productReference = 58DE617F2839C13900F25769 /* RelaxOn.app */;
 			productType = "com.apple.product-type.application";
@@ -688,6 +699,9 @@
 				ko,
 			);
 			mainGroup = 58DE61762839C13900F25769;
+			packageReferences = (
+				FBA0000000000000000000A1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			productRefGroup = 58DE61802839C13900F25769 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -696,6 +710,25 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		FBA0000000000000000000A1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		FBA0000000000000000000A2 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FBA0000000000000000000A1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin PBXResourcesBuildPhase section */
 		58DE617D2839C13900F25769 /* Resources */ = {
@@ -721,6 +754,7 @@
 				5940126C2A17DD3B00221DE7 /* Training.mp3 in Resources */,
 				58DE61C22841C20A00F25769 /* Launch Screen.storyboard in Resources */,
 				594012762A17DD7900221DE7 /* Forest.mp3 in Resources */,
+				9C0D31342FE8D8DD003F2B57 /* GoogleService-Info.plist in Resources */,
 				58FBB9052ED88EE8004231BE /* rain_10min.mp3 in Resources */,
 				58FBB8FF2ED88620004231BE /* tv_10min.mp3 in Resources */,
 				58FBB9002ED88620004231BE /* wave_10min.mp3 in Resources */,
@@ -772,6 +806,7 @@
 				5931DC9D2A3B1D6000FFEF17 /* SnapCircularSlider.swift in Sources */,
 				8F5A0EC52A160B3A0061F42C /* AudioEngineManager.swift in Sources */,
 				21EC2EDD80814105A172AAC3 /* AudioLayerManager.swift in Sources */,
+				FBA0000000000000000000B2 /* AnalyticsManager.swift in Sources */,
 				8F5A0EBF2A15FBDD0061F42C /* SoundPlayerFullModalView.swift in Sources */,
 				8F36BFD22A151E4A00514BBE /* Enums.swift in Sources */,
 				8F5A0EC32A15FD750061F42C /* CircleProgressView.swift in Sources */,

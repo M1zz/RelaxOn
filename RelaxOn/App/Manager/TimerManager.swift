@@ -31,6 +31,8 @@ class TimerManager: ObservableObject {
     func startTimer(timerManager: TimerManager) {
         self.remainingSeconds = getTime(timerManager: self)
 
+        AnalyticsManager.shared.log(.timerStart(minutes: self.remainingSeconds / 60))
+
         // 페이드 인 효과 (3초)
         AudioEngineManager.shared.fadeIn(duration: 3.0)
 
@@ -70,6 +72,7 @@ class TimerManager: ObservableObject {
         self.progress = 1.0
         AudioEngineManager.shared.cancelFade()
         self.viewModel?.stopSound()
+        AnalyticsManager.shared.log(.timerCancel)
     }
     
     func pauseTimer(timerManager: TimerManager) {

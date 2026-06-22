@@ -82,6 +82,7 @@ struct CreateNewSoundView: View {
                 .disabled(viewModel.addedSounds.isEmpty)
             }
         }
+        .trackScreen("CreateSound")
         .onDisappear {
             stopPreviewPlayback()
         }

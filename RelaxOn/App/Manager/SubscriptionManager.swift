@@ -58,6 +58,8 @@ class SubscriptionManager: ObservableObject {
             let transaction = try checkVerified(verification)
             await transaction.finish()
             isPremium = true
+            AnalyticsManager.shared.log(.subscriptionPurchase(productId: product.id))
+            AnalyticsManager.shared.setUserProperty("true", forName: "is_premium")
 
         case .userCancelled:
             break

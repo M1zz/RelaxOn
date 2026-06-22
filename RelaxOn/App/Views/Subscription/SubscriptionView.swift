@@ -80,6 +80,10 @@ struct SubscriptionView: View {
         } message: {
             Text(errorMessage)
         }
+        .trackScreen("Subscription")
+        .onAppear {
+            AnalyticsManager.shared.log(.subscriptionView)
+        }
     }
 
     // MARK: - Header
