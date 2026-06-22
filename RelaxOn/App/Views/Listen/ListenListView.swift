@@ -38,6 +38,8 @@ struct ListenListView: View {
     // 구체 세로 회전(전환 시 위/아래로 굴러가는 모습)
     @State private var orbCommittedV: Double = 0
     @State private var orbDragV: Double = 0
+    // 오디오 전환 디바운스 (스와이프 중 디코딩으로 롤이 끊기는 것 방지)
+    @State private var audioSwitchWork: DispatchWorkItem?
     // 앱 시작 시 구체가 데굴데굴 굴러 들어오는 등장 애니메이션 (매번 다른 위치 + 기울기 방향)
     @State private var orbAppearOffsetX: CGFloat = 0
     @State private var orbAppearOffsetY: CGFloat = 0
@@ -615,6 +617,7 @@ struct ListenListView: View {
     /// 메인 버튼: 재생 중이면 멈추고, 아니면 (선택된 소리 또는 마지막 소리를) 재생
     private func togglePlay() {
         Haptics.soft()
+        audioSwitchWork?.cancel() // 대기 중인 스와이프 오디오 전환 취소
         if viewModel.isPlaying {
             viewModel.stopSound()
         } else {
@@ -658,13 +661,25 @@ struct ListenListView: View {
         Haptics.selection()
         let idx = pool.firstIndex(where: { $0.id == viewModel.selectedSound?.id }) ?? -1
         let next = pool[(idx + 1) % pool.count]
-        let wasPlaying = viewModel.isPlaying
+        // 색/제목은 즉시 갱신(가벼움) — 시각 피드백은 바로
         viewModel.selectedSound = next
-        // 재생 중이었으면 다음 곡을 이어서 재생, 멈춰있었으면 선택만 바꿈
-        if wasPlaying {
-            viewModel.play(with: next) // 페이드 인으로 부드럽게
-        }
         flashLabel(next.title)
+        // 오디오 전환은 디바운스: 연속 스와이프 중엔 디코딩하지 않고,
+        // 멈춘 뒤(롤 애니메이션이 끝난 시점) 최종 선택된 소리만 한 번 로딩 → 롤이 끊기지 않음
+        scheduleAudioSwitch()
+    }
+
+    /// 무거운 오디오 로딩(파일 디코딩)을 롤 애니메이션 이후로 미뤄, 스와이프 중 메인 스레드 블록을 방지
+    private func scheduleAudioSwitch() {
+        audioSwitchWork?.cancel()
+        guard viewModel.isPlaying else { return } // 멈춰 있으면 선택만 바꿈
+        let work = DispatchWorkItem { [weak viewModel] in
+            guard let viewModel, viewModel.isPlaying, let target = viewModel.selectedSound else { return }
+            viewModel.play(with: target) // 페이드 인으로 부드럽게
+        }
+        audioSwitchWork = work
+        // 롤(0.6s)이 끝난 뒤 실행 → 디코딩 블록이 정지 상태의 구체에서 일어나 눈에 띄지 않음
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.62, execute: work)
     }
 
     /// 이전 배경음으로 전환 (처음이면 마지막으로 순환). 잠금화면 ⏮ 버튼용.
