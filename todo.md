@@ -92,6 +92,22 @@
 - [x] 타이머 이벤트: 시작(timer_start, 분)·취소(timer_cancel)
 - [x] 구독 이벤트: 페이월 노출(subscription_view)·결제(subscription_purchase) + is_premium 사용자 속성
 - [ ] (선택) Firebase 콘솔에서 Analytics 활성화 및 DebugView로 수신 확인
+- [ ] (수동) App Store Connect 개인정보 영양성분표에 "사용 데이터 → 분석" 추가
+
+## 프로젝트 RelaxOn → Dalbit 리네임 - 완료 (2026-06-22)
+- [x] 타깃/프로젝트/스킴 이름 → Dalbit (pbxproj name·comment, INFOPLIST/엔타이틀/프리뷰 경로, Dalbit.app)
+- [x] 소스 폴더 `RelaxOn/` → `Dalbit/` (git mv, 히스토리 보존)
+- [x] `RelaxOn.xcodeproj` → `Dalbit.xcodeproj`, 스킴 파일 `RelaxOn.xcscheme` → `Dalbit.xcscheme`
+- [x] 레거시 파일: `RelaxOnApp.swift`→`DalbitApp.swift`(+@main struct), `RelaxOn.entitlements`→`Dalbit.entitlements`
+- [x] 모든 스킴 container 참조 → Dalbit.xcodeproj, 워크스페이스 절대경로 → self:
+- [x] Xcode가 만든 가짜 `Dalbit` 심링크 제거
+- [x] 번들ID `com.leeo.LullabyRecipe` 유지, 시뮬레이터 빌드 성공
+- [ ] (선택) 잔재 스킴(RelaxOnUITests/RelaxOnWatch*)·위젯 엔타이틀먼트 삭제 — 제거된 타깃의 cruft
+
+## 지원 페이지 리브랜딩 - 완료 (main push)
+- [x] docs/index.html·privacy.html 달빛(Dalbit) 리브랜딩
+- [x] privacy: Firebase Analytics 수집 고지 추가(한/영)
+- [x] main 브랜치 push (commit 2111009) → GitHub Pages 반영
 
 ## 남은 작업 (수동 - 코드 아님)
 - [ ] dev 브랜치 코드 변경 push / PR (원하면 진행)

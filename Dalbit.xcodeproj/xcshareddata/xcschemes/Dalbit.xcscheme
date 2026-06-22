@@ -5,6 +5,22 @@
    <BuildAction
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES">
+      <BuildActionEntries>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "58DE617E2839C13900F25769"
+               BuildableName = "Dalbit.app"
+               BlueprintName = "Dalbit"
+               ReferencedContainer = "container:Dalbit.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+      </BuildActionEntries>
    </BuildAction>
    <TestAction
       buildConfiguration = "Debug"
@@ -19,13 +35,13 @@
                BlueprintIdentifier = "C776B16D28B2620000A13052"
                BuildableName = "RelaxOnUITests.xctest"
                BlueprintName = "RelaxOnUITests"
-               ReferencedContainer = "container:RelaxOn.xcodeproj">
+               ReferencedContainer = "container:Dalbit.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
-      buildConfiguration = "Debug"
+      buildConfiguration = "Release"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
@@ -33,18 +49,24 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
-      allowLocationSimulation = "YES"
-      notificationPayloadFile = "RelaxOnWatch WatchKit Extension/PushNotificationPayload.apns">
+      allowLocationSimulation = "YES">
       <BuildableProductRunnable
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "58DE617E2839C13900F25769"
-            BuildableName = "RelaxOn.app"
-            BlueprintName = "RelaxOn"
-            ReferencedContainer = "container:RelaxOn.xcodeproj">
+            BuildableName = "Dalbit.app"
+            BlueprintName = "Dalbit"
+            ReferencedContainer = "container:Dalbit.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <AdditionalOptions>
+         <AdditionalOption
+            key = "NSZombieEnabled"
+            value = "YES"
+            isEnabled = "YES">
+         </AdditionalOption>
+      </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -52,15 +74,16 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "58DE617E2839C13900F25769"
-            BuildableName = "RelaxOn.app"
-            BlueprintName = "RelaxOn"
-            ReferencedContainer = "container:RelaxOn.xcodeproj">
+            BuildableName = "Dalbit.app"
+            BlueprintName = "Dalbit"
+            ReferencedContainer = "container:Dalbit.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

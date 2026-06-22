@@ -1,6 +1,6 @@
 # 달빛 (Dalbit) - 프로젝트 컨텍스트
 
-> 앱 표시 이름: **달빛 / Dalbit** (구 RelaxOn). 코드/스킴/번들ID(`com.leeo.LullabyRecipe`)·폴더명은 유지.
+> 앱 표시 이름: **달빛 / Dalbit** (구 RelaxOn). 프로젝트·스킴·소스 폴더·타깃 모두 `Dalbit`으로 리네임 완료(2026-06-22). **번들ID(`com.leeo.LullabyRecipe`)만 유지.** Xcode 프로젝트: `Dalbit.xcodeproj`, 소스 폴더: `Dalbit/`, 스킴: `Dalbit`. (문서 내 `RelaxOn/` 경로 표기는 `Dalbit/`로 읽을 것. GitHub 저장소·Pages URL은 여전히 `RelaxOn`.)
 
 ## 📱 프로젝트 개요
 

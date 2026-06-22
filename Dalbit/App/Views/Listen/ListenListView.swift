@@ -725,12 +725,14 @@ struct ListenListView: View {
     }
 
     /// 달을 돌릴 때 위성을 잠깐(궤도 두어 바퀴) 나타냈다 사라지게
-    private func flashSatellite(duration: Double = 3.0) {
-        satelliteVisible = true
+    private func flashSatellite(duration: Double = 4.0) {
+        withAnimation(.easeOut(duration: 0.55)) { satelliteVisible = true }   // 중심에서 솟아나며 등장
         satelliteToken += 1
         let token = satelliteToken
         DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
-            if token == satelliteToken { satelliteVisible = false }
+            if token == satelliteToken {
+                withAnimation(.easeIn(duration: 0.7)) { satelliteVisible = false }  // 달 속으로 들어가며 퇴장
+            }
         }
     }
 
@@ -1028,8 +1030,8 @@ struct CampfireView: View {
     @State private var breathe = false
     @State private var glow = false
     @State private var moonPhase: Double = 1.0   // 1=보름달, 0=반달, -1=신월
-    @State private var satOpacity: Double = 0    // 위성 표시 정도
-    @State private var satEmerge: Double = 0     // 위성이 달에서 "나오는" 정도(궤도 반지름 비율)
+    @State private var iconShown = true          // 재생/일시정지 심볼은 잠깐 보였다 사라짐
+    @State private var iconToken = 0
 
     private let moonSize: CGFloat = 220
 
@@ -1049,26 +1051,30 @@ struct CampfireView: View {
                 .scaleEffect(glow ? 1.06 : 0.9)
                 .blur(radius: 34)
 
-            // 위성 — 궤도 뒤쪽 반(달 뒤로 지나감)
-            if satOpacity > 0.001 || satelliteVisible {
+            // 위성 — 궤도 뒤쪽 반(달 뒤로 지나감). 중심에서 솟아나며 등장/퇴장
+            if satelliteVisible {
                 satelliteView(front: false)
+                    .transition(.scale(scale: 0.2, anchor: .center).combined(with: .opacity))
             }
 
             // 본체 — 소리마다 바뀌는 색(틴트)의 매끈한 구체
             moonView
 
             // 위성 — 궤도 앞쪽 반(달 앞으로 지나감)
-            if satOpacity > 0.001 || satelliteVisible {
+            if satelliteVisible {
                 satelliteView(front: true)
+                    .transition(.scale(scale: 0.2, anchor: .center).combined(with: .opacity))
             }
         }
         .frame(width: 240, height: 240)
         .onAppear {
             startBreathing()
             if isPlaying { startMoonCycle() } else { moonPhase = 1.0 }
+            revealIcon()
         }
         .onChange(of: isPlaying) { _, playing in
             startBreathing()
+            revealIcon()   // 재생/일시정지 바뀌면 심볼을 다시 잠깐 보여줌
             if playing {
                 startMoonCycle()
             } else {
@@ -1076,12 +1082,15 @@ struct CampfireView: View {
                 withAnimation(.easeInOut(duration: 6)) { moonPhase = 1.0 }
             }
         }
-        .onChange(of: satelliteVisible) { _, v in
-            // 나올 땐 빠르게 솟아오르고, 사라질 땐 천천히 달 속으로 들어감
-            withAnimation(.easeOut(duration: v ? 0.5 : 0.8)) {
-                satOpacity = v ? 1 : 0
-                satEmerge = v ? 1 : 0
-            }
+    }
+
+    /// 재생/일시정지 심볼을 잠깐(약 10초) 보여주고 자동으로 사라지게 한다.
+    private func revealIcon() {
+        iconShown = true
+        iconToken += 1
+        let token = iconToken
+        DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+            if token == iconToken { iconShown = false }
         }
     }
 
@@ -1090,16 +1099,16 @@ struct CampfireView: View {
     @ViewBuilder
     private func satelliteView(front: Bool) -> some View {
         TimelineView(.animation) { context in
-            let period = 600.0   // 한 바퀴(초) — 10분에 한 바퀴, 아주 느리게
+            let period = 3.4   // 한 바퀴(초) — 눈에 보이게 천천히 공전
             let t = context.date.timeIntervalSinceReferenceDate
             let phase = (t / period).truncatingRemainder(dividingBy: 1)
             let ang = phase * 2 * Double.pi
             // 기울어진 궤도: 가로 넓고 세로 얕게. 아래쪽(앞)일수록 앞·크게, 위쪽(뒤)이면 작게
             let frontness = -cos(ang)              // +면 앞(아래), -면 뒤(위)
             let isFrontHalf = frontness > 0
-            let rx = 142.0, ry = 48.0
-            let x = sin(ang) * rx * satEmerge
-            let y = (-cos(ang) * ry * satEmerge) - 6
+            let rx = 140.0, ry = 78.0
+            let x = sin(ang) * rx
+            let y = (-cos(ang) * ry) - 4
             let scale = 0.82 + 0.3 * max(0, frontness)
             ZStack {
                 // 위성 둘레의 밝은 빛무리 (대비 확보)
@@ -1107,7 +1116,7 @@ struct CampfireView: View {
                     .fill(Color.white.opacity(0.55))
                     .frame(width: 44, height: 44)
                     .blur(radius: 11)
-                // 위성 본체 — 작은 달(밝은 흰색, 한쪽만 살짝 음영)
+                // 위성 본체 — 작은 달(밝은 흰색)
                 Circle()
                     .fill(
                         RadialGradient(
@@ -1122,7 +1131,7 @@ struct CampfireView: View {
             }
             .scaleEffect(scale)
             .offset(x: x, y: y)
-            .opacity((isFrontHalf == front) ? satOpacity : 0)
+            .opacity((isFrontHalf == front) ? 1 : 0)
         }
         .allowsHitTesting(false)
     }
@@ -1166,7 +1175,7 @@ struct CampfireView: View {
                 Circle().strokeBorder(Color.black.opacity(0.12), lineWidth: 1.5)
                     .blur(radius: 1)
             )
-            // 재생/일시정지 심볼 (그림자 위, 위상에 따라 색 대비)
+            // 재생/일시정지 심볼 (그림자 위, 위상에 따라 색 대비) — 잠깐 보였다 사라짐
             .overlay(
                 RollingSphereSurface(
                     roll: roll, rollY: rollY, isPlaying: isPlaying,
@@ -1174,6 +1183,8 @@ struct CampfireView: View {
                     iconColor: moonPhase > 0 ? Color(red: 0.18, green: 0.16, blue: 0.10) : .white
                 )
                 .frame(width: moonSize, height: moonSize)
+                .opacity(iconShown ? 1 : 0)
+                .animation(.easeInOut(duration: 0.9), value: iconShown)
             )
             .clipShape(Circle())
             .scaleEffect(breathe ? 1.035 : 0.97)
