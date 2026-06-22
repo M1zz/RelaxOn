@@ -40,9 +40,10 @@ struct ListenListView: View {
     @State private var orbDragV: Double = 0
     // 오디오 전환 디바운스 (스와이프 중 디코딩으로 롤이 끊기는 것 방지)
     @State private var audioSwitchWork: DispatchWorkItem?
-    // 달을 돌리면 잠깐 나타나 궤도를 도는 위성
+    // 달을 돌리면 나타나 아주 천천히(약 13분/바퀴) 궤도를 도는 위성
     @State private var satelliteVisible = false
     @State private var satelliteToken = 0
+    @State private var satelliteStartTime: Double = 0   // 등장 시각(궤도 시작각 고정용)
     // 앱 시작 시 구체가 데굴데굴 굴러 들어오는 등장 애니메이션 (매번 다른 위치 + 기울기 방향)
     @State private var orbAppearOffsetX: CGFloat = 0
     @State private var orbAppearOffsetY: CGFloat = 0
@@ -279,7 +280,8 @@ struct ListenListView: View {
                                  tint: orbTint,
                                  roll: orbCommitted + orbDragAngle + orbAppearRoll,
                                  rollY: orbCommittedV + orbDragV + orbAppearRollY,
-                                 satelliteVisible: satelliteVisible)
+                                 satelliteVisible: satelliteVisible,
+                                 satelliteStart: satelliteStartTime)
                     .scaleEffect(orbPressed ? 0.97 : 1.0)
                     .scaleEffect(orbTapPress ? 0.92 : 1.0)              // 탭 시 옴폭
                     .offset(x: orbAppearOffsetX, y: orbAppearOffsetY)   // 등장 시 기울어진 방향에서 굴러옴
@@ -724,14 +726,15 @@ struct ListenListView: View {
         )
     }
 
-    /// 달을 돌릴 때 위성을 잠깐(궤도 두어 바퀴) 나타냈다 사라지게
-    private func flashSatellite(duration: Double = 4.0) {
-        withAnimation(.easeOut(duration: 0.55)) { satelliteVisible = true }   // 중심에서 솟아나며 등장
+    /// 달을 돌릴 때 위성을 등장시키고, 아주 천천히 한 바퀴(약 13분) 돈 뒤 사라지게
+    private func flashSatellite(duration: Double = 780) {   // 780초 ≈ 13분
+        satelliteStartTime = Date().timeIntervalSinceReferenceDate   // 오른쪽 뒤에서 시작하도록 시각 고정
+        withAnimation(.easeInOut(duration: 1.2)) { satelliteVisible = true }   // 오른쪽 뒤에서 서서히 등장
         satelliteToken += 1
         let token = satelliteToken
         DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
             if token == satelliteToken {
-                withAnimation(.easeIn(duration: 0.7)) { satelliteVisible = false }  // 달 속으로 들어가며 퇴장
+                withAnimation(.easeIn(duration: 1.5)) { satelliteVisible = false }  // 천천히 사라짐
             }
         }
     }
@@ -1026,6 +1029,7 @@ struct CampfireView: View {
     var roll: Double = 0    // 가로 회전(좌우 굴림)
     var rollY: Double = 0   // 세로 회전(위아래 굴림)
     var satelliteVisible: Bool = false   // 달을 돌리면 위성이 나와서 궤도를 돈다
+    var satelliteStart: Double = 0       // 위성 등장 시각(궤도 시작각을 오른쪽 뒤로 고정)
 
     @State private var breathe = false
     @State private var glow = false
@@ -1051,10 +1055,10 @@ struct CampfireView: View {
                 .scaleEffect(glow ? 1.06 : 0.9)
                 .blur(radius: 34)
 
-            // 위성 — 궤도 뒤쪽 반(달 뒤로 지나감). 중심에서 솟아나며 등장/퇴장
+            // 위성 — 궤도 뒤쪽 반(달 뒤로 지나감). 오른쪽 뒤에 가려진 채 페이드 인 → 천천히 빠져나옴
             if satelliteVisible {
                 satelliteView(front: false)
-                    .transition(.scale(scale: 0.2, anchor: .center).combined(with: .opacity))
+                    .transition(.opacity)
             }
 
             // 본체 — 소리마다 바뀌는 색(틴트)의 매끈한 구체
@@ -1063,7 +1067,7 @@ struct CampfireView: View {
             // 위성 — 궤도 앞쪽 반(달 앞으로 지나감)
             if satelliteVisible {
                 satelliteView(front: true)
-                    .transition(.scale(scale: 0.2, anchor: .center).combined(with: .opacity))
+                    .transition(.opacity)
             }
         }
         .frame(width: 240, height: 240)
@@ -1098,11 +1102,12 @@ struct CampfireView: View {
     /// 달 뒤로 자연스럽게 사라졌다 앞으로 나타난다. TimelineView로 매 프레임 위치를 다시 계산.
     @ViewBuilder
     private func satelliteView(front: Bool) -> some View {
+        // 약 13분에 한 바퀴 도는 아주 느린 공전 (등장 후 천천히 한 바퀴 돌고 사라짐)
         TimelineView(.animation) { context in
-            let period = 3.4   // 한 바퀴(초) — 눈에 보이게 천천히 공전
-            let t = context.date.timeIntervalSinceReferenceDate
-            let phase = (t / period).truncatingRemainder(dividingBy: 1)
-            let ang = phase * 2 * Double.pi
+            let period = 780.0     // 한 바퀴 ≈ 13분
+            let startAngle = 0.62   // 등장 시작각: 달의 오른쪽 뒤(상단 우측, 가려진 위치)
+            let elapsed = max(0, context.date.timeIntervalSinceReferenceDate - satelliteStart)
+            let ang = startAngle + (elapsed / period) * 2 * Double.pi
             // 기울어진 궤도: 가로 넓고 세로 얕게. 아래쪽(앞)일수록 앞·크게, 위쪽(뒤)이면 작게
             let frontness = -cos(ang)              // +면 앞(아래), -면 뒤(위)
             let isFrontHalf = frontness > 0
