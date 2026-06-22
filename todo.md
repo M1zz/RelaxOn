@@ -109,6 +109,41 @@
 - [x] privacy: Firebase Analytics 수집 고지 추가(한/영)
 - [x] main 브랜치 push (commit 2111009) → GitHub Pages 반영
 
+## 알람 시계 기능 (AlarmKit) - 코어 완료
+방향: 코어 우선 (Live Activity 표현 UI는 2차). 알람음은 앱 사운드 중 선택.
+- [x] AlarmItem 모델 (시각/반복요일/사운드/on-off, Weekday enum)
+- [x] AlarmService (싱글톤): 권한요청, 등록/취소/목록, UserDefaults 영속화
+- [x] Info.plist: NSAlarmKitUsageDescription 추가
+- [x] pbxproj에 신규 파일 등록(AlarmService/AlarmItem)
+- [x] 시뮬레이터 빌드 검증 (iOS 26.2 SDK, BUILD SUCCEEDED)
+- 참고: Alert(title:stopButton:)는 26.1에서 deprecated → #available(iOS 26.1)로 분기. 사운드 타입은 ActivityKit.AlertConfiguration.AlertSound.
+- [x] 알람 목록/설정 UI (AlarmListView 목록·토글·삭제, AlarmEditView 시각휠/요일칩/사운드선택/라벨)
+- [x] 진입 동선: 홈에서 달 아래로 스와이프 → 세그먼트 [보관함 | 알람] (DownSwipePagerView)
+  - 기존 SavedSoundsListView/AlarmListView에 embedded 모드 추가(크롬 숨김), 상위가 +추가·세그먼트·닫기 담당
+- [x] 시뮬레이터 검증: 빈상태/편집화면/세그먼트 전환 모두 렌더 확인 (BUILD SUCCEEDED)
+  - 참고: 시뮬 합성탭이 작은 타깃(세그먼트/44pt버튼)엔 잘 안 먹어 일부는 임시 기본값으로 검증함
+- [x] 진입 동선 변경: 달 위로 스와이프(수면타이머) 쪽 세그먼트 [수면타이머 | 알람] (TimerAlarmPagerView)
+  - 아래 스와이프는 보관함 원래대로 복귀. SettingsView 잔재 알람 섹션 제거.
+- [x] 로컬라이제이션(ko/en): 알람/타이머 문자열 34개 키 string catalog 추가, 코드 .localized 적용
+  - 요일 라벨은 Calendar.veryShortWeekdaySymbols로 자동 번역. EN/KO 시뮬 렌더 확인.
+- [ ] (2차) Widget Extension(Live Activity) 표현 UI - Dynamic Island/잠금화면 카운트다운
+- [ ] (확인필요) 앱 번들 하위폴더(Assets/Sound/*) 사운드를 AlertSound.named가 찾는지 검증 (필요시 루트 복사 또는 Library/Sounds)
+- [ ] (확인필요) 실기기에서 권한 요청·실제 알람 울림 동작 테스트
+
+## 페이월 진입점 추가 - 완료
+- [x] 보관함(아래 스와이프) 상단에 "프리미엄으로 업그레이드" 배지 → 탭하면 SubscriptionView
+  - 무료 사용자(!isPremium)에게만 노출. DEBUG는 isPremium=true라 숨김 → 릴리스/심사 빌드에서 노출됨
+  - 로컬라이즈(subscription.upgrade_badge), 시뮬에서 배지→페이월 진입 검증
+  - 효과: 평소 구독 화면 접근 + App Store 심사자가 복원/약관/개인정보 화면을 쉽게 발견(리젝 해결 도움)
+
+## App Store 리젝(f68454b3) 대응 - 진행 중 (2026-06-22)
+- [x] 코드 확인: 복원 버튼·이용약관(EULA)·개인정보 링크 모두 SubscriptionView에 존재(커밋됨)
+- [x] 구독 화면 시뮬 렌더 검증 (제목/가격/Subscribe + 복원·약관·개인정보)
+- [x] 빌드번호 올림 CURRENT_PROJECT_VERSION 2 → 4 (리젝 빌드가 3이라 새 빌드 필요)
+- [ ] (수동) ASC: 개인정보 처리방침 URL 필드 입력
+- [ ] (수동) ASC: 앱 설명 또는 EULA 필드에 표준 EULA 링크
+- [ ] (수동) 새 빌드 아카이브·업로드 후 Apple 회신 + 화면 녹화 첨부
+
 ## 남은 작업 (수동 - 코드 아님)
 - [ ] dev 브랜치 코드 변경 push / PR (원하면 진행)
 - [ ] App Store Connect: App Description 또는 EULA 필드에 표준 약관 링크 추가

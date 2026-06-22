@@ -103,6 +103,11 @@
 		E60AC831B23D8791A00A6D47 /* RainMaker.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 39AA5589C6B322081300DF31 /* RainMaker.mp3 */; };
 		FBA0000000000000000000A3 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = FBA0000000000000000000A2 /* FirebaseAnalytics */; };
 		FBA0000000000000000000B2 /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA0000000000000000000B1 /* AnalyticsManager.swift */; };
+		ALM000022F28000000000B4 /* AlarmService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ALM000012F28000000000B3 /* AlarmService.swift */; };
+		ALM000042F28000000000B6 /* AlarmItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = ALM000032F28000000000B5 /* AlarmItem.swift */; };
+		ALV000022F28000000000B8 /* AlarmListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ALV000012F28000000000B7 /* AlarmListView.swift */; };
+		AEV000022F28000000000BA /* AlarmEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEV000012F28000000000B9 /* AlarmEditView.swift */; };
+		DSP000022F28000000000BD /* TimerAlarmPagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DSP000012F28000000000BC /* TimerAlarmPagerView.swift */; };
 		FIN000022F2800000000000A /* FileInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FIN000012F28000000000009 /* FileInfo.swift */; };
 		STDO00022F28000000000022 /* SoundStudioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = STDO00022F28000000000021 /* SoundStudioView.swift */; };
 		STV000022F2800000000000C /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = STV000012F2800000000000B /* SettingsView.swift */; };
@@ -254,6 +259,11 @@
 		EC23383B6EB64FEAAC27ACB4 /* AudioLayerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioLayerManager.swift; sourceTree = "<group>"; };
 		EFDBD9965458E87AF0E53BAD /* TibetanBowl.mp3 */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = audio.mp3; path = TibetanBowl.mp3; sourceTree = "<group>"; };
 		FBA0000000000000000000B1 /* AnalyticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsManager.swift; sourceTree = "<group>"; };
+		ALM000012F28000000000B3 /* AlarmService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmService.swift; sourceTree = "<group>"; };
+		ALM000032F28000000000B5 /* AlarmItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmItem.swift; sourceTree = "<group>"; };
+		ALV000012F28000000000B7 /* AlarmListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmListView.swift; sourceTree = "<group>"; };
+		AEV000012F28000000000B9 /* AlarmEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmEditView.swift; sourceTree = "<group>"; };
+		DSP000012F28000000000BC /* TimerAlarmPagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerAlarmPagerView.swift; sourceTree = "<group>"; };
 		FIN000012F28000000000009 /* FileInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileInfo.swift; sourceTree = "<group>"; };
 		STDO00022F28000000000021 /* SoundStudioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundStudioView.swift; sourceTree = "<group>"; };
 		STV000012F2800000000000B /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -471,6 +481,7 @@
 				8F00A23C2A235E5F0062B816 /* OnboardItem.swift */,
 				18E999CF36B64FB99C403643 /* PresetSound.swift */,
 				FIN000012F28000000000009 /* FileInfo.swift */,
+				ALM000032F28000000000B5 /* AlarmItem.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -484,10 +495,21 @@
 				8F4E1B6829B9B37C0013599C /* Home */,
 				8F4E1B6929B9B3890013599C /* Listen */,
 				8F4E1B6A29B9B3900013599C /* Timer */,
+				ALG000012F28000000000BB /* Alarm */,
 				SET000012F2800000000000D /* Settings */,
 				SUB000052F29000000000005 /* Subscription */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		ALG000012F28000000000BB /* Alarm */ = {
+			isa = PBXGroup;
+			children = (
+				ALV000012F28000000000B7 /* AlarmListView.swift */,
+				AEV000012F28000000000B9 /* AlarmEditView.swift */,
+				DSP000012F28000000000BC /* TimerAlarmPagerView.swift */,
+			);
+			path = Alarm;
 			sourceTree = "<group>";
 		};
 		8F7904832A16596700BE2BAC /* Onboarding */ = {
@@ -525,6 +547,7 @@
 				AMS000012F28000000000007 /* AudioMixingService.swift */,
 				SUB000012F29000000000001 /* SubscriptionManager.swift */,
 				FBA0000000000000000000B1 /* AnalyticsManager.swift */,
+				ALM000012F28000000000B3 /* AlarmService.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -788,6 +811,11 @@
 				8F5A0EC52A160B3A0061F42C /* AudioEngineManager.swift in Sources */,
 				21EC2EDD80814105A172AAC3 /* AudioLayerManager.swift in Sources */,
 				FBA0000000000000000000B2 /* AnalyticsManager.swift in Sources */,
+				ALM000022F28000000000B4 /* AlarmService.swift in Sources */,
+				ALM000042F28000000000B6 /* AlarmItem.swift in Sources */,
+				ALV000022F28000000000B8 /* AlarmListView.swift in Sources */,
+				AEV000022F28000000000BA /* AlarmEditView.swift in Sources */,
+				DSP000022F28000000000BD /* TimerAlarmPagerView.swift in Sources */,
 				8F5A0EBF2A15FBDD0061F42C /* SoundPlayerFullModalView.swift in Sources */,
 				8F36BFD22A151E4A00514BBE /* Enums.swift in Sources */,
 				8F5A0EC32A15FD750061F42C /* CircleProgressView.swift in Sources */,
@@ -963,7 +991,7 @@
 				CODE_SIGN_ENTITLEMENTS = Dalbit/Dalbit.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"Dalbit/Preview Content\"";
 				DEVELOPMENT_TEAM = QGAQ3AY3R3;
 				ENABLE_PREVIEWS = YES;
@@ -998,7 +1026,7 @@
 				CODE_SIGN_ENTITLEMENTS = Dalbit/Dalbit.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"Dalbit/Preview Content\"";
 				DEVELOPMENT_TEAM = QGAQ3AY3R3;
 				ENABLE_PREVIEWS = YES;

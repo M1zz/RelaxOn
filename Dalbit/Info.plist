@@ -15,6 +15,8 @@
 	<array>
 		<string>audio</string>
 	</array>
+	<key>NSAlarmKitUsageDescription</key>
+	<string>설정한 시각에 알람을 울리기 위해 사용됩니다.</string>
 	<key>UILaunchScreen</key>
 	<dict>
 		<key>UIColorName</key>

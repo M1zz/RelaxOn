@@ -489,6 +489,7 @@ enum L {
         static let termsOfUse = "subscription.terms_of_use"
         static let privacyPolicy = "subscription.privacy_policy"
         static let legalNotice = "subscription.legal_notice"
+        static let upgradeBadge = "subscription.upgrade_badge"
     }
 
     // MARK: - Preset Categories
@@ -524,6 +525,43 @@ enum L {
         static let rain = "place.rain"
         static let cityRain = "place.city_rain"
         static let temple = "place.temple"
+    }
+
+    // MARK: - Alarm (알람 시계)
+    enum Alarm {
+        static let title = "alarm.title"
+        static let segmentTimer = "alarm.segment_timer"
+        static let myAlarms = "alarm.my_alarms"
+        static let add = "alarm.add"
+        static let emptyTitle = "alarm.empty_title"
+        static let emptyDesc = "alarm.empty_desc"
+        static let editTitle = "alarm.edit_title"
+        static let delete = "alarm.delete"
+        static let repeatTitle = "alarm.repeat"
+        static let sound = "alarm.sound"
+        static let label = "alarm.label"
+        static let labelPlaceholder = "alarm.label_placeholder"
+        static let time = "alarm.time"
+        static let rowHint = "alarm.row_hint"
+        static let repeatOnce = "alarm.repeat_once"
+        static let repeatEveryday = "alarm.repeat_everyday"
+        static let repeatWeekdays = "alarm.repeat_weekdays"
+        static let repeatWeekend = "alarm.repeat_weekend"
+        static let summaryOnce = "alarm.summary_once"
+        static let summaryEveryday = "alarm.summary_everyday"
+        static let summaryWeekdays = "alarm.summary_weekdays"
+        static let summaryWeekend = "alarm.summary_weekend"
+        static let summaryFormat = "alarm.summary_format"       // %@ = 요일 목록
+        static let stop = "alarm.stop"
+        static let a11yWeekday = "alarm.a11y_weekday"            // %@ = 요일
+        static let a11yRow = "alarm.a11y_row"                    // %1$@ 시각, %2$@ 라벨, %3$@ 반복
+        static let soundDefault = "alarm.sound_default"
+        static let soundSingingBowl = "alarm.sound_singing_bowl"
+        static let soundTibetanBowl = "alarm.sound_tibetan_bowl"
+        static let soundBell = "alarm.sound_bell"
+        static let soundBirds = "alarm.sound_birds"
+        static let soundCuckoo = "alarm.sound_cuckoo"
+        static let soundLoudBowl = "alarm.sound_loud_bowl"
     }
 
     // MARK: - Accessibility (VoiceOver)

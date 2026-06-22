@@ -43,7 +43,10 @@ struct ListenListView: View {
     // 달을 돌리면 나타나 아주 천천히(약 13분/바퀴) 궤도를 도는 위성
     @State private var satelliteVisible = false
     @State private var satelliteToken = 0
-    @State private var satelliteStartTime: Double = 0   // 등장 시각(궤도 시작각 고정용)
+    @State private var satelliteStartTime: Double = 0   // 등장 시각(궤도 위상 기준)
+    @State private var satelliteStartAngle: Double = 0.62   // 등장 시작각(좌/우 뒤 랜덤)
+    @State private var satelliteHue: Double = 0             // 위성 색상(랜덤)
+    @State private var satelliteScale: Double = 1.0         // 위성 크기 배리에이션(랜덤)
     // 앱 시작 시 구체가 데굴데굴 굴러 들어오는 등장 애니메이션 (매번 다른 위치 + 기울기 방향)
     @State private var orbAppearOffsetX: CGFloat = 0
     @State private var orbAppearOffsetY: CGFloat = 0
@@ -281,7 +284,10 @@ struct ListenListView: View {
                                  roll: orbCommitted + orbDragAngle + orbAppearRoll,
                                  rollY: orbCommittedV + orbDragV + orbAppearRollY,
                                  satelliteVisible: satelliteVisible,
-                                 satelliteStart: satelliteStartTime)
+                                 satelliteStart: satelliteStartTime,
+                                 satelliteStartAngle: satelliteStartAngle,
+                                 satelliteHue: satelliteHue,
+                                 satelliteScale: satelliteScale)
                     .scaleEffect(orbPressed ? 0.97 : 1.0)
                     .scaleEffect(orbTapPress ? 0.92 : 1.0)              // 탭 시 옴폭
                     .offset(x: orbAppearOffsetX, y: orbAppearOffsetY)   // 등장 시 기울어진 방향에서 굴러옴
@@ -352,17 +358,13 @@ struct ListenListView: View {
             .allowsHitTesting(page == 0)
     }
 
-    /// page 2 — 타이머 (아래에서 올라옴)
+    /// page 2 — 타이머/알람 (아래에서 올라옴). 세그먼트로 [수면타이머 | 알람] 구분.
     @ViewBuilder
     private func timerPage() -> some View {
-        TimerView(timerManager: timerManager,
-                  isShowingTimer: Binding(get: { page == 2 },
-                                          set: { if !$0 { goTo(1) } }))
-            .safeAreaInset(edge: .top) {
-                pageTopBar(icon: "chevron.up",
-                           title: L.Timer.sleepTimer.localized,
-                           onClose: { goTo(1) })
-            }
+        TimerAlarmPagerView(timerManager: timerManager,
+                            isShowingTimer: Binding(get: { page == 2 },
+                                                    set: { if !$0 { goTo(1) } }),
+                            onClose: { goTo(1) })
             .allowsHitTesting(page == 2)
     }
 
@@ -726,10 +728,16 @@ struct ListenListView: View {
         )
     }
 
-    /// 달을 돌릴 때 위성을 등장시키고, 아주 천천히 한 바퀴(약 13분) 돈 뒤 사라지게
+    /// 달을 돌릴 때 위성을 등장시키고, 아주 천천히 한 바퀴(약 13분) 돈 뒤 사라지게.
+    /// 등장 위치(좌/우 뒤)·색상·크기는 매번 랜덤, 공전 속도(780초)만 고정.
     private func flashSatellite(duration: Double = 780) {   // 780초 ≈ 13분
-        satelliteStartTime = Date().timeIntervalSinceReferenceDate   // 오른쪽 뒤에서 시작하도록 시각 고정
-        withAnimation(.easeInOut(duration: 1.2)) { satelliteVisible = true }   // 오른쪽 뒤에서 서서히 등장
+        satelliteStartTime = Date().timeIntervalSinceReferenceDate
+        // 좌/우 중 랜덤 + 약간의 흔들림 → 항상 달 뒤(가려진 위치)에서 시작
+        let side: Double = Bool.random() ? 1 : -1
+        satelliteStartAngle = side * (0.62 + Double.random(in: -0.2...0.2))
+        satelliteHue = Double.random(in: 0...1)               // 색상 랜덤
+        satelliteScale = Double.random(in: 0.75...1.3)        // 크기 배리에이션
+        withAnimation(.easeInOut(duration: 1.2)) { satelliteVisible = true }   // 달 뒤에서 서서히 등장
         satelliteToken += 1
         let token = satelliteToken
         DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
@@ -935,29 +943,71 @@ struct RollingSphereSurface: View, Animatable {
     private struct Spot {
         let lon: Double; let y: CGFloat; let size: CGFloat; let light: Bool; let maxOpacity: Double
     }
-    // 달 표면: 큰 바다(어두운 마리아) + 작은 크레이터(밝은 점)들이 섞여 달처럼 보이게
-    private static let spots: [Spot] = [
-        Spot(lon: 1.5, y: 28,  size: 74, light: false, maxOpacity: 0.28),  // 큰 마리아
-        Spot(lon: 4.2, y: 6,   size: 62, light: false, maxOpacity: 0.24),
-        Spot(lon: 2.4, y: -36, size: 50, light: false, maxOpacity: 0.20),
-        Spot(lon: 0.7, y: -8,  size: 34, light: false, maxOpacity: 0.18),
-        Spot(lon: 3.1, y: 48,  size: 38, light: false, maxOpacity: 0.16),
-        Spot(lon: 5.3, y: -42, size: 28, light: false, maxOpacity: 0.16),
-        Spot(lon: 1.0, y: 54,  size: 20, light: false, maxOpacity: 0.18),
-        Spot(lon: 2.0, y: 62,  size: 22, light: true,  maxOpacity: 0.20),  // 밝은 크레이터
-        Spot(lon: 4.9, y: 34,  size: 18, light: true,  maxOpacity: 0.18),
-        Spot(lon: 3.7, y: -20, size: 16, light: true,  maxOpacity: 0.16)
-    ]
+    // 달 표면: 큰 바다(어두운 마리아) + 작은 크레이터 + 잔잔한 알갱이로 까슬까슬한 질감
+    private static let spots: [Spot] = {
+        var arr: [Spot] = [
+            Spot(lon: 1.5, y: 28,  size: 74, light: false, maxOpacity: 0.28),  // 큰 마리아
+            Spot(lon: 4.2, y: 6,   size: 62, light: false, maxOpacity: 0.24),
+            Spot(lon: 2.4, y: -36, size: 50, light: false, maxOpacity: 0.20),
+            Spot(lon: 0.7, y: -8,  size: 34, light: false, maxOpacity: 0.18),
+            Spot(lon: 3.1, y: 48,  size: 38, light: false, maxOpacity: 0.16),
+            Spot(lon: 5.3, y: -42, size: 28, light: false, maxOpacity: 0.16),
+            Spot(lon: 1.0, y: 54,  size: 20, light: false, maxOpacity: 0.18),
+            Spot(lon: 2.0, y: 62,  size: 22, light: true,  maxOpacity: 0.20),  // 밝은 크레이터
+            Spot(lon: 4.9, y: 34,  size: 18, light: true,  maxOpacity: 0.18),
+            Spot(lon: 3.7, y: -20, size: 16, light: true,  maxOpacity: 0.16)
+        ]
+        // 까슬한 질감 — 작고 또렷한 알갱이(밝은 돌기 + 어두운 패임)를 표면에 골고루.
+        // 같은 구 투영을 쓰므로 굴리면 표면과 함께 굴러간다.
+        func frac(_ v: Double) -> Double { v - floor(v) }
+        let grainCount = 46
+        for i in 0..<grainCount {
+            let fi = Double(i)
+            let lon = frac(sin(fi * 12.9898) * 43758.5453) * 2 * .pi
+            let y = CGFloat(frac(sin(fi * 78.233) * 12543.1234) * 2 - 1) * 92
+            let size = CGFloat(3 + frac(sin(fi * 3.71) * 991.7) * 6)        // 3~9 (작은 알갱이)
+            let light = frac(sin(fi * 5.13) * 311.1) > 0.5
+            let op = 0.10 + frac(sin(fi * 9.17) * 517.3) * 0.16            // 0.10~0.26 (질감 강조)
+            arr.append(Spot(lon: lon, y: y, size: size, light: light, maxOpacity: op))
+        }
+        return arr
+    }()
 
     var body: some View {
         ZStack {
-            // 분화구(크레이터) — 표면을 따라 굴러간다
+            // 분화구·알갱이 — 50여 개를 "단일 Canvas 한 번"에 그려 굴림 애니메이션을 가볍게.
+            // (예전엔 점마다 View라 매 프레임 수십 개 레이아웃 재계산 → 스와이프 끊김)
             if showSpots {
-                ForEach(Self.spots.indices, id: \.self) { i in
-                    craterView(Self.spots[i])
+                Canvas { ctx, size in
+                    let rxv = rx, ryv = ry
+                    let cx = size.width / 2, cy = size.height / 2
+                    let cosY = cos(ryv), sinY = sin(ryv)
+                    let sqY = CGFloat(max(0.05, abs(cosY)))
+                    for s in Self.spots {
+                        // 뒷면(가려진 점)은 그리지 않고 건너뜀 — 절반가량 드로우 절감
+                        let vis = max(0, cos(rxv + s.lon)) * max(0, cosY)
+                        let op = s.maxOpacity * vis
+                        if op <= 0.004 { continue }
+                        let mx = CGFloat(sin(rxv + s.lon)) * sphereR
+                        let my = s.y * CGFloat(cosY) + CGFloat(sinY) * sphereR
+                        let sqX = CGFloat(max(0.05, abs(cos(rxv + s.lon))))
+                        let r = s.size * 0.78
+                        let col: Color = s.light ? .white : Color(white: 0.28)
+                        // GraphicsContext는 값 타입 → 복사본에 변형을 적용(원본 불변)
+                        var c = ctx
+                        c.translateBy(x: cx + mx, y: cy + my)
+                        c.scaleBy(x: sqX, y: sqY)   // 가장자리로 갈수록 납작(구의 원근)
+                        c.fill(
+                            Path(ellipseIn: CGRect(x: -r, y: -r, width: r * 2, height: r * 2)),
+                            with: .radialGradient(
+                                Gradient(colors: [col.opacity(op), col.opacity(0)]),
+                                center: .zero, startRadius: 0, endRadius: r
+                            )
+                        )
+                    }
                 }
             }
-            // 표면 위 재생/일시정지 심볼 — 표면과 함께 굴러간다
+            // 표면 위 재생/일시정지 심볼 — 표면과 함께 굴러간다 (1개뿐이라 View 유지)
             if showIcon {
                 Image(systemName: isPlaying ? "pause.fill" : "play.fill")
                     .font(.system(size: 60, weight: .medium))
@@ -967,23 +1017,6 @@ struct RollingSphereSurface: View, Animatable {
                     .opacity(markOpacity(0))
             }
         }
-    }
-
-    /// 분화구 1개 — 테두리 없이 부드럽고 흐릿한 얼룩으로 (또렷한 문양이 아니라 은은한 질감)
-    @ViewBuilder
-    private func craterView(_ s: Spot) -> some View {
-        let base = s.light ? Color.white : Color(white: 0.28)
-        Circle()
-            .fill(
-                RadialGradient(
-                    colors: [base.opacity(s.maxOpacity), .clear],
-                    center: .center, startRadius: 0, endRadius: s.size * 0.78
-                )
-            )
-            .frame(width: s.size * 1.7, height: s.size * 1.7)
-            .scaleEffect(x: squashX(s.lon), y: squashY(), anchor: .center)
-            .offset(x: markX(s.lon), y: markY(s.y))
-            .opacity(markOpacity(s.lon))
     }
 }
 
@@ -1029,7 +1062,10 @@ struct CampfireView: View {
     var roll: Double = 0    // 가로 회전(좌우 굴림)
     var rollY: Double = 0   // 세로 회전(위아래 굴림)
     var satelliteVisible: Bool = false   // 달을 돌리면 위성이 나와서 궤도를 돈다
-    var satelliteStart: Double = 0       // 위성 등장 시각(궤도 시작각을 오른쪽 뒤로 고정)
+    var satelliteStart: Double = 0       // 위성 등장 시각(궤도 위상 기준)
+    var satelliteStartAngle: Double = 0.62   // 등장 시작각(좌/우 뒤 랜덤)
+    var satelliteHue: Double = 0             // 위성 색상(랜덤)
+    var satelliteScale: Double = 1.0         // 위성 크기 배리에이션(랜덤)
 
     @State private var breathe = false
     @State private var glow = false
@@ -1104,8 +1140,8 @@ struct CampfireView: View {
     private func satelliteView(front: Bool) -> some View {
         // 약 13분에 한 바퀴 도는 아주 느린 공전 (등장 후 천천히 한 바퀴 돌고 사라짐)
         TimelineView(.animation) { context in
-            let period = 780.0     // 한 바퀴 ≈ 13분
-            let startAngle = 0.62   // 등장 시작각: 달의 오른쪽 뒤(상단 우측, 가려진 위치)
+            let period = 780.0     // 한 바퀴 ≈ 13분 (속도 고정)
+            let startAngle = satelliteStartAngle   // 등장 시작각: 달의 좌/우 뒤(랜덤, 가려진 위치)
             let elapsed = max(0, context.date.timeIntervalSinceReferenceDate - satelliteStart)
             let ang = startAngle + (elapsed / period) * 2 * Double.pi
             // 기울어진 궤도: 가로 넓고 세로 얕게. 아래쪽(앞)일수록 앞·크게, 위쪽(뒤)이면 작게
@@ -1114,25 +1150,28 @@ struct CampfireView: View {
             let rx = 140.0, ry = 78.0
             let x = sin(ang) * rx
             let y = (-cos(ang) * ry) - 4
-            let scale = 0.82 + 0.3 * max(0, frontness)
+            let scale = (0.82 + 0.3 * max(0, frontness)) * satelliteScale   // 크기 배리에이션 반영
+            // 랜덤 색상 — 본체는 밝은 코어 + 색이 도는 외곽, 빛무리/그림자도 같은 색
+            let satColor = Color(hue: satelliteHue, saturation: 0.55, brightness: 1.0)
+            let satDeep = Color(hue: satelliteHue, saturation: 0.72, brightness: 0.78)
             ZStack {
-                // 위성 둘레의 밝은 빛무리 (대비 확보)
+                // 위성 둘레의 빛무리 (대비 확보)
                 Circle()
-                    .fill(Color.white.opacity(0.55))
+                    .fill(satColor.opacity(0.6))
                     .frame(width: 44, height: 44)
                     .blur(radius: 11)
-                // 위성 본체 — 작은 달(밝은 흰색)
+                // 위성 본체 — 작은 달(밝은 코어 → 색이 도는 외곽)
                 Circle()
                     .fill(
                         RadialGradient(
-                            colors: [Color.white, Color(white: 0.95), Color(white: 0.72)],
+                            colors: [Color.white, satColor, satDeep],
                             center: UnitPoint(x: 0.36, y: 0.3),
                             startRadius: 1, endRadius: 18
                         )
                     )
                     .frame(width: 28, height: 28)
                     .overlay(Circle().stroke(Color.white.opacity(0.7), lineWidth: 0.5))
-                    .shadow(color: tint.opacity(0.7), radius: 6)
+                    .shadow(color: satColor.opacity(0.7), radius: 6)
             }
             .scaleEffect(scale)
             .offset(x: x, y: y)
@@ -1162,7 +1201,8 @@ struct CampfireView: View {
                     .frame(width: moonSize, height: moonSize)
                     .opacity(0.5)
             )
-            // 위상 그림자 — 원 밖까지 채워 림에 딱 맞고, 경계(터미네이터)는 블러로 흐리게
+            // 위상 그림자 — 원 밖까지 채워 림에 딱 맞고, 경계(터미네이터)는 블러로 흐리게.
+            // 달을 굴리면(roll/rollY) 그림자도 표면과 함께 미끄러져 구체에 붙어 도는 느낌.
             .overlay(
                 MoonShadow(phase: moonPhase)
                     .fill(
@@ -1174,6 +1214,9 @@ struct CampfireView: View {
                     )
                     .opacity(0.9)
                     .blur(radius: 7)   // 그림자 경계를 부드럽게
+                    // 표면 회전에 맞춰 좌우/상하로 따라 굴러감(주기적이라 무한 스와이프해도 안정)
+                    .offset(x: CGFloat(sin(roll * .pi / 180)) * 40,
+                            y: CGFloat(sin(rollY * .pi / 180)) * 18)
             )
             // 가장자리 음영
             .overlay(
@@ -1209,9 +1252,9 @@ struct CampfireView: View {
         }
     }
 
-    /// 재생 중: 약 10분에 걸쳐 보름달 → 그믐달, 다시 약 10분에 걸쳐 보름달로 (무한 반복)
+    /// 재생 중: 약 20분에 걸쳐 보름달 → 그믐달, 다시 약 20분에 걸쳐 보름달로 (무한 반복)
     private func startMoonCycle() {
-        withAnimation(.easeInOut(duration: 600).repeatForever(autoreverses: true)) {
+        withAnimation(.easeInOut(duration: 1200).repeatForever(autoreverses: true)) {
             moonPhase = -0.92   // 그믐달(아주 얇은 달)
         }
     }
@@ -1533,26 +1576,38 @@ struct SavedSoundsListView: View {
     @State private var showEditView = false
     /// 페이저에 임베드될 때 닫기(홈으로) 콜백. nil이면 일반 네비게이션 화면으로 동작.
     var onClose: (() -> Void)? = nil
+    /// 세그먼트 페이저에 콘텐츠만 임베드되는 모드. 헤더/네비게이션 크롬을 숨기고, 추가(+)는 상위가 담당한다.
+    var embedded: Bool = false
+    /// embedded 모드에서 '새 사운드 만들기' 요청을 상위로 전달.
+    var onRequestCreate: (() -> Void)? = nil
 
     var body: some View {
         ZStack {
             ScreenBackground()
 
-            if viewModel.customSounds.isEmpty {
-                emptyStateView()
-            } else {
-                soundsListView()
+            VStack(spacing: 0) {
+                // 무료 사용자에게 항상 보이는 프리미엄 진입 배지 (페이월 접근성 + 심사자 발견성)
+                if !subscriptionManager.isPremium {
+                    premiumBadge()
+                }
+
+                if viewModel.customSounds.isEmpty {
+                    emptyStateView()
+                } else {
+                    soundsListView()
+                }
             }
         }
         // 임베드 모드: 중첩 NavigationStack 대신 상단에 커스텀 헤더(닫기+제목+추가)를 둔다.
+        // 세그먼트 페이저(embedded)에서는 상위가 헤더/세그먼트를 그리므로 자체 크롬을 숨긴다.
         .safeAreaInset(edge: .top) {
-            if let onClose { embeddedHeader(onClose: onClose) }
+            if let onClose, !embedded { embeddedHeader(onClose: onClose) }
         }
-        .navigationTitle(onClose == nil ? L.Listen.savedSounds.localized : "")
+        .navigationTitle(onClose == nil && !embedded ? L.Listen.savedSounds.localized : "")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             // 제목이 잘리지 않도록 우측에는 컴팩트한 '+' 버튼 하나만 둔다. (일반 모드에서만)
-            if onClose == nil {
+            if onClose == nil && !embedded {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button { createTapped() } label: {
                         Image(systemName: "plus.circle.fill")
@@ -1595,6 +1650,36 @@ struct SavedSoundsListView: View {
             viewModel.loadPresetSounds() // 프리셋 사운드 로드
             print("📋 [SavedSoundsListView] 저장된 사운드 개수: \(viewModel.customSounds.count)")
         }
+    }
+
+    // MARK: - Premium Badge (페이월 진입)
+    @ViewBuilder
+    private func premiumBadge() -> some View {
+        Button { showSubscription = true } label: {
+            HStack(spacing: DS.Spacing.sm) {
+                Image(systemName: "crown.fill")
+                    .font(.system(size: 15, weight: .semibold))
+                    .foregroundColor(DS.Colors.warm)
+                Text(L.Subscription.upgradeBadge.localized)
+                    .font(DS.Font.subhead().weight(.semibold))
+                    .foregroundColor(DS.Colors.textPrimary)
+                Spacer()
+                Image(systemName: "chevron.right")
+                    .font(.system(size: 13, weight: .semibold))
+                    .foregroundColor(DS.Colors.textSecondary)
+            }
+            .padding(.horizontal, DS.Spacing.lg)
+            .padding(.vertical, DS.Spacing.sm + 2)
+            .background(
+                RoundedRectangle(cornerRadius: DS.Radius.md, style: .continuous)
+                    .fill(DS.Colors.accentSoft)
+            )
+        }
+        .buttonStyle(.plain)
+        .padding(.horizontal, DS.Spacing.screen)
+        .padding(.top, DS.Spacing.sm)
+        .padding(.bottom, DS.Spacing.xs)
+        .accessibilityLabel(L.Subscription.upgradeBadge.localized)
     }
 
     // 새 사운드 만들기 (무료 한도 체크)
@@ -1661,7 +1746,7 @@ struct SavedSoundsListView: View {
             }
 
             Button {
-                showCreateView = true
+                if embedded { onRequestCreate?() } else { showCreateView = true }
             } label: {
                 HStack(spacing: DS.Spacing.xs) {
                     Image(systemName: "plus.circle.fill")
@@ -2148,33 +2233,107 @@ struct GestureCoachmark: View {
 
 // MARK: - Starfield (우주를 여행하듯 천천히 흐르는 별)
 
+/// 배경 별. 좌우로는 흐르지 않고 "위로 올라감 / 아래로 내려감 / 앞으로 나아감(줌)"
+/// 세 가지 방향을 약 5분에 한 번씩만 천천히 전환한다. 달이 우주를 떠다니는 느낌.
 struct Starfield: View {
     private let count = 64
     private func frac(_ v: Double) -> Double { v - floor(v) }
 
+    // 방향 전환 주기(초). "최소 5분에 한 번 정도"만 바뀌도록.
+    private let segmentDur: Double = 300
+    // 방향 순환: 위 → 앞 → 아래 → 앞 → … (세로 반전 사이에는 항상 '앞으로'가 끼어 부드럽게 전환)
+    private let modes: [Int] = [0, 2, 1, 2]   // 0=위, 1=아래, 2=앞으로
+    @State private var segIndex = 0
+    @State private var segStart: Double = 0       // 현재 구간 시작 시각
+    @State private var phaseYBase: Double = 0     // 구간 시작 시점까지 누적된 세로 위상
+    @State private var phaseZBase: Double = 0     // 구간 시작 시점까지 누적된 전방 위상
+    @State private var vDir: Double = 1           // 세로 속도(+면 위로 올라가는 느낌, -면 내려감)
+    @State private var wForward: Double = 0       // 전방 레이어 가중치(0=세로, 1=앞으로) — 애니메이션으로 전환
+    @State private var started = false
+
+    private let vSpeed = 1.0      // 세로 흐름 속도 배율
+    private let zSpeed = 0.05     // 전방 흐름 속도
+
     var body: some View {
-        // TimelineView + Canvas: 별 수십 개를 매 프레임 한 번에 그려 가볍게 애니메이션
         TimelineView(.animation) { tl in
             let t = tl.date.timeIntervalSinceReferenceDate
+            // 누적 위상 = 구간 시작까지의 누적 + 이번 구간 경과분 (방향이 바뀌어도 위치는 연속)
+            let phaseY = phaseYBase + vDir * vSpeed * (t - segStart)
+            let phaseZ = phaseZBase + zSpeed * (t - segStart)
+            let wF = wForward
             Canvas { ctx, size in
+                let cx = size.width / 2, cy = size.height / 2
+                let maxR = (size.width * size.width + size.height * size.height).squareRoot() / 2 * 1.05
                 for i in 0..<count {
                     let fi = Double(i)
-                    let bx = frac(sin(fi * 12.9898) * 43758.5453)
-                    let by = frac(sin(fi * 78.233) * 12543.1234)
                     let sz = 0.7 + frac(sin(fi * 3.71) * 991.7) * 2.3
                     let baseOp = 0.12 + frac(sin(fi * 5.13) * 311.1) * 0.5
-                    // 깊이감(시차): 큰(가까운) 별일수록 빠르게 아래로 흐름
-                    let speed = 0.006 + frac(sin(fi * 9.17) * 517.3) * 0.030
-                    let y = frac(by + t * speed) * size.height
-                    let x = bx * size.width
-                    // 은은한 반짝임
-                    let tw = 0.7 + 0.3 * sin(t * 1.4 + fi)
-                    let rect = CGRect(x: x, y: y, width: sz, height: sz)
-                    ctx.fill(Path(ellipseIn: rect), with: .color(.white.opacity(baseOp * tw)))
+                    let tw = 0.7 + 0.3 * sin(t * 1.4 + fi)   // 은은한 반짝임
+
+                    // ── 세로 레이어(위/아래) ── 좌우 이동 없음, 깊이감(시차)으로 속도 차이
+                    if wF < 0.999 {
+                        let bx = frac(sin(fi * 12.9898) * 43758.5453)
+                        let by = frac(sin(fi * 78.233) * 12543.1234)
+                        let speed = 0.006 + frac(sin(fi * 9.17) * 517.3) * 0.030
+                        let y = frac(by + phaseY * speed) * size.height
+                        let x = bx * size.width
+                        let rect = CGRect(x: x, y: y, width: sz, height: sz)
+                        ctx.fill(Path(ellipseIn: rect), with: .color(.white.opacity(baseOp * tw * (1 - wF))))
+                    }
+
+                    // ── 전방 레이어(앞으로 나아감) ── 중심에서 사방으로 퍼지며 커짐(순 좌우 이동 없음, 대칭)
+                    if wF > 0.001 {
+                        let ang = frac(sin(fi * 2.17) * 733.7) * 2 * Double.pi
+                        let fspd = 0.5 + frac(sin(fi * 7.13) * 421.9)   // 0.5~1.5
+                        let rad = frac(frac(sin(fi * 4.51) * 611.3) + phaseZ * fspd)
+                        let radius = rad * rad * maxR                   // 가속하며 바깥으로
+                        let x = cx + cos(ang) * radius
+                        let y = cy + sin(ang) * radius
+                        let psz = sz * (0.3 + rad * 1.6)                // 가까워질수록(바깥) 커짐
+                        let fadeIn = min(1, rad / 0.2)                  // 중심에서 서서히 등장
+                        let fadeOut = 1 - max(0, (rad - 0.8) / 0.2)     // 가장자리에서 사라짐
+                        let op = baseOp * tw * wF * fadeIn * max(0, fadeOut)
+                        if op > 0.003 {
+                            let rect = CGRect(x: x, y: y, width: psz, height: psz)
+                            ctx.fill(Path(ellipseIn: rect), with: .color(.white.opacity(op)))
+                        }
+                    }
                 }
             }
         }
         .allowsHitTesting(false)
+        .onAppear {
+            if !started {
+                started = true
+                segStart = Date().timeIntervalSinceReferenceDate
+                applyMode(modes[segIndex], animated: false)
+            }
+        }
+        // 약 5분마다 다음 방향으로 전환
+        .onReceive(Timer.publish(every: segmentDur, on: .main, in: .common).autoconnect()) { _ in
+            let now = Date().timeIntervalSinceReferenceDate
+            // 이번 구간 경과분을 base에 접어 넣어 위치 연속성 유지
+            phaseYBase += vDir * vSpeed * (now - segStart)
+            phaseZBase += zSpeed * (now - segStart)
+            segStart = now
+            segIndex = (segIndex + 1) % modes.count
+            applyMode(modes[segIndex], animated: true)
+        }
+    }
+
+    /// 방향 적용: 위(0)/아래(1)는 전방 레이어를 숨기고 세로 속도 부호를, 앞으로(2)는 전방 레이어를 띄운다.
+    private func applyMode(_ mode: Int, animated: Bool) {
+        switch mode {
+        case 0: vDir = 1                                 // 위로 올라가는 느낌(별이 아래로 흐름)
+        case 1: vDir = -1                                // 아래로 내려가는 느낌(별이 위로 흐름)
+        default: break                                   // 앞으로 — vDir 유지(어차피 가려짐)
+        }
+        let target: Double = (mode == 2) ? 1 : 0
+        if animated {
+            withAnimation(.easeInOut(duration: 6)) { wForward = target }
+        } else {
+            wForward = target
+        }
     }
 }
 
